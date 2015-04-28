@@ -1,0 +1,237 @@
+@charset "UTF-8";
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
+/**
+ * tdmcreate module
+ *
+ * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @package         tdmcreate
+ * @since           2.5.0
+ * @author          Txmod Xoops http://www.txmodxoops.org
+ * @version         $Id: style.css 12258 2014-01-02 09:33:29Z timgno $
+ */
+
+body {
+	background: #fafafa;
+	color: #444;
+	font-family: verdana, arial, tahoma, helvetica, sans-serif;
+	text-shadow: 1px 1px 1px #fff;
+}
+
+table { margin: 0; padding: 0; }
+
+/* Sortable tables & fields */
+tbody tr td.sortable img.move {
+    cursor: move;
+	text-align: center;
+}
+
+tbody tr:hover {
+	background: yellow;
+}
+
+tr.modules td {
+	margin: 0;
+	padding: 5px;
+	border-bottom: 1px solid #ccc;  
+	background-color:rgba(200,110,20,0.3);
+	vertical-align: middle;
+}
+
+tr.tables td {
+	/* display: block; Problems in FireFox and Opera */
+	margin: 0;
+	padding: 5px;
+	border-bottom: 1px solid #ccc;  
+	background-color:rgba(230,130,100,0.3);
+	vertical-align: middle;
+}
+
+tr.fields td {
+	/* display: block; Problems in FireFox and Opera */
+	margin: 0;
+	padding: 5px;
+	border-bottom: 1px solid #ccc;  
+	background-color:rgba(0,255,0,0.3);
+	vertical-align: middle;
+}
+
+/*#show_rows { margin: 0; padding: 0; width: 60%; }
+#sortable tr { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.1em; height: 16px; }*/
+
+.toggleChild {
+	display: none;
+}
+
+img.imageToggle {
+	width: 16px;
+	height: 16px;
+}
+
+.even { 	
+	border-bottom: 1px solid #ccc;
+	background-color: #cdcdcd; 
+	color: inherit;
+	padding: 5px; 
+	vertical-align: middle;
+}
+
+.odd { 
+	border-bottom: 1px solid #ccc;	 
+	background-color: #dcdcdc; 
+	color: inherit; 
+	padding: 5px;
+	vertical-align: middle;
+}
+
+.width6{ width:	6%; }
+
+.bred {background-color:rgba(255,0,0,0.3); padding: 5px; border-bottom: 1px solid #ccc;} / * red */
+.bgreen {background-color:rgba(0,255,0,0.3); padding: 5px; border-bottom: 1px solid #ccc;} / * green */
+.bblue {background-color:rgba(0,0,255,0.3); padding: 5px; border-bottom: 1px solid #ccc;} / * blue */
+
+/* ---- fields parameters ---- */
+.column {
+	width: 170px;
+	float: left;
+	padding-bottom: 100px;
+}
+.portlet {
+	margin: 0 0.1em 1em 0;
+	padding: 0 0.3em;
+}
+.portlet-header {
+	padding: 0.2em 0.3em;
+	margin-bottom: 0.5em;
+	position: relative;
+	background-color:rgba(255,0,0,0.3);
+	border: 2px solid #bbb;
+}
+.portlet-toggle {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	margin-top: -8px;
+}
+.portlet-content {
+	padding: 0.4em;
+}
+.portlet-placeholder {
+	border: 1px dotted black;
+	margin: 0 0.1em 1em 0;
+	height: 50px;
+}
+
+#info {
+	display: block;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #333;
+	background-color: #efefef;
+}
+
+.table-list tr { margin: 0; padding: 0; }
+
+.table-list tr td { display: block; }
+
+.table-list tr td img.move {
+	margin-right: 20px;
+	cursor: move;
+	vertical-align: middle;
+}
+.table-list tr td strong {
+	vertical-align: middle;
+}
+
+tbody.table-list tr td {
+	text-align: center;
+}
+
+tbody.table-list tr td {
+	text-align: center;
+}
+
+.cell.cell-width1 {
+	width: 4%;
+}
+
+.cell.cell-width2 {
+	width: 10%;
+}
+
+.cell.cell-width3 {
+	width: 8%;
+}
+
+.cell.cell-width4 {
+	width: 5%;
+}
+
+.cell.cell-width5 {
+	width: 5%;
+}
+
+.cell.cell-width6 {
+	width: 4%;
+}
+
+.cell.cell-width7 {
+	width: 5%;
+}
+
+.cell.cell-width8 {
+	width: 8%;
+}
+
+.cell.cell-width9 {
+	width: 6%;
+}
+
+.cell.cell-width10 {
+	width: 8%;
+}
+
+.cell.cell-width11 {
+	width: 9%;
+}
+
+.cell.cell-width12 {
+	width: 9%;
+}
+
+.cell.cell-width13 {
+	width: 5%;
+}
+
+.field-list tr { margin: 0; padding: 0; }
+
+.field-list tr td { display: block; }
+
+.field-list tr td {
+	padding: 5px 2px;
+	margin-bottom: 3px;
+	background-color: #efefef;
+	background-image: -moz-linear-gradient(top, #efefef, #e1e1e1);
+	background-image: -webkit-gradient(linear, left top,left bottom, from(#efefef), to(#e1e1e1));
+	background-image: linear-gradient(top, #efefef, #e1e1e1);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr=#efefef, EndColorStr=#e1e1e1); /* vale solo per IE */
+	text-shadow:1px 1px 0 #fff;	
+	color:#ff8400;
+}
+
+.field-list tr td img.move {
+	margin-right: 20px;
+	cursor: move;
+	vertical-align: middle;
+}
+.field-list tr td strong {
+	vertical-align: middle;
+}

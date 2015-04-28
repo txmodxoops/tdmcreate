@@ -1,0 +1,171 @@
+=================================
+2014/01/02: Version 1.91 alpha 1
+=================================
+
+- Refactoring
+- Rewritten from scratch
+- Added templates admin
+- Added fields table
+- Added more parameters in fields form
+
+=================================
+2013/05/12: Version 1.39 RC 1
+=================================
+
+- Added minimum php textbox in admin/modules.php
+- Added minimum xoops textbox in admin/modules.php
+- Added minimum admin textbox in admin/modules.php
+- Added minimum mysql textbox in admin/modules.php
+- fixed bugs
+
+=================================
+2013/04/01: Version 1.39 Beta 4
+=================================
+
+- fixed several error notices and bugs
+
+=================================
+2013/03/28: Version 1.39 Beta 3
+=================================
+
+- fixed several error notices and bugs
+
+=================================
+2013/03/25: Version 1.39 Beta 2
+=================================
+
+- fixed several error notices and bugs
+
+=================================
+2013/03/22: Version 1.39 Beta 1
+=================================
+
+- fixed several error notices and bugs
+
+=================================
+2013/02/23: Version 1.38.6 Beta 1
+=================================
+
+- added: fields notifications, paypal button and subversion in modules
+- added: fields notifications in tables
+- modified: file const_header.php for subversion
+- modified: file const_admin_about.php for paypal button
+- added: module info pulled from Preferences
+- fixed several error notices and bugs
+
+=================================
+2012/09/24: Version 1.38.1 Beta 1
+=================================
+
+- added: option to rename module and tables
+- added: generated tables start with "mod_"
+- added: logo image generator
+- added: user info stored in Preferences
+- added: module info pulled from Preferences
+- added: plugins for Waiting module
+- clean-up of English translations, and constants
+- fixed several error notices and bugs
+
+=================================
+2012/07/13: Version 1.38 Final
+=================================
+
+- Fixed bug (Timgno)
+- Release only for xoops 2.5.5 (Timgno)
+
+=================================
+2011/10/10: Version 1.37 Final
+=================================
+
+- Fixed bug default string in sql file (Timgno)
+- Added class for const_architecture.php (Timgno)
+- Release only for xoops 2.5.x (Timgno)
+
+=================================
+2011/10/10: Version 1.37 RC 3
+=================================
+
+- Fixed default and optional button paypal in admin/about.php (Timgno)
+- Fixed default image module string in $module_name_slogo (Timgno)
+- Deleted code creations folders deco & admin in file const_architecture.php (Timgno)
+- Release only for xoops 2.5.x (Timgno)
+
+=================================
+2011/10/03: Version 1.37 RC 2
+=================================
+
+- Bugfixed directory select images tables from & upload to Frameworks (Timgno)
+- Added in mysql options fields, decimal/float/enum (Timgno)
+
+=================================
+2011/09/15: Version 1.37 RC 1
+=================================
+
+- Added code directory select images tables from & upload to Frameworks (Timgno)
+
+=================================
+2011/09/07: Version 1.37 beta 4
+=================================
+
+- Added buttons New Table, New Categories & List Table (Timgno)
+
+=================================
+2011/08/24: Version 1.37 beta 3
+=================================
+
+- Added buttons New Table, New Categories & List Table (Timgno)
+
+=================================
+2011/08/08: Version 1.37 beta 2
+=================================
+
+- Added buttons New Module & List Module (Timgno)
+
+=================================
+2011/08/07: Version 1.37 beta 1
+=================================
+
+- Added class constArch (Timgno)
+
+=================================
+2011/06/27: Version 1.36 beta
+=================================
+
+- fixed (Mamba)
+
+=================================
+2011/04/22: Version 1.18
+=================================
+
+- Added field forum url (Timgno)
+- Added field forum title (Timgno)
+- Added function createFile (Timgno)
+- Changes code lines all files in cost folder for create file with function createFile (Timgno)
+
+=================================
+2011/03/07: Version 1.15
+=================================
+
+- Email Author (timgno)
+- Advertise in const_xoops_version.php (timgno)
+- Keywords for SEO in const_xoops_version.php (timgno)
+- Datetime php function, copyright autoincrement years in const_entete.php (timgno)
+- Defines in language pack (timgno)
+- Added const_changelog.php (timgno)
+- Added const_templates.php (timgno)
+- Added const_main_language.php (timgno)
+
+=================================
+2010/12/25: Version 1.11
+=================================
+
+- changes admin gui for xoops 2.5.x (Mamba)
+- internationalization - the created module will local language based (mamba)
+- added changelog (mamba)
+- updated English translations (Mamba)
+- replaced GIF images to PNG (Mamba)
+
+=================================
+2010/12/25: Version 1.10
+=================================
+- Original release (TDM)
