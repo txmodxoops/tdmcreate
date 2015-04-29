@@ -20,48 +20,71 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class UserIndex
+ */
 class UserIndex extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return UserIndex
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname');
-        $stu_mod_name = strtoupper($moduleDirname);		
-		$language = $this->getLanguage($moduleDirname, 'MA');			
-		$content = $this->getHeaderFilesComments($module, $filename);	
-		$content .= <<<EOT
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $stu_mod_name  = strtoupper($moduleDirname);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= <<<EOT
 include_once 'header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
@@ -72,11 +95,12 @@ include_once XOOPS_ROOT_PATH.'/header.php';
 // description
 {$moduleDirname}_meta_description({$language}DESC);
 //
-\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stu_mod_name}_URL.'/index.php'); 
+\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stu_mod_name}_URL.'/index.php');
 //
-include_once 'footer.php';	
+include_once 'footer.php';
 EOT;
-		$this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

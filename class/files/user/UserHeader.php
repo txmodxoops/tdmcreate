@@ -20,62 +20,87 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class UserHeader
+ */
 class UserHeader extends TDMCreateFile
-{		
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();
-	}
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return UserHeader
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
-    } 
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param mixed $table
-	*  @param array $tables
-	*  @param string $filename
-	*/
-	public function write($module, $table, $tables, $filename) {    
-		$this->setModule($module);		
-		$this->setTable($table);
-		$this->setTables($tables);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$table = $this->getTable();
-		$tables = $this->getTables();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$filename = $this->getFileName();
-		$stuModuleDirname = strtoupper($moduleDirname);
-        $ucfModuleDirname = ucfirst($moduleDirname);			
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= <<<EOT
-require_once dirname(dirname(dirname(__FILE__))) . '/mainfile.php';
+    }
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param mixed $table
+    *  @param array $tables
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $table
+     * @param $tables
+     * @param $filename
+     */
+    public function write($module, $table, $tables, $filename)
+    {
+        $this->setModule($module);
+        $this->setTable($table);
+        $this->setTables($tables);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module           = $this->getModule();
+        $table            = $this->getTable();
+        $tables           = $this->getTables();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $filename         = $this->getFileName();
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $content          = $this->getHeaderFilesComments($module, $filename);
+        $content .= <<<EOT
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 \$dirname = \$GLOBALS['xoopsModule']->getVar('dirname');
 \$pathname = XOOPS_ROOT_PATH. '/modules/'.\$dirname;
 include_once \$pathname . '/include/common.php';
 // Get instance of module
 \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
 //
-\$myts =& MyTextSanitizer::getInstance(); 
+\$myts =& MyTextSanitizer::getInstance();
 \$style = {$stuModuleDirname}_URL . '/assets/css/style.css';
 if(file_exists(\$style)) { return true; }
 //
@@ -89,7 +114,8 @@ if(file_exists(\$style)) { return true; }
 xoops_loadLanguage('modinfo', \$dirname);
 xoops_loadLanguage('main', \$dirname);
 EOT;
-		$this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

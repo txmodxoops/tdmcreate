@@ -20,50 +20,73 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class TemplatesAdminFooter
+ */
 class TemplatesAdminFooter extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}
-	/*
-	*  @static function &getInstance
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @return TemplatesAdminFooter
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() { 		
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$moduleName = $module->getVar('mod_name');
-		$moduleDirname = $module->getVar('mod_dirname');
-		$support_name = $module->getVar('mod_support_name');
-		$support_url = $module->getVar('mod_support_url');
-		$language = $this->getLanguage($moduleDirname, 'AM');		
-		$content = <<<EOT
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleName    = $module->getVar('mod_name');
+        $moduleDirname = $module->getVar('mod_dirname');
+        $support_name  = $module->getVar('mod_support_name');
+        $support_url   = $module->getVar('mod_support_url');
+        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $content       = <<<EOT
 <div class='center'>
     <a href='http://www.xoops.org' title='Visit XOOPS' target='_blank'><img src='<{xoModuleIcons32 xoopsmicrobutton.gif}>' alt='XOOPS' /></a>
 </div>
@@ -71,7 +94,8 @@ class TemplatesAdminFooter extends TDMCreateFile
             <a href='{$support_url}' title='Visit {$support_name}' class='tooltip' rel='external'>{$support_name}</a>
 </div>
 EOT;
-		$this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

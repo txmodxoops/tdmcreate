@@ -20,29 +20,44 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 require_once 'TDMCreateAbstract.php';
+
+/**
+ * Class TDMCreateTableFields
+ */
 class TDMCreateTableFields extends TDMCreateAbstract
-{	
-	/*
-	* @var string
-	*/
-	protected $tdmcreate = null;
-	
-	/*
-	*  @public function constructor
-	*  @param mixed $table
-	*/
-	public function __construct() {    
-		$this->tdmcreate = TDMCreateHelper::getInstance();
-	}		
-	/*
-	*  @public function getTableFields
-	*  @param integer $table_id
-	*/
-	public function getTableFields($table_id) { 
-		$criteriaFields = new CriteriaCompo();
-		$criteriaFields->add(new Criteria('field_tid', $table_id));
-		$fields = $this->tdmcreate->getHandler('fields')->getObjects($criteriaFields);
-		unset($criteriaFields);
-		return $fields;
-	}	
+{
+    /*
+    * @var string
+    */
+    protected $tdmcreate;
+
+    /*
+    *  @public function constructor
+    *  @param mixed $table
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcreate = TDMCreateHelper::getInstance();
+    }
+
+    /*
+    *  @public function getTableFields
+    *  @param integer $table_id
+    */
+    /**
+     * @param $table_id
+     * @return mixed
+     */
+    public function getTableFields($table_id)
+    {
+        $criteriaFields = new CriteriaCompo();
+        $criteriaFields->add(new Criteria('field_tid', $table_id));
+        $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteriaFields);
+        unset($criteriaFields);
+
+        return $fields;
+    }
 }

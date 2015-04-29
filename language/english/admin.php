@@ -33,8 +33,8 @@ define('_AM_TDMCREATE_THEREARE_NUMFIELDS', "There are <span class='red bold'>%s<
 // General
 define('_AM_TDMCREATE_FORMOK', "Successfully saved");
 define('_AM_TDMCREATE_FORMDELOK', "Successfully deleted");
-define('_AM_TDMCREATE_FORMSUREDEL', "Are you sure to delete: <b><span style='color : Red'>%s </span></b>");
-define('_AM_TDMCREATE_FORMSURERENEW', "Are you sure to update: <b><span style='color : Red'>%s </span></b>");
+define('_AM_TDMCREATE_FORMSUREDEL', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
+define('_AM_TDMCREATE_FORMSURERENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
 define('_AM_TDMCREATE_FORMUPLOAD', "Upload file");
 define('_AM_TDMCREATE_FORMIMAGE_PATH', "Files in %s ");
 define('_AM_TDMCREATE_FORMACTION', "Action");
@@ -61,16 +61,16 @@ define('_AM_TDMCREATE_ADD_MODULE', "Add new module");
 define('_AM_TDMCREATE_MODULE_NEW', "New module");
 define('_AM_TDMCREATE_MODULE_EDIT', "Edit module");
 //
-define('_AM_TDMCREATE_MODULE_IMPORTANT', "<span style='color: #FF0000'>Required - Information</span>");
-define('_AM_TDMCREATE_MODULE_NOTIMPORTANT', "<span style='color: #00FF00'>Optional - Information</span>");
+define('_AM_TDMCREATE_MODULE_IMPORTANT', "<span style='color: #FF0000;'>Required - Information</span>");
+define('_AM_TDMCREATE_MODULE_NOTIMPORTANT', "<span style='color: #00FF00;'>Optional - Information</span>");
 define('_AM_TDMCREATE_MODULE_ID', "Id");
 define('_AM_TDMCREATE_MODULE_NAME', "Name");
-define('_AM_TDMCREATE_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br /> 
+define('_AM_TDMCREATE_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br />
 An example would be: <b class='white'>My Simple Module</b>");
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_DIRNAME', "Directory Name");
 // ---------------------
-define('_AM_TDMCREATE_MODULE_DIRNAME_DESC', "The module directory can not contain spaces or special characters such as accents.<br /> 
+define('_AM_TDMCREATE_MODULE_DIRNAME_DESC', "The module directory can not contain spaces or special characters such as accents.<br />
 An example would be: <b class='white'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted.");
 define('_AM_TDMCREATE_MODULE_VERSION', "Version");
 define('_AM_TDMCREATE_MODULE_SINCE', "Since");
@@ -80,15 +80,15 @@ define('_AM_TDMCREATE_MODULE_AUTHOR', "Author");
 define('_AM_TDMCREATE_MODULE_AUTHOR_MAIL', "Author Email");
 define('_AM_TDMCREATE_MODULE_AUTHOR_WEBSITE_URL', "Author Site Url");
 define('_AM_TDMCREATE_MODULE_AUTHOR_WEBSITE_NAME', "Author Site Name");
-define('_AM_TDMCREATE_MODULE_CREDITS', "Credits");	
+define('_AM_TDMCREATE_MODULE_CREDITS', "Credits");
 define('_AM_TDMCREATE_MODULE_LICENSE', "License");
-define('_AM_TDMCREATE_MODULE_RELEASE_INFO', "Release Info");	
+define('_AM_TDMCREATE_MODULE_RELEASE_INFO', "Release Info");
 define('_AM_TDMCREATE_MODULE_RELEASE_FILE', "Release File");
-define('_AM_TDMCREATE_MODULE_MANUAL', "Manual");	
+define('_AM_TDMCREATE_MODULE_MANUAL', "Manual");
 define('_AM_TDMCREATE_MODULE_MANUAL_FILE', "Manual File");
 define('_AM_TDMCREATE_MODULE_IMAGE', "Image");
-define('_AM_TDMCREATE_MODULE_DEMO_SITE_URL', "Demo Site Url");	
-define('_AM_TDMCREATE_MODULE_DEMO_SITE_NAME', "Demo Site Name");	
+define('_AM_TDMCREATE_MODULE_DEMO_SITE_URL', "Demo Site Url");
+define('_AM_TDMCREATE_MODULE_DEMO_SITE_NAME', "Demo Site Name");
 define('_AM_TDMCREATE_MODULE_SUPPORT_URL', "Support URL");
 define('_AM_TDMCREATE_MODULE_SUPPORT_NAME', "Support Name");
 define('_AM_TDMCREATE_MODULE_WEBSITE_URL', "Module Website URL");
@@ -101,6 +101,7 @@ define('_AM_TDMCREATE_MODULE_ADMIN', "Visible Admin");
 define('_AM_TDMCREATE_MODULE_USER', "Visible User");
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_BLOCKS', "Activate Blocks");
+define('_AM_TDMCREATE_MODULE_ALL', "Check All");
 // ---------------------
 define('_AM_TDMCREATE_MODULE_SEARCH', "Activate Search");
 define('_AM_TDMCREATE_MODULE_COMMENTS', "Activate Comments");
@@ -135,7 +136,7 @@ define('_AM_TDMCREATE_TABLE_NEW', "New Table");
 define('_AM_TDMCREATE_TABLE_EDIT', "Edit Table");
 define('_AM_TDMCREATE_TABLE_MODULES', "Choose a module");
 define('_AM_TDMCREATE_TABLE_NAME', "Table Name");
-define('_AM_TDMCREATE_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <u>categorie</u><span class='white bold'>s</span>)");
+define('_AM_TDMCREATE_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categorie</span><span class='white bold'>s</span>)");
 define('_AM_TDMCREATE_TABLE_CATEGORY', "This table is a category or topic?");
 define('_AM_TDMCREATE_TABLE_CATEGORY_DESC', "<b class='red bold'>WARNING</b>: <i>Once you have used this option for this module, and edit this table,<br />will not be displayed following the creation of other tables</i>");
 define('_AM_TDMCREATE_TABLE_NBFIELDS', "Number fields");
@@ -212,7 +213,7 @@ define('_AM_TDMCREATE_PARENT_LIST', "Parent");
 define('_AM_TDMCREATE_INLIST_LIST', "Inlist");
 define('_AM_TDMCREATE_INFORM_LIST', "Inform");
 define('_AM_TDMCREATE_ADMIN_LIST', "Admin");
-define('_AM_TDMCREATE_USER_LIST', "User");	 
+define('_AM_TDMCREATE_USER_LIST', "User");
 define('_AM_TDMCREATE_BLOCK_LIST', "Block");
 define('_AM_TDMCREATE_MAIN_LIST', "Main");
 define('_AM_TDMCREATE_SEARCH_LIST', "Search");
@@ -231,9 +232,9 @@ define('_AM_TDMCREATE_FORMOFF', "Offline");
 define('_AM_TDMCREATE_TRANSLATION_PERMISSIONS_ACCESS', "Allowed to access");
 define('_AM_TDMCREATE_TRANSLATION_PERMISSIONS_SUBMIT', "Allowed to post");
 
-define('_AM_TDMCREATE_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold'>%s</span>");
+define('_AM_TDMCREATE_THEREARE_DATABASE1', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");
 define('_AM_TDMCREATE_THEREARE_DATABASE2', "in the database");
-define('_AM_TDMCREATE_THEREARE_PENDING', "There are <span style='color: #ff0000; font-weight: bold'>%s</span>");
+define('_AM_TDMCREATE_THEREARE_PENDING', "There are <span style='color: #ff0000; font-weight: bold;'>%s</span>");
 define('_AM_TDMCREATE_THEREARE_PENDING2', "waiting");
 
 define('_AM_TDMCREATE_FORMADD', "Add");

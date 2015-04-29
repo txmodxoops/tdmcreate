@@ -29,7 +29,7 @@ xoops_load('XoopsFormLoader');
  */
 class TDMCreateThemeForm extends XoopsForm
 {
-	/**
+    /**
      * create HTML to output the form as a theme-enabled table with validation.
      *
      * YOU SHOULD AVOID TO USE THE FOLLOWING Nocolspan METHOD, IT WILL BE REMOVED
@@ -45,21 +45,24 @@ class TDMCreateThemeForm extends XoopsForm
     public function render()
     {
         $ele_name = $this->getName();
-		//$ret = ($this->getTitle() ? '<div class=" center head ">' . $this->getTitle() . '</div>' : '');
-        $ret = NWLINE . '<form name="' . $ele_name . '" id="' . $ele_name . '" action="' . $this->getAction() . '" method="' . $this->getMethod() . '" onsubmit="return xoopsFormValidate_' . $ele_name . '();"' . $this->getExtra() . '>' . NWLINE;			
-		$hidden = '';
-        $class = 'even';
-        foreach ($this->getElements() as $ele) {            
-			if (!is_object($ele)) {
+        //$ret = ($this->getTitle() ? '<div class=" center head ">' . $this->getTitle() . '</div>' : '');
+        $ret    = NWLINE . '<form name="' . $ele_name . '" id="' . $ele_name . '" action="' . $this->getAction() . '" method="' . $this->getMethod() . '" onsubmit="return xoopsFormValidate_' . $ele_name . '();"' . $this->getExtra() . '>' . NWLINE;
+        $hidden = '';
+        $class  = 'even';
+        foreach ($this->getElements() as $ele) {
+            if (!is_object($ele)) {
                 $ret .= $ele;
-            } else if (!$ele->isHidden()) {  
-				$ret .= $ele->render();
             } else {
-                $hidden .= $ele->render();
+                if (!$ele->isHidden()) {
+                    $ret .= $ele->render();
+                } else {
+                    $hidden .= $ele->render();
+                }
             }
         }
         $ret .= NWLINE . ' ' . $hidden . NWLINE . '</form>';
         $ret .= $this->renderValidationJS(true);
+
         return $ret;
-    }    
+    }
 }

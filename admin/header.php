@@ -17,25 +17,25 @@
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
  * @version         $Id: header.php 12258 2014-01-02 09:33:29Z timgno $
-*/
-include_once dirname(dirname(dirname(dirname(__FILE__)))) . '/include/cp_header.php';
-include_once dirname(dirname(__FILE__)) . '/include/common.php';
+ */
+include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include_once dirname(__DIR__) . '/include/common.php';
 //
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Link System Icons
 $sysPathIcon16 = $GLOBALS['xoopsModule']->getInfo('sysicons16');
 $sysPathIcon32 = $GLOBALS['xoopsModule']->getInfo('sysicons32');
 // Link Local Icons
-$modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
-$modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
+$modPathIcon16   = $GLOBALS['xoopsModule']->getInfo('modicons16');
+$modPathIcon32   = $GLOBALS['xoopsModule']->getInfo('modicons32');
 $pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 // TDMCreate Instance
 $tdmcreate = TDMCreateHelper::getInstance();
 // MyTextSanitizer
 $myts =& MyTextSanitizer::getInstance();
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-	include_once(XOOPS_ROOT_PATH."/class/template.php");
-	$xoopsTpl = new XoopsTpl();
+    include_once(XOOPS_ROOT_PATH . "/class/template.php");
+    $xoopsTpl = new XoopsTpl();
 }
 // System Icons
 $GLOBALS['xoopsTpl']->assign('sysPathIcon16', $sysPathIcon16);
@@ -48,10 +48,10 @@ xoops_loadLanguage('admin', $thisDirname);
 xoops_loadLanguage('modinfo', $thisDirname);
 xoops_loadLanguage('main', $thisDirname);
 // Locad admin menu class
-if ( file_exists($GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php'))){
-	include_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
-}else{
-	redirect_header("../../../admin.php", 5, _AM_MODULEADMIN_MISSING, false);
+if (file_exists($GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php'))) {
+    include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');
+} else {
+    redirect_header("../../../admin.php", 5, _AM_MODULEADMIN_MISSING, false);
 }
 xoops_cp_header();
-$adminMenu = new ModuleAdmin();	
+$adminMenu = new ModuleAdmin();

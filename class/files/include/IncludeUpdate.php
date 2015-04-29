@@ -20,46 +20,68 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class IncludeUpdate
+ */
 class IncludeUpdate extends TDMCreateFile
-{		
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() { 		
-		$this->tdmcfile = TDMCreateFile::getInstance();			
-	}	
-	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return IncludeUpdate
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
-    } 
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	
-	/*
-	*  @private function getIncludeUpdateModule
-	*  @param string $moduleDirname
-	*  @param mixed $moduleVersion
-	*/
-	private function getIncludeUpdateModule($moduleDirname, $moduleVersion) 
-	{    
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @private function getIncludeUpdateModule
+    *  @param string $moduleDirname
+    *  @param mixed $moduleVersion
+    */
+    /**
+     * @param $moduleDirname
+     * @param $moduleVersion
+     * @return string
+     */
+    private function getIncludeUpdateModule($moduleDirname, $moduleVersion)
+    {
+        $ret = <<<EOT
 /**
  * @param      \$module
  * @param null \$prev_version
@@ -82,17 +104,23 @@ function xoops_module_update_{$moduleDirname}(&\$module, \$prev_version = null)
     // irmtfan bug fix: solve templates duplicate issue
 }
 EOT;
-		return $ret;
-	}
-	
-	/*
-	*  @private function getIncludeUpdateVersion
-	*  @param string $moduleDirname
-	*  @param mixed $moduleVersion
-	*/
-	private function getIncludeUpdateVersion($moduleDirname, $moduleVersion) 
-	{    
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getIncludeUpdateVersion
+    *  @param string $moduleDirname
+    *  @param mixed $moduleVersion
+    */
+    /**
+     * @param $moduleDirname
+     * @param $moduleVersion
+     * @return string
+     */
+    private function getIncludeUpdateVersion($moduleDirname, $moduleVersion)
+    {
+        $ret = <<<EOT
 // irmtfan bug fix: solve templates duplicate issue
 /**
  * @param \$module
@@ -154,23 +182,29 @@ function update_{$moduleDirname}_v{$moduleVersion}(&\$module)
 }
 // irmtfan bug fix: solve templates duplicate issue
 EOT;
-		return $ret;
-	}
-	
-	/*
-	*  @public function renderFile
-	*  @param null
-	*/
-	public function renderFile() {    
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname'); 
-        $moduleVersion = str_replace('.', '', $module->getVar('mod_version'));		
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= $this->getIncludeUpdateModule($moduleDirname, $moduleVersion);
-		$content .= $this->getIncludeUpdateVersion($moduleDirname, $moduleVersion);
-		//
-		$this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+
+        return $ret;
+    }
+
+    /*
+    *  @public function renderFile
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function renderFile()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $moduleVersion = str_replace('.', '', $module->getVar('mod_version'));
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getIncludeUpdateModule($moduleDirname, $moduleVersion);
+        $content .= $this->getIncludeUpdateVersion($moduleDirname, $moduleVersion);
+        //
+        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }
