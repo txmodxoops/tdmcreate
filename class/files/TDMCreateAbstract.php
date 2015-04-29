@@ -25,107 +25,127 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  * Abstract base class
  */
 abstract class TDMCreateAbstract
-{	
-	/**
+{
+    /**
      * "module" attribute fot files
      *
      * @var mixed
      */
-    protected $module = null;
-	
-	/**
+    protected $module;
+
+    /**
      * "table" attribute fot files
      *
      * @var mixed
      */
-    protected $table = null;
-	
-	/**
+    protected $table;
+
+    /**
      * "tables" attribute fot files
      *
      * @var mixed
      */
-    protected $tables = null;
-	
-	/**
+    protected $tables;
+
+    /**
      * "fields" attribute fot files
      *
      * @var mixed
      */
-    protected $fields = null;
+    protected $fields;
 
-	/**
+    /**
      * public function setFileName
      * @param mixed $module
      */
-    public function setModule($module) {
-		if (is_object($module) && ($module instanceof TDMCreateModules)) {
-			$this->module = $module;
-		}
+    public function setModule($module)
+    {
+        if (is_object($module) && ($module instanceof TDMCreateModules)) {
+            $this->module = $module;
+        }
     }
-	
-	/*
-	*  @public function getModule
-	*  @param null
-	*/
-    public function getModule() {
+
+    /*
+    *  @public function getModule
+    *  @param null
+    */
+    /**
+     * @return mixed
+     */
+    public function getModule()
+    {
         return $this->module;
     }
-	
-	/**
+
+    /**
      * public function setTable
      * @param mixed $table
      */
-    public function setTable($table) {        
-		if (is_object($table) && ($table instanceof TDMCreateTables)) {            
-			$this->table = $table;
-		}
+    public function setTable($table)
+    {
+        if (is_object($table) && ($table instanceof TDMCreateTables)) {
+            $this->table = $table;
+        }
     }
-	
-	/*
-	*  @public function getTable
-	*  @param null
-	*/
-	public function getTable() { 		
+
+    /*
+    *  @public function getTable
+    *  @param null
+    */
+    /**
+     * @return mixed
+     */
+    public function getTable()
+    {
         return $this->table;
-	}
-	
-	/**
+    }
+
+    /**
      * public function setTables
      * @param mixed $tables
      */
-    public function setTables($tables) { 
-		if (is_array($tables)) { 
-			$this->tables = $tables;
-		}
+    public function setTables($tables)
+    {
+        if (is_array($tables)) {
+            $this->tables = $tables;
+        }
     }
-	
-	/*
-	*  @public function getTables
-	*  @param null
-	*/
-	public function getTables() { 		
+
+    /*
+    *  @public function getTables
+    *  @param null
+    */
+    /**
+     * @return mixed
+     */
+    public function getTables()
+    {
         return $this->tables;
-	}
-	
-	/**
+    }
+
+    /**
      * @public function setFields
      * @param mixed $fields
      */
-    public function setFields($fields) {
-		if (is_object($fields) && ($fields instanceof TDMCreateFields)) {
-			$this->fields = $fields;	
-        }			
+    public function setFields($fields)
+    {
+        if (is_object($fields) && ($fields instanceof TDMCreateFields)) {
+            $this->fields = $fields;
+        }
     }
-	
-	/*
-	*  @public function getFields
-	*  @param null
-	*/
-	public function getFields() {		
-		return $this->fields;
-	}
-	
+
+    /*
+    *  @public function getFields
+    *  @param null
+    */
+    /**
+     * @return mixed
+     */
+    public function getFields()
+    {
+        return $this->fields;
+    }
+
     /**
      * Generates output for files.
      *
@@ -133,5 +153,7 @@ abstract class TDMCreateAbstract
      *
      * @abstract
      */
-    public function render() {}
+    public function render()
+    {
+    }
 }

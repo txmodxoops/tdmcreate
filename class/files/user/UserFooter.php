@@ -20,60 +20,84 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class UserFooter
+ */
 class UserFooter extends TDMCreateFile
-{		
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();
-	}		
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return UserFooter
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
-    } 
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$stu_mod_name = strtoupper($moduleDirname);
-		$filename = $this->getFileName();			
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= <<<EOT
+    }
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $stu_mod_name  = strtoupper($moduleDirname);
+        $filename      = $this->getFileName();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= <<<EOT
 \$GLOBALS['xoopsTpl']->assign('sysPathIcon32', \$sysPathIcon32);
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stu_mod_name}_URL);
 \$GLOBALS['xoopsTpl']->assign('adv', xoops_getModuleOption('advertise', \$dirname));
 //
 \$GLOBALS['xoopsTpl']->assign('bookmarks', xoops_getModuleOption('bookmarks', \$dirname));
-\$GLOBALS['xoopsTpl']->assign('fbcomments', xoops_getModuleOption('fbcomments', \$dirname)); 
+\$GLOBALS['xoopsTpl']->assign('fbcomments', xoops_getModuleOption('fbcomments', \$dirname));
 //
 \$GLOBALS['xoopsTpl']->assign('admin', {$stu_mod_name}_ADMIN);
 \$GLOBALS['xoopsTpl']->assign('copyright', \$copyright);
 // User footer
-include_once XOOPS_ROOT_PATH.'/footer.php';	
+include_once XOOPS_ROOT_PATH.'/footer.php';
 EOT;
-		$this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

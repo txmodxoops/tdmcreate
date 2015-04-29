@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,31 +19,47 @@
  * @version         $Id: 1.91 fieldkey.php 11297 2014-05-14 10:58:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 /*
 *  @Class TDMCreateFieldkey
-*  @extends XoopsObject 
+*  @extends XoopsObject
 */
+
+/**
+ * Class TDMCreateFieldkey
+ */
 class TDMCreateFieldkey extends XoopsObject
-{ 
-	/*
-	*  @public function constructor class
-	*  @param null
-	*/
-	public function __construct()
-	{
-		$this->XoopsObject();
-		$this->initVar('fieldkey_id', XOBJ_DTYPE_INT);
-		$this->initVar('fieldkey_name', XOBJ_DTYPE_TXTBOX);	
-		$this->initVar('fieldkey_value', XOBJ_DTYPE_TXTBOX);			
-	}
+{
+    /*
+    *  @public function constructor class
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->XoopsObject();
+        $this->initVar('fieldkey_id', XOBJ_DTYPE_INT);
+        $this->initVar('fieldkey_name', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('fieldkey_value', XOBJ_DTYPE_TXTBOX);
+    }
 }
+
 /*
 *  @Class TDMCreateFieldkeyHandler
 *  @extends XoopsPersistableObjectHandler
 */
-class TDMCreateFieldkeyHandler extends XoopsPersistableObjectHandler 
+
+/**
+ * Class TDMCreateFieldkeyHandler
+ */
+class TDMCreateFieldkeyHandler extends XoopsPersistableObjectHandler
 {
-    function __construct(&$db) 
+    /**
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         parent::__construct($db, 'tdmcreate_fieldkey', 'tdmcreatefieldkey', 'fieldkey_id', 'fieldkey_name');
     }

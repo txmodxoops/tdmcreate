@@ -20,58 +20,94 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class DocsFiles
+ */
 class DocsFiles extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();
-	}
+{
     /*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return DocsFiles
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
+
     /*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}	
-	/*
-	*  @public function getChangeLogFile
-	*  @param string $moduleDirname
-	*  @param string $mod_version
-	*  @param string $mod_author
-	*/
-	public function getChangeLogFile($moduleDirname, $mod_version, $mod_author) {    
-		$date = date('Y/m/d G:i:s');		
-		$ret = <<<EOT
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function getChangeLogFile
+    *  @param string $moduleDirname
+    *  @param string $mod_version
+    *  @param string $mod_author
+    */
+    /**
+     * @param $moduleDirname
+     * @param $mod_version
+     * @param $mod_author
+     * @return string
+     */
+    public function getChangeLogFile($moduleDirname, $mod_version, $mod_author)
+    {
+        $date = date('Y/m/d G:i:s');
+        $ret  = <<<EOT
 ====================================
  {$date} Version {$mod_version}
 ====================================
  - Original release {$moduleDirname} ({$mod_author})
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getCreditsFile
-	*  @param null
-	*/
-	public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description) { 		
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getCreditsFile
+    *  @param null
+    */
+    /**
+     * @param $mod_author
+     * @param $mod_credits
+     * @param $mod_author_website_url
+     * @param $mod_description
+     * @return string
+     */
+    public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description)
+    {
+        $ret = <<<EOT
 Read Me First
 =============
 
@@ -83,78 +119,103 @@ Contributors: {$mod_credits} ({$mod_author_website_url})
 
 {$mod_description}
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getInstallFile
-	*  @param null
-	*/
-	public function getInstallFile() {    
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getInstallFile
+    *  @param null
+    */
+    /**
+     * @return string
+     */
+    public function getInstallFile()
+    {
+        $ret = <<<EOT
 Read Me First
 =============
 
 Install just like another XOOPS module
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getReadmeFile
-	*  @param null
-	*/
-	public function getReadmeFile() {    
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getReadmeFile
+    *  @param null
+    */
+    /**
+     * @return string
+     */
+    public function getReadmeFile()
+    {
+        $ret = <<<EOT
 Read Me First
 =============
 
 Please make sure that you download the XOOPS Icon Set, and upload it to uploads/images directory
 Read the table in admin help for the accurate description of the functionality of this module
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getLangDiffFile
-	*  @param null
-	*/
-	public function getLangDiffFile($mod_version) {    
-		
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getLangDiffFile
+    *  @param null
+    */
+    /**
+     * @param $mod_version
+     * @return string
+     */
+    public function getLangDiffFile($mod_version)
+    {
+        $ret = <<<EOT
 List of added language defines
 =============
 
 // {$mod_version}
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-        $module = $this->getModule();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$mod_author = $module->getVar('mod_author');
-		$mod_credits = $module->getVar('mod_credits');
-		$mod_author_website_url = $module->getVar('mod_author_website_url');
-		$mod_description = $module->getVar('mod_description');
-		switch($filename = $this->getFileName()) {
-			case 'changelog':
-				$content = $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);
-			break;
-			case 'credits':
-				$content = $this->getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description);
-			break;
-			case 'install':
-				$content = $this->getInstallFile();
-			break;
-			case 'readme':
-				$content = $this->getReadmeFile();
-			break;
-			case 'lang_diff':
-				$content = $this->getLangDiffFile($mod_version);
-			break;
-		}
-		$this->tdmcfile->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+
+        return $ret;
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module                 = $this->getModule();
+        $moduleDirname          = $module->getVar('mod_dirname');
+        $mod_author             = $module->getVar('mod_author');
+        $mod_credits            = $module->getVar('mod_credits');
+        $mod_author_website_url = $module->getVar('mod_author_website_url');
+        $mod_description        = $module->getVar('mod_description');
+        switch ($filename = $this->getFileName()) {
+            case 'changelog':
+                $content = $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);
+                break;
+            case 'credits':
+                $content = $this->getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description);
+                break;
+            case 'install':
+                $content = $this->getInstallFile();
+                break;
+            case 'readme':
+                $content = $this->getReadmeFile();
+                break;
+            case 'lang_diff':
+                $content = $this->getLangDiffFile($mod_version);
+                break;
+        }
+        $this->tdmcfile->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

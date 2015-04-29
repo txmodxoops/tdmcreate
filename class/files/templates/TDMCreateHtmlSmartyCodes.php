@@ -20,289 +20,470 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class TDMCreateHtmlSmartyCodes
+ */
 class TDMCreateHtmlSmartyCodes extends TDMCreateFile
 {
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() { 
-		parent::__construct();		
-	}
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TDMCreateHtmlSmartyCodes
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function getHtmlDiv
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlDiv($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<div class='{$class}'>
-			{$content}
-		</div>
+
+    /*
+    *  @public function getHtmlDiv
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlDiv($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <div class='{$class}'>
+            {$content}
+        </div>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlSpan
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlSpan($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<span class='{$class}'>
-			{$content}
-		</span>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlSpan
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlSpan($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <span class='{$class}'>
+            {$content}
+        </span>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlParagraph
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlParagraph($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<p class='{$class}'>
-			{$content}
-		</p>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlParagraph
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlParagraph($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <p class='{$class}'>
+            {$content}
+        </p>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlAnchor
-	*  @param string $class
-	*  @param string $url
-	*  @param string $target
-	*  @param string $content
-	*/
-	public function getHtmlAnchor($class = 'bnone', $url = 'http://', $target = '_top', $content = '') {    
-		$ret = <<<EOT
-		<a class='{$class}' href='{$url}' target='{$target}'>
-			{$content}
-		</a>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlAnchor
+    *  @param string $class
+    *  @param string $url
+    *  @param string $target
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $url
+     * @param string $target
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlAnchor($class = 'bnone', $url = 'http://', $target = '_top', $content = '')
+    {
+        $ret = <<<EOT
+        <a class='{$class}' href='{$url}' target='{$target}'>
+            {$content}
+        </a>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlImage
-	*  @param string $class
-	*  @param string $src
-	*  @param string $alt
-	*/
-	public function getHtmlImage($class = 'bnone', $src = 'blank.gif', $alt = 'blank.gif') {    
-		$ret = <<<EOT
-		<img class='{$class}' src='{$src}' alt='{$alt}' />
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlImage
+    *  @param string $class
+    *  @param string $src
+    *  @param string $alt
+    */
+    /**
+     * @param string $class
+     * @param string $src
+     * @param string $alt
+     * @return string
+     */
+    public function getHtmlImage($class = 'bnone', $src = 'blank.gif', $alt = 'blank.gif')
+    {
+        $ret = <<<EOT
+        <img class='{$class}' src='{$src}' alt='{$alt}' />
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTable
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTable($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<table class='{$class}'>
-			{$content}
-		</table>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTable
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTable($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <table class='{$class}'>
+            {$content}
+        </table>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTableThead
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTableThead($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<thead class='{$class}'>
-			{$content}
-		</thead>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableThead
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTableThead($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <thead class='{$class}'>
+            {$content}
+        </thead>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTableTbody
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTableTbody($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<tbody class='{$class}'>
-			{$content}
-		</tbody>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableTbody
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTableTbody($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <tbody class='{$class}'>
+            {$content}
+        </tbody>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTableTfoot
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTableTfoot($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<tfoot class='{$class}'>
-			{$content}
-		</tfoot>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableTfoot
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTableTfoot($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <tfoot class='{$class}'>
+            {$content}
+        </tfoot>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTableHead
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTableHead($class = 'bnone', $content = '') {		
-		$ret = <<<EOT
-		<th class='{$class}'>{$content}</th>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableHead
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTableHead($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <th class='{$class}'>{$content}</th>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTableRow
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTableRow($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<tr class='{$class}'>
-			{$content}
-		</tr>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableRow
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTableRow($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <tr class='{$class}'>
+            {$content}
+        </tr>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getHtmlTableData
-	*  @param string $class
-	*  @param string $content
-	*/
-	public function getHtmlTableData($class = 'bnone', $content = '') {    
-		$ret = <<<EOT
-		<td class='{$class}'>{$content}</td>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableData
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param string $class
+     * @param string $content
+     * @return string
+     */
+    public function getHtmlTableData($class = 'bnone', $content = '')
+    {
+        $ret = <<<EOT
+        <td class='{$class}'>{$content}</td>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyConst
-	*  @param string $language
-	*  @param mixed $fieldName
-	*/
-	public function getSmartyConst($language, $fieldName) {		
-		$ret = <<<EOT
-		<{\$smarty.const.{$language}{$fieldName}}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyConst
+    *  @param string $language
+    *  @param mixed $fieldName
+    */
+    /**
+     * @param $language
+     * @param $fieldName
+     * @return string
+     */
+    public function getSmartyConst($language, $fieldName)
+    {
+        $ret = <<<EOT
+        <{\$smarty.const.{$language}{$fieldName}}>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyTableFieldNameEmptyData
-	*  @param string $tableName
-	*  @param string $fieldName
-	*/
-	public function getSmartyTableFieldNameEmptyData($tableName = '', $fieldName = '') {    
-		$ret = <<<EOT
-		<{\${$tableName}.{$fieldName}}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyTableFieldNameEmptyData
+    *  @param string $tableName
+    *  @param string $fieldName
+    */
+    /**
+     * @param string $tableName
+     * @param string $fieldName
+     * @return string
+     */
+    public function getSmartyTableFieldNameEmptyData($tableName = '', $fieldName = '')
+    {
+        $ret = <<<EOT
+        <{\${$tableName}.{$fieldName}}>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyTableField
-	*  @param string $tableFieldname
-	*  @param string $fieldName
-	*/
-	public function getSmartyTableFieldData($tableFieldname = '', $fieldName = '') {    
-		$ret = <<<EOT
-		<{\${$tableFieldname}.{$fieldName}}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyTableField
+    *  @param string $tableFieldname
+    *  @param string $fieldName
+    */
+    /**
+     * @param string $tableFieldname
+     * @param string $fieldName
+     * @return string
+     */
+    public function getSmartyTableFieldData($tableFieldname = '', $fieldName = '')
+    {
+        $ret = <<<EOT
+        <{\${$tableFieldname}.{$fieldName}}>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyIncludeFile
-	*  @param string $name
-	*/
-	public function getSmartyIncludeFile($moduleDirname, $tableName = 'header') {    
-		$ret = <<<EOT
-		<{include file='db:{$moduleDirname}_{$tableName}.html'}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyIncludeFile
+    *  @param string $name
+    */
+    /**
+     * @param        $moduleDirname
+     * @param string $tableName
+     * @return string
+     */
+    public function getSmartyIncludeFile($moduleDirname, $tableName = 'header')
+    {
+        $ret = <<<EOT
+        <{include file='db:{$moduleDirname}_{$tableName}.html'}>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyConditions
-	*  @param string $condition
-	*  @param string $operator
-	*  @param string $type
-	*  @param string $content_if
-	*  @param mixed $content_else
-	*/
-	public function getSmartyConditions($condition = '', $operator = '==', $type = '1', $content_if = '', $content_else = false) {    
-		if(!$content_else) {
-			$ret = <<<EOT
-			<{if ${$condition} {$operator} {$type}'}>
-				{$content_if}
-			<{/if}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyConditions
+    *  @param string $condition
+    *  @param string $operator
+    *  @param string $type
+    *  @param string $content_if
+    *  @param mixed $content_else
+    */
+    /**
+     * @param string $condition
+     * @param string $operator
+     * @param string $type
+     * @param string $content_if
+     * @param bool   $content_else
+     * @return string
+     */
+    public function getSmartyConditions($condition = '', $operator = '==', $type = '1', $content_if = '', $content_else = false)
+    {
+        if (!$content_else) {
+            $ret = <<<EOT
+            <{if ${$condition} {$operator} {$type}'}>
+                {$content_if}
+            <{/if}>
 EOT;
-		} else {
-			$ret = <<<EOT
-			<{if ${$condition} {$operator} {$type}'}>
-				{$content_if}
-			<{else}>
-			    {$content_else}
-			<{/if}>
+        } else {
+            $ret = <<<EOT
+            <{if ${$condition} {$operator} {$type}'}>
+                {$content_if}
+            <{else}>
+                {$content_else}
+            <{/if}>
 EOT;
-		}
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyForeach
-	*  @param string $item
-	*  @param string $from
-	*  @param string $content
-	*/
-	public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content') {    
-		$ret = <<<EOT
-		<{foreach item={$item} from=${$from}}>
-			{$content}
-		<{/foreach}>
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyForeach
+    *  @param string $item
+    *  @param string $from
+    *  @param string $content
+    */
+    /**
+     * @param string $item
+     * @param string $from
+     * @param string $content
+     * @return string
+     */
+    public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content')
+    {
+        $ret = <<<EOT
+        <{foreach item={$item} from=${$from}}>
+            {$content}
+        <{/foreach}>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartyForeachQuery
-	*  @param string $item
-	*  @param string $from
-	*  @param string $content
-	*/
-	public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content') {    
-		$ret = <<<EOT
-		<{foreachq item={$item} from=${$from}}>
-			{$content}
-		<{/foreachq}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartyForeachQuery
+    *  @param string $item
+    *  @param string $from
+    *  @param string $content
+    */
+    /**
+     * @param string $item
+     * @param string $from
+     * @param string $content
+     * @return string
+     */
+    public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content')
+    {
+        $ret = <<<EOT
+        <{foreachq item={$item} from=${$from}}>
+            {$content}
+        <{/foreachq}>
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getSmartySection
-	*  @param string $name
-	*  @param string $loop
-	*  @param string $content
-	*/
-	public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content') {    
-		$ret = <<<EOT
-		<{section name={$name} loop=${$loop}}>
-			{$content}
-		<{/section}>
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getSmartySection
+    *  @param string $name
+    *  @param string $loop
+    *  @param string $content
+    */
+    /**
+     * @param string $name
+     * @param string $loop
+     * @param string $content
+     * @return string
+     */
+    public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content')
+    {
+        $ret = <<<EOT
+        <{section name={$name} loop=${$loop}}>
+            {$content}
+        <{/section}>
 EOT;
-		return $ret;
-	}
+
+        return $ret;
+    }
 }

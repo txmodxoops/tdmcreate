@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -17,29 +17,37 @@
  * @since           2.5.5
  * @author          Txmod Xoops <support@txmodxoops.org>
  * @version         $Id: 1.91 fieldelements.php 11297 2014-03-24 09:11:10Z timgno $
- */ 
+ */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 /*
 *  @Class TDMCreateFieldElements
-*  @extends XoopsObject 
+*  @extends XoopsObject
 */
+
+/**
+ * Class TDMCreateFieldElements
+ */
 class TDMCreateFieldElements extends XoopsObject
-{ 
-	/*
-	*  @public function constructor class
-	*  @param null
-	*/
-	public function __construct()
-	{		
-		$this->XoopsObject();
-		$this->initVar('fieldelement_id', XOBJ_DTYPE_INT);
-        $this->initVar('fieldelement_mid', XOBJ_DTYPE_INT);	
-        $this->initVar('fieldelement_tid', XOBJ_DTYPE_INT);			
-		$this->initVar('fieldelement_name', XOBJ_DTYPE_TXTBOX);     
-		$this->initVar('fieldelement_value', XOBJ_DTYPE_TXTBOX);		
-	}
-	
-	/**
+{
+    /*
+    *  @public function constructor class
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->XoopsObject();
+        $this->initVar('fieldelement_id', XOBJ_DTYPE_INT);
+        $this->initVar('fieldelement_mid', XOBJ_DTYPE_INT);
+        $this->initVar('fieldelement_tid', XOBJ_DTYPE_INT);
+        $this->initVar('fieldelement_name', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('fieldelement_value', XOBJ_DTYPE_TXTBOX);
+    }
+
+    /**
      * @param string $method
      * @param array  $args
      *
@@ -48,33 +56,46 @@ class TDMCreateFieldElements extends XoopsObject
     public function __call($method, $args)
     {
         $arg = isset($args[0]) ? $args[0] : null;
+
         return $this->getVar($method, $arg);
     }
-	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TDMCreateFieldElements
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
-    }	
+    }
 }
+
 /*
 *  @Class TDMCreateFieldElementsHandler
 *  @extends XoopsPersistableObjectHandler
 */
-class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler 
+
+/**
+ * Class TDMCreateFieldElementsHandler
+ */
+class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 {
     /*
-	*  @public function constructor class
-	*  @param mixed $db
-	*/
-	public function __construct(&$db) 
+    *  @public function constructor class
+    *  @param mixed $db
+    */
+    /**
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         parent::__construct($db, 'tdmcreate_fieldelements', 'tdmcreatefieldelements', 'fieldelement_id', 'fieldelement_name');
     }

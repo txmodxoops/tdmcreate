@@ -20,47 +20,70 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class LanguageHelp
+ */
 class LanguageHelp extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return LanguageHelp
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() { 		
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$moduleName = $module->getVar('mod_name');
-		$moduleDirname = $module->getVar('mod_dirname');
-		$language = $GLOBALS['xoopsConfig']['language'];
-		$content = <<<EOT
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleName    = $module->getVar('mod_name');
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $GLOBALS['xoopsConfig']['language'];
+        $content       = <<<EOT
 <div id="help-template" class="outer">
     <h1 class="head">Help:
         <a class="ui-corner-all tooltip" href="<{\$xoops_url}>/modules/{$moduleDirname}/admin/index.php"
@@ -71,13 +94,13 @@ class LanguageHelp extends TDMCreateFile
     <h4 class="odd">Description</h4>
     <p class="even">
         The {$moduleName} module can be used to modules in XOOPS<br /><br />
-    </p> 
+    </p>
     <h4 class="odd">Install/uninstall</h4>
     <p class="even">
 No special measures necessary, follow the standard installation process and extract the {$moduleDirname} folder into the ../modules directory. Install the module through Admin -> System Module -> Modules. <br /><br />
-Detailed instructions on installing modules are available in the <a href="http://goo.gl/adT2i">XOOPS Operations Manual</a> 
+Detailed instructions on installing modules are available in the <a href="http://goo.gl/adT2i">XOOPS Operations Manual</a>
     </p>
-	<h4 class="odd">Features</h4>
+    <h4 class="odd">Features</h4>
     <p class="even">
         The TDMCreate module continues to expand, to get to the conditions to create modules, more and more sophisticated.<br />
         For this reason, I invite all developers to report and send in svn any changes or additions to this module, so that we can jointly contribute to the development <br /><br />
@@ -89,10 +112,11 @@ Detailed instructions on installing modules are available in the <a href="http:/
     <!-- -----Help Content ---------- -->
 </div>
 EOT;
-		if($language != 'english' ) {	
-			$this->tdmcfile->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		}
-		$this->tdmcfile->create($moduleDirname, 'language/english/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        if ($language != 'english') {
+            $this->tdmcfile->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        }
+        $this->tdmcfile->create($moduleDirname, 'language/english/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

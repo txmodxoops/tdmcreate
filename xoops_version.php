@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,7 +19,7 @@
  * @version         $Id: xoops_version.php 11084 2014-02-07 11:20:25Z timgno $
  */
 if (!defined('XOOPS_ROOT_PATH')){ exit(); }
-$dirname = basename( dirname( __FILE__ ) ) ;
+$dirname = basename(__DIR__) ;
 
 $modversion['name'] = _MI_TDMCREATE_NAME;
 $modversion['version'] = 1.91;
@@ -429,5 +429,5 @@ $modversion['config'][$i]['title'] = "_MI_TDMCREATE_SUBVERSION";
 $modversion['config'][$i]['description'] = "";
 $modversion['config'][$i]['formtype'] = "textbox";
 $modversion['config'][$i]['valuetype'] = "text";
-$modversion['config'][$i]['default'] = '13050';
+$modversion['config'][$i]['default'] = '13040';
 unset($i);
