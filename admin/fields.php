@@ -191,9 +191,7 @@ switch ($op) {
                 // Insert Data
                 $tdmcreate->getHandler('fields')->insert($fieldsObj);
             }
-            ++$orderId;
         }
-        unset($orderId);
         // Get table name from field table id
         $tables    =& $tdmcreate->getHandler('tables')->get($fieldTid);
         $tableName = $tables->getVar('table_name');
