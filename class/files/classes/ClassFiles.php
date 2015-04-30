@@ -503,7 +503,8 @@ EOT;
         $table          = $this->getTable();
         $tableName      = $table->getVar('table_name');
         $tableCategory  = $table->getVar('table_category');
-        $tableFieldname = $table->getVar('table_fieldname');
+        $tFieldname 	   = $table->getVar('table_fieldname');
+        $tableFieldname = empty($tFieldname) ? $tableName : $tFieldname;
         $moduleDirname  = $module->getVar('mod_dirname');
         $fields         = $this->getTableFields($table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
