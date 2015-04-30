@@ -140,8 +140,6 @@ img.imageToggle {
 
 .table-list tr { margin: 0; padding: 0; }
 
-.table-list tr td { display: block; }
-
 .table-list tr td img.move {
     margin-right: 20px;
     cursor: move;
@@ -212,8 +210,6 @@ tbody.table-list tr td {
 }
 
 .field-list tr { margin: 0; padding: 0; }
-
-.field-list tr td { display: block; }
 
 .field-list tr td {
     padding: 5px 2px;
