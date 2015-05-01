@@ -62,16 +62,13 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getTextDateSelectSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getTextDateSelectSetVar
+    *  
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getTextDateSelectSetVar($tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -82,16 +79,13 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getCheckBoxOrRadioYNSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getCheckBoxOrRadioYNSetVar
+    *  
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getCheckBoxOrRadioYNSetVar($tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -102,16 +96,13 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getUrlFileSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getUrlFileSetVar
+    *  
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getUrlFileSetVar($tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -122,18 +113,14 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getImageListSetVar
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getImageListSetVar
+    * 
+    * @param $moduleDirname
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getImageListSetVar($moduleDirname, $tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -159,18 +146,14 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getUploadImageSetVar
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getUploadImageSetVar
+    *  
+    * @param $moduleDirname
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getUploadImageSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
@@ -199,16 +182,12 @@ EOT;
 
     /*
     *  @public function getUploadFileSetVar
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldName
+    *  
+    * @param $moduleDirname
+    * @param $tableName
+    * @param $fieldName
+    * @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
     public function getUploadFileSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
@@ -233,20 +212,15 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getSimpleGetVar
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getSimpleGetVar
+    *  
+    * @param $lpFieldName
+    * @param $rpFieldName
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -257,24 +231,17 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getTopicGetVar
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $tableNameTopic
-    *  @param string $fieldNameParent
-    *  @param string $fieldNameTopic
-    */
     /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $tableNameTopic
-     * @param $fieldNameParent
-     * @param $fieldNameTopic
-     * @return string
-     */
+    *  @public function getTopicGetVar
+    *  
+    * @param $lpFieldName
+    * @param $rpFieldName
+    * @param $tableName
+    * @param $tableNameTopic
+    * @param $fieldNameParent
+    * @param $fieldNameTopic
+    * @return string
+    */
     public function getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic)
     {
         $ret = <<<EOT
@@ -286,20 +253,15 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getUploadImageGetVar
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getUploadImageGetVar
+    *  
+    * @param $lpFieldName
+    * @param $rpFieldName
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -311,23 +273,10 @@ EOT;
 
         return $ret;
     }
-<<<<<<< HEAD
-	/*
-    *  @public function getUrlFileGetVar
-=======
 
-    /*
+    /**
     *  @public function getTextAreaGetVar
->>>>>>> origin/master
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $fieldName
-<<<<<<< HEAD
-    *  @return string
-    */
-	/*
-    *  @public function getUrlFileGetVar
+    *  
     *  @param $lpFieldName
     *  @param $rpFieldName
     *  @param $tableName
@@ -335,66 +284,42 @@ EOT;
     *  @return string
     */
     public function getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
-=======
-    */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
-    public function getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
->>>>>>> origin/master
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
-<<<<<<< HEAD
-        
-		return $ret;
+
+	return $ret;
     }
-    /*
-    *  @public function getTextAreaGetVar
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getTextAreaGetVar
+    * 
+    * @param $lpFieldName
+    * @param $rpFieldName
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-=======
->>>>>>> origin/master
 
         return $ret;
     }
 
-    /*
-    *  @public function getSelectUserGetVar
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getSelectUserGetVar
+    *  
+    * @param $lpFieldName
+    * @param $rpFieldName
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -405,20 +330,15 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getTextDateSelectGetVar
-    *  @param string $lpFieldName
-    *  @param string $rpFieldName
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getTextDateSelectGetVar
+    *  
+    * @param $lpFieldName
+    * @param $rpFieldName
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
