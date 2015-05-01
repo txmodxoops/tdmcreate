@@ -25,13 +25,11 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  */
 class AdminObjects
 {
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
+    *  @return AdminObjects
     */
-    /**
-     * @return AdminObjects
-     */
     public static function &getInstance()
     {
         static $instance = false;
@@ -42,16 +40,13 @@ class AdminObjects
         return $instance;
     }
 
-    /*
-    *  @public function getSimpleSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
-    */
     /**
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
+    *  @public function getSimpleSetVar
+    *  
+    * @param $tableName
+    * @param $fieldName
+    * @return string
+    */
     public function getSimpleSetVar($tableName, $fieldName)
     {
         $ret = <<<EOT
