@@ -176,6 +176,7 @@ EOT;
 
         return $ret;
     }
+<<<<<<< HEAD
 	
 	/*
     *  @public function getUrlFileGetVar
@@ -193,6 +194,8 @@ EOT;
 EOT;
         return $ret;
     }
+=======
+>>>>>>> origin/master
 
     /*
     *  @public function getTextAreaGetVar

@@ -287,7 +287,11 @@ SQL;
     private function getFootDatabaseTable()
     {
         $ret = <<<SQL
+<<<<<<< HEAD
 \n) ENGINE=InnoDB;\n
+=======
+\n) ENGINE=MyISAM;\n
+>>>>>>> origin/master
 SQL;
 
         return $ret;

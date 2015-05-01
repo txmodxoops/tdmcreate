@@ -51,6 +51,10 @@ class TDMCreateFields extends XoopsObject
         $this->initVar('field_id', XOBJ_DTYPE_INT);
         $this->initVar('field_mid', XOBJ_DTYPE_INT);
         $this->initVar('field_tid', XOBJ_DTYPE_INT);
+<<<<<<< HEAD
+=======
+        $this->initVar('field_numb', XOBJ_DTYPE_INT);
+>>>>>>> origin/master
         $this->initVar('field_order', XOBJ_DTYPE_INT);
         $this->initVar('field_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('field_type', XOBJ_DTYPE_TXTBOX);
@@ -324,7 +328,11 @@ class TDMCreateFields extends XoopsObject
      * @param bool $action
      * @return mixed
      */
+<<<<<<< HEAD
     public function getFormEdit($field_mid = null, $field_tid = null, $action = false)
+=======
+    public function getFormEdit($field_mid = null, $field_tid = null, $field_numb = null, $action = false)
+>>>>>>> origin/master
     {
         // Header function class
         $fields_form = TDMCreateFields::getInstance();
@@ -334,7 +342,11 @@ class TDMCreateFields extends XoopsObject
         // Get the number of fields - goffy
         $tablesHandler       =& $this->tdmcreate->getHandler('tables');
         $table_autoincrement = $tablesHandler->get($field_tid)->getVar('table_autoincrement');
+<<<<<<< HEAD
         $field_numb      	 = $tablesHandler->get($field_tid)->getVar('table_nbfields');
+=======
+        $table_nbfields      = $tablesHandler->get($field_tid)->getVar('table_nbfields');
+>>>>>>> origin/master
         $f_name              = $tablesHandler->get($field_tid)->getVar('table_fieldname');
 
         // Get the list of fields
@@ -348,7 +360,11 @@ class TDMCreateFields extends XoopsObject
         foreach ($fields as $field) {
             $class    = ($class == 'even') ? 'odd' : 'even';
             $field_id = (int) ($field->getVar('field_id'));
+<<<<<<< HEAD
             if ($id > $field_numb) {   // delete additional fields, if number of fields is reduced - goffy
+=======
+            if ($id > $table_nbfields) {   // delete additional fields, if number of fields is reduced - goffy
+>>>>>>> origin/master
                 $fieldsObj =& $this->tdmcreate->getHandler('fields')->get($field_id);
                 $this->tdmcreate->getHandler('fields')->delete($fieldsObj, true);
             } else {
@@ -356,6 +372,10 @@ class TDMCreateFields extends XoopsObject
                 $form->addElement(new XoopsFormHidden('field_id[' . $field_id . ']', $field_id));
                 $form->addElement(new XoopsFormHidden('field_mid', $field_mid));
                 $form->addElement(new XoopsFormHidden('field_tid', $field_tid));
+<<<<<<< HEAD
+=======
+                $form->addElement(new XoopsFormHidden('field_numb', $field_numb));
+>>>>>>> origin/master
 
                 $form->addElement(new TDMCreateFormLabel('<tr class="' . $class . '">'));
                 // Index ID
@@ -450,7 +470,11 @@ class TDMCreateFields extends XoopsObject
         // If you change number fields in tables,
         // adding missing fields or delete unnecessary fields
         // By goffy
+<<<<<<< HEAD
         for ($i = $id; $i <= $field_numb; ++$i) {
+=======
+        for ($i = $id; $i <= $table_nbfields; ++$i) {
+>>>>>>> origin/master
             $class = ($class == 'even') ? 'odd' : 'even';
             $this->getFormNewLine($form, $class, $i, $field_mid, $field_tid, $f_name, $table_autoincrement);
         }

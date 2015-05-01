@@ -84,11 +84,19 @@ class AdminAbout extends TDMCreateFile
         $moduleDonations = $module->getVar('mod_donations');
         $content         = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
+<<<<<<< HEAD
 include  __DIR__ . '/header.php';
 \$template_main = '{$moduleDirname}_admin_about.tpl';
 \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('about.php'));
 \$GLOBALS['xoopsTpl']->assign('about', \$adminMenu->renderAbout('{$moduleDonations}', false));
 include  __DIR__ . '/footer.php';
+=======
+include 'header.php';
+\$template_main = '{$moduleDirname}_admin_about.tpl';
+\$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('about.php'));
+\$GLOBALS['xoopsTpl']->assign('about', \$adminMenu->renderAbout('{$moduleDonations}', false));
+include 'footer.php';
+>>>>>>> origin/master
 EOT;
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

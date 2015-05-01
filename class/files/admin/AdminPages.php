@@ -91,9 +91,14 @@ class AdminPages extends TDMCreateFile
     public function getAdminPagesHeader($moduleDirname, $table, $fpif)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
+<<<<<<< HEAD
 		$ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
 include  __DIR__ . '/header.php';
+=======
+        $ret              = <<<EOT
+include_once 'header.php';
+>>>>>>> origin/master
 //It recovered the value of argument op in URL$
 \$op = XoopsRequest::getString('op', 'list');
 // Request {$fpif}

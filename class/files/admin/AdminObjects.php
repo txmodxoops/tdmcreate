@@ -311,12 +311,19 @@ EOT;
 
         return $ret;
     }
+<<<<<<< HEAD
 	/*
     *  @public function getUrlFileGetVar
+=======
+
+    /*
+    *  @public function getTextAreaGetVar
+>>>>>>> origin/master
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
+<<<<<<< HEAD
     *  @return string
     */
 	/*
@@ -328,11 +335,23 @@ EOT;
     *  @return string
     */
     public function getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+=======
+    */
+    /**
+     * @param $lpFieldName
+     * @param $rpFieldName
+     * @param $tableName
+     * @param $fieldName
+     * @return string
+     */
+    public function getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+>>>>>>> origin/master
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
+<<<<<<< HEAD
         
 		return $ret;
     }
@@ -356,6 +375,8 @@ EOT;
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
+=======
+>>>>>>> origin/master
 
         return $ret;
     }
