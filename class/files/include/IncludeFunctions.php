@@ -20,67 +20,96 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class IncludeFunctions
+ */
 class IncludeFunctions extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}
-	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return IncludeFunctions
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function getFunctionBlock
-	*  @param string $moduleDirname
-	*/
-	public function getFunctionBlock($moduleDirname) {		
-		$ret = <<<EOT
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function getFunctionBlock
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    public function getFunctionBlock($moduleDirname)
+    {
+        $ret = <<<EOT
 \n/***************Blocks***************/
 function {$moduleDirname}_block_addCatSelect(\$cats) {
-	if(is_array(\$cats)) 
-	{
-		\$cat_sql = '('.current(\$cats);
-		array_shift(\$cats);
-		foreach(\$cats as \$cat) 
-		{
-			\$cat_sql .= ','.\$cat;
-		}
-		\$cat_sql .= ')';
-	}
-	return \$cat_sql;
+    if(is_array(\$cats))
+    {
+        \$cat_sql = '('.current(\$cats);
+        array_shift(\$cats);
+        foreach(\$cats as \$cat)
+        {
+            \$cat_sql .= ','.\$cat;
+        }
+        \$cat_sql .= ')';
+    }
+    return \$cat_sql;
 }\n
 EOT;
+
         return $ret;
-	}
-	
-	/*
-	*  @public function getFunctionCleanVars
-	*  @param string $moduleDirname
-	*/
-	public function getFunctionCleanVars($moduleDirname) {		
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function getFunctionCleanVars
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    public function getFunctionCleanVars($moduleDirname)
+    {
+        $ret = <<<EOT
 \nfunction {$moduleDirname}_CleanVars( &\$global, \$key, \$default = '', \$type = 'int' ) {
     switch ( \$type ) {
         case 'string':
@@ -96,59 +125,78 @@ EOT;
     return \$ret;
 }\n
 EOT;
+
         return $ret;
-	}	
-	
-	/*
-	*  @public function getFunctionMetaKeywords
-	*  @param string $moduleDirname
-	*/
-	public function getFunctionMetaKeywords($moduleDirname) {		
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function getFunctionMetaKeywords
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    public function getFunctionMetaKeywords($moduleDirname)
+    {
+        $ret = <<<EOT
 \nfunction {$moduleDirname}_meta_keywords(\$content)
 {
-	global \$xoopsTpl, \$xoTheme;
-	\$myts =& MyTextSanitizer::getInstance();
-	\$content= \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
-	if(isset(\$xoTheme) && is_object(\$xoTheme)) {
-		\$xoTheme->addMeta( 'meta', 'keywords', strip_tags(\$content));
-	} else {	// Compatibility for old Xoops versions
-		\$xoopsTpl->assign('xoops_meta_keywords', strip_tags(\$content));
-	}
+    global \$xoopsTpl, \$xoTheme;
+    \$myts =& MyTextSanitizer::getInstance();
+    \$content= \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
+    if(isset(\$xoTheme) && is_object(\$xoTheme)) {
+        \$xoTheme->addMeta( 'meta', 'keywords', strip_tags(\$content));
+    } else {    // Compatibility for old Xoops versions
+        \$xoopsTpl->assign('xoops_meta_keywords', strip_tags(\$content));
+    }
 }\n
 EOT;
+
         return $ret;
-	}
-	
-	/*
-	*  @public function getFunctionDescription
-	*  @param string $moduleDirname
-	*/
-	public function getFunctionMetaDescription($moduleDirname) {		
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function getFunctionDescription
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    public function getFunctionMetaDescription($moduleDirname)
+    {
+        $ret = <<<EOT
 \nfunction {$moduleDirname}_meta_description(\$content)
 {
-	global \$xoopsTpl, \$xoTheme;
-	\$myts =& MyTextSanitizer::getInstance();
-	\$content = \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
-	if(isset(\$xoTheme) && is_object(\$xoTheme)) {
-		\$xoTheme->addMeta( 'meta', 'description', strip_tags(\$content));
-	} else {	// Compatibility for old Xoops versions
-		\$xoopsTpl->assign('xoops_meta_description', strip_tags(\$content));
-	}
+    global \$xoopsTpl, \$xoTheme;
+    \$myts =& MyTextSanitizer::getInstance();
+    \$content = \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
+    if(isset(\$xoTheme) && is_object(\$xoTheme)) {
+        \$xoTheme->addMeta( 'meta', 'description', strip_tags(\$content));
+    } else {    // Compatibility for old Xoops versions
+        \$xoopsTpl->assign('xoops_meta_description', strip_tags(\$content));
+    }
 }\n
 EOT;
+
         return $ret;
-	}
-	
-	/*
-	*  @public function getRewriteUrl
-	*  @param string $moduleDirname
-	*  @param string $tableName
-	*/
-	public function getRewriteUrl($moduleDirname, $tableName) {		
-		$ucfModuleDirname = ucfirst($moduleDirname);
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function getRewriteUrl
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    */
+    /**
+     * @param $moduleDirname
+     * @param $tableName
+     * @return string
+     */
+    public function getRewriteUrl($moduleDirname, $tableName)
+    {
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ret              = <<<EOT
 \n/**
  * Rewrite all url
  *
@@ -156,11 +204,11 @@ EOT;
  * @String  $array   array
  * @return  $type    string replacement for any blank case
  */
-function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content') 
+function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 {
     \$comment = '';
-	\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-	\${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
+    \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
+    \${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
     \$lenght_id = \${$moduleDirname}->getConfig('lenght_id');
     \$rewrite_url = \${$moduleDirname}->getConfig('rewrite_url');
 
@@ -182,7 +230,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 
         case 'none':
             if(\$topic_name) {
-	             \$topic_name = 'topic=' . \$topic_name . '&amp;';
+                 \$topic_name = 'topic=' . \$topic_name . '&amp;';
             }
             \$rewrite_base = '/modules/';
             \$page = 'page=' . \$array['content_alias'];
@@ -192,13 +240,13 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
         case 'rewrite':
             if(\$topic_name) {
                 \$topic_name = \$topic_name . '/';
-            }   
+            }
             \$rewrite_base = xoops_getModuleOption('rewrite_mode', \$module);
             \$rewrite_ext = xoops_getModuleOption('rewrite_ext', \$module);
             \$module_name = '';
             if(xoops_getModuleOption('rewrite_name', \$module)) {
-	            \$module_name = xoops_getModuleOption('rewrite_name', \$module) . '/';
-            }	
+                \$module_name = xoops_getModuleOption('rewrite_name', \$module) . '/';
+            }
             \$page = \$array['content_alias'];
             \$type = \$type . '/';
             \$id = \$id . '/';
@@ -211,16 +259,16 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
             return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name  . \$id . \$page . \$rewrite_ext;
             break;
             
-         case 'short':  
+         case 'short':
             if(\$topic_name) {
                 \$topic_name = \$topic_name . '/';
-            }   
+            }
             \$rewrite_base = xoops_getModuleOption('rewrite_mode', \$module);
             \$rewrite_ext = xoops_getModuleOption('rewrite_ext', \$module);
             \$module_name = '';
             if(xoops_getModuleOption('rewrite_name', \$module)) {
-	            \$module_name = xoops_getModuleOption('rewrite_name', \$module) . '/';
-            }	
+                \$module_name = xoops_getModuleOption('rewrite_name', \$module) . '/';
+            }
             \$page = \$array['content_alias'];
             \$type = \$type . '/';
             if (\$type == 'content/') \$type = '';
@@ -230,21 +278,28 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
             }
             
             return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name . \$page . \$rewrite_ext;
-            break; 
+            break;
     }
 }
 EOT;
+
         return $ret;
-	}
-	
-	/*
-	*  @public function getRewriteFilter
-	*  @param string $moduleDirname
-	*  @param string $tableName
-	*/
-	public function getRewriteFilter($moduleDirname, $tableName) {		
-		$ucfModuleDirname = ucfirst($moduleDirname);
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function getRewriteFilter
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    */
+    /**
+     * @param $moduleDirname
+     * @param $tableName
+     * @return string
+     */
+    public function getRewriteFilter($moduleDirname, $tableName)
+    {
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ret              = <<<EOT
 \n/**
  * Replace all escape, character, ... for display a correct url
  *
@@ -256,8 +311,8 @@ function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname
 
     // Get regular expression from module setting. default setting is : `[^a-z0-9]`i
     \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-	\${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
-	\$regular_expression = \${$moduleDirname}->getConfig('regular_expression');
+    \${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
+    \$regular_expression = \${$moduleDirname}->getConfig('regular_expression');
     
     \$url = strip_tags(\$url);
     \$url = preg_replace("`\[.*\]`U", "", \$url);
@@ -269,24 +324,30 @@ function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname
     return \$url;
 }
 EOT;
+
         return $ret;
-	}
-	
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= $this->getFunctionBlock($moduleDirname);
-		$content .= $this->getFunctionCleanVars($moduleDirname);
-		$content .= $this->getFunctionMetaKeywords($moduleDirname);
-		$content .= $this->getFunctionMetaDescription($moduleDirname);
-		//
-		$this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getFunctionBlock($moduleDirname);
+        $content .= $this->getFunctionCleanVars($moduleDirname);
+        $content .= $this->getFunctionMetaKeywords($moduleDirname);
+        $content .= $this->getFunctionMetaDescription($moduleDirname);
+        //
+        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

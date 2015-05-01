@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,31 +19,47 @@
  * @version         $Id: 1.91 fieldtype.php 11297 2014-05-14 10:58:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 /*
 *  @Class TDMCreateFieldtype
-*  @extends XoopsObject 
+*  @extends XoopsObject
 */
+
+/**
+ * Class TDMCreateFieldtype
+ */
 class TDMCreateFieldtype extends XoopsObject
-{ 
-	/*
-	*  @public function constructor class
-	*  @param null
-	*/
-	public function __construct()
-	{
-		$this->XoopsObject(); 
-        $this->initVar('fieldtype_id', XOBJ_DTYPE_INT);		
-		$this->initVar('fieldtype_name', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('fieldtype_value', XOBJ_DTYPE_TXTBOX);		
-	}
+{
+    /*
+    *  @public function constructor class
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->XoopsObject();
+        $this->initVar('fieldtype_id', XOBJ_DTYPE_INT);
+        $this->initVar('fieldtype_name', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('fieldtype_value', XOBJ_DTYPE_TXTBOX);
+    }
 }
+
 /*
 *  @Class TDMCreateFieldtypeHandler
 *  @extends XoopsPersistableObjectHandler
 */
-class TDMCreateFieldtypeHandler extends XoopsPersistableObjectHandler 
+
+/**
+ * Class TDMCreateFieldtypeHandler
+ */
+class TDMCreateFieldtypeHandler extends XoopsPersistableObjectHandler
 {
-    function __construct(&$db) 
+    /**
+     * @param null|object $db
+     */
+    public function __construct(&$db)
     {
         parent::__construct($db, 'tdmcreate_fieldtype', 'tdmcreatefieldtype', 'fieldtype_id', 'fieldtype_name');
     }

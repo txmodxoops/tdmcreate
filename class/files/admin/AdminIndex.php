@@ -20,96 +20,119 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class AdminIndex
+ */
 class AdminIndex extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return AdminIndex
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param mixed $tables
-	*  @param string $filename
-	*/
-	public function write($module, $tables, $filename) {    
-		$this->setModule($module);
-		$this->setTables($tables);
-		$this->setFileName($filename);		
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$tables = $this->getTables();
-		$filename = $this->getFileName();        
-		$moduleDirname = $module->getVar('mod_dirname');
-		$language = $this->getLanguage($moduleDirname, 'AM');
-		$language_thereare = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= <<<EOT
-include_once 'header.php';
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param mixed $tables
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $tables
+     * @param $filename
+     */
+    public function write($module, $tables, $filename)
+    {
+        $this->setModule($module);
+        $this->setTables($tables);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module            = $this->getModule();
+        $tables            = $this->getTables();
+        $filename          = $this->getFileName();
+        $moduleDirname     = $module->getVar('mod_dirname');
+        $language          = $this->getLanguage($moduleDirname, 'AM');
+        $language_thereare = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
+        $content           = $this->getHeaderFilesComments($module, $filename);
+        $content .= <<<EOT
+include  __DIR__ . '/header.php';
 // Count elements\n
 EOT;
-		$tableName = null;
-		if(is_array($tables)) {	
-			foreach (array_keys($tables) as $i)
-			{
-				$tableName = $tables[$i]->getVar('table_name');
-				$content .= <<<EOT
+        $tableName = null;
+        if (is_array($tables)) {
+            foreach (array_keys($tables) as $i) {
+                $tableName = $tables[$i]->getVar('table_name');
+                $content .= <<<EOT
 \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 \$count_{$tableName} = \${$tableName}Handler->getCount();\n
 EOT;
-			}
-		}
-		$content .= <<<EOT
+            }
+        }
+        $content .= <<<EOT
 // Template Index
 \$template_main = '{$moduleDirname}_admin_index.tpl';\n
 EOT;
-		if(is_array($tables)) {
-			$content .= <<<EOT
+        if (is_array($tables)) {
+            $content .= <<<EOT
 // InfoBox Statistics
 \$adminMenu->addInfoBox({$language}STATISTICS);
 // Info elements\n
 EOT;
-			foreach (array_keys($tables) as $i)
-			{
-				$tableName = $tables[$i]->getVar('table_name');
-				$stuTableName = $language_thereare.strtoupper($tableName);
-				$content .= <<<EOT
+            foreach (array_keys($tables) as $i) {
+                $tableName    = $tables[$i]->getVar('table_name');
+                $stuTableName = $language_thereare . strtoupper($tableName);
+                $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count_{$tableName});\n
 EOT;
-			}
-		} 
-		if($tableName == null) {
-			$content .= <<<EOT
+            }
+        }
+        if ($tableName == null) {
+            $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>No statistics</label>', 0);\n
 EOT;
-		}
-		$content .= <<<EOT
+        }
+        $content .= <<<EOT
 // Render Index
 echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
-include_once 'footer.php';
+include  __DIR__ . '/footer.php';
 EOT;
-		$this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

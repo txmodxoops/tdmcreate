@@ -30,7 +30,15 @@ class TDMCreateFormLabel extends XoopsFormElement
      *
      * @param string $caption
      */
-    function TDMCreateFormLabel($caption = '')
+    public function TDMCreateFormLabel($caption = '')
+    {
+        $this->__construct($caption);
+    }
+
+    /**
+     * @param string $caption
+     */
+    public function __construct($caption = '')
     {
         $this->setCaption($caption);
     }
@@ -40,7 +48,7 @@ class TDMCreateFormLabel extends XoopsFormElement
      *
      * @return string
      */
-    function render()
+    public function render()
     {
         return $this->getCaption();
     }

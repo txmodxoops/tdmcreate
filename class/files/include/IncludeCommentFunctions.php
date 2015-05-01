@@ -20,69 +20,93 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class IncludeCommentFunctions
+ */
 class IncludeCommentFunctions extends TDMCreateFile
-{		
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->tdmcreate = TDMCreateHelper::getInstance();
-	}
+{
     /*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile  = TDMCreateFile::getInstance();
+        $this->tdmcreate = TDMCreateHelper::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return IncludeCommentFunctions
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
+
     /*
-	*  @public function write
-	*  @param string $module
-	*  @param mixed $table
-	*/
-	public function write($module, $table, $filename) {    
-		$this->setModule($module);
-		$this->setTable($table);
-		$this->setFileName($filename);
-	}	
-	/*
-	*  @public function renderFile
-	*  @param null
-	*/
-	public function renderFile() 
-	{ 			
-		$module = $this->getModule();
-		$table = $this->getTable();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$tableName = $table->getVar('table_name');
-		$ucfModuleDirname = ucfirst($moduleDirname);
-		$ucfTableName = ucfirst($tableName);
-		$filename = $this->getFileName();
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= <<<EOT
+    *  @public function write
+    *  @param string $module
+    *  @param mixed $table
+    */
+    /**
+     * @param $module
+     * @param $table
+     * @param $filename
+     */
+    public function write($module, $table, $filename)
+    {
+        $this->setModule($module);
+        $this->setTable($table);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function renderFile
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function renderFile()
+    {
+        $module           = $this->getModule();
+        $table            = $this->getTable();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tableName        = $table->getVar('table_name');
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfTableName     = ucfirst($tableName);
+        $filename         = $this->getFileName();
+        $content          = $this->getHeaderFilesComments($module, $filename);
+        $content .= <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 function {$moduleDirname}_com_update(\$itemId, \$itemNumb) {
-	\$itemId = intval(\$itemId);
-	\$itemNumb = intval(\$itemNumb);
-	\$article = new {$ucfModuleDirname}{$ucfTableName}(\$itemId);
-	if (!\$article->updateComments(\$itemNumb)) {
-		return false;
-	}
-	return true;
+    \$itemId = (int) (\$itemId);
+    \$itemNumb = (int) (\$itemNumb);
+    \$article = new {$ucfModuleDirname}{$ucfTableName}(\$itemId);
+    if (!\$article->updateComments(\$itemNumb)) {
+        return false;
+    }
+    return true;
 }
 
 function {$moduleDirname}_com_approve(&\$comment){
-	// notification mail here
+    // notification mail here
 }
 EOT;
-		$this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}	
+        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

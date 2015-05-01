@@ -20,60 +20,90 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class TemplatesAdminPermissions
+ */
 class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() { 
-		parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();	
-	}		
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TemplatesAdminPermissions
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
-    } 
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $table
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @private function getTemplatesAdminPagesHeader
-	*  @param string $moduleDirname
-	*/
-	private function getTemplatesAdminPermissions($moduleDirname) {    
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $table
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @private function getTemplatesAdminPagesHeader
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    private function getTemplatesAdminPermissions($moduleDirname)
+    {
+        $ret = <<<EOT
 <{include file="db:{$moduleDirname}_admin_header.tpl"}>\n
 EOT;
-		return $ret;
-	}
-		
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-        $filename = $this->getFileName();		
-		$moduleDirname = $module->getVar('mod_dirname');		
-		$language = $this->getLanguage($moduleDirname, 'AM');
-		$content = $this->getTemplatesAdminPermissions($moduleDirname);
-		//
-		$this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+
+        return $ret;
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $content       = $this->getTemplatesAdminPermissions($moduleDirname);
+        //
+        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

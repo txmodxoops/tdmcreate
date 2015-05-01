@@ -20,71 +20,95 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class UserRss
+ */
 class UserRss extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();
-	}	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return UserRss
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param mixed $table
-	*  @param string $filename
-	*/
-	public function write($module, $table, $filename) {    
-		$this->setModule($module);
-		$this->setTable($table);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function getUserRss
-	*  @param string $moduleDirname
-	*  @param string $language
-	*/
-	public function getUserRss($moduleDirname, $language) 
-	{  
-		$table = $this->getTable();
-		$tableName = $table->getVar('table_name');
-		$fields = $this->getTableFields($table->getVar('table_id'));
-		foreach(array_keys($fields) as $f) 
-		{
-			$fieldName = $fields[$f]->getVar('field_name');
-			$rp_field_name = $fieldName;
-			if(strpos($fieldName, '_')) {       
-				$str = strpos($fieldName, '_'); 
-				if($str !== false){ 
-					$rp_field_name = substr($fieldName, $str + 1, strlen($fieldName));
-				} 		
-			}
-			$lp_field_name = substr($fieldName, 0, strpos($fieldName, '_'));	
-			if($f == 0) {
-				$fpif = $fieldName;
-			}
-			if($fields[$f]->getVar('field_main') == 1) {
-				$fpmf = $fieldName;
-			}
-			if($fields[$f]->getVar('field_parent') == 1) {
-				$fppf = $fieldName;
-			}
-		}	
-		
-		$ret = <<<EOT
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param mixed $table
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $table
+     * @param $filename
+     */
+    public function write($module, $table, $filename)
+    {
+        $this->setModule($module);
+        $this->setTable($table);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function getUserRss
+    *  @param string $moduleDirname
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $language
+     * @return string
+     */
+    public function getUserRss($moduleDirname, $language)
+    {
+        $table     = $this->getTable();
+        $tableName = $table->getVar('table_name');
+        $fields    = $this->getTableFields($table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName     = $fields[$f]->getVar('field_name');
+            $rp_field_name = $fieldName;
+            if (strpos($fieldName, '_')) {
+                $str = strpos($fieldName, '_');
+                if ($str !== false) {
+                    $rp_field_name = substr($fieldName, $str + 1, strlen($fieldName));
+                }
+            }
+            $lp_field_name = substr($fieldName, 0, strpos($fieldName, '_'));
+            if (0 == $f) {
+                $fpif = $fieldName;
+            }
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fpmf = $fieldName;
+            }
+            if (1 == $fields[$f]->getVar('field_parent')) {
+                $fppf = $fieldName;
+            }
+        }
+
+        $ret = <<<EOT
 include_once 'header.php';
 \${$fppf} = {$moduleDirname}_CleanVars(\$_GET, '{$fppf}', 0);
 include_once XOOPS_ROOT_PATH.'/class/template.php';
@@ -162,21 +186,27 @@ if (!\$tpl->is_cached('db:rss.tpl', \${$fppf})) {
 header("Content-Type:text/xml; charset=" . _CHARSET);
 \$tpl->display('db:rss.tpl', \${$fppf});
 EOT;
-		return $ret;
-	}
-	
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$language = $this->getLanguage($moduleDirname, 'MA');			
-		$content = $this->getHeaderFilesComments($module, $filename);	
-		$content .= $this->getUserRss($moduleDirname, $language);
-		$this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+
+        return $ret;
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getUserRss($moduleDirname, $language);
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

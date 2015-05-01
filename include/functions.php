@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -49,22 +49,22 @@ function TDMCreate_CleanVars( &$global, $key, $default = '', $type = 'int' ) {
  * @return      bool     Returns true on success, false on failure
  */
 function TDMCreate_clearDir($folder) {
-	$opening = @opendir($folder);
-	if (!$opening) return;
-	while($file = readdir($opening)) {
-		if ($file == '.' || $file == '..') continue;
-		if (is_dir($folder."/".$file)) {
-			$r = TDMCreate_clearDir($folder."/".$file);
-			if (!$r) return false;
-		} else {
-			$r = @unlink($folder."/".$file);
-			if (!$r) return false;
-		}
-	}
-	closedir($opening);
-	$r = @rmdir($folder);
-	if (!$r) return false;
-	return true;
+    $opening = @opendir($folder);
+    if (!$opening) return;
+    while($file = readdir($opening)) {
+        if ($file == '.' || $file == '..') continue;
+        if (is_dir($folder."/".$file)) {
+            $r = TDMCreate_clearDir($folder."/".$file);
+            if (!$r) return false;
+        } else {
+            $r = @unlink($folder."/".$file);
+            if (!$r) return false;
+        }
+    }
+    closedir($opening);
+    $r = @rmdir($folder);
+    if (!$r) return false;
+    return true;
 }
 
 /**
@@ -111,5 +111,5 @@ function TDMCreate_copyr($source, $dest)
 //
 function UcFirstAndToLower($str)
 {
-	 return ucfirst(strtolower(trim($str)));
+     return ucfirst(strtolower(trim($str)));
 }

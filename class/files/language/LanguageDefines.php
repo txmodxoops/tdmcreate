@@ -20,69 +20,108 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class LanguageDefines
+ */
 class LanguageDefines
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {	}	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return LanguageDefines
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
-    }	
-	/*
-	*  @public function getAboveHeadDefines
-	*  @param string $string	
-	*/
-	public function getAboveHeadDefines($string)
-	{ 		
-		$ret = <<<EOT
+    }
+
+    /*
+    *  @public function getAboveHeadDefines
+    *  @param string $string
+    */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getAboveHeadDefines($string)
+    {
+        $ret = <<<EOT
 // ---------------- {$string} ----------------\n
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getAboveDefines
-	*  @param string $string	
-	*/
-	public function getAboveDefines($string)
-	{ 		
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getAboveDefines
+    *  @param string $string
+    */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getAboveDefines($string)
+    {
+        $ret = <<<EOT
 // {$string}\n
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getDefine
-	*  @param string $language
-	*  @param string $defined
-	*  @param string $description	
-	*/
-	public function getDefine($language, $defined, $description)
-	{ 		
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getDefine
+    *  @param string $language
+    *  @param string $defined
+    *  @param string $description
+    */
+    /**
+     * @param $language
+     * @param $defined
+     * @param $description
+     * @return string
+     */
+    public function getDefine($language, $defined, $description)
+    {
+        $ret = <<<EOT
 define('{$language}{$defined}', "{$description}");\n
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function getBelowDefines
-	*  @param string $string	
-	*/
-	public function getBelowDefines($string)
-	{ 		
-		$ret = <<<EOT
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getBelowDefines
+    *  @param string $string
+    */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getBelowDefines($string)
+    {
+        $ret = <<<EOT
 // ---------------- {$string} ----------------
 EOT;
-		return $ret;
-	}
+
+        return $ret;
+    }
 }

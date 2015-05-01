@@ -21,6 +21,9 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class TDMCreateSession
+ */
 class TDMCreateSession
 {
     /**
@@ -29,23 +32,27 @@ class TDMCreateSession
      * <strong>Note:</strong> that if the session has already started,
      * session_start() does nothing
      */
-    protected function __construct()
+    public function __construct()
     {
-        if(!isset($_SESSION)) {
-			session_start();
-		}
-    }	
-	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+        if (!isset($_SESSION)) {
+            session_start();
+        }
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TDMCreateSession
+     */
+    public static function &getInstance()
     {
         static $_sess = false;
         if (!isset($_sess)) {
             $_sess = new self();
         }
+
         return $_sess;
     }
 
@@ -103,5 +110,5 @@ class TDMCreateSession
     {
         $_SESSION = array();
         session_destroy();
-    }    
+    }
 }

@@ -20,46 +20,70 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class UserSubmit
+ */
 class UserSubmit extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}	
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return UserSubmit
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param mixed $table
-	*  @param string $filename
-	*/
-	public function write($module, $table, $filename) {    
-		$this->setModule($module);
-		$this->setTable($table);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function getUserSubmitHeader
-	*  @param null
-	*/
-	public function getUserSubmitHeader($moduleDirname)
-    {			
-		$ret = <<<EOT
-include __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param mixed $table
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $table
+     * @param $filename
+     */
+    public function write($module, $table, $filename)
+    {
+        $this->setModule($module);
+        $this->setTable($table);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function getUserSubmitHeader
+    *  @param null
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    public function getUserSubmitHeader($moduleDirname)
+    {
+        $ret = <<<EOT
+include  __DIR__ . '/header.php';
 \$op = downloads_CleanVars(\$_REQUEST, 'op', 'form', 'string');
 // Template
 \$xoopsOption['template_main'] = '{$moduleDirname}_submit.tpl';
@@ -76,20 +100,28 @@ if (\$perm_submit == false) {
 switch (\$op)
 {\n
 EOT;
-		return $ret;
+
+        return $ret;
     }
-	
-	/*
-	*  @public function getAdminPagesList
-	*  @param string $tableName
-	*  @param string $language
-	*/
-	public function getUserSubmitForm($module, $tableName, $language) {  
-		$stuModuleName = strtoupper($module->getVar('mod_name'));
-		$ret = <<<EOT
-    case 'form': 
-    default:  
-		//navigation
+
+    /*
+    *  @public function getAdminPagesList
+    *  @param string $tableName
+    *  @param string $language
+    */
+    /**
+     * @param $module
+     * @param $tableName
+     * @param $language
+     * @return string
+     */
+    public function getUserSubmitForm($module, $tableName, $language)
+    {
+        $stuModuleName = strtoupper($module->getVar('mod_name'));
+        $ret           = <<<EOT
+    case 'form':
+    default:
+        //navigation
         \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
         \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
         // reference
@@ -99,7 +131,7 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
         //description
         \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags(_MD_{$stuModuleName}_SUBMIT_PROPOSER));
-		// Description
+        // Description
         \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
 
         // Create
@@ -107,88 +139,104 @@ EOT;
         \$form = \${$tableName}Obj->getForm();
         \$xoopsTpl->assign('form', \$form->render());\n
 EOT;
-		return $ret;
-	}
-	
-	/*
-	*  @public function getUserSubmitSave
-	*  @param string $moduleDirname
-	*  @param string $tableName
-	*/
-	public function getUserSubmitSave($moduleDirname, $table_id, $tableName) 
-	{    
-		$ret = <<<EOT
-	case 'save':
-		if ( !\$GLOBALS['xoopsSecurity']->check() ) {
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getUserSubmitSave
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table_id
+     * @param $tableName
+     * @return string
+     */
+    public function getUserSubmitSave($moduleDirname, $table_id, $tableName)
+    {
+        $ret    = <<<EOT
+    case 'save':
+        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
            redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset(\$_REQUEST['{$fpif}'])) {
            \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fpif}']);
         } else {
            \${$tableName}Obj =& \${$tableName}Handler->create();
-        }		
+        }
 EOT;
-		$fields = $this->getTableFields($table_id);
-		foreach (array_keys($fields) as $f) 
-		{
-			$fieldName = $fields[$f]->getVar('field_name');
-			$fieldElement = $fields[$f]->getVar('field_element');
-			if(($fieldElement == 5) || ($fieldElement == 6)) {
-				$ret .= $this->adminobjects->getCheckBoxOrRadioYN($tableName, $fieldName);
-			} elseif($fieldElement == 13) {
-				$ret .= $this->adminobjects->getUploadImage($moduleDirname, $tableName, $fieldName);
-			} elseif($fieldElement == 14) {
-				$ret .= $this->adminobjects->getUploadFile($moduleDirname, $tableName, $fieldName);
-			} elseif($fieldElement == 15) {
-				$ret .= $this->adminobjects->getTextDateSelect($tableName, $fieldName);
-			} else {
-				$ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
-			}
-		}
+        $fields = $this->getTableFields($table_id);
+        foreach (array_keys($fields) as $f) {
+            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if ((5 == $fieldElement) || (6 == $fieldElement)) {
+                $ret .= $this->adminobjects->getCheckBoxOrRadioYN($tableName, $fieldName);
+            } elseif (13 == $fieldElement) {
+                $ret .= $this->adminobjects->getUploadImage($moduleDirname, $tableName, $fieldName);
+            } elseif (14 == $fieldElement) {
+                $ret .= $this->adminobjects->getUploadFile($moduleDirname, $tableName, $fieldName);
+            } elseif (15 == $fieldElement) {
+                $ret .= $this->adminobjects->getTextDateSelect($tableName, $fieldName);
+            } else {
+                $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
+            }
+        }
 
-		$ret .= <<<EOT
-		if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-			redirect_header('index.php', 2, {$language}FORMOK);
+        $ret .= <<<EOT
+        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
+            redirect_header('index.php', 2, {$language}FORMOK);
         }
 
         echo \${$tableName}Obj->getHtmlErrors();
         \$form =& \${$tableName}Obj->getForm();
-		\$form->display();
-	break;\n
+        \$form->display();
+    break;\n
 EOT;
-		return $ret;
-	}
-	
-	/*
-	*  @public function getUserSubmitFooter
-	*  @param null
-	*/
-	public function getUserSubmitFooter()
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getUserSubmitFooter
+    *  @param null
+    */
+    /**
+     * @return string
+     */
+    public function getUserSubmitFooter()
     {
         $ret = <<<EOT
-include __DIR__ . DIRECTORY_SEPARATOR . 'footer.php';	
+include  __DIR__ . '/footer.php';
 EOT;
-		return $ret;
+
+        return $ret;
     }
-	
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$table = $this->getTable();        		
-		$filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$table_id = $table->getVar('table_id');
-		$tableName = $table->getVar('table_name');
-		$language = $this->getLanguage($moduleDirname, 'MA');			
-		$content = $this->getHeaderFilesComments($module, $filename);	
-		$content .= $this->getUserSubmitHeader($moduleDirname);
-		$content .= $this->getUserSubmitForm($module, $tableName, $language);
-		$content .= $this->getUserSubmitSave($moduleDirname, $table_id, $tableName);
-		$content .= $this->getUserSubmitFooter();
-		$this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $table_id      = $table->getVar('table_id');
+        $tableName     = $table->getVar('table_name');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getUserSubmitHeader($moduleDirname);
+        $content .= $this->getUserSubmitForm($module, $tableName, $language);
+        $content .= $this->getUserSubmitSave($moduleDirname, $table_id, $tableName);
+        $content .= $this->getUserSubmitFooter();
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

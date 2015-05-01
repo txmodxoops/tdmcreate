@@ -14,7 +14,7 @@ $(document).ready( function(){
 			},
 			receive: function(event, ui) {
 				var list = $(this).sortable( 'serialize');                    
-				$.post( 'admin.php?op=order', list );                      
+				$.post( 'tables.php?op=order', list );                      
 			}
 		}
 	).disableSelection();	

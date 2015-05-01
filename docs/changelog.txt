@@ -1,4 +1,16 @@
 =================================
+2015/04/27: Version 1.91 alpha 2
+=================================
+
+- Added templates item for tables & fields
+- Added sortable table for tables & fields
+- Added more parameters in tables form
+- Added more parameters in fields form
+- Added more field database in tables form
+- Added more field database in fields form
+- Added checkAll checkbox in modules & tables form
+
+=================================
 2014/01/02: Version 1.91 alpha 1
 =================================
 
@@ -7,6 +19,12 @@
 - Added templates admin
 - Added fields table
 - Added more parameters in fields form
+
+=================================
+2013/09/02: Version 1.91 alpha 1
+=================================
+
+- Skipped to versione 1.91 alpha 1
 
 =================================
 2013/05/12: Version 1.39 RC 1
@@ -74,7 +92,7 @@
 - Release only for xoops 2.5.5 (Timgno)
 
 =================================
-2011/10/10: Version 1.37 Final
+2012/01/29: Version 1.37 Final
 =================================
 
 - Fixed bug default string in sql file (Timgno)
@@ -166,6 +184,12 @@
 - replaced GIF images to PNG (Mamba)
 
 =================================
-2010/12/25: Version 1.10
+2009/07/23: Version 1.1
+=================================
+
+- Base changes (TDM)
+
+=================================
+2009/07/17: Version 1.0
 =================================
 - Original release (TDM)

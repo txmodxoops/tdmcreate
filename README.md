@@ -3,4 +3,4 @@ Deleted mach files
 
 Clear version
 
-Needed xoops 2.5.7.1, PHP 5.3 or >
+Needed xoops 2.5.7.1, PHP 5.3 or high

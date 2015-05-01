@@ -18,18 +18,18 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
-include __DIR__ . DIRECTORY_SEPARATOR . 'header.php';
-$criteria = new CriteriaCompo();
+include  __DIR__ . '/header.php';
+$criteria      = new CriteriaCompo();
 $count_modules = $tdmcreate->getHandler('modules')->getCount($criteria);
-$count_tables = $tdmcreate->getHandler('tables')->getCount($criteria);
-$count_fields = $tdmcreate->getHandler('fields')->getCount($criteria);
+$count_tables  = $tdmcreate->getHandler('tables')->getCount($criteria);
+$count_fields  = $tdmcreate->getHandler('fields')->getCount($criteria);
 unset($criteria);
 $template_main = 'tdmcreate_index.tpl';
-$adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES) ;
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' ._AM_TDMCREATE_THEREARE_NUMMODULES. '</label>', $count_modules, 'Green') ;
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' ._AM_TDMCREATE_THEREARE_NUMTABLES. '</label>', $count_tables, 'Orange');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' ._AM_TDMCREATE_THEREARE_NUMFIELDS. '</label>', $count_fields, 'Gray');
-//$xoopsOption['template_main'] = 'tdmcreate_index.html'; 
+$adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $count_modules, 'Green');
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $count_tables, 'Orange');
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $count_fields, 'Gray');
+//$xoopsOption['template_main'] = 'tdmcreate_index.html';
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
-include __DIR__ . DIRECTORY_SEPARATOR . 'footer.php';
+include  __DIR__ . '/footer.php';

@@ -20,47 +20,70 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class ClassHelper
+ */
 class ClassHelper extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();
-	}
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return ClassHelper
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param string $filename
-	*/
-	public function write($module, $filename) {    
-		$this->setModule($module);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() { 		
-		$module = $this->getModule();
-		$filename = $this->getFileName();
-		$module_dirname = $module->getVar('mod_dirname');
-		$ucf_module_dirname = ucfirst($module_dirname);
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= <<<EOT
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $filename
+     */
+    public function write($module, $filename)
+    {
+        $this->setModule($module);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module             = $this->getModule();
+        $filename           = $this->getFileName();
+        $module_dirname     = $module->getVar('mod_dirname');
+        $ucf_module_dirname = ucfirst($module_dirname);
+        $content            = $this->getHeaderFilesComments($module, $filename);
+        $content .= <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 class {$ucf_module_dirname}Helper
@@ -68,40 +91,40 @@ class {$ucf_module_dirname}Helper
     /**
      * @var string
      */
-	private \$dirname = null;
-	/**
+    private \$dirname = null;
+    /**
      * @var string
      */
     private \$module = null;
-	/**
+    /**
      * @var string
      */
     private \$handler = null;
-	/**
+    /**
      * @var string
      */
     private \$config = null;
-	/**
+    /**
      * @var string
      */
     private \$debug = null;
-	/**
+    /**
      * @var array
      */
     private \$debugArray = array();
     /*
-	*  @protected function constructor class
-	*  @param mixed \$debug
-	*/
-    protected function __construct(\$debug)
+    *  @protected function constructor class
+    *  @param mixed \$debug
+    */
+    public function __construct(\$debug)
     {
         \$this->debug = \$debug;
-        \$this->dirname =  basename(dirname(dirname(__FILE__)));
+        \$this->dirname =  basename(dirname(__DIR__));
     }
     /*
-	*  @static function &getInstance
-	*  @param mixed \$debug
-	*/
+    *  @static function &getInstance
+    *  @param mixed \$debug
+    */
     public static function &getInstance(\$debug = false)
     {
         static \$instance = false;
@@ -111,9 +134,9 @@ class {$ucf_module_dirname}Helper
         return \$instance;
     }
     /*
-	*  @static function getModule
-	*  @param null
-	*/
+    *  @static function getModule
+    *  @param null
+    */
     public function &getModule()
     {
         if (\$this->module == null) {
@@ -122,9 +145,9 @@ class {$ucf_module_dirname}Helper
         return \$this->module;
     }
     /*
-	*  @static function getConfig
-	*  @param string \$name
-	*/
+    *  @static function getConfig
+    *  @param string \$name
+    */
     public function getConfig(\$name = null)
     {
         if (\$this->config == null) {
@@ -142,10 +165,10 @@ class {$ucf_module_dirname}Helper
         return \$this->config[\$name];
     }
     /*
-	*  @static function setConfig
-	*  @param string \$name
-	*  @param mixed \$value
-	*/
+    *  @static function setConfig
+    *  @param string \$name
+    *  @param mixed \$value
+    */
     public function setConfig(\$name = null, \$value = null)
     {
         if (\$this->config == null) {
@@ -156,9 +179,9 @@ class {$ucf_module_dirname}Helper
         return \$this->config[\$name];
     }
     /*
-	*  @static function getHandler
-	*  @param string \$name
-	*/
+    *  @static function getHandler
+    *  @param string \$name
+    */
     public function &getHandler(\$name)
     {
         if (!isset(\$this->handler[\$name . '_handler'])) {
@@ -168,9 +191,9 @@ class {$ucf_module_dirname}Helper
         return \$this->handler[\$name . '_handler'];
     }
     /*
-	*  @static function initModule
-	*  @param null
-	*/
+    *  @static function initModule
+    *  @param null
+    */
     public function initModule()
     {
         global \$xoopsModule;
@@ -183,9 +206,9 @@ class {$ucf_module_dirname}Helper
         \$this->addLog('INIT MODULE');
     }
     /*
-	*  @static function initConfig
-	*  @param null
-	*/
+    *  @static function initConfig
+    *  @param null
+    */
     public function initConfig()
     {
         \$this->addLog('INIT CONFIG');
@@ -193,18 +216,18 @@ class {$ucf_module_dirname}Helper
         \$this->config = \$hModConfig->getConfigsByCat(0, \$this->getModule()->getVar('mid'));
     }
     /*
-	*  @static function initHandler
-	*  @param string \$name
-	*/
+    *  @static function initHandler
+    *  @param string \$name
+    */
     public function initHandler(\$name)
     {
         \$this->addLog('INIT ' . \$name . ' HANDLER');
         \$this->handler[\$name . '_handler'] = xoops_getModuleHandler(\$name, \$this->dirname);
     }
     /*
-	*  @static function addLog
-	*  @param string \$log
-	*/
+    *  @static function addLog
+    *  @param string \$log
+    */
     public function addLog(\$log)
     {
         if (\$this->debug) {
@@ -215,7 +238,8 @@ class {$ucf_module_dirname}Helper
     }
 }
 EOT;
-		$this->tdmcfile->create($module_dirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+        $this->tdmcfile->create($module_dirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }

@@ -20,49 +20,75 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
+/**
+ * Class AdminHeader
+ */
 class AdminHeader extends TDMCreateFile
-{	
-	/*
-	*  @public function constructor
-	*  @param null
-	*/
-	public function __construct() {    
-		$this->tdmcfile = TDMCreateFile::getInstance();		
-	}
-	/*
-	*  @static function &getInstance
-	*  @param null
-	*/
-	public static function &getInstance()
+{
+    /*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return AdminHeader
+     */
+    public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
-	/*
-	*  @public function write
-	*  @param string $module
-	*  @param mixed $table
-	*  @param array $tables
-	*  @param string $filename
-	*/
-	public function write($module, $table, $filename) {    
-		$this->setModule($module);		
-		$this->setTable($table);
-		$this->setFileName($filename);
-	}
-	/*
-	*  @private function getAdminPagesHeader
-	*  @param string $moduleDirname
-	*  @param string $tableName
-	*/
-	private function getAdminHeader($moduleDirname, $table) {
-		$ucfModuleDirname = ucfirst($moduleDirname);
-		$ret = <<<EOT
-\nrequire_once dirname(dirname(dirname(dirname(__FILE__)))). '/include/cp_header.php';
-\$thisPath = dirname(dirname(__FILE__));
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param mixed $table
+    *  @param array $tables
+    *  @param string $filename
+    */
+    /**
+     * @param $module
+     * @param $table
+     * @param $filename
+     */
+    public function write($module, $table, $filename)
+    {
+        $this->setModule($module);
+        $this->setTable($table);
+        $this->setFileName($filename);
+    }
+
+    /*
+    *  @private function getAdminPagesHeader
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @return string
+     */
+    private function getAdminHeader($moduleDirname, $table)
+    {
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ret              = <<<EOT
+\nrequire_once dirname(dirname(dirname(__DIR__))). '/include/cp_header.php';
+\$thisPath = dirname(__DIR__);
 include_once \$thisPath.'/include/common.php';
 \$sysPathIcon16 = '../' . \$GLOBALS['xoopsModule']->getInfo('sysicons16');
 \$sysPathIcon32 = '../' . \$GLOBALS['xoopsModule']->getInfo('sysicons32');
@@ -71,20 +97,19 @@ include_once \$thisPath.'/include/common.php';
 \$modPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('modicons16');
 \$modPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('modicons32');\n
 EOT;
-		if (is_object($table)) {
-			if ( $table->getVar('table_name') != '' ) {
-				$ret .= <<<EOT
+        if (is_object($table) && $table->getVar('table_name') != '') {
+                $ret .= <<<EOT
 // Get instance of module
 \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n
 EOT;
-			}			
-		}
-		$ret .= <<<EOT
+
+        }
+        $ret .= <<<EOT
 //
 \$myts =& MyTextSanitizer::getInstance();
 if (!isset(\$xoopsTpl) || !is_object(\$xoopsTpl)) {
-	include_once(XOOPS_ROOT_PATH."/class/template.php");
-	\$xoopsTpl = new XoopsTpl();
+    include_once(XOOPS_ROOT_PATH."/class/template.php");
+    \$xoopsTpl = new XoopsTpl();
 }
 // System icons path
 \$xoopsTpl->assign('sysPathIcon16', \$sysPathIcon16);
@@ -98,28 +123,35 @@ xoops_loadLanguage('admin');
 xoops_loadLanguage('modinfo');
 // Local admin menu class
 if ( file_exists(\$GLOBALS['xoops']->path(\$pathModuleAdmin.'/moduleadmin.php'))){
-	include_once \$GLOBALS['xoops']->path(\$pathModuleAdmin.'/moduleadmin.php');
+    include_once \$GLOBALS['xoops']->path(\$pathModuleAdmin.'/moduleadmin.php');
 }else{
-	redirect_header("../../../admin.php", 5, _AM_MODULEADMIN_MISSING, false);
+    redirect_header("../../../admin.php", 5, _AM_MODULEADMIN_MISSING, false);
 }
 xoops_cp_header();
-\$adminMenu = new ModuleAdmin();	
+\$adminMenu = new ModuleAdmin();
 EOT;
-		return $ret;
-	}
-	/*
-	*  @public function render
-	*  @param null
-	*/
-	public function render() {    
-		$module = $this->getModule();
-		$table = $this->getTable();
-		$filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname');		
-		$content = $this->getHeaderFilesComments($module, $filename);
-		$content .= $this->getAdminHeader($moduleDirname, $table);
-		
-		$this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-		return $this->tdmcfile->renderFile();
-	}
+
+        return $ret;
+    }
+
+    /*
+    *  @public function render
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function render()
+    {
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getAdminHeader($moduleDirname, $table);
+
+        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->tdmcfile->renderFile();
+    }
 }
