@@ -21,7 +21,7 @@
 
 $indexFile = XOOPS_UPLOAD_PATH.'/index.html';
 $blankFile = XOOPS_UPLOAD_PATH.'/blank.gif';
-$emptyFile = XOOPS_ROOT_PATH.'/modules/tdmcreate/assets/images/empty.png';
+$emptyFile = XOOPS_ROOT_PATH.'/modules/tdmcreate/assets/images/logos/empty.png';
 
 // Making of "uploads" folder
 $tdmcreate = XOOPS_UPLOAD_PATH.'/tdmcreate';
@@ -45,14 +45,14 @@ if(!is_dir($images))
 copy($indexFile, $images.'/index.html');
 copy($blankFile, $images.'/blank.gif');
 
-// Making of "repository" images folder
-$repository = $images.'/repository';
-if(!is_dir($repository))
-	mkdir($repository, 0777);
-	chmod($repository, 0777);
-copy($indexFile, $repository.'/index.html');
-//copy($blankFile, $repository.'/blank.gif');
-copy($emptyFile, $repository.'/empty.png');
+// Making of "modules" images folder
+$modules = $images.'/modules';
+if(!is_dir($modules))
+	mkdir($modules, 0777);
+	chmod($modules, 0777);
+copy($indexFile, $modules.'/index.html');
+copy($blankFile, $modules.'/blank.gif');
+copy($emptyFile, $modules.'/empty.png');
 
 // Making of "tables" images folder
 $tables = $images.'/tables';
@@ -60,4 +60,4 @@ if(!is_dir($tables))
 	mkdir($tables, 0777);
 	chmod($tables, 0777);
 copy($indexFile, $tables.'/index.html');
-//copy($blankFile, $tables.'/blank.gif');
+copy($blankFile, $tables.'/blank.gif');
