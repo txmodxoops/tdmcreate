@@ -97,11 +97,7 @@ class UserPages extends TDMCreateFile
         $stlTableName     = strtolower($tableName);
         $ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
-<<<<<<< HEAD
 \ninclude  __DIR__ . '/header.php';
-=======
-\ninclude_once 'header.php';
->>>>>>> origin/master
 // {$tableName}
 \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 //
@@ -145,11 +141,7 @@ EOT;
                         $ret .= $this->userobjects->getSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
                         break;
                     case 12:
-<<<<<<< HEAD
                         $ret .= $this->userobjects->getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-=======
-                        $ret .= $this->adminobjects->getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
->>>>>>> origin/master
                         break;
                     case 13:
                         $ret .= $this->userobjects->getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
@@ -205,11 +197,7 @@ unset(\$keywords);
 //
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$stlTableName}.php');
 //
-<<<<<<< HEAD
 include  __DIR__ . '/footer.php';
-=======
-include_once 'footer.php';
->>>>>>> origin/master
 EOT;
 
         return $ret;
