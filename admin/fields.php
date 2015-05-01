@@ -157,72 +157,38 @@ switch ($op) {
         $fieldId = XoopsRequest::getInt('field_id');
         // Fields Handler
         $fields = $tdmcreate->getHandler('fields');
-<<<<<<< HEAD
-		//
-		$order = $fieldsObj->isNew() ? $fieldOrder + 1 : $fieldOrder;
-=======
->>>>>>> origin/master
+	//
+	$order = $fieldsObj->isNew() ? $fieldOrder + 1 : $fieldOrder;
         // Set Variables
         foreach ($_POST['field_id'] as $key => $value) {
             if (isset($value)) {
                 $fieldsObj =& $fields->get($value);
             } else {
                 $fieldsObj =& $fields->create();
-<<<<<<< HEAD
             }            
-			// Set Data
-			$fieldsObj->setVar('field_mid', $fieldMid);
-			$fieldsObj->setVar('field_tid', $fieldTid);
-			$fieldsObj->setVar('field_order', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : $order);
-			$fieldsObj->setVar('field_name', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : '');
-			$fieldsObj->setVar('field_type', $_POST['field_type'][$key] ? $_POST['field_type'][$key] : '');
-			$fieldsObj->setVar('field_value', $_POST['field_value'][$key] ? $_POST['field_value'][$key] : '');
-			$fieldsObj->setVar('field_attribute', ($_POST['field_attribute'][$key] ? $_POST['field_attribute'][$key] : '');
-			$fieldsObj->setVar('field_null', $_POST['field_null'][$key] ? $_POST['field_null'][$key] : '');
-			$fieldsObj->setVar('field_default', $_POST['field_default'][$key] ? $_POST['field_default'][$key] : '');
-			$fieldsObj->setVar('field_key', $_POST['field_key'][$key] ? $_POST['field_key'][$key] : '');
-			$fieldsObj->setVar('field_element', $_POST['field_element'][$key] ? $_POST['field_element'][$key] : '');
-			$fieldsObj->setVar('field_parent', ($_REQUEST['field_parent'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_inlist', ($_REQUEST['field_inlist'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_inform', ($_REQUEST['field_inform'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_admin', ($_REQUEST['field_admin'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_user', ($_REQUEST['field_user'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_block', ($_REQUEST['field_block'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_main', ($key == $_REQUEST['field_main'] ? 1 : 0));
-			$fieldsObj->setVar('field_search', ($_REQUEST['field_search'][$key] == 1) ? 1 : 0);
-			$fieldsObj->setVar('field_required', ($_REQUEST['field_required'][$key] == 1) ? 1 : 0);
-			// Insert Data
-			$tdmcreate->getHandler('fields')->insert($fieldsObj);
-=======
-            }
-            $order = $fieldsObj->isNew() ? $fieldOrder + 1 : $fieldOrder;
-            if (isset($fieldMid) && isset($fieldTid) && !empty($_POST['field_name'][$key])) {
-                // Set Data
-                $fieldsObj->setVar('field_mid', $fieldMid);
-                $fieldsObj->setVar('field_tid', $fieldTid);
-                $fieldsObj->setVar('field_numb', $fieldNumb);
-                $fieldsObj->setVar('field_order', $order);
-                $fieldsObj->setVar('field_name', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : '');
-                $fieldsObj->setVar('field_type', $_POST['field_type'][$key] ? $_POST['field_type'][$key] : '');
-                $fieldsObj->setVar('field_value', $_POST['field_value'][$key] ? $_POST['field_value'][$key] : '');
-                $fieldsObj->setVar('field_attribute', ($_POST['field_attribute'][$key] ? $_POST['field_attribute'][$key] : '');
-                $fieldsObj->setVar('field_null', $_POST['field_null'][$key] ? $_POST['field_null'][$key] : '');
-                $fieldsObj->setVar('field_default', $_POST['field_default'][$key] ? $_POST['field_default'][$key] : '');
-                $fieldsObj->setVar('field_key', $_POST['field_key'][$key] ? $_POST['field_key'][$key] : '');
-                $fieldsObj->setVar('field_element', $_POST['field_element'][$key] ? $_POST['field_element'][$key] : '');
-                $fieldsObj->setVar('field_parent', ($_REQUEST['field_parent'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_inlist', ($_REQUEST['field_inlist'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_inform', ($_REQUEST['field_inform'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_admin', ($_REQUEST['field_admin'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_user', ($_REQUEST['field_user'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_block', ($_REQUEST['field_block'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_main', ($key == $_REQUEST['field_main'] ? 1 : 0));
-                $fieldsObj->setVar('field_search', ($_REQUEST['field_search'][$key] == 1) ? 1 : 0);
-                $fieldsObj->setVar('field_required', ($_REQUEST['field_required'][$key] == 1) ? 1 : 0);
-                // Insert Data
-                $tdmcreate->getHandler('fields')->insert($fieldsObj);
-            }
->>>>>>> origin/master
+		// Set Data
+		$fieldsObj->setVar('field_mid', $fieldMid);
+		$fieldsObj->setVar('field_tid', $fieldTid);
+		$fieldsObj->setVar('field_order', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : $order);
+		$fieldsObj->setVar('field_name', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : '');
+		$fieldsObj->setVar('field_type', $_POST['field_type'][$key] ? $_POST['field_type'][$key] : '');
+		$fieldsObj->setVar('field_value', $_POST['field_value'][$key] ? $_POST['field_value'][$key] : '');
+		$fieldsObj->setVar('field_attribute', ($_POST['field_attribute'][$key] ? $_POST['field_attribute'][$key] : '');
+		$fieldsObj->setVar('field_null', $_POST['field_null'][$key] ? $_POST['field_null'][$key] : '');
+		$fieldsObj->setVar('field_default', $_POST['field_default'][$key] ? $_POST['field_default'][$key] : '');
+		$fieldsObj->setVar('field_key', $_POST['field_key'][$key] ? $_POST['field_key'][$key] : '');
+		$fieldsObj->setVar('field_element', $_POST['field_element'][$key] ? $_POST['field_element'][$key] : '');
+		$fieldsObj->setVar('field_parent', ($_REQUEST['field_parent'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_inlist', ($_REQUEST['field_inlist'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_inform', ($_REQUEST['field_inform'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_admin', ($_REQUEST['field_admin'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_user', ($_REQUEST['field_user'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_block', ($_REQUEST['field_block'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_main', ($key == $_REQUEST['field_main'] ? 1 : 0));
+		$fieldsObj->setVar('field_search', ($_REQUEST['field_search'][$key] == 1) ? 1 : 0);
+		$fieldsObj->setVar('field_required', ($_REQUEST['field_required'][$key] == 1) ? 1 : 0);
+		// Insert Data
+		$tdmcreate->getHandler('fields')->insert($fieldsObj);
         }
         // Get table name from field table id
         $tables    =& $tdmcreate->getHandler('tables')->get($fieldTid);
@@ -261,11 +227,7 @@ switch ($op) {
         // Form Edit
         $fieldId   = XoopsRequest::getInt('field_id');
         $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
-<<<<<<< HEAD
         $form      = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
-=======
-        $form      = $fieldsObj->getFormEdit($fieldMid, $fieldTid, $fieldNumb);
->>>>>>> origin/master
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -289,7 +251,6 @@ switch ($op) {
         }
         exit;
         break;
-<<<<<<< HEAD
 
     case 'delete':
         $tablesObj =& $tdmcreate->getHandler('tables')->get($fieldTid);
@@ -323,51 +284,10 @@ switch ($op) {
             $fieldsObj->setVar('field_search', ($_REQUEST['field_search'][$key] == 1) ? 0 : 1);
             $fieldsObj->setVar('field_required', ($_REQUEST['field_required'][$key] == 1) ? 0 : 1);            
         }
-		if ($fieldsObj->insert($fieldsObj, true)) {
-			redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
-		} else {
-			redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_FAILED);
-		}
-=======
-
-    case 'delete':
-        $tablesObj =& $tdmcreate->getHandler('tables')->get($fieldTid);
-        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
-            if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
-            }
-            if ($tdmcreate->getHandler('tables')->delete($tablesObj)) {
-                redirect_header('fields.php', 3, _AM_TDMCREATE_FORMDELOK);
-            } else {
-                echo $tablesObj->getHtmlErrors();
-            }
-        } else {
-            xoops_confirm(array('ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
-        }
-        break;
-
-    case 'display':
-        //
-        $fields = $tdmcreate->getHandler('fields');
-        // Fields Handler
-        foreach ($_POST['field_id'] as $key => $value) {
-            $fieldsObj =& $fields->get($value);
-            $fieldsObj->setVar('field_parent', ((isset($_REQUEST['field_parent'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_inlist', ((isset($_REQUEST['field_inlist'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_inform', ((isset($_REQUEST['field_inform'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_admin', ((isset($_REQUEST['field_admin'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_user', ((isset($_REQUEST['field_user'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_block', ((isset($_REQUEST['field_block'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_main', (($key == $_REQUEST['field_main']) ? 1 : 0));
-            $fieldsObj->setVar('field_search', ((isset($_REQUEST['field_search'][$key]) == 1) ? 1 : 0));
-            $fieldsObj->setVar('field_required', ((isset($_REQUEST['field_required'][$key]) == 1) ? 1 : 0));
-            if ($fieldsObj->insert($fieldsObj, true)) {
-                redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
-            } else {
-                redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_FAILED);
-            }
-        }
->>>>>>> origin/master
-        break;
+	if ($fieldsObj->insert($fieldsObj, true)) {
+		redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
+	} else {
+		redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_FAILED);
+	}
 }
 include  __DIR__ . '/footer.php';
