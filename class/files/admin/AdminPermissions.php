@@ -86,11 +86,7 @@ class AdminPermissions extends TDMCreateFile
     private function getPermissionsHeader($moduleDirname, $language)
     {
         $ret = <<<PRM
-<<<<<<< HEAD
 \ninclude  __DIR__ . '/header.php';
-=======
-\ninclude_once 'header.php';
->>>>>>> origin/master
 include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
 if( !empty(\$_POST['submit']) )
 {
