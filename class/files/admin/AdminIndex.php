@@ -89,11 +89,7 @@ class AdminIndex extends TDMCreateFile
         $language_thereare = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $content           = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
-<<<<<<< HEAD
 include  __DIR__ . '/header.php';
-=======
-include_once 'header.php';
->>>>>>> origin/master
 // Count elements\n
 EOT;
         $tableName = null;
