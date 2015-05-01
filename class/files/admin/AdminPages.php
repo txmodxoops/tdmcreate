@@ -91,8 +91,7 @@ class AdminPages extends TDMCreateFile
     public function getAdminPagesHeader($moduleDirname, $table, $fpif)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-<<<<<<< HEAD
-		$ucfTableName     = ucfirst($tableName);
+	$ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
 include  __DIR__ . '/header.php';
 //It recovered the value of argument op in URL$
