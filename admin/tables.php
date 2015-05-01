@@ -46,13 +46,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_icons_url', TDMC_ICONS_URL);
-<<<<<<< HEAD
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);        
-=======
-        $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
-        /*$tdmc_upload_image_url = is_dir($sysPathIcon32) ? $sysPathIcon32 : TDMC_UPLOAD_IMGTAB_PATH;
-        $GLOBALS['xoopsTpl']->assign('tdmc_table_image_url', $tdmc_upload_image_url);*/
->>>>>>> origin/master
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgtab_url', TDMC_UPLOAD_IMGTAB_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
@@ -153,43 +147,23 @@ switch ($op) {
             redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         //
-<<<<<<< HEAD
+	$tables =& $tdmcreate->getHandler('tables');
         if (isset($tableId)) {
             $tablesObj =& $tables->get($tableId);			
         } else {            
-			// Checking if table name exist
-			$criteria = new CriteriaCompo();
-			$criteria->add(new Criteria('table_mid', $tableMid));
-			$table_name_search = $tables->getObjects($criteria);
-			unset($criteria);
-			//unset($criteria);
-			foreach (array_keys($table_name_search) as $t) {
-				if ($table_name_search[$t]->getVar('table_name') === $_POST['table_name']) {
-					redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, $_POST['table_name']));
-				}
-			}			
-			$tablesObj =& $tables->create();
-=======
-        $tables =& $tdmcreate->getHandler('tables');
-        // Checking if table name exist
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('table_mid', $tableMid));
-        $table_name_search = $tables->getObjects($criteria);
-        //unset($criteria);
-        foreach (array_keys($table_name_search) as $t) {
-            if ($table_name_search[$t]->getVar('table_name') === $_POST['table_name']) {
-                redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, $_POST['table_name']));
-
-                return false;
-            }
+	    // Checking if table name exist
+	    $criteria = new CriteriaCompo();
+   	    $criteria->add(new Criteria('table_mid', $tableMid));
+	    $table_name_search = $tables->getObjects($criteria);
+	    unset($criteria);
+	    foreach (array_keys($table_name_search) as $t) {
+		if ($table_name_search[$t]->getVar('table_name') === $_POST['table_name']) {
+			redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, $_POST['table_name']));
+		}
+   	    }			
+	    $tablesObj =& $tables->create();
         }
         //
-        if (isset($tableId)) {
-            $tablesObj =& $tables->get($tableId);
-        } else {
-            $tablesObj =& $tables->create();
->>>>>>> origin/master
-        }
         $order = $tablesObj->isNew() ? $tableOrder + 1 : $tableOrder;
         // Form save tables
         $tablesObj->setVars(array(
@@ -263,21 +237,12 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
-<<<<<<< HEAD
-
+        
         $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
         $form      = $tablesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
-=======
-
-        $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
-        $form      = $tablesObj->getForm();
-        $GLOBALS['xoopsTpl']->assign('form', $form->render());
-        break;
-
->>>>>>> origin/master
     case 'order':
         // Initialize tables handler
         $tablesObj = $tdmcreate->getHandler('tables');
@@ -298,7 +263,6 @@ switch ($op) {
         }
         exit;
         break;
-<<<<<<< HEAD
 
     case 'delete':
         $tablesObj =& $tdmcreate->getHandler('tables')->get($tableId);
@@ -351,86 +315,11 @@ switch ($op) {
                 $tablesObj->setVar('table_notifications', ($_REQUEST['table_notifications'][$key] == 1) ? 0 : 1);                
             }
         }
-		if ($tables->insert($tablesObj, true)) {
-			redirect_header('tables.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
-		} else {
-			redirect_header('tables.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
-		}
-		break;
-=======
-
-    case 'delete':
-        $tablesObj =& $tdmcreate->getHandler('tables')->get($tableId);
-        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
-            if (!$GLOBALS['xoopsSecurity']->check()) {
-                redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
-            }
-            if ($tdmcreate->getHandler('tables')->delete($tablesObj)) {
-                redirect_header('tables.php', 3, _AM_TDMCREATE_FORMDELOK);
-            } else {
-                echo $tablesObj->getHtmlErrors();
-            }
-        } else {
-            xoops_confirm(array('ok' => 1, 'table_id' => $tableId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
-        }
-        break;
-
-    case 'display_modules':
-        foreach ($_POST['mod_id'] as $key => $value) {
-            $moduleAdmin         = XoopsRequest::getInt('mod_admin');
-            $moduleUser          = XoopsRequest::getInt('mod_user');
-            $moduleBlocks        = XoopsRequest::getInt('mod_blocks');
-            $moduleSearch        = XoopsRequest::getInt('mod_search');
-            $moduleComments      = XoopsRequest::getInt('mod_comments');
-            $moduleNotifications = XoopsRequest::getInt('mod_notifications');
-            $modulePermissions   = XoopsRequest::getInt('mod_permissions');
-
-            if ($tableMid > 0) {
-                $modulesObj =& $tdmcreate->getHandler('modules')->get($tableMid);
-                $modulesObj->setVar('mod_admin', ((isset($_REQUEST['mod_admin'][$key]) == 1) ? 0 : 1));
-                $modulesObj->setVar('mod_user', ((isset($_REQUEST['mod_user'][$key]) == 1) ? 0 : 1));
-                $modulesObj->setVar('mod_blocks', ((isset($_REQUEST['mod_blocks'][$key]) == 1) ? 0 : 1));
-                $modulesObj->setVar('mod_search', ((isset($_REQUEST['mod_search'][$key]) == 1) ? 0 : 1));
-                $modulesObj->setVar('mod_comments', ((isset($_REQUEST['mod_comments'][$key]) == 1) ? 0 : 1));
-                $modulesObj->setVar('mod_notifications', ((isset($_REQUEST['mod_notifications'][$key]) == 1) ? 0 : 1));
-                $modulesObj->setVar('mod_permissions', ((isset($_REQUEST['mod_permissions'][$key]) == 1) ? 0 : 1));
-                if ($tdmcreate->getHandler('modules')->insert($modulesObj, true)) {
-                    redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
-                } else {
-                    redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
-                }
-            }
-        }
-        break;
-
-    case 'display_tables':
-        foreach ($_POST['table_id'] as $key => $value) {
-            $tableAdmin         = XoopsRequest::getInt('table_admin');
-            $tableUser          = XoopsRequest::getInt('table_user');
-            $tableBlocks        = XoopsRequest::getInt('table_blocks');
-            $tableSubmenu       = XoopsRequest::getInt('table_submenu');
-            $tableSearch        = XoopsRequest::getInt('table_search');
-            $tableComments      = XoopsRequest::getInt('table_comments');
-            $tableNotifications = XoopsRequest::getInt('table_notifications');
-            $tablePermissions   = XoopsRequest::getInt('table_permissions');
-
-            if ($tableId > 0) {
-                $tablesObj =& $tdmcreate->getHandler('tables')->get($tableId);
-                $tablesObj->setVar('table_admin', ((isset($_REQUEST['table_admin'][$key]) == 1) ? 0 : 1));
-                $tablesObj->setVar('table_user', ((isset($_REQUEST['table_user'][$key]) == 1) ? 0 : 1));
-                $tablesObj->setVar('table_blocks', ((isset($_REQUEST['table_blocks'][$key]) == 1) ? 0 : 1));
-                $tablesObj->setVar('table_submenu', ((isset($_REQUEST['table_submenu'][$key]) == 1) ? 0 : 1));
-                $tablesObj->setVar('table_search', ((isset($_REQUEST['table_search'][$key]) == 1) ? 0 : 1));
-                $tablesObj->setVar('table_comments', ((isset($_REQUEST['table_comments'][$key]) == 1) ? 0 : 1));
-                $tablesObj->setVar('table_notifications', ((isset($_REQUEST['table_notifications'][$key]) == 1) ? 0 : 1));
-                if ($tdmcreate->getHandler('tables')->insert($tablesObj, true)) {
-                    redirect_header('tables.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
-                } else {
-                    redirect_header('tables.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
-                }
-            }
-        }
-        break;
->>>>>>> origin/master
+	if ($tables->insert($tablesObj, true)) {
+		redirect_header('tables.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
+	} else {
+		redirect_header('tables.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
+	}
+	break;
 }
 include  __DIR__ . '/footer.php';
