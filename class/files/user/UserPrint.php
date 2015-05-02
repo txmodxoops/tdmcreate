@@ -110,7 +110,7 @@ class UserPrint extends TDMCreateFile
         }
         $stu_lp_field_name = strtoupper($lp_field_name);
         $ret               = <<<EOT
-\ninclude_once 'header.php';
+\ninclude  __DIR__ . '/header.php';
 {$lp_field_name} = isset(\$_GET['{$fpif}']) ? (int) (\$_GET['{$fpif}']) : 0;
 if ( empty({$fpif}) ) {
     redirect_header({$stu_mod_name}_URL . '/index.php', 2, {$language}NO{$stu_lp_field_name});

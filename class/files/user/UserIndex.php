@@ -85,7 +85,7 @@ class UserIndex extends TDMCreateFile
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
-include_once 'header.php';
+include  __DIR__ . '/header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
 // Define Stylesheet
@@ -97,7 +97,7 @@ include_once XOOPS_ROOT_PATH.'/header.php';
 //
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stu_mod_name}_URL.'/index.php');
 //
-include_once 'footer.php';
+include  __DIR__ . '/footer.php';
 EOT;
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

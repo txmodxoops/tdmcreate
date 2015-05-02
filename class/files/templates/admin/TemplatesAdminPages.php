@@ -61,10 +61,6 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
     *  @param string $module
     *  @param string $table
     */
-    /**
-     * @param $module
-     * @param $table
-     */
     public function write($module, $table)
     {
         $this->setModule($module);
@@ -77,14 +73,8 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
     *  @param string $tableName
     *  @param string $fields
     *  @param string $language
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $fields
-     * @param $language
-     * @return string
-     */
     private function getTemplatesAdminPagesHeader($moduleDirname, $table, $fields, $language)
     {
         $tableName = $table->getVar('table_name');
@@ -119,14 +109,8 @@ EOT;
     *  @param string $tableName
     *  @param string $fields
     *  @param string $language
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $fields
-     * @param $language
-     * @return string
-     */
     private function getTemplatesAdminPagesBody($moduleDirname, $table, $fields, $language)
     {
         $tableName = $table->getVar('table_name');
@@ -191,14 +175,8 @@ EOT;
     *  @param string $tableName
     *  @param string $fields
     *  @param string $language
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $fields
-     * @param $language
-     * @return string
-     */
     private function getTemplatesAdminPagesBodyFieldnameEmpty($moduleDirname, $table, $fields, $language)
     {
         $tableName = $table->getVar('table_name');
@@ -259,11 +237,8 @@ EOT;
     /*
     *  @private function getTemplatesAdminPagesFooter
     *  @param string $moduleDirname
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @return string
-     */
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
         $ret = <<<EOT
@@ -292,12 +267,9 @@ EOT;
 
     /*
     *  @public function render
-    *  @param null
+    *  @param $filename
+    *  @return bool|string
     */
-    /**
-     * @param $filename
-     * @return bool|string
-     */
     public function renderFile($filename)
     {
         $module         = $this->getModule();

@@ -83,19 +83,16 @@ class AdminPermissions extends TDMCreateFile
      * @param $language
      * @return string
      */
-    private function getPermissionsHeader($moduleDirname, $language)
+    private function getPermissionsHeader($moduleDirname, $tableName, $language)
     {
         $ret = <<<PRM
-<<<<<<< HEAD
 \ninclude  __DIR__ . '/header.php';
-=======
-\ninclude_once 'header.php';
->>>>>>> origin/master
 include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
 if( !empty(\$_POST['submit']) )
 {
     redirect_header( XOOPS_URL.'/modules/'.\$xoopsModule->dirname().'/admin/permissions.php', 1, _MP_GPERMUPDATED );
 }
+\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 // Check admin have access to this page
 /*\$group = \$xoopsUser->getGroups ();
 \$groups = xoops_getModuleOption ( 'admin_groups', \$thisDirname );
@@ -257,11 +254,13 @@ PRM;
     public function render()
     {
         $module        = $this->getModule();
+		$table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
+		$tableName     = $module->getVar('table_name');
         $language      = $this->getLanguage($moduleDirname, 'AM');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getPermissionsHeader($moduleDirname, $language);
+        $content .= $this->getPermissionsHeader($moduleDirname, $tableName, $language);
         $content .= $this->getPermissionsSwitch($moduleDirname, $language);
         $content .= $this->getPermissionsBody($moduleDirname, $language);
         $content .= $this->getPermissionsFooter();

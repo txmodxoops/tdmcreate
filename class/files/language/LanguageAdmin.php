@@ -67,12 +67,8 @@ class LanguageAdmin extends TDMCreateFile
     *  @param string $module
     *  @param string $tables
     *  @param string $filename
+    *  @param $filename
     */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
-     */
     public function write($module, $tables, $filename)
     {
         $this->setModule($module);
@@ -84,12 +80,8 @@ class LanguageAdmin extends TDMCreateFile
     *  @public function getLanguageAdminIndex
     *  @param string $language
     *  @param string $tables
+    *  @return string
     */
-    /**
-     * @param $language
-     * @param $tables
-     * @return string
-     */
     public function getLanguageAdminIndex($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Index');
@@ -109,12 +101,8 @@ class LanguageAdmin extends TDMCreateFile
     *  @public function getLanguageAdminPages
     *  @param string $language
     *  @param string $tables
+    *  @return string
     */
-    /**
-     * @param $language
-     * @param $tables
-     * @return string
-     */
     public function getLanguageAdminPages($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Files');
@@ -156,12 +144,8 @@ class LanguageAdmin extends TDMCreateFile
     *  @public function getLanguageAdminClass
     *  @param string $language
     *  @param string $tables
+    *  @return string
     */
-    /**
-     * @param $language
-     * @param $tables
-     * @return string
-     */
     public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
@@ -193,6 +177,10 @@ class LanguageAdmin extends TDMCreateFile
                     case 10:
                         $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
                         break;
+					case 12:
+                        $ret .= $this->defines->getDefine($language, "URLFORM_{$stuTableName}", "{$fieldNameDesc} in text url");
+						$ret .= $this->defines->getDefine($language, "URLFORM_UPLOAD", "{$fieldNameDesc} in uploads files");
+                        break;
                     case 13:
                         $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in uploads images");
                         break;
@@ -215,11 +203,8 @@ class LanguageAdmin extends TDMCreateFile
     /*
     *  @public function getLanguageAdminPermissions
     *  @param string $language
+    *  @return string
     */
-    /**
-     * @param $language
-     * @return string
-     */
     public function getLanguageAdminPermissions($language)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Permissions');
@@ -246,11 +231,8 @@ class LanguageAdmin extends TDMCreateFile
     /*
     *  @public function getLanguageAdminFoot
     *  @param string $language
+    *  @return string
     */
-    /**
-     * @param $language
-     * @return string
-     */
     public function getLanguageAdminFoot($language)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Others');
@@ -289,7 +271,6 @@ class LanguageAdmin extends TDMCreateFile
         $content .= $this->getLanguageAdminFoot($language);
         //
         $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-
         return $this->tdmcfile->renderFile();
     }
 }

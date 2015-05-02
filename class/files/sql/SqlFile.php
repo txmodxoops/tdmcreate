@@ -98,9 +98,8 @@ class SqlFile extends TDMCreateFile
 # Host: {$server_name}
 # Generated on: {$date} to {$time}
 # Server version: {$server_version}
-# PHP Version: {$php_version}\n
+# PHP Version: {$php_version}\n\n
 SQL;
-
         return $ret;
     }
 
@@ -111,35 +110,25 @@ SQL;
     *  @param integer $fieldsNumb
     *
     *  Unused IF NOT EXISTS
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldsNumb
-     * @return string
-     */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
         $ret = <<<SQL
-
 #
 # Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}
 #
 
 CREATE TABLE `{$moduleDirname}_{$tableName}` (\n
 SQL;
-
         return $ret;
     }
 
     /*
     *  @private function getDatabaseTables
     *  @param string $moduleDirname
+    *  @return null|string
     */
-    /**
-     * @param $moduleDirname
-     * @return null|string
-     */
     private function getDatabaseTables($moduleDirname)
     {
         $ret    = null;
@@ -161,15 +150,8 @@ SQL;
     *  @param string $tableName
     *  @param integer $tableAutoincrement
     *  @param integer $fieldsNumb
+    *  @return null|string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableId
-     * @param $tableName
-     * @param $tableAutoincrement
-     * @param $fieldsNumb
-     * @return null|string
-     */
     private function getDatabaseFields($moduleDirname, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
         $ret    = null;
@@ -287,13 +269,8 @@ SQL;
     private function getFootDatabaseTable()
     {
         $ret = <<<SQL
-<<<<<<< HEAD
-\n) ENGINE=InnoDB;\n
-=======
-\n) ENGINE=MyISAM;\n
->>>>>>> origin/master
+\n) ENGINE=InnoDB;\n\n
 SQL;
-
         return $ret;
     }
 
@@ -305,16 +282,8 @@ SQL;
     *  @param string $fieldNull
     *  @param string $fieldDefault
     *  @param string $autoincrement
+    *  @return string
     */
-    /**
-     * @param      $fieldName
-     * @param      $fieldTypeValue
-     * @param null $fieldAttribute
-     * @param null $fieldNull
-     * @param null $fieldDefault
-     * @param null $autoincrement
-     * @return string
-     */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
     {
         $retAutoincrement  = <<<SQL
@@ -343,14 +312,8 @@ SQL;
 
     /*
     *  @private function getKey
-    *  @param integer $key
-    *  @param array $fieldName
+    *  @return string
     */
-    /**
-     * @param $key
-     * @param $fieldName
-     * @return string
-     */
     private function getKey($key, $fieldName)
     {
         switch ($key) {
@@ -388,12 +351,8 @@ SQL;
     *  @private function getComma
     *  @param array $row
     *  @param string $comma
+    *  @return string
     */
-    /**
-     * @param      $row
-     * @param null $comma
-     * @return string
-     */
     private function getComma($row, $comma = null)
     {
         $ret = <<<SQL
@@ -407,12 +366,8 @@ SQL;
     *  @private function getCommaCicle
     *  @param array $comma
     *  @param integer $index
+    *  @return string
     */
-    /**
-     * @param $comma
-     * @param $index
-     * @return string
-     */
     private function getCommaCicle($comma, $index)
     {
         // Comma issue
@@ -430,10 +385,8 @@ SQL;
     /*
     *  @public function render
     *  @param null
+    *  @return bool|string
     */
-    /**
-     * @return bool|string
-     */
     public function render()
     {
         $module        = $this->getModule();

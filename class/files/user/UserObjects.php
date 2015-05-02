@@ -46,12 +46,8 @@ class UserObjects
     *  @public function getUserHeader
     *  @param string $moduleDirname
     *  @param string $tableName
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @return string
-     */
     public function getUserHeader($moduleDirname, $tableName)
     {
         $ret = <<<EOT
@@ -59,18 +55,14 @@ include_once 'header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';\n
 EOT;
-
         return $ret;
     }
 
     /*
     *  @public function getUserIndex
     *  @param string $moduleDirname
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @return string
-     */
     public function getUserIndex($moduleDirname)
     {
         $ret = <<<EOT
@@ -78,7 +70,6 @@ include_once 'header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';\n
 EOT;
-
         return $ret;
     }
 
@@ -94,7 +85,6 @@ EOT;
         $ret = <<<EOT
 include_once 'footer.php';
 EOT;
-
         return $ret;
     }
 
@@ -104,21 +94,14 @@ EOT;
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
+    *  @return string
     */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
     public function getSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
-
         return $ret;
     }
 
@@ -130,16 +113,8 @@ EOT;
     *  @param string $tableNameTopic
     *  @param string $fieldNameParent
     *  @param string $fieldNameTopic
+    *  @return string
     */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $tableNameTopic
-     * @param $fieldNameParent
-     * @param $fieldNameTopic
-     * @return string
-     */
     public function getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic)
     {
         $ret = <<<EOT
@@ -147,7 +122,6 @@ EOT;
 \t\t\${$rpFieldName} =& \${$tableNameTopic}Handler->get(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));
 \t\t\${$lpFieldName}['{$rpFieldName}'] = \${$rpFieldName}->getVar('{$fieldNameTopic}');\n
 EOT;
-
         return $ret;
     }
 
@@ -157,14 +131,8 @@ EOT;
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
+    *  @return string
     */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
     public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
@@ -173,10 +141,8 @@ EOT;
 \t\t\$upload_image = \${$fieldName} ? \${$fieldName} : 'blank.gif';
 \t\t\${$lpFieldName}['{$rpFieldName}'] = \$upload_image;\n
 EOT;
-
         return $ret;
     }
-<<<<<<< HEAD
 	
 	/*
     *  @public function getUrlFileGetVar
@@ -194,8 +160,6 @@ EOT;
 EOT;
         return $ret;
     }
-=======
->>>>>>> origin/master
 
     /*
     *  @public function getTextAreaGetVar
@@ -203,21 +167,14 @@ EOT;
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
+    *  @return string
     */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
     public function getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-
         return $ret;
     }
 
@@ -227,21 +184,14 @@ EOT;
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
+    *  @return string
     */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
     public function getSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n
 EOT;
-
         return $ret;
     }
 
@@ -251,21 +201,14 @@ EOT;
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
+    *  @return string
     */
-    /**
-     * @param $lpFieldName
-     * @param $rpFieldName
-     * @param $tableName
-     * @param $fieldName
-     * @return string
-     */
     public function getTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n
 EOT;
-
         return $ret;
     }
 }

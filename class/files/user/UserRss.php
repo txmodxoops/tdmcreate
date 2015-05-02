@@ -109,7 +109,7 @@ class UserRss extends TDMCreateFile
         }
 
         $ret = <<<EOT
-include_once 'header.php';
+include  __DIR__ . '/header.php';
 \${$fppf} = {$moduleDirname}_CleanVars(\$_GET, '{$fppf}', 0);
 include_once XOOPS_ROOT_PATH.'/class/template.php';
 \$items_count = \$xoopsModuleConfig['perpagerss'];

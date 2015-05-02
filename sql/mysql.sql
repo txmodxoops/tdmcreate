@@ -54,7 +54,7 @@ CREATE TABLE `tdmcreate_modules` (
   PRIMARY KEY (`mod_id`),
   KEY `mod_name` (`mod_name`),
   UNIQUE KEY `mod_dirname` (`mod_dirname`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 
 CREATE TABLE `tdmcreate_tables` (
@@ -64,7 +64,7 @@ CREATE TABLE `tdmcreate_tables` (
   `table_name`          VARCHAR(150)        NOT NULL DEFAULT '',
   `table_fieldname`     VARCHAR(150)        NOT NULL DEFAULT '',
   `table_nbfields`      INT(5) UNSIGNED     NOT NULL DEFAULT '0',
-  `table_order`           SMALLINT(3) UNSIGNED NOT NULL DEFAULT '0',
+  `table_order`         INT(5) UNSIGNED NOT NULL DEFAULT '0',
   `table_image`         VARCHAR(150)        NOT NULL DEFAULT '',
   `table_autoincrement` TINYINT(1)          NOT NULL DEFAULT '1',
   `table_blocks`        TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -87,7 +87,7 @@ CREATE TABLE `tdmcreate_tables` (
   PRIMARY KEY (`table_id`),
   KEY `table_mid` (`table_mid`),
   KEY `table_name` (`table_name`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 #
 # Table structure for table `tdmcreate_fields` 21
@@ -97,7 +97,7 @@ CREATE TABLE `tdmcreate_fields` (
   `field_id`        INT(8)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `field_mid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `field_tid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',  
-  `field_order`     SMALLINT(3)  UNSIGNED NOT NULL DEFAULT '0',
+  `field_order`     INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `field_name`      VARCHAR(255)          NOT NULL DEFAULT '',
   `field_type`      VARCHAR(100)          NOT NULL DEFAULT '',
   `field_value`     CHAR(4)               NOT NULL DEFAULT '',
@@ -118,7 +118,7 @@ CREATE TABLE `tdmcreate_fields` (
   PRIMARY KEY (`field_id`),
   KEY `field_mid` (`field_mid`),
   KEY `field_tid` (`field_tid`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 #
 # Table structure for table `tdmcreate_languages` 5
@@ -132,7 +132,7 @@ CREATE TABLE `tdmcreate_languages` (
   `lng_description` VARCHAR(255)          NOT NULL DEFAULT '',
   PRIMARY KEY (`lng_id`),
   KEY `lng_mid` (`lng_mid`)  
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 #
 # Table structure for table `tdmcreate_fieldtype` 2
@@ -144,7 +144,7 @@ CREATE TABLE `tdmcreate_fieldtype` (
   `fieldtype_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldtype_id`),
   KEY `fieldtype_name` (`fieldtype_name`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 INSERT INTO `tdmcreate_fieldtype` (`fieldtype_id`, `fieldtype_name`, `fieldtype_value`) VALUES
   (1, '...', ''),
@@ -181,7 +181,7 @@ CREATE TABLE `tdmcreate_fieldattributes` (
   `fieldattribute_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldattribute_id`),
   KEY `fieldattribute_name` (`fieldattribute_name`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 INSERT INTO `tdmcreate_fieldattributes` (`fieldattribute_id`, `fieldattribute_name`, `fieldattribute_value`) VALUES
   (1, '...', ''),
@@ -200,7 +200,7 @@ CREATE TABLE `tdmcreate_fieldnull` (
   `fieldnull_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldnull_id`),
   KEY `fieldnull_name` (`fieldnull_name`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 INSERT INTO `tdmcreate_fieldnull` (`fieldnull_id`, `fieldnull_name`, `fieldnull_value`) VALUES
   (1, '...', ''),
@@ -217,7 +217,7 @@ CREATE TABLE `tdmcreate_fieldkey` (
   `fieldkey_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldkey_id`),
   KEY `fieldkey_name` (`fieldkey_name`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 INSERT INTO `tdmcreate_fieldkey` (`fieldkey_id`, `fieldkey_name`, `fieldkey_value`) VALUES
   (1, '...', ''),
@@ -240,7 +240,7 @@ CREATE TABLE `tdmcreate_fieldelements` (
   PRIMARY KEY (`fieldelement_id`),
   KEY `fieldelement_mid` (`fieldelement_mid`),
   KEY `fieldelement_tid` (`fieldelement_tid`)
-)ENGINE =MyISAM;
+)ENGINE =InnoDB;
 
 INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES
   (1, 0, 0, '...', ''),

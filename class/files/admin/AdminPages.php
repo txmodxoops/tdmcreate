@@ -67,10 +67,6 @@ class AdminPages extends TDMCreateFile
     *  @param string $module
     *  @param string $table
     */
-    /**
-     * @param $module
-     * @param $table
-     */
     public function write($module, $table)
     {
         $this->setModule($module);
@@ -81,24 +77,15 @@ class AdminPages extends TDMCreateFile
     *  @public function getAdminPagesHeader
     *  @param string $moduleDirname
     *  @param string $tableName
+    *  @param $fpif
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $fpif
-     * @return string
-     */
-    public function getAdminPagesHeader($moduleDirname, $table, $fpif)
+    public function getAdminPagesHeader($moduleDirname, $tableName, $fpif)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-<<<<<<< HEAD
-		$ucfTableName     = ucfirst($tableName);
+		$ucfTableName = ucfirst($tableName);
         $ret              = <<<EOT
 include  __DIR__ . '/header.php';
-=======
-        $ret              = <<<EOT
-include_once 'header.php';
->>>>>>> origin/master
 //It recovered the value of argument op in URL$
 \$op = XoopsRequest::getString('op', 'list');
 // Request {$fpif}
@@ -109,31 +96,21 @@ include_once 'header.php';
 switch (\$op)
 {\n
 EOT;
-
         return $ret;
     }
 
     /*
-    *  @public function getAdminPagesList
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $tableFieldname
-    *  @param string $language
-    *  @param string $fields
-    *  @param string $fpif
-    *  @param string $fpmf
+    *  @public function getAdminPagesList    
+    *  @param $moduleDirname
+    *  @param $table
+    *  @param $tableFieldname
+    *  @param $language
+    *  @param $fields
+    *  @param $fpif
+    *  @param $fieldInForm
+    *  @param $fpmf
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $tableFieldname
-     * @param $language
-     * @param $fields
-     * @param $fpif
-     * @param $fieldInForm
-     * @param $fpmf
-     * @return string
-     */
     public function getAdminPagesList($moduleDirname, $table, $tableFieldname, $language, $fields, $fpif, $fieldInForm, $fpmf)
     {
         $stuModuleDirname   = strtoupper($moduleDirname);
@@ -242,7 +219,6 @@ EOT;
         }
     break;\n
 EOT;
-
         return $ret;
     }
 
@@ -251,13 +227,8 @@ EOT;
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $language
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $language
-     * @return string
-     */
     public function getAdminPagesNew($moduleDirname, $tableName, $language)
     {
         $stuTableName = strtoupper($tableName);
@@ -273,7 +244,6 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-
         return $ret;
     }
 
@@ -285,16 +255,8 @@ EOT;
     *  @param string $fields
     *  @param string $fpif
     *  @param string $fpmf
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $language
-     * @param $fields
-     * @param $fpif
-     * @param $fpmf
-     * @return string
-     */
     public function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fpif, $fpmf)
     {
         $ret = <<<EOT
@@ -339,7 +301,6 @@ EOT;
                 }
             }
         }
-
         $ret .= <<<EOT
         // Insert Data
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
@@ -351,7 +312,6 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-
         return $ret;
     }
 
@@ -362,15 +322,8 @@ EOT;
     *  @param string $tableFieldname
     *  @param string $language
     *  @param string $fpif
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $tableFieldname
-     * @param $language
-     * @param $fpif
-     * @return string
-     */
     public function getAdminPagesEdit($moduleDirname, $tableName, $tableFieldname, $language, $fpif)
     {
         $stuTableName      = strtoupper($tableName);
@@ -388,7 +341,6 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-
         return $ret;
     }
 
@@ -398,14 +350,8 @@ EOT;
     *  @param string $language
     *  @param string $fpif
     *  @param string $fpmf
+    *  @return string
     */
-    /**
-     * @param $tableName
-     * @param $language
-     * @param $fpif
-     * @param $fpmf
-     * @return string
-     */
     public function getAdminPagesDelete($tableName, $language, $fpif, $fpmf)
     {
         $ret = <<<EOT
@@ -436,15 +382,8 @@ EOT;
     *  @param string $language
     *  @param string $fpif
     *  @param string $fpmf
+    *  @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $language
-     * @param $fpif
-     * @param $fpmf
-     * @return string
-     */
     public function getAdminPagesUpdate($moduleDirname, $tableName, $language, $fpif, $fpmf)
     {
         $upModuleName = strtoupper($moduleDirname);
@@ -461,7 +400,6 @@ EOT;
         echo \${$tableName}Obj->getHtmlErrors();
     break;\n
 EOT;
-
         return $ret;
     }
 
@@ -478,7 +416,6 @@ EOT;
 }
 include  __DIR__ . '/footer.php';
 EOT;
-
         return $ret;
     }
 

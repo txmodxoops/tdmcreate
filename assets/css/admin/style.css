@@ -26,12 +26,16 @@ body {
     text-shadow: 1px 1px 1px #fff;
 }
 
-table { margin: 0; padding: 0; }
+table { margin: 0; padding: 0; width: 100%; }
 
 /* Sortable tables & fields */
+tbody tr td.sortable {    
+    text-align: center;
+	width: 100%;
+}
+
 tbody tr td.sortable img.move {
     cursor: move;
-    text-align: center;
 }
 
 tbody tr:hover {
@@ -138,7 +142,7 @@ img.imageToggle {
     background-color: #efefef;
 }
 
-.table-list tr { margin: 0; padding: 0; }
+.table-list tr { margin: 0; padding: 0; width: 100%; }
 
 .table-list tr td img.move {
     margin-right: 20px;
@@ -209,16 +213,16 @@ tbody.table-list tr td {
     width: 5%;
 }
 
-.field-list tr { margin: 0; padding: 0; }
+.field-list tr { margin: 0; padding: 0; width: 100%; }
 
 .field-list tr td {
     padding: 5px 2px;
     margin-bottom: 3px;
-    background-color: #efefef;
+    /* background-color: #efefef;
     background-image: -moz-linear-gradient(top, #efefef, #e1e1e1);
     background-image: -webkit-gradient(linear, left top,left bottom, from(#efefef), to(#e1e1e1));
     background-image: linear-gradient(top, #efefef, #e1e1e1);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr=#efefef, EndColorStr=#e1e1e1); /* vale solo per IE */
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr=#efefef, EndColorStr=#e1e1e1); vale solo per IE */
     text-shadow:1px 1px 0 #fff;
     color:#ff8400;
 }

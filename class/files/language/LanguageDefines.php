@@ -49,41 +49,32 @@ class LanguageDefines
         if (!$instance) {
             $instance = new self();
         }
-
         return $instance;
     }
 
     /*
     *  @public function getAboveHeadDefines
     *  @param string $string
+    *  @return string
     */
-    /**
-     * @param $string
-     * @return string
-     */
     public function getAboveHeadDefines($string)
     {
         $ret = <<<EOT
 // ---------------- {$string} ----------------\n
 EOT;
-
         return $ret;
     }
 
     /*
     *  @public function getAboveDefines
     *  @param string $string
+    *  @return string
     */
-    /**
-     * @param $string
-     * @return string
-     */
     public function getAboveDefines($string)
     {
         $ret = <<<EOT
 // {$string}\n
 EOT;
-
         return $ret;
     }
 
@@ -92,19 +83,13 @@ EOT;
     *  @param string $language
     *  @param string $defined
     *  @param string $description
+    *  @return string
     */
-    /**
-     * @param $language
-     * @param $defined
-     * @param $description
-     * @return string
-     */
     public function getDefine($language, $defined, $description)
     {
         $ret = <<<EOT
 define('{$language}{$defined}', "{$description}");\n
 EOT;
-
         return $ret;
     }
 
@@ -121,7 +106,6 @@ EOT;
         $ret = <<<EOT
 // ---------------- {$string} ----------------
 EOT;
-
         return $ret;
     }
 }
