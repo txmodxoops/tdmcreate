@@ -170,7 +170,7 @@ switch ($op) {
         $tablesObj->setVars(array(
                                 'table_mid'       => $tableMid,
                                 'table_name'      => $_POST['table_name'],
-                                'table_category'  => $_REQUEST['table_category'],
+                                'table_category'  => ((1 == $_REQUEST['table_category']) ? 1 : 0),
                                 'table_nbfields'  => $tableNumbFields,
                                 'table_order'     => $order,
                                 'table_fieldname' => $tableFieldname));
@@ -191,24 +191,24 @@ switch ($op) {
             $tablesObj->setVar('table_image', $_POST['table_image']);
         }
         $tablesObj->setVars(array(
-                                'table_autoincrement' => $_REQUEST['table_autoincrement'],
-                                'table_blocks'        => $_REQUEST['table_blocks'],
-                                'table_admin'         => $_REQUEST['table_admin'],
-                                'table_user'          => $_REQUEST['table_user'],
-                                'table_submenu'       => $_REQUEST['table_submenu'],
-                                'table_submit'        => $_REQUEST['table_submit'],
-                                'table_tag'           => $_REQUEST['table_tag'],
-                                'table_broken'        => $_REQUEST['table_broken'],
-                                'table_search'        => $_REQUEST['table_search'],
-                                'table_comments'      => $_REQUEST['table_comments'],
-                                'table_notifications' => $_REQUEST['table_notifications'],
-                                'table_permissions'   => $_REQUEST['table_permissions'],
-                                'table_rate'          => $_REQUEST['table_rate'],
-                                'table_print'         => $_REQUEST['table_print'],
-                                'table_pdf'           => $_REQUEST['table_pdf'],
-                                'table_rss'           => $_REQUEST['table_rss'],
-                                'table_single'        => $_REQUEST['table_single'],
-                                'table_visit'         => $_REQUEST['table_visit']
+                                'table_autoincrement' => ((1 == $_REQUEST['table_autoincrement']) ? 1 : 0),
+                                'table_blocks'        => ((1 == $_REQUEST['table_blocks']) ? 1 : 0),
+                                'table_admin'         => ((1 == $_REQUEST['table_admin']) ? 1 : 0),
+                                'table_user'          => ((1 == $_REQUEST['table_user']) ? 1 : 0),
+                                'table_submenu'       => ((1 == $_REQUEST['table_submenu']) ? 1 : 0),
+                                'table_submit'        => ((1 == $_REQUEST['table_submit']) ? 1 : 0),
+                                'table_tag'           => ((1 == $_REQUEST['table_tag']) ? 1 : 0),
+                                'table_broken'        => ((1 == $_REQUEST['table_broken']) ? 1 : 0),
+                                'table_search'        => ((1 == $_REQUEST['table_search']) ? 1 : 0),
+                                'table_comments'      => ((1 == $_REQUEST['table_comments']) ? 1 : 0),
+                                'table_notifications' => ((1 == $_REQUEST['table_notifications']) ? 1 : 0),
+                                'table_permissions'   => ((1 == $_REQUEST['table_permissions']) ? 1 : 0),
+                                'table_rate'          => ((1 == $_REQUEST['table_rate']) ? 1 : 0),
+                                'table_print'         => ((1 == $_REQUEST['table_print']) ? 1 : 0),
+                                'table_pdf'           => ((1 == $_REQUEST['table_pdf']) ? 1 : 0),
+                                'table_rss'           => ((1 == $_REQUEST['table_rss']) ? 1 : 0),
+                                'table_single'        => ((1 == $_REQUEST['table_single']) ? 1 : 0),
+                                'table_visit'         => ((1 == $_REQUEST['table_visit']) ? 1 : 0)
                             ));
         //
         if ($tables->insert($tablesObj)) {
@@ -286,34 +286,35 @@ switch ($op) {
 		foreach ($_POST['mod_id'] as $key => $value) {
             if ($key > 0) {
                 $modulesObj =& $tdmcreate->getHandler('modules')->get($value);
-                $modulesObj->setVar('mod_admin', ($_REQUEST['mod_admin'][$key] == 1) ? 0 : 1);
-                $modulesObj->setVar('mod_user', ($_REQUEST['mod_user'][$key] == 1) ? 0 : 1);
-                $modulesObj->setVar('mod_blocks', ($_REQUEST['mod_blocks'][$key] == 1) ? 0 : 1);
-                $modulesObj->setVar('mod_search', ($_REQUEST['mod_search'][$key] == 1) ? 0 : 1);
-                $modulesObj->setVar('mod_comments', ($_REQUEST['mod_comments'][$key] == 1) ? 0 : 1);
-                $modulesObj->setVar('mod_notifications', ($_REQUEST['mod_notifications'][$key] == 1) ? 0 : 1);
-                $modulesObj->setVar('mod_permissions', ($_REQUEST['mod_permissions'][$key] == 1) ? 0 : 1);                
+                $modulesObj->setVar('mod_admin', (1 == $_REQUEST['mod_admin'][$key]) ? 0 : 1);
+                $modulesObj->setVar('mod_user', (1 == $_REQUEST['mod_user'][$key]) ? 0 : 1);
+                $modulesObj->setVar('mod_blocks', (1 == $_REQUEST['mod_blocks'][$key]) ? 0 : 1);
+                $modulesObj->setVar('mod_search', (1 == $_REQUEST['mod_search'][$key]) ? 0 : 1);
+                $modulesObj->setVar('mod_comments', (1 == $_REQUEST['mod_comments'][$key]) ? 0 : 1);
+                $modulesObj->setVar('mod_notifications', (1 == $_REQUEST['mod_notifications'][$key]) ? 0 : 1);
+                $modulesObj->setVar('mod_permissions', (1 == $_REQUEST['mod_permissions'][$key]) ? 0 : 1);                
             }
         }
-		if ($modules->insert($modulesObj, true)) {
-			redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
-		} else {
-			redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
-		}
+	if ($modules->insert($modulesObj, true)) {
+		redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
+	} else {
+		redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
+	}
         break;
 
     case 'display_tables':
 		$tables = $tdmcreate->getHandler('tables');
+		//
         foreach ($_POST['table_id'] as $key => $value) {
             if ($key > 0) {
                 $tablesObj =& $tables->get($value);
-                $tablesObj->setVar('table_admin', ($_REQUEST['table_admin'][$key] == 1) ? 0 : 1);
-                $tablesObj->setVar('table_user', ($_REQUEST['table_user'][$key] == 1) ? 0 : 1);
-                $tablesObj->setVar('table_blocks', ($_REQUEST['table_blocks'][$key] == 1) ? 0 : 1);
-                $tablesObj->setVar('table_submenu', ($_REQUEST['table_submenu'][$key] == 1) ? 0 : 1);
-                $tablesObj->setVar('table_search', ($_REQUEST['table_search'][$key] == 1) ? 0 : 1);
-                $tablesObj->setVar('table_comments', ($_REQUEST['table_comments'][$key] == 1) ? 0 : 1);
-                $tablesObj->setVar('table_notifications', ($_REQUEST['table_notifications'][$key] == 1) ? 0 : 1);                
+                $tablesObj->setVar('table_admin', (1 == $_REQUEST['table_admin'][$key]) ? 0 : 1);
+                $tablesObj->setVar('table_user', (1 == $_REQUEST['table_user'][$key]) ? 0 : 1);
+                $tablesObj->setVar('table_blocks', (1 == $_REQUEST['table_blocks'][$key]) ? 0 : 1);
+                $tablesObj->setVar('table_submenu', (1 == $_REQUEST['table_submenu'][$key]) ? 0 : 1);
+                $tablesObj->setVar('table_search', (1 == $_REQUEST['table_search'][$key]) ? 0 : 1);
+                $tablesObj->setVar('table_comments', (1 == $_REQUEST['table_comments'][$key]) ? 0 : 1);
+                $tablesObj->setVar('table_notifications', (1 == $_REQUEST['table_notifications'][$key]) ? 0 : 1);                
             }
         }
 	if ($tables->insert($tablesObj, true)) {
