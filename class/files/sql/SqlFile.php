@@ -100,7 +100,8 @@ class SqlFile extends TDMCreateFile
 # Server version: {$server_version}
 # PHP Version: {$php_version}\n\n
 SQL;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -121,7 +122,8 @@ SQL;
 
 CREATE TABLE `{$moduleDirname}_{$tableName}` (\n
 SQL;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
