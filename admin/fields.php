@@ -25,7 +25,6 @@ $op = XoopsRequest::getString('op', 'list');
 $fieldMid   = XoopsRequest::getInt('field_mid');
 $fieldTid   = XoopsRequest::getInt('field_tid');
 $fieldNumb  = XoopsRequest::getInt('field_numb');
-$fieldOrder = XoopsRequest::getInt('field_order');
 $fieldName  = XoopsRequest::getString('field_name', '');
 // switch op
 switch ($op) {
@@ -167,29 +166,31 @@ switch ($op) {
             } else {
                 $fieldsObj =& $fields->create();
             }            
-		// Set Data
-		$fieldsObj->setVar('field_mid', $fieldMid);
-		$fieldsObj->setVar('field_tid', $fieldTid);
-		$fieldsObj->setVar('field_order', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : $order);
-		$fieldsObj->setVar('field_name', $_POST['field_name'][$key] ? $_POST['field_name'][$key] : '');
-		$fieldsObj->setVar('field_type', $_POST['field_type'][$key] ? $_POST['field_type'][$key] : '');
-		$fieldsObj->setVar('field_value', $_POST['field_value'][$key] ? $_POST['field_value'][$key] : '');
-		$fieldsObj->setVar('field_attribute', ($_POST['field_attribute'][$key] ? $_POST['field_attribute'][$key] : '');
-		$fieldsObj->setVar('field_null', $_POST['field_null'][$key] ? $_POST['field_null'][$key] : '');
-		$fieldsObj->setVar('field_default', $_POST['field_default'][$key] ? $_POST['field_default'][$key] : '');
-		$fieldsObj->setVar('field_key', $_POST['field_key'][$key] ? $_POST['field_key'][$key] : '');
-		$fieldsObj->setVar('field_element', $_POST['field_element'][$key] ? $_POST['field_element'][$key] : '');
-		$fieldsObj->setVar('field_parent', ($_REQUEST['field_parent'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_inlist', ($_REQUEST['field_inlist'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_inform', ($_REQUEST['field_inform'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_admin', ($_REQUEST['field_admin'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_user', ($_REQUEST['field_user'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_block', ($_REQUEST['field_block'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_main', ($key == $_REQUEST['field_main'] ? 1 : 0));
-		$fieldsObj->setVar('field_search', ($_REQUEST['field_search'][$key] == 1) ? 1 : 0);
-		$fieldsObj->setVar('field_required', ($_REQUEST['field_required'][$key] == 1) ? 1 : 0);
-		// Insert Data
-		$tdmcreate->getHandler('fields')->insert($fieldsObj);
+            $fieldOrder = XoopsRequest::getInt('field_order');
+	    $order = $fieldsObj->isNew() ? $fieldOrder + 1 : $fieldOrder;
+	    // Set Data	
+	    $fieldsObj->setVar( 'field_mid', $fieldMid );
+	    $fieldsObj->setVar( 'field_tid', $fieldTid );								
+	    $fieldsObj->setVar( 'field_order', $order );
+	    $fieldsObj->setVar( 'field_name', $_POST['field_name'][$key]);
+	    $fieldsObj->setVar( 'field_type', $_POST['field_type'][$key]); 
+	    $fieldsObj->setVar( 'field_value', $_POST['field_value'][$key]);
+	    $fieldsObj->setVar( 'field_attribute', $_POST['field_attribute'][$key]);
+	    $fieldsObj->setVar( 'field_null', $_POST['field_null'][$key]); 
+	    $fieldsObj->setVar( 'field_default', $_POST['field_default'][$key]); 
+	    $fieldsObj->setVar( 'field_key', $_POST['field_key'][$key]);						
+	    $fieldsObj->setVar( 'field_element', $_POST['field_element'][$key]);               
+	    $fieldsObj->setVar( 'field_parent', (1 == $_REQUEST['field_parent'][$key]) ? 1 : 0);
+	    $fieldsObj->setVar( 'field_inlist', (1 == $_REQUEST['field_inlist'][$key]) ? 1 : 0);
+	    $fieldsObj->setVar( 'field_inform', (1 == $_REQUEST['field_inform'][$key]) ? 1 : 0);
+	    $fieldsObj->setVar( 'field_admin', (1 == $_REQUEST['field_admin'][$key]) ? 1 : 0);
+	    $fieldsObj->setVar( 'field_user', (1 == $_REQUEST['field_user'][$key]) ? 1 : 0); 
+	    $fieldsObj->setVar( 'field_block', (1 == $_REQUEST['field_block'][$key]) ? 1 : 0); 
+	    $fieldsObj->setVar( 'field_main', ($key == $_REQUEST['field_main'] ? 1 : 0)); 
+	    $fieldsObj->setVar( 'field_search',  (1 == $_REQUEST['field_search'][$key]) ? 1 : 0); 
+	    $fieldsObj->setVar( 'field_required', (1 == $_REQUEST['field_required'][$key]) ? 1 : 0);
+	    // Insert Data
+	    $tdmcreate->getHandler('fields')->insert($fieldsObj);
         }
         // Get table name from field table id
         $tables    =& $tdmcreate->getHandler('tables')->get($fieldTid);
