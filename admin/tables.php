@@ -152,7 +152,7 @@ switch ($op) {
         if (isset($tableId)) {
             $tablesObj =& $tables->get($tableId);			
         } else {            
-	    // Checking if table name exist
+	    // Checking if table name exist in the same module
 	    $criteria = new CriteriaCompo();
    	    $criteria->add(new Criteria('table_mid', $tableMid));
 	    $table_name_search = $tables->getObjects($criteria);
