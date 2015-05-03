@@ -62,6 +62,7 @@ CREATE TABLE `tdmcreate_tables` (
   `table_mid`           INT(5) UNSIGNED     NOT NULL DEFAULT '0',
   `table_category`      TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   `table_name`          VARCHAR(150)        NOT NULL DEFAULT '',
+  `table_solename`      VARCHAR(150)        NOT NULL DEFAULT '',
   `table_fieldname`     VARCHAR(150)        NOT NULL DEFAULT '',
   `table_nbfields`      INT(5) UNSIGNED     NOT NULL DEFAULT '0',
   `table_order`         INT(5) UNSIGNED NOT NULL DEFAULT '0',

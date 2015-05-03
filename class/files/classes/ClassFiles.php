@@ -233,8 +233,9 @@ EOT;
     {
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName     = $table->getVar('table_name');
+		$tableSoleName = $table->getVar('table_solename');
         $ucfTableName  = ucfirst($tableName);
-        $stuTableName  = strtoupper($tableName);
+        $stuTableSoleName  = strtoupper($tableSoleName);
         $language      = $this->getLanguage($moduleDirname, 'AM');
         $this->formelements->initForm($module, $table);
         $ret = <<<EOT
@@ -249,7 +250,7 @@ EOT;
             \$action = \$_SERVER['REQUEST_URI'];
         }
         // Title
-        \$title = \$this->isNew() ? sprintf({$language}{$stuTableName}_ADD) : sprintf({$language}{$stuTableName}_EDIT);
+        \$title = \$this->isNew() ? sprintf({$language}{$stuTableSoleName}_ADD) : sprintf({$language}{$stuTableSoleName}_EDIT);
         // Get Theme Form
         xoops_load('XoopsFormLoader');
         \$form = new XoopsThemeForm(\$title, 'form', \$action, 'post', true);

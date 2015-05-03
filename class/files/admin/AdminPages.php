@@ -96,7 +96,8 @@ include  __DIR__ . '/header.php';
 switch (\$op)
 {\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -111,13 +112,16 @@ EOT;
     *  @param $fpmf
     *  @return string
     */
-    public function getAdminPagesList($moduleDirname, $table, $tableFieldname, $language, $fields, $fpif, $fieldInForm, $fpmf)
+    public function getAdminPagesList($moduleDirname, $table, $language, $fields, $fpif, $fieldInForm, $fpmf)
     {
         $stuModuleDirname   = strtoupper($moduleDirname);
         $tableName          = $table->getVar('table_name');
-        $tableAutoincrement = $table->getVar('table_autoincrement');
-        $stuTableName       = strtoupper($tableName);
+		$tableSoleName      = $table->getVar('table_solename');
+		$tableFieldname     = $table->getVar('table_fieldname');
+		$stuTableName       = strtoupper($tableName);
+		$stuTableSoleName   = strtoupper($tableSoleName);
         $stuTableFieldname  = strtoupper($tableFieldname);
+        $tableAutoincrement = $table->getVar('table_autoincrement');
         $ret                = <<<EOT
     case 'list':
     default:
@@ -128,7 +132,7 @@ EOT;
 EOT;
         if (1 == $fieldInForm) {
             $ret .= <<<EOT
-        \$adminMenu->addItemButton({$language}ADD_{$stuTableFieldname}, '{$tableName}.php?op=new', 'add');
+        \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());\n
 EOT;
         }
@@ -153,7 +157,7 @@ EOT;
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldParent = $fields[$f]->getVar('field_parent');
             // Verify if table_fieldname is not empty
-            $lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
+            $lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableSoleName;
             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             //
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -219,7 +223,8 @@ EOT;
         }
     break;\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -244,7 +249,8 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -312,7 +318,8 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -324,14 +331,18 @@ EOT;
     *  @param string $fpif
     *  @return string
     */
-    public function getAdminPagesEdit($moduleDirname, $tableName, $tableFieldname, $language, $fpif)
+    public function getAdminPagesEdit($moduleDirname, $table, $language, $fpif)
     {
-        $stuTableName      = strtoupper($tableName);
+        $tableName         = $table->getVar('table_name');
+		$tableSoleName     = $table->getVar('table_solename');
+		$tableFieldname    = $table->getVar('table_fieldname');
+		$stuTableName      = strtoupper($tableName);
+		$stuTableSoleName  = strtoupper($tableSoleName);
         $stuTableFieldname = strtoupper($tableFieldname);
         $ret               = <<<EOT
     case 'edit':
         \$template_main = '{$moduleDirname}_admin_{$tableName}.tpl';
-        \$adminMenu->addItemButton({$language}ADD_{$stuTableFieldname}, '{$tableName}.php?op=new', 'add');
+        \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
         \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
@@ -341,7 +352,8 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -400,7 +412,8 @@ EOT;
         echo \${$tableName}Obj->getHtmlErrors();
     break;\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -416,7 +429,8 @@ EOT;
 }
 include  __DIR__ . '/footer.php';
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -432,8 +446,7 @@ EOT;
         $module         = $this->getModule();
         $table          = $this->getTable();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');
-        $tableFieldname = $table->getVar('table_fieldname');
+        $tableName      = $table->getVar('table_name');        
         $language       = $this->tdmcfile->getLanguage($moduleDirname, 'AM');
         $fields         = $this->tdmcfile->getTableFields($table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -448,11 +461,11 @@ EOT;
         }
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminPagesHeader($moduleDirname, $tableName, $fpif);
-        $content .= $this->getAdminPagesList($moduleDirname, $table, $tableFieldname, $language, $fields, $fpif, $fieldInForm, $fpmf);
+        $content .= $this->getAdminPagesList($moduleDirname, $table, $language, $fields, $fpif, $fieldInForm, $fpmf);
         if (1 == $fieldInForm) {
             $content .= $this->getAdminPagesNew($moduleDirname, $tableName, $language);
             $content .= $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fpif, $fpmf);
-            $content .= $this->getAdminPagesEdit($moduleDirname, $tableName, $tableFieldname, $language, $fpif);
+            $content .= $this->getAdminPagesEdit($moduleDirname, $table, $language, $fpif);
         }
         $content .= $this->getAdminPagesDelete($tableName, $language, $fpif, $fpmf);
         $content .= $this->getAdminPagesFooter();

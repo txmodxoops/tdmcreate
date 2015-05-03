@@ -77,8 +77,9 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
     */
     private function getTemplatesAdminPagesHeader($moduleDirname, $table, $fields, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
+        $tableName     = $table->getVar('table_name');
+		$tableSoleName = $table->getVar('table_solename');
+        $ret           = <<<EOT
 <{include file="db:{$moduleDirname}_admin_header.tpl"}>
 <{if {$tableName}_list}>
     <table class="outer {$tableName} width100">
@@ -86,8 +87,9 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
             <tr class="head">\n
 EOT;
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            $lang_fn   = $language . strtoupper($fieldName);
+            $fieldName   = $fields[$f]->getVar('field_name');
+			$rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $lang_fn     = $language . strtoupper($tableSoleName) . '_' . strtoupper($rpFieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_inlist'))) {
                 $ret .= <<<EOT
                 <th class="center"><{\$smarty.const.{$lang_fn}}></th>\n

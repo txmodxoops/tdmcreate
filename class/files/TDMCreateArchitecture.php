@@ -244,7 +244,6 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $modId               = $module->getVar('mod_id');
         $moduleDirname       = $module->getVar('mod_dirname');
         $uploadTablesIcons32 = $this->structure->getUploadPath() . '/images/tables';
-        $framePathIcon32     = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
         $icon32              = 'assets/icons/32';
         // Id of tables
         $criteriaTables = new CriteriaCompo();
@@ -271,7 +270,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Copy of tables images file
             if (file_exists($uploadTableImage = $uploadTablesIcons32 . '/' . $tableImage)) {
                 $this->structure->copyFile($icon32, $uploadTableImage, $tableImage);
-            } elseif (file_exists($uploadTableImage = $framePathIcon32 . '/' . $tableImage)) {
+            } elseif (file_exists($uploadTableImage = XOOPS_ICONS32_PATH . '/' . $tableImage)) {
                 $this->structure->copyFile($icon32, $uploadTableImage, $tableImage);
             }
             // Creation of admin files

@@ -51,7 +51,7 @@ class UserObjects
     public function getUserHeader($moduleDirname, $tableName)
     {
         $ret = <<<EOT
-include_once 'header.php';
+include  __DIR__ . '/header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';\n
 EOT;
@@ -66,7 +66,7 @@ EOT;
     public function getUserIndex($moduleDirname)
     {
         $ret = <<<EOT
-include_once 'header.php';
+include  __DIR__ . '/header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';\n
 EOT;
@@ -83,7 +83,7 @@ EOT;
     public function getUserFooter()
     {
         $ret = <<<EOT
-include_once 'footer.php';
+include  __DIR__ . '/footer.php';
 EOT;
         return $ret;
     }

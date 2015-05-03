@@ -51,6 +51,7 @@ class TDMCreateTables extends XoopsObject
         $this->initVar('table_mid', XOBJ_DTYPE_INT);
         $this->initVar('table_category', XOBJ_DTYPE_INT);
         $this->initVar('table_name', XOBJ_DTYPE_TXTBOX);
+		$this->initVar('table_solename', XOBJ_DTYPE_TXTBOX);
         $this->initVar('table_fieldname', XOBJ_DTYPE_TXTBOX);
         $this->initVar('table_nbfields', XOBJ_DTYPE_INT);
         $this->initVar('table_order', XOBJ_DTYPE_INT);
@@ -137,9 +138,13 @@ class TDMCreateTables extends XoopsObject
         }
         $form->addElement($mods_select, true);
         //
-        $table_name_field = new XoopsFormText(_AM_TDMCREATE_TABLE_NAME, 'table_name', 50, 255, $table_name);
+        $table_name_field = new XoopsFormText(_AM_TDMCREATE_TABLE_NAME, 'table_name', 40, 150, $table_name);
         $table_name_field->setDescription(_AM_TDMCREATE_TABLE_NAME_DESC);
         $form->addElement($table_name_field, true);
+		//
+        $table_solename_field = new XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
+        $table_solename_field->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
+        $form->addElement($table_solename_field, true);
         //
         $tablesHandler =& $this->tdmcreate->getHandler('tables');
         $criteria      = new CriteriaCompo(new Criteria('table_category', 0), 'AND');

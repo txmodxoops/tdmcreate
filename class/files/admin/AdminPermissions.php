@@ -140,9 +140,7 @@ switch(\$permission)
         \$formTitle = {$language}GLOBAL;
         \$permName = '{$moduleDirname}_ac';
         \$permDesc = {$language}GLOBAL_DESC;
-        \$globalPerms = array(    '4' => {$language}GLOBAL_4,
-                                '8' => {$language}GLOBAL_8,
-                                '16' => {$language}GLOBAL_16 );
+        \$globalPerms = array( '4' => {$language}GLOBAL_4, '8' => {$language}GLOBAL_8, '16' => {$language}GLOBAL_16 );
         break;
     case 2:
         \$formTitle = {$language}APPROVE;

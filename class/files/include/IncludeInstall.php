@@ -253,14 +253,17 @@ EOT;
             $fieldElement = $fields[$f]->getVar('field_element');
             // All fields elements selected
             switch ($fieldElement) {
-                case 11:
+                case 10:
+				case 13:
                     $content .= $this->getInstallImagesFolder($moduleDirname);
                     foreach (array_keys($tables) as $t) {
                         $tableName = $tables[$t]->getVar('table_name');
                         $content .= $this->getInstallTableImagesFolder($tableName);
                     }
                     break;
-                case 12:
+                case 11:
+				case 12:
+				case 14:
                     $content .= $this->getInstallFilesFolder($moduleDirname);
                     foreach (array_keys($tables) as $t) {
                         $tableName = $tables[$t]->getVar('table_name');

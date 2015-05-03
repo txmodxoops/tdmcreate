@@ -171,10 +171,11 @@ switch ($op) {
         $tablesObj->setVars(array(
                                 'table_mid'       => $tableMid,
                                 'table_name'      => $_POST['table_name'],
+								'table_solename'  => $_POST['table_solename'],
                                 'table_category'  => ((1 == $_REQUEST['table_category']) ? 1 : 0),
+                                'table_fieldname' => $tableFieldname,
                                 'table_nbfields'  => $tableNumbFields,
-                                'table_order'     => $order,
-                                'table_fieldname' => $tableFieldname));
+                                'table_order'     => $order));
         //Form table_image
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploaddir = is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;

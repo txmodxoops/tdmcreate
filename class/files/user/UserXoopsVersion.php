@@ -62,10 +62,10 @@ class UserXoopsVersion extends TDMCreateFile
 
     /*
     *  @public function write
-    *  @param string $module
+    *  @param $module
     *  @param mixed $table
     *  @param mixed $tables
-    *  @param string $filename
+    *  @param $filename
     */
     /**
      * @param $module
@@ -115,7 +115,7 @@ class UserXoopsVersion extends TDMCreateFile
 
     /*
     *  @private function getXoopsVersionHeader
-    *  @param string $language
+    *  @param $language
     */
     /**
      * @param $module
@@ -211,8 +211,8 @@ EOT;
 
     /*
     *  @private function getXoopsVersionMySQL
-    *  @param string $moduleDirname
-    *  @param string $table
+    *  @param $moduleDirname
+    *  @param $table
     */
     /**
      * @param $moduleDirname
@@ -245,7 +245,7 @@ EOT;
 
     /*
     *  @private function getXoopsVersionSearch
-    *  @param string $moduleDirname
+    *  @param $moduleDirname
     */
     /**
      * @param $moduleDirname
@@ -265,7 +265,7 @@ EOT;
 
     /*
     *  @private function getXoopsVersionComments
-    *  @param string $moduleDirname
+    *  @param $moduleDirname
     */
     /**
      * @param $moduleDirname
@@ -288,7 +288,7 @@ EOT;
 
     /*
     *  @private function getXoopsVersionTemplatesAdmin
-    *  @param string $moduleDirname
+    *  @param $moduleDirname
     */
     /**
      * @param $moduleDirname
@@ -325,7 +325,7 @@ EOT;
 
     /*
     *  @private function getXoopsVersionTemplatesUser
-    *  @param string $moduleDirname
+    *  @param $moduleDirname
     */
     /**
      * @param $moduleDirname
@@ -353,7 +353,7 @@ EOT;
 
     /*
     *  @private function getXoopsVersionSubmenu
-    *  @param string $language
+    *  @param $language
     */
     /**
      * @param $language
@@ -384,8 +384,8 @@ EOT;
 
     /*
     *  @private function getXoopsVersionBlocks
-    *  @param string $moduleDirname
-    *  @param string $language
+    *  @param $moduleDirname
+    *  @param $language
     */
     /**
      * @param $moduleDirname
@@ -420,8 +420,8 @@ EOT;
 
     /*
     *  @private function getXoopsVersionConfig
-    *  @param string $moduleDirname
-    *  @param string $language
+    *  @param $moduleDirname
+    *  @param $language
     */
     /**
      * @param $module
@@ -596,15 +596,15 @@ EOT;
 
     /*
     *  @private function getTypeNotifications
-    *  @param string $language
-    *  @param string $type
-    *  @param string $tableName
-    *  @param string $item
-    *  @param string $typeOfNotify
+    *  @param $language
+    *  @param $type
+    *  @param $tableName
+    *  @param $item
+    *  @param $typeOfNotify
     */
     /**
      * @param        $language
-     * @param string $type
+     * @param $type
      * @param        $tableName
      * @param        $notifyFile
      * @param        $item
@@ -647,8 +647,8 @@ EOT;
 
     /*
     *  @private function getXoopsVersionNotifications
-    *  @param string $moduleDirname
-    *  @param string $language
+    *  @param $moduleDirname
+    *  @param $language
     */
     /**
      * @param $moduleDirname

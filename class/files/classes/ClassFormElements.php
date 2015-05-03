@@ -36,6 +36,7 @@ class ClassFormElements extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcreate = TDMCreateHelper::getInstance();
+		$this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -590,6 +591,7 @@ EOT;
         $table          = $this->getTable();
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableName      = $table->getVar('table_name');
+		$tableSoleName  = $table->getVar('table_solename');
         $language_funct = $this->getLanguage($moduleDirname, 'AM');
         //$language_table = $language_funct . strtoupper($tableName);
         $ret    = '';
@@ -609,7 +611,8 @@ EOT;
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }
-            $language = $language_funct . strtoupper($fieldName);
+			$rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $language = $language_funct . strtoupper($tableSoleName) . '_' . strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
             //
             if (1 == $fieldInForm) {

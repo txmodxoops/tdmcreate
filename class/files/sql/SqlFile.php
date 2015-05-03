@@ -57,10 +57,10 @@ class SqlFile extends TDMCreateFile
 
     /*
     *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $tables
-    *  @param string $filename
+    *  @param $module
+    *  @param $table
+    *  @param $tables
+    *  @param $filename
     */
     /**
      * @param $module
@@ -76,7 +76,7 @@ class SqlFile extends TDMCreateFile
 
     /*
     *  @private function getHeaderSqlComments
-    *  @param string $moduleName
+    *  @param $moduleName
     */
     /**
      * @param $moduleName
@@ -105,8 +105,8 @@ SQL;
 
     /*
     *  @private function getHeadDatabaseTable
-    *  @param string $moduleDirname
-    *  @param string $tableName
+    *  @param $moduleDirname
+    *  @param $tableName
     *  @param integer $fieldsNumb
     *
     *  Unused IF NOT EXISTS
@@ -126,7 +126,7 @@ SQL;
 
     /*
     *  @private function getDatabaseTables
-    *  @param string $moduleDirname
+    *  @param $moduleDirname
     *  @return null|string
     */
     private function getDatabaseTables($moduleDirname)
@@ -146,10 +146,10 @@ SQL;
 
     /*
     *  @private function getDatabaseFields
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param integer $tableAutoincrement
-    *  @param integer $fieldsNumb
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $tableAutoincrement
+    *  @param $fieldsNumb
     *  @return null|string
     */
     private function getDatabaseFields($moduleDirname, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
@@ -276,12 +276,12 @@ SQL;
 
     /*
     *  @private function getFieldRow
-    *  @param string $fieldName
-    *  @param string $fieldTypeValue
-    *  @param string $fieldAttribute
-    *  @param string $fieldNull
-    *  @param string $fieldDefault
-    *  @param string $autoincrement
+    *  @param $fieldName
+    *  @param $fieldTypeValue
+    *  @param $fieldAttribute
+    *  @param $fieldNull
+    *  @param $fieldDefault
+    *  @param $autoincrement
     *  @return string
     */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
@@ -349,8 +349,8 @@ SQL;
 
     /*
     *  @private function getComma
-    *  @param array $row
-    *  @param string $comma
+    *  @param $row
+    *  @param $comma
     *  @return string
     */
     private function getComma($row, $comma = null)
@@ -364,8 +364,8 @@ SQL;
 
     /*
     *  @private function getCommaCicle
-    *  @param array $comma
-    *  @param integer $index
+    *  @param $comma
+    *  @param $index
     *  @return string
     */
     private function getCommaCicle($comma, $index)
@@ -394,7 +394,7 @@ SQL;
         $moduleName    = strtolower($module->getVar('mod_name'));
         $moduleDirname = strtolower($module->getVar('mod_dirname'));
         $content       = $this->getHeaderSqlComments($moduleName);
-        $content .= $this->getDatabaseTables($moduleDirname);
+        $content 	  .= $this->getDatabaseTables($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

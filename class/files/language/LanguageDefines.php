@@ -87,7 +87,8 @@ EOT;
     */
     public function getDefine($language, $defined, $description)
     {
-        $ret = <<<EOT
+        $defined = strtoupper($defined);
+		$ret = <<<EOT
 define('{$language}{$defined}', "{$description}");\n
 EOT;
         return $ret;

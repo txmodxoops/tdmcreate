@@ -123,10 +123,10 @@ class LanguageAdmin extends TDMCreateFile
         //
         foreach (array_keys($tables) as $t) {
             $tableName         = $tables[$t]->getVar('table_name');
-            $tableFieldname    = $tables[$t]->getVar('table_fieldname');
-            $stuTableFieldname = strtoupper($tableFieldname);
-            $ucfTableFieldname = ucfirst($tableFieldname);
-            $ret .= $this->defines->getDefine($language, "ADD_{$stuTableFieldname}", "Add {$ucfTableFieldname}");
+            $tableSoleName     = $tables[$t]->getVar('table_solename');
+            $stuTableSoleName  = strtoupper($tableSoleName);
+            $ucfTableSoleName  = ucfirst($tableSoleName);
+            $ret .= $this->defines->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
         }
         $ret .= $this->defines->getAboveDefines('Lists');
         //
@@ -152,27 +152,39 @@ class LanguageAdmin extends TDMCreateFile
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
         //
         foreach (array_keys($tables) as $t) {
-            $tableId      = $tables[$t]->getVar('table_id');
-            $tableName    = $tables[$t]->getVar('table_name');
-            $stuTableName = strtoupper($tableName);
-            $ucfTableName = ucfirst($tableName);
-            $ret .= $this->defines->getAboveDefines("{$ucfTableName} add/edit");
-            $ret .= $this->defines->getDefine($language, "{$stuTableName}_ADD", "Add {$tableName}");
-            $ret .= $this->defines->getDefine($language, "{$stuTableName}_EDIT", "Edit {$tableName}");
-            $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableName}");
+            $tableId           = $tables[$t]->getVar('table_id');
+            $tableName         = $tables[$t]->getVar('table_name');
+			$tableSoleName     = $tables[$t]->getVar('table_solename');
+            $ucfTableSoleName  = ucfirst($tableSoleName);
             //
-            $fields = $this->getTableFields($tableId);
+			$fields = $this->getTableFields($tableId);
+			foreach (array_keys($fields) as $f) {
+				$fieldInForm = $fields[$f]->getVar('field_inform');
+            }
+			if(1 == $fieldInForm) {
+				$ret .= $this->defines->getAboveDefines("{$ucfTableSoleName} add/edit");
+				$ret .= $this->defines->getDefine($language, "{$tableSoleName}_ADD", "Add {$ucfTableSoleName}");
+				$ret .= $this->defines->getDefine($language, "{$tableSoleName}_EDIT", "Edit {$ucfTableSoleName}");					
+			}
+			$ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
+            //
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $stuFieldName = strtoupper($fieldName);
                 //
                 $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
+				if ($fieldElement > 15) {
+					$fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+					$fieldElementTid    = $fieldElements->getVar('fieldelement_tid');
+					$fieldElementName   = $fieldElements->getVar('fieldelement_name');
+					$fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
+					$fieldNameDesc = str_replace(': ', '', $fieldNameDesc);
+				} else {				
+					$fieldNameDesc = ucfirst($rpFieldName);
+				}
                 //
-                $fieldNameDesc = ucfirst($rpFieldName);
-                //
-                $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
+                $ret .= $this->defines->getDefine($language, $tableSoleName .'_'. $rpFieldName, $fieldNameDesc);
                 //
                 switch ($fieldElement) {
                     case 10:
@@ -253,7 +265,6 @@ class LanguageAdmin extends TDMCreateFile
     public function render()
     {
         $module        = $this->getModule();
-        $table         = $this->getTable();
 		$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -263,9 +274,7 @@ class LanguageAdmin extends TDMCreateFile
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
             $content .= $this->getLanguageAdminClass($language, $tables);
-            if (1 == $table->getVar('table_permissions')) {
-                $content .= $this->getLanguageAdminPermissions($language);
-            }
+            $content .= $this->getLanguageAdminPermissions($language);
         }
         $content .= $this->getLanguageAdminFoot($language);
         //
