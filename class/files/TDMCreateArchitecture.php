@@ -19,7 +19,8 @@
  * @version         $Id: TDMCreateArchitecture.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'TDMCreateStructure.php';
+// Autoloader Classes
+include __DIR__ . '/TDMCreateAutoload.php';
 
 /**
  * Class TDMCreateArchitecture
@@ -357,7 +358,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $ret[] = $adminTemplatesHeader->render();
             // Language Admin File
             $languageAdmin = LanguageAdmin::getInstance();
-            $languageAdmin->write($module, $tables, 'admin.php');
+            $languageAdmin->write($module, $table, $tables, 'admin.php');
             $ret[] = $languageAdmin->render();
         }
         // Class Helper File

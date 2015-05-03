@@ -69,10 +69,11 @@ class LanguageAdmin extends TDMCreateFile
     *  @param string $filename
     *  @param $filename
     */
-    public function write($module, $tables, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
-        $this->setTables($tables);
+        $this->setTable($table);
+		$this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -252,19 +253,17 @@ class LanguageAdmin extends TDMCreateFile
     public function render()
     {
         $module        = $this->getModule();
-        $tables        = $this->getTables();
+        $table         = $this->getTable();
+		$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'AM');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        foreach (array_keys($tables) as $t) {
-            $tablePermissions = $tables[$t]->getVar('table_permissions');
-        }
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
             $content .= $this->getLanguageAdminClass($language, $tables);
-            if (1 == $tablePermissions) {
+            if (1 == $table->getVar('table_permissions')) {
                 $content .= $this->getLanguageAdminPermissions($language);
             }
         }

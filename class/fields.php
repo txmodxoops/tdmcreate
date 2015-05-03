@@ -19,9 +19,10 @@
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'html/TDMCreateFormLabel.php';
+/*require_once 'html/TDMCreateFormLabel.php';
 require_once 'form/TDMCreateFormRadio.php';
-require_once 'form/TDMCreateThemeForm.php';
+require_once 'form/TDMCreateThemeForm.php';*/
+include __DIR__ . '/TDMCreateAutoload.php';
 
 /*
 *  @Class TDMCreateFields

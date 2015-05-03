@@ -83,7 +83,7 @@ class AdminPages extends TDMCreateFile
     public function getAdminPagesHeader($moduleDirname, $tableName, $fpif)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-		$ucfTableName     = ucfirst($tableName);
+		$ucfTableName = ucfirst($tableName);
         $ret              = <<<EOT
 include  __DIR__ . '/header.php';
 //It recovered the value of argument op in URL$
@@ -96,8 +96,7 @@ include  __DIR__ . '/header.php';
 switch (\$op)
 {\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*
@@ -220,8 +219,7 @@ EOT;
         }
     break;\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*
@@ -246,8 +244,7 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*
@@ -315,8 +312,7 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*
@@ -404,8 +400,7 @@ EOT;
         echo \${$tableName}Obj->getHtmlErrors();
     break;\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*
@@ -421,8 +416,7 @@ EOT;
 }
 include  __DIR__ . '/footer.php';
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*

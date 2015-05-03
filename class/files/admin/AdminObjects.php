@@ -25,22 +25,23 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  */
 class AdminObjects
 {
-    /**
+    /*
     *  @static function &getInstance
     *  @param null
-    *  @return AdminObjects
     */
+    /**
+     * @return AdminObjects
+     */
     public static function &getInstance()
     {
         static $instance = false;
         if (!$instance) {
             $instance = new self();
         }
-        
-		return $instance;
+        return $instance;
     }
 
-    /**
+    /*
     *  @public function getSimpleSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -52,11 +53,10 @@ class AdminObjects
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getTextDateSelectSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -68,11 +68,10 @@ EOT;
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', strtotime(\$_POST['{$fieldName}']));\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getCheckBoxOrRadioYNSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -84,11 +83,10 @@ EOT;
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', ((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0'));\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getUrlFileSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -100,11 +98,10 @@ EOT;
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getImageListSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
@@ -132,11 +129,10 @@ EOT;
             \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
         }\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getUploadImageSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
@@ -165,8 +161,7 @@ EOT;
             \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
         }\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
     /*
@@ -196,11 +191,10 @@ EOT;
             }
         }\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getSimpleGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
@@ -214,11 +208,10 @@ EOT;
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getTopicGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
@@ -235,18 +228,16 @@ EOT;
 \t\t\t\t\${$rpFieldName} =& \${$tableNameTopic}Handler->get(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$rpFieldName}->getVar('{$fieldNameTopic}');\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getUploadImageGetVar
-    *  
-    * @param $lpFieldName
-    * @param $rpFieldName
-    * @param $tableName
-    * @param $fieldName
-    * @return string
+    *  @param string $lpFieldName
+    *  @param string $rpFieldName
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
     */
     public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
@@ -256,17 +247,14 @@ EOT;
 \t\t\t\t\$upload_image = \${$fieldName} ? \${$fieldName} : 'blank.gif';
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \$upload_image;\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
-
-    /**
-    *  @public function getTextAreaGetVar
-    *  
-    *  @param $lpFieldName
-    *  @param $rpFieldName
-    *  @param $tableName
-    *  @param $fieldName
+	/*
+    *  @public function getUrlFileGetVar
+    *  @param string $lpFieldName
+    *  @param string $rpFieldName
+    *  @param string $tableName
+    *  @param string $fieldName
     *  @return string
     */
     public function getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
@@ -275,10 +263,9 @@ EOT;
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
-
         return $ret;
     }
-    /**
+    /*
     *  @public function getTextAreaGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
@@ -292,17 +279,16 @@ EOT;
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-
         return $ret;
     }
 
-    /**
+    /*
     *  @public function getSelectUserGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
-    *  @return string
+    * @return string
     */
     public function getSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
@@ -310,17 +296,15 @@ EOT;
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n
 EOT;
-        
-		return $ret;
+        return $ret;
     }
 
-    /**
+    /*
     *  @public function getTextDateSelectGetVar
-    *  
-    *  @param $lpFieldName
-    *  @param $rpFieldName
-    *  @param $tableName
-    *  @param $fieldName
+    *  @param string $lpFieldName
+    *  @param string $rpFieldName
+    *  @param string $tableName
+    *  @param string $fieldName
     *  @return string
     */
     public function getTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
