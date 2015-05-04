@@ -19,9 +19,6 @@
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-/*require_once 'html/TDMCreateFormLabel.php';
-require_once 'form/TDMCreateFormRadio.php';
-require_once 'form/TDMCreateThemeForm.php';*/
 include __DIR__ . '/TDMCreateAutoload.php';
 
 /*
@@ -142,27 +139,27 @@ class TDMCreateFields extends XoopsObject
     /*
      * @public function getFormNew
      *
-     * @param null $field_mid
-     * @param null $field_tid
-     * @param null $field_numb
-     * @param null $field_name
+     * @param null $fieldMid
+     * @param null $fieldTid
+     * @param null $fieldNumb
+     * @param null $fieldName
      * @param bool $action
      * @return mixed
      */
-    public function getFormNew($field_mid = null, $field_tid = null, $field_numb = null, $field_name = null, $action = false)
+    public function getFormNew($fieldMid = null, $fieldTid = null, $fieldNumb = null, $fieldName = null, $action = false)
     {
         // Header function class
         $fieldsForm = TDMCreateFields::getInstance();
         $form       = $fieldsForm->getHeaderForm($action);
         // Get handler tables
         $table_obj           = $this->tdmcreate->getHandler('tables'); // Changed by goffy
-        $table_autoincrement = $table_obj->get($field_tid)->getVar('table_autoincrement'); // Added by goffy
+        $tableAutoincrement = $table_obj->get($fieldTid)->getVar('table_autoincrement'); // Added by goffy
         // Loop for fields number
         $class = 'even';
-        for ($i = 1; $i <= $field_numb; ++$i) {
+        for ($i = 1; $i <= $fieldNumb; ++$i) {
             $class = ($class == 'even') ? 'odd' : 'even';
             // Replaced creation of new line by new function - goffy
-            $this->getFormNewLine($form, $class, $i, $field_mid, $field_tid, $field_name, $table_autoincrement);
+            $this->getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fieldName, $tableAutoincrement);
         }
 
         // Footer form
@@ -175,129 +172,129 @@ class TDMCreateFields extends XoopsObject
      * @param $form
      * @param $class
      * @param $i
-     * @param $field_mid
-     * @param $field_tid
-     * @param $f_name
-     * @param $table_autoincrement
+     * @param $fieldMid
+     * @param $fieldTid
+     * @param $fName
+     * @param $tableAutoincrement
      */
-    private function getFormNewLine($form, $class, $i, $field_mid, $field_tid, $f_name, $table_autoincrement)
+    private function getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement)
     {
         $form->addElement(new XoopsFormHidden('field_id[' . $i . ']', 0));
-        $form->addElement(new XoopsFormHidden('field_mid', $field_mid));
-        $form->addElement(new XoopsFormHidden('field_tid', $field_tid));
+        $form->addElement(new XoopsFormHidden('field_mid', $fieldMid));
+        $form->addElement(new XoopsFormHidden('field_tid', $fieldTid));
 
         $form->addElement(new TDMCreateFormLabel('<tr class="' . $class . '">'));
         // Index ID
         $form->addElement(new TDMCreateFormLabel('<td class="center">' . $i . '</td>'));
         // Field Name
-        $this_field_name = (!empty($f_name) ? ((1 == $i) ? $f_name . '_id' : $f_name . '_') : '');
-        $field_name      = new XoopsFormText(_AM_TDMCREATE_FIELD_NAME, 'field_name[' . $i . ']', 15, 255, $this_field_name);
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_name->render() . '</td>'));
+        $thisFieldName = (!empty($fName) ? ((1 == $i) ? $fName . '_id' : $fName . '_') : '');
+        $fieldName     = new XoopsFormText(_AM_TDMCREATE_FIELD_NAME, 'field_name[' . $i . ']', 15, 255, $thisFieldName);
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldName->render() . '</td>'));
         // Field Type
-        $value            = (1 == $i) && (1 == $table_autoincrement) ? '2' : '';
-        $fieldtype_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_type[' . $i . ']', $value);
-        $fieldtype_select->addOptionArray($this->tdmcreate->getHandler('fieldtype')->getList());
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldtype_select->render() . '</td>'));
+        $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
+        $fieldTypeSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_type[' . $i . ']', $value);
+        $fieldTypeSelect->addOptionArray($this->tdmcreate->getHandler('fieldtype')->getList());
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldTypeSelect->render() . '</td>'));
         // Field Value
-        $value       = (1 == $i) && (1 == $table_autoincrement) ? '8' : '';
-        $field_value = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value[' . $i . ']', 5, 20, $value);
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_value->render() . '</td>'));
+        $value      = (1 == $i) && (1 == $tableAutoincrement) ? '8' : '';
+        $fieldValue = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value[' . $i . ']', 5, 20, $value);
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldValue->render() . '</td>'));
         // Field Attributes
-        $value                   = (1 == $i) && (1 == $table_autoincrement) ? '3' : '';
-        $field_attributes_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_attribute[' . $i . ']', $value);
-        $field_attributes_select->addOptionArray($this->tdmcreate->getHandler('fieldattributes')->getList());
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_attributes_select->render() . '</td>'));
+        $value                   = (1 == $i) && (1 == $tableAutoincrement) ? '3' : '';
+        $fieldAttributesSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_attribute[' . $i . ']', $value);
+        $fieldAttributesSelect->addOptionArray($this->tdmcreate->getHandler('fieldattributes')->getList());
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldAttributesSelect->render() . '</td>'));
         // Field Null
-        $value             = (1 == $i) && (1 == $table_autoincrement) ? '2' : '';
-        $field_null_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_NULL, 'field_null[' . $i . ']', $value);
-        $field_null_select->addOptionArray($this->tdmcreate->getHandler('fieldnull')->getList());
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_null_select->render() . '</td>'));
+        $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
+        $fieldNullSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_NULL, 'field_null[' . $i . ']', $value);
+        $fieldNullSelect->addOptionArray($this->tdmcreate->getHandler('fieldnull')->getList());
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldNullSelect->render() . '</td>'));
         // Field Default
-        $field_default = new XoopsFormText(_AM_TDMCREATE_FIELD_DEFAULT, 'field_default[' . $i . ']', 15, 25);
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_default->render() . '</td>'));
+        $fieldDefault = new XoopsFormText(_AM_TDMCREATE_FIELD_DEFAULT, 'field_default[' . $i . ']', 15, 25);
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldDefault->render() . '</td>'));
         // Field Key
-        $value            = (1 == $i) && (1 == $table_autoincrement) ? '2' : '';
-        $field_key_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_KEY, 'field_key[' . $i . ']', $value);
-        $field_key_select->addOptionArray($this->tdmcreate->getHandler('fieldkey')->getList());
-        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_key_select->render() . '</td>'));
+        $value          = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
+        $fieldKeySelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_KEY, 'field_key[' . $i . ']', $value);
+        $fieldKeySelect->addOptionArray($this->tdmcreate->getHandler('fieldkey')->getList());
+        $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldKeySelect->render() . '</td>'));
         // Field Void
-        if ((1 == $i) && (1 == $table_autoincrement)) {
+        if ((1 == $i) && (1 == $tableAutoincrement)) {
             $form->addElement(new TDMCreateFormLabel('<td>&nbsp;</td></tr>'));
         } else {
             // Box header row
-            $parameters_tray = new XoopsFormElementTray('', '<br />');
+            $parametersTray = new XoopsFormElementTray('', '<br />');
             // Field Elements
-            $criteria_element = new CriteriaCompo();
-            $criteria_element->add(new Criteria('fieldelement_tid', 0));
-            $criteria_table = new CriteriaCompo();
-            $criteria_table->add(new Criteria('fieldelement_mid', $field_mid));
-            $field_elements_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
-            $field_elements_select->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteria_element));
-            $field_elements_select->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteria_table));
-            unset($criteria_element, $criteria_table);
-            $parameters_tray->addElement($field_elements_select);
+            $criteriaElement = new CriteriaCompo();
+            $criteriaElement->add(new Criteria('fieldelement_tid', 0));
+            $criteriaTable = new CriteriaCompo();
+            $criteriaTable->add(new Criteria('fieldelement_mid', $fieldMid));
+            $fieldElementsSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
+            $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaElement));
+            $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaTable));
+            unset($criteriaElement, $criteriaTable);
+            $parametersTray->addElement($fieldElementsSelect);
 
             $field_parent       = 0;
-            $check_field_parent = new XoopsFormCheckBox(' ', 'field_parent[' . $i . ']');
-            $check_field_parent->addOption($field_parent, _AM_TDMCREATE_FIELD_PARENT);
-            $parameters_tray->addElement($check_field_parent);
-            /*$field_parent = (1 == $table_autoincrement) ? 2 : 1;
-                $check_field_parent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
-                $check_field_parent->addOption($i, _AM_TDMCREATE_FIELD_PARENT );
-                $parameters_tray->addElement($check_field_parent);*/
+            $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $i . ']');
+            $checkFieldParent->addOption($field_parent, _AM_TDMCREATE_FIELD_PARENT);
+            $parametersTray->addElement($checkFieldParent);
+            /*$field_parent = (1 == $tableAutoincrement) ? 2 : 1;
+                $checkFieldParent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
+                $checkFieldParent->addOption($i, _AM_TDMCREATE_FIELD_PARENT );
+                $parametersTray->addElement($checkFieldParent);*/
 
-            $field_inlist       = 0;
-            $check_field_inlist = new XoopsFormCheckBox(' ', 'field_inlist[' . $i . ']', $field_inlist);
-            $check_field_inlist->addOption(1, _AM_TDMCREATE_FIELD_INLIST);
-            $parameters_tray->addElement($check_field_inlist);
+            $field_inlist     = 0;
+            $checkFieldInList = new XoopsFormCheckBox(' ', 'field_inlist[' . $i . ']', $field_inlist);
+            $checkFieldInList->addOption(1, _AM_TDMCREATE_FIELD_INLIST);
+            $parametersTray->addElement($checkFieldInList);
 
-            $field_inform       = 0;
-            $check_field_inform = new XoopsFormCheckBox(' ', 'field_inform[' . $i . ']', $field_inform);
-            $check_field_inform->addOption(1, _AM_TDMCREATE_FIELD_INFORM);
-            $parameters_tray->addElement($check_field_inform);
+            $field_inform     = 0;
+            $checkFieldInForm = new XoopsFormCheckBox(' ', 'field_inform[' . $i . ']', $field_inform);
+            $checkFieldInForm->addOption(1, _AM_TDMCREATE_FIELD_INFORM);
+            $parametersTray->addElement($checkFieldInForm);
 
-            $field_admin       = 0;
-            $check_field_admin = new XoopsFormCheckBox(' ', 'field_admin[' . $i . ']', $field_admin);
-            $check_field_admin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
-            $parameters_tray->addElement($check_field_admin);
+            $field_admin     = 0;
+            $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $i . ']', $field_admin);
+            $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
+            $parametersTray->addElement($checkFieldAdmin);
 
-            $field_user       = 0;
-            $check_field_user = new XoopsFormCheckBox(' ', 'field_user[' . $i . ']', $field_user);
-            $check_field_user->addOption(1, _AM_TDMCREATE_FIELD_USER);
-            $parameters_tray->addElement($check_field_user);
+            $field_user     = 0;
+            $checkFieldUser = new XoopsFormCheckBox(' ', 'field_user[' . $i . ']', $field_user);
+            $checkFieldUser->addOption(1, _AM_TDMCREATE_FIELD_USER);
+            $parametersTray->addElement($checkFieldUser);
 
-            $field_block       = 0;
-            $check_field_block = new XoopsFormCheckBox('', 'field_block[' . $i . ']', $field_block);
-            $check_field_block->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
-            $parameters_tray->addElement($check_field_block);
+            $field_block     = 0;
+            $checkFieldBlock = new XoopsFormCheckBox('', 'field_block[' . $i . ']', $field_block);
+            $checkFieldBlock->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
+            $parametersTray->addElement($checkFieldBlock);
 
-            $field_main       = (1 == $table_autoincrement) ? 2 : 1;
-            $check_field_main = new TDMCreateFormRadio('', 'field_main', $field_main);
-            $check_field_main->addOption($i, _AM_TDMCREATE_FIELD_MAINFIELD);
-            $parameters_tray->addElement($check_field_main);
+            $fieldMain      = (1 == $tableAutoincrement) ? 2 : 1;
+            $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
+            $checkFieldMain->addOption($i, _AM_TDMCREATE_FIELD_MAINFIELD);
+            $parametersTray->addElement($checkFieldMain);
 
             $field_search       = 0;
             $check_field_search = new XoopsFormCheckBox(' ', 'field_search[' . $i . ']', $field_search);
             $check_field_search->addOption(1, _AM_TDMCREATE_FIELD_SEARCH);
-            $parameters_tray->addElement($check_field_search);
+            $parametersTray->addElement($check_field_search);
 
-            $field_required       = 0;
-            $check_field_required = new XoopsFormCheckBox(' ', 'field_required[' . $i . ']', $field_required);
-            $check_field_required->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
-            $parameters_tray->addElement($check_field_required);
-            $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parameters_tray->render() . '</div></div></td></tr>'));
+            $field_required     = 0;
+            $checkFieldRequired = new XoopsFormCheckBox(' ', 'field_required[' . $i . ']', $field_required);
+            $checkFieldRequired->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
+            $parametersTray->addElement($checkFieldRequired);
+            $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
         }
     }
 
     /*
      * @public function getFormEdit
      *    
-     * @param null $field_mid
-     * @param null $field_tid
+     * @param null $fieldMid
+     * @param null $fieldTid
      * @param bool $action
      * @return mixed
      */
-    public function getFormEdit($field_mid = null, $field_tid = null, $action = false)
+    public function getFormEdit($fieldMid = null, $fieldTid = null, $action = false)
     {
         // Header function class
         $fieldsForm = TDMCreateFields::getInstance();
@@ -305,117 +302,117 @@ class TDMCreateFields extends XoopsObject
         //
         $class = 'even';
         // Get the number of fields - goffy
-        $tablesHandler       =& $this->tdmcreate->getHandler('tables');
-        $table_autoincrement = $tablesHandler->get($field_tid)->getVar('table_autoincrement');
-        $field_numb          = $tablesHandler->get($field_tid)->getVar('table_nbfields');
-        $f_name              = $tablesHandler->get($field_tid)->getVar('table_fieldname');
+        $tablesHandler      =& $this->tdmcreate->getHandler('tables');
+        $tableAutoincrement = $tablesHandler->get($fieldTid)->getVar('table_autoincrement');
+        $fieldNumb          = $tablesHandler->get($fieldTid)->getVar('table_nbfields');
+        $fName              = $tablesHandler->get($fieldTid)->getVar('table_fieldname');
 
         // Get the list of fields
         $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('field_mid', $field_mid));
-        $criteria->add(new Criteria('field_tid', $field_tid));
+        $criteria->add(new Criteria('field_mid', $fieldMid));
+        $criteria->add(new Criteria('field_tid', $fieldTid));
         $criteria->setSort('field_id'); //added by goffy
         $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteria);
         unset($criteria);
         $id = 1;
         foreach ($fields as $field) {
-            $class    = ($class == 'even') ? 'odd' : 'even';
-            $field_id = (int) ($field->getVar('field_id'));
-            if ($id > $field_numb) {   // delete additional fields, if number of fields is reduced - goffy
-                $fieldsObj =& $this->tdmcreate->getHandler('fields')->get($field_id);
+            $class   = ($class == 'even') ? 'odd' : 'even';
+            $fieldId = (int) ($field->getVar('field_id'));
+            if ($id > $fieldNumb) {   // delete additional fields, if number of fields is reduced - goffy
+                $fieldsObj =& $this->tdmcreate->getHandler('fields')->get($fieldId);
                 $this->tdmcreate->getHandler('fields')->delete($fieldsObj, true);
             } else {
                 // show field with settings
-                $form->addElement(new XoopsFormHidden('field_id[' . $id . ']', $field_id));
-				//$form->addElement(new XoopsFormHidden('field_mid', $field_mid));
-				//$form->addElement(new XoopsFormHidden('field_tid', $field_tid));
+                $form->addElement(new XoopsFormHidden('field_id[' . $id . ']', $fieldId));
+				//$form->addElement(new XoopsFormHidden('field_mid', $fieldMid));
+				//$form->addElement(new XoopsFormHidden('field_tid', $fieldTid));
                 
                 $form->addElement(new TDMCreateFormLabel('<tr class="' . $class . '">'));
                 // Index ID
                 $form->addElement(new TDMCreateFormLabel('<td class="center">' . $id . '</td>'));
                 // Field Name
-                $field_name = new XoopsFormText(_AM_TDMCREATE_FIELD_NAME, 'field_name[' . $id . ']', 15, 255, $field->getVar('field_name'));
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_name->render() . '</td>'));
+                $fieldName = new XoopsFormText(_AM_TDMCREATE_FIELD_NAME, 'field_name[' . $id . ']', 15, 255, $field->getVar('field_name'));
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldName->render() . '</td>'));
                 // Field Type
-                $fieldtype_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_type[' . $id . ']', $field->getVar('field_type'));
-                $fieldtype_select->addOptionArray($this->tdmcreate->getHandler('fieldtype')->getList());
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldtype_select->render() . '</td>'));
+                $fieldTypeSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_type[' . $id . ']', $field->getVar('field_type'));
+                $fieldTypeSelect->addOptionArray($this->tdmcreate->getHandler('fieldtype')->getList());
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldTypeSelect->render() . '</td>'));
                 // Field Value
-                $field_value = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value[' . $id . ']', 5, 20, $field->getVar('field_value'));
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_value->render() . '</td>'));
+                $fieldValue = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value[' . $id . ']', 5, 20, $field->getVar('field_value'));
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldValue->render() . '</td>'));
                 // Field Attributes
-                $field_attributes_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_attribute[' . $id . ']', $field->getVar('field_attribute'));
-                $field_attributes_select->addOptionArray($this->tdmcreate->getHandler('fieldattributes')->getList());
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_attributes_select->render() . '</td>'));
+                $fieldAttributesSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_attribute[' . $id . ']', $field->getVar('field_attribute'));
+                $fieldAttributesSelect->addOptionArray($this->tdmcreate->getHandler('fieldattributes')->getList());
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldAttributesSelect->render() . '</td>'));
                 // Field Null
-                $field_null_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_NULL, 'field_null[' . $id . ']', $field->getVar('field_null'));
-                $field_null_select->addOptionArray($this->tdmcreate->getHandler('fieldnull')->getList());
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_null_select->render() . '</td>'));
+                $fieldNullSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_NULL, 'field_null[' . $id . ']', $field->getVar('field_null'));
+                $fieldNullSelect->addOptionArray($this->tdmcreate->getHandler('fieldnull')->getList());
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldNullSelect->render() . '</td>'));
                 // Field Default
-                $field_default = new XoopsFormText(_AM_TDMCREATE_FIELD_DEFAULT, 'field_default[' . $id . ']', 15, 25, $field->getVar('field_default'));
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_default->render() . '</td>'));
+                $fieldDefault = new XoopsFormText(_AM_TDMCREATE_FIELD_DEFAULT, 'field_default[' . $id . ']', 15, 25, $field->getVar('field_default'));
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldDefault->render() . '</td>'));
                 // Field Key
-                $field_key_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_KEY, 'field_key[' . $id . ']', $field->getVar('field_key'));
-                $field_key_select->addOptionArray($this->tdmcreate->getHandler('fieldkey')->getList());
-                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $field_key_select->render() . '</td>'));
+                $fieldKeySelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_KEY, 'field_key[' . $id . ']', $field->getVar('field_key'));
+                $fieldKeySelect->addOptionArray($this->tdmcreate->getHandler('fieldkey')->getList());
+                $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldKeySelect->render() . '</td>'));
                 // Field Void
-                if ((1 == $id) && (1 == $table_autoincrement)) {
+                if ((1 == $id) && (1 == $tableAutoincrement)) {
                     $form->addElement(new TDMCreateFormLabel('<td>&nbsp;</td></tr>'));
                 } else {
                     // Box header row
-                    $parameters_tray = new XoopsFormElementTray('', '<br />');
+                    $parametersTray = new XoopsFormElementTray('', '<br />');
                     // Field Elements
-                    $criteria_element = new CriteriaCompo();
-                    $criteria_element->add(new Criteria('fieldelement_tid', 0));
-                    $criteria_table = new CriteriaCompo();
-                    $criteria_table->add(new Criteria('fieldelement_mid', $field_mid));
-                    $field_elements_select = new XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
-                    $field_elements_select->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteria_element));
-                    $field_elements_select->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteria_table));
-                    unset($criteria_element, $criteria_table);
-                    $parameters_tray->addElement($field_elements_select);
+                    $criteriaElement = new CriteriaCompo();
+                    $criteriaElement->add(new Criteria('fieldelement_tid', 0));
+                    $criteriaTable = new CriteriaCompo();
+                    $criteriaTable->add(new Criteria('fieldelement_mid', $fieldMid));
+                    $fieldElementsSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
+                    $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaElement));
+                    $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaTable));
+                    unset($criteriaElement, $criteriaTable);
+                    $parametersTray->addElement($fieldElementsSelect);
 
-                    $check_field_parent = new XoopsFormCheckBox(' ', 'field_parent[' . $id . ']', $field->getVar('field_parent'));
-                    $check_field_parent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
-                    $parameters_tray->addElement($check_field_parent);
+                    $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $id . ']', $field->getVar('field_parent'));
+                    $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
+                    $parametersTray->addElement($checkFieldParent);
                     /*$field_parent = ($field->getVar('field_parent') == 1) ? $id : 1;
-                    $check_field_parent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
-                    $check_field_parent->addOption($id, _AM_TDMCREATE_FIELD_PARENT );
-                    $parameters_tray->addElement($check_field_parent);*/
+                    $checkFieldParent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
+                    $checkFieldParent->addOption($id, _AM_TDMCREATE_FIELD_PARENT );
+                    $parametersTray->addElement($checkFieldParent);*/
 
-                    $check_field_inlist = new XoopsFormCheckBox(' ', 'field_inlist[' . $id . ']', $field->getVar('field_inlist'));
-                    $check_field_inlist->addOption(1, _AM_TDMCREATE_FIELD_INLIST);
-                    $parameters_tray->addElement($check_field_inlist);
+                    $checkFieldInList = new XoopsFormCheckBox(' ', 'field_inlist[' . $id . ']', $field->getVar('field_inlist'));
+                    $checkFieldInList->addOption(1, _AM_TDMCREATE_FIELD_INLIST);
+                    $parametersTray->addElement($checkFieldInList);
 
-                    $check_field_inform = new XoopsFormCheckBox(' ', 'field_inform[' . $id . ']', $field->getVar('field_inform'));
-                    $check_field_inform->addOption(1, _AM_TDMCREATE_FIELD_INFORM);
-                    $parameters_tray->addElement($check_field_inform);
+                    $checkFieldInForm = new XoopsFormCheckBox(' ', 'field_inform[' . $id . ']', $field->getVar('field_inform'));
+                    $checkFieldInForm->addOption(1, _AM_TDMCREATE_FIELD_INFORM);
+                    $parametersTray->addElement($checkFieldInForm);
 
-                    $check_field_admin = new XoopsFormCheckBox(' ', 'field_admin[' . $id . ']', $field->getVar('field_admin'));
-                    $check_field_admin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
-                    $parameters_tray->addElement($check_field_admin);
+                    $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $id . ']', $field->getVar('field_admin'));
+                    $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
+                    $parametersTray->addElement($checkFieldAdmin);
 
-                    $check_field_user = new XoopsFormCheckBox(' ', 'field_user[' . $id . ']', $field->getVar('field_user'));
-                    $check_field_user->addOption(1, _AM_TDMCREATE_FIELD_USER);
-                    $parameters_tray->addElement($check_field_user);
+                    $checkFieldUser = new XoopsFormCheckBox(' ', 'field_user[' . $id . ']', $field->getVar('field_user'));
+                    $checkFieldUser->addOption(1, _AM_TDMCREATE_FIELD_USER);
+                    $parametersTray->addElement($checkFieldUser);
 
-                    $check_field_block = new XoopsFormCheckBox('', 'field_block[' . $id . ']', $field->getVar('field_block'));
-                    $check_field_block->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
-                    $parameters_tray->addElement($check_field_block);
+                    $checkFieldBlock = new XoopsFormCheckBox('', 'field_block[' . $id . ']', $field->getVar('field_block'));
+                    $checkFieldBlock->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
+                    $parametersTray->addElement($checkFieldBlock);
 
-                    $field_main       = (1 == $field->getVar('field_main')) ? $id : 1;
-                    $check_field_main = new TDMCreateFormRadio('', 'field_main', $field_main);
-                    $check_field_main->addOption($id, _AM_TDMCREATE_FIELD_MAINFIELD);
-                    $parameters_tray->addElement($check_field_main);
+                    $fieldMain      = (1 == $field->getVar('field_main')) ? $id : 1;
+                    $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
+                    $checkFieldMain->addOption($id, _AM_TDMCREATE_FIELD_MAINFIELD);
+                    $parametersTray->addElement($checkFieldMain);
 
                     $check_field_search = new XoopsFormCheckBox(' ', 'field_search[' . $id . ']', $field->getVar('field_search'));
                     $check_field_search->addOption(1, _AM_TDMCREATE_FIELD_SEARCH);
-                    $parameters_tray->addElement($check_field_search);
+                    $parametersTray->addElement($check_field_search);
 
-                    $check_field_required = new XoopsFormCheckBox(' ', 'field_required[' . $id . ']', $field->getVar('field_required'));
-                    $check_field_required->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
-                    $parameters_tray->addElement($check_field_required);
-                    $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parameters_tray->render() . '</div></div></td></tr>'));
+                    $checkFieldRequired = new XoopsFormCheckBox(' ', 'field_required[' . $id . ']', $field->getVar('field_required'));
+                    $checkFieldRequired->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
+                    $parametersTray->addElement($checkFieldRequired);
+                    $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
                 }
             }
             ++$id;
@@ -423,9 +420,9 @@ class TDMCreateFields extends XoopsObject
         // If you change number fields in tables,
         // adding missing fields or delete unnecessary fields
         // By goffy
-        for ($i = $id; $i <= $field_numb; ++$i) {
+        for ($i = $id; $i <= $fieldNumb; ++$i) {
             $class = ($class == 'even') ? 'odd' : 'even';
-            $this->getFormNewLine($form, $class, $i, $field_mid, $field_tid, $f_name, $table_autoincrement);
+            $this->getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement);
         }
         unset($id);
 
@@ -446,10 +443,10 @@ class TDMCreateFields extends XoopsObject
         // Send Form Data
         $form->addElement(new TDMCreateFormLabel('</tbody>'));
         $form->addElement(new TDMCreateFormLabel('<tfoot><tr>'));
-        $form_hidden = new XoopsFormHidden('op', 'save');
-        $form_button = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
-        $form->addElement(new TDMCreateFormLabel('<td colspan="8">' . $form_hidden->render() . '</td>'));
-        $form->addElement(new TDMCreateFormLabel('<td>' . $form_button->render() . '</td>'));
+        $formHidden = new XoopsFormHidden('op', 'save');
+        $formButton = new XoopsFormButton('', 'submit', _SUBMIT, 'submit');
+        $form->addElement(new TDMCreateFormLabel('<td colspan="8">' . $formHidden->render() . '</td>'));
+        $form->addElement(new TDMCreateFormLabel('<td>' . $formButton->render() . '</td>'));
         $form->addElement(new TDMCreateFormLabel('</tr></tfoot></table>'));
 
         return $form;

@@ -88,17 +88,34 @@ EOT;
 
     /*
     *  @public function getUrlFileSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
+    *  @param $moduleDirname
+	*  @param $tableName
+    *  @param $fieldName
     *  @return string
     */
-    public function getUrlFileSetVar($tableName, $fieldName)
+    public function getUrlFileSetVar($moduleDirname, $tableName, $fieldName)
     {
-        $ret = <<<EOT
+        $stuModuleDirname = strtoupper($moduleDirname);
+		$ret = <<<EOT
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
+		// Set Var {$fieldName}
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
+                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
+            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);
+            if (!\$uploader->upload()) {
+                \$errors = \$uploader->getErrors();
+                redirect_header('javascript:history.go(-1)', 3, \$errors);
+            } else {
+                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
+            }
+        }\n
 EOT;
-        return $ret;
+        
+		return $ret;
     }
 
     /*
@@ -195,6 +212,20 @@ EOT;
     }
 
     /*
+    *  @public function getIdGetVar
+    *  @param string $lpFieldName
+    *  @return string
+    */
+    public function getIdGetVar($lpFieldName)
+    {
+        $ret = <<<EOT
+\t\t\t\t// Get Var Id
+\t\t\t\t\${$lpFieldName}['id'] = \$i;\n
+EOT;
+        return $ret;
+    }
+	
+	/*
     *  @public function getSimpleGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
@@ -227,6 +258,30 @@ EOT;
 \t\t\t\t// Get Var {$fieldNameParent}
 \t\t\t\t\${$rpFieldName} =& \${$tableNameTopic}Handler->get(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$rpFieldName}->getVar('{$fieldNameTopic}');\n
+EOT;
+        return $ret;
+    }
+	
+	/*
+    *  @public function getParentTopicGetVar
+    *  @param string $moduleDirname
+	*  @param string $lpFieldName
+    *  @param string $rpFieldName
+    *  @param string $tableName    
+	*  @param string $tableSoleNameTopic
+	*  @param string $tableNameTopic
+    *  @param string $fieldNameParent
+    *  @return string
+    */
+	public function getParentTopicGetVar($moduleDirname, $lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent)
+    {
+        $ret = <<<EOT
+\t\t\t\tif(!isset(\${$tableNameTopic}Handler)) {
+\t\t\t\t\t// Get {$tableNameTopic} Handler
+\t\t\t\t\t\${$tableNameTopic}Handler =& \${$moduleDirname}->getHandler('{$tableNameTopic}');
+\t\t\t\t}
+\t\t\t\t// Get Var {$fieldNameParent}
+\t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableNameTopic}Handler->get{$tableSoleNameTopic}FromId(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));\n
 EOT;
         return $ret;
     }

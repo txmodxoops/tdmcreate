@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: user_header.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserViewTag.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserHeader
+ * Class UserViewTag
  */
-class UserHeader extends TDMCreateFile
+class UserViewTag extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -42,7 +42,7 @@ class UserHeader extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return UserHeader
+     * @return UserViewTag
      */
     public static function &getInstance()
     {
@@ -58,21 +58,35 @@ class UserHeader extends TDMCreateFile
     *  @public function write
     *  @param string $module
     *  @param mixed $table
-    *  @param array $tables
     *  @param string $filename
     */
     /**
      * @param $module
      * @param $table
-     * @param $tables
      * @param $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
-        $this->setTables($tables);
         $this->setFileName($filename);
+    }
+
+    /*
+    *  @public function getUserViewTag
+    *  @param null
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    public function getUserViewTag($moduleDirname)
+    {
+        $ret = <<<EOT
+include  __DIR__ . '/header.php';
+include_once XOOPS_ROOT_PATH . '/modules/tag/view.tag.php';
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -84,36 +98,12 @@ class UserHeader extends TDMCreateFile
      */
     public function render()
     {
-        $module           = $this->getModule();
-        $table            = $this->getTable();
-        $tables           = $this->getTables();
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $filename         = $this->getFileName();
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $content          = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-include dirname(dirname(__DIR__)) . '/mainfile.php';
-\$dirname = \$GLOBALS['xoopsModule']->getVar('dirname');
-\$pathname = XOOPS_ROOT_PATH. '/modules/'.\$dirname;
-include_once \$pathname . '/include/common.php';
-// Get instance of module
-\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-//
-\$myts =& MyTextSanitizer::getInstance();
-\$style = {$stuModuleDirname}_URL . '/assets/css/style.css';
-if(file_exists(\$style)) { return true; }
-//
-\$sysPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
-\$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');
-\$pathModuleAdmin = \$GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
-//
-\$modPathIcon16 = \$xoopsModule->getInfo('modicons16');
-\$modPathIcon32 = \$xoopsModule->getInfo('modicons32');
-//
-xoops_loadLanguage('modinfo', \$dirname);
-xoops_loadLanguage('main', \$dirname);
-EOT;
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getUserViewTag();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

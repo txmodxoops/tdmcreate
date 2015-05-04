@@ -66,10 +66,11 @@ class AdminHeader extends TDMCreateFile
      * @param $table
      * @param $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -83,11 +84,11 @@ class AdminHeader extends TDMCreateFile
      * @param $table
      * @return string
      */
-    private function getAdminHeader($moduleDirname, $table)
+    private function getAdminHeader($moduleDirname, $table, $tables)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = <<<EOT
-\nrequire_once dirname(dirname(dirname(__DIR__))). '/include/cp_header.php';
+\ninclude dirname(dirname(dirname(__DIR__))). '/include/cp_header.php';
 \$thisPath = dirname(__DIR__);
 include_once \$thisPath.'/include/common.php';
 \$sysPathIcon16 = '../' . \$GLOBALS['xoopsModule']->getInfo('sysicons16');
@@ -103,6 +104,14 @@ EOT;
 \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n
 EOT;
 
+        }
+		if (is_array($tables)) {
+            foreach (array_keys($tables) as $i) {
+                $tableName = $tables[$i]->getVar('table_name');
+                $ret .= <<<EOT
+\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');\n
+EOT;
+            }
         }
         $ret .= <<<EOT
 //
@@ -145,10 +154,11 @@ EOT;
     {
         $module        = $this->getModule();
         $table         = $this->getTable();
+		$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getAdminHeader($moduleDirname, $table);
+        $content .= $this->getAdminHeader($moduleDirname, $table, $tables);
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

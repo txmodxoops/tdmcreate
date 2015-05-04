@@ -219,7 +219,7 @@ EOT;
      * @param $table
      * @return string
      */
-    private function getXoopsVersionMySQL($moduleDirname, $table)
+    private function getXoopsVersionMySQL($moduleDirname, $table, $tables)
     {
         $tableName = $table->getVar('table_name');
         $n         = 1;
@@ -230,7 +230,6 @@ EOT;
 \$modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 // Tables\n
 EOT;
-            $tables = $this->getTables();
             foreach (array_keys($tables) as $t) {
                 $ret .= <<<EOT
 \$modversion['tables'][{$n}] = "{$moduleDirname}_{$tables[$t]->getVar('table_name')}";\n
@@ -295,9 +294,8 @@ EOT;
      * @param $table
      * @return string
      */
-    private function getXoopsVersionTemplatesAdmin($moduleDirname, $table)
+    private function getXoopsVersionTemplatesAdmin($moduleDirname, $table, $tables)
     {
-        $tables = $this->getTables();
         $ret    = <<<EOT
 // ------------------- Templates ------------------- //
 // Admin
@@ -331,9 +329,8 @@ EOT;
      * @param $moduleDirname
      * @return string
      */
-    private function getXoopsVersionTemplatesUser($moduleDirname)
+    private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
-        $tables = $this->getTables();
         $ret    = <<<EOT
 // User
 \$modversion['templates'][] = array('file' => '{$moduleDirname}_header.tpl', 'description' => '');
@@ -359,12 +356,11 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getXoopsVersionSubmenu($language)
+    private function getXoopsVersionSubmenu($language, $tables)
     {
         $ret    = <<<EOT
 // ------------------- Submenu ------------------- //\n
 EOT;
-        $tables = $this->getTables();
         $i      = 1;
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
@@ -392,9 +388,8 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getXoopsVersionBlocks($moduleDirname, $language)
+    private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
     {
-        $tables = $this->getTables();
         $ret    = <<<EOT
 // ------------------- Blocks ------------------- //\n
 EOT;
@@ -656,10 +651,9 @@ EOT;
      * @param $filename
      * @return string
      */
-    private function getXoopsVersionNotifications($moduleDirname, $language, $filename)
+    private function getXoopsVersionNotifications($moduleDirname, $tables, $language, $filename)
     {
         $notify_file = '';
-        $tables      = $this->getTables();
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             if (1 == $tables[$t]->getVar('table_notifications')) {
@@ -790,19 +784,20 @@ EOT;
     {
         $module        = $this->getModule();
         $table         = $this->getTable();
+		$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MI');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getXoopsVersionHeader($module, $table, $language);
         if (1 == $module->getVar('mod_admin')) {
-            $content .= $this->getXoopsVersionTemplatesAdmin($moduleDirname, $table);
+            $content .= $this->getXoopsVersionTemplatesAdmin($moduleDirname, $table, $tables);
         }
         if (1 == $module->getVar('mod_user')) {
-            $content .= $this->getXoopsVersionTemplatesUser($moduleDirname);
+            $content .= $this->getXoopsVersionTemplatesUser($moduleDirname, $tables);
         }
         if (is_object($table)) {
-            $content .= $this->getXoopsVersionMySQL($moduleDirname, $table);
+            $content .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
             if (1 == $table->getVar('table_search')) {
                 $content .= $this->getXoopsVersionSearch($moduleDirname);
             }
@@ -814,12 +809,12 @@ EOT;
                 $content .= $this->getXoopsVersionSubmenu($language);
             }
             if (1 == $table->getVar('table_blocks')) {
-                $content .= $this->getXoopsVersionBlocks($moduleDirname, $language);
+                $content .= $this->getXoopsVersionBlocks($moduleDirname, $tables, $language);
             }
         }
         $content .= $this->getXoopsVersionConfig($module, $table, $language);
         if (is_object($table) && 1 == $table->getVar('table_notifications')) {
-                $content .= $this->getXoopsVersionNotifications($moduleDirname, $language, $filename);
+                $content .= $this->getXoopsVersionNotifications($moduleDirname, $tables, $language, $filename);
 
         }
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

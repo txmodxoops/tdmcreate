@@ -243,7 +243,6 @@ class TDMCreateArchitecture extends TDMCreateStructure
         // Module
         $modId               = $module->getVar('mod_id');
         $moduleDirname       = $module->getVar('mod_dirname');
-        $uploadTablesIcons32 = $this->structure->getUploadPath() . '/images/tables';
         $icon32              = 'assets/icons/32';
         // Id of tables
         $criteriaTables = new CriteriaCompo();
@@ -252,7 +251,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         unset($criteriaTables);
         $ret = array();
         //
-        $table = null;
+        $table = array();
         foreach (array_keys($tables) as $t) {
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableId            = $tables[$t]->getVar('table_id');
@@ -268,7 +267,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Get Table Object
             $table = $this->tdmcreate->getHandler('tables')->get($tableId);
             // Copy of tables images file
-            if (file_exists($uploadTableImage = $uploadTablesIcons32 . '/' . $tableImage)) {
+            if (file_exists($uploadTableImage = TDMC_UPLOAD_IMGTAB_PATH . '/' . $tableImage)) {
                 $this->structure->copyFile($icon32, $uploadTableImage, $tableImage);
             } elseif (file_exists($uploadTableImage = XOOPS_ICONS32_PATH . '/' . $tableImage)) {
                 $this->structure->copyFile($icon32, $uploadTableImage, $tableImage);
@@ -300,7 +299,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 // Class Files
                 $classFiles = ClassFiles::getInstance();
                 $classFiles->write($module, $table, $tables);
-                $ret[] = $classFiles->renderFile($tableName . '.php');
+                $ret[] = $classFiles->renderFile($tableName . '.php');				
             }
             // Creation of user files
             if (1 == $tableUser) {
@@ -321,7 +320,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         if (1 == $module->getVar('mod_admin')) {
             // Admin Header File
             $adminHeader = AdminHeader::getInstance();
-            $adminHeader->write($module, $table, 'header.php');
+            $adminHeader->write($module, $table, $tables, 'header.php');
             $ret[] = $adminHeader->render();
             // Admin Index File
             $adminIndex = AdminIndex::getInstance();
@@ -381,16 +380,16 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $languageBlocks->render();
             }
             // Creation of admin permission files
-            if (1 == $table->getVar('table_permissions')) {
-                // Admin Permissions File
-                $adminPermissions = AdminPermissions::getInstance();
-                $adminPermissions->write($module, $tables, 'permissions.php');
-                $ret[] = $adminPermissions->render();
-                // Templates Admin Permissions File
-                $adminTemplatesPermissions = TemplatesAdminPermissions::getInstance();
-                $adminTemplatesPermissions->write($module, $moduleDirname . '_admin_permissions.tpl');
-                $ret[] = $adminTemplatesPermissions->render();
-            }
+			if (1 == $table->getVar('table_permissions')) {
+				// Admin Permissions File
+				$adminPermissions = AdminPermissions::getInstance();
+				$adminPermissions->write($module, $tables, 'permissions.php');
+				$ret[] = $adminPermissions->render();
+				// Templates Admin Permissions File
+				$adminTemplatesPermissions = TemplatesAdminPermissions::getInstance();
+				$adminTemplatesPermissions->write($module, $moduleDirname . '_admin_permissions.tpl');
+				$ret[] = $adminTemplatesPermissions->render();
+			}
             // Creation of notifications files
             if (1 == $table->getVar('table_notifications')) {
                 // Include Notifications File
@@ -447,7 +446,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $includeCommentFunctions->write($module, $table, 'comment_functions.php');
                 $ret[] = $includeCommentFunctions->renderFile();
             }
-        }
+        
+		}
         // Creation of admin files
         if (1 == $module->getVar('mod_admin')) {
             // Templates Index File
@@ -464,7 +464,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $ret[] = $userTemplatesHeader->render();
         }
         // Creation of user files
-        if (1 == $module->getVar('mod_user')) {
+        if ((1 == $module->getVar('mod_user')) && (1 == $table->getVar('table_user'))) {
             // User Footer File
             $userFooter = UserFooter::getInstance();
             $userFooter->write($module, 'footer.php');
@@ -474,10 +474,22 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $userHeader->write($module, $table, $tables, 'header.php');
             $ret[] = $userHeader->render();
             // User Notification Update File
-            if ((1 == $module->getVar('mod_notifications'))) {
+            if ((1 == $module->getVar('mod_notifications')) && (1 == $table->getVar('table_notifications'))) {
                 $userNotificationUpdate = UserNotificationUpdate::getInstance();
                 $userNotificationUpdate->write($module, 'notification_update.php');
                 $ret[] = $userNotificationUpdate->render();
+            }
+			// User Print File
+            if ((1 == $table->getVar('table_print'))) {
+                $userPrint = UserPrint::getInstance();
+                $userPrint->write($module, $table, 'print.php');
+                $ret[] = $userPrint->render();
+            }
+			// User Rss File
+            if ((1 == $table->getVar('table_rss'))) {
+                $userRss = UserRss::getInstance();
+                $userRss->write($module, $table, 'rss.php');
+                $ret[] = $userRss->render();
             }
             // User Index File
             $userIndex = UserIndex::getInstance();

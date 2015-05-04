@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: UserSubmit.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserSingle.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserSubmit
+ * Class UserSingle
  */
-class UserSubmit extends TDMCreateFile
+class UserSingle extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -42,7 +42,7 @@ class UserSubmit extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return UserSubmit
+     * @return UserSingle
      */
     public static function &getInstance()
     {
@@ -73,20 +73,20 @@ class UserSubmit extends TDMCreateFile
     }
 
     /*
-    *  @public function getUserSubmitHeader
+    *  @public function getUserSingleHeader
     *  @param null
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    public function getUserSubmitHeader($moduleDirname)
+    public function getUserSingleHeader($moduleDirname)
     {
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
 // Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_submit.tpl';
+\$xoopsOption['template_main'] = '{$moduleDirname}_single.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
 \$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
 //On recupere la valeur de l'argument op dans l'URL$
@@ -95,7 +95,6 @@ if (\$perm_submit == false) {
     redirect_header('index.php', 2, _NOPERM);
     exit();
 }
-
 //
 switch (\$op)
 {\n
@@ -115,7 +114,7 @@ EOT;
      * @param $language
      * @return string
      */
-    public function getUserSubmitForm($module, $tableName, $language)
+    public function getUserSingleForm($module, $tableName, $language)
     {
         $stuModuleName = strtoupper($module->getVar('mod_name'));
         $ret           = <<<EOT
@@ -144,7 +143,7 @@ EOT;
     }
 
     /*
-    *  @public function getUserSubmitSave
+    *  @public function getUserSingleSave
     *  @param string $moduleDirname
     *  @param string $tableName
     */
@@ -154,7 +153,7 @@ EOT;
      * @param $tableName
      * @return string
      */
-    public function getUserSubmitSave($moduleDirname, $table_id, $tableName)
+    public function getUserSingleSave($moduleDirname, $table_id, $tableName)
     {
         $ret    = <<<EOT
     case 'save':
@@ -199,13 +198,13 @@ EOT;
     }
 
     /*
-    *  @public function getUserSubmitFooter
+    *  @public function getUserSingleFooter
     *  @param null
     */
     /**
      * @return string
      */
-    public function getUserSubmitFooter()
+    public function getUserSingleFooter()
     {
         $ret = <<<EOT
 include  __DIR__ . '/footer.php';
@@ -231,10 +230,10 @@ EOT;
         $tableName     = $table->getVar('table_name');
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitForm($module, $tableName, $language);
-        $content .= $this->getUserSubmitSave($moduleDirname, $table_id, $tableName);
-        $content .= $this->getUserSubmitFooter();
+        $content .= $this->getUserSingleHeader($moduleDirname);
+        $content .= $this->getUserSingleForm($module, $tableName, $language);
+        $content .= $this->getUserSingleSave($moduleDirname, $table_id, $tableName);
+        $content .= $this->getUserSingleFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

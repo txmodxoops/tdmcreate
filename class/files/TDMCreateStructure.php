@@ -19,14 +19,12 @@
  * @version         $Id: TDMCreateStructure.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-xoops_load('XoopsFile');
-
 /**
  * Class TDMCreateStructure
  */
 class TDMCreateStructure
-{
-    /*
+{	
+	/*
     * @var mixed
     */
     private $xoopsFile;
@@ -60,7 +58,8 @@ class TDMCreateStructure
      */
     public function __construct()
     {
-        $this->xoopsFile = XoopsFile::getInstance();
+        //parent::__construct();
+		$this->xoopsFile = XoopsFile::getInstance();
     }
 
     /*

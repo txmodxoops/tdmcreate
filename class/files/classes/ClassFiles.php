@@ -231,12 +231,13 @@ EOT;
      */
     private function getHeadInForm($module, $table)
     {
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName     = $table->getVar('table_name');
-		$tableSoleName = $table->getVar('table_solename');
-        $ucfTableName  = ucfirst($tableName);
+        $moduleDirname     = $module->getVar('mod_dirname');
+        $tableName         = $table->getVar('table_name');
+		$tableSoleName     = $table->getVar('table_solename');
+		$tablePermissions  = $table->getVar('table_permissions');
+        $ucfTableName      = ucfirst($tableName);
         $stuTableSoleName  = strtoupper($tableSoleName);
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $language          = $this->getLanguage($moduleDirname, 'AM');
         $this->formelements->initForm($module, $table);
         $ret = <<<EOT
     /*
@@ -248,8 +249,27 @@ EOT;
     {
         if (\$action === false) {
             \$action = \$_SERVER['REQUEST_URI'];
+        }\n
+EOT;
+		if(1 == $tablePermissions) {
+			$ret .= <<<EOT
+		global \$xoopsUser, \$xoopsModule;
+		// Permissions for uploader
+        \$gperm_handler =& xoops_gethandler('groupperm');
+        \$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+        if (\$xoopsUser) {
+            if ( !\$xoopsUser->isAdmin(\$xoopsModule->mid()) ) {
+                \$perm_upload = (\$gperm_handler->checkRight('{$moduleDirname}_ac', 32, \$groups, \$xoopsModule->getVar('mid'))) ? true : false ;
+            }else{
+                \$perm_upload = true;
+            }
+        }else{
+            \$perm_upload = (\$gperm_handler->checkRight('{$moduleDirname}_ac', 32, \$groups, \$xoopsModule->getVar('mid'))) ? true : false ;
         }
-        // Title
+EOT;
+		}
+		$ret .= <<<EOT
+		// Title
         \$title = \$this->isNew() ? sprintf({$language}{$stuTableSoleName}_ADD) : sprintf({$language}{$stuTableSoleName}_EDIT);
         // Get Theme Form
         xoops_load('XoopsFormLoader');
@@ -380,11 +400,15 @@ EOT;
      * @param $fpmf
      * @return string
      */
-    private function getClassHandler($moduleDirname, $tableName, $tableCategory, $tableFieldname, $fpif, $fpmf)
+    private function getClassHandler($moduleDirname, $table, $fpif, $fpmf)
     {
-        $ucfModuleDirname  = ucfirst($moduleDirname);
+        $tableName         = $table->getVar('table_name');
+        $tableCategory     = $table->getVar('table_category');
+		$tableSoleName 	   = $table->getVar('table_solename');
+		$tableFieldname	   = $table->getVar('table_fieldname');
+		$ucfModuleDirname  = ucfirst($moduleDirname);
         $ucfTableName      = ucfirst($tableName);
-        $ucfTableFieldname = ucfirst($tableFieldname);
+        $ucfTableSoleName = ucfirst($tableSoleName);
         $ucfModuleTable    = $ucfModuleDirname . $ucfTableName;
         $ret               = <<<EOT
 /*
@@ -393,6 +417,10 @@ EOT;
 class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
 {
     /*
+    * @var mixed
+    */
+    private \${$moduleDirname} = null;
+	/*
      * Constructor
      *
      * @param string \$db
@@ -400,6 +428,7 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     public function __construct(&\$db)
     {
         parent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fpif}', '{$fpmf}');
+		\$this->{$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
     }
 
     /**
@@ -464,22 +493,22 @@ EOT;
         if (1 == $tableCategory) {
             $ret .= <<<EOT
     \n\t/**
-     * Returns the {$ucfTableFieldname} from id
+     * Returns the {$ucfTableSoleName} from id
      *
      * @return string
      **/
-    public function get{$ucfTableFieldname}FromId(\${$tableFieldname}Id)
+    public function get{$ucfTableSoleName}FromId(\${$tableSoleName}Id)
     {
-        \${$tableFieldname}Id = (int) ( \${$tableFieldname}Id );
-        \${$fpmf} = '';
-        if (\${$tableFieldname}id > 0) {
-            \${$tableFieldname}Handler = \$this->{$moduleDirname}->getHandler( '{$tableName}' );
-            \${$tableFieldname} = & \${$tableFieldname}Handler->get( \${$tableFieldname}Id );
-            if (is_object( \${$tableFieldname} )) {
-                \${$fpmf} = \${$tableFieldname}->getVar( '{$fpmf}' );
+        \${$tableSoleName}Id = (int) ( \${$tableSoleName}Id );
+        \${$tableSoleName} = '';
+        if (\${$tableSoleName}Id > 0) {
+            \${$tableName}Handler = \$this->{$moduleDirname}->getHandler( '{$tableName}' );
+            \${$tableSoleName}Obj = & \${$tableName}Handler->get( \${$tableSoleName}Id );
+            if (is_object( \${$tableSoleName}Obj )) {
+                \${$tableSoleName} = \${$tableSoleName}Obj->getVar( '{$fpmf}' );
             }
         }
-        return \${$fpmf};
+        return \${$tableSoleName};
     }\n
 EOT;
         }
@@ -503,9 +532,6 @@ EOT;
         $module         = $this->getModule();
         $table          = $this->getTable();
         $tableName      = $table->getVar('table_name');
-        $tableCategory  = $table->getVar('table_category');
-		$tFieldname 	= $table->getVar('table_fieldname');
-        $tableFieldname = empty($tFieldname) ? $tableName : $tFieldname;
         $moduleDirname  = $module->getVar('mod_dirname');
         $fields         = $this->getTableFields($table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -528,7 +554,7 @@ EOT;
             $content .= $this->getFootInForm();
         }
         $content .= $this->getToArray();
-        $content .= $this->getClassHandler($moduleDirname, $tableName, $tableCategory, $tableFieldname, $fpif, $fpmf);
+        $content .= $this->getClassHandler($moduleDirname, $table, $fpif, $fpmf);
 
         $this->tdmcfile->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

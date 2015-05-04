@@ -16,11 +16,10 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: file.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TDMCreateFile.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
-require_once 'TDMCreateTableFields.php';
 xoops_load('XoopsFile');
 
 /**
@@ -116,24 +115,16 @@ class TDMCreateFile extends TDMCreateTableFields
         return $instance;
     }
 
-    /*
-    *  @public function create
-    *  @param string $moduleDirname
-    *  @param string $subdir
-    *  @param string $fileName
-    *  @param string $content
-    *  @param mixed $created
-    *  @param mixed $notCreated
-    *  @param string $mode
-    */
     /**
-     * @param        $moduleDirname
-     * @param null   $subdir
-     * @param        $fileName
-     * @param string $content
-     * @param bool   $created
-     * @param bool   $notCreated
-     * @param string $mode
+     * @public function create
+     *  
+     * @param $moduleDirname
+     * @param $subdir
+     * @param $fileName
+     * @param $content
+     * @param $created
+     * @param $notCreated
+     * @param $mode
      */
     public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = false, $notCreated = false, $mode = 'w+')
     {
@@ -141,7 +132,7 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->created    = $created;
         $this->notCreated = $notCreated;
         $this->setMode($mode);
-        $this->setModulePath($moduleDirname);
+        $this->setRepositoryPath($moduleDirname);
         if (!empty($content) && is_string($content)) {
             $this->setContent($content);
         }
@@ -175,25 +166,25 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-    *  @private function setModulePath
+    *  @private function setRepositoryPath
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
      */
-    private function setModulePath($moduleDirname)
+    private function setRepositoryPath($moduleDirname)
     {
         $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH . DIRECTORY_SEPARATOR . $moduleDirname;
     }
 
     /*
-    *  @private function getModulePath
+    *  @private function getRepositoryPath
     *  @param null
     */
     /**
      * @return string
      */
-    private function getModulePath()
+    private function getRepositoryPath()
     {
         return $this->uploadPath;
     }
@@ -297,9 +288,9 @@ class TDMCreateFile extends TDMCreateTableFields
     private function getUploadPath()
     {
         if ($this->getSubDir() != null) {
-            $ret = $this->getModulePath() . DIRECTORY_SEPARATOR . $this->getSubDir();
+            $ret = $this->getRepositoryPath() . DIRECTORY_SEPARATOR . $this->getSubDir();
         } else {
-            $ret = $this->getModulePath();
+            $ret = $this->getRepositoryPath();
         }
 
         return $ret;

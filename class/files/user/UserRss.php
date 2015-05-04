@@ -16,7 +16,7 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: user_rss.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserRss.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
@@ -89,14 +89,14 @@ class UserRss extends TDMCreateFile
         $fields    = $this->getTableFields($table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
-            $rp_field_name = $fieldName;
+            $rpFieldName = $fieldName;
             if (strpos($fieldName, '_')) {
                 $str = strpos($fieldName, '_');
                 if ($str !== false) {
-                    $rp_field_name = substr($fieldName, $str + 1, strlen($fieldName));
+                    $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
             }
-            $lp_field_name = substr($fieldName, 0, strpos($fieldName, '_'));
+            $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if (0 == $f) {
                 $fpif = $fieldName;
             }
@@ -112,17 +112,15 @@ class UserRss extends TDMCreateFile
 include  __DIR__ . '/header.php';
 \${$fppf} = {$moduleDirname}_CleanVars(\$_GET, '{$fppf}', 0);
 include_once XOOPS_ROOT_PATH.'/class/template.php';
-\$items_count = \$xoopsModuleConfig['perpagerss'];
-
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 //header ('Content-Type:text/xml; charset=UTF-8');
-\$xoopsModuleConfig["utf8"] = false;
+\${$moduleDirname}->geConfig("utf8") = false;
 
 \$tpl = new XoopsTpl();
 \$tpl->xoops_setCaching(2); //1 = Cache global, 2 = Cache individual (for template)
-\$tpl->xoops_setCacheTime(\$xoopsModuleConfig['timecacherss']*60); // Time of the cache on seconds
+\$tpl->xoops_setCacheTime(\${$moduleDirname}->geConfig('timecacherss')*60); // Time of the cache on seconds
 \$categories = {$moduleDirname}_MygetItemIds('{$moduleDirname}_view', '{$moduleDirname}');
 \$criteria = new CriteriaCompo();
 \$criteria->add(new Criteria('cat_status', 0, '!='));
@@ -134,10 +132,11 @@ if (\${$fppf} != 0){
 }else{
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name');
 }
-\$criteria->setLimit(\$xoopsModuleConfig['perpagerss']);
+\$criteria->setLimit(\${$moduleDirname}->geConfig('perpagerss'));
 \$criteria->setSort('date');
 \$criteria->setOrder('DESC');
-\${$tableName}_arr = \${$tableName}Handler->getall(\$criteria);
+\${$tableName}Arr = \${$tableName}Handler->getAll(\$criteria);
+unset(\$criteria);
 
 if (!\$tpl->is_cached('db:rss.tpl', \${$fppf})) {
     \$tpl->assign('channel_title', htmlspecialchars(\$title, ENT_QUOTES));
@@ -168,18 +167,18 @@ if (!\$tpl->is_cached('db:rss.tpl', \${$fppf})) {
     }
     \$tpl->assign('image_width', \$width);
     \$tpl->assign('image_height', \$height);
-    foreach (array_keys(\${$tableName}_arr) as \$i) {
-        \$description = \${$tableName}_arr[\$i]->getVar('description');
+    foreach (array_keys(\${$tableName}Arr) as \$i) {
+        \$description = \${$tableName}Arr[\$i]->getVar('description');
         //permet d'afficher uniquement la description courte
         if (strpos(\$description,'[pagebreak]')==false){
             \$description_short = \$description;
         }else{
             \$description_short = substr(\$description,0,strpos(\$description,'[pagebreak]'));
         }
-        \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}_arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
-                                    'link' => XOOPS_URL . '/modules/{$moduleDirname}/singlefile.php?{$fppf}=' . \${$tableName}_arr[\$i]->getVar('{$fppf}') . '&amp;{$fpif}=' . \${$tableName}_arr[\$i]->getVar('{$fpif}'),
-                                    'guid' => XOOPS_URL . '/modules/{$moduleDirname}/singlefile.php?{$fppf}=' . \${$tableName}_arr[\$i]->getVar('{$fppf}') . '&amp;{$fpif}=' . \${$tableName}_arr[\$i]->getVar('{$fpif}'),
-                                    'pubdate' => formatTimestamp(\${$tableName}_arr[\$i]->getVar('date'), 'rss'),
+        \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
+                                    'link' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fpif}=' . \${$tableName}Arr[\$i]->getVar('{$fpif}'),
+                                    'guid' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fpif}=' . \${$tableName}Arr[\$i]->getVar('{$fpif}'),
+                                    'pubdate' => formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
                                     'description' => htmlspecialchars(\$description_short, ENT_QUOTES)));
     }
 }

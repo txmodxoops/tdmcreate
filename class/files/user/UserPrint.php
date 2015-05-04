@@ -16,7 +16,7 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: user_print.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserPrint.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
@@ -84,22 +84,22 @@ class UserPrint extends TDMCreateFile
      */
     public function getUserPrint($moduleDirname, $language)
     {
-        $stu_mod_name   = strtoupper($moduleDirname);
-        $table          = $this->getTable();
-        $tableName      = $table->getVar('table_name');
-        $ucf_mod_name   = ucfirst($moduleDirname);
-        $ucf_table_name = ucfirst($tableName);
-        $fields         = $this->getTableFields($table->getVar('table_id'));
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $table            = $this->getTable();
+        $tableName        = $table->getVar('table_name');
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfTableName     = ucfirst($tableName);
+        $fields           = $this->getTableFields($table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName     = $fields[$f]->getVar('field_name');
-            $rp_field_name = $fieldName;
+            $fieldName    = $fields[$f]->getVar('field_name');
+            $rpFieldName  = $fieldName;
             if (strpos($fieldName, '_')) {
                 $str = strpos($fieldName, '_');
                 if ($str !== false) {
-                    $rp_field_name = substr($fieldName, $str + 1, strlen($fieldName));
+                    $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
             }
-            $lp_field_name = substr($fieldName, 0, strpos($fieldName, '_'));
+            $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fpif = $fieldName;
             } else {
@@ -108,21 +108,21 @@ class UserPrint extends TDMCreateFile
                 }
             }
         }
-        $stu_lp_field_name = strtoupper($lp_field_name);
+        $stuLpFieldName = strtoupper($lpFieldName);
         $ret               = <<<EOT
 \ninclude  __DIR__ . '/header.php';
-{$lp_field_name} = isset(\$_GET['{$fpif}']) ? (int) (\$_GET['{$fpif}']) : 0;
+{$lpFieldName} = isset(\$_GET['{$fpif}']) ? (int) (\$_GET['{$fpif}']) : 0;
 if ( empty({$fpif}) ) {
-    redirect_header({$stu_mod_name}_URL . '/index.php', 2, {$language}NO{$stu_lp_field_name});
+    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
 }
 EOT;
-        if ($fieldName == $lp_field_name . '_published') {
+        if ($fieldName == $lpFieldName . '_published') {
             $ret .= <<<EOT
 // Verify that the article is published
-{$lp_field_name} = new {$ucf_mod_name}{$ucf_table_name}({$fpif});
+{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fpif});
 // Not yet published
-if ( {$lp_field_name}->getVar('{$lp_field_name}_published') == 0 || {$lp_field_name}->getVar('{$lp_field_name}_published') > time() ) {
-    redirect_header({$stu_mod_name}_URL . '/index.php', 2, {$language}NO{$stu_lp_field_name});
+if ( {$lpFieldName}->getVar('{$lpFieldName}_published') == 0 || {$lpFieldName}->getVar('{$lpFieldName}_published') > time() ) {
+    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
@@ -130,19 +130,19 @@ EOT;
         if ($fieldName == 'published') {
             $ret .= <<<EOT
 // Verify that the article is published
-{$lp_field_name} = new {$ucf_mod_name}{$ucf_table_name}({$fpif});
+{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fpif});
 // Not yet published
-if ( {$lp_field_name}->getVar('published') == 0 || {$lp_field_name}->getVar('published') > time() ) {
-    redirect_header({$stu_mod_name}_URL . '/index.php', 2, {$language}NO{$stu_lp_field_name});
+if ( {$lpFieldName}->getVar('published') == 0 || {$lpFieldName}->getVar('published') > time() ) {
+    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
         }
-        if ($fieldName == $lp_field_name . '_expired') {
+        if ($fieldName == $lpFieldName . '_expired') {
             $ret .= <<<EOT
 // Expired
-if ( {$lp_field_name}->getVar('{$lp_field_name}_expired') != 0 && {$lp_field_name}->getVar('{$lp_field_name}_expired') < time() ) {
-    redirect_header({$stu_mod_name}_URL . '/index.php', 2, {$language}NO{$stu_lp_field_name});
+if ( {$lpFieldName}->getVar('{$lpFieldName}_expired') != 0 && {$lpFieldName}->getVar('{$lpFieldName}_expired') < time() ) {
+    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
@@ -150,8 +150,8 @@ EOT;
         if ($fieldName == 'expired') {
             $ret .= <<<EOT
 // Expired
-if ( {$lp_field_name}->getVar('expired') != 0 && {$lp_field_name}->getVar('expired') < time() ) {
-    redirect_header({$stu_mod_name}_URL . '/index.php', 2, {$language}NO{$stu_lp_field_name});
+if ( {$lpFieldName}->getVar('expired') != 0 && {$lpFieldName}->getVar('expired') < time() ) {
+    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
@@ -165,8 +165,8 @@ if (is_object(\$xoopsUser)) {
 } else {
     \$groups = XOOPS_GROUP_ANONYMOUS;
 }
-if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lp_field_name}->getVat('{$fpif}'), \$groups, \$xoopsModule->getVar('mid'))) {
-    redirect_header({$stu_mod_name}_URL . '/index.php', 3, _NOPERM);
+if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lpFieldName}->getVat('{$fpif}'), \$groups, \$xoopsModule->getVar('mid'))) {
+    redirect_header({$stuModuleDirname}_URL . '/index.php', 3, _NOPERM);
     exit();
 }
 EOT;

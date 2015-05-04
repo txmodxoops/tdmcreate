@@ -97,7 +97,7 @@ EOT;
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $content .= <<<EOT
-\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
+//\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 \$count_{$tableName} = \${$tableName}Handler->getCount();\n
 EOT;
             }

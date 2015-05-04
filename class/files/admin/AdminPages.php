@@ -90,8 +90,6 @@ include  __DIR__ . '/header.php';
 \$op = XoopsRequest::getString('op', 'list');
 // Request {$fpif}
 \${$fpif} = XoopsRequest::getInt('{$fpif}');
-// Get {$ucfTableName} Handler
-\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 // Switch options
 switch (\$op)
 {\n
@@ -155,14 +153,17 @@ EOT;
 EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
-            $fieldParent = $fields[$f]->getVar('field_parent');
+            $fieldParent = $fields[$f]->getVar('field_parent');			
             // Verify if table_fieldname is not empty
             $lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableSoleName;
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);			
             //
+			if($f < 1) {
+				$ret .= $this->adminobjects->getIdGetVar($lpFieldName);
+			}
             $fieldElement = $fields[$f]->getVar('field_element');
-            if ((1 == $fields[$f]->getVar('field_admin')) || ((1 == $tableAutoincrement) && (1 == $fields[$f]->getVar('field_inlist')))) {
-                switch ($fieldElement) {
+            if ((1 == $fields[$f]->getVar('field_admin')) || ((1 == $tableAutoincrement) && (1 == $fields[$f]->getVar('field_inlist')))) {         
+				switch ($fieldElement) {
                     case 3:
                     case 4:
                         $ret .= $this->adminobjects->getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
@@ -180,26 +181,33 @@ EOT;
                         $ret .= $this->adminobjects->getTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
                         break;
                     default:
-                        if ((1 == $fieldParent) && 0 == $table->getVar('table_category')) {
-                            if ($fieldElement > 15) {
-                                $fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
-                                $fieldElementTid    = $fieldElements->getVar('fieldelement_tid');
-                                $fieldElementName   = $fieldElements->getVar('fieldelement_name');
-                                $rpFieldElementName = strtolower(str_replace('Table : ', '', $fieldElementName));
+                        if ($fieldElement > 15) {
+							$fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+							$fieldElementTid    = $fieldElements->getVar('fieldelement_tid');
+							$fieldElementName   = $fieldElements->getVar('fieldelement_name');
+							$rpFieldElementName = strtolower(str_replace('Table : ', '', $fieldElementName));	
+							if (1 == $fieldParent) {					
+								$criteriaFieldsTopic = new CriteriaCompo();
+								$criteriaFieldsTopic->add(new Criteria('field_tid', $fieldElementTid));
+								$fieldsTopic = $this->tdmcreate->getHandler('fields')->getObjects($criteriaFieldsTopic);
+								unset($criteriaFieldsTopic);
+								foreach (array_keys($fieldsTopic) as $ft) {
+									if (1 == $fieldsTopic[$ft]->getVar('field_main')) {
+										$fieldNameTopic = $fieldsTopic[$ft]->getVar('field_name');
+									}
+								}
+								$ret .= $this->adminobjects->getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $rpFieldElementName, $fieldName, $fieldNameTopic);
+							} else {
                                 //
-                                $fieldNameParent = $fieldName;
-                                //
-                                $criteriaFieldsTopic = new CriteriaCompo();
-                                $criteriaFieldsTopic->add(new Criteria('field_tid', $fieldElementTid));
-                                $fieldsTopic = $this->tdmcreate->getHandler('fields')->getObjects($criteriaFieldsTopic);
-                                unset($criteriaFieldsTopic);
-                                foreach (array_keys($fieldsTopic) as $ft) {
-                                    if (1 == $fieldsTopic[$ft]->getVar('field_main')) {
-                                        $fieldNameTopic = $fieldsTopic[$ft]->getVar('field_name');
-                                    }
+                                $criteriaTablesTopic = new CriteriaCompo();
+                                $criteriaTablesTopic->add(new Criteria('table_id', $fieldElementTid));
+                                $tablesTopic = $this->tdmcreate->getHandler('tables')->getObjects($criteriaTablesTopic);
+                                unset($criteriaTablesTopic);
+                                foreach (array_keys($tablesTopic) as $ft) {
+                                    $ucfTableSoleNameTopic = ucfirst($tablesTopic[$ft]->getVar('table_solename'));
                                 }
-                                $ret .= $this->adminobjects->getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $rpFieldElementName, $fieldNameParent, $fieldNameTopic);
-                            }
+                                $ret .= $this->adminobjects->getParentTopicGetVar($moduleDirname, $lpFieldName, $rpFieldName, $tableName, $ucfTableSoleNameTopic, $rpFieldElementName, $fieldName);
+							}
                         } else {
                             $ret .= $this->adminobjects->getSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
                         }
@@ -290,7 +298,7 @@ EOT;
                         $ret .= $this->adminobjects->getImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->adminobjects->getUrlFileSetVar($tableName, $fieldName);
+                        $ret .= $this->adminobjects->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
                         $ret .= $this->adminobjects->getUploadImageSetVar($moduleDirname, $tableName, $fieldName);

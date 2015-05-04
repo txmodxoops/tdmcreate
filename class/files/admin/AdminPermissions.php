@@ -16,7 +16,7 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: admin_permissions.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: AdminPermissions.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
@@ -92,7 +92,7 @@ if( !empty(\$_POST['submit']) )
 {
     redirect_header( XOOPS_URL.'/modules/'.\$xoopsModule->dirname().'/admin/permissions.php', 1, _MP_GPERMUPDATED );
 }
-\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
+//\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 // Check admin have access to this page
 /*\$group = \$xoopsUser->getGroups ();
 \$groups = xoops_getModuleOption ( 'admin_groups', \$thisDirname );
@@ -144,7 +144,7 @@ switch(\$permission)
         break;
     case 2:
         \$formTitle = {$language}APPROVE;
-        \$permName = '{$moduleDirname}_access';
+        \$permName = '{$moduleDirname}_approve';
         \$permDesc = {$language}APPROVE_DESC;
         break;
     case 3:

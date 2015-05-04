@@ -155,10 +155,10 @@ EOT;
         }
         $ret .= <<<EOT
                     <td class="center">
-                        <a href="{$tableName}.php?op=edit&amp;{$field_id}=<{\$list.{$rpFieldName}}>" title="<{\$smarty.const._EDIT}>">
+                        <a href="{$tableName}.php?op=edit&amp;{$field_id}=<{\$list.id}>" title="<{\$smarty.const._EDIT}>">
                             <img src="<{xoModuleIcons16 edit.png}>" alt="<{\$smarty.const._EDIT}>" />
                         </a>
-                        <a href="{$tableName}.php?op=delete&amp;{$field_id}=<{\$list.{$rpFieldName}}>" title="<{\$smarty.const._DELETE}>">
+                        <a href="{$tableName}.php?op=delete&amp;{$field_id}=<{\$list.id}>" title="<{\$smarty.const._DELETE}>">
                             <img src="<{xoModuleIcons16 delete.png}>" alt="<{\$smarty.const._DELETE}>" />
                         </a>
                     </td>
