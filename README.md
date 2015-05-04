@@ -11,7 +11,7 @@ Tested with xoops 2.5.7 and 2.5.7.1, you can not use it with earlier versions, u
 
 That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7.1 and use with this latest version.
 
-Therefore recommended not to use TDMCreate 1.91, with previous versions, to xoops 2.5.7
+Therefore recommended not to use TDMCreate 1.91, with previous versions of xoops 2.5.7
 
 # System Tests
 PHP = 5.4.31
