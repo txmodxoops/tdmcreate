@@ -47,7 +47,6 @@ class TDMCreateArchitecture extends TDMCreateStructure
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $this->structure = TDMCreateStructure::getInstance();
-        $this->structure->setPath(TDMC_PATH);
         $this->structure->setUploadPath(TDMC_UPLOAD_REPOSITORY_PATH);
     }
 
@@ -66,35 +65,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
 
         return $instance;
-    }
-
-    /*
-    *  @public function createPath
-    *  @param string $path
-    */
-    /**
-     * @param $path
-     */
-    public function createPath($path)
-    {
-        if (isset($path)) {
-            $this->structure->setPath($path);
-        }
-    }
-
-    /*
-    *  @public function createUploadPath
-    *  @param string $uploadPath
-    */
-    /**
-     * @param $uploadPath
-     */
-    public function createUploadPath($uploadPath)
-    {
-        if (isset($uploadPath)) {
-            $this->structure->setUploadPath($uploadPath);
-        }
-    }
+    }     
 
     /*
     *  @public function createBaseFoldersFiles
@@ -210,15 +181,13 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "templates/admin" folder and index.html file
             $this->structure->makeDirAndCopyFile('templates/admin', $indexFile, 'index.html');
         }
-        if (is_object($table)) {
-            if (1 == $table->getVar('table_blocks')) {
+        if ($table->getVar('table_name') != null) {
+            if (1 == $module->getVar('mod_blocks')) {
                 // Creation of "templates/blocks" folder and index.html file
                 $this->structure->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.html');
             }
-            if ($table->getVar('table_name') != null) {
-                // Creation of "sql" folder and index.html file
-                $this->structure->makeDirAndCopyFile('sql', $indexFile, 'index.html');
-            }
+            // Creation of "sql" folder and index.html file
+            $this->structure->makeDirAndCopyFile('sql', $indexFile, 'index.html');
             if (1 == $table->getVar('table_notifications')) {
                 // Creation of "language/english/mail_template" folder and index.html file
                 $this->structure->makeDirAndCopyFile('language/english/mail_template', $indexFile, 'index.html');
@@ -227,7 +196,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                     $this->structure->makeDirAndCopyFile('language/' . $language . '/mail_template', $indexFile, 'index.html');
                 }
             }
-        }
+        }		
     }
 
     /*
@@ -368,7 +337,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
         // Creation of blocks language file
-        if (is_object($table)) {
+        if ($table->getVar('table_name') != null) {
             // Include Install File
             $includeInstall = IncludeInstall::getInstance();
             $includeInstall->write($module, $table, $tables, 'install.php');
@@ -445,8 +414,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $includeCommentFunctions = IncludeCommentFunctions::getInstance();
                 $includeCommentFunctions->write($module, $table, 'comment_functions.php');
                 $ret[] = $includeCommentFunctions->renderFile();
-            }
-        
+            }        
 		}
         // Creation of admin files
         if (1 == $module->getVar('mod_admin')) {

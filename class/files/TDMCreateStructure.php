@@ -77,32 +77,8 @@ class TDMCreateStructure
         }
 
         return $instance;
-    }
-
-    /*
-    *  @public function setPath
-    *  @param string $path
-    */
-    /**
-     * @param $path
-     */
-    public function setPath($path)
-    {
-        $this->path = $path;
-    }
-
-    /*
-    *  @public function getPath
-    *  @return string $path
-    */
-    /**
-     * @return null
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
+    } 
+    
     /*
     *  @protected function setUploadPath
     *  @param string $path

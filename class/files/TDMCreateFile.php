@@ -139,31 +139,7 @@ class TDMCreateFile extends TDMCreateTableFields
         if (isset($subdir) && is_string($subdir)) {
             $this->setSubDir($subdir);
         }
-    }
-
-    /*
-    *  @private function setPath
-    *  @param string $folderName
-    */
-    /**
-     * @param $folderName
-     */
-    private function setPath($folderName)
-    {
-        $this->path = TDMC_PATH . DIRECTORY_SEPARATOR . $folderName;
-    }
-
-    /*
-    *  @private function getPath
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    private function getPath()
-    {
-        return $this->path;
-    }
+    }    
 
     /*
     *  @private function setRepositoryPath

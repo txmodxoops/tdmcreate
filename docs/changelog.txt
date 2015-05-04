@@ -9,6 +9,8 @@
 - Added more field database in tables form
 - Added more field database in fields form
 - Added checkAll checkbox in modules & tables form
+- Added more files for user side
+- Added autoload file for all classes
 
 =================================
 2014/01/02: Version 1.91 alpha 1

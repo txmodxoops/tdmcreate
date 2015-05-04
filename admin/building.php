@@ -43,7 +43,7 @@ switch ($op) {
             }
         }
         // Structure
-        include_once TDMC_PATH . '/class/files/TDMCreateArchitecture.php';
+        include_once TDMC_CLASSES_PATH . '/files/TDMCreateArchitecture.php';
         $handler = TDMCreateArchitecture::getInstance();
         // Creation of the structure of folders and files
         $base_architecture = $handler->createBaseFoldersFiles($moduleObj);
