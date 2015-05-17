@@ -3,7 +3,7 @@
 <!-- Display building form  -->
 <br />
 <{if $building_directory}>
- <table class="outer">
+<table class="outer">
    <thead>
     <tr class="head">
       <th width="80%"><{$smarty.const._AM_TDMCREATE_BUILDING_FILES}></th>
@@ -22,7 +22,7 @@
               <td>&nbsp;</td>
               <td class="center"><img src="<{xoModuleIcons16 off.png}>" alt="" /></td>
           <{/if}>
-       <tr>
+       </tr>
       <{foreach item=build from=$builds}>
         <tr class="<{cycle values='odd, even'}>">
           <{if $created}>
@@ -34,13 +34,13 @@
               <td>&nbsp;</td>
               <td class="center"><img src="<{xoModuleIcons16 off.png}>" alt="" /></td>
            <{/if}>
-        <tr>
-      <{/foreach}>
-       <tr class="<{cycle values='even, odd'}>">
-          <td class="center" colspan="3"><{$building_directory}></td>
-       <tr>
-   </tbody>
- </table><br />
+        </tr>
+		<{/foreach}>
+		<tr class="<{cycle values='even, odd'}>">
+			<td class="center" colspan="3"><{$building_directory}></td>
+		</tr>
+	</tbody>
+</table><br />
 <{else}>
   <{if $form}>
     <{$form}>

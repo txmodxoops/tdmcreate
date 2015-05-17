@@ -80,10 +80,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $modId    = $module->getVar('mod_id');
         $language = $GLOBALS['xoopsConfig']['language'];
         // Id of tables
-        $criteriaTables = new CriteriaCompo();
-        $criteriaTables->add(new Criteria('table_mid', $modId));
-        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteriaTables);
-        unset($criteriaTables);
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('table_mid', $modId));		
+        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteria);
+        unset($criteria);
         //
         $table = null;
         foreach (array_keys($tables) as $t) {
@@ -214,10 +214,11 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $moduleDirname       = $module->getVar('mod_dirname');
         $icon32              = 'assets/icons/32';
         // Id of tables
-        $criteriaTables = new CriteriaCompo();
-        $criteriaTables->add(new Criteria('table_mid', $modId));
-        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteriaTables);
-        unset($criteriaTables);
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('table_mid', $modId));
+		$criteria->setSort('table_order');
+        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteria);
+        unset($criteria);
         $ret = array();
         //
         $table = array();

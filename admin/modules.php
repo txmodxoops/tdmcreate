@@ -22,7 +22,7 @@ include  __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 //
-$mod_id = XoopsRequest::getInt('mod_id');
+$modId = XoopsRequest::getInt('mod_id');
 //
 switch ($op) {
     case 'list':
@@ -98,8 +98,8 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset($mod_id)) {
-            $modulesObj =& $tdmcreate->getHandler('modules')->get($mod_id);
+        if (isset($modId)) {
+            $modulesObj =& $tdmcreate->getHandler('modules')->get($modId);
         } else {
             $modulesObj =& $tdmcreate->getHandler('modules')->create();
         }
@@ -184,13 +184,13 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $modulesObj = $tdmcreate->getHandler('modules')->get($mod_id);
+        $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         $form       = $modulesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
     case 'delete':
-        $modulesObj =& $tdmcreate->getHandler('modules')->get($mod_id);
+        $modulesObj =& $tdmcreate->getHandler('modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -201,12 +201,12 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'mod_id' => $mod_id, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
+            xoops_confirm(array('ok' => 1, 'mod_id' => $modId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
         }
         break;
 
     case 'display':
-        //if ( $mod_id > 0 ) {
+        //if ( $modId > 0 ) {
         $mod_admin         = XoopsRequest::getInt('mod_admin');
         $mod_user          = XoopsRequest::getInt('mod_user');
         $mod_blocks        = XoopsRequest::getInt('mod_blocks');
@@ -225,7 +225,7 @@ switch ($op) {
         $mod_notifications = tdmcreate_CleanVars($_REQUEST, 'mod_notifications');
         $mod_permissions = tdmcreate_CleanVars($_REQUEST, 'mod_permissions');    */
 
-        $modulesObj =& $tdmcreate->getHandler('modules')->get($mod_id);
+        $modulesObj =& $tdmcreate->getHandler('modules')->get($modId);
         if (isset($mod_admin)) {
             $modulesObj->setVar('mod_admin', $mod_admin);
         } elseif (isset($mod_user)) {

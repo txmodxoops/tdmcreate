@@ -81,7 +81,7 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
 		$tableSoleName = $table->getVar('table_solename');
         $ret           = <<<EOT
 <{include file="db:{$moduleDirname}_admin_header.tpl"}>
-<{if {$tableName}_list}>
+<{if {$tableName}_count}>
     <table class="outer {$tableName} width100">
         <thead>
             <tr class="head">\n
@@ -250,14 +250,14 @@ EOT;
         <div class="xo-pagenav floatright"><{\$pagenav}></div><div class="clear spacer"></div>
     <{/if}>
 <{/if}>
+<{if \$form}>
+	<!-- Display form (add,edit) -->
+	<div class="spacer"><{\$form}></div>
+<{/if}>
 <{if \$error}>
     <div class="errorMsg">
         <strong><{\$error}></strong>
     </div>
-<{/if}>
-<{if \$form}>
-    <!-- Display form (add,edit) -->
-    <div class="spacer"><{\$form}></div>
 <{/if}>
 <br />
 <!-- Footer -->

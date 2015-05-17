@@ -450,7 +450,7 @@ EOT;
                 }
             }
         }
-        if (1 == $module->getVar('mod_permissions')) {
+        if (1 == $module->getVar('mod_permissions') && 1 == $table->getVar('table_permissions')) {
             $ret .= <<<EOT
 // Get groups
 \$memberHandler =& xoops_gethandler('member');

@@ -24,7 +24,7 @@
         <tbody>
         <{foreach item=table from=$tables_list}>
             <{if $table.id > 0}>
-                <tr id="table_<{$table.id}>" order="<{$table.order}>" class="fields toggleMain">
+                <tr id="table_<{$table.id}>" order="<{$table.order}>" class="tables-fields toggleMain">
                     <td class='center bold width5'>&#40;<{$table.lid}>&#41;
                         <a href="#" title="Toggle"><img class="imageToggle" src="<{$modPathIcon16}>/toggle.png" alt="Toggle" /></a>
                     </td>
@@ -47,7 +47,7 @@
                         <a href="fields.php?op=edit&amp;field_mid=<{$table.mid}>&amp;field_tid=<{$table.id}>" title="<{$smarty.const._AM_TDMCREATE_EDIT_FIELDS}>">
                            <img src="<{xoModuleIcons16 inserttable.png}>" alt="<{$smarty.const._AM_TDMCREATE_EDIT_FIELDS}>" />
                         </a>
-                        <a href="fields.php?op=delete&amp;field_tid=<{$table.id}>" title="<{$smarty.const._DELETE}>">
+                        <a href="tables.php?op=delete&amp;field_tid=<{$table.id}>" title="<{$smarty.const._DELETE}>">
                            <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>" />
                         </a>
                     </td>

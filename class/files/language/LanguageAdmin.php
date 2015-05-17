@@ -185,6 +185,7 @@ class LanguageAdmin extends TDMCreateFile
 				}
                 //
                 $ret .= $this->defines->getDefine($language, $tableSoleName .'_'. $rpFieldName, $fieldNameDesc);
+				$stuTableName = strtoupper($tableName);
                 //
                 switch ($fieldElement) {
                     case 10:

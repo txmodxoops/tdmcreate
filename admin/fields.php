@@ -60,7 +60,7 @@ switch ($op)
 		if ($countTables == 0)  {
 			redirect_header('tables.php?op=new', 2, _AM_TDMCREATE_NOTTABLES );
 		} 	
-        unset($countTables);		
+        unset($countTables);
 		// Get the list of tables
 		$criteria = new CriteriaCompo();
 		$criteria->add(new Criteria('table_mid', $handlerTables->getVar('table_mid')));
@@ -160,9 +160,9 @@ switch ($op)
 		if ( !$GLOBALS['xoopsSecurity']->check() ) {
             redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }	
-		$fieldId = XoopsRequest::getInt('field_id');		
+		$fieldId = XoopsRequest::getInt('field_id');
 		// Fields Handler
-		$fields = $tdmcreate->getHandler('fields');	
+		$fields = $tdmcreate->getHandler('fields');
 		// Set Variables		
 		foreach($_POST['field_id'] as $key => $value) 
 		{				

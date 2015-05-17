@@ -42,6 +42,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
     {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('field_tid', $tableId));
+		$criteria->setSort('field_order');
         $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteria);
         unset($criteria);
 

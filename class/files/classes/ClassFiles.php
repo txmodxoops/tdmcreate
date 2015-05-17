@@ -286,14 +286,14 @@ EOT;
     /*
     *  @private function getPermissionsInForm
     *  @param string $moduleDirname
-    *  @param string $fpif
+    *  @param string $fieldId
     */
     /**
      * @param $moduleDirname
-     * @param $fpif
+     * @param $fieldId
      * @return string
      */
-    private function getPermissionsInForm($moduleDirname, $fpif)
+    private function getPermissionsInForm($moduleDirname, $fieldId)
     {
         $permissionApprove = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
         $permissionSubmit  = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
@@ -306,9 +306,9 @@ EOT;
         \$full_list = array_keys ( \$group_list );
         global \$xoopsModule;
         if ( !\$this->isNew() ) {
-            \$groups_ids_approve = \$gperm_handler->getGroupIds ( '{$moduleDirname}_approve', \$this->getVar ( '{$fpif}' ), \$xoopsModule->getVar ( 'mid' ) );
-            \$groups_ids_submit = \$gperm_handler->getGroupIds ( '{$moduleDirname}_submit', \$this->getVar ( '{$fpif}' ), \$xoopsModule->getVar ( 'mid' ) );
-            \$groups_ids_view = \$gperm_handler->getGroupIds ( '{$moduleDirname}_view', \$this->getVar ( '{$fpif}' ), \$xoopsModule->getVar ( 'mid' ) );
+            \$groups_ids_approve = \$gperm_handler->getGroupIds ( '{$moduleDirname}_approve', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
+            \$groups_ids_submit = \$gperm_handler->getGroupIds ( '{$moduleDirname}_submit', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
+            \$groups_ids_view = \$gperm_handler->getGroupIds ( '{$moduleDirname}_view', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
             \$groups_ids_approve = array_values ( \$groups_ids_approve );
             \$groups_can_approve_checkbox = new XoopsFormCheckBox ( {$permissionApprove}, 'groups_approve[]', \$groups_ids_approve );
             \$groups_ids_submit = array_values ( \$groups_ids_submit );
@@ -388,19 +388,19 @@ EOT;
     *  @public function getClassHandler
     *  @param string $moduleDirname
     *  @param string $tableName
-    *  @param string $fpif
-    *  @param string $fpmf
+    *  @param string $fieldId
+    *  @param string $fieldMain
     */
     /**
      * @param $moduleDirname
      * @param $tableName
      * @param $tableCategory
      * @param $tableFieldname
-     * @param $fpif
-     * @param $fpmf
+     * @param $fieldId
+     * @param $fieldMain
      * @return string
      */
-    private function getClassHandler($moduleDirname, $table, $fpif, $fpmf)
+    private function getClassHandler($moduleDirname, $table, $fieldId, $fieldMain)
     {
         $tableName         = $table->getVar('table_name');
         $tableCategory     = $table->getVar('table_category');
@@ -408,7 +408,7 @@ EOT;
 		$tableFieldname	   = $table->getVar('table_fieldname');
 		$ucfModuleDirname  = ucfirst($moduleDirname);
         $ucfTableName      = ucfirst($tableName);
-        $ucfTableSoleName = ucfirst($tableSoleName);
+        $ucfTableSoleName  = ucfirst($tableSoleName);
         $ucfModuleTable    = $ucfModuleDirname . $ucfTableName;
         $ret               = <<<EOT
 /*
@@ -427,7 +427,7 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
      */
     public function __construct(&\$db)
     {
-        parent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fpif}', '{$fpmf}');
+        parent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');
 		\$this->{$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
     }
 
@@ -505,7 +505,7 @@ EOT;
             \${$tableName}Handler = \$this->{$moduleDirname}->getHandler( '{$tableName}' );
             \${$tableSoleName}Obj = & \${$tableName}Handler->get( \${$tableSoleName}Id );
             if (is_object( \${$tableSoleName}Obj )) {
-                \${$tableSoleName} = \${$tableSoleName}Obj->getVar( '{$fpmf}' );
+                \${$tableSoleName} = \${$tableSoleName}Obj->getVar( '{$fieldMain}' );
             }
         }
         return \${$tableSoleName};
@@ -538,10 +538,10 @@ EOT;
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldInForm = $fields[$f]->getVar('field_inform');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fpif = $fieldName; // $fpif = fields parameter index field
+                $fieldId = $fieldName; // $fieldId = fields parameter index field
             }
             if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fieldName; // $fpmf = fields parameter main field
+                $fieldMain = $fieldName; // $fieldMain = fields parameter main field
             }
         }
         $content = $this->getHeaderFilesComments($module, $filename);
@@ -549,12 +549,12 @@ EOT;
         if (1 == $fieldInForm) {
             $content .= $this->getHeadInForm($module, $table);
             if (1 == $table->getVar('table_permissions')) {
-                $content .= $this->getPermissionsInForm($moduleDirname, $fpif);
+                $content .= $this->getPermissionsInForm($moduleDirname, $fieldId);
             }
             $content .= $this->getFootInForm();
         }
         $content .= $this->getToArray();
-        $content .= $this->getClassHandler($moduleDirname, $table, $fpif, $fpmf);
+        $content .= $this->getClassHandler($moduleDirname, $table, $fieldId, $fieldMain);
 
         $this->tdmcfile->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

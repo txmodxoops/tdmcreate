@@ -23,11 +23,11 @@
         <tbody>
         <{foreach item=module from=$modules_list}>
             <{if $module.id > 0}>
-                <tr id="module<{$module.id}>" class="tables toggleMain">
+                <tr id="module<{$module.id}>" class="modules toggleMain">
                     <td class='center bold width5'>&#40;<{$module.id}>&#41;
                         <a href="#" title="Toggle"><img class="imageToggle" src="<{$modPathIcon16}>/toggle.png" alt="Toggle" /></a>
                     </td>
-                    <td class='center bold green'><{$module.name}></td>
+                    <td class='center bold green name'><{$module.name}></td>
                     <td class='center'><img src="<{$tdmc_upload_imgmod_url}>/<{$module.image}>" alt="" height="35" /></td>
                     <td class='center'><img src="<{$modPathIcon16}>/fields.png" alt="16" /></td>
                     <td class='center'><img id="loading_img_admin<{$module.id}>" src="<{$modPathIcon16}>/spinner.gif" style="display:none;" title="<{$smarty.const._AM_SYSTEM_LOADING}>" alt="<{$smarty.const._AM_SYSTEM_LOADING}>" /><img style="cursor:pointer;" class="tooltip" id="img_admin<{$module.id}>" onclick="tdmcreate_setStatus( { op: 'display_modules', mod_id: <{$module.id}>, mod_admin: <{if $module.admin == 1}>0<{else}>1<{/if}> }, 'img_admin<{$module.id}>', 'modules.php' )" src="<{xoModuleIcons16}><{$module.admin}>.png" alt="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$module.name}>" title="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$module.name}>" />

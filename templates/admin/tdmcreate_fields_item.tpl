@@ -2,9 +2,9 @@
     <tbody class="field-list">
         <{foreach item=field from=$table.fields}>
             <{if $field.id > 0}>
-                <tr id="forder_<{$field.id}>" order="<{$field.order}>" class="tdmc-fields <{cycle values='even,odd'}>">
+                <tr id="forder_<{$field.id}>" order="<{$field.order}>" class="fields <{cycle values='even,odd'}>">
                     <td class='center width5'>&#91;<{$field.lid}>&#93;&nbsp;<img class="move" src="<{$modPathIcon16}>/drag.png" alt="<{$field.name}>" /></td>
-                    <td class='center width10'><{$field.name}></td>
+                    <td class='center width10 name'><{$field.name}></td>
                     <td class='center'><img src="<{$modPathIcon16}>/tables.png" alt="Empty" /></td>
                     <td class='center'><img src="<{$modPathIcon16}>/tables.png" alt="Empty" /></td>
                     <td class='center'><img id="loading_img_parent<{$field.id}>" src="<{$modPathIcon16}>/spinner.gif" style="display:none;" title="<{$smarty.const._AM_SYSTEM_LOADING}>" alt="<{$smarty.const._AM_SYSTEM_LOADING}>" /><img style="cursor:pointer;" id="img_parent<{$field.id}>" onclick="tdmcreate_setStatus( { op: 'display', field_id: <{$field.id}>, field_parent: <{if $field.parent}>0<{else}>1<{/if}> }, 'img_parent<{$field.id}>', 'fields.php' )" src="<{xoModuleIcons16}><{$field.parent}>.png" alt="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$field.name}>" title="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$field.name}>" />

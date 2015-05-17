@@ -85,7 +85,7 @@ class AdminFooter extends TDMCreateFile
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 if ( isset(\$template_main)  ) {
-    \$GLOBALS['xoopsTpl']->display("db:{\$template_main}");
+    \$GLOBALS['xoopsTpl']->display("db:{\$templateMain}");
 }
 xoops_cp_footer();
 

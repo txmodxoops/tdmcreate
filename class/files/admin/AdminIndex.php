@@ -86,7 +86,7 @@ class AdminIndex extends TDMCreateFile
         $filename          = $this->getFileName();
         $moduleDirname     = $module->getVar('mod_dirname');
         $language          = $this->getLanguage($moduleDirname, 'AM');
-        $language_thereare = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
+        $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $content           = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 include  __DIR__ . '/header.php';
@@ -96,15 +96,16 @@ EOT;
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
+				$ucfTableName = ucfirst($tableName);
                 $content .= <<<EOT
 //\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
-\$count_{$tableName} = \${$tableName}Handler->getCount();\n
+\$count{$ucfTableName} = \${$tableName}Handler->getCount();\n
 EOT;
             }
         }
         $content .= <<<EOT
 // Template Index
-\$template_main = '{$moduleDirname}_admin_index.tpl';\n
+\$templateMain = '{$moduleDirname}_admin_index.tpl';\n
 EOT;
         if (is_array($tables)) {
             $content .= <<<EOT
@@ -114,9 +115,9 @@ EOT;
 EOT;
             foreach (array_keys($tables) as $i) {
                 $tableName    = $tables[$i]->getVar('table_name');
-                $stuTableName = $language_thereare . strtoupper($tableName);
+                $stuTableName = $languageThereAre . strtoupper($tableName);
                 $content .= <<<EOT
-\$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count_{$tableName});\n
+\$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count{$ucfTableName});\n
 EOT;
             }
         }

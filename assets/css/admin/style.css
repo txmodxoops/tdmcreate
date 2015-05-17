@@ -50,6 +50,10 @@ tr.modules td {
     vertical-align: middle;
 }
 
+tr.modules td.name {
+    min-width: 70px;
+}
+
 tr.tables td {
     /* display: block; Problems in FireFox and Opera */
     margin: 0;
@@ -59,13 +63,34 @@ tr.tables td {
     vertical-align: middle;
 }
 
+tr.tables td.name {
+    min-width: 70px;
+}
+
+tr.tables-fields td {
+    /* display: block; Problems in FireFox and Opera */
+    margin: 0;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    background-color:rgba(230,130,100,0.3);
+    vertical-align: middle;
+}
+
+tr.tables-fields td.name {
+    min-width: 70px;
+}
+
 tr.fields td {
     /* display: block; Problems in FireFox and Opera */
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(0,255,0,0.3);
+    background-color:rgba(10,215,10,0.3);
     vertical-align: middle;
+}
+
+tr.fields td.name {
+    min-width: 80px;
 }
 
 /*#show_rows { margin: 0; padding: 0; width: 60%; }
@@ -170,7 +195,7 @@ tbody.table-list tr td {
 }
 
 .cell.cell-width3 {
-    width: 8%;
+    width: 9%;
 }
 
 .cell.cell-width4 {
@@ -217,13 +242,8 @@ tbody.table-list tr td {
 
 .field-list tr td {
     padding: 5px 2px;
-    margin-bottom: 3px;
-    /* background-color: #efefef;
-    background-image: -moz-linear-gradient(top, #efefef, #e1e1e1);
-    background-image: -webkit-gradient(linear, left top,left bottom, from(#efefef), to(#e1e1e1));
-    background-image: linear-gradient(top, #efefef, #e1e1e1);
-    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, StartColorStr=#efefef, EndColorStr=#e1e1e1); vale solo per IE */
-    text-shadow:1px 1px 0 #fff;
+    margin-bottom: 3px;    
+    text-shadow: 1px 1px 1px #fff;
     color:#ff8400;
 }
 

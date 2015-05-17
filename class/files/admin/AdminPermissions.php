@@ -99,7 +99,7 @@ if( !empty(\$_POST['submit']) )
 if (count ( array_intersect ( \$group, \$groups ) ) <= 0) {
     redirect_header ( 'index.php', 3, _NOPERM );
 }*/
-\$template_main = '{$moduleDirname}_admin_permissions.tpl';
+\$templateMain = '{$moduleDirname}_admin_permissions.tpl';
 echo \$adminMenu->addNavigation('permissions.php');
 
 \$permission = {$moduleDirname}_CleanVars(\$_REQUEST, 'permission', 1, 'int');

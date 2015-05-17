@@ -78,17 +78,25 @@ class ClassFormElements extends TDMCreateFile
     *  @param string $required
     */
     /**
-     * @param        $language
-     * @param        $fieldName
-     * @param string $required
+     * @param $language
+     * @param $fieldName
+     * @param $required
      * @return string
      */
-    private function getXoopsFormText($language, $fieldName, $required = 'false')
+    private function getXoopsFormText($language, $fieldName, $fieldDefault, $required = 'false')
     {
-        $ret = <<<EOT
+        if($fieldDefault != '') {
+			$ret = <<<EOT
+        // Form Text {$fieldName}
+		\${$fieldName} = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');
+        \$form->addElement( new XoopsFormText({$language}, '{$fieldName}', 20, 150, \${$fieldName}){$required} );\n
+EOT;
+		} else {
+			$ret = <<<EOT
         // Form Text {$fieldName}
         \$form->addElement( new XoopsFormText({$language}, '{$fieldName}', 50, 255, \$this->getVar('{$fieldName}')){$required} );\n
 EOT;
+		}
 
         return $ret;
     }
@@ -621,7 +629,7 @@ EOT;
                     case 1:
                         break;
                     case 2:
-                        $ret .= $this->getXoopsFormText($language, $fieldName, $required);
+                        $ret .= $this->getXoopsFormText($language, $fieldName, $fieldDefault, $required);
                         break;
                     case 3:
                         $ret .= $this->getXoopsFormTextArea($language, $fieldName, $required);
