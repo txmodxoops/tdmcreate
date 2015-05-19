@@ -8,7 +8,56 @@
 # PHP Version: 5.3.13
 
 #
-# Table structure for table `tdmcreate_modules` 38
+# Table structure for table `tdmcreate_settings` 39
+#
+
+CREATE TABLE `tdmcreate_settings` (
+  `set_id`                  INT(5)     UNSIGNED NOT NULL DEFAULT '1',
+  `set_name`                VARCHAR(255)        NOT NULL DEFAULT 'My Module',
+  `set_dirname`             VARCHAR(100)        NOT NULL DEFAULT 'mymoduledirname',
+  `set_version`             VARCHAR(5)          NOT NULL DEFAULT '1.0',
+  `set_since`               VARCHAR(5)          NOT NULL DEFAULT '1.0',
+  `set_min_php`             VARCHAR(5)          NOT NULL DEFAULT '5.3',
+  `set_min_xoops`           VARCHAR(5)          NOT NULL DEFAULT '2.5.7',
+  `set_min_admin`           VARCHAR(5)          NOT NULL DEFAULT '1.1',
+  `set_min_mysql`           VARCHAR(5)          NOT NULL DEFAULT '5.0.7',
+  `set_description`         VARCHAR(255)        NOT NULL DEFAULT 'This module is for doing following...',
+  `set_author`              VARCHAR(255)        NOT NULL DEFAULT 'TDM XOOPS',
+  `set_author_mail`         VARCHAR(255)        NOT NULL DEFAULT 'info@email.com',
+  `set_author_website_url`  VARCHAR(255)        NOT NULL DEFAULT 'http://xoops.org',
+  `set_author_website_name` VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Project',
+  `set_credits`             VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Development Team',
+  `set_license`             VARCHAR(255)        NOT NULL DEFAULT 'GPL 2.0 or later',
+  `set_release_info`        VARCHAR(255)        NOT NULL DEFAULT 'release_info',
+  `set_release_file`        VARCHAR(255)        NOT NULL DEFAULT 'release_info file',
+  `set_manual`              VARCHAR(255)        NOT NULL DEFAULT 'link to manual file',
+  `set_manual_file`         VARCHAR(255)        NOT NULL DEFAULT 'install.txt',
+  `set_image`               VARCHAR(255)        NOT NULL DEFAULT 'empty.png',
+  `set_demo_site_url`       VARCHAR(255)        NOT NULL DEFAULT 'http://www.xoops.org',
+  `set_demo_site_name`      VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Demo Site',
+  `set_support_url`         VARCHAR(255)        NOT NULL DEFAULT 'http://xoops.org/modules/newbb',
+  `set_support_name`        VARCHAR(255)        NOT NULL DEFAULT 'Support Forum',
+  `set_website_url`         VARCHAR(255)        NOT NULL DEFAULT 'www.xoops.org',
+  `set_website_name`        VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Project',
+  `set_release`             VARCHAR(11)         NOT NULL DEFAULT '2015-05-02',
+  `set_status`              VARCHAR(150)        NOT NULL DEFAULT 'Beta 1',
+  `set_admin`               TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',  
+  `set_user`                TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `set_blocks`              TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `set_search`              TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `set_comments`            TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `set_notifications`       TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `set_permissions`         TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `set_inroot_copy`         TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+  `set_donations`           VARCHAR(50)         NOT NULL DEFAULT '6KJ7RW5DR3VTJ',
+  `set_subversion`          VARCHAR(10)         NOT NULL DEFAULT '13070',
+  PRIMARY KEY (`set_id`)
+)ENGINE =InnoDB;
+
+INSERT INTO `tdmcreate_settings` (null, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`) VALUES (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '5.3', '2.5.7', '1.1', '5.0.7', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 2.0 or later', 'release_info', 'release_info file', 'link to manual file', 'install.txt', 'empty.png', 'http://www.xoops.org', 'XOOPS Demo Site', 'http://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project', '2015-05-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070');
+
+#
+# Table structure for table `tdmcreate_modules` 39
 #
 
 CREATE TABLE `tdmcreate_modules` (
@@ -56,6 +105,9 @@ CREATE TABLE `tdmcreate_modules` (
   UNIQUE KEY `mod_dirname` (`mod_dirname`)
 )ENGINE =InnoDB;
 
+#
+# Table structure for table `tdmcreate_tables` 27
+#
 
 CREATE TABLE `tdmcreate_tables` (
   `table_id`            INT(5) UNSIGNED     NOT NULL AUTO_INCREMENT,

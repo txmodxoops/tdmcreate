@@ -53,7 +53,48 @@ define('_AM_TDMCREATE_IMAGE', "Image");
 define('_AM_TDMCREATE_DISPLAY_ADMIN', "Visible in Admin Panel");
 // 1.37
 define('_AM_TDMCREATE_DISPLAY_USER', "Visible in User View");
-
+// Added in version 1.91
+define('_AM_TDMCREATE_SETTING_EDIT', "Edit Customized Settings");
+define('_AM_TDMCREATE_SETTING_NAME', "Name");
+define('_AM_TDMCREATE_SETTING_DIRNAME', "Directory Name");
+define('_AM_TDMCREATE_SETTING_VERSION', "Version");
+define('_AM_TDMCREATE_SETTING_SINCE', "Since");
+define('_AM_TDMCREATE_SETTING_DESCRIPTION', "Description");
+define('_AM_TDMCREATE_SETTING_CREATENEWLOGO', "Create New Logo");
+define('_AM_TDMCREATE_SETTING_AUTHOR', "Author");
+define('_AM_TDMCREATE_SETTING_AUTHOR_MAIL', "Author Email");
+define('_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_URL', "Author Site Url");
+define('_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_NAME', "Author Site Name");
+define('_AM_TDMCREATE_SETTING_CREDITS', "Credits");
+define('_AM_TDMCREATE_SETTING_LICENSE', "License");
+define('_AM_TDMCREATE_SETTING_RELEASE_INFO', "Release Info");
+define('_AM_TDMCREATE_SETTING_RELEASE_FILE', "Release File");
+define('_AM_TDMCREATE_SETTING_MANUAL', "Manual");
+define('_AM_TDMCREATE_SETTING_MANUAL_FILE', "Manual File");
+define('_AM_TDMCREATE_SETTING_IMAGE', "Image");
+define('_AM_TDMCREATE_SETTING_DEMO_SITE_URL', "Demo Site Url");
+define('_AM_TDMCREATE_SETTING_DEMO_SITE_NAME', "Demo Site Name");
+define('_AM_TDMCREATE_SETTING_SUPPORT_URL', "Support URL");
+define('_AM_TDMCREATE_SETTING_SUPPORT_NAME', "Support Name");
+define('_AM_TDMCREATE_SETTING_WEBSITE_URL', "Module Website URL");
+define('_AM_TDMCREATE_SETTING_WEBSITE_NAME', "Module Website Name");
+define('_AM_TDMCREATE_SETTING_RELEASE', "Release");
+define('_AM_TDMCREATE_SETTING_STATUS', "Status");
+define('_AM_TDMCREATE_SETTING_PAYPAL_BUTTON', "Button for Donations");
+define('_AM_TDMCREATE_SETTING_SUBVERSION', "Subversion module");
+define('_AM_TDMCREATE_SETTING_ADMIN', "Visible Admin");
+define('_AM_TDMCREATE_SETTING_USER', "Visible User");
+define('_AM_TDMCREATE_SETTING_MIN_PHP', "Minimum PHP");
+define('_AM_TDMCREATE_SETTING_MIN_XOOPS', "Minimum XOOPS");
+define('_AM_TDMCREATE_SETTING_MIN_ADMIN', "Minimum Admin");
+define('_AM_TDMCREATE_SETTING_MIN_MYSQL', "Minimum Database");
+define('_AM_TDMCREATE_SETTING_BLOCKS', "Activate Blocks");
+define('_AM_TDMCREATE_SETTING_SEARCH', "Activate Search");
+define('_AM_TDMCREATE_SETTING_COMMENTS', "Activate Comments");
+define('_AM_TDMCREATE_SETTING_NOTIFICATIONS', "Activate Notifications");
+define('_AM_TDMCREATE_SETTING_PERMISSIONS', "Activate Permissions");
+define('_AM_TDMCREATE_SETTING_INROOT_MODULES_COPY', "Copy of this module in root/modules");
+define('_AM_TDMCREATE_SETTING_ALL', "Check All");
 //Modules.php
 //Buttons
 define('_AM_TDMCREATE_ADD_MODULE', "Add new module");

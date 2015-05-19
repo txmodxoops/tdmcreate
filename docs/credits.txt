@@ -5,6 +5,6 @@ Originally created by the TDM Team.
 
 Modified by Timgno (http://www.txmodxoops.org)
 
-Contributors: Mamba (http://www.xoops.org)
+Contributors: Mamba (http://www.xoops.org), Goffy (German Xoops)
 
 Included ideas for Logo Generator from Trabis (Publisher module) and Suin (Koins module)

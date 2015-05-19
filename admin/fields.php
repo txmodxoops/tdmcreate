@@ -163,6 +163,7 @@ switch ($op)
 		$fieldId = XoopsRequest::getInt('field_id');
 		// Fields Handler
 		$fields = $tdmcreate->getHandler('fields');
+		$fieldOrder = 1;
 		// Set Variables		
 		foreach($_POST['field_id'] as $key => $value) 
 		{				
@@ -171,8 +172,7 @@ switch ($op)
 			} else { 					
 				$fieldsObj =& $fields->create();										
 			}
-			$fieldOrder = XoopsRequest::getInt('field_order');
-			$order = $fieldsObj->isNew() ? $fieldOrder++ : $fieldOrder;
+			$order = $fieldsObj->isNew() ? $fieldOrder : XoopsRequest::getInt('field_order');
 			// Set Data	
 			$fieldsObj->setVar( 'field_mid', $fieldMid );
 			$fieldsObj->setVar( 'field_tid', $fieldTid );								
@@ -196,7 +196,9 @@ switch ($op)
 			$fieldsObj->setVar( 'field_required', (1 == $_REQUEST['field_required'][$key]) ? 1 : 0);
 			// Insert Data
 			$tdmcreate->getHandler('fields')->insert($fieldsObj);
+			$fieldOrder++;
 		}
+		unset($fieldOrder);
 		// Get table name from field table id
 		$tables =& $tdmcreate->getHandler('tables')->get($fieldTid);
 		$tableName = $tables->getVar('table_name');
