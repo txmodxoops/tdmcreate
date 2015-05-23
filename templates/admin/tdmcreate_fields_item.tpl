@@ -1,8 +1,8 @@
 <table class='width100'>  
     <tbody class="field-list">
-        <{foreach item=field from=$table.fields}>
+        <{foreach item=field from=$table.fields key=field_id}>
             <{if $field.id > 0}>
-                <tr id="forder_<{$field.id}>" order="<{$field.order}>" class="fields <{cycle values='even,odd'}>">
+                <tr id="forder_<{$field.id}>" order="<{$field.order}>" class="tdmc-fields <{cycle values='even,odd'}>">
                     <td class='center width5'>&#91;<{$field.lid}>&#93;&nbsp;<img class="move" src="<{$modPathIcon16}>/drag.png" alt="<{$field.name}>" /></td>
                     <td class='center width10 name'><{$field.name}></td>
                     <td class='center'><img src="<{$modPathIcon16}>/tables.png" alt="Empty" /></td>

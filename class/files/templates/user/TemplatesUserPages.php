@@ -91,7 +91,7 @@ class TemplatesUserPages extends TDMCreateFile
     <thead class="outer">
         <tr class="head">\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName        = $fields[$f]->getVar('field_name');
             $langStuFieldName = $language . strtoupper($fieldName);
@@ -129,7 +129,7 @@ EOT;
         <{foreach item=list from=\${$tableName}}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields    = $this->getTableFields($table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -189,7 +189,7 @@ EOT;
         <{foreach item=list from=\${$tableName}}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields    = $this->getTableFields($table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');

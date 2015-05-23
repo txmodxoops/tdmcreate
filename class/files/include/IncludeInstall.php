@@ -248,7 +248,7 @@ EOT;
         $filename      = $this->getFileName();
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInstallModuleFolder($moduleDirname);
-        $fields = $this->getTableFields($table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             // All fields elements selected

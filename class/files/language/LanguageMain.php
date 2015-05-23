@@ -108,7 +108,7 @@ As you can see, you've created a page with a list of links at the top to navigat
             $ret .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
             $ret .= $this->defines->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
             $ret .= $this->defines->getAboveDefines("Caption of {$ucfTableName}");
-            $fields = $this->getTableFields($tables[$i]->getVar('table_id'));
+            $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);

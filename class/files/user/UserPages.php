@@ -19,18 +19,12 @@
  * @version         $Id: pages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'UserObjects.php';
 
 /**
  * Class UserPages
  */
-class UserPages extends TDMCreateFile
+class UserPages extends UserObjects
 {
-    /*
-    * @var string
-    */
-    private $userobjects;
-
     /*
     *  @public function constructor
     *  @param null
@@ -120,7 +114,7 @@ if (\${$stlTableName}Count > 0) {
     {\n
 EOT;
         // Fields
-        $fields = $this->getTableFields($table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldParent = $fields[$f]->getVar('field_parent');

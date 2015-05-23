@@ -134,11 +134,14 @@ class TDMCreateSettings extends XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
 		$isNew = $this->isNew();
+		
         //
         include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
         //
-        $form = new XoopsThemeForm(_AM_TDMCREATE_SETTING_EDIT, 'settingform', $action, 'post');
+        $form = new XoopsThemeForm(_AM_TDMCREATE_SETTING_EDIT, 'settingform', $action, 'post');		
         $form->setExtra('enctype="multipart/form-data"');
+		
+		$form->addElement(new XoopsFormHidden('set_id', $this->getVar('set_id')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_NAME, 'set_name', 50, 255, $this->getVar('set_name')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_DIRNAME, 'set_dirname', 25, 255, $this->getVar('set_dirname')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_VERSION, 'set_version', 10, 25, $this->getVar('set_version')));
@@ -207,8 +210,9 @@ class TDMCreateSettings extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_RELEASE, 'set_release', 50, 255, $this->getVar('set_release')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_STATUS, 'set_status', 50, 255, $this->getVar('set_status')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
-        $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));
-        $form->addElement(new XoopsFormHidden('op', 'save'));
+        $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));        
+		
+		$form->addElement(new XoopsFormHidden('op', 'save'));
         $form->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
 
         return $form;

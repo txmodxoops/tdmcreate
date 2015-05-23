@@ -79,7 +79,7 @@ class UserViewTag extends TDMCreateFile
      * @param $moduleDirname
      * @return string
      */
-    public function getUserViewTag($moduleDirname)
+    public function getUserViewTag()
     {
         $ret = <<<EOT
 include  __DIR__ . '/header.php';

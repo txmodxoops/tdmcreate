@@ -36,7 +36,7 @@ switch ($op) {
         $start = XoopsRequest::getInt('start', 0);
         $limit = XoopsRequest::getInt('limit', $tdmcreate->getConfig('modules_adminpager'));
         // Define main template
-        $template_main = 'tdmcreate_tables.tpl';
+        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
 		$GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
@@ -132,7 +132,7 @@ switch ($op) {
 
     case 'new':
         // Define main template
-        $template_main = 'tdmcreate_tables.tpl';
+        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('tables.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
@@ -230,7 +230,7 @@ switch ($op) {
 
     case 'edit':
         // Define main template
-        $template_main = 'tdmcreate_tables.tpl';
+        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('tables.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');

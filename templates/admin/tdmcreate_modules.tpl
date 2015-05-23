@@ -19,7 +19,7 @@
         <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_PERMISSIONS_LIST}></th>
         <th class='center width5'><{$smarty.const._AM_TDMCREATE_FORMACTION}></th>
      </tr>
-     <{foreach item=module from=$modules_list}>
+     <{foreach item=module from=$modules_list key=mod_id}>
      <tr id="module<{$module.id}>" class="modules">
         <td class='center bold'><{$module.id}></td>
         <td class='center bold green'><{$module.name}></td>

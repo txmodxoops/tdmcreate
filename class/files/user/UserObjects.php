@@ -23,9 +23,27 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserObjects
  */
-class UserObjects
+class UserObjects extends TDMCreateFile
 {
     /*
+    * @var string
+    */
+    protected $userobjects;
+	
+	/*
+    *  @public function constructor
+    *  @param null
+    */
+    /**
+     *
+     */
+    public function __construct()
+    {
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
+    }
+
+	/*
     *  @static function &getInstance
     *  @param null
     */
@@ -87,7 +105,228 @@ include  __DIR__ . '/footer.php';
 EOT;
         return $ret;
     }
+	
+	/*
+    *  @public function getSimpleSetVar
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getSimpleSetVar($tableName, $fieldName)
+    {
+        $ret = <<<EOT
+        // Set Var {$fieldName}
+        \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n
+EOT;
+        return $ret;
+    }
 
+    /*
+    *  @public function getTextDateSelectSetVar
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getTextDateSelectSetVar($tableName, $fieldName)
+    {
+        $ret = <<<EOT
+        // Set Var {$fieldName}
+        \${$tableName}Obj->setVar('{$fieldName}', strtotime(\$_POST['{$fieldName}']));\n
+EOT;
+        return $ret;
+    }
+
+    /*
+    *  @public function getCheckBoxOrRadioYNSetVar
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getCheckBoxOrRadioYNSetVar($tableName, $fieldName)
+    {
+        $ret = <<<EOT
+        // Set Var {$fieldName}
+        \${$tableName}Obj->setVar('{$fieldName}', ((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0'));\n
+EOT;
+        return $ret;
+    }
+
+    /*
+    *  @public function getUrlFileSetVar
+    *  @param $moduleDirname
+	*  @param $tableName
+    *  @param $fieldName
+    *  @return string
+    */
+    public function getUrlFileSetVar($moduleDirname, $tableName, $fieldName)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+		$ret = <<<EOT
+        // Set Var {$fieldName}
+        \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
+		// Set Var {$fieldName}
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
+                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
+            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);
+            if (!\$uploader->upload()) {
+                \$errors = \$uploader->getErrors();
+                redirect_header('javascript:history.go(-1)', 3, \$errors);
+            } else {
+                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
+            }
+        }\n
+EOT;
+        
+		return $ret;
+    }
+
+    /*
+    *  @public function getImageListSetVar
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getImageListSetVar($moduleDirname, $tableName, $fieldName)
+    {
+        $ret = <<<EOT
+        // Set Var {$fieldName}
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        \$uploaddir = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
+        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
+                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
+            //\$uploader->setPrefix('{$fieldName}_');
+            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);
+            if (!\$uploader->upload()) {
+                \$errors = \$uploader->getErrors();
+                redirect_header('javascript:history.go(-1)', 3, \$errors);
+            } else {
+                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
+            }
+        } else {
+            \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
+        }\n
+EOT;
+        return $ret;
+    }
+
+    /*
+    *  @public function getUploadImageSetVar
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fpmf)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ret              = <<<EOT
+        // Set Var {$fieldName}
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/images/{$tableName}';
+        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
+                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {            
+			\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);
+            \$imgName = str_replace(' ', '', \$_POST['{$fpmf}']).'.'.\$extension;
+			\$uploader->setPrefix(\$imgName);
+            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
+            if (!\$uploader->upload()) {
+                \$errors = \$uploader->getErrors();
+                redirect_header('javascript:history.go(-1)', 3, \$errors);
+            } else {
+                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
+            }
+        } else {
+            \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
+        }\n
+EOT;
+        return $ret;
+    }
+
+    /*
+    *  @public function getUploadFileSetVar
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getUploadFileSetVar($moduleDirname, $tableName, $fieldName)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ret              = <<<EOT
+        // Set Var {$fieldName}
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
+        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
+                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
+            //\$uploader->setPrefix('{$fieldName}_') ;
+            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);
+            if (!\$uploader->upload()) {
+                \$errors = \$uploader->getErrors();
+                redirect_header('javascript:history.go(-1)', 3, \$errors);
+            } else {
+                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
+            }
+        }\n
+EOT;
+        return $ret;
+    }
+	
+	/**
+     *  @public function getUserSaveElements
+     *
+     *  @param $fields
+     *  @return string
+     */
+    public function getUserSaveFieldId($fields)
+    {
+		foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+			if (0 == $f) {
+                $fieldId = $fieldName;
+            }
+        }
+		return $fieldId;
+	}
+	
+	/**
+     *  @public function getUserSaveElements
+     *
+	 *  @param $moduleDirname
+     *  @param $tableName
+     *  @param $fields
+     *  @return string
+     */
+    public function getUserSaveElements($moduleDirname, $tableName, $fields)
+    {
+		$ret = '';
+		foreach (array_keys($fields) as $f) {
+            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+			if(1 == $fields[$f]->getVar('field_main')) {							
+				$fieldMain = $fieldName;
+			}
+            if ((5 == $fieldElement) || (6 == $fieldElement)) {
+                $ret .= $this->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+            } elseif (13 == $fieldElement) {                
+				$ret .= $this->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+            } elseif (14 == $fieldElement) {
+                $ret .= $this->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+            } elseif (15 == $fieldElement) {
+                $ret .= $this->getTextDateSelectSetVar($tableName, $fieldName);
+            } else {
+                $ret .= $this->getSimpleSetVar($tableName, $fieldName);
+            }
+        }
+		return $ret;
+	}
+	
     /*
     *  @public function getSimpleGetVar
     *  @param string $lpFieldName

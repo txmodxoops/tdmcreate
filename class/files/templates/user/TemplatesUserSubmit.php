@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: TemplatesBlocks.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TemplatesUserSubmit.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesBlocks
+ * Class TemplatesUserSubmit
  */
-class TemplatesBlocks extends TDMCreateFile
+class TemplatesUserSubmit extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -43,7 +43,7 @@ class TemplatesBlocks extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return TemplatesBlocks
+     * @return TemplatesUserSubmit
      */
     public static function &getInstance()
     {
@@ -59,6 +59,7 @@ class TemplatesBlocks extends TDMCreateFile
     *  @public function write
     *  @param string $module
     *  @param string $table
+    *  @param string $filename
     */
     /**
      * @param $module
@@ -71,7 +72,7 @@ class TemplatesBlocks extends TDMCreateFile
     }
 
     /*
-    *  @private function getTemplatesBlocksHeader
+    *  @private function getTemplatesUserSubmitHeader
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -82,21 +83,23 @@ class TemplatesBlocks extends TDMCreateFile
      * @param $language
      * @return string
      */
-    private function getTemplatesBlocksHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserSubmitHeader($moduleDirname, $table, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-<table class="{$tableName} width100">
-    <thead>
+        $ret    = <<<EOT
+<{include file="db:{$moduleDirname}_header.tpl"}>
+<table class="{$moduleDirname}">
+    <thead class="outer">
         <tr class="head">\n
 EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName           = $fields[$f]->getVar('field_name');
-            $lang_stu_field_name = $language . strtoupper($fieldName);
-            $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$lang_stu_field_name}}></th>\n
+            $fieldName        = $fields[$f]->getVar('field_name');
+            $langStuFieldName = $language . strtoupper($fieldName);
+            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+                $ret .= <<<EOT
+            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
 EOT;
+            }
         }
         $ret .= <<<EOT
         </tr>
@@ -107,7 +110,7 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesBlocksBody
+    *  @private function getTemplatesUserSubmitBody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -118,7 +121,7 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesBlocksBody($moduleDirname, $table, $language)
+    private function getTemplatesUserSubmitBody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -131,45 +134,43 @@ EOT;
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
-            switch ($fieldElement) {
-                case 9:
-                    $ret .= <<<EOT
+            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+                switch ($fieldElement) {
+                    case 9:
+                        $ret .= <<<EOT
                 <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
 EOT;
-                    break;
-                case 10:
-                    $ret .= <<<EOT
-                <td class="center">
-                    <img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}">
-                </td>\n
+                        break;
+                    case 10:
+                        $ret .= <<<EOT
+                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
 EOT;
-                    break;
-                case 13:
-                    $ret .= <<<EOT
-                <td class="center">
-                    <img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}">
-                </td>\n
+                        break;
+                    case 13:
+                        $ret .= <<<EOT
+                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
 EOT;
-                    break;
-                default:
-                    $ret .= <<<EOT
+                        break;
+                    default:
+                        $ret .= <<<EOT
                 <td class="center"><{\$list.{$rpFieldName}}></td>\n
 EOT;
-                    break;
+                        break;
+                }
             }
         }
         $ret .= <<<EOT
             </tr>
         <{/foreach}>
     </tbody>
-</table>
+</table>\n
 EOT;
 
         return $ret;
     }
 
     /*
-    *  @private function getTemplatesBlocksBodyFieldnameEmpty
+    *  @private function getTemplatesUserSubmitBodyFieldnameEmpty
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -180,7 +181,7 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesBlocksBodyFieldnameEmpty($moduleDirname, $table, $language)
+    private function getTemplatesUserSubmitBodyFieldnameEmpty($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -192,38 +193,48 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            switch ($fieldElement) {
-                case 9:
-                    $ret .= <<<EOT
-                <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;">\t\t</span></td>\n
+            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+                switch ($fieldElement) {
+                    case 9:
+                        $ret .= <<<EOT
+            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
 EOT;
-                    break;
-                case 10:
-                    $ret .= <<<EOT
-                <td class="center">
-                    <img src="<{xoModuleIcons32}><{\$list.{$fieldName}}>" alt="{$tableName}">
-                </td>\n
+                        break;
+                    case 13:
+                        $ret .= <<<EOT
+            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
 EOT;
-                    break;
-                case 13:
-                    $ret .= <<<EOT
-                <td class="center">
-                    <img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}">
-                </td>\n
+                        break;
+                    default:
+                        $ret .= <<<EOT
+            <td class="center"><{\$list.{$fieldName}}></td>\n
 EOT;
-                    break;
-                default:
-                    $ret .= <<<EOT
-                <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
-                    break;
+                        break;
+                }
             }
         }
         $ret .= <<<EOT
             </tr>
         <{/foreach}>
     </tbody>
-</table>
+</table>\n
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserSubmitFooter
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    private function getTemplatesUserSubmitFooter($moduleDirname)
+    {
+        $ret = <<<EOT
+<{include file="db:{$moduleDirname}_footer.tpl"}>
 EOT;
 
         return $ret;
@@ -242,19 +253,18 @@ EOT;
         $module         = $this->getModule();
         $table          = $this->getTable();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MB');
-        $content        = $this->getTemplatesBlocksHeader($moduleDirname, $table, $language);
+        $language       = $this->getLanguage($moduleDirname, 'MA');
+        $content        = $this->getTemplatesUserSubmitHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesBlocksBody($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserSubmitBody($moduleDirname, $table, $language);
         } else {
-            $content .= $this->getTemplatesBlocksBodyFieldnameEmpty($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserSubmitBodyFieldnameEmpty($moduleDirname, $table, $language);
         }
-        //$content .= $this->getTemplatesBlocksFooter($moduleDirname);
+        $content .= $this->getTemplatesUserSubmitFooter($moduleDirname);
         //
-        $this->tdmcfile->create($moduleDirname, 'templates/blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

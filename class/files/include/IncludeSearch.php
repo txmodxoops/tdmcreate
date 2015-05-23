@@ -75,26 +75,26 @@ class IncludeSearch extends TDMCreateFile
 
     /*
     *  @static function getSearchField
-    *  @param string $fpsf
+    *  @param string $fieldSearch
     *  @param string $options
     */
     /**
-     * @param $fpsf
+     * @param $fieldSearch
      * @param $options
      * @return string
      */
-    public function getSearchField($fpsf, $options)
+    public function getSearchField($fieldSearch, $options)
     {
-        // fpsf = fields parameters search field
+        // fieldSearch = fields parameters search field
         $sql = '';
-        if (isset($fpsf)) {
-            $nb_fpsf = count($fpsf);
+        if (isset($fieldSearch)) {
+            $nb_fieldSearch = count($fieldSearch);
             $sql .= '(';
-            for ($i = 0; $i < $nb_fpsf; ++$i) {
-                if ($i != $nb_fpsf - 1) {
-                    $sql .= '' . $fpsf[$i] . ' LIKE %$queryarray[' . $options . ']% OR ';
+            for ($i = 0; $i < $nb_fieldSearch; ++$i) {
+                if ($i != $nb_fieldSearch - 1) {
+                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[' . $options . ']% OR ';
                 } else {
-                    $sql .= '' . $fpsf[$i] . ' LIKE %$queryarray[0]%';
+                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[0]%';
                 }
             }
             $sql .= ')';
@@ -105,7 +105,7 @@ class IncludeSearch extends TDMCreateFile
 
     /*
     *  @static function getSearchFunction
-    *  @param string $fpsf
+    *  @param string $fieldSearch
     */
     /**
      * @param $moduleDirname
@@ -116,19 +116,19 @@ class IncludeSearch extends TDMCreateFile
         $table          = $this->getTable();
         $tableName      = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $fpif           = '';
-        $fpsf           = null;
-        $fields         = $this->getTableFields($table->getVar('table_id'));
+        $fieldId        = '';
+        $fieldSearch    = null;
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fpif = $fieldName;
+                $fieldId = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fieldName;
+                $fieldMain = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_search')) {
-                $fpsf = $fieldName;
+                $fieldSearch = $fieldName;
             }
         }
         $img_search = 'blank.gif';
@@ -137,7 +137,7 @@ class IncludeSearch extends TDMCreateFile
 function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$userid)
 {
     global \$xoopsDB;
-    \$sql = "SELECT '{$fpif}', '{$fpmf}' FROM ".\$xoopsDB->prefix('mod_{$moduleDirname}_{$tableName}')." WHERE {$fpif} != 0";
+    \$sql = "SELECT '{$fieldId}', '{$fieldMain}' FROM ".\$xoopsDB->prefix('{$moduleDirname}_{$tableName}')." WHERE {$fieldId} != 0";
     if ( \$userid != 0 ) {
         \$sql .= " AND {$tableFieldname}_submitter=".(int) (\$userid);
     }
@@ -145,25 +145,25 @@ function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$use
     {
         \$sql .= " AND (
 EOT;
-        $ret .= $this->getSearchField($fpsf, 0) . '"';
+        $ret .= $this->getSearchField($fieldSearch, 0) . '";';
         $ret .= <<<EOT
 
         for(\$i = 1; \$i < \$count; ++\$i)
         {
             \$sql .= " \$andor ";
-            \$sql .= "{$this->getSearchField($fpsf, '$i')}";
+            \$sql .= "{$this->getSearchField($fieldSearch, '$i')}";
         }
         \$sql .= ")";
     }
-    \$sql .= " ORDER BY '{$fpif}' DESC";
+    \$sql .= " ORDER BY '{$fieldId}' DESC";
     \$result = \$xoopsDB->query(\$sql,\$limit,\$offset);
     \$ret = array();
     \$i = 0;
     while(\$myrow = \$xoopsDB->fetchArray(\$result))
     {
-        \$ret[\$i]['image'] = 'assets/images/icons/32/{$img_search}';
-        \$ret[\$i]['link'] = '{$tableName}.php?{$fpif}='.\$myrow['{$fpif}'];
-        \$ret[\$i]['title'] = \$myrow['{$fpmf}'];
+        \$ret[\$i]['image'] = 'assets/icons/32/{$img_search}';
+        \$ret[\$i]['link'] = '{$tableName}.php?{$fieldId}='.\$myrow['{$fieldId}'];
+        \$ret[\$i]['title'] = \$myrow['{$fieldMain}'];
         ++\$i;
     }
     unset(\$i);

@@ -102,7 +102,7 @@ class LanguageBlocks extends TDMCreateFile
             $tableName    = $tables[$t]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
             $ret .= $this->defines->getAboveDefines($ucfTableName);
-            $fields = $this->getTableFields($tables[$t]->getVar('table_id'));
+            $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);

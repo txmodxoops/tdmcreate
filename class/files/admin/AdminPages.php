@@ -19,8 +19,6 @@
  * @version         $Id: pages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'AdminObjects.php';
-
 /**
  * Class AdminPages
  */
@@ -83,7 +81,7 @@ class AdminPages extends TDMCreateFile
     public function getAdminPagesHeader($moduleDirname, $tableName, $fieldId)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-		$ucfTableName = ucfirst($tableName);
+		$ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
 include  __DIR__ . '/header.php';
 //It recovered the value of argument op in URL$
@@ -143,7 +141,7 @@ EOT;
         \${$tableName}Count = \${$tableName}Handler->getCount(\$criteria);
         \${$tableName}All = \${$tableName}Handler->getAll(\$criteria);
         unset(\$criteria);
-		\$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_count', \${$tableName}Count);
+		\$GLOBALS['xoopsTpl']->assign('{$tableName}_count', \${$tableName}Count);
         \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stuModuleDirname}_URL);
         \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
         // Table view
@@ -248,7 +246,7 @@ EOT;
         $stuTableName = strtoupper($tableName);
         $ret          = <<<EOT
     case 'new':
-        \$template_main = '{$moduleDirname}_admin_{$tableName}.tpl';
+        \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
@@ -353,7 +351,7 @@ EOT;
         $stuTableFieldname = strtoupper($tableFieldname);
         $ret               = <<<EOT
     case 'edit':
-        \$template_main = '{$moduleDirname}_admin_{$tableName}.tpl';
+        \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
         \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
@@ -460,7 +458,7 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableName      = $table->getVar('table_name');        
         $language       = $this->tdmcfile->getLanguage($moduleDirname, 'AM');
-        $fields         = $this->tdmcfile->getTableFields($table->getVar('table_id'));
+        $fields         = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldInForm = $fields[$f]->getVar('field_inform');

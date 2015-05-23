@@ -86,7 +86,7 @@ class UserRss extends TDMCreateFile
     {
         $table     = $this->getTable();
         $tableName = $table->getVar('table_name');
-        $fields    = $this->getTableFields($table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $rpFieldName = $fieldName;

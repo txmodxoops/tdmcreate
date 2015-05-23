@@ -89,7 +89,7 @@ class UserPrint extends TDMCreateFile
         $tableName        = $table->getVar('table_name');
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
-        $fields           = $this->getTableFields($table->getVar('table_id'));
+        $fields           = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $rpFieldName  = $fieldName;
@@ -101,25 +101,25 @@ class UserPrint extends TDMCreateFile
             }
             $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
-                $fpif = $fieldName;
+                $fieldId = $fieldName;
             } else {
                 if (1 == $fields[$f]->getVar('field_main')) {
-                    $fpmf = $fieldName; // fpmf = fields parameters main field
+                    $fieldMain = $fieldName; // fieldMain = fields parameters main field
                 }
             }
         }
         $stuLpFieldName = strtoupper($lpFieldName);
         $ret               = <<<EOT
 \ninclude  __DIR__ . '/header.php';
-{$lpFieldName} = isset(\$_GET['{$fpif}']) ? (int) (\$_GET['{$fpif}']) : 0;
-if ( empty({$fpif}) ) {
+{$lpFieldName} = isset(\$_GET['{$fieldId}']) ? (int) (\$_GET['{$fieldId}']) : 0;
+if ( empty({$fieldId}) ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
 }
 EOT;
         if ($fieldName == $lpFieldName . '_published') {
             $ret .= <<<EOT
 // Verify that the article is published
-{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fpif});
+{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
 // Not yet published
 if ( {$lpFieldName}->getVar('{$lpFieldName}_published') == 0 || {$lpFieldName}->getVar('{$lpFieldName}_published') > time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
@@ -130,7 +130,7 @@ EOT;
         if ($fieldName == 'published') {
             $ret .= <<<EOT
 // Verify that the article is published
-{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fpif});
+{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
 // Not yet published
 if ( {$lpFieldName}->getVar('published') == 0 || {$lpFieldName}->getVar('published') > time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
@@ -165,7 +165,7 @@ if (is_object(\$xoopsUser)) {
 } else {
     \$groups = XOOPS_GROUP_ANONYMOUS;
 }
-if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lpFieldName}->getVat('{$fpif}'), \$groups, \$xoopsModule->getVar('mid'))) {
+if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lpFieldName}->getVat('{$fieldId}'), \$groups, \$xoopsModule->getVar('mid'))) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 3, _NOPERM);
     exit();
 }

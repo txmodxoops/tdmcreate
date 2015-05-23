@@ -218,7 +218,7 @@ EOT;
         $tableFieldname = $table->getVar('table_fieldname');
         $tableCategory  = $table->getVar('table_category');
         $language       = $this->getLanguage($moduleDirname, 'MB');
-        $fields         = $this->getTableFields($table->getVar('table_id'));
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             if (0 == $f) {
                 $fpif = $fields[$f]->getVar('field_name');

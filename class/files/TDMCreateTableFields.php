@@ -32,16 +32,34 @@ class TDMCreateTableFields extends TDMCreateAbstract
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
     }
+	
+	/**
+     *  @public function getTableTables
+     *  @param  $mId
+     *  @return mixed
+     */
+    public function getTableTables($mId)
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('table_mid', $mId)); // $mId = module Id
+		$criteria->setSort('table_order');
+        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteria);
+        unset($criteria);
+
+        return $tables;
+    }
 
     /**
      *  @public function getTableFields
-     *  @param $tableId
+     *  @param $mId
+	 *  @param $tId
      *  @return mixed
      */
-    public function getTableFields($tableId)
+    public function getTableFields($mId, $tId)
     {
         $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('field_tid', $tableId));
+        $criteria->add(new Criteria('field_mid', $mId)); // $mId = module Id
+		$criteria->add(new Criteria('field_tid', $tId)); // $tId = table Id
 		$criteria->setSort('field_order');
         $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteria);
         unset($criteria);

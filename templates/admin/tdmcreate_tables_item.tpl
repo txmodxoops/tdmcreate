@@ -1,6 +1,6 @@
 <table class='width100'>  
     <tbody class="table-list">
-        <{foreach item=table from=$module.tables}>
+        <{foreach item=table from=$module.tables key=table_id}>
             <{if $table.id > 0}>
                 <tr id="torder_<{$table.id}>" order="<{$table.order}>" class="tables <{cycle values='even,odd'}>">
                     <td class='cell cell-width1'>&#91;<{$table.lid}>&#93;&nbsp;<img class="move" src="<{$modPathIcon16}>/drag.png" alt="<{$table.name}>" /></td>

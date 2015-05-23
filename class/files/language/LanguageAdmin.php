@@ -153,11 +153,12 @@ class LanguageAdmin extends TDMCreateFile
         //
         foreach (array_keys($tables) as $t) {
             $tableId           = $tables[$t]->getVar('table_id');
+			$tableMid          = $tables[$t]->getVar('table_mid');
             $tableName         = $tables[$t]->getVar('table_name');
 			$tableSoleName     = $tables[$t]->getVar('table_solename');
             $ucfTableSoleName  = ucfirst($tableSoleName);
             //
-			$fields = $this->getTableFields($tableId);
+			$fields = $this->getTableFields($tableMid, $tableId);
 			foreach (array_keys($fields) as $f) {
 				$fieldInForm = $fields[$f]->getVar('field_inform');
             }

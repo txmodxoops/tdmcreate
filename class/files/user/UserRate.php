@@ -23,7 +23,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserRate
  */
-class UserRate extends TDMCreateFile
+class UserRate extends UserObjects
 {
     /*
     *  @public function constructor
@@ -34,7 +34,9 @@ class UserRate extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
+		$this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -150,40 +152,26 @@ EOT;
     */
     /**
      * @param $moduleDirname
-     * @param $table_id
-     * @param $tableName
+     * @param $fields
+	 * @param $tableName
+     * @param $language
      * @return string
      */
-    public function getUserRateSave($moduleDirname, $table_id, $tableName)
+    public function getUserRateSave($moduleDirname, $fields, $tableName, $language)
     {
-        $ret    = <<<EOT
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+		$ret     = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
            redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset(\$_REQUEST['{$fpif}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fpif}']);
+        if (isset(\$_REQUEST['{$fieldId}'])) {
+           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
         } else {
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        $fields = $this->getTableFields($table_id);
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= $this->adminobjects->getCheckBoxOrRadioYN($tableName, $fieldName);
-            } elseif (13 == $fieldElement) {
-                $ret .= $this->adminobjects->getUploadImage($moduleDirname, $tableName, $fieldName);
-            } elseif (14 == $fieldElement) {
-                $ret .= $this->adminobjects->getUploadFile($moduleDirname, $tableName, $fieldName);
-            } elseif (15 == $fieldElement) {
-                $ret .= $this->adminobjects->getTextDateSelect($tableName, $fieldName);
-            } else {
-                $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
-            }
-        }
-
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -227,13 +215,15 @@ EOT;
         $table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $table_id      = $table->getVar('table_id');
+        $tableId       = $table->getVar('table_id');
+		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
+		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserRateHeader($moduleDirname);
         $content .= $this->getUserRateForm($module, $tableName, $language);
-        $content .= $this->getUserRateSave($moduleDirname, $table_id, $tableName);
+        $content .= $this->getUserRateSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserRateFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

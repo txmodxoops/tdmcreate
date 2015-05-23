@@ -22,10 +22,17 @@ include __DIR__ . '/header.php';
 $op        = XoopsRequest::getString('op', 'default');
 $mid       = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
+// Clear cache
+$cacheFile1 = TDMC_CLASSES_PATH . '/cache/classpaths.cache';
+$cacheFile2 = TDMC_CLASSES_PATH . '/files/cache/classpaths.cache';
+if (file_exists($cacheFile1) && file_exists($cacheFile2)) {
+	unlink($cacheFile1);
+	unlink($cacheFile2);
+}
 // Switch option
 switch ($op) {
     case 'build':
-        $template_main = 'tdmcreate_building.tpl';
+        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('building.php'));
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
@@ -72,7 +79,7 @@ switch ($op) {
 
     case 'default':
     default:
-        $template_main = 'tdmcreate_building.tpl';
+        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('building.php'));
         // Redirect if there aren't modules
         $nbModules = $tdmcreate->getHandler('modules')->getCount();

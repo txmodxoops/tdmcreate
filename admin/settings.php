@@ -22,16 +22,16 @@ include  __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'edit');
 //
-$modId = XoopsRequest::getInt('set_id');
+$setId = XoopsRequest::getInt('set_id');
 //
 switch ($op) {
     case 'edit':
     default:
         // Define main template
-        $template_main = 'tdmcreate_settings.tpl';
+        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
-        $settingsObj = $tdmcreate->getHandler('settings')->get($modId);
-        $form       = $settingsObj->getForm();
+        $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
+        $form        = $settingsObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -39,8 +39,8 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-		if (isset($modId)) {
-            $settingsObj =& $tdmcreate->getHandler('settings')->get($modId);
+		if (isset($setId)) {
+            $settingsObj =& $tdmcreate->getHandler('settings')->get($setId);
         } 
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save

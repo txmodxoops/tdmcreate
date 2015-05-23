@@ -87,17 +87,26 @@ class IncludeNotifications extends TDMCreateFile
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
         $tableFieldname   = $table->getVar('table_fieldname');
-        $fields           = $this->getTableFields($table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+		$tableSolename    = $table->getVar('table_solename');
+        $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldParent      = 'cid';
+		foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fpif = $fieldName;
+                $fieldId = $fieldName;
             }
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fieldName;
+            if (1 == $fields[$f]->getVar('field_parent')) {
+                $fieldParent = $fieldName;
+            }
+			if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName;
             }
         }
-
+		if(1 == $table->getVar('table_single')) {
+			$tableSingle = 'single';
+		} else {
+			$tableSingle = $tableName;
+		}
         $ret = <<<EOT
 \n// comment callback functions
 function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
@@ -123,21 +132,31 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
         break;
         case 'category':
             // Assume we have a valid category id
-            \$sql = 'SELECT {$fpmf} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fpif} = '. \$item_id;
+            \$sql = 'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$item_id;
             \$result = \$xoopsDB->query(\$sql); // TODO: error check
             \$result_array = \$xoopsDB->fetchArray(\$result);
-            \$item['name'] = \$result_array['{$fpmf}'];
-            \$item['url'] = {$stuModuleDirname}_URL . '/{$tableName}.php?{$fpif}=' . \$item_id;
+            \$item['name'] = \$result_array['{$fieldMain}'];
+            \$item['url'] = {$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id;
             return \$item;
         break;
-        case '{$tableFieldname}':
+        case '{$tableSolename}':
             // Assume we have a valid link id
-            \$sql = 'SELECT {$fpif}, {$fpmf} FROM '.\$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fpif} = ' . \$item_id;
+            \$sql = 'SELECT {$fieldId}, {$fieldMain} FROM '.\$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = ' . \$item_id;
             \$result = \$xoopsDB->query(\$sql); // TODO: error check
             \$result_array = \$xoopsDB->fetchArray(\$result);
-            \$item['name'] = \$result_array['{$fpmf}'];
-            \$item['url'] = {$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldName}=' . \$result_array['{$fieldName}'] . '&amp;{$fpif}=' . \$item_id;
-            return \$item;
+            \$item['name'] = \$result_array['{$fieldMain}'];\n
+EOT;
+            if ($fieldParent) {
+				$ret .= <<<EOT
+			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id;\n
+EOT;
+			} else {
+				$ret .= <<<EOT
+			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldId}=' . \$item_id;\n
+EOT;
+			}
+			$ret .= <<<EOT
+			return \$item;
         break;
     }
 }

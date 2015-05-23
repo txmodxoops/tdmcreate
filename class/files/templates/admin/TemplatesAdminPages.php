@@ -81,7 +81,6 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
 		$tableSoleName = $table->getVar('table_solename');
         $ret           = <<<EOT
 <{include file="db:{$moduleDirname}_admin_header.tpl"}>
-<{if {$tableName}_count}>
     <table class="outer {$tableName} width100">
         <thead>
             <tr class="head">\n
@@ -118,6 +117,7 @@ EOT;
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
         <tbody>
+		<{if {$tableName}_count}>
             <{foreach item=list from=\${$tableName}_list}>
                 <tr class="<{cycle values='odd, even'}>">\n
 EOT;
@@ -164,6 +164,7 @@ EOT;
                     </td>
                 </tr>
             <{/foreach}>
+		<{/if}>
         </tbody>
     </table>\n
 EOT;
@@ -184,6 +185,7 @@ EOT;
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
     <tbody>
+		<{if {$tableName}_count}>
             <{foreach item=list from=\${$tableName}_list}>
                 <tr class="<{cycle values='odd, even'}>">\n
 EOT;
@@ -229,6 +231,7 @@ EOT;
                     </td>
                 </tr>
             <{/foreach}>
+		<{/if}>
         </tbody>
     </table>\n
 EOT;
@@ -249,7 +252,6 @@ EOT;
         <!-- Display navigation -->
         <div class="xo-pagenav floatright"><{\$pagenav}></div><div class="clear spacer"></div>
     <{/if}>
-<{/if}>
 <{if \$form}>
 	<!-- Display form (add,edit) -->
 	<div class="spacer"><{\$form}></div>
@@ -279,7 +281,7 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'AM');
-        $fields         = $this->getTableFields($table->getVar('table_id'));
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $content        = $this->getTemplatesAdminPagesHeader($moduleDirname, $table, $fields, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {

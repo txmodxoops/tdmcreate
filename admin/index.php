@@ -24,7 +24,7 @@ $count_modules = $tdmcreate->getHandler('modules')->getCount($criteria);
 $count_tables  = $tdmcreate->getHandler('tables')->getCount($criteria);
 $count_fields  = $tdmcreate->getHandler('fields')->getCount($criteria);
 unset($criteria);
-$template_main = 'tdmcreate_index.tpl';
+$templateMain = 'tdmcreate_index.tpl';
 $adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
 $adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $count_modules, 'Green');
 $adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $count_tables, 'Orange');

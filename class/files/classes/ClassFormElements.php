@@ -210,14 +210,17 @@ EOT;
      * @param        $language
      * @param        $moduleDirname
      * @param        $tableName
+	 * @param        $tableSoleName
      * @param        $fieldName
      * @param string $required
      * @return string
      */
-    private function getXoopsFormImageList($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
+    private function getXoopsFormImageList($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
     {
         $stuTableName = strtoupper($tableName);
         $stuFieldName = strtoupper($fieldName);
+		$rpFieldName  = $this->tdmcfile->getRightString($fieldName);
+		$stuSoleName  = strtoupper($tableSoleName .'_'. $rpFieldName);
         $ret          = <<<EOT
         // Form image file
         \$get_{$fieldName} = \$this->getVar('{$fieldName}');
@@ -226,7 +229,7 @@ EOT;
         \$uploads_dir = '/uploads/'.\$GLOBALS['xoopsModule']->dirname().'/images/{$tableName}';
         \$iconsdirectory = is_dir(XOOPS_ROOT_PATH . \$iconsdir) ? \$iconsdir : \$uploads_dir;
         //
-        \$imgtray1 = new XoopsFormElementTray({$language}{$stuFieldName},'<br />');
+        \$imgtray1 = new XoopsFormElementTray({$language}{$stuSoleName},'<br />');
         \$imgpath = is_dir(XOOPS_ROOT_PATH . \$iconsdir) ? sprintf({$language}FORMIMAGE_PATH, ".{\$iconsdir}/") : sprintf({$language}FORMIMAGE_PATH, \$uploads_dir);
         //\$imgpath1 = sprintf({$language}FORMIMAGE_PATH, ".{\$iconsdirectory}/");
         \$imageselect1 = new XoopsFormSelect(\$imgpath, '{$fieldName}', \${$fieldName}, 10);
@@ -554,33 +557,23 @@ EOT;
      * @param string $required
      * @return string
      */
-    private function getXoopsFormTopic($language, $moduleDirname, $table, $fields, $required = 'false')
-    {
-        $tableName    = $table->getVar('table_name');
-        $ucfTableName = ucfirst($tableName);
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fieldId = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldPid = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
-            }
-        }
+    private function getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldId, $fieldPid, $fieldMain, $required = 'false')
+    {        
+        $ucfTopicTableName = ucfirst($topicTableName);
+		$stlTopicTableName = strtolower($topicTableName);        		
         $ret = <<<EOT
-        // Form Topic {$ucfTableName}
-        //\${$tableName}Handler = \$this->{$moduleDirname}->getHandler('{$tableName}');
+        // Form Topic {$ucfTopicTableName}
+        \${$stlTopicTableName}Handler = \$this->{$moduleDirname}->getHandler('{$stlTopicTableName}');
         \$criteria = new CriteriaCompo();
-        \${$tableName} = \${$tableName}Handler->getObjects( \$criteria );
-        if(\${$tableName}) {
+        \${$stlTopicTableName}Count = \${$stlTopicTableName}Handler->getCount( \$criteria );
+        if(\${$stlTopicTableName}Count) {
             include_once(XOOPS_ROOT_PATH . '/class/tree.php');
-            \${$tableName}_tree = new XoopsObjectTree( \${$tableName}, '{$fieldId}', '{$fieldPid}' );
-            \${$fieldPid} = \${$tableName}_tree->makeSelBox( '{$fieldPid}', '{$fieldMain}', '--', \$this->getVar('{$fieldPid}', 'e' ), true );
+			\${$stlTopicTableName}All = \${$stlTopicTableName}Handler->getAll(\$criteria);
+            \${$stlTopicTableName}Tree = new XoopsObjectTree( \${$stlTopicTableName}All, '{$fieldId}', '{$fieldPid}' );
+            \${$fieldPid} = \${$stlTopicTableName}Tree->makeSelBox( '{$fieldPid}', '{$fieldMain}', '--', \$this->getVar('{$fieldPid}', 'e' ), true );
             \$form->addElement( new XoopsFormLabel ( {$language}, \${$fieldPid} ){$required} );
         }\n
+		unset(\$criteria);
 EOT;
 
         return $ret;
@@ -603,7 +596,7 @@ EOT;
         $language_funct = $this->getLanguage($moduleDirname, 'AM');
         //$language_table = $language_funct . strtoupper($tableName);
         $ret    = '';
-        $fields = $this->getTableFields($table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
@@ -653,7 +646,7 @@ EOT;
                         $ret .= $this->getXoopsFormColorPicker($language, $moduleDirname, $fieldName, $required);
                         break;
                     case 10:
-                        $ret .= $this->getXoopsFormImageList($language_funct, $moduleDirname, $tableName, $fieldName, $required);
+                        $ret .= $this->getXoopsFormImageList($language_funct, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required);
                         break;
                     case 11:
                         $ret .= $this->getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $fieldElement, $required);
@@ -678,9 +671,28 @@ EOT;
                         break;
                 }
                 if ($fieldElement > 15) {
-                    if ((1 == $fieldParent) || 1 == $table->getVar('table_category')) {
-                        $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $table, $fields, $required);
-                    } else {
+                    if (1 == $table->getVar('table_category')) {
+						$fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+						$fieldElementMid    = $fieldElements->getVar('fieldelement_mid');
+						$fieldElementTid    = $fieldElements->getVar('fieldelement_tid');
+						$fieldElementName   = $fieldElements->getVar('fieldelement_name');
+						$fieldNameDesc      = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
+						$topicTableName     = str_replace(': ', '', $fieldNameDesc);
+						$fieldsTopics		= $this->getTableFields($fieldElementMid, $fieldElementTid);
+						foreach (array_keys($fieldsTopics) as $f) {
+							$fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
+							if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
+								$fieldIdTopic = $fieldNameTopic;
+							}
+							if (1 == $fieldsTopics[$f]->getVar('field_parent')) {
+								$fieldPidTopic = $fieldNameTopic;
+							}
+							if (1 == $fieldsTopics[$f]->getVar('field_main')) {
+								$fieldMainTopic = $fieldNameTopic;
+							}
+						}
+                        $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldIdTopic, $fieldPidTopic, $fieldMainTopic, $required);
+                    } elseif (1 == $fieldParent) {
                         $ret .= $this->getXoopsFormTable($language, $moduleDirname, $tableName, $fieldName, $fieldElement, $required);
                     }
                 }

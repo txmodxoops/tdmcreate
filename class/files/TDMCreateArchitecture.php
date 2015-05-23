@@ -31,6 +31,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
     * @var mixed
     */
     private $tdmcreate;
+	
     /*
     * @var mixed
     */
@@ -46,6 +47,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
     public function __construct()
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
+		$this->tdmcfile  = TDMCreateFile::getInstance();
         $this->structure = TDMCreateStructure::getInstance();
         $this->structure->setUploadPath(TDMC_UPLOAD_REPOSITORY_PATH);
     }
@@ -80,10 +82,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $modId    = $module->getVar('mod_id');
         $language = $GLOBALS['xoopsConfig']['language'];
         // Id of tables
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('table_mid', $modId));		
-        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteria);
-        unset($criteria);
+        $tables = $this->tdmcfile->getTableTables($modId);
         //
         $table = null;
         foreach (array_keys($tables) as $t) {
@@ -96,6 +95,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         //
         $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
+		$cache1          = TDMC_CLASSES_PATH . '/cache';
+		$cache2          = TDMC_CLASSES_PATH . '/files/cache';
         $stlModuleAuthor = str_replace(' ', '', strtolower($module->getVar('mod_author')));
         $this->structure->setModuleName($module->getVar('mod_dirname'));
         $uploadPath = $this->structure->getUploadPath();
@@ -173,6 +174,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $this->structure->makeDirAndCopyFile('language/english', $indexFile, 'index.html');
         // Creation of "language/english/help" folder and index.html file
         $this->structure->makeDirAndCopyFile('language/english/help', $indexFile, 'index.html');
+		// Creation of "preloads" folder and index.html file
+        $this->structure->makeDirAndCopyFile('preloads', $indexFile, 'index.html');
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "templates" folder and index.html file
             $this->structure->makeDirAndCopyFile('templates', $indexFile, 'index.html');
@@ -210,16 +213,11 @@ class TDMCreateArchitecture extends TDMCreateStructure
     public function createFilesToBuilding($module)
     {
         // Module
-        $modId               = $module->getVar('mod_id');
-        $moduleDirname       = $module->getVar('mod_dirname');
-        $icon32              = 'assets/icons/32';
-        // Id of tables
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('table_mid', $modId));
-		$criteria->setSort('table_order');
-        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteria);
-        unset($criteria);
-        $ret = array();
+        $modId          = $module->getVar('mod_id');
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $icon32         = 'assets/icons/32';
+        $tables 		= $this->tdmcfile->getTableTables($modId);
+        $ret 			= array();
         //
         $table = array();
         foreach (array_keys($tables) as $t) {
@@ -353,7 +351,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
 			if (1 == $table->getVar('table_permissions')) {
 				// Admin Permissions File
 				$adminPermissions = AdminPermissions::getInstance();
-				$adminPermissions->write($module, $tables, 'permissions.php');
+				$adminPermissions->write($module, $table, $tables, 'permissions.php');
 				$ret[] = $adminPermissions->render();
 				// Templates Admin Permissions File
 				$adminTemplatesPermissions = TemplatesAdminPermissions::getInstance();
@@ -448,17 +446,89 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $userNotificationUpdate->write($module, 'notification_update.php');
                 $ret[] = $userNotificationUpdate->render();
             }
+			// User Broken File
+            if ((1 == $table->getVar('table_broken'))) {
+                $userBroken = UserBroken::getInstance();
+                $userBroken->write($module, $table, 'broken.php');
+                $ret[] = $userBroken->render();
+				// User Templates Broken File
+                $userTemplatesBroken = TemplatesUserBroken::getInstance();
+                $userTemplatesBroken->write($module, $table);
+                $ret[] = $userTemplatesBroken->renderFile($moduleDirname . '_broken.tpl');
+            }
+			// User Pdf File
+            if ((1 == $table->getVar('table_pdf'))) {
+                $userPdf = UserPrint::getInstance();
+                $userPdf->write($module, $table, 'pdf.php');
+                $ret[] = $userPdf->render();
+				// User Templates Pdf File
+                $userTemplatesPdf = TemplatesUserPdf::getInstance();
+                $userTemplatesPdf->write($module, $table);
+                $ret[] = $userTemplatesPdf->renderFile($moduleDirname . '_pdf.tpl');
+            }
 			// User Print File
             if ((1 == $table->getVar('table_print'))) {
                 $userPrint = UserPrint::getInstance();
                 $userPrint->write($module, $table, 'print.php');
                 $ret[] = $userPrint->render();
+				// User Templates Print File
+                $userTemplatesPrint = TemplatesUserPrint::getInstance();
+                $userTemplatesPrint->write($module, $table);
+                $ret[] = $userTemplatesPrint->renderFile($moduleDirname . '_print.tpl');
+            }
+			// User Rate File
+            if ((1 == $table->getVar('table_rate'))) {
+                $userRate = UserRate::getInstance();
+                $userRate->write($module, $table, 'rate.php');
+                $ret[] = $userRate->render();
+				// User Templates Rate File
+                $userTemplatesRate = TemplatesUserRate::getInstance();
+                $userTemplatesRate->write($module, $table);
+                $ret[] = $userTemplatesRate->renderFile($moduleDirname . '_rate.tpl');
             }
 			// User Rss File
             if ((1 == $table->getVar('table_rss'))) {
                 $userRss = UserRss::getInstance();
                 $userRss->write($module, $table, 'rss.php');
                 $ret[] = $userRss->render();
+				// User Templates Rss File
+                $userTemplatesRss = TemplatesUserRss::getInstance();
+                $userTemplatesRss->write($module, $table);
+                $ret[] = $userTemplatesRss->renderFile($moduleDirname . '_rss.tpl');
+            }
+			// User Single File
+            if ((1 == $table->getVar('table_single'))) {
+                $userSingle = UserSingle::getInstance();
+                $userSingle->write($module, $table, 'single.php');
+                $ret[] = $userSingle->render();
+				// User Templates Single File
+                $userTemplatesSingle = TemplatesUserSingle::getInstance();
+                $userTemplatesSingle->write($module, $table);
+                $ret[] = $userTemplatesSingle->renderFile($moduleDirname . '_single.tpl');
+            }
+			// User Submit File
+            if ((1 == $table->getVar('table_submit'))) {
+                $userSubmit = UserSubmit::getInstance();
+                $userSubmit->write($module, $table, 'submit.php');
+                $ret[] = $userSubmit->render();
+				// User Templates Submit File
+                $userTemplatesSubmit = TemplatesUserSubmit::getInstance();
+                $userTemplatesSubmit->write($module, $table);
+                $ret[] = $userTemplatesSubmit->renderFile($moduleDirname . '_submit.tpl');
+            }// User Visit File
+            if ((1 == $table->getVar('table_visit'))) {
+                $userVisit = UserVisit::getInstance();
+                $userVisit->write($module, $table, 'visit.php');
+                $ret[] = $userVisit->render();
+            }
+			// User Tag Files
+            if ((1 == $table->getVar('table_tag'))) {
+                $userListTag = UserListTag::getInstance();
+                $userListTag->write($module, 'list.tag.php');
+                $ret[] = $userListTag->render();
+				$userViewTag = UserViewTag::getInstance();
+                $userViewTag->write($module, 'view.tag.php');
+                $ret[] = $userViewTag->render();
             }
             // User Index File
             $userIndex = UserIndex::getInstance();

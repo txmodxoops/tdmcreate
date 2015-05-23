@@ -301,8 +301,7 @@ EOT;
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$fieldName} = \${$tableName}All[\$i]->getVar('{$fieldName}');
-\t\t\t\t\$upload_image = \${$fieldName} ? \${$fieldName} : 'blank.gif';
-\t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \$upload_image;\n
+\t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$fieldName} ? \${$fieldName} : 'blank.gif';\n
 EOT;
         return $ret;
     }

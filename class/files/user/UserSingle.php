@@ -23,7 +23,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserSingle
  */
-class UserSingle extends TDMCreateFile
+class UserSingle extends UserObjects
 {
     /*
     *  @public function constructor
@@ -34,7 +34,9 @@ class UserSingle extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
+		$this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -83,13 +85,15 @@ class UserSingle extends TDMCreateFile
     public function getUserSingleHeader($moduleDirname)
     {
         $ret = <<<EOT
+// Local Header
 include  __DIR__ . '/header.php';
 \$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
 // Template
 \$xoopsOption['template_main'] = '{$moduleDirname}_single.tpl';
+// Root Header
 include_once XOOPS_ROOT_PATH.'/header.php';
+// Added Style
 \$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-//On recupere la valeur de l'argument op dans l'URL$
 // redirection if not permissions
 if (\$perm_submit == false) {
     redirect_header('index.php', 2, _NOPERM);
@@ -153,36 +157,21 @@ EOT;
      * @param $tableName
      * @return string
      */
-    public function getUserSingleSave($moduleDirname, $table_id, $tableName)
+    public function getUserSingleSave($moduleDirname, $fields, $tableName, $language)
     {
-        $ret    = <<<EOT
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+		$ret     = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
            redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset(\$_REQUEST['{$fpif}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fpif}']);
+        if (isset(\$_REQUEST['{$fieldId}'])) {
+           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
         } else {
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        $fields = $this->getTableFields($table_id);
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= $this->adminobjects->getCheckBoxOrRadioYN($tableName, $fieldName);
-            } elseif (13 == $fieldElement) {
-                $ret .= $this->adminobjects->getUploadImage($moduleDirname, $tableName, $fieldName);
-            } elseif (14 == $fieldElement) {
-                $ret .= $this->adminobjects->getUploadFile($moduleDirname, $tableName, $fieldName);
-            } elseif (15 == $fieldElement) {
-                $ret .= $this->adminobjects->getTextDateSelect($tableName, $fieldName);
-            } else {
-                $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
-            }
-        }
-
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -226,13 +215,15 @@ EOT;
         $table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $table_id      = $table->getVar('table_id');
+        $tableId       = $table->getVar('table_id');
+		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
+		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSingleHeader($moduleDirname);
         $content .= $this->getUserSingleForm($module, $tableName, $language);
-        $content .= $this->getUserSingleSave($moduleDirname, $table_id, $tableName);
+        $content .= $this->getUserSingleSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserSingleFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

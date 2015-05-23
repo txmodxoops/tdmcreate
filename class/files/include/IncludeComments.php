@@ -108,7 +108,7 @@ EOT;
         $table         = $this->getTable();
         $moduleDirname = strtolower($module->getVar('mod_dirname'));
         $tableName     = $table->getVar('table_name');
-        $fields        = $this->getTableFields($table->getVar('table_id'));
+        $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fpmf = $fields[$f]->getVar('field_name');

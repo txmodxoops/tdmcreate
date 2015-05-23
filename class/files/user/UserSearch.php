@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: UserBroken.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserSearch.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserBroken
+ * Class UserSearch
  */
-class UserBroken extends UserObjects
+class UserSearch extends UserObjects
 {
     /*
     *  @public function constructor
@@ -44,7 +44,7 @@ class UserBroken extends UserObjects
     *  @param null
     */
     /**
-     * @return UserBroken
+     * @return UserSearch
      */
     public static function &getInstance()
     {
@@ -75,23 +75,25 @@ class UserBroken extends UserObjects
     }
 
     /*
-    *  @public function getUserBrokenHeader
+    *  @public function getUserSearchHeader
     *  @param null
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    public function getUserBrokenHeader($moduleDirname)
+    public function getUserSearchHeader($moduleDirname)
     {
         $ret = <<<EOT
+// Local Header
 include  __DIR__ . '/header.php';
-\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'list', 'string');
+\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
 // Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_broken.tpl';
+\$xoopsOption['template_main'] = '{$moduleDirname}_single.tpl';
+// Root Header
 include_once XOOPS_ROOT_PATH.'/header.php';
+// Added Style
 \$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-//On recupere la valeur de l'argument op dans l'URL$
 // redirection if not permissions
 if (\$perm_submit == false) {
     redirect_header('index.php', 2, _NOPERM);
@@ -116,11 +118,11 @@ EOT;
      * @param $language
      * @return string
      */
-    public function getUserBrokenForm($module, $tableName, $language)
+    public function getUserSearchForm($module, $tableName, $language)
     {
         $stuModuleName = strtoupper($module->getVar('mod_name'));
         $ret           = <<<EOT
-    case 'list':
+    case 'form':
     default:
         //navigation
         \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
@@ -145,7 +147,7 @@ EOT;
     }
 
     /*
-    *  @public function getUserBrokenSave
+    *  @public function getUserSearchSave
     *  @param string $moduleDirname
     *  @param string $tableName
     */
@@ -155,7 +157,7 @@ EOT;
      * @param $tableName
      * @return string
      */
-    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
+    public function getUserSearchSave($moduleDirname, $fields, $tableName, $language)
     {
         $fieldId = $this->userobjects->getUserSaveFieldId($fields);
 		$ret     = <<<EOT
@@ -169,7 +171,7 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-		$ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -185,13 +187,13 @@ EOT;
     }
 
     /*
-    *  @public function getUserBrokenFooter
+    *  @public function getUserSearchFooter
     *  @param null
     */
     /**
      * @return string
      */
-    public function getUserBrokenFooter()
+    public function getUserSearchFooter()
     {
         $ret = <<<EOT
 include  __DIR__ . '/footer.php';
@@ -216,13 +218,13 @@ EOT;
         $tableId       = $table->getVar('table_id');
 		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
-		$fields        = $this->tdmcfile->getTableFields($tableMid, $tableId);
+		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserBrokenHeader($moduleDirname);
-        $content .= $this->getUserBrokenForm($module, $tableName, $language);
-        $content .= $this->getUserBrokenSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserBrokenFooter();
+        $content .= $this->getUserSearchHeader($moduleDirname);
+        $content .= $this->getUserSearchForm($module, $tableName, $language);
+        $content .= $this->getUserSearchSave($moduleDirname, $fields, $tableName, $language);
+        $content .= $this->getUserSearchFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

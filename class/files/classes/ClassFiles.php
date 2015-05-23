@@ -16,10 +16,9 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: class_files.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: ClassFiles.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'ClassFormElements.php';
 
 /**
  * Class ClassFiles
@@ -255,16 +254,16 @@ EOT;
 			$ret .= <<<EOT
 		global \$xoopsUser, \$xoopsModule;
 		// Permissions for uploader
-        \$gperm_handler =& xoops_gethandler('groupperm');
+        \$gpermHandler =& xoops_gethandler('groupperm');
         \$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
         if (\$xoopsUser) {
             if ( !\$xoopsUser->isAdmin(\$xoopsModule->mid()) ) {
-                \$perm_upload = (\$gperm_handler->checkRight('{$moduleDirname}_ac', 32, \$groups, \$xoopsModule->getVar('mid'))) ? true : false ;
+                \$perm_upload = (\$gpermHandler->checkRight('{$moduleDirname}_ac', 32, \$groups, \$xoopsModule->getVar('mid'))) ? true : false ;
             }else{
                 \$perm_upload = true;
             }
         }else{
-            \$perm_upload = (\$gperm_handler->checkRight('{$moduleDirname}_ac', 32, \$groups, \$xoopsModule->getVar('mid'))) ? true : false ;
+            \$perm_upload = (\$gpermHandler->checkRight('{$moduleDirname}_ac', 32, \$groups, \$xoopsModule->getVar('mid'))) ? true : false ;
         }
 EOT;
 		}
@@ -276,7 +275,7 @@ EOT;
         \$form = new XoopsThemeForm(\$title, 'form', \$action, 'post', true);
         \$form->setExtra('enctype="multipart/form-data"');
         // {$ucfTableName} handler
-        \${$tableName}Handler =& \$this->{$moduleDirname}->getHandler('{$tableName}');
+        //\${$tableName}Handler =& \$this->{$moduleDirname}->getHandler('{$tableName}');
 {$this->formelements->renderElements()}
 EOT;
 
@@ -300,35 +299,35 @@ EOT;
         $permissionView    = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
         $ret               = <<<EOT
         // Permissions
-        \$member_handler = & xoops_gethandler ( 'member' );
-        \$group_list = &\$member_handler->getGroupList();
-        \$gperm_handler = &xoops_gethandler ( 'groupperm' );
-        \$full_list = array_keys ( \$group_list );
+        \$memberHandler = & xoops_gethandler ( 'member' );
+        \$groupList     = &\$memberHandler->getGroupList();
+        \$gpermHandler  = &xoops_gethandler ( 'groupperm' );
+        \$fullList = array_keys ( \$groupList );
         global \$xoopsModule;
         if ( !\$this->isNew() ) {
-            \$groups_ids_approve = \$gperm_handler->getGroupIds ( '{$moduleDirname}_approve', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
-            \$groups_ids_submit = \$gperm_handler->getGroupIds ( '{$moduleDirname}_submit', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
-            \$groups_ids_view = \$gperm_handler->getGroupIds ( '{$moduleDirname}_view', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
-            \$groups_ids_approve = array_values ( \$groups_ids_approve );
-            \$groups_can_approve_checkbox = new XoopsFormCheckBox ( {$permissionApprove}, 'groups_approve[]', \$groups_ids_approve );
-            \$groups_ids_submit = array_values ( \$groups_ids_submit );
-            \$groups_can_submit_checkbox = new XoopsFormCheckBox ( {$permissionSubmit}, 'groups_submit[]', \$groups_ids_submit );
-            \$groups_ids_view = array_values ( \$groups_ids_view );
-            \$groups_can_view_checkbox = new XoopsFormCheckBox ( {$permissionView}, 'groups_view[]', \$groups_ids_view );
+            \$groupsIdsApprove = \$gpermHandler->getGroupIds ( '{$moduleDirname}_approve', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
+            \$groupsIdsSubmit = \$gpermHandler->getGroupIds ( '{$moduleDirname}_submit', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
+            \$groupsIdsView = \$gpermHandler->getGroupIds ( '{$moduleDirname}_view', \$this->getVar ( '{$fieldId}' ), \$xoopsModule->getVar ( 'mid' ) );
+            \$groupsIdsApprove = array_values ( \$groupsIdsApprove );
+            \$groupsCanApproveCheckbox = new XoopsFormCheckBox ( {$permissionApprove}, 'groups_approve[]', \$groupsIdsApprove );
+            \$groupsIdsSubmit = array_values ( \$groupsIdsSubmit );
+            \$groupsCanSubmitCheckbox = new XoopsFormCheckBox ( {$permissionSubmit}, 'groups_submit[]', \$groupsIdsSubmit );
+            \$groupsIdsView = array_values ( \$groupsIdsView );
+            \$groupsCanViewCheckbox = new XoopsFormCheckBox ( {$permissionView}, 'groups_view[]', \$groupsIdsView );
         } else {
-            \$groups_can_approve_checkbox = new XoopsFormCheckBox ( {$permissionApprove}, 'groups_approve[]', \$full_list );
-            \$groups_can_submit_checkbox = new XoopsFormCheckBox ( {$permissionSubmit}, 'groups_submit[]', \$full_list );
-            \$groups_can_view_checkbox = new XoopsFormCheckBox ( {$permissionView}, 'groups_view[]', \$full_list );
+            \$groupsCanApproveCheckbox = new XoopsFormCheckBox ( {$permissionApprove}, 'groups_approve[]', \$fullList );
+            \$groupsCanSubmitCheckbox = new XoopsFormCheckBox ( {$permissionSubmit}, 'groups_submit[]', \$fullList );
+            \$groupsCanViewCheckbox = new XoopsFormCheckBox ( {$permissionView}, 'groups_view[]', \$fullList );
         }
         // For approve
-        \$groups_can_approve_checkbox->addOptionArray ( \$group_list );
-        \$form->addElement ( \$groups_can_approve_checkbox );
+        \$groupsCanApproveCheckbox->addOptionArray ( \$groupList );
+        \$form->addElement ( \$groupsCanApproveCheckbox );
         // For submit
-        \$groups_can_submit_checkbox->addOptionArray ( \$group_list );
-        \$form->addElement ( \$groups_can_submit_checkbox );
+        \$groupsCanSubmitCheckbox->addOptionArray ( \$groupList );
+        \$form->addElement ( \$groupsCanSubmitCheckbox );
         // For view
-        \$groups_can_view_checkbox->addOptionArray ( \$group_list );
-        \$form->addElement ( \$groups_can_view_checkbox );\n
+        \$groupsCanViewCheckbox->addOptionArray ( \$groupList );
+        \$form->addElement ( \$groupsCanViewCheckbox );\n
 EOT;
 
         return $ret;
@@ -533,7 +532,7 @@ EOT;
         $table          = $this->getTable();
         $tableName      = $table->getVar('table_name');
         $moduleDirname  = $module->getVar('mod_dirname');
-        $fields         = $this->getTableFields($table->getVar('table_id'));
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldInForm = $fields[$f]->getVar('field_inform');

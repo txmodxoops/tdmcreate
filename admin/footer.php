@@ -19,7 +19,7 @@
  * @version         $Id: footer.php 12207 2013-10-23 02:46:52Z beckmi $
  */
 $GLOBALS['xoopsTpl']->assign('module_name', $GLOBALS['xoopsModule']->getVar('name'));
-if (isset($template_main)) {
-    $GLOBALS['xoopsTpl']->display("db:{$template_main}");
+if (isset($templateMain)) {
+    $GLOBALS['xoopsTpl']->display("db:{$templateMain}");
 }
 xoops_cp_footer();

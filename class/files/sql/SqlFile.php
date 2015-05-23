@@ -135,10 +135,11 @@ SQL;
         $tables = $this->getTables();
         foreach (array_keys($tables) as $t) {
             $tableId            = $tables[$t]->getVar('table_id');
+			$tableMid           = $tables[$t]->getVar('table_mid');
             $tableName          = $tables[$t]->getVar('table_name');
             $tableAutoincrement = $tables[$t]->getVar('table_autoincrement');
             $fieldsNumb         = $tables[$t]->getVar('table_nbfields');
-            $ret .= $this->getDatabaseFields($moduleDirname, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+            $ret .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
         }
 
         return $ret;
@@ -152,13 +153,13 @@ SQL;
     *  @param $fieldsNumb
     *  @return null|string
     */
-    private function getDatabaseFields($moduleDirname, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
+    private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
         $ret    = null;
         $j      = 0;
         $comma  = array();
         $row    = array();
-        $fields = $this->getTableFields($tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             // Creation of database table
             $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);

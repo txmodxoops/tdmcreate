@@ -30,7 +30,7 @@ switch ($op) {
         $start = XoopsRequest::getInt('start', 0);
         $limit = XoopsRequest::getInt('limit', $tdmcreate->getConfig('modules_adminpager'));
         // Define main template
-        $template_main = 'tdmcreate_modules.tpl';
+        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
@@ -83,7 +83,7 @@ switch ($op) {
 
     case 'new':
         // Define main template
-        $template_main = 'tdmcreate_modules.tpl';
+        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
@@ -177,7 +177,7 @@ switch ($op) {
 
     case 'edit':
         // Define main template
-        $template_main = 'tdmcreate_modules.tpl';
+        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');

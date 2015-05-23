@@ -85,7 +85,7 @@ class AdminAbout extends TDMCreateFile
         $content         = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 include  __DIR__ . '/header.php';
-\$template_main = '{$moduleDirname}_admin_about.tpl';
+\$templateMain = '{$moduleDirname}_admin_about.tpl';
 \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('about.php'));
 \$GLOBALS['xoopsTpl']->assign('about', \$adminMenu->renderAbout('{$moduleDonations}', false));
 include  __DIR__ . '/footer.php';

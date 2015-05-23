@@ -66,10 +66,11 @@ class AdminPermissions extends TDMCreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
-        $this->setTables($tables);
+        $this->setTable($table);
+		$this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -83,9 +84,11 @@ class AdminPermissions extends TDMCreateFile
      * @param $language
      * @return string
      */
-    private function getPermissionsHeader($moduleDirname, $tableName, $language)
+    private function getPermissionsHeader($moduleDirname, $language)
     {
-        $ret = <<<PRM
+        $table     = $this->getTable();
+		$tableName = $table->getVar('table_name');
+		$ret = <<<PRM
 \ninclude  __DIR__ . '/header.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
 if( !empty(\$_POST['submit']) )
@@ -178,19 +181,22 @@ PRM;
     {
         $tables = $this->getTables();
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
+            $tableId  = $tables[$t]->getVar('table_id');
+			$tableMid = $tables[$t]->getVar('table_mid');
             if (1 == $tables[$t]->getVar('table_permissions')) {
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
-        $fields = $this->getTableFields($tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
+		$fieldId   = 'id';
+		$fieldMain = 'title';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
-                $fpif = $fieldName;
+                $fieldId = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fieldName;
+                $fieldMain = $fieldName;
             }
         }
         $ret = <<<PRM
@@ -199,22 +205,20 @@ if (1 == \$permission) {
     foreach (\$globalPerms as \$perm_id => \$perm_name) {
         \$permform->addItem(\$perm_id, \$perm_name);
     }
-    echo \$permform->render();
-    echo '<br /><br />';
+	\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
 } else {
     \$criteria = new CriteriaCompo();
-    \$criteria->setSort('{$fpmf}');
+    \$criteria->setSort('{$fieldMain}');
     \$criteria->setOrder('ASC');
     \${$tableName}_count = \${$tableName}Handler->getCount(\$criteria);
     \${$tableName}_arr = \${$tableName}Handler->getObjects(\$criteria);
     unset(\$criteria);
     foreach (array_keys(\${$tableName}_arr) as \$i) {
-        \$permform->addItem(\${$tableName}_arr[\$i]->getVar('{$fpif}'), \${$tableName}_arr[\$i]->getVar('{$fpmf}'));
+        \$permform->addItem(\${$tableName}_arr[\$i]->getVar('{$fieldId}'), \${$tableName}_arr[\$i]->getVar('{$fieldMain}'));
     }
     // Check if {$tableName} exist before rendering the form and redirect, if there aren't {$tableName}
     if (\${$tableName}_count > 0) {
-        echo \$permform->render();
-        echo '<br /><br />';
+		\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
     } else {
         redirect_header ( '{$tableName}.php?op=new', 3, {$language}NOPERMSSET );
         exit ();
@@ -252,13 +256,11 @@ PRM;
     public function render()
     {
         $module        = $this->getModule();
-		$table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-		$tableName     = $module->getVar('table_name');
         $language      = $this->getLanguage($moduleDirname, 'AM');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getPermissionsHeader($moduleDirname, $tableName, $language);
+        $content .= $this->getPermissionsHeader($moduleDirname, $language);
         $content .= $this->getPermissionsSwitch($moduleDirname, $language);
         $content .= $this->getPermissionsBody($moduleDirname, $language);
         $content .= $this->getPermissionsFooter();
