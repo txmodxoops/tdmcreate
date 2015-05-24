@@ -50,8 +50,8 @@ function applicationAutoloader($class) {
 		}			
 	}
 
-	$serialized_paths = serialize($pathCache);
-	if ($serialized_paths != $pathCache) { file_put_contents($cacheFile, serialize($pathCache)); }
+	$serializedPaths = serialize($pathCache);
+	if ($serializedPaths != $pathCache) { file_put_contents($cacheFile, serialize($pathCache)); }
 }
 
 spl_autoload_register('applicationAutoloader');

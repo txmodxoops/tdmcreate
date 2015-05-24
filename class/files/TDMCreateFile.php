@@ -94,7 +94,8 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     public function __construct()
     {
-        $this->xoopsFile = XoopsFile::getHandler();
+        parent::__construct();
+		$this->xoopsFile = XoopsFile::getHandler();
         $this->tdmcreate = TDMCreateHelper::getInstance();
     }
 

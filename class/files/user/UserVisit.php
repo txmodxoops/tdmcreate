@@ -82,9 +82,10 @@ class UserVisit extends UserObjects
      * @param $moduleDirname
      * @return string
      */
-    public function getUserVisitHeader($moduleDirname, $language)
+    public function getUserVisitHeader($moduleDirname, $tableName, $language)
     {
-        $ret = <<<EOT
+        $stuModuleName = strtoupper($moduleDirname);
+		$ret 		   = <<<EOT
 include  __DIR__ . '/header.php';
 \$lid = {$stuModuleName}_CleanVars(\$_REQUEST, 'lid', 0, 'int');
 \$cid = {$stuModuleName}_CleanVars(\$_REQUEST, 'cid', 0, 'int');
@@ -172,16 +173,10 @@ EOT;
      * @param $tableName
      * @return string
      */
-    public function getUserVisitSave($moduleDirname, $tableId, $tableMid, $tableName)
+    public function getUserVisitSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
-		foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-			if (0 == $f) {
-                $fieldId = $fieldName;
-            }
-        }
-		$ret    = <<<EOT
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+		$ret     = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
            redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
@@ -192,25 +187,7 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= $this->userobjects->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
-            } elseif (13 == $fieldElement) {
-                if(1 == $fields[$f]->getVar('field_main')) {							
-					$fieldMain = $fieldName;
-				}
-				$ret .= $this->userobjects->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
-            } elseif (14 == $fieldElement) {
-                $ret .= $this->userobjects->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
-            } elseif (15 == $fieldElement) {
-                $ret .= $this->userobjects->getTextDateSelectSetVar($tableName, $fieldName);
-            } else {
-                $ret .= $this->userobjects->getSimpleSetVar($tableName, $fieldName);
-            }
-        }
-
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -257,11 +234,12 @@ EOT;
         $tableId       = $table->getVar('table_id');
 		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
+		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisitHeader($moduleDirname);
+        $content .= $this->getUserVisitHeader($moduleDirname, $tableName, $language);
         $content .= $this->getUserVisitForm($module, $tableName, $language);
-        $content .= $this->getUserVisitSave($moduleDirname, $tableId, $tableMid, $tableName);
+        $content .= $this->getUserVisitSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserVisitFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

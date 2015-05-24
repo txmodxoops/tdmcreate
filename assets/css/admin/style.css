@@ -22,8 +22,7 @@
 body {
     background: #fafafa;
     color: #444;
-    font-family: verdana, arial, tahoma, helvetica, sans-serif;
-    text-shadow: 1px 1px 1px #fff;
+    font-family: verdana, arial, tahoma, helvetica, sans-serif;    
 }
 
 table { margin: 0; padding: 0; width: 100%; }
@@ -52,6 +51,7 @@ tr.modules td {
 
 tr.modules td.name {
     min-width: 70px;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 tr.tables td {
@@ -65,6 +65,7 @@ tr.tables td {
 
 tr.tables td.name {
     min-width: 70px;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 tr.tables-fields td {
@@ -78,6 +79,7 @@ tr.tables-fields td {
 
 tr.tables-fields td.name {
     min-width: 70px;
+	text-shadow: 1px 1px 1px #fff;
 }
 
 tr.fields td {

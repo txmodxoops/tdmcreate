@@ -34,7 +34,9 @@ class UserRss extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
+		$this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -88,7 +90,7 @@ class UserRss extends TDMCreateFile
         $tableName = $table->getVar('table_name');
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName     = $fields[$f]->getVar('field_name');
+            $fieldName   = $fields[$f]->getVar('field_name');
             $rpFieldName = $fieldName;
             if (strpos($fieldName, '_')) {
                 $str = strpos($fieldName, '_');
@@ -98,19 +100,19 @@ class UserRss extends TDMCreateFile
             }
             $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if (0 == $f) {
-                $fpif = $fieldName;
+                $fieldId = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fpmf = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_parent')) {
-                $fppf = $fieldName;
+                $fieldParent = $fieldName;
             }
         }
 
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
-\${$fppf} = {$moduleDirname}_CleanVars(\$_GET, '{$fppf}', 0);
+\${$fieldParent} = {$moduleDirname}_CleanVars(\$_GET, '{$fieldParent}', 0);
 include_once XOOPS_ROOT_PATH.'/class/template.php';
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
@@ -124,10 +126,10 @@ if (function_exists('mb_http_output')) {
 \$categories = {$moduleDirname}_MygetItemIds('{$moduleDirname}_view', '{$moduleDirname}');
 \$criteria = new CriteriaCompo();
 \$criteria->add(new Criteria('cat_status', 0, '!='));
-\$criteria->add(new Criteria('{$fppf}', '(' . implode(',', \$categories) . ')','IN'));
-if (\${$fppf} != 0){
-    \$criteria->add(new Criteria('{$fppf}', \${$fppf}));
-    \${$tableName} = \${$tableName}Handler->get(\${$fppf});
+\$criteria->add(new Criteria('{$fieldParent}', '(' . implode(',', \$categories) . ')','IN'));
+if (\${$fieldParent} != 0){
+    \$criteria->add(new Criteria('{$fieldParent}', \${$fieldParent}));
+    \${$tableName} = \${$tableName}Handler->get(\${$fieldParent});
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name') . ' - ' . \${$tableName}->getVar('{$fpmf}');
 }else{
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name');
@@ -138,7 +140,7 @@ if (\${$fppf} != 0){
 \${$tableName}Arr = \${$tableName}Handler->getAll(\$criteria);
 unset(\$criteria);
 
-if (!\$tpl->is_cached('db:rss.tpl', \${$fppf})) {
+if (!\$tpl->is_cached('db:rss.tpl', \${$fieldParent})) {
     \$tpl->assign('channel_title', htmlspecialchars(\$title, ENT_QUOTES));
     \$tpl->assign('channel_link', XOOPS_URL.'/');
     \$tpl->assign('channel_desc', htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
@@ -176,14 +178,14 @@ if (!\$tpl->is_cached('db:rss.tpl', \${$fppf})) {
             \$description_short = substr(\$description,0,strpos(\$description,'[pagebreak]'));
         }
         \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),
-                                    'link' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fpif}=' . \${$tableName}Arr[\$i]->getVar('{$fpif}'),
-                                    'guid' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fppf}=' . \${$tableName}Arr[\$i]->getVar('{$fppf}') . '&amp;{$fpif}=' . \${$tableName}Arr[\$i]->getVar('{$fpif}'),
+                                    'link' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fieldParent}=' . \${$tableName}Arr[\$i]->getVar('{$fieldParent}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
+                                    'guid' => XOOPS_URL . '/modules/{$moduleDirname}/single.php?{$fieldParent}=' . \${$tableName}Arr[\$i]->getVar('{$fieldParent}') . '&amp;{$fieldId}=' . \${$tableName}Arr[\$i]->getVar('{$fieldId}'),
                                     'pubdate' => formatTimestamp(\${$tableName}Arr[\$i]->getVar('date'), 'rss'),
                                     'description' => htmlspecialchars(\$description_short, ENT_QUOTES)));
     }
 }
 header("Content-Type:text/xml; charset=" . _CHARSET);
-\$tpl->display('db:rss.tpl', \${$fppf});
+\$tpl->display('db:rss.tpl', \${$fieldParent});
 EOT;
 
         return $ret;
