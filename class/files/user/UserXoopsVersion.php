@@ -496,7 +496,7 @@ EOT;
                 }
             }
         }
-        if (1 == $module->getVar('mod_permissions') && 1 == $table->getVar('table_permissions')) {
+        if (1 == $table->getVar('table_permissions')) {
             $ret .= <<<EOT
 // Get groups
 \$memberHandler =& xoops_gethandler('member');
@@ -523,8 +523,8 @@ foreach (\$admin_xoopsgroups as \$key => \$admin_group) {
 }
 \$modversion['config'][] = array(
     'name' => "admin_groups",
-    'title' => "{$language}ADMINGROUPS",
-    'description' => "{$language}ADMINGROUPS_DESC",
+    'title' => "{$language}ADMIN_GROUPS",
+    'description' => "{$language}ADMIN_GROUPS_DESC",
     'formtype' => "select_multi",
     'valuetype' => "array",
     'options' => \$admin_groups,
@@ -576,8 +576,8 @@ EOT;
                 $ret .= <<<EOT
 \$modversion['config'][] = array(
     'name' => "adminpager",
-    'title' => "{$language}ADMINPAGER",
-    'description' => "{$language}ADMINPAGER_DESC",
+    'title' => "{$language}ADMIN_PAGER",
+    'description' => "{$language}ADMIN_PAGER_DESC",
     'formtype' => "textbox",
     'valuetype' => "int",
     'default' => 10);\n\n
@@ -587,8 +587,8 @@ EOT;
                 $ret .= <<<EOT
 \$modversion['config'][] = array(
     'name' => "userpager",
-    'title' => "{$language}USERPAGER",
-    'description' => "{$language}USERPAGER_DESC",
+    'title' => "{$language}USER_PAGER",
+    'description' => "{$language}USER_PAGER_DESC",
     'formtype' => "textbox",
     'valuetype' => "int",
     'default' => 10);\n\n
@@ -644,12 +644,12 @@ EOT;
     *  @param $typeOfNotify
     */
     /**
-     * @param        $language
+     * @param $language
      * @param $type
-     * @param        $tableName
-     * @param        $notifyFile
-     * @param        $item
-     * @param        $typeOfNotify
+     * @param $tableName
+     * @param $notifyFile
+     * @param $item
+     * @param $typeOfNotify
      * @return string
      */
     private function getTypeNotifications($language, $type = 'category', $tableName, $notifyFile, $item, $typeOfNotify)
@@ -699,7 +699,7 @@ EOT;
      */
     private function getXoopsVersionNotifications($moduleDirname, $tables, $language, $filename)
     {
-        $notifyFiles = array();
+        $notifyFiles = '';
 		$single      = 'single';
         foreach (array_keys($tables) as $t) {
             $tableId       = $tables[$t]->getVar('table_id');
@@ -713,7 +713,7 @@ EOT;
                 if ($t <= count($tableName)) {
                     /*$notifyFiles[] = "'" . $tableName . ".php', ";
                 } else {*/
-                    $notifyFiles[] = "'" . $tableName . ".php'";
+                    $notifyFiles = "'" . $tableName . ".php'";
                 }
             }
 			if (1 == $tables[$t]->getVar('table_single')) {
@@ -779,6 +779,7 @@ EOT;
     private function getXoopsVersionNotificationCodeShort($language, $type, $name, $title, $from)
     {        
         $title = strtoupper($title);
+		$from  = explode(', ', $from);
 		$from  = implode(', ', $from);
 		$ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(

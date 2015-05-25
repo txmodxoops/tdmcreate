@@ -138,8 +138,8 @@ class LanguageModinfo extends LanguageDefines
     private function getLanguageAdmin($language)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Nav');
-        $ret .= $this->defines->getDefine($language, "ADMINPAGER", "Admin pager");
-        $ret .= $this->defines->getDefine($language, "ADMINPAGER_DESC", "Admin per page list");
+        $ret .= $this->defines->getDefine($language, "ADMIN_PAGER", "Admin pager");
+        $ret .= $this->defines->getDefine($language, "ADMIN_PAGER_DESC", "Admin per page list");
 
         return $ret;
     }
@@ -206,8 +206,8 @@ class LanguageModinfo extends LanguageDefines
     private function getLanguageUser($language)
     {
         $ret = $this->defines->getAboveDefines('User');
-        $ret .= $this->defines->getDefine($language, "USERPAGER", "User pager");
-        $ret .= $this->defines->getDefine($language, "USERPAGER_DESC", "User per page list");
+        $ret .= $this->defines->getDefine($language, "USER_PAGER", "User pager");
+        $ret .= $this->defines->getDefine($language, "USER_PAGER_DESC", "User per page list");
 
         return $ret;
     }
@@ -232,6 +232,12 @@ class LanguageModinfo extends LanguageDefines
         $ret .= $this->defines->getDefine($language, "KEYWORDS", "Keywords");
         $ret .= $this->defines->getDefine($language, "KEYWORDS_DESC", "Insert here the keywords (separate by comma)");
         if (is_object($table)) {
+			/*if ($table->getVar('table_permissions') != 0) {
+                $ret .= $this->defines->getDefine($language, "GROUPS", "Groups");
+                $ret .= $this->defines->getDefine($language, "GROUPS_DESC", "Groups to have permissions");
+				$ret .= $this->defines->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
+                $ret .= $this->defines->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
+            }*/
             if ($table->getVar('table_image') != '') {
                 $ret .= $this->defines->getDefine($language, "MAXSIZE", "Max size");
                 $ret .= $this->defines->getDefine($language, "MAXSIZE_DESC", "Set a number of max size uploads file in byte");
@@ -310,20 +316,20 @@ class LanguageModinfo extends LanguageDefines
     }
 
     /*
-    *  @private function getLanguagePermissions
+    *  @private function getLanguagePermissionsGroups
     *  @param string $language
     */
     /**
      * @param $language
      * @return string
      */
-    private function getLanguagePermissions($language)
+    private function getLanguagePermissionsGroups($language)
     {
         $ret = $this->defines->getAboveDefines('Permissions Groups');
         $ret .= $this->defines->getDefine($language, "GROUPS", "Groups access");
         $ret .= $this->defines->getDefine($language, "GROUPS_DESC", "Select general access permission for groups.");
-        $ret .= $this->defines->getDefine($language, "ADMINGROUPS", "Admin Group Permissions");
-        $ret .= $this->defines->getDefine($language, "ADMINGROUPS_DESC", "Which groups have access to tools and permissions page");
+        $ret .= $this->defines->getDefine($language, "ADMIN_GROUPS", "Admin Group Permissions");
+        $ret .= $this->defines->getDefine($language, "ADMIN_GROUPS_DESC", "Which groups have access to tools and permissions page");
 
         return $ret;
     }
@@ -378,7 +384,7 @@ class LanguageModinfo extends LanguageDefines
                 $content .= $this->getLanguageNotifications($language);
             }
             if (1 == $table->getVar('table_permissions')) {
-                $content .= $this->getLanguagePermissions($language);
+                $content .= $this->getLanguagePermissionsGroups($language);
             }
         }
         $content .= $this->getLanguageFooter();

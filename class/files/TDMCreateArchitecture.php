@@ -116,17 +116,17 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $this->structure->makeDirAndCopyFile('class', $indexFile, 'index.html');
         // Creation of "assets" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets', $indexFile, 'index.html');
-        // Creation of "css" folder and index.html file
+        // Creation of "assets/css" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets/css', $indexFile, 'index.html');
-        // Creation of "icons" folder and index.html file
+        // Creation of "assets/icons" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets/icons', $indexFile, 'index.html');
-        // Creation of "images/icons/16" folder and index.html file
+        // Creation of "assets/icons/16" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets/icons/16', $indexFile, 'index.html');
-        // Creation of "images/icons/32" folder and index.html file
+        // Creation of "assets/icons/32" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets/icons/32', $indexFile, 'index.html');
-        // Creation of "images" folder and index.html file
+        // Creation of "assets/images" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets/images', $indexFile, 'index.html');
-        // Creation of "images" folder and index.html file
+        // Creation of "assets/js" folder and index.html file
         $this->structure->makeDirAndCopyFile('assets/js', $indexFile, 'index.html');
         //Copy the logo of the module
         $modImage = str_replace(' ', '', strtolower($module->getVar('mod_image')));
@@ -136,12 +136,12 @@ class TDMCreateArchitecture extends TDMCreateStructure
         // If file exists
         if (!file_exists($logoGifFrom)) {
             // Rename file
-            $copyFile    = TDMC_IMAGE_LOGOS_PATH . '/xoopsdevelopmentteam_logo.gif';
+            $copyFile    = TDMC_IMAGE_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         } else {
             // Copy file
-            $copyFile    = TDMC_IMAGE_LOGOS_PATH . '/' . $stlModuleAuthor . '_logo.gif';
+            $copyFile    = TDMC_IMAGE_LOGOS_URL . '/' . $stlModuleAuthor . '_logo.gif';
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         }
