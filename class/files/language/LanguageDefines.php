@@ -23,9 +23,14 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageDefines
  */
-class LanguageDefines
+class LanguageDefines extends TDMCreateFile
 {
-    /*
+        /*
+    * @var mixed
+    */
+    protected $defines;
+	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -34,6 +39,8 @@ class LanguageDefines
      */
     public function __construct()
     {
+		parent::__construct();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*

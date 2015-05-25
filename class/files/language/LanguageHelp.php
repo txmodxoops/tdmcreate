@@ -19,11 +19,10 @@
  * @version         $Id: 1.91 LanguageHelp.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-
 /**
  * Class LanguageHelp
  */
-class LanguageHelp extends TDMCreateFile
+class LanguageHelp extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -34,7 +33,8 @@ class LanguageHelp extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->defines = LanguageDefines::getInstance();
     }
 
     /*

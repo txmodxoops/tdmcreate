@@ -19,18 +19,11 @@
  * @version         $Id: LanguageAdmin.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'LanguageDefines.php';
-
 /**
  * Class LanguageAdmin
  */
-class LanguageAdmin extends TDMCreateFile
+class LanguageAdmin extends LanguageDefines
 {
-    /*
-    * @var mixed
-    */
-    private $defines;
-
     /*
     *  @public function constructor
     *  @param null
@@ -41,7 +34,6 @@ class LanguageAdmin extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->defines  = LanguageDefines::getInstance();
     }
 

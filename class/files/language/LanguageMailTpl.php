@@ -19,13 +19,12 @@
  * @version         $Id: 1.91 LanguageMailTpl.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-
 /**
  * Class LanguageMailTpl
  */
-class LanguageMailTpl extends TDMCreateFile
+class LanguageMailTpl extends LanguageDefines
 {
-    /*
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -36,6 +35,7 @@ class LanguageMailTpl extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->defines  = LanguageDefines::getInstance();
     }
 
     /*

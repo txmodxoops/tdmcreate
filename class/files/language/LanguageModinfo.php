@@ -19,18 +19,11 @@
  * @version         $Id: LanguageModinfo.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-require_once 'LanguageDefines.php';
-
 /**
  * Class LanguageModinfo
  */
-class LanguageModinfo extends TDMCreateFile
+class LanguageModinfo extends LanguageDefines
 {
-    /*
-    * @var mixed
-    */
-    private $defines;
-
     /*
     *  @public function constructor
     *  @param null
@@ -41,7 +34,6 @@ class LanguageModinfo extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->defines  = LanguageDefines::getInstance();
     }
 
@@ -95,7 +87,7 @@ class LanguageModinfo extends TDMCreateFile
      */
     private function getLanguageMain($language, $module)
     {
-        $ret = $this->defines->getAboveHeadDefines('Admin Main');
+        $ret  = $this->defines->getAboveHeadDefines('Admin Main');
         $ret .= $this->defines->getDefine($language, "NAME", "{$module->getVar('mod_name')}");
         $ret .= $this->defines->getDefine($language, "DESC", "{$module->getVar('mod_description')}");
 

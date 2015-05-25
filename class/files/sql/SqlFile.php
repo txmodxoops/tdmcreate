@@ -194,15 +194,47 @@ SQL;
                     case 3:
                     case 4:
                     case 5:
-                    case 6:
-                    case 7:
-                    case 8:
 						$type = $fieldTypeName;
                         if(empty($fieldDefault)) {
 							$default = "DEFAULT '0'";
 						} else {
 							$default = "DEFAULT '{$fieldDefault}'";
 						}
+                        break;
+					case 6:
+                    case 7:
+                    case 8:
+						$type = $fieldTypeName;
+                        if(empty($fieldDefault)) {
+							$default = "DEFAULT '0.00'"; // From MySQL 5.7 Manual
+						} else {
+							$default = "DEFAULT '{$fieldDefault}'";
+						}
+                        break;
+					case 9:
+					case 10:
+						$type = $fieldTypeName;                        
+                        break;
+					case 11:
+						$type = $fieldTypeName;
+                        if(empty($fieldDefault)) {
+							$default = "DEFAULT 'my@email.com'";
+						} else {
+							$default = "DEFAULT '{$fieldDefault}'";
+						}
+                        break;
+                    case 12:
+						$type = $fieldTypeName;
+                        if(empty($fieldDefault)) {
+							$default = "DEFAULT 'http:\\'";
+						} else {
+							$default = "DEFAULT '{$fieldDefault}'";
+						}
+                        break;
+					case 13:
+					case 14:
+						$type = $fieldTypeName;
+						$default = "DEFAULT ''";
                         break;
 					case 15:
                     case 16:
@@ -211,14 +243,21 @@ SQL;
 						$type    = $fieldTypeName;
                         $default = null;
                         break;
-					case 19:
-                    case 20:
-                    case 21:
+					case 19:						
+					case 20:						
+					case 21:						
 					case 22:
-                    case 23:
-                        $type    = $fieldTypeName;
+						$type = $fieldTypeName;
+                        /*if(empty($fieldDefault)) {
+							$default = "DEFAULT '0'";
+						} else {*/
+							$default = "DEFAULT '{$fieldDefault}'";
+						//}
+                        break;
+					case 23:
+                        $type = $fieldTypeName;
                         if(empty($fieldDefault)) {
-							$default = "DEFAULT '0000/00/00'";
+							$default = "DEFAULT '1970'"; // From MySQL 5.7 Manual
 						} else {
 							$default = "DEFAULT '{$fieldDefault}'";
 						}
