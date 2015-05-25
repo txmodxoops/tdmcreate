@@ -368,7 +368,7 @@ class TDMCreateModules extends XoopsObject
 		$modWebsiteUrl = $isNew ? $set['website_url'] : $this->getVar('mod_website_url');
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_WEBSITE_URL, 'mod_website_url', 50, 255, $modWebsiteUrl));
         //
-		$modWebsiteName = $isNew ? $set['release_file'] : $this->getVar('mod_website_name');
+		$modWebsiteName = $isNew ? $set['website_name'] : $this->getVar('mod_website_name');
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_WEBSITE_NAME, 'mod_website_name', 50, 255, $modWebsiteName));
         //
 		$modRelease = $isNew ? $set['release'] : $this->getVar('mod_release');

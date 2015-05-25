@@ -234,9 +234,9 @@ class TDMCreateFields extends XoopsObject
             unset($criteriaElement, $criteriaTable);
             $parametersTray->addElement($fieldElementsSelect);
 
-            $field_parent       = 0;
-            $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $i . ']');
-            $checkFieldParent->addOption($field_parent, _AM_TDMCREATE_FIELD_PARENT);
+            $field_parent     = 0;
+            $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $i . ']', $field_parent);
+            $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
             $parametersTray->addElement($checkFieldParent);
             /*$field_parent = (1 == $tableAutoincrement) ? 2 : 1;
                 $checkFieldParent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
@@ -303,9 +303,10 @@ class TDMCreateFields extends XoopsObject
         $class = 'even';
         // Get the number of fields - goffy
         $tablesHandler      =& $this->tdmcreate->getHandler('tables');
-        $tableAutoincrement = $tablesHandler->get($fieldTid)->getVar('table_autoincrement');
-        $fieldNumb          = $tablesHandler->get($fieldTid)->getVar('table_nbfields');
-        $fName              = $tablesHandler->get($fieldTid)->getVar('table_fieldname');
+		$tables             = $tablesHandler->get($fieldTid);
+        $tableAutoincrement = $tables->getVar('table_autoincrement');
+        $fieldNumb          = $tables->getVar('table_nbfields');
+        $fName              = $tables->getVar('table_fieldname');
 
         // Get the list of fields
         $criteria = new CriteriaCompo();
