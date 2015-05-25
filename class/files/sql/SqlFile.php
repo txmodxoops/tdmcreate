@@ -197,6 +197,7 @@ SQL;
                     case 6:
                     case 7:
                     case 8:
+						$type = $fieldTypeName;
                         if(empty($fieldDefault)) {
 							$default = "DEFAULT '0'";
 						} else {
@@ -207,11 +208,20 @@ SQL;
                     case 16:
                     case 17:
                     case 18:
-                    case 19:
+						$type    = $fieldTypeName;
+                        $default = null;
+                        break;
+					case 19:
                     case 20:
                     case 21:
+					case 22:
+                    case 23:
                         $type    = $fieldTypeName;
-                        $default = null;
+                        if(empty($fieldDefault)) {
+							$default = "DEFAULT '0000/00/00'";
+						} else {
+							$default = "DEFAULT '{$fieldDefault}'";
+						}
                         break;
                     default:
                         $type    = $fieldTypeName . '(' . $fieldValue . ')';
