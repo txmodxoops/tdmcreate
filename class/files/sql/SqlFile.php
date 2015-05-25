@@ -190,7 +190,20 @@ SQL;
             }
             if (!empty($fieldName)) {
                 switch ($fieldType) {
-                    case 15:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        if(empty($fieldDefault)) {
+							$default = "DEFAULT '0'";
+						} else {
+							$default = "DEFAULT '{$fieldDefault}'";
+						}
+                        break;
+					case 15:
                     case 16:
                     case 17:
                     case 18:
