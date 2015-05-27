@@ -19,8 +19,6 @@
  * @version         $Id: TemplatesAdminPages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-include_once TDMC_PATH . '/class/files/templates/TDMCreateHtmlSmartyCodes.php';
-
 /**
  * Class TemplatesAdminPages
  */
@@ -85,18 +83,24 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
         <thead>
             <tr class="head">\n
 EOT;
-        foreach (array_keys($fields) as $f) {
-            $fieldName   = $fields[$f]->getVar('field_name');
-			$rpFieldName = $this->tdmcfile->getRightString($fieldName);
-            $lang_fn     = $language . strtoupper($tableSoleName) . '_' . strtoupper($rpFieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_inlist'))) {
-                $ret .= <<<EOT
-                <th class="center"><{\$smarty.const.{$lang_fn}}></th>\n
+        $langHeadId = $language . strtoupper($tableSoleName) . '_ID';
+		if (1 == $table->getVar('table_autoincrement')) {
+			$ret .= <<<EOT
+			<th class="center"><{\$smarty.const.{$langHeadId}}></th>\n
 EOT;
-            }
+		}
+		foreach (array_keys($fields) as $f) {
+            $fieldName     = $fields[$f]->getVar('field_name');
+			$rpFieldName   = $this->tdmcfile->getRightString($fieldName);
+            $langFieldName = $language . strtoupper($tableSoleName) . '_' . strtoupper($rpFieldName);
+			if (1 == $fields[$f]->getVar('field_inlist')) {
+				$ret .= <<<EOT
+                <th class="center"><{\$smarty.const.{$langFieldName}}></th>\n
+EOT;
+			}
         }
         $ret .= <<<EOT
-                <th class="center"><{\$smarty.const.{$language}FORMACTION}></th>
+                <th class="center"><{\$smarty.const.{$language}FORM_ACTION}></th>
             </tr>
         </thead>\n
 EOT;
@@ -121,14 +125,19 @@ EOT;
             <{foreach item=list from=\${$tableName}_list}>
                 <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        foreach (array_keys($fields) as $f) {
+        if (1 == $table->getVar('table_autoincrement')) {
+			$ret .= <<<EOT
+			<td class="center"><{\$list.id}></td>\n
+EOT;
+		}
+		foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
             if (0 == $f) {
-                $field_id = $fieldName;
+                $fieldId = $fieldName;
             }
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_inlist'))) {
+            if (1 == $fields[$f]->getVar('field_inlist')) {
                 switch ($fieldElement) {
                     case 9:
                         $ret .= <<<EOT
@@ -155,10 +164,10 @@ EOT;
         }
         $ret .= <<<EOT
                     <td class="center">
-                        <a href="{$tableName}.php?op=edit&amp;{$field_id}=<{\$list.id}>" title="<{\$smarty.const._EDIT}>">
+                        <a href="{$tableName}.php?op=edit&amp;{$fieldId}=<{\$list.id}>" title="<{\$smarty.const._EDIT}>">
                             <img src="<{xoModuleIcons16 edit.png}>" alt="<{\$smarty.const._EDIT}>" />
                         </a>
-                        <a href="{$tableName}.php?op=delete&amp;{$field_id}=<{\$list.id}>" title="<{\$smarty.const._DELETE}>">
+                        <a href="{$tableName}.php?op=delete&amp;{$fieldId}=<{\$list.id}>" title="<{\$smarty.const._DELETE}>">
                             <img src="<{xoModuleIcons16 delete.png}>" alt="<{\$smarty.const._DELETE}>" />
                         </a>
                     </td>
@@ -189,13 +198,18 @@ EOT;
             <{foreach item=list from=\${$tableName}_list}>
                 <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        foreach (array_keys($fields) as $f) {
+        if (1 == $table->getVar('table_autoincrement')) {
+			$ret .= <<<EOT
+			<td class="center"><{\$list.id}></td>\n
+EOT;
+		}
+		foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (0 == $f) {
-                $field_id = $fieldName;
+                $fieldId = $fieldName;
             }
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_inlist'))) {
+            if (1 == $fields[$f]->getVar('field_inlist')) {
                 switch ($fieldElement) {
                     case 9:
                         $ret .= <<<EOT
@@ -222,10 +236,10 @@ EOT;
         }
         $ret .= <<<EOT
                     <td class="center">
-                        <a href="{$tableName}.php?op=edit&amp;{$field_id}=<{\$list.{$field_id}}>" title="<{\$smarty.const._EDIT}>">
+                        <a href="{$tableName}.php?op=edit&amp;{$fieldId}=<{\$list.{$fieldId}}>" title="<{\$smarty.const._EDIT}>">
                             <img src="<{xoModuleIcons16 edit.png}>" alt="<{\$smarty.const._EDIT}>" />
                         </a>
-                        <a href="{$tableName}.php?op=delete&amp;{$field_id}=<{\$list.{$field_id}}>" title="<{\$smarty.const._DELETE}>">
+                        <a href="{$tableName}.php?op=delete&amp;{$fieldId}=<{\$list.{$fieldId}}>" title="<{\$smarty.const._DELETE}>">
                             <img src="<{xoModuleIcons16 delete.png}>" alt="<{\$smarty.const._DELETE}>" />
                         </a>
                     </td>

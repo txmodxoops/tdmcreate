@@ -230,8 +230,8 @@ EOT;
         \$iconsdirectory = is_dir(XOOPS_ROOT_PATH . \$iconsdir) ? \$iconsdir : \$uploads_dir;
         //
         \$imgtray1 = new XoopsFormElementTray({$language}{$stuSoleName},'<br />');
-        \$imgpath = is_dir(XOOPS_ROOT_PATH . \$iconsdir) ? sprintf({$language}FORMIMAGE_PATH, ".{\$iconsdir}/") : sprintf({$language}FORMIMAGE_PATH, \$uploads_dir);
-        //\$imgpath1 = sprintf({$language}FORMIMAGE_PATH, ".{\$iconsdirectory}/");
+        \$imgpath = is_dir(XOOPS_ROOT_PATH . \$iconsdir) ? sprintf({$language}FORM_IMAGE_PATH, ".{\$iconsdir}/") : sprintf({$language}FORMIMAGE_PATH, \$uploads_dir);
+        //\$imgpath1 = sprintf({$language}FORM_IMAGE_PATH, ".{\$iconsdirectory}/");
         \$imageselect1 = new XoopsFormSelect(\$imgpath, '{$fieldName}', \${$fieldName}, 10);
         \$image_array1 = XoopsLists::getImgListAsArray( XOOPS_ROOT_PATH . \$iconsdirectory );
         foreach( \$image_array1 as \$image1 ) {
@@ -280,8 +280,8 @@ EOT;
             if (!is_file(\$uploaddir)){
                 \${$moduleDirname}cat_img = 'blank.gif';
             }
-            \$imgtray = new XoopsFormElementTray({$language}_FORMIMG,'<br />');
-            \$imgpath = sprintf({$language}_FORMPATH, \$uploadirectory );
+            \$imgtray = new XoopsFormElementTray({$language}_FORM_IMG,'<br />');
+            \$imgpath = sprintf({$language}_FORM_PATH, \$uploadirectory );
             \$imageselect = new XoopsFormSelect(\$imgpath, 'selected_img',\${$moduleDirname}cat_img);
             \${$fieldName}_array = XoopsLists :: getImgListAsArray( XOOPS_ROOT_PATH . \$uploadirectory );
             foreach( \${$fieldName}_array as \$image ) {
@@ -670,6 +670,9 @@ EOT;
                         }
                         break;
                 }
+				if (($fieldElement <= 15) && (1 == $fieldParent)) {
+					$ret .= $this->getXoopsFormTopic($language, $moduleDirname, $tableName, $fieldId, $fieldPid, $fieldMain, $required);					
+				}
                 if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category')) {
 						$fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
@@ -692,10 +695,10 @@ EOT;
 							}
 						}
                         $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldIdTopic, $fieldPidTopic, $fieldMainTopic, $required);
-                    } elseif (1 == $fieldParent) {
+                    } else {
                         $ret .= $this->getXoopsFormTable($language, $moduleDirname, $tableName, $fieldName, $fieldElement, $required);
                     }
-                }
+                }				
             }
         }
 

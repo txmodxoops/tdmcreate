@@ -93,24 +93,20 @@ class LanguageMain extends LanguageDefines
 As you can see, you've created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module TDMCreate, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.");
         $ret .= $this->defines->getAboveHeadDefines('Contents');
         foreach (array_keys($tables) as $i) {
-            $tableName    = $tables[$i]->getVar('table_name');
-            $stuTableName = strtoupper($tableName);
-            $ucfTableName = UcFirstAndToLower($tableName);
-            $ret .= $this->defines->getAboveDefines($ucfTableName);
-            $ret .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
-            $ret .= $this->defines->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
-            $ret .= $this->defines->getAboveDefines("Caption of {$ucfTableName}");
+            $tableSoleName    = $tables[$i]->getVar('table_solename');
+            $stuTableSoleName = strtoupper($tableSoleName);
+            $ucfTableSoleName = UcFirstAndToLower($tableSoleName);
+            $ret .= $this->defines->getAboveDefines($ucfTableSoleName);
+            $ret .= $this->defines->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
+            $ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_DESC", "{$ucfTableSoleName} description");
+            $ret .= $this->defines->getAboveDefines("Caption of {$ucfTableSoleName}");
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
-                $fieldName    = $fields[$f]->getVar('field_name');
-                $stuFieldName = strtoupper($fieldName);
-                //
-                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
-                //
+                $fieldName     = $fields[$f]->getVar('field_name');                
+                $rpFieldName   = $this->tdmcfile->getRightString($fieldName);
                 $fieldNameDesc = ucfirst($rpFieldName);
-                //
-                $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
+
+                $ret .= $this->defines->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
             }
         }
 

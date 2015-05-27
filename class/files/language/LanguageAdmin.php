@@ -107,10 +107,10 @@ class LanguageAdmin extends LanguageDefines
             $ret .= $this->defines->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}");
         }
         $ret .= $this->defines->getAboveDefines('Save/Delete');
-        $ret .= $this->defines->getDefine($language, "FORMOK", "Successfully saved");
-        $ret .= $this->defines->getDefine($language, "FORMDELOK", "Successfully deleted");
-        $ret .= $this->defines->getDefine($language, "FORMSUREDEL", "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
-        $ret .= $this->defines->getDefine($language, "FORMSURERENEW", "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
+        $ret .= $this->defines->getDefine($language, 'FORM_OK', "Successfully saved");
+        $ret .= $this->defines->getDefine($language, 'FORM_DELETE_OK', "Successfully deleted");
+        $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
+        $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
         $ret .= $this->defines->getAboveDefines('Buttons');
         //
         foreach (array_keys($tables) as $t) {
@@ -177,7 +177,7 @@ class LanguageAdmin extends LanguageDefines
 					$fieldNameDesc = ucfirst($rpFieldName);
 				}
                 //
-                $ret .= $this->defines->getDefine($language, $tableSoleName .'_'. $rpFieldName, $fieldNameDesc);
+                $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
 				$stuTableName = strtoupper($tableName);
                 //
                 switch ($fieldElement) {
@@ -185,8 +185,8 @@ class LanguageAdmin extends LanguageDefines
                         $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
                         break;
 					case 12:
-                        $ret .= $this->defines->getDefine($language, "URLFORM_{$stuTableName}", "{$fieldNameDesc} in text url");
-						$ret .= $this->defines->getDefine($language, "URLFORM_UPLOAD", "{$fieldNameDesc} in uploads files");
+                        $ret .= $this->defines->getDefine($language, "FORM_URL_{$stuTableName}", "{$fieldNameDesc} in text url");
+						$ret .= $this->defines->getDefine($language, "FORM_URL_UPLOAD", "{$fieldNameDesc} in uploads files");
                         break;
                     case 13:
                         $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in uploads images");
@@ -198,11 +198,11 @@ class LanguageAdmin extends LanguageDefines
             }
         }
         $ret .= $this->defines->getAboveDefines('General');
-        $ret .= $this->defines->getDefine($language, 'FORMUPLOAD', "Upload file");
-        $ret .= $this->defines->getDefine($language, 'FORMIMAGE_PATH', "Files in %s ");
-        $ret .= $this->defines->getDefine($language, 'FORMACTION', "Action");
-        $ret .= $this->defines->getDefine($language, 'FORMEDIT', "Modification");
-        $ret .= $this->defines->getDefine($language, 'FORMDEL', "Clear");
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD', "Upload file");
+        $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', "Files in %s ");
+        $ret .= $this->defines->getDefine($language, 'FORM_ACTION', "Action");
+        $ret .= $this->defines->getDefine($language, 'FORM_EDIT', "Modification");
+        $ret .= $this->defines->getDefine($language, 'FORM_DELETE', "Clear");
 
         return $ret;
     }

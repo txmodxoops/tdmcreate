@@ -19,7 +19,7 @@
  * @version         $Id: about.php 11084 2013-02-23 15:44:20Z timgno $
  */
 include __DIR__ . '/header.php';
-$template_main = 'tdmcreate_about.tpl';
+$templateMain = 'tdmcreate_about.tpl';
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('about.php'));
 $GLOBALS['xoopsTpl']->assign('about', $adminMenu->renderAbout('6KJ7RW5DR3VTJ', false));
 include  __DIR__ . '/footer.php';

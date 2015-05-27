@@ -126,7 +126,29 @@ EOT;
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>No statistics</label>', 0);\n
 EOT;
         }
-        $content .= <<<EOT
+		if (is_array($tables)) {
+            $content .= <<<EOT
+// Upload Folders
+\$folder = array(\n
+EOT;
+            $stuModuleDirname = strtoupper($moduleDirname);
+			foreach (array_keys($tables) as $i) {
+                $tableName = $tables[$i]->getVar('table_name');
+                $content .= <<<EOT
+	\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
+EOT;
+            }        
+			$content .= <<<EOT
+);
+
+// Uploads Folders Created
+foreach (array_keys( \$folder) as \$i) {
+    \$adminMenu->addConfigBoxLine(\$folder[\$i], 'folder');
+    \$adminMenu->addConfigBoxLine(array(\$folder[\$i], '777'), 'chmod');
+}\n
+EOT;
+		}
+		$content .= <<<EOT
 // Render Index
 echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
