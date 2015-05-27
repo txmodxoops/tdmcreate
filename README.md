@@ -21,3 +21,5 @@ MySQL = 5.6.20
 Apache = 2.4.10
 
 Xoops = 2.5.7.1
+
+Codeception = 2.0.13
