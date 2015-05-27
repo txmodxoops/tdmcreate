@@ -14,7 +14,7 @@ That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7
 Therefore recommended not to use TDMCreate 1.91, with previous versions of xoops 2.5.7
 
 # System Tests
-PHP = 5.4.31
+PHP = 5.4.31 - 5.5.15
 
 MySQL = 5.6.20
 
