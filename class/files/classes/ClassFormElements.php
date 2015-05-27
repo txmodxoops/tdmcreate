@@ -670,11 +670,11 @@ EOT;
                         }
                         break;
                 }
-				if (($fieldElement <= 15) && (1 == $fieldParent)) {
+				/*if (($fieldElement <= 15)) {
 					$ret .= $this->getXoopsFormTopic($language, $moduleDirname, $tableName, $fieldId, $fieldPid, $fieldMain, $required);					
-				}
+				}*/
                 if ($fieldElement > 15) {
-                    if (1 == $table->getVar('table_category')) {
+                    if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
 						$fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
 						$fieldElementMid    = $fieldElements->getVar('fieldelement_mid');
 						$fieldElementTid    = $fieldElements->getVar('fieldelement_tid');

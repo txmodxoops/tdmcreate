@@ -533,9 +533,10 @@ EOT;
         $tableName      = $table->getVar('table_name');
         $moduleDirname  = $module->getVar('mod_dirname');
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName   = $fields[$f]->getVar('field_name');
-            $fieldInForm = $fields[$f]->getVar('field_inform');
+        $fieldInForm    = array();
+		foreach (array_keys($fields) as $f) {
+            $fieldName     = $fields[$f]->getVar('field_name');
+            $fieldInForm[] = $fields[$f]->getVar('field_inform');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName; // $fieldId = fields parameter index field
             }
@@ -545,7 +546,7 @@ EOT;
         }
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getHeadClass($moduleDirname, $tableName, $fields);
-        if (1 == $fieldInForm) {
+        if (in_array(1, $fieldInForm)) {
             $content .= $this->getHeadInForm($module, $table);
             if (1 == $table->getVar('table_permissions')) {
                 $content .= $this->getPermissionsInForm($moduleDirname, $fieldId);
