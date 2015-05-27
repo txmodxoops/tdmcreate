@@ -194,7 +194,7 @@ SQL;
                     case 3:
                     case 4:
                     case 5:
-						$type = $fieldTypeName;
+						$type = $fieldTypeName . '(' . $fieldValue . ')';
                         if(empty($fieldDefault)) {
 							$default = "DEFAULT '0'";
 						} else {
@@ -204,7 +204,7 @@ SQL;
 					case 6:
                     case 7:
                     case 8:
-						$type = $fieldTypeName;
+						$type = $fieldTypeName . '(' . $fieldValue . ')';
                         if(empty($fieldDefault)) {
 							$default = "DEFAULT '0.00'"; // From MySQL 5.7 Manual
 						} else {
@@ -216,7 +216,7 @@ SQL;
 						$type = $fieldTypeName;                        
                         break;
 					case 11:
-						$type = $fieldTypeName;
+						$type = $fieldTypeName . '(' . $fieldValue . ')';
                         if(empty($fieldDefault)) {
 							$default = "DEFAULT 'my@email.com'";
 						} else {
@@ -224,7 +224,7 @@ SQL;
 						}
                         break;
                     case 12:
-						$type = $fieldTypeName;
+						$type = $fieldTypeName . '(' . $fieldValue . ')';
                         if(empty($fieldDefault)) {
 							$default = "DEFAULT 'http:\\'";
 						} else {
@@ -233,8 +233,8 @@ SQL;
                         break;
 					case 13:
 					case 14:
-						$type = $fieldTypeName;
-						$default = "DEFAULT ''";
+						$type    = $fieldTypeName . '(' . $fieldValue . ')';
+						$default = "DEFAULT '{$fieldDefault}'";
                         break;
 					case 15:
                     case 16:
@@ -247,12 +247,8 @@ SQL;
 					case 20:						
 					case 21:						
 					case 22:
-						$type = $fieldTypeName;
-                        /*if(empty($fieldDefault)) {
-							$default = "DEFAULT '0'";
-						} else {*/
-							$default = "DEFAULT '{$fieldDefault}'";
-						//}
+						$type    = $fieldTypeName . '(' . $fieldValue . ')';
+						$default = "DEFAULT '{$fieldDefault}'";
                         break;
 					case 23:
                         $type = $fieldTypeName;

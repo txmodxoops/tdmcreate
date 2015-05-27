@@ -238,25 +238,25 @@ switch ($op)
 		$fieldsObj = $tdmcreate->getHandler('fields')->get( $fieldId );        		
 		$form = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
 		$GLOBALS['xoopsTpl']->assign('form', $form->render());
-	break;    
-    
-	case 'order':		
-		// Initialize fields handler
+	break;     
+	
+	case 'order':
+        // Initialize fields handler
         $fieldsObj = $tdmcreate->getHandler('fields');
-        if ( isset($_POST['forder'] ) ) {
+        if (isset($_POST['forder'])) {
             $i = 0;
-            foreach($_POST['forder'] as $order) {
-                if( $order > 0 ) {
+            foreach ($_POST['forder'] as $order) {
+                if ($order > 0) {
                     $fieldOrder = $fieldsObj->get($order);
                     $fieldOrder->setVar('field_order', $i);
                     if (!$fieldsObj->insert($fieldOrder)) {
-                        $error=true;
+                        $error = true;
                     }
-                    $i++;
+                    ++$i;
                 }
             }
-			redirect_header('fields.php', 5, _AM_TDMCREATE_FIELD_ORDER_ERROR);
-			unset($i);
+            redirect_header('fields.php', 5, _AM_TDMCREATE_FIELD_ORDER_ERROR);
+            unset($i);
         }
         exit;
     break;

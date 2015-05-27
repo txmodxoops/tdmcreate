@@ -493,7 +493,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userRss->render();
 				// User Templates Rss File
                 $userTemplatesRss = TemplatesUserRss::getInstance();
-                $userTemplatesRss->write($module, $table);
+                $userTemplatesRss->write($module);
                 $ret[] = $userTemplatesRss->renderFile($moduleDirname . '_rss.tpl');
             }
 			// User Single File

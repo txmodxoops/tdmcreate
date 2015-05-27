@@ -107,7 +107,9 @@ class UserRss extends TDMCreateFile
             }
             if (1 == $fields[$f]->getVar('field_parent')) {
                 $fieldParent = $fieldName;
-            }
+            } else {
+				$fieldParent = 'cid';
+			}
         }
 
         $ret = <<<EOT
@@ -140,7 +142,7 @@ if (\${$fieldParent} != 0){
 \${$tableName}Arr = \${$tableName}Handler->getAll(\$criteria);
 unset(\$criteria);
 
-if (!\$tpl->is_cached('db:rss.tpl', \${$fieldParent})) {
+if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fieldParent})) {
     \$tpl->assign('channel_title', htmlspecialchars(\$title, ENT_QUOTES));
     \$tpl->assign('channel_link', XOOPS_URL.'/');
     \$tpl->assign('channel_desc', htmlspecialchars(\$xoopsConfig['slogan'], ENT_QUOTES));
@@ -185,7 +187,7 @@ if (!\$tpl->is_cached('db:rss.tpl', \${$fieldParent})) {
     }
 }
 header("Content-Type:text/xml; charset=" . _CHARSET);
-\$tpl->display('db:rss.tpl', \${$fieldParent});
+\$tpl->display('db:{$moduleDirname}_rss.tpl', \${$fieldParent});
 EOT;
 
         return $ret;
