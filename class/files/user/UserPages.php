@@ -85,6 +85,7 @@ class UserPages extends UserObjects
     {
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
+		$tableSoleName    = $table->getVar('table_solename');
         $tableFieldname   = $table->getVar('table_fieldname');
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName     = strtoupper($tableName);
@@ -104,77 +105,27 @@ include_once XOOPS_ROOT_PATH . '/header.php';
 //
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
 //
-\$criteria{$ucfTableName} = new CriteriaCompo();
-\${$stlTableName}Count = \${$stlTableName}Handler->getCount(\$criteria{$ucfTableName});
-\${$stlTableName}All = \${$stlTableName}Handler->getAll(\$criteria{$ucfTableName});
-unset(\$criteria{$ucfTableName});
+\${$stlTableName}Count = \${$stlTableName}Handler->getCount{$ucfTableName}();
+\${$stlTableName}All = \${$stlTableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
 \$keywords = array();
 if (\${$stlTableName}Count > 0) {
-    foreach (array_keys(\${$stlTableName}All) as \$i)
-    {\n
+    // Get All {$ucfTableName}
+	foreach (array_keys(\${$stlTableName}All) as \$i)
+    {
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
+        \$GLOBALS['xoopsTpl']->appendByRef('{$tableName}_list', \${$tableSoleName});
+        unset(\${$tableSoleName});\n
 EOT;
         // Fields
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
-            $fieldParent = $fields[$f]->getVar('field_parent');
-            // Verify if table_fieldname is not empty
-            $lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fieldName; // fpmf = fields parameters main field
-            }
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 3:
-                    case 4:
-                        $ret .= $this->userobjects->getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-                        break;
-                    case 8:
-                        $ret .= $this->userobjects->getSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-                        break;
-                    case 12:
-                        $ret .= $this->userobjects->getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-                        break;
-                    case 13:
-                        $ret .= $this->userobjects->getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-                        break;
-                    case 15:
-                        $ret .= $this->userobjects->getTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-                        break;
-                    default:
-                        if ((1 == $fieldParent) && !$table->getVar('table_category')) {
-                            if ($fieldElement > 15) {
-                                $fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
-                                $fieldElementTid    = $fieldElements->getVar('fieldelement_tid');
-                                $fieldElementName   = $fieldElements->getVar('fieldelement_name');
-                                $rpFieldElementName = strtolower(str_replace('Table : ', '', $fieldElementName));
-                                //
-                                $fieldNameParent = $fieldName;
-                                //
-                                $criteriaFieldsTopic = new CriteriaCompo();
-                                $criteriaFieldsTopic->add(new Criteria('field_tid', $fieldElementTid));
-                                $fieldsTopic = $this->tdmcreate->getHandler('fields')->getObjects($criteriaFieldsTopic);
-                                unset($criteriaFieldsTopic);
-                                foreach (array_keys($fieldsTopic) as $ft) {
-                                    if (1 == $fieldsTopic[$ft]->getVar('field_main')) {
-                                        $fieldNameTopic = $fieldsTopic[$ft]->getVar('field_name');
-                                    }
-                                }
-                                $ret .= $this->userobjects->getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $rpFieldElementName, $fieldNameParent, $fieldNameTopic);
-                            }
-                        } else {
-                            $ret .= $this->userobjects->getSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName);
-                        }
-                        break;
-                }
-            }
+                $fieldMain = $fieldName; // fieldMain = fields parameters main field
+            }            
         }
         $ret .= <<<EOT
-        \$GLOBALS['xoopsTpl']->append('{$stlTableName}', \${$lpFieldName});
-        \$keywords[] = \${$stlTableName}All[\$i]->getVar('{$fpmf}');
-        unset(\${$lpFieldName});
+        \$keywords[] = \${$stlTableName}All[\$i]->getVar('{$fieldMain}');
     }
     // Display Navigation
     if (\${$stlTableName}Count > \$limit) {

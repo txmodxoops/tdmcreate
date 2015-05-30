@@ -192,7 +192,8 @@ class {$ucfModuleDirname}{$ucfTableName} extends XoopsObject
     * @var mixed
     */
     private \${$moduleDirname} = null;
-    /*
+    
+	/*
      * Constructor
      *
      * @param null
@@ -200,7 +201,7 @@ class {$ucfModuleDirname}{$ucfTableName} extends XoopsObject
     public function __construct()
     {
         \$this->{$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-{$this->getInitVars($fields)}\t}
+{$this->getInitVars($fields)}\t}\n
     /*
     *  @static function &getInstance
     *  @param null
@@ -212,7 +213,7 @@ class {$ucfModuleDirname}{$ucfTableName} extends XoopsObject
             \$instance = new self();
         }
         return \$instance;
-    }\n
+    }\n\n
 EOT;
 
         return $ret;
@@ -327,7 +328,7 @@ EOT;
         \$form->addElement ( \$groupsCanSubmitCheckbox );
         // For view
         \$groupsCanViewCheckbox->addOptionArray ( \$groupList );
-        \$form->addElement ( \$groupsCanViewCheckbox );\n
+        \$form->addElement ( \$groupsCanViewCheckbox );\n\n
 EOT;
 
         return $ret;
@@ -347,12 +348,65 @@ EOT;
         \$form->addElement(new XoopsFormHidden('op', 'save'));
         \$form->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         return \$form;
-    }\n
+    }\n\n
 EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @private function getToArray
+    *  @param null
+    */
+    /**
+     * @return string
+     */
+    private function getValuesInForm($fields)
+    {        
+		$ret = <<<EOT
+	/**
+     * Get Values
+     */
+	public function getValues(\$keys = null, \$format = null, \$maxDepth = null)
+    {        
+		\$ret = parent::getValues(\$keys, \$format, \$maxDepth);\n
+EOT;
+		foreach (array_keys($fields) as $f) {
+            $fieldName    = $fields[$f]->getVar('field_name');
+			$fieldElement = $fields[$f]->getVar('field_element');
+			$rpFieldName  = $this->tdmcfile->getRightString($fieldName);
+			switch ($fieldElement) {
+				case 3:
+                case 4:
+					$ret .= <<<EOT
+		\$ret['{$rpFieldName}'] = strip_tags(\$this->getVar('{$fieldName}'));\n
+EOT;
+				break;
+                case 8:
+					$ret .= <<<EOT
+		\$ret['{$rpFieldName}'] = XoopsUser::getUnameFromId(\$this->getVar('{$fieldName}'));\n
+EOT;
+				break;
+				case 15:
+					$ret .= <<<EOT
+		\$ret['{$rpFieldName}'] = formatTimeStamp(\$this->getVar('{$fieldName}'));\n
+EOT;
+				break;
+				default:
+				$ret .= <<<EOT
+		\$ret['{$rpFieldName}'] = \$this->getVar('{$fieldName}');\n
+EOT;
+				break;
+			}
+		}
+		$ret .= <<<EOT
+        
+		return \$ret;
+    }\n\n
+EOT;
 
+        return $ret;
+    }
     /*
     *  @private function getToArray
     *  @param null
@@ -360,7 +414,7 @@ EOT;
     /**
      * @return string
      */
-    private function getToArray()
+    private function getToArrayInForm()
     {
         $ret = <<<EOT
     /**
@@ -377,7 +431,49 @@ EOT;
         }
         return \$ret;
     }
-}\n
+}\n\n
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+    *  @private function getOptionsCheck
+    *  @param $table
+    */
+    /**
+     * @return string
+     */
+    private function getOptionsCheck($table)
+    {        
+		$ret = <<<EOT
+    /**
+     * Get Options
+     */
+	public function getOptions()
+    {
+        \$ret = array();\n
+EOT;
+		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+			//
+			$fieldElements  = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+			$fieldElementId = $fieldElements->getVar('fieldelement_id');
+			$rpFieldName    = $this->tdmcfile->getRightString($fieldName);
+			if(5 == $fieldElementId) {
+				$ret .= <<<EOT
+		if (1 == \$this->getVar('{$fieldName}')) {
+            array_push(\$ret, '{$rpFieldName}');
+        }\n
+EOT;
+			}
+		}
+		$ret .= <<<EOT
+        return \$ret;
+    }
+}\n\n
 EOT;
 
         return $ret;
@@ -399,7 +495,7 @@ EOT;
      * @param $fieldMain
      * @return string
      */
-    private function getClassHandler($moduleDirname, $table, $fieldId, $fieldMain)
+    private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldMain)
     {
         $tableName         = $table->getVar('table_name');
         $tableCategory     = $table->getVar('table_category');
@@ -428,9 +524,21 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     {
         parent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');
 		\$this->{$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
+    }\n\n
+EOT;
+	
+		return $ret;
     }
-
-    /**
+    
+	/**
+     *  @public function getClassCreate
+	 *
+     *  @return string
+     */
+    private function getClassCreate()
+    {
+		$ret = <<<EOT
+	/**
      * @param bool \$isNew
      *
      * @return object
@@ -438,9 +546,21 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     public function &create(\$isNew = true)
     {
         return parent::create(\$isNew);
+    }\n\n
+EOT;
+	
+		return $ret;
     }
-
-    /**
+    
+	/**
+     *  @public function getClassGet
+	 *
+     *  @return string
+     */
+    private function getClassGet()
+    {
+		$ret = <<<EOT
+	/**
      * retrieve a field
      *
      * @param int \$i field id
@@ -449,8 +569,20 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     public function &get(\$i = null, \$fields = null)
     {
         return parent::get(\$i, \$fields);
+    }\n\n
+EOT;
+	
+		return $ret;
     }
-
+	
+	/**
+     *  @public function getClassGetInsertId
+	 *
+     *  @return string
+     */
+    private function getClassGetInsertId()
+    {
+		$ret = <<<EOT
     /**
      * get inserted id
      *
@@ -460,9 +592,21 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     public function &getInsertId()
     {
         return \$this->db->getInsertId();
+    }\n\n	
+EOT;
+    
+		return $ret;
     }
-
-    /**
+	
+	/**
+     *  @public function getClassGetIds
+	 *
+     *  @return string
+     */
+    private function getClassGetIds()
+    {
+		$ret = <<<EOT
+	/**
      * get IDs of objects matching a condition
      *
      * @param object \$criteria {@link CriteriaElement} to match
@@ -471,9 +615,21 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     function &getIds(\$criteria)
     {
         return parent::getIds(\$criteria);
+    }\n\n
+EOT;
+	
+		return $ret;
     }
-
-    /**
+    
+	/**
+     *  @public function getClassInsert
+	 *
+     *  @return string
+     */
+    private function getClassInsert()
+    {
+		$ret = <<<EOT
+	/**
      * insert a new field in the database
      *
      * @param object \$field reference to the {@link TDMCreateFields} object
@@ -487,11 +643,115 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
             return false;
         }
         return true;
-    }\n
+    }\n\n
 EOT;
-        if (1 == $tableCategory) {
-            $ret .= <<<EOT
-    \n\t/**
+	
+		return $ret;
+    }
+	
+	/**
+     *  @public function getClassCounter
+	 *
+     *  @param $tableName
+	 *  @param $fieldId
+	 *  @param $fieldMain
+	 *  @return string
+     */
+    private function getClassCounter($tableName, $fieldId, $fieldMain)
+    {
+		$ucfTableName = ucfirst($tableName);
+		$ret = <<<EOT
+    /**
+     * Get Count {$ucfTableName}
+     */
+    public function getCount{$ucfTableName}(\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC')
+    {
+        \$criteria = new CriteriaCompo();
+        \$criteria->setSort(\$sort);
+        \$criteria->setOrder(\$order);
+        \$criteria->setStart(\$start);
+        \$criteria->setLimit(\$limit);
+		return parent::getCount(\$criteria);
+    }\n\n
+EOT;
+	
+		return $ret;
+    }
+	
+	/**
+     *  @public function getClassAll
+	 *
+     *  @param $tableName
+	 *  @param $fieldId
+	 *  @param $fieldMain
+	 *  @return string
+     */
+    private function getClassAll($tableName, $fieldId, $fieldMain)
+    {
+		$ucfTableName = ucfirst($tableName);
+		$ret = <<<EOT
+	/**
+     * Get All {$ucfTableName}
+     */
+	public function getAll{$ucfTableName}(\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC')
+    {
+        \$criteria = new CriteriaCompo();
+        \$criteria->setSort(\$sort);
+        \$criteria->setOrder(\$order);
+        \$criteria->setStart(\$start);
+        \$criteria->setLimit(\$limit);
+        return parent::getAll(\$criteria);
+    }\n\n
+EOT;
+	
+		return $ret;
+    }
+	
+	/**
+     *  @public function getClassByCategory
+	 *
+	 *  @param $tableName
+	 *  @param $fieldId
+	 *  @param $fieldMain
+	 *  @param $fieldParent
+     *  @return string
+     */
+    private function getClassByCategory($tableName, $fieldId, $fieldMain, $fieldParent)
+    {
+		$ucfTableName = ucfirst($tableName);
+		$ret = <<<EOT
+	/**
+     * Get All {$ucfTableName} By Category Id
+     */
+	public function getAll{$ucfTableName}ByCategoryId(\$catId, \$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC')
+    {
+        \$criteria = new CriteriaCompo();
+		\$criteria->add(new Criteria('{$fieldParent}', \$catId));
+        \$criteria->setSort(\$sort);
+        \$criteria->setOrder(\$order);
+        \$criteria->setStart(\$start);
+        \$criteria->setLimit(\$limit);
+        return parent::getAll(\$criteria);
+    }\n\n
+EOT;
+	
+		return $ret;
+    }
+        
+	/**
+     *  @public function getClassGetTableSolenameById
+	 *
+	 *  @param $moduleDirname
+	 *  @param $table
+     *  @return string
+     */
+    private function getClassGetTableSolenameById($moduleDirname, $table, $fieldMain)
+    {
+        $tableName         = $table->getVar('table_name');
+		$tableSoleName 	   = $table->getVar('table_solename');
+        $ucfTableSoleName  = ucfirst($tableSoleName);
+		$ret 			   = <<<EOT
+	/**
      * Returns the {$ucfTableSoleName} from id
      *
      * @return string
@@ -508,15 +768,26 @@ EOT;
             }
         }
         return \${$tableSoleName};
-    }\n
-EOT;
-        }
-        $ret .= <<<EOT
-}
-EOT;
-
-        return $ret;
     }
+EOT;
+		
+		return $ret;
+    }
+	
+	/**
+     *  @public function getClassEnd
+	 *
+     *  @return null
+     */
+    private function getClassEnd()
+    {
+		$ret = <<<EOT
+}\n
+EOT;
+		
+		return $ret;
+    }
+        
 
     /*
     *  @public function renderFile
@@ -531,9 +802,12 @@ EOT;
         $module         = $this->getModule();
         $table          = $this->getTable();
         $tableName      = $table->getVar('table_name');
+		$tableCategory  = $table->getVar('table_category');
         $moduleDirname  = $module->getVar('mod_dirname');
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldInForm    = array();
+		$fieldParentId  = array();
+		$fieldElementId = array();
 		foreach (array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldInForm[] = $fields[$f]->getVar('field_inform');
@@ -543,6 +817,13 @@ EOT;
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName; // $fieldMain = fields parameter main field
             }
+			if (1 == $fields[$f]->getVar('field_parent')) {
+                $fieldParent = $fieldName; // $fieldParent = fields parameter parent field
+            }
+			$fieldElement = $fields[$f]->getVar('field_element');
+			//
+			$fieldElements    = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+			$fieldElementId[] = $fieldElements->getVar('fieldelement_id');			
         }
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getHeadClass($moduleDirname, $tableName, $fields);
@@ -553,9 +834,24 @@ EOT;
             }
             $content .= $this->getFootInForm();
         }
-        $content .= $this->getToArray();
-        $content .= $this->getClassHandler($moduleDirname, $table, $fieldId, $fieldMain);
-
+        $content .= $this->getValuesInForm($fields);
+		$content .= $this->getToArrayInForm();
+		if(in_array(5, $fieldElementId)) {
+			$content .= $this->getOptionsCheck($table);
+		}
+		$content .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldMain);
+		$content .= $this->getClassCreate();		
+		$content .= $this->getClassGet();
+		$content .= $this->getClassGetInsertId();
+		$content .= $this->getClassGetIds();
+		$content .= $this->getClassInsert();
+		$content .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
+		$content .= $this->getClassAll($tableName, $fieldId, $fieldMain);
+		if (in_array(1, $fieldParentId)) {
+			$content .= $this->getClassByCategory($tableName, $fieldId, $fieldMain, $fieldParent);
+			$content .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);
+		}
+		$content .= $this->getClassEnd();
         $this->tdmcfile->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

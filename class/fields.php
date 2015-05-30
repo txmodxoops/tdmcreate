@@ -205,7 +205,7 @@ class TDMCreateFields extends XoopsObject
         $fieldAttributesSelect->addOptionArray($this->tdmcreate->getHandler('fieldattributes')->getList());
         $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldAttributesSelect->render() . '</td>'));
         // Field Null
-        $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
+        $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '2';
         $fieldNullSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_NULL, 'field_null[' . $i . ']', $value);
         $fieldNullSelect->addOptionArray($this->tdmcreate->getHandler('fieldnull')->getList());
         $form->addElement(new TDMCreateFormLabel('<td class="center">' . $fieldNullSelect->render() . '</td>'));

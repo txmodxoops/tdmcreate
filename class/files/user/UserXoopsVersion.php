@@ -130,7 +130,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret  = <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 //
-\$dirname = basename(__DIR__) ;
+\$dirname = basename(__DIR__);
 // ------------------- Informations ------------------- //
 \$modversion = array(
     'name' => {$language}NAME,
@@ -325,6 +325,23 @@ EOT;
     }
 
     /*
+    *  @private function getXoopsVersionTemplatesUserLine
+    *  @param $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     * @return string
+     */
+    private function getXoopsVersionTemplatesUserLine($moduleDirname, $type)
+    {        
+			$ret = <<<EOT
+\$modversion['templates'][] = array('file' => '{$moduleDirname}_{$type}.tpl', 'description' => '');\n
+EOT;
+
+        return $ret;
+    }
+	
+	/*
     *  @private function getXoopsVersionTemplatesUser
     *  @param $moduleDirname
     */
@@ -346,44 +363,28 @@ EOT;
 EOT;
         }
 		if(1 == $table->getVar('table_broken')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_broken.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'broken');
 		}
 		if(1 == $table->getVar('table_pdf')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_pdf.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'pdf');
 		}
 		if(1 == $table->getVar('table_print')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_print.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'print');
 		}
 		if(1 == $table->getVar('table_rate')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_rate.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'rate');
 		}
 		if(1 == $table->getVar('table_rss')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_rss.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'rss');
 		}
 		if(1 == $table->getVar('table_search')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_search.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'search');
 		}
 		if(1 == $table->getVar('table_single')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_single.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'single');
 		}
 		if(1 == $table->getVar('table_submit')) {
-			$ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_submit.tpl', 'description' => '');\n
-EOT;
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'submit');
 		}
         $ret .= <<<EOT
 \$modversion['templates'][] = array('file' => '{$moduleDirname}_footer.tpl', 'description' => '');\n\n
