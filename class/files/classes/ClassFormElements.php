@@ -303,7 +303,7 @@ EOT;
     }
 
     /*
-    *  @private function getXoopsFormUrlFile
+    *  @private function getXoopsFormTextFile
     *  @param string $language
     *  @param string $moduleDirname
     *  @param string $fieldName
@@ -323,13 +323,13 @@ EOT;
     private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $fieldElement, $required = 'false')
     {
         $ret = <<<EOT
-        // Form Url Text File
-        \$formUrlFile = new XoopsFormElementTray({$language}FORM_FILE,'<br /><br />');
-        \$formFile     = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');
-        \$formFormText = new XoopsFormText({$language}FORM_TEXT, '{$fieldName}', 75, 255, \$formFile);
-        \$formUrlFile->addElement(\$formFormText{$required} );
-        \$formUrlFile->addElement(new XoopsFormFile({$language}FORM_UPLOAD , 'attachedfile', \$this->{$moduleDirname}->getConfig('maxsize')){$required});
-        \$form->addElement(\$formUrlFile);\n
+        // Form Text File
+        \$formTextFile = new XoopsFormElementTray({$language}FORM_FILE,'<br /><br />');
+        \$field_text = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');
+        \$formText = new XoopsFormText({$language}FORM_TEXT, '{$fieldName}', 75, 255, \$field_text);
+        \$formTextFile->addElement(\$formText{$required} );
+        \$formTextFile->addElement(new XoopsFormFile({$language}FORM_UPLOAD , 'attachedfile', \$this->{$moduleDirname}->getConfig('maxsize')){$required});
+        \$form->addElement(\$formTextFile);\n
 EOT;
 
         return $ret;

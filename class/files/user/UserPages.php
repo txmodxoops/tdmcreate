@@ -113,7 +113,7 @@ if (\${$stlTableName}Count > 0) {
 	foreach (array_keys(\${$stlTableName}All) as \$i)
     {
 		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
-        \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
+        \$GLOBALS['xoopsTpl']->appendByRef('{$tableName}_list', \${$tableSoleName});
         unset(\${$tableSoleName});\n
 EOT;
         // Fields
