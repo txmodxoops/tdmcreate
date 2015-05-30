@@ -136,7 +136,6 @@ EOT;
         $ret .= <<<EOT
         \${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
         \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
-        unset(\$criteria);
 		\$GLOBALS['xoopsTpl']->assign('{$tableName}_count', \${$tableName}Count);
         \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stuModuleDirname}_URL);
         \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
@@ -146,7 +145,7 @@ EOT;
             foreach (array_keys(\${$tableName}All) as \$i)
             {
 				\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
-                \$GLOBALS['xoopsTpl']->appendByRef('{$tableName}_list', \${$tableSoleName});
+                \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
                 unset(\${$tableSoleName});
             }
             if ( \${$tableName}Count > \$limit ) {
@@ -249,7 +248,7 @@ EOT;
         $ret .= <<<EOT
         // Insert Data
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-           redirect_header('{$tableName}.php?op=list', 2, {$language}FORMOK);
+           redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
         }
         // Get Form
         \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
