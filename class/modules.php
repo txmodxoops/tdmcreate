@@ -431,6 +431,30 @@ class TDMCreateModules extends XoopsObject
 
         return TDMC_UPLOAD_IMGMOD_URL . $logoImg;
     }
+	
+	/**
+     * Get Values
+     */
+	public function getValues($keys = null, $format = null, $maxDepth = null)
+    {        
+		$ret = parent::getValues($keys, $format, $maxDepth);
+		// Values
+		$ret['id'] 			  = $this->getVar('mod_id');
+		$ret['name']          = $this->getVar('mod_name');
+		$ret['version']       = $this->getVar('mod_version');
+		$ret['image']         = $this->getVar('mod_image');
+		$ret['release']       = $this->getVar('mod_release');
+		$ret['status']        = $this->getVar('mod_status');
+		$ret['admin']         = $this->getVar('mod_admin');
+		$ret['user']          = $this->getVar('mod_user');
+		$ret['blocks']        = $this->getVar('mod_blocks');
+		$ret['search']        = $this->getVar('mod_search');
+		$ret['comments']      = $this->getVar('mod_comments');
+		$ret['notifications'] = $this->getVar('mod_notifications');
+		$ret['permissions']   = $this->getVar('mod_permissions');
+        
+		return $ret;
+    }
 }
 
 /*
@@ -504,5 +528,31 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
         }
 
         return true;
+    }
+	
+	/**
+     * Get Count Modules
+     */
+    public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+		return parent::getCount($criteria);
+    }
+
+	/**
+     * Get All Modules
+     */
+	public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+        return parent::getAll($criteria);
     }
 }

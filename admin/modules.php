@@ -40,40 +40,22 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
-        $criteria = new CriteriaCompo();
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort('mod_id ASC, mod_name');
-        $criteria->setOrder('ASC');
-        $nb_modules = $tdmcreate->getHandler('modules')->getCount($criteria);
-        $mods_arr   = $tdmcreate->getHandler('modules')->getAll($criteria);
-        unset($criteria);
+        $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
+        $modulesAll   = $tdmcreate->getHandler('modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
-        if (0 == $nb_modules) {
+        if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         // Display modules list
-        if ($nb_modules > 0) {
-            foreach (array_keys($mods_arr) as $i) {
-                $mod['id']            = $i;
-                $mod['name']          = $mods_arr[$i]->getVar('mod_name');
-                $mod['version']       = $mods_arr[$i]->getVar('mod_version');
-                $mod['image']         = $mods_arr[$i]->getVar('mod_image');
-                $mod['release']       = $mods_arr[$i]->getVar('mod_release');
-                $mod['status']        = $mods_arr[$i]->getVar('mod_status');
-                $mod['admin']         = $mods_arr[$i]->getVar('mod_admin');
-                $mod['user']          = $mods_arr[$i]->getVar('mod_user');
-                $mod['blocks']        = $mods_arr[$i]->getVar('mod_blocks');
-                $mod['search']        = $mods_arr[$i]->getVar('mod_search');
-                $mod['comments']      = $mods_arr[$i]->getVar('mod_comments');
-                $mod['notifications'] = $mods_arr[$i]->getVar('mod_notifications');
-                $mod['permissions']   = $mods_arr[$i]->getVar('mod_permissions');
-                $GLOBALS['xoopsTpl']->append('modules_list', $mod);
-                unset($mod);
+        if ($modulesCount > 0) {
+            foreach (array_keys($modulesAll) as $i) {
+                $module = $modulesAll[$i]->getValues();
+                $GLOBALS['xoopsTpl']->append('modules_list', $module);
+                unset($module);
             }
-            if ($nb_modules > $limit) {
+            if ($modulesCount > $limit) {
                 include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-                $pagenav = new XoopsPageNav($nb_modules, $limit, $start, 'start', 'op=list&limit=' . $limit);
+                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
@@ -205,48 +187,44 @@ switch ($op) {
         }
         break;
 
-    case 'display':
-        //if ( $modId > 0 ) {
-        $mod_admin         = XoopsRequest::getInt('mod_admin');
-        $mod_user          = XoopsRequest::getInt('mod_user');
-        $mod_blocks        = XoopsRequest::getInt('mod_blocks');
-        $mod_search        = XoopsRequest::getInt('mod_search');
-        $mod_comments      = XoopsRequest::getInt('mod_comments');
-        $mod_notifications = XoopsRequest::getInt('mod_notifications');
-        $mod_permissions   = XoopsRequest::getInt('mod_permissions');
-
-        //foreach($_POST['mod_id'] as $key => $value)
-        //{
-        /*$mod_admin = tdmcreate_CleanVars($_REQUEST, 'mod_admin');
-        $mod_user = tdmcreate_CleanVars($_REQUEST, 'mod_user');
-        $mod_blocks = tdmcreate_CleanVars($_REQUEST, 'mod_blocks');
-        $mod_search = tdmcreate_CleanVars($_REQUEST, 'mod_search');
-        $mod_comments = tdmcreate_CleanVars($_REQUEST, 'mod_comments');
-        $mod_notifications = tdmcreate_CleanVars($_REQUEST, 'mod_notifications');
-        $mod_permissions = tdmcreate_CleanVars($_REQUEST, 'mod_permissions');    */
-
-        $modulesObj =& $tdmcreate->getHandler('modules')->get($modId);
-        if (isset($mod_admin)) {
-            $modulesObj->setVar('mod_admin', $mod_admin);
-        } elseif (isset($mod_user)) {
-            $modulesObj->setVar('mod_user', $mod_user);
-        } elseif (isset($mod_blocks)) {
-            $modulesObj->setVar('mod_blocks', $mod_blocks);
-        } elseif (isset($mod_search)) {
-            $modulesObj->setVar('mod_search', $mod_search);
-        } elseif (isset($mod_comments)) {
-            $modulesObj->setVar('mod_comments', $mod_comments);
-        } elseif (isset($mod_notifications)) {
-            $modulesObj->setVar('mod_notifications', $mod_notifications);
-        } elseif (isset($mod_permissions)) {
-            $modulesObj->setVar('mod_permissions', $mod_permissions);
-        }
-        if ($tdmcreate->getHandler('modules')->insert($modulesObj, true)) {
-            redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_SUCCESS);
-        } else {
-            redirect_header('modules.php', 1, _AM_TDMCREATE_TOGGLE_FAILED);
-        }
-        //}
+    case 'display':        		
+		$id = tdmcreate_CleanVars($_POST, 'mod_id', 0, 'int');
+        if ($id > 0) {
+            $modulesObj = $tdmcreate->getHandler('modules')->get($id);
+			if (isset($_POST['mod_admin'])) {
+				$mod_admin = $modulesObj->getVar('mod_admin');
+				$modulesObj->setVar('mod_admin', !$mod_admin);
+			}
+			if (isset($_POST['mod_user'])) {
+				$mod_user = $modulesObj->getVar('mod_user');
+				$modulesObj->setVar('mod_user', !$mod_user);
+			}
+			if (isset($_POST['mod_blocks'])) {
+				$mod_blocks = $modulesObj->getVar('mod_blocks');
+				$modulesObj->setVar('mod_blocks', !$mod_blocks);
+			}
+			if (isset($_POST['mod_search'])) {
+				$mod_search = $modulesObj->getVar('mod_search');
+				$modulesObj->setVar('mod_search', !$mod_search);
+			}
+			if (isset($_POST['mod_comments'])) {
+				$mod_comments = $modulesObj->getVar('mod_comments');
+				$modulesObj->setVar('mod_comments', !$mod_comments);
+			}
+			if (isset($_POST['mod_notifications'])) {
+				$mod_notifications = $modulesObj->getVar('mod_notifications');
+				$modulesObj->setVar('mod_notifications', !$mod_notifications);
+			}
+			if (isset($_POST['mod_permissions'])) {
+				$mod_permissions  = $modulesObj->getVar('mod_permissions');
+				$modulesObj->setVar('mod_permissions', !$mod_permissions);
+			}
+            if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
+                redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
+            }
+            $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
+        }		
         break;
 }
+
 include  __DIR__ . '/footer.php';

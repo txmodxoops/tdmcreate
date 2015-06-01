@@ -106,7 +106,7 @@ CREATE TABLE `tdmcreate_modules` (
 )ENGINE =InnoDB;
 
 #
-# Table structure for table `tdmcreate_tables` 27
+# Table structure for table `tdmcreate_tables` 28
 #
 
 CREATE TABLE `tdmcreate_tables` (
@@ -119,7 +119,8 @@ CREATE TABLE `tdmcreate_tables` (
   `table_nbfields`      INT(5) UNSIGNED     NOT NULL DEFAULT '0',
   `table_order`         INT(5) UNSIGNED NOT NULL DEFAULT '0',
   `table_image`         VARCHAR(150)        NOT NULL DEFAULT '',
-  `table_autoincrement` TINYINT(1)          NOT NULL DEFAULT '1',
+  `table_autoincrement` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `table_index`         TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   `table_blocks`        TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
   `table_admin`         TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `table_user`          TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',

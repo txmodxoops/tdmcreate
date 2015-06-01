@@ -70,6 +70,60 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
     }
 
     /*
+    *  @public function getTemplateUserIndexHeader
+    *  @param $moduleDirname
+    */
+    /**
+     * @return bool|string
+     */
+    public function getTemplateUserIndexHeader($moduleDirname)
+    {
+        $ret = <<<EOT
+<{include file="db:{$moduleDirname}_header.tpl"}>
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+    *  @public function getTemplateUserIndexTable
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function getTemplateUserIndexTable($moduleDirname, $language)
+    {
+        $ret = <<<EOT
+<table class="outer {$moduleDirname}">
+    <tbody>
+		<tr class="left">
+			<td class="pad5"><{\$smarty.const.{$language}INDEX_DESC}></td>
+		</tr>
+    </tbody>
+</table>
+EOT;
+       
+        return $ret;
+    }
+	
+	/*
+    *  @public function getTemplateUserIndexFooter
+    *  @param $moduleDirname
+    */
+    /**
+     * @return bool|string
+     */
+    public function getTemplateUserIndexFooter($moduleDirname)
+    {
+        $ret = <<<EOT
+<{include file="db:{$moduleDirname}_footer.tpl"}>
+EOT;
+
+        return $ret;
+    }
+	
+	/*
     *  @public function render
     *  @param null
     */
@@ -79,20 +133,15 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
     public function render()
     {
         $module        = $this->getModule();
+		$table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
+		$tableCategory = $module->getVar('table_category');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>
-<table class="outer {$moduleDirname}">
-    <tbody>
-      <tr class="left">
-         <td class="pad5"><{\$smarty.const.{$language}INDEX_DESC}></td>
-      </tr>
-    </tbody>
-</table>
-<{include file="db:{$moduleDirname}_footer.tpl"}>
-EOT;
+        $content       = $this->getTemplateUserIndexHeader($moduleDirname);
+		$content      .= $this->getTemplateUserIndexTable($moduleDirname, $language);
+		$content      .= $this->getTemplateUserIndexFooter($moduleDirname);
+		
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

@@ -112,6 +112,107 @@ class UserXoopsVersion extends TDMCreateFile
     {
         return $this->keywords;
     }
+	
+	/**
+     * @private function getModVersionHeaderComment
+     *
+     * @param $comment	 
+     * @return string
+     */
+    private function getModVersionHeaderComment($comment)
+    {
+		$ret = <<<EOT
+// ------------------- {$comment} ------------------- //
+EOT;
+		
+		return $ret;
+    }
+	
+	/**
+     * @private function getModVersionComment
+     *
+     * @param $comment	 
+     * @return string
+     */
+    private function getModVersionComment($comment)
+    {
+		$ret = <<<EOT
+// {$comment}
+EOT;
+		
+		return $ret;
+    }
+	
+	/**
+     * @private function getModVersionArray
+     *
+     * @param $array
+	 * @param $type
+	 * @param $left
+	 * @param $desc
+     * @param $index
+	 * @param $right 
+	 
+     * @return string
+     */
+    private function getModVersionArray($array = 1, $left, $desc = '', $n = '\n', $index = null, $right = null)
+    {
+		if(!is_string($desc)) {
+			if($array == 1) {
+				$ret = <<<EOT
+\$modversion['{$left}'] = {$desc};{$n}
+EOT;
+			}	
+			if($array == 2 && $index == 'empty') {
+				$ret = <<<EOT
+\$modversion['{$left}'][] = {$desc};{$n}
+EOT;
+			}
+			if($array == 2 && !is_string($index)) {
+				$ret = <<<EOT
+\$modversion['{$left}'][{$index}] = {$desc};{$n}
+EOT;
+			}
+			if($array == 2 && is_string($index)) {
+				$ret = <<<EOT
+\$modversion['{$left}']['{$index}'] = {$desc};{$n}
+EOT;
+			}
+			if($array == 3) {
+				$ret = <<<EOT
+\$modversion['{$left}'][{$index}][{$right}] = {$desc};{$n}
+EOT;
+			}
+		} else {
+			if($array == 1) {
+				$ret = <<<EOT
+\$modversion['{$left}'] = "{$desc}";{$n}
+EOT;
+			}	
+			if($array == 2 && $index == 'empty') {
+				$ret = <<<EOT
+\$modversion['{$left}'][] = "{$desc}";{$n}
+EOT;
+			}
+			if($array == 2 && !is_string($index)) {
+				$ret = <<<EOT
+\$modversion['{$left}'][{$index}] = "{$desc}";{$n}
+EOT;
+			}
+			if($array == 2 && is_string($index)) {
+				$ret = <<<EOT
+\$modversion['{$left}']['{$index}'] = "{$desc}";{$n}
+EOT;
+			}
+			if($array == 3) {
+				$ret = <<<EOT
+\$modversion['{$left}'][{$index}][{$right}] = "{$desc}";{$n}
+EOT;
+			}				
+		}
+		
+		return $ret;
+    }
 
     /*
     *  @private function getXoopsVersionHeader

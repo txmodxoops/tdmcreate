@@ -809,8 +809,9 @@ EOT;
 		$fieldParentId  = array();
 		$fieldElementId = array();
 		foreach (array_keys($fields) as $f) {
-            $fieldName     = $fields[$f]->getVar('field_name');
-            $fieldInForm[] = $fields[$f]->getVar('field_inform');
+            $fieldName       = $fields[$f]->getVar('field_name');
+            $fieldInForm[]   = $fields[$f]->getVar('field_inform');
+			$fieldParentId[] = $fields[$f]->getVar('field_parent');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName; // $fieldId = fields parameter index field
             }
@@ -818,7 +819,7 @@ EOT;
                 $fieldMain = $fieldName; // $fieldMain = fields parameter main field
             }
 			if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldParent = $fieldName; // $fieldParent = fields parameter parent field
+                $fieldParent = $fieldName; // $fieldParent = fields parameter parent field				
             }
 			$fieldElement = $fields[$f]->getVar('field_element');
 			//

@@ -140,7 +140,7 @@ EOT;
     public function getFunctionMetaKeywords($moduleDirname)
     {
         $ret = <<<EOT
-\nfunction {$moduleDirname}_meta_keywords(\$content)
+\nfunction {$moduleDirname}MetaKeywords(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
     \$myts =& MyTextSanitizer::getInstance();
@@ -167,7 +167,7 @@ EOT;
     public function getFunctionMetaDescription($moduleDirname)
     {
         $ret = <<<EOT
-\nfunction {$moduleDirname}_meta_description(\$content)
+\nfunction {$moduleDirname}MetaDescription(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
     \$myts =& MyTextSanitizer::getInstance();

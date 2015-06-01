@@ -452,6 +452,30 @@ class TDMCreateFields extends XoopsObject
 
         return $form;
     }
+	
+	/**
+     * Get Values
+     */
+	public function getValues($keys = null, $format = null, $maxDepth = null)
+    {        
+		$ret = parent::getValues($keys, $format, $maxDepth);
+		$ret['id']       = $this->getVar('field_id');
+		$ret['mid']      = $this->getVar('field_mid');
+		$ret['tid']      = $this->getVar('field_tid');
+		$ret['order']    = $this->getVar('field_order');
+		$ret['name']     = str_replace('_', ' ', ucfirst($this->getVar('field_name')));
+		$ret['parent']   = $this->getVar('field_parent');
+		$ret['inlist']   = $this->getVar('field_inlist');
+		$ret['inform']   = $this->getVar('field_inform');
+		$ret['admin']    = $this->getVar('field_admin');	
+		$ret['user']     = $this->getVar('field_user');
+		$ret['block']    = $this->getVar('field_block');
+		$ret['main'] 	 = $this->getVar('field_main');
+		$ret['search']   = $this->getVar('field_search');
+		$ret['required'] = $this->getVar('field_required');
+        
+		return $ret;
+    }
 }
 
 /*
@@ -536,5 +560,46 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
         }
 
         return true;
+    }
+	
+	/**
+     * Get Count Fields
+     */
+    public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+		return parent::getCount($criteria);
+    }
+
+	/**
+     * Get All Fields
+     */
+	public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+        return parent::getAll($criteria);
+    }
+	
+	/**
+     * Get All Fields By Module & Table Id
+     */
+	public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+		$criteria->add(new Criteria('field_mid', $modId));
+		$criteria->add(new Criteria('field_tid', $tabId));
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+        return parent::getAll($criteria);
     }
 }

@@ -56,19 +56,18 @@ class UserPages extends UserObjects
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    */
     /**
+     * @public function write
+     *  
      * @param $module
      * @param $table
+	 * @param $filename
      */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setFileName($filename);
     }
 
     /*
@@ -89,7 +88,7 @@ class UserPages extends UserObjects
         $tableFieldname   = $table->getVar('table_fieldname');
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName     = strtoupper($tableName);
-        $stlTableName     = strtolower($tableName);
+        $lcfTableName     = lcfirst($tableName);
         $ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
 \ninclude  __DIR__ . '/header.php';
@@ -105,15 +104,15 @@ include_once XOOPS_ROOT_PATH . '/header.php';
 //
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
 //
-\${$stlTableName}Count = \${$stlTableName}Handler->getCount{$ucfTableName}();
-\${$stlTableName}All = \${$stlTableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
+\${$lcfTableName}Count = \${$lcfTableName}Handler->getCount{$ucfTableName}();
+\${$lcfTableName}All = \${$lcfTableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
 \$keywords = array();
-if (\${$stlTableName}Count > 0) {
+if (\${$lcfTableName}Count > 0) {
     // Get All {$ucfTableName}
-	foreach (array_keys(\${$stlTableName}All) as \$i)
+	foreach (array_keys(\${$lcfTableName}All) as \$i)
     {
 		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
-        \$GLOBALS['xoopsTpl']->appendByRef('{$tableName}_list', \${$tableSoleName});
+        \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
         unset(\${$tableSoleName});\n
 EOT;
         // Fields
@@ -125,12 +124,12 @@ EOT;
             }            
         }
         $ret .= <<<EOT
-        \$keywords[] = \${$stlTableName}All[\$i]->getVar('{$fieldMain}');
+        \$keywords[] = \${$lcfTableName}All[\$i]->getVar('{$fieldMain}');
     }
     // Display Navigation
-    if (\${$stlTableName}Count > \$limit) {
+    if (\${$lcfTableName}Count > \$limit) {
         include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        \$nav = new XoopsPageNav(\${$stlTableName}Count, \$limit, \$start, 'start');
+        \$nav = new XoopsPageNav(\${$lcfTableName}Count, \$limit, \$start, 'start');
         \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
     }
 }
@@ -140,7 +139,7 @@ unset(\$keywords);
 // description
 {$moduleDirname}_meta_description({$language}{$stuTableName}_DESC);
 //
-\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$stlTableName}.php');
+\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$lcfTableName}.php');
 //
 include  __DIR__ . '/footer.php';
 EOT;
@@ -156,9 +155,10 @@ EOT;
      * @param $filename
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function renderFile()
     {
         $module        = $this->getModule();
+		$filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);

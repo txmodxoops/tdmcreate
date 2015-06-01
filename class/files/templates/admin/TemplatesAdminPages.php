@@ -79,14 +79,15 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
 		$tableSoleName = $table->getVar('table_solename');
         $ret           = <<<EOT
 <{include file="db:{$moduleDirname}_admin_header.tpl"}>
-    <table class="outer {$tableName} width100">
+<{if {$tableName}_list}>
+	<table class="outer {$tableName} width100">
         <thead>
             <tr class="head">\n
 EOT;
         $langHeadId = $language . strtoupper($tableSoleName) . '_ID';
 		if (1 == $table->getVar('table_autoincrement')) {
 			$ret .= <<<EOT
-			<th class="center"><{\$smarty.const.{$langHeadId}}></th>\n
+				<th class="center"><{\$smarty.const.{$langHeadId}}></th>\n
 EOT;
 		}
 		foreach (array_keys($fields) as $f) {
@@ -120,14 +121,14 @@ EOT;
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
-        <tbody>
-		<{if {$tableName}_count}>
+        <{if {$tableName}_count}>
+		<tbody>		
             <{foreach item=list from=\${$tableName}_list}>
                 <tr class="<{cycle values='odd, even'}>">\n
 EOT;
         if (1 == $table->getVar('table_autoincrement')) {
 			$ret .= <<<EOT
-			<td class="center"><{\$list.id}></td>\n
+					<td class="center"><{\$list.id}></td>\n
 EOT;
 		}
 		foreach (array_keys($fields) as $f) {
@@ -172,9 +173,9 @@ EOT;
                         </a>
                     </td>
                 </tr>
-            <{/foreach}>
-		<{/if}>
+            <{/foreach}>		
         </tbody>
+		<{/if}>
     </table>\n
 EOT;
 
@@ -193,14 +194,14 @@ EOT;
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
-    <tbody>
 		<{if {$tableName}_count}>
+		<tbody>		
             <{foreach item=list from=\${$tableName}_list}>
                 <tr class="<{cycle values='odd, even'}>">\n
 EOT;
         if (1 == $table->getVar('table_autoincrement')) {
 			$ret .= <<<EOT
-			<td class="center"><{\$list.id}></td>\n
+					<td class="center"><{\$list.id}></td>\n
 EOT;
 		}
 		foreach (array_keys($fields) as $f) {
@@ -244,9 +245,9 @@ EOT;
                         </a>
                     </td>
                 </tr>
-            <{/foreach}>
-		<{/if}>
+            <{/foreach}>		
         </tbody>
+		<{/if}>
     </table>\n
 EOT;
 
@@ -266,6 +267,7 @@ EOT;
         <!-- Display navigation -->
         <div class="xo-pagenav floatright"><{\$pagenav}></div><div class="clear spacer"></div>
     <{/if}>
+<{/if}>
 <{if \$form}>
 	<!-- Display form (add,edit) -->
 	<div class="spacer"><{\$form}></div>

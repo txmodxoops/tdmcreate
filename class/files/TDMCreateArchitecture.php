@@ -273,8 +273,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (1 == $tableUser) {
                 // User Pages File
                 $userPages = UserPages::getInstance();
-                $userPages->write($module, $table);
-                $ret[] = $userPages->renderFile($tableName . '.php');
+                $userPages->write($module, $table, $tableName . '.php');
+                $ret[] = $userPages->renderFile();
                 // User Templates File
                 $userTemplatesPages = TemplatesUserPages::getInstance();
                 $userTemplatesPages->write($module, $table);
@@ -532,7 +532,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             }
             // User Index File
             $userIndex = UserIndex::getInstance();
-            $userIndex->write($module, 'index.php');
+            $userIndex->write($module, $table, 'index.php');
             $ret[] = $userIndex->render();
             // Language Main File
             $languageMain = LanguageMain::getInstance();
