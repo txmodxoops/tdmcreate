@@ -47,10 +47,10 @@ $modversion['modicons32'] = XOOPS_URL . "/modules/{$dirname}/assets/icons/32";
 
 $modversion['targetdir'] = XOOPS_ROOT_PATH . "/modules/{$dirname}/modules/";
 
-$modversion['release_date'] = "2015/04/27";
+$modversion['release_date'] = "2015/06/01";
 $modversion['module_website_url'] = "http://www.xoops.org/";
 $modversion['module_website_name'] = "XOOPS";
-$modversion['module_status'] = "Alpha 2";
+$modversion['module_status'] = "Alpha 3";
 
 $modversion['min_php'] = "5.3";
 $modversion['min_xoops'] = "2.5.7";
