@@ -34,7 +34,8 @@ class IncludeCommon extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -95,18 +96,33 @@ if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
     define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
     define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
     define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
+	define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');
+    define('{$stuModuleDirname}_ICONS_URL', {$stuModuleDirname}_URL.'/assets/icons');
+	define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
+    define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images');
     define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
-    define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);
-    define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
-    define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images/');
-    define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
-    \$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';
-    /*if(is_dir({$stuModuleDirname}_IMAGE_PATH) && file_exists(\$local_logo)) {
-        \$logo = \$local_logo;
-    } else {
-        \$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('icons32');
-        \$logo = \$sysPathIcon32.'/xoopsmicrobutton.gif';
-    }*/
+    define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
+EOT;
+		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+		$fieldElement = array();
+		foreach (array_keys($fields) as $f) {
+			$fieldElement[] = $fields[$f]->getVar('field_element');
+		}	
+		if(in_array(10, $fieldElement)) {
+			$ret .= <<<EOT
+	define('{$stuModuleDirname}_UPLOAD_SHOTS_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');
+    define('{$stuModuleDirname}_UPLOAD_SHOTS_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');\n
+EOT;
+		}
+		if(in_array(13, $fieldElement)) {
+			$ret .= <<<EOT
+	define('{$stuModuleDirname}_UPLOAD_IMAGE_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images');
+    define('{$stuModuleDirname}_UPLOAD_IMAGE_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images');\n
+EOT;
+		}
+		$ret .= <<<EOT
+	define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
+    \$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';    
 }
 // module information
 \$copyright = "<a href='{$moduleAuthorWebsiteUrl}' title='{$moduleAuthorWebsiteName}' target='_blank'>

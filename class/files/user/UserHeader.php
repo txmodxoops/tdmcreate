@@ -34,7 +34,8 @@ class UserHeader extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -94,15 +95,28 @@ class UserHeader extends TDMCreateFile
         $content          = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 include dirname(dirname(__DIR__)) . '/mainfile.php';
-\$dirname = \$GLOBALS['xoopsModule']->getVar('dirname');
-\$pathname = XOOPS_ROOT_PATH. '/modules/'.\$dirname;
-include_once \$pathname . '/include/common.php';
+include __DIR__ . '/include/common.php';\n
+EOT;
+        if (is_object($table) && $table->getVar('table_name') != '') {
+                $content .= <<<EOT
 // Get instance of module
-\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
+\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n
+EOT;
+
+        }
+		if (is_array($tables)) {
+            foreach (array_keys($tables) as $i) {
+                $tableName = $tables[$i]->getVar('table_name');
+                $content .= <<<EOT
+\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');\n
+EOT;
+            }
+        }
+        $content .= <<<EOT
 //
 \$myts =& MyTextSanitizer::getInstance();
 \$style = {$stuModuleDirname}_URL . '/assets/css/style.css';
-if(file_exists(\$style)) { return true; }
+if(!file_exists(\$style)) { return false; }
 //
 \$sysPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
 \$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');

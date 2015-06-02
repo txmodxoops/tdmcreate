@@ -182,7 +182,7 @@ class LanguageAdmin extends LanguageDefines
                 //
                 switch ($fieldElement) {
                     case 10:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
+                        $ret .= $this->defines->getDefine($language, "FORM_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
                         break;
 					case 12:
                         $ret .= $this->defines->getDefine($language, "FORM_URL_{$stuTableName}", "{$fieldNameDesc} in text url");

@@ -158,7 +158,7 @@ EOT;
 		$ret .= <<<EOT
 \${$tableName}Count = \${$tableName}Handler->getCount(\$criteria);
 \${$tableName}All   = \${$tableName}Handler->getAll(\$criteria);
-\$GLOBALS['xoopsTpl']->assign('lang_thereare', sprintf(_MD_{$stuModuleDirname}_INDEX_THEREARE, \${$tableName}Count));
+\$GLOBALS['xoopsTpl']->assign('lang_thereare', sprintf({$language}INDEX_THEREARE, \${$tableName}Count));
 unset(\$criteria);\n
 EOT;
 		if(1 == $tableCategory) {

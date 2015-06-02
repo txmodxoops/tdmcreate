@@ -72,13 +72,13 @@ class AdminPages extends TDMCreateFile
     }
 
     /*
-    *  @public function getAdminPagesHeader
+    *  @private function getAdminPagesHeader
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param $fieldId
     *  @return string
     */
-    public function getAdminPagesHeader($moduleDirname, $tableName, $fieldId)
+    private function getAdminPagesHeader($moduleDirname, $tableName, $fieldId)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
 		$ucfTableName     = ucfirst($tableName);
@@ -97,7 +97,7 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPagesList    
+    *  @private function getAdminPagesList    
     *  @param $moduleDirname
     *  @param $table
     *  @param $tableFieldname
@@ -108,7 +108,7 @@ EOT;
     *  @param $fieldMain
     *  @return string
     */
-    public function getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain)
+    private function getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain)
     {
         $stuModuleDirname   = strtoupper($moduleDirname);
         $tableName          = $table->getVar('table_name');
@@ -163,13 +163,13 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPagesNew
+    *  @private function getAdminPagesNew
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $language
     *  @return string
     */
-    public function getAdminPagesNew($moduleDirname, $tableName, $language)
+    private function getAdminPagesNew($moduleDirname, $tableName, $language)
     {
         $stuTableName = strtoupper($tableName);
         $ret          = <<<EOT
@@ -189,7 +189,7 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPagesSave
+    *  @private function getAdminPagesSave
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $language
@@ -198,7 +198,7 @@ EOT;
     *  @param string $fieldMain
     *  @return string
     */
-    public function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
+    private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
     {
         $ret = <<<EOT
     case 'save':
@@ -261,7 +261,7 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPagesEdit
+    *  @private function getAdminPagesEdit
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $tableFieldname
@@ -269,7 +269,7 @@ EOT;
     *  @param string $fieldId
     *  @return string
     */
-    public function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId)
+    private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId)
     {
         $tableName         = $table->getVar('table_name');
 		$tableSoleName     = $table->getVar('table_solename');
@@ -295,14 +295,14 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPagesDelete
+    *  @private function getAdminPagesDelete
     *  @param string $tableName
     *  @param string $language
     *  @param string $fieldId
     *  @param string $fieldMain
     *  @return string
     */
-    public function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
+    private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
     {
         $ret = <<<EOT
     case 'delete':
@@ -312,40 +312,39 @@ EOT;
                 redirect_header('{$tableName}.php', 3, implode(', ', \$GLOBALS['xoopsSecurity']->getErrors()));
             }
             if (\${$tableName}Handler->delete(\${$tableName}Obj)) {
-                redirect_header('{$tableName}.php', 3, {$language}FORMDELOK);
+                redirect_header('{$tableName}.php', 3, {$language}FORM_DELETE_OK);
             } else {
                 echo \${$tableName}Obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORMSUREDEL, \${$tableName}Obj->getVar('{$fieldMain}')));
+            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
         }
     break;\n
 EOT;
 
         return $ret;
     }
-
+	
     /*
-    *  @public function getAdminPagesUpdate
+    *  @private function getAdminPagesUpdate
     *  @param string $moduleDirname
     *  @param string $tableName
-    *  @param string $language
     *  @param string $fieldId
-    *  @param string $fieldMain
+    *  @param string $fieldName
     *  @return string
     */
-    public function getAdminPagesUpdate($moduleDirname, $tableName, $language, $fieldId, $fieldMain)
+    private function getAdminPagesUpdate($moduleDirname, $tableName, $fieldId, $fieldName)
     {
-        $upModuleName = strtoupper($moduleDirname);
-        $ret          = <<<EOT
+        $stuModuleName = strtoupper($moduleDirname);
+        $ret           = <<<EOT
     case 'update':
         if (isset(\${$fieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         }
-        \${$tableName}Obj->setVar("\${$tableName}_display", \$_POST["\${$tableName}_display"]);
+        \${$tableName}Obj->setVar("\${$fieldName}", \$_POST["\${$fieldName}"]);
 
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header("\${$tableName}.php", 3, _AM_{$upModuleName}_FORMOK);
+            redirect_header("\${$tableName}.php", 3, _AM_{$stuModuleName}_FORM_OK);
         }
         echo \${$tableName}Obj->getHtmlErrors();
     break;\n
@@ -355,13 +354,13 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPagesFooter
+    *  @private function getAdminPagesFooter
     *  @param null
     */
     /**
      * @return string
      */
-    public function getAdminPagesFooter()
+    private function getAdminPagesFooter()
     {
         $ret = <<<EOT
 }
@@ -384,7 +383,8 @@ EOT;
         $module         = $this->getModule();
         $table          = $this->getTable();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');        
+        $tableName      = $table->getVar('table_name');
+		$tableSoleName  = $table->getVar('table_solename');
         $language       = $this->tdmcfile->getLanguage($moduleDirname, 'AM');
         $fields         = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -406,6 +406,9 @@ EOT;
             $content .= $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId);
         }
         $content .= $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain);
+		if(strstr($fieldName, 'update') || strstr($fieldName, 'online') || strstr($fieldName, 'display')) {
+			$content .= $this->getAdminPagesUpdate($moduleDirname, $tableName, $fieldId, $fieldName);
+		}
         $content .= $this->getAdminPagesFooter();
         //
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

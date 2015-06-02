@@ -91,7 +91,8 @@ class LanguageMain extends LanguageDefines
         $ret .= $this->defines->getDefine($language, 'DESC', "{$module->getVar('mod_description')}");
         $ret .= $this->defines->getDefine($language, 'INDEX_DESC', "Welcome to the homepage of your new module!<br />
 As you can see, you've created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module TDMCreate, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.");
-        $ret .= $this->defines->getAboveHeadDefines('Contents');
+        $ret .= $this->defines->getDefine($language, 'INDEX_THEREARE', "There are");
+		$ret .= $this->defines->getAboveHeadDefines('Contents');
         foreach (array_keys($tables) as $i) {
             $tableSoleName    = $tables[$i]->getVar('table_solename');
             $stuTableSoleName = strtoupper($tableSoleName);

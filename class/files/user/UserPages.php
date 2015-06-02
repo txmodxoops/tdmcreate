@@ -91,9 +91,7 @@ class UserPages extends UserObjects
         $lcfTableName     = lcfirst($tableName);
         $ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
-\ninclude  __DIR__ . '/header.php';
-// {$tableName}
-\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
+include  __DIR__ . '/header.php';
 //
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
@@ -134,10 +132,10 @@ EOT;
     }
 }
 // keywords
-{$moduleDirname}_meta_keywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
+{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
 unset(\$keywords);
 // description
-{$moduleDirname}_meta_description({$language}{$stuTableName}_DESC);
+{$moduleDirname}MetaDescription({$language}{$stuTableName}_DESC);
 //
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$lcfTableName}.php');
 //

@@ -34,7 +34,8 @@ class CssStyles extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -81,7 +82,8 @@ class CssStyles extends TDMCreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = <<<EOT
+		$content       = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
+        $content      .= <<<EOT
 table.{$moduleDirname} {
    margin: 0;
    padding: 2px;

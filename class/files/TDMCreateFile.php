@@ -347,6 +347,19 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
+    *  @public function getLeftString
+    *  @param string $string
+    */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getLeftString($string)
+    {        
+        return substr($string, 0, strpos($string, '_'));
+    }
+	
+	/*
     *  @public function getRightString
     *  @param string $string
     */
@@ -367,6 +380,84 @@ class TDMCreateFile extends TDMCreateTableFields
 
         return $string;
     }
+	
+	/*
+     *  @public function getCamelCase
+     *  @param $string
+     */
+    /**
+     * @param $string
+	 * @param $ucfirst
+	 * @param $lcfirst
+     * @return string
+     */
+    public function getCamelCase($string, $ucfirst = false, $lcfirst = false)
+    {
+        $rightString = $this->getRightString($string);
+		$leftString  = $this->getLeftString($string);
+		if ($ucfirst) {
+            $ret = $this->getUcfirst($leftString) . $this->getUcfirst($rightString);
+            return $ret;           
+        }
+		if ($lcfirst) {
+            $ret = $this->getlcfirst($leftString) . $this->getUcfirst($rightString);
+            return $ret;           
+        }
+		
+        return $string;
+    }
+	
+	/*
+     *  @public function getUcfirst
+     *  @param $string
+     */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getUcfirst($string)
+    {
+        return ucfirst($string);
+    }
+	
+	/*
+     *  @public function getLcfirst
+     *  @param $string
+     */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getLcfirst($string)
+    {
+        return lcfirst($string);
+    }
+	
+	/*
+     *  @public function getStrToUpper
+     *  @param $string
+     */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getStrToUpper($string)
+    {
+        return strtoupper($string);
+    }
+	
+	/*
+     *  @public function getStrToLower
+     *  @param $string
+     */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getStrToLower($string)
+    {
+        return strtolower($string);
+    }
 
     /*
     *  @public function getHeaderFilesComments
@@ -376,25 +467,39 @@ class TDMCreateFile extends TDMCreateTableFields
     /**
      * @param $module
      * @param $fileName
+	 * @param $noPhpFile
      * @return string
      */
-    public function getHeaderFilesComments($module, $fileName)
+    public function getHeaderFilesComments($module, $fileName, $noPhpFile = null)
     {
-        $name               = $module->getVar('mod_name');
-        $dirname            = $module->getVar('mod_dirname');
-        $version            = $module->getVar('mod_version');
-        $since              = $module->getVar('mod_since');
-        $min_xoops          = $module->getVar('mod_min_xoops');
-        $author             = $module->getVar('mod_author');
-        $credits            = $module->getVar('mod_credits');
-        $author_mail        = $module->getVar('mod_author_mail');
-        $author_website_url = $module->getVar('mod_author_website_url');
-        $license            = $module->getVar('mod_license');
-        $subversion         = $module->getVar('mod_subversion');
-        $date               = date('D Y/m/d G:i:s');
-        $ret                = <<<EOT
+        $name             = $module->getVar('mod_name');
+        $dirname          = $module->getVar('mod_dirname');
+        $version          = $module->getVar('mod_version');
+        $since            = $module->getVar('mod_since');
+        $minXoops         = $module->getVar('mod_min_xoops');
+        $author           = $module->getVar('mod_author');
+        $credits          = $module->getVar('mod_credits');
+        $author_mail      = $module->getVar('mod_author_mail');
+        $authorWebsiteUrl = $module->getVar('mod_author_website_url');
+        $license          = $module->getVar('mod_license');
+        $subversion       = $module->getVar('mod_subversion');
+        $date             = date('D Y/m/d G:i:s');
+        if(is_null($noPhpFile)) {
+			$ret = <<<EOT
 <?php
-/*
+/*\n
+EOT;
+		} elseif(is_string($noPhpFile)) {
+			$ret = <<<EOT
+{$noPhpFile}
+/*\n
+EOT;
+		} else {
+			$ret = <<<EOT
+/*\n
+EOT;
+		}
+		$ret .= <<<EOT
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
@@ -410,8 +515,8 @@ class TDMCreateFile extends TDMCreateTableFields
  * @license         {$license}
  * @package         {$dirname}
  * @since           {$since}
- * @min_xoops       {$min_xoops}
- * @author          {$author} - Email:<{$author_mail}> - Website:<{$author_website_url}>
+ * @min_xoops       {$minXoops}
+ * @author          {$author} - Email:<{$author_mail}> - Website:<{$authorWebsiteUrl}>
  * @version         \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$
  */\n
 EOT;
