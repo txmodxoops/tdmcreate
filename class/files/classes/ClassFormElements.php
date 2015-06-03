@@ -169,12 +169,14 @@ EOT;
      */
     private function getXoopsFormCheckBox($language, $fieldName, $required = 'false')
     {
-        $ret = <<<EOT
+		$ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
+		$ccFieldName  = $this->tdmcfile->getCamelCase($fieldName, false, true);
+		$ret = <<<EOT
         // Form Check Box
-        \${$fieldName} = \$this->isNew() ? 0 : \$this->getVar('{$fieldName}');
-        \$check_{$fieldName} = new XoopsFormCheckBox({$language}, '{$fieldName}', \${$fieldName});
-        \$check_{$fieldName}->addOption(1, " ");
-        \$form->addElement( \$check_{$fieldName}{$required} );\n
+        \${$ccFieldName} = \$this->isNew() ? 0 : \$this->getVar('{$fieldName}');
+        \$check{$ucfFieldName} = new XoopsFormCheckBox({$language}, '{$fieldName}', \${$ccFieldName});
+        \$check{$ucfFieldName}->addOption(1, " ");
+        \$form->addElement( \$check{$ucfFieldName}{$required} );\n
 EOT;
 
         return $ret;
@@ -221,16 +223,16 @@ EOT;
         $stuFieldName = strtoupper($fieldName);
 		$rpFieldName  = $this->tdmcfile->getRightString($fieldName);
 		$stuSoleName  = strtoupper($tableSoleName .'_'. $rpFieldName);
-		$ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true, false);
+		$ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
 		$ccFieldName  = $this->tdmcfile->getCamelCase($fieldName, false, true);
         $ret          = <<<EOT
         // Form Frameworks Image Files
         \$get{$ucfFieldName} = \$this->getVar('{$fieldName}');
         \${$ccFieldName} = \$get{$ucfFieldName} ? \$get{$ucfFieldName} : 'blank.gif';
-        \$imageDirectory = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
+        \$imageDirectory = '/Frameworks/moduleclasses/icons/32';
         \$imageTray = new XoopsFormElementTray({$language}{$stuSoleName},'<br />');        
-        \$imageSelect = new XoopsFormSelect(\$imageDirectory, '{$fieldName}', \${$ccFieldName}, 5);
-        \$imageArray = XoopsLists::getImgListAsArray( \$imageDirectory );
+        \$imageSelect = new XoopsFormSelect(sprintf({$language}FORM_IMAGE_PATH, ".{\$imageDirectory}/"), '{$fieldName}', \${$ccFieldName}, 5);
+        \$imageArray = XoopsLists::getImgListAsArray( XOOPS_ROOT_PATH . \$imageDirectory );
         foreach( \$imageArray as \$image1 ) {
             \$imageSelect->addOption("{\$image1}", \$image1);
         }
@@ -267,7 +269,7 @@ EOT;
      */
     private function getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $fieldElement, $required = 'false')
     {
-        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true, false);
+        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
 		$ccFieldName  = $this->tdmcfile->getCamelCase($fieldName, false, true);
 		$ret = <<<EOT
         // Image Select or Upload
@@ -276,22 +278,21 @@ EOT;
             \$uploadDirectory = '/uploads/{$moduleDirname}/images/shots';
             \${$moduleDirname}ShotImage = \${$fieldName} ? \${$fieldName} : 'blank.gif';
             //
-            \$imgtray = new XoopsFormElementTray({$language}FORM_IMAGE,'<br />');
-            \$imagePath = sprintf({$language}_FORM_PATH, \$uploadDirectory );
-            \$imageselect = new XoopsFormSelect(\$imagePath, 'selected_image',\${$moduleDirname}ShotImage);
+            \$imageTray = new XoopsFormElementTray({$language}FORM_IMAGE,'<br />');
+            \$imageSelect = new XoopsFormSelect(sprintf({$language}_FORM_PATH, \$uploadDirectory ), 'selected_image',\${$moduleDirname}ShotImage);
             \$imageArray = XoopsLists :: getImgListAsArray( XOOPS_ROOT_PATH . \$uploadDirectory );
             foreach( \$imageArray as \$image ) {
-                \$imageselect->addOption("{\$image}", \$image);
+                \$imageSelect->addOption("{\$image}", \$image);
             }
-            \$imageselect->setExtra( "onchange='showImgSelected(\"image3\", \"selected_image\", \"" . \$uploadDirectory . "\", \"\", \"" . XOOPS_URL . "\")'" );
-            \$imgtray->addElement(\$imageselect,false);
-            \$imgtray -> addElement( new XoopsFormLabel( '', "<br /><img src='" . XOOPS_URL . "/" . \$uploadDirectory . "/" . \${$moduleDirname}ShotImage . "' name='image3' id='image3' alt='' />" ) );
+            \$imageSelect->setExtra( "onchange='showImgSelected(\"image3\", \"selected_image\", \"" . \$uploadDirectory . "\", \"\", \"" . XOOPS_URL . "\")'" );
+            \$imageTray->addElement(\$imageSelect,false);
+            \$imageTray -> addElement( new XoopsFormLabel( '', "<br /><img src='" . XOOPS_URL . "/" . \$uploadDirectory . "/" . \${$moduleDirname}ShotImage . "' name='image3' id='image3' alt='' />" ) );
             \$fileSelectTray= new XoopsFormElementTray('','<br />');
             //if (\$permissionUpload == true) {
                 \$fileSelectTray->addElement(new XoopsFormFile({$language}_FORMUPLOAD , 'attachedimage', \$this->{$moduleDirname}->getConfig('maxuploadsize')){$required});
             //}
-            \$imgtray->addElement(\$fileSelectTray);
-            \$form->addElement(\$imgtray);
+            \$imageTray->addElement(\$fileSelectTray);
+            \$form->addElement(\$imageTray);
         }\n
 EOT;
 
@@ -321,9 +322,9 @@ EOT;
         $ret = <<<EOT
         // Form Url Text File
         \$formUrlFile = new XoopsFormElementTray({$language}FORM_FILE,'<br /><br />');
-        \$formFile     = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');
-        \$formFormText = new XoopsFormText({$language}FORM_TEXT, '{$fieldName}', 75, 255, \$formFile);
-        \$formUrlFile->addElement(\$formFormText{$required} );
+        \$formUrl     = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');
+        \$formText    = new XoopsFormText({$language}FORM_TEXT, '{$fieldName}', 75, 255, \$formUrl);
+        \$formUrlFile->addElement(\$formText{$required} );
         \$formUrlFile->addElement(new XoopsFormFile({$language}FORM_UPLOAD , 'attachedfile', \$this->{$moduleDirname}->getConfig('maxsize')){$required});
         \$form->addElement(\$formUrlFile);\n
 EOT;
@@ -350,17 +351,16 @@ EOT;
        	$stuModuleDirname = strtoupper($moduleDirname);
 		$stuTableName     = strtoupper($tableName);
 		$stuSoleName      = strtoupper($tableSoleName);
-		$ucfFieldName     = $this->tdmcfile->getCamelCase($fieldName, true, false);
+		$ucfFieldName     = $this->tdmcfile->getCamelCase($fieldName, true);
 		$ccFieldName      = $this->tdmcfile->getCamelCase($fieldName, false, true);
         $ret              = <<<EOT
         // Form Upload Image        
         \$get{$ucfFieldName} = \$this->getVar('{$fieldName}');
         \${$ccFieldName} = \$get{$ucfFieldName} ? \$get{$ucfFieldName} : 'blank.gif';
-        \$imageDirectory = {$stuModuleDirname}_UPLOAD_PATH . '/images/{$tableName}';
+        \$imageDirectory = '/uploads/{$moduleDirname}/images/{$tableName}';
         //
         \$imageTray   = new XoopsFormElementTray({$language}{$stuSoleName}_IMAGE,'<br />');
-        \$imagePath   = sprintf({$language}FORM_IMAGE_PATH, ".{\$imageDirectory}/");
-        \$imageSelect = new XoopsFormSelect(\$imagePath, '{$fieldName}', \${$ccFieldName}, 5);
+        \$imageSelect = new XoopsFormSelect(sprintf({$language}FORM_IMAGE_PATH, ".{\$imageDirectory}/"), '{$fieldName}', \${$ccFieldName}, 5);
         \$imageArray  = XoopsLists::getImgListAsArray( XOOPS_ROOT_PATH . \$imageDirectory );
         foreach( \$imageArray as \$image ) {
             \$imageSelect->addOption("{\$image}", \$image);
@@ -445,12 +445,13 @@ EOT;
      */
     private function getXoopsFormSelectBox($language, $tableName, $fieldName, $required = 'false')
     {
-        $ret = <<<EOT
+		$ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+		$ret = <<<EOT
         // Form Select
-        \${$fieldName}_select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
-        \${$fieldName}_select->addOption('Empty');
-        \${$fieldName}_select->addOptionArray(\${$tableName}Handler->getList());
-        \$form->addElement( \${$fieldName}_select{$required} );\n
+        \${$ccFieldName}Select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
+        \${$ccFieldName}Select->addOption('Empty');
+        \${$ccFieldName}Select->addOptionArray(\${$tableName}Handler->getList());
+        \$form->addElement( \${$ccFieldName}Select{$required} );\n
 EOT;
 
         return $ret;
@@ -492,10 +493,11 @@ EOT;
      */
     private function getXoopsFormRadioYN($language, $fieldName, $required = 'false')
     {
-        $ret = <<<EOT
+        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+		$ret = <<<EOT
         // Form Radio Yes/No
-        \${$fieldName} = \$this->isNew() ? 0 : \$this->getVar('{$fieldName}');
-        \$form->addElement( new XoopsFormRadioYN({$language}, '{$fieldName}', \${$fieldName}){$required} );\n
+        \${$ccFieldName} = \$this->isNew() ? 0 : \$this->getVar('{$fieldName}');
+        \$form->addElement( new XoopsFormRadioYN({$language}, '{$fieldName}', \${$ccFieldName}){$required} );\n
 EOT;
 
         return $ret;
@@ -548,12 +550,13 @@ EOT;
             $fElement           = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
             $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
         }
-        $ret = <<<EOT
+        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+		$ret = <<<EOT
         // Form Table {$ucfTableName}
         \${$rpFieldelementName}Handler =& \$this->{$moduleDirname}->getHandler('{$rpFieldelementName}');
-        \${$fieldName}_select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
-        \${$fieldName}_select->addOptionArray(\${$rpFieldelementName}Handler->getList());
-        \$form->addElement( \${$fieldName}_select{$required} );\n
+        \${$ccFieldName}Select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
+        \${$ccFieldName}Select->addOptionArray(\${$rpFieldelementName}Handler->getList());
+        \$form->addElement( \${$ccFieldName}Select{$required} );\n
 EOT;
 
         return $ret;

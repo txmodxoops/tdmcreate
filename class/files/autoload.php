@@ -19,7 +19,6 @@
  * @version         $Id: TDMCreateAutoload.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-
 /**
  * @since 1.91
  */
@@ -27,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 ini_set('display_errors',1);
 error_reporting(E_ALL|E_STRICT);
 
-function applicationAutoloader($class) {
+function applicationAutoloader1($class) {
 	$classFilename = $class.'.php';
 	$cacheFile = __DIR__ . '/cache/classpaths.cache';
 	$pathCache = (file_exists($cacheFile)) ? unserialize(file_get_contents($cacheFile)) : array();
@@ -50,8 +49,8 @@ function applicationAutoloader($class) {
 		}			
 	}
 
-	$serializedPaths = serialize($pathCache);
-	if ($serializedPaths != $pathCache) { file_put_contents($cacheFile, serialize($pathCache)); }
+	$serialized_paths = serialize($pathCache);
+	if ($serialized_paths != $pathCache) { file_put_contents($cacheFile, serialize($pathCache)); }
 }
 
-spl_autoload_register('applicationAutoloader');
+spl_autoload_register('applicationAutoloader1');

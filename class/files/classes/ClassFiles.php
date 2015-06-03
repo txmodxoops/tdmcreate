@@ -361,7 +361,7 @@ EOT;
     /**
      * @return string
      */
-    private function getValuesInForm($fields)
+    private function getValuesInForm($moduleDirname, $table, $fields)
     {        
 		$ret = <<<EOT
 	/**
@@ -393,9 +393,28 @@ EOT;
 EOT;
 				break;
 				default:
-				$ret .= <<<EOT
+					if ($fieldElement > 15) {                    
+						$fieldElements      = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+						$fieldElementMid    = $fieldElements->getVar('fieldelement_mid');
+						$fieldElementTid    = $fieldElements->getVar('fieldelement_tid');
+						$fieldElementName   = $fieldElements->getVar('fieldelement_name');
+						$fieldNameDesc      = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
+						$topicTableName     = str_replace(': ', '', strtolower($fieldNameDesc));
+						$fieldsTopics		= $this->getTableFields($fieldElementMid, $fieldElementTid);
+						foreach (array_keys($fieldsTopics) as $f) {
+							$fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');							
+							if (1 == $fieldsTopics[$f]->getVar('field_main')) {
+								$fieldMainTopic = $fieldNameTopic;
+							}
+						}
+                        $ret .= <<<EOT
+		\$ret['{$rpFieldName}'] = \$this->{$moduleDirname}->getHandler('{$topicTableName}')->get(\$this->getVar('{$fieldName}'))->getVar('{$fieldMainTopic}');\n
+EOT;
+					} else {
+                        $ret .= <<<EOT
 		\$ret['{$rpFieldName}'] = \$this->getVar('{$fieldName}');\n
 EOT;
+                    }					
 				break;
 			}
 		}
@@ -835,7 +854,7 @@ EOT;
             }
             $content .= $this->getFootInForm();
         }
-        $content .= $this->getValuesInForm($fields);
+        $content .= $this->getValuesInForm($moduleDirname, $table, $fields);
 		$content .= $this->getToArrayInForm();
 		if(in_array(5, $fieldElementId)) {
 			$content .= $this->getOptionsCheck($table);

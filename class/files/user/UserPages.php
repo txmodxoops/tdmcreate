@@ -88,6 +88,7 @@ class UserPages extends UserObjects
         $tableFieldname   = $table->getVar('table_fieldname');
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName     = strtoupper($tableName);
+		$stuTableSoleName = strtoupper($tableSoleName);
         $lcfTableName     = lcfirst($tableName);
         $ucfTableName     = ucfirst($tableName);
         $ret              = <<<EOT
@@ -131,13 +132,16 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
     }
 }
+// Breadcrumbs
+\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/{$tableName}.php', 'title' => {$language}{$stuTableSoleName});
+\$xoBreadcrumbs[] = {$language}{$stuTableSoleName});
 // keywords
 {$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
 unset(\$keywords);
 // description
 {$moduleDirname}MetaDescription({$language}{$stuTableName}_DESC);
 //
-\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$lcfTableName}.php');
+\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$tableName}.php');
 //
 include  __DIR__ . '/footer.php';
 EOT;

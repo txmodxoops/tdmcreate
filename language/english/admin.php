@@ -201,6 +201,7 @@ define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT_OPTION', "Default checked");
 define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC', "Check this option if table have the Auto Increment ID");
 //
 define('_AM_TDMCREATE_TABLE_EXIST', "The name specified for this table is already in use");
+define('_AM_TDMCREATE_TABLE_INDEX', "Add in User Index file");
 define('_AM_TDMCREATE_TABLE_BLOCKS', "Add in Block file");
 define('_AM_TDMCREATE_TABLE_BLOCKS_DESC', "(blocks: random, latest, today)");
 define('_AM_TDMCREATE_TABLE_ADMIN', "Add in Admin Panel");
@@ -364,3 +365,8 @@ define('_AM_TDMCREATE_FILE_NOTCREATED', "Problems: Creating file <b class='red'>
 //
 define('_AM_TDMCREATE_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/tdmcreate/repository/</span> of the module <span class='bold green'>%s</span>");
 define('_AM_TDMCREATE_FIELD_PARAMETERS_LIST', "<b>Parameters List</b>");
+//
+define('_AM_TDMCREATE_ABOUT_MAKE_DONATION', "Make a Donation to support this module");
+define('_AM_TDMCREATE_IMPORTANT', "Main Settings");
+define('_AM_TDMCREATE_OPTIONS_CHECK', "Options Settings");
+define('_AM_TDMCREATE_NOT_IMPORTANT', "Secondary Settings");

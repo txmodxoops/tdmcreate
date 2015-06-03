@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: IncludeCommentFunctions.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TemplatesUserBreadcrumbs.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeCommentFunctions
+ * Class TemplatesUserBreadcrumbs
  */
-class IncludeCommentFunctions extends TDMCreateFile
+class TemplatesUserBreadcrumbs extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -34,8 +34,7 @@ class IncludeCommentFunctions extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile  = TDMCreateFile::getInstance();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -43,7 +42,7 @@ class IncludeCommentFunctions extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return IncludeCommentFunctions
+     * @return TemplatesUserHeader
      */
     public static function &getInstance()
     {
@@ -58,54 +57,52 @@ class IncludeCommentFunctions extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
-    *  @param mixed $table
+    *  @param mixed $tables
+    *  @param string $filename
     */
     /**
      * @param $module
-     * @param $table
+     * @param $tables
      * @param $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
         $this->setFileName($filename);
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param null
     */
     /**
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
-        $module           = $this->getModule();
-        $table            = $this->getTable();
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $tableName        = $table->getVar('table_name');
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
-        $filename         = $this->getFileName();
-        $content          = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
-function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {
-    \$itemId = (int) (\$itemId);
-    \$itemNumb = (int) (\$itemNumb);
-    \$article = new {$ucfModuleDirname}{$ucfTableName}(\$itemId);
-    if (!\$article->updateComments(\$itemNumb)) {
-        return false;
-    }
-    return true;
-}
-
-function {$moduleDirname}CommentsApprove(&\$comment){
-    // notification mail here
-}
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = <<<EOT
+<div class="breadcrumbs">
+    <{foreach item=itm from=\$xoBreadcrumbs name=bcloop}>
+        <span class="item">
+        <{if \$itm.link}>
+            <a href="<{\$itm.link}>" title="<{\$itm.title}>"><{\$itm.title}></a>
+        <{else}>
+            <{\$itm.title}>
+        <{/if}>
+        </span>
+        
+        <{if !\$smarty.foreach.bcloop.last}>
+            <span class="delimiter">&raquo;</span>
+        <{/if}>
+    <{/foreach}>
+</div>
+<br class="clear"/>
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

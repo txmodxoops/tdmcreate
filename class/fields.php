@@ -20,7 +20,7 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 // Autoloader Classes
-include __DIR__ . '/TDMCreateAutoload.php';
+include __DIR__ . '/autoload.php';
 /*
 *  @Class TDMCreateFields
 *  @extends XoopsObject

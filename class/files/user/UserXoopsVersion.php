@@ -155,7 +155,7 @@ EOT;
 	 
      * @return string
      */
-    private function getModVersionArray($array = 1, $left, $desc = '', $n = '\n', $index = null, $right = null)
+    private function getModVersionArray($array = 1, $left, $desc = '', $index = null, $right = null, $n = '\n')
     {
 		if(!is_string($desc)) {
 			if($array == 1) {
@@ -382,8 +382,8 @@ EOT;
 \$modversion['comments']['itemName'] = "com_id";
 // Comment callback functions
 \$modversion['comments']['callbackFile'] = "include/comment_functions.php";
-\$modversion['comments']['callback']['approve'] = "{$moduleDirname}_com_approve";
-\$modversion['comments']['callback']['update'] = "{$moduleDirname}_com_update";\n\n
+\$modversion['comments']['callback']['approve'] = "{$moduleDirname}CommentsApprove";
+\$modversion['comments']['callback']['update'] = "{$moduleDirname}CommentsUpdate";\n\n
 EOT;
 
         return $ret;
@@ -459,10 +459,10 @@ EOT;
 \$modversion['templates'][] = array('file' => '{$moduleDirname}_index.tpl', 'description' => '');\n
 EOT;
         foreach (array_keys($tables) as $t) {
-            $ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_{$tables[$t]->getVar('table_name')}.tpl', 'description' => '');\n
-EOT;
+            $tableName = $tables[$t]->getVar('table_name');
+			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, $tableName);
         }
+		$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'breadcrumbs');
 		if(1 == $table->getVar('table_broken')) {
 			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'broken');
 		}
@@ -487,9 +487,7 @@ EOT;
 		if(1 == $table->getVar('table_submit')) {
 			$ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'submit');
 		}
-        $ret .= <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_footer.tpl', 'description' => '');\n\n
-EOT;
+        $ret .= $this->getXoopsVersionTemplatesUserLine($moduleDirname, 'footer');
 
         return $ret;
     }

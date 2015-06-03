@@ -95,7 +95,10 @@ class UserHeader extends TDMCreateFile
         $content          = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 include dirname(dirname(__DIR__)) . '/mainfile.php';
-include __DIR__ . '/include/common.php';\n
+include __DIR__ . '/include/common.php';
+// Breadcrumbs
+\$xoBreadcrumbs = array();
+\$xoBreadcrumbs[] = array("title" => \$GLOBALS['xoopsModule']->getVar('name'), "link" => {$stuModuleDirname}_URL . '/');\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != '') {
                 $content .= <<<EOT

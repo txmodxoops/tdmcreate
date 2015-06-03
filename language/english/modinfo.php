@@ -45,6 +45,7 @@ define('_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_URL', "Author's Website URL");
 define('_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_NAME', "Author's Website Name");
 define('_MI_TDMCREATE_CONFIG_LICENSE', "License");
 define('_MI_TDMCREATE_CONFIG_LICENSE_URL', "License URL");
+define('_MI_TDMCREATE_CONFIG_REPOSITORY', "Repository URL");
 define('_MI_TDMCREATE_CONFIG_CREDITS', "Credits");
 define('_MI_TDMCREATE_CONFIG_RELEASE_INFO', "Modules Release Info");
 define('_MI_TDMCREATE_CONFIG_RELEASE_FILE', "Module Release File");

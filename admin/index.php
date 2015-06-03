@@ -29,7 +29,21 @@ $adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
 $adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $count_modules, 'Green');
 $adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $count_tables, 'Orange');
 $adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $count_fields, 'Gray');
-//$xoopsOption['template_main'] = 'tdmcreate_index.html';
+
+// Upload Folders
+$folder = array(
+		TDMC_UPLOAD_PATH,
+		TDMC_UPLOAD_REPOSITORY_PATH,
+		TDMC_UPLOAD_IMGMOD_PATH,
+		TDMC_UPLOAD_IMGTAB_PATH
+);
+
+// Uploads Folders Created
+foreach (array_keys( $folder) as $i) {
+    $adminMenu->addConfigBoxLine($folder[$i], 'folder');
+    $adminMenu->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+}
+
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
 include  __DIR__ . '/footer.php';

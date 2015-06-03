@@ -19,9 +19,7 @@
  * @version         $Id: TDMCreateArchitecture.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-// Autoloader Classes
-include __DIR__ . '/TDMCreateAutoload.php';
-
+include __DIR__ . '/autoload.php';
 /**
  * Class TDMCreateArchitecture
  */
@@ -538,6 +536,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $languageMain = LanguageMain::getInstance();
             $languageMain->write($module, $tables, 'main.php');
             $ret[] = $languageMain->render();
+			// User Templates Submit File
+			$userTemplatesUserBreadcrumbs = TemplatesUserBreadcrumbs::getInstance();
+			$userTemplatesUserBreadcrumbs->write($module, $moduleDirname . '_breadcrumbs.tpl');
+			$ret[] = $userTemplatesUserBreadcrumbs->render();
         }
         // Css Styles File
         $cssStyles = CssStyles::getInstance();

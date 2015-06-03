@@ -87,6 +87,7 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = <<<EOT
+<{includeq file="db:{$moduleDirname}_breadcrumbs.tpl"}>
 <{if \$adv != ''}>
     <div class="center"><{\$adv}></div>
 <{/if}>

@@ -101,8 +101,7 @@ EOT;
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
 		// Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
-        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
+        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH . '/{$tableName}', \${$moduleDirname}->getConfig('mimetypes'),
                                                          \${$moduleDirname}->getConfig('maxsize'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
             \$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);

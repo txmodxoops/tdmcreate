@@ -15,12 +15,13 @@
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         tdmcreate
- * @since           2.5.x
+ * @since           2.5.7
  * @author          TDM TEAM DEV MODULE
  * @version         $Id: modules.php 12209 2013-10-23 02:49:09Z beckmi $
  * @version         $Id: modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
+include __DIR__ . '/autoload.php';
 /*
 *  @Class TDMCreateModules
 *  @extends XoopsObject

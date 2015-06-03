@@ -1,4 +1,13 @@
 =================================
+2015/06/01: Version 1.91 alpha 3
+=================================
+
+- Added templates breacrumbs
+- Added index in tables form to put code in user/index.php
+- Added more functions in classes
+- Added more field database in tables form
+
+=================================
 2015/04/27: Version 1.91 alpha 2
 =================================
 
@@ -85,7 +94,7 @@
 - added: module info pulled from Preferences
 - added: plugins for Waiting module
 - clean-up of English translations, and constants
-- fixed several error notices and bugs
+- fixed several error notices and bugs 
 
 =================================
 2012/07/13: Version 1.38 Final

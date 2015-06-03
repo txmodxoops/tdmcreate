@@ -84,6 +84,10 @@ class UserFooter extends TDMCreateFile
         $filename      = $this->getFileName();
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
+if (count(\$xoBreadcrumbs) > 1) {
+    \$GLOBALS['xoopsTpl']->assign('xoBreadcrumbs', \$xoBreadcrumbs);
+}		
+		
 \$GLOBALS['xoopsTpl']->assign('sysPathIcon32', \$sysPathIcon32);
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stu_mod_name}_URL);
 \$GLOBALS['xoopsTpl']->assign('adv', xoops_getModuleOption('advertise', \$dirname));

@@ -114,6 +114,12 @@ EOT;
     define('{$stuModuleDirname}_UPLOAD_SHOTS_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');\n
 EOT;
 		}
+		if(in_array(array(11, 12), $fieldElement)) {
+			$ret .= <<<EOT
+	define('{$stuModuleDirname}_UPLOAD_FILES_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/files');
+    define('{$stuModuleDirname}_UPLOAD_FILES_URL', {$stuModuleDirname}_UPLOAD_PATH.'/files');\n
+EOT;
+		}
 		if(in_array(13, $fieldElement)) {
 			$ret .= <<<EOT
 	define('{$stuModuleDirname}_UPLOAD_IMAGE_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images');
