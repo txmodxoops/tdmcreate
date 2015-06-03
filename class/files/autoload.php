@@ -16,7 +16,7 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: TDMCreateAutoload.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: autoload.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
@@ -26,31 +26,32 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 ini_set('display_errors',1);
 error_reporting(E_ALL|E_STRICT);
 
-function applicationAutoloader1($class) {
-	$classFilename = $class.'.php';
-	$cacheFile = __DIR__ . '/cache/classpaths.cache';
-	$pathCache = (file_exists($cacheFile)) ? unserialize(file_get_contents($cacheFile)) : array();
-	if (!is_array($pathCache)) { $pathCache = array(); }
-	
-	if (array_key_exists($class, $pathCache)) {
-		/* Load class using path from cache file (if the file still exists) */
-		if (file_exists($pathCache[$class])) { require_once $pathCache[$class]; }
+if(!function_exists('application_autoloader')) {
+	function application_autoloader($class) {
+		$classFilename = $class.'.php';
+		$cacheFile = __DIR__ . '/cache/classpaths.cache';
+		$pathCache = (file_exists($cacheFile)) ? unserialize(file_get_contents($cacheFile)) : array();
+		if (!is_array($pathCache)) { $pathCache = array(); }
+		
+		if (array_key_exists($class, $pathCache)) {
+			/* Load class using path from cache file (if the file still exists) */
+			if (file_exists($pathCache[$class])) { require_once $pathCache[$class]; }
 
-	} else {
-		/* Determine the location of the file within the $class_root and, if found, load and cache it */
-		$directories = new RecursiveDirectoryIterator(__DIR__);
-		foreach(new RecursiveIteratorIterator($directories) as $file) {
-			if ($file->getFilename() == $classFilename) {
-				$fullPath = $file->getRealPath();
-				$pathCache[$class] = $fullPath;						
-				require_once $fullPath; 
-				break;
-			}
-		}			
+		} else {
+			/* Determine the location of the file within the $class_root and, if found, load and cache it */
+			$directories = new RecursiveDirectoryIterator(__DIR__);
+			foreach(new RecursiveIteratorIterator($directories) as $file) {
+				if ($file->getFilename() == $classFilename) {
+					$fullPath = $file->getRealPath();
+					$pathCache[$class] = $fullPath;						
+					require_once $fullPath; 
+					break;
+				}
+			}			
+		}
+
+		$serialized_paths = serialize($pathCache);
+		if ($serialized_paths != $pathCache) { file_put_contents($cacheFile, serialize($pathCache)); }
 	}
-
-	$serialized_paths = serialize($pathCache);
-	if ($serialized_paths != $pathCache) { file_put_contents($cacheFile, serialize($pathCache)); }
+	spl_autoload_register('application_autoloader');
 }
-
-spl_autoload_register('applicationAutoloader1');

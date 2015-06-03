@@ -21,7 +21,7 @@
  */
 
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-
+include __DIR__ . '/autoload.php';
 /**
  * Class TDMCreateBuilding
  */
