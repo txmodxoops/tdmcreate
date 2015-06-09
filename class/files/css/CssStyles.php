@@ -84,7 +84,7 @@ class CssStyles extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
 		$content       = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
         $content      .= <<<EOT
-table.{$moduleDirname} {
+table > .{$moduleDirname} {
    margin: 0;
    padding: 2px;
    border: 1px solid #ccc;

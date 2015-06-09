@@ -83,24 +83,17 @@ class TemplatesUserBreadcrumbs extends TDMCreateHtmlSmartyCodes
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = <<<EOT
-<div class="breadcrumbs">
-    <{foreach item=itm from=\$xoBreadcrumbs name=bcloop}>
-        <span class="item">
-        <{if \$itm.link}>
-            <a href="<{\$itm.link}>" title="<{\$itm.title}>"><{\$itm.title}></a>
-        <{else}>
-            <{\$itm.title}>
-        <{/if}>
-        </span>
-        
-        <{if !\$smarty.foreach.bcloop.last}>
-            <span class="delimiter">&raquo;</span>
-        <{/if}>
-    <{/foreach}>
-</div>
-<br class="clear"/>
+<ul class="breadcrumb">
+	<li><a href="<{xoAppUrl index.php}>" title="home"><i class="glyphicon glyphicon-home"></i></a></li>
+	<{foreach item=itm from=\$xoBreadcrumbs name=bcloop}>
+		<{if \$itm.link}>
+			<li><a href="<{\$itm.link}>" title="<{\$itm.title}>"><{\$itm.title}></a></li>
+		<{else}>
+			<li><{\$itm.title}></li>
+		<{/if}>
+	<{/foreach}>
+</ul>
 EOT;
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

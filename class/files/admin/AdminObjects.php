@@ -101,8 +101,9 @@ EOT;
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
 		// Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH . '/{$tableName}', \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH . '/{$tableName}', 
+														\${$moduleDirname}->getConfig('mimetypes'),
+                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
             \$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
             if (!\$uploader->upload()) {
@@ -132,9 +133,9 @@ EOT;
         \$uploaddir = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
         \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
                                                          \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][1])) {
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
             //\$uploader->setPrefix('{$fieldName}_');
-            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][1]);
+            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
             if (!\$uploader->upload()) {
                 \$errors = \$uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, \$errors);
@@ -161,14 +162,14 @@ EOT;
         $ret              = <<<EOT
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/images/{$tableName}';
-        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][2])) {            
+        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_IMAGE_PATH.'/{$tableName}', 
+														\${$moduleDirname}->getConfig('mimetypes'),
+                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {            
 			\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);
             \$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;
 			\$uploader->setPrefix(\$imgName);
-            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][2]);
+            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
             if (!\$uploader->upload()) {
                 \$errors = \$uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, \$errors);
@@ -195,12 +196,12 @@ EOT;
         $ret              = <<<EOT
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
-        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][3])) {
+        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH.'/{$tableName}', 
+														\${$moduleDirname}->getConfig('mimetypes'),
+                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
             //\$uploader->setPrefix('{$fieldName}_') ;
-            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][3]);
+            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
             if (!\$uploader->upload()) {
                 \$errors = \$uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, \$errors);

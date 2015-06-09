@@ -34,7 +34,7 @@ class LanguageModinfo extends LanguageDefines
     public function __construct()
     {
         parent::__construct();
-        $this->defines  = LanguageDefines::getInstance();
+        $this->defines = LanguageDefines::getInstance();
     }
 
     /*
@@ -98,17 +98,16 @@ class LanguageModinfo extends LanguageDefines
     *  @private function getLanguageMenu
     *  @param string $language
     *  @param array $table
-    *  @param array $tables
     */
     /**
      * @param $language
      * @param $table
-     * @param $tables
      * @return string
      */
-    private function getLanguageMenu($language, $table, $tables)
+    private function getLanguageMenu($module, $language, $table)
     {
-        $menu = 1;
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_name');
+		$menu = 1;
         $ret  = $this->defines->getAboveHeadDefines('Admin Menu');
         $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "Dashboard");
         foreach (array_keys($tables) as $i) {
@@ -180,7 +179,7 @@ class LanguageModinfo extends LanguageDefines
      * @param $tables
      * @return string
      */
-    private function getLanguageBlocks($language, $tables)
+    private function getLanguageBlocks($tables, $language)
     {
         $ret = $this->defines->getAboveDefines('Blocks');
         foreach (array_keys($tables) as $i) {
@@ -189,6 +188,7 @@ class LanguageModinfo extends LanguageDefines
             $ucfTableName = ucfirst($tableName);
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
+				$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
             }
         }
 
@@ -249,7 +249,15 @@ class LanguageModinfo extends LanguageDefines
                 $ret .= $this->defines->getDefine($language, "USE_TAG_DESC", "If you use tag module, check this option to yes");
             }
         }
-        $ret .= $this->defines->getDefine($language, "IDPAYPAL", "Paypal ID");
+        $ret .= $this->defines->getDefine($language, "NUMB_COL", "Number Columns");
+        $ret .= $this->defines->getDefine($language, "NUMB_COL_DESC", "Number Columns to View.");
+		$ret .= $this->defines->getDefine($language, "DIVIDEBY", "Divide By");
+        $ret .= $this->defines->getDefine($language, "DIVIDEBY_DESC", "Divide by columns number.");
+		$ret .= $this->defines->getDefine($language, "TABLE_TYPE", "Table Type");
+        $ret .= $this->defines->getDefine($language, "TABLE_TYPE_DESC", "Table Type is the bootstrap html table.");
+		$ret .= $this->defines->getDefine($language, "PANEL_TYPE", "Panel Type");
+        $ret .= $this->defines->getDefine($language, "PANEL_TYPE_DESC", "Panel Type is the bootstrap html div.");
+		$ret .= $this->defines->getDefine($language, "IDPAYPAL", "Paypal ID");
         $ret .= $this->defines->getDefine($language, "IDPAYPAL_DESC", "Insert here your PayPal ID for donactions.");
         $ret .= $this->defines->getDefine($language, "ADVERTISE", "Advertisement Code");
         $ret .= $this->defines->getDefine($language, "ADVERTISE_DESC", "Insert here the advertisement code");
@@ -365,28 +373,26 @@ class LanguageModinfo extends LanguageDefines
         $language      = $this->getLanguage($moduleDirname, 'MI');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getLanguageMain($language, $module);
-        $content .= $this->getLanguageMenu($language, $table, $tables);
-        if (is_object($table)) {
-            if (1 == $table->getVar('table_admin')) {
-                $content .= $this->getLanguageAdmin($language);
-            }
-            if (1 == $table->getVar('table_user')) {
-                $content .= $this->getLanguageUser($language);
-            }
-            if (1 == $table->getVar('table_submenu')) {
-                $content .= $this->getLanguageSubmenu($language, $tables);
-            }
-            $content .= $this->getLanguageBlocks($language, $tables);
-        }
+        $content .= $this->getLanguageMenu($module, $language, $table);
+		if (1 == $table->getVar('table_admin')) {
+			$content .= $this->getLanguageAdmin($language);
+		}
+		if (1 == $table->getVar('table_user')) {
+			$content .= $this->getLanguageUser($language);
+		}
+		//if (1 == $table->getVar('table_submenu')) {
+			$content .= $this->getLanguageSubmenu($language, $tables);
+		//}
+		if (1 == $table->getVar('table_blocks')) {
+			$content .= $this->getLanguageBlocks($tables, $language);
+		}
         $content .= $this->getLanguageConfig($language, $table);
-        if (is_object($table)) {
-            if (1 == $table->getVar('table_notifications')) {
-                $content .= $this->getLanguageNotifications($language);
-            }
-            if (1 == $table->getVar('table_permissions')) {
-                $content .= $this->getLanguagePermissionsGroups($language);
-            }
-        }
+		if (1 == $table->getVar('table_notifications')) {
+			$content .= $this->getLanguageNotifications($language);
+		}
+		if (1 == $table->getVar('table_permissions')) {
+			$content .= $this->getLanguagePermissionsGroups($language);
+		}
         $content .= $this->getLanguageFooter();
         //
         $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

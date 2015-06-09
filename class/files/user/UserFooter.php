@@ -87,7 +87,8 @@ class UserFooter extends TDMCreateFile
 if (count(\$xoBreadcrumbs) > 1) {
     \$GLOBALS['xoopsTpl']->assign('xoBreadcrumbs', \$xoBreadcrumbs);
 }		
-		
+\$sysPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
+\$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');	
 \$GLOBALS['xoopsTpl']->assign('sysPathIcon32', \$sysPathIcon32);
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stu_mod_name}_URL);
 \$GLOBALS['xoopsTpl']->assign('adv', xoops_getModuleOption('advertise', \$dirname));

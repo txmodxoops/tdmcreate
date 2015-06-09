@@ -103,8 +103,8 @@ class logoGenerator
         if (!extension_loaded("gd")) {
             return false;
         } else {
-            $required_functions = array("imagecreatefrompng", "imagefttext", "imagecopy", "imagepng", "imagedestroy", "imagecolorallocate");
-            foreach ($required_functions as $func) {
+            $requiredFunctions = array("imagecreatefrompng", "imagefttext", "imagecopy", "imagepng", "imagedestroy", "imagecolorallocate");
+            foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
                 }
@@ -121,18 +121,15 @@ class logoGenerator
 
         if (!file_exists($imageBase = $dirLogos . "/empty.png") ||
             !file_exists($font = $dirFonts . "/VeraBd.ttf") ||
-            !file_exists($iconFile = $iconFileName)
-        ) {
-            return false;
-        }
+            !file_exists($iconFile = $iconFileName) ) {	return false; }
 
         $imageModule = imagecreatefrompng($imageBase);
         $imageIcon   = imagecreatefrompng($iconFile);
 
         // Write text
-        $text_color      = imagecolorallocate($imageModule, 0, 0, 0);
-        $space_to_border = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $space_to_border, 45, $text_color, $font, ucfirst($moduleDirname), array());
+        $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
+        $spaceToBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
+        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 

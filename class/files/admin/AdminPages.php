@@ -221,7 +221,7 @@ EOT;
                     case 6:
                         $ret .= $this->adminobjects->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
-                    case 11:
+                    case 10:
                         $ret .= $this->adminobjects->getImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:

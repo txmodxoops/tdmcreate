@@ -133,7 +133,7 @@ switch ($op) {
 			$tablesObj =& $tables->create();
         }
 		$tableOrder = XoopsRequest::getInt('table_order');
-        $order = $tablesObj->isNew() ? $tableOrder + 1 : $tableOrder;
+        $order = $tablesObj->isNew() ? $tableOrder + 1: $tableOrder;
         // Form save tables
         $tablesObj->setVars(array(
                                 'table_mid'       => $tableMid,
@@ -159,27 +159,28 @@ switch ($op) {
         } else {
             $tablesObj->setVar('table_image', $_POST['table_image']);
         }
-        $tablesObj->setVars(array(
-                                'table_autoincrement' => ((1 == $_REQUEST['table_autoincrement']) ? 1 : 0),
-                                'table_index'         => ((1 == $_REQUEST['table_index']) ? 1 : 0),
-								'table_blocks'        => ((1 == $_REQUEST['table_blocks']) ? 1 : 0),
-                                'table_admin'         => ((1 == $_REQUEST['table_admin']) ? 1 : 0),
-                                'table_user'          => ((1 == $_REQUEST['table_user']) ? 1 : 0),
-                                'table_submenu'       => ((1 == $_REQUEST['table_submenu']) ? 1 : 0),
-                                'table_submit'        => ((1 == $_REQUEST['table_submit']) ? 1 : 0),
-                                'table_tag'           => ((1 == $_REQUEST['table_tag']) ? 1 : 0),
-                                'table_broken'        => ((1 == $_REQUEST['table_broken']) ? 1 : 0),
-                                'table_search'        => ((1 == $_REQUEST['table_search']) ? 1 : 0),
-                                'table_comments'      => ((1 == $_REQUEST['table_comments']) ? 1 : 0),
-                                'table_notifications' => ((1 == $_REQUEST['table_notifications']) ? 1 : 0),
-                                'table_permissions'   => ((1 == $_REQUEST['table_permissions']) ? 1 : 0),
-                                'table_rate'          => ((1 == $_REQUEST['table_rate']) ? 1 : 0),
-                                'table_print'         => ((1 == $_REQUEST['table_print']) ? 1 : 0),
-                                'table_pdf'           => ((1 == $_REQUEST['table_pdf']) ? 1 : 0),
-                                'table_rss'           => ((1 == $_REQUEST['table_rss']) ? 1 : 0),
-                                'table_single'        => ((1 == $_REQUEST['table_single']) ? 1 : 0),
-                                'table_visit'         => ((1 == $_REQUEST['table_visit']) ? 1 : 0)
-                            ));
+        $tablesObj->setVar( 'table_autoincrement', (1 == $_REQUEST['table_autoincrement']) ? 1 : 0 );
+		// Options
+		$tableOption = XoopsRequest::getArray('table_option', array());
+        $tablesObj->setVar('table_install', in_array('install', $tableOption));
+        $tablesObj->setVar('table_index', in_array('index', $tableOption));
+        $tablesObj->setVar('table_blocks', in_array('blocks', $tableOption));
+		$tablesObj->setVar('table_admin', in_array('admin', $tableOption));
+        $tablesObj->setVar('table_user', in_array('user', $tableOption));
+        $tablesObj->setVar('table_submenu', in_array('submenu', $tableOption));
+		$tablesObj->setVar('table_submit', in_array('submit', $tableOption));
+		$tablesObj->setVar('table_tag', in_array('tag', $tableOption));
+		$tablesObj->setVar('table_broken', in_array('broken', $tableOption));
+		$tablesObj->setVar('table_search', in_array('search', $tableOption));
+        $tablesObj->setVar('table_comments', in_array('comments', $tableOption));
+        $tablesObj->setVar('table_notifications', in_array('notifications', $tableOption));
+        $tablesObj->setVar('table_permissions', in_array('permissions', $tableOption));
+        $tablesObj->setVar('table_rate', in_array('rate', $tableOption));
+		$tablesObj->setVar('table_print', in_array('print', $tableOption));
+		$tablesObj->setVar('table_pdf', in_array('pdf', $tableOption));
+		$tablesObj->setVar('table_rss', in_array('rss', $tableOption));
+		$tablesObj->setVar('table_single', in_array('single', $tableOption));
+		$tablesObj->setVar('table_visit', in_array('visit', $tableOption));
         //
         if ($tables->insert($tablesObj)) {
             if ($tablesObj->isNew()) {
@@ -251,32 +252,32 @@ switch ($op) {
         if ($modId > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
 			if (isset($_POST['mod_admin'])) {
-				$mod_admin = $modulesObj->getVar('mod_admin');
-				$modulesObj->setVar('mod_admin', !$mod_admin);
+				$modAdmin = $modulesObj->getVar('mod_admin');
+				$modulesObj->setVar('mod_admin', !$modAdmin);
 			}
 			if (isset($_POST['mod_user'])) {
 				$mod_user = $modulesObj->getVar('mod_user');
 				$modulesObj->setVar('mod_user', !$mod_user);
 			}
 			if (isset($_POST['mod_blocks'])) {
-				$mod_blocks = $modulesObj->getVar('mod_blocks');
-				$modulesObj->setVar('mod_blocks', !$mod_blocks);
+				$modBlocks = $modulesObj->getVar('mod_blocks');
+				$modulesObj->setVar('mod_blocks', !$modBlocks);
 			}
 			if (isset($_POST['mod_search'])) {
-				$mod_search = $modulesObj->getVar('mod_search');
-				$modulesObj->setVar('mod_search', !$mod_search);
+				$modSearch = $modulesObj->getVar('mod_search');
+				$modulesObj->setVar('mod_search', !$modSearch);
 			}
 			if (isset($_POST['mod_comments'])) {
-				$mod_comments = $modulesObj->getVar('mod_comments');
-				$modulesObj->setVar('mod_comments', !$mod_comments);
+				$modComments = $modulesObj->getVar('mod_comments');
+				$modulesObj->setVar('mod_comments', !$modComments);
 			}
 			if (isset($_POST['mod_notifications'])) {
-				$mod_notifications = $modulesObj->getVar('mod_notifications');
-				$modulesObj->setVar('mod_notifications', !$mod_notifications);
+				$modNotifications = $modulesObj->getVar('mod_notifications');
+				$modulesObj->setVar('mod_notifications', !$modNotifications);
 			}
 			if (isset($_POST['mod_permissions'])) {
-				$mod_permissions  = $modulesObj->getVar('mod_permissions');
-				$modulesObj->setVar('mod_permissions', !$mod_permissions);
+				$modPermissions = $modulesObj->getVar('mod_permissions');
+				$modulesObj->setVar('mod_permissions', !$modPermissions);
 			}
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
                 redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
@@ -288,32 +289,36 @@ switch ($op) {
         if ($tableId > 0) {
             $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
 			if (isset($_POST['table_admin'])) {
-				$table_admin = $tablesObj->getVar('table_admin');
-				$tablesObj->setVar('table_admin', !$table_admin);
+				$tableAdmin = $tablesObj->getVar('table_admin');
+				$tablesObj->setVar('table_admin', !$tableAdmin);
 			}
 			if (isset($_POST['table_user'])) {
-				$table_user = $tablesObj->getVar('table_user');
-				$tablesObj->setVar('table_user', !$table_user);
+				$tableUser = $tablesObj->getVar('table_user');
+				$tablesObj->setVar('table_user', !$tableUser);
 			}
 			if (isset($_POST['table_blocks'])) {
-				$table_blocks = $tablesObj->getVar('table_blocks');
-				$tablesObj->setVar('table_blocks', !$table_blocks);
+				$tableBlocks = $tablesObj->getVar('table_blocks');
+				$tablesObj->setVar('table_blocks', !$tableBlocks);
+			}
+			if (isset($_POST['table_submenu'])) {
+				$tableSubmenu = $tablesObj->getVar('table_submenu');
+				$tablesObj->setVar('table_submenu', !$tableSubmenu);
 			}
 			if (isset($_POST['table_search'])) {
-				$table_search = $tablesObj->getVar('table_search');
-				$tablesObj->setVar('table_search', !$table_search);
+				$tableSearch = $tablesObj->getVar('table_search');
+				$tablesObj->setVar('table_search', !$tableSearch);
 			}
 			if (isset($_POST['table_comments'])) {
-				$table_comments = $tablesObj->getVar('table_comments');
-				$tablesObj->setVar('table_comments', !$table_comments);
+				$tableComments = $tablesObj->getVar('table_comments');
+				$tablesObj->setVar('table_comments', !$tableComments);
 			}
 			if (isset($_POST['table_notifications'])) {
-				$table_notifications = $tablesObj->getVar('table_notifications');
-				$tablesObj->setVar('table_notifications', !$table_notifications);
+				$tableNotifications = $tablesObj->getVar('table_notifications');
+				$tablesObj->setVar('table_notifications', !$tableNotifications);
 			}
 			if (isset($_POST['table_permissions'])) {
-				$table_permissions  = $tablesObj->getVar('table_permissions');
-				$tablesObj->setVar('table_permissions', !$table_permissions);
+				$tablePermissions  = $tablesObj->getVar('table_permissions');
+				$tablesObj->setVar('table_permissions', !$tablePermissions);
 			}
             if ($tdmcreate->getHandler('tables')->insert($tablesObj)) {
                 redirect_header('tables.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);

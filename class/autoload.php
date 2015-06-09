@@ -43,11 +43,11 @@ if(!function_exists('application_autoloader')) {
 			foreach(new RecursiveIteratorIterator($directories) as $file) {
 				if ($file->getFilename() == $classFilename) {
 					$fullPath = $file->getRealPath();
-					$pathCache[$class] = $fullPath;						
-					require_once $fullPath; 
+					$pathCache[$class] = $fullPath;
+					require_once $fullPath;
 					break;
 				}
-			}			
+			}
 		}
 
 		$serialized_paths = serialize($pathCache);

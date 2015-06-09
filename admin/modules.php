@@ -131,18 +131,19 @@ switch ($op) {
                                  'mod_website_url'    => $_POST['mod_website_url'],
                                  'mod_website_name'   => $_POST['mod_website_name'],
                                  'mod_release'        => $_POST['mod_release'],
-                                 'mod_status'         => $_POST['mod_status'],
-                                 'mod_admin'          => ((1 == $_REQUEST['mod_admin']) ? 1 : 0),
-                                 'mod_user'           => ((1 == $_REQUEST['mod_user']) ? 1 : 0),
-                                 'mod_blocks'         => ((1 == $_REQUEST['mod_blocks']) ? 1 : 0),
-                                 'mod_search'         => ((1 == $_REQUEST['mod_search']) ? 1 : 0),
-                                 'mod_comments'       => ((1 == $_REQUEST['mod_comments']) ? 1 : 0),
-                                 'mod_notifications'  => ((1 == $_REQUEST['mod_notifications']) ? 1 : 0),
-                                 'mod_permissions'    => ((1 == $_REQUEST['mod_permissions']) ? 1 : 0),
-                                 'mod_inroot_copy'    => ((1 == $_REQUEST['mod_inroot_copy']) ? 1 : 0),
+                                 'mod_status'         => $_POST['mod_status'],                                 
                                  'mod_donations'      => $_POST['mod_donations'],
                                  'mod_subversion'     => $_POST['mod_subversion'])
         );
+		$moduleOption = XoopsRequest::getArray('module_option', array());
+        $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
+        $modulesObj->setVar('mod_user', in_array('user', $moduleOption));
+        $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption));
+        $modulesObj->setVar('mod_search', in_array('search', $moduleOption));
+        $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption));
+        $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption));
+        $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption));
+        $modulesObj->setVar('mod_inroot_copy', in_array('inroot', $moduleOption));
 
         if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {

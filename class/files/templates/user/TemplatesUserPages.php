@@ -86,31 +86,55 @@ class TemplatesUserPages extends TDMCreateFile
     private function getTemplatesUserPagesHeader($moduleDirname, $table, $language)
     {
         $ret    = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>
-<table class="{$moduleDirname}">
-    <thead class="outer">
-        <tr class="head">\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName        = $fields[$f]->getVar('field_name');
-            $langStuFieldName = $language . strtoupper($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
-EOT;
-            }
-        }
-        $ret .= <<<EOT
-        </tr>
-    </thead>\n
+<{include file="db:{$moduleDirname}_header.tpl"}>\n
 EOT;
 
         return $ret;
     }
 
     /*
-    *  @private function getTemplatesUserPagesBody
+    *  @private function getTemplatesUserPagesStartTable
+    *  @param string $language
+    */
+    /**
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserPagesStartTable($table)
+    {
+        $tableName = $table->getVar('table_name');
+		$ret = <<<EOT
+<{if count(\${$tableName}) gt 0}>
+    <table class="table table-<{\$type}> table-responsive">\n
+EOT;
+        
+        return $ret;
+    }
+	
+	/*
+    *  @private function getTemplatesUserPagesThead
+    *  @param string $language
+    */
+    /**
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserPagesThead($table, $language)
+    {
+        $tableName    = $table->getVar('table_name');
+		$stuTableName = strtoupper($tableName);
+		$ret = <<<EOT
+		<thead>
+			<tr>
+				<th colspan="<{\$colSpanHead}>"><{\$smarty.const.{$language}{$stuTableName}_TITLE}></th>
+			</tr>
+		</thead>\n
+EOT;
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserPagesTbody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -121,56 +145,32 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesBody($moduleDirname, $table, $language)
+    private function getTemplatesUserPagesTbody($moduleDirname, $table, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-                <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
-EOT;
-                        break;
-                    case 10:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-                <td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
+        $tableName      = $table->getVar('table_name');
+		$tableFieldName = $table->getVar('table_fieldname');
+        $ret       		= <<<EOT
+		<tbody>
+			<tr>
+			<{foreach item={$tableFieldName} from=\${$tableName}}>
+				<td>
+					<div class="panel panel-default">
+						<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" list=\${$tableFieldName}}>
+					</div>
+				</td>
+				<{if \${$tableFieldName}.count eq \$divideby}>
+				</tr><tr>
+				<{/if}>
+			<{/foreach}>
+			</tr>
+		</tbody>\n
 EOT;
 
         return $ret;
     }
 
     /*
-    *  @private function getTemplatesUserPagesBodyFieldnameEmpty
+    *  @private function getTemplatesUserPagesTfoot
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -181,43 +181,33 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesBodyFieldnameEmpty($moduleDirname, $table, $language)
+    private function getTemplatesUserPagesTfoot($table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
+		<tfoot>
+			<tr>
+				<td>&nbsp;</td>
+			</tr>
+		</tfoot>\n
 EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-            <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
+        
+		return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserPagesEndTable
+    *  @param null
+    */
+    /**
+     * @param null
+     * @return string
+     */
+    private function getTemplatesUserPagesEndTable()
+    {
+        $ret = <<<EOT
+	</table>
+<{/if}>\n
 EOT;
 
         return $ret;
@@ -256,13 +246,17 @@ EOT;
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
         $content        = $this->getTemplatesUserPagesHeader($moduleDirname, $table, $language);
+		$content .= $this->getTemplatesUserPagesStartTable($table);
+		$content .= $this->getTemplatesUserPagesThead($table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserPagesBody($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserPagesTbody($moduleDirname, $table, $language);
         } else {
-            $content .= $this->getTemplatesUserPagesBodyFieldnameEmpty($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserPagesTbody($moduleDirname, $table, $language);
         }
-        $content .= $this->getTemplatesUserPagesFooter($moduleDirname);
+        $content .= $this->getTemplatesUserPagesTfoot($table, $language);
+		$content .= $this->getTemplatesUserPagesEndTable();
+		$content .= $this->getTemplatesUserPagesFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

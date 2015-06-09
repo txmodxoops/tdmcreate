@@ -34,7 +34,8 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -65,11 +66,152 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
      * @param $tables
      * @param $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
+		$this->setTable($table);
         $this->setTables($tables);
         $this->setFileName($filename);
+    }
+	
+	/*
+    *  @public function getTemplatesUserHeaderTop
+    *  @param null
+    */
+    /**
+     * @return bool|string
+     */
+    public function getTemplatesUserHeaderTop($moduleDirname)
+    {       
+        $ret = <<<EOT
+<{includeq file="db:xmodules_breadcrumbs.tpl"}>
+<{if \$adv != ''}>
+    <div class="center"><{\$adv}></div>
+<{/if}>\n
+EOT;
+
+		return $ret;
+	}
+	
+	/*
+    *  @private function getTemplatesUserHeaderStartTable
+    *  @param string $table
+    */
+    /**
+     * @param $table
+     * @return string
+     */
+    private function getTemplatesUserHeaderStartTable($table)
+    {
+        $tableName = $table->getVar('table_name');
+		$ret       = <<<EOT
+<{if count(\${$tableName}) gt 0}>
+<div class="table-responsive">   
+	<table class="table table-<{\$table_type}>">\n
+EOT;
+        
+        return $ret;
+    }
+	
+	/*
+    *  @private function getTemplatesUserHeaderThead
+    *  @param string $language
+    */
+    /**
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserHeaderThead($table, $language)
+    {
+        $tableName    = $table->getVar('table_name');
+		$stuTableName = strtoupper($tableName);
+		$ret = <<<EOT
+		<thead>
+			<tr>
+				<th><{\$smarty.const.{$language}{$stuTableName}_TITLE}></th>
+			</tr>
+		</thead>\n
+EOT;
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserHeaderTbody
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserHeaderTbody($moduleDirname, $table)
+    {
+        $tableName      = $table->getVar('table_name');
+		$tableFieldName = $table->getVar('table_fieldname');
+        $ret       		= <<<EOT
+		<tbody>
+			<tr>
+			<{foreach item={$tableFieldName} from=\${$tableName}}>
+				<td>
+					<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" list=\${$tableFieldName}}>
+				</td>
+				<{if \${$tableFieldName}.count is div by \$divideby}>
+				</tr><tr>
+				<{/if}>
+			<{/foreach}>
+			</tr>
+		</tbody>\n
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserHeaderTfoot
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserHeaderTfoot($table)
+    {
+        $tableName = $table->getVar('table_name');
+        $ret       = <<<EOT
+		<tfoot>
+			<tr>
+				<td class="pull-right"><{\$lang_thereare}></td>
+			</tr>
+		</tfoot>\n
+EOT;
+        
+		return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserHeaderEndTable
+    *  @param null
+    */
+    /**
+     * @param null
+     * @return string
+     */
+    private function getTemplatesUserHeaderEndTable()
+    {
+        $ret = <<<EOT
+	</table>
+</div>
+<{/if}>\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -82,49 +224,19 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
     public function render()
     {
         $module        = $this->getModule();
-        $tables        = $this->getTables();
+        $table         = $this->getTable();
+		$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = <<<EOT
-<{includeq file="db:{$moduleDirname}_breadcrumbs.tpl"}>
-<{if \$adv != ''}>
-    <div class="center"><{\$adv}></div>
-<{/if}>
-<table class="{$moduleDirname}">
-    <thead>
-          <tr class="center">
-            <th><{\$smarty.const.{$language}TITLE}>  -  <{\$smarty.const.{$language}DESC}></th>
-          </tr>
-    </thead>
-    <tbody>
-        <tr class="center">
-            <td class="center bold pad5">
-                <ul class="menu">
-                    <li><a href="<{\${$moduleDirname}_url}>"><{\$smarty.const.{$language}INDEX}></a></li>\n
-EOT;
-        foreach (array_keys($tables) as $i) {
-            $tableName      = $tables[$i]->getVar('table_name');
-            $stu_table_name = strtoupper($tableName);
-            $content .= <<<EOT
-                    <li> | </li>
-                    <li><a href="<{\${$moduleDirname}_url}>/{$tableName}.php"><{\$smarty.const.{$language}{$stu_table_name}}></a></li>\n
-EOT;
-        }
-        $content .= <<<EOT
-                </ul>
-            </td>
-        </tr>
-    </tbody>
-    <tfoot>
-        <{if \$adv != ''}>
-            <tr class="center"><td class="center bold pad5"><{\$adv}></td></tr>
-        <{else}>
-            <tr class="center"><td class="center bold pad5">&nbsp;</td></tr>
-        <{/if}>
-    </tfoot>
-</table>
-EOT;
+        $content       = $this->getTemplatesUserHeaderTop($moduleDirname);		
+		/*if (1 == $table->getVar('table_category')) {
+			$content .= $this->getTemplatesUserHeaderStartTable($table);
+			$content .= $this->getTemplatesUserHeaderThead($table, $language);
+			$content .= $this->getTemplatesUserHeaderTbody($moduleDirname, $table);
+			$content .= $this->getTemplatesUserHeaderTfoot($table);
+			$content .= $this->getTemplatesUserHeaderEndTable();
+		}*/
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

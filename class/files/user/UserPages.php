@@ -101,6 +101,7 @@ include_once XOOPS_ROOT_PATH . '/header.php';
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );
 //
+\$GLOBALS['xoopsTpl']->assign('xoops_icons32_url', XOOPS_ICONS32_URL);
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
 //
 \${$lcfTableName}Count = \${$lcfTableName}Handler->getCount{$ucfTableName}();
@@ -131,15 +132,17 @@ EOT;
         \$nav = new XoopsPageNav(\${$lcfTableName}Count, \$limit, \$start, 'start');
         \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
     }
+	\$GLOBALS['xoopsTpl']->assign('type', \${$moduleDirname}->getConfig('table_type'));
+	\$GLOBALS['xoopsTpl']->assign('divideby', \${$moduleDirname}->getConfig('divideby'));
+	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
 }
 // Breadcrumbs
-\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/{$tableName}.php', 'title' => {$language}{$stuTableSoleName});
-\$xoBreadcrumbs[] = {$language}{$stuTableSoleName});
+\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/{$tableName}.php', 'title' => {$language}{$stuTableName});
 // keywords
 {$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
 unset(\$keywords);
 // description
-{$moduleDirname}MetaDescription({$language}{$stuTableName}_DESC);
+{$moduleDirname}MetaDescription({$language}{$stuTableSoleName}_DESC);
 //
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$tableName}.php');
 //

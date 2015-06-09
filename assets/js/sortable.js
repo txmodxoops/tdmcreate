@@ -3,7 +3,7 @@
 $(document).ready( function(){
 	/* Call the container items to reorder tables */
 	$('.table-list').sortable({ 
-			accept: 'tdmc-tables',
+			accept: 'tables',
 			opacity: 0.6, 
 			handle : '.move',	
 			cursor: 'move',
@@ -19,8 +19,8 @@ $(document).ready( function(){
 		}
 	).disableSelection();	
 	/* Call the container items to reorder fields */
-	$('.field-list').sortable({ 
-			accept: 'tdmc-fields',
+	$('.field-list').sortable({
+			accept: 'fields',
 			opacity: 0.6, 
 			handle : '.move',	
 			cursor: 'move',

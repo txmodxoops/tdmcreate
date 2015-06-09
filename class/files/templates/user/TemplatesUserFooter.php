@@ -93,12 +93,12 @@ class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
 \n<{if \$fbcomments != 0}>
 <{include file="db:system_fbcomments.html"}>
 <{/if}>
-<div class="left"><{\$copyright}></div>\n
+<div class="pull-left"><{\$copyright}></div>\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != null) {
                 $content .= <<<EOT
 <{if \$pagenav != ''}>
-    <div class="right"><{\$pagenav}></div>
+    <div class="pull-right"><{\$pagenav}></div>
 <{/if}>
 <br />\n
 EOT;
@@ -106,7 +106,7 @@ EOT;
         }
         $content .= <<<EOT
 <{if \$xoops_isadmin}>
-   <div class="center bold"><a href="<{\$admin}>"><{\$smarty.const.{$language}ADMIN}></a></div><br />
+   <div class="text-center bold"><a href="<{\$admin}>"><{\$smarty.const.{$language}ADMIN}></a></div><br />
 <{/if}>\n
 EOT;
         if (is_object($table)) {

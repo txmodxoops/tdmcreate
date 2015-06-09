@@ -93,7 +93,9 @@ class IncludeCommon extends TDMCreateFile
         $ret                     = <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
-    define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
+    define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
+	define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+	define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
     define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
     define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
 	define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');

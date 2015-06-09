@@ -71,7 +71,7 @@ class BlocksFiles extends TDMCreateFile
     }
 
     /*
-    *  @public function getBlocksShow
+    *  @private function getBlocksShow
     *  @param null
     */
     /**
@@ -80,10 +80,10 @@ class BlocksFiles extends TDMCreateFile
      * @param $tableFieldname
      * @param $tableCategory
      * @param $fields
-     * @param $fpif
+     * @param $fieldId
      * @return string
      */
-    public function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tableCategory, $fields, $fpif)
+    private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
@@ -95,10 +95,10 @@ function b_{$moduleDirname}_{$tableName}_show(\$options)
     include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
     \$myts =& MyTextSanitizer::getInstance();
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
-    \${$tableFieldname} = array();
-    \$type_block = \$options[0];
-    \$nb_{$tableName} = \$options[1];
-    \$lenght_title = \$options[2];
+    \$block       = array();
+    \$typeBlock   = \$options[0];
+    \$limit       = \$options[1];
+    \$lenghtTitle = \$options[2];
     \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
     \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
     \$criteria = new CriteriaCompo();
@@ -106,24 +106,62 @@ function b_{$moduleDirname}_{$tableName}_show(\$options)
     array_shift(\$options);
     array_shift(\$options);\n
 EOT;
-        if (1 == $tableCategory) {
+        if (1 == $fieldParent) {
             $ret .= <<<EOT
+	\${$tableName} = {$moduleDirname}_getMyItemIds('{$moduleDirname}_view', '{$moduleDirname}');
+    \$criteria->add(new Criteria('cid', '(' . implode(',', \${$tableName}) . ')','IN'));
     if (1 != (count(\$options) && 0 == \$options[0])) {
-        \$criteria->add(new Criteria('{$tableFieldname}_category', {$moduleDirname}_block_addCatSelect(\$options), 'IN'));
+        \$criteria->add(new Criteria('{$fieldId}', {$moduleDirname}_block_addCatSelect(\$options), 'IN'));
+    }
+
+    if (\$typeBlock)
+    {
+        \$criteria->add(new Criteria('{$fieldId}', 0, '!='));
+        \$criteria->setSort('{$fieldId}');
+        \$criteria->setOrder('ASC');
     }\n
+EOT;
+        } else {
+        $ret .= <<<EOT
+	switch(\$typeBlock)
+	{
+		// For the block: {$tableName} last
+		case 'last':
+			\$criteria->add(new Criteria('{$tableFieldname}_display', 1));
+			\$criteria->setSort('{$tableFieldname}_created');
+			\$criteria->setOrder('DESC');
+		break;
+		// For the block: {$tableName} new
+		case 'new':
+			\$criteria->add(new Criteria('{$tableFieldname}_display', 1));
+			\$criteria->add(new Criteria('{$tableFieldname}_created', strtotime(date(_SHORTDATESTRING)), '>='));
+			\$criteria->add(new Criteria('{$tableFieldname}_created', strtotime(date(_SHORTDATESTRING))+86400, '<='));
+			\$criteria->setSort('{$tableFieldname}_created');
+			\$criteria->setOrder('ASC');
+		break;
+		// For the block: {$tableName} hits
+		case 'hits':
+            \$criteria->setSort('{$tableFieldname}_hits');
+            \$criteria->setOrder('DESC');
+        break;
+		// For the block: {$tableName} top
+		case 'top':
+            \$criteria->setSort('{$tableFieldname}_top');
+            \$criteria->setOrder('ASC');
+        break;
+		// For the block: {$tableName} random
+		case 'random':
+			\$criteria->add(new Criteria('{$tableFieldname}_display', 1));
+			\$criteria->setSort('RAND()');
+		break;
+	}\n
 EOT;
         }
         $ret .= <<<EOT
-    if (\$type_block)
-    {
-        \$criteria->add(new Criteria('{$fpif}', 0, '!='));
-        \$criteria->setSort('{$fpif}');
-        \$criteria->setOrder('ASC');
-    }
-
-    \$criteria->setLimit(\$nb_{$tableName});
-    \${$tableName}_arr = \${$tableName}Handler->getAll(\$criteria);
-    foreach (array_keys(\${$tableName}_arr) as \$i)
+    \$criteria->setLimit(\$limit);
+    \${$tableName}All = \${$tableName}Handler->getAll(\$criteria);
+	unset(\$criteria);
+    foreach(array_keys(\${$tableName}All) as \$i)
     {\n
 EOT;
         foreach (array_keys($fields) as $f) {
@@ -132,14 +170,20 @@ EOT;
             $lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             if (1 == $fields[$f]->getVar('field_block')) {
-                $ret .= <<<EOT
-        \${$lpFieldName}['{$rpFieldName}'] = \${$tableName}_arr[\$i]->getVar('{$fieldName}');\n
+				if (1 == $fields[$f]->getVar('field_main')) {
+					$ret .= <<<EOT
+        \$block[\$i]['{$rpFieldName}'] = \$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-            }
+				} else {
+                $ret .= <<<EOT
+        \$block[\$i]['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
+EOT;
+				}
+			}
         }
         $ret .= <<<EOT
     }
-    return \${$tableFieldname};
+    return \$block;
 }\n\n
 EOT;
 
@@ -150,21 +194,22 @@ EOT;
     *  @public function getBlocksEdit
     *  @param string $moduleDirname
     *  @param string $tableName
-    *  @param string $fpif
-    *  @param string $fpmf
+    *  @param string $fieldId
+    *  @param string $fieldMain
     *  @param string $language
     */
     /**
      * @param $moduleDirname
      * @param $tableName
-     * @param $fpif
-     * @param $fpmf
+     * @param $fieldId
+     * @param $fieldMain
      * @param $language
      * @return string
      */
-    public function getBlocksEdit($moduleDirname, $tableName, $fpif, $fpmf, $language)
+    private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
+		$stuTableName = strtoupper($tableName);
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = <<<EOT
 // Function edit block
@@ -174,24 +219,24 @@ function b_{$moduleDirname}_{$tableName}_edit(\$options)
     \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
     \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
-    \$form = {$language}DISPLAY;
+    \$form  = {$language}DISPLAY;
     \$form .= "<input type='hidden' name='options[0]' value='".\$options[0]."' />";
-    \$form .= "<input name='options[1]' size='5' maxlength='255' value='".\$options[1]."' type='text' />&nbsp;<br />";
-    \$form .= {$language}TITLELENGTH." : <input name='options[2]' size='5' maxlength='255' value='".\$options[2]."' type='text' /><br /><br />";
+    \$form .= "<input type='text' name='options[1]' size='5' maxlength='255' value='".\$options[1]."' />&nbsp;<br />";
+    \$form .= {$language}TITLE_LENGTH." : <input type='text' name='options[2]' size='5' maxlength='255' value='".\$options[2]."' /><br /><br />";
     array_shift(\$options);
     array_shift(\$options);
     array_shift(\$options);
     \$criteria = new CriteriaCompo();
-    \$criteria->add(new Criteria('{$fpif}', 0, '!='));
-    \$criteria->setSort('{$fpif}');
+    \$criteria->add(new Criteria('{$fieldId}', 0, '!='));
+    \$criteria->setSort('{$fieldId}');
     \$criteria->setOrder('ASC');
-    \${$tableName}_arr = \${$tableName}Handler->getAll(\$criteria);
+    \${$tableName}All = \${$tableName}Handler->getAll(\$criteria);
     unset(\$criteria);
-    \$form .= {$language}CATTODISPLAY."<br /><select name='options[]' multiple='multiple' size='5'>";
-    \$form .= "<option value='0' " . (array_search(0, \$options) === false ? "" : "selected='selected'") . ">" .{$language}ALLCAT . "</option>";
-    foreach (array_keys(\${$tableName}_arr) as \$i) {
-        \${$fpif} = \${$tableName}_arr[\$i]->getVar('{$fpif}');
-        \$form .= "<option value='" . \${$fpif} . "' " . (array_search(\${$fpif}, \$options) === false ? "" : "selected='selected'") . ">".\${$tableName}_arr[\$i]->getVar('{$fpmf}')."</option>";
+    \$form .= {$language}{$stuTableName}_TO_DISPLAY."<br /><select name='options[]' multiple='multiple' size='5'>";
+    \$form .= "<option value='0' " . (array_search(0, \$options) === false ? "" : "selected='selected'") . ">" .{$language}ALL_{$stuTableName} . "</option>";
+    foreach (array_keys(\${$tableName}All) as \$i) {
+        \${$fieldId} = \${$tableName}All[\$i]->getVar('{$fieldId}');
+        \$form .= "<option value='" . \${$fieldId} . "' " . (array_search(\${$fieldId}, \$options) === false ? "" : "selected='selected'") . ">".\${$tableName}All[\$i]->getVar('{$fieldMain}')."</option>";
     }
     \$form .= "</select>";
     return \$form;
@@ -220,16 +265,18 @@ EOT;
         $language       = $this->getLanguage($moduleDirname, 'MB');
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            if (0 == $f) {
-                $fpif = $fields[$f]->getVar('field_name');
+            $fieldName   = $fields[$f]->getVar('field_name');
+			$fieldParent = $fields[$f]->getVar('field_parent');
+			if (0 == $f) {
+                $fieldId = $fieldName;
             }
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fields[$f]->getVar('field_name');
+			if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName;
             }
         }
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $tableCategory, $fields, $fpif);
-        $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fpif, $fpmf, $language);
+        $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent);
+        $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
         //
         $this->tdmcfile->create($moduleDirname, 'blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -37,6 +37,20 @@ class TDMCreateSettings extends XoopsObject
      * @var mixed
      */
     private $tdmcreate;
+	
+	/**
+     * Options
+     */
+	public $options = array(
+        'admin',
+        'user',
+        'blocks',
+        'search',
+        'comments',
+        'notifications',
+        'permissions',
+        'inroot'
+    );
 
     /*
     *  @public function constructor class
@@ -160,50 +174,48 @@ class TDMCreateSettings extends XoopsObject
 		$tabTray->addElement($tab1);
 		//
 		$tab2 = new TDMCreateFormTab(_AM_TDMCREATE_OPTIONS_CHECK, 'options_check');
-			$options_tray = new XoopsFormElementTray(_OPTIONS, '<br />');
-			$mod_checkbox_all = new XoopsFormCheckBox('', "settingbox", 1);
-			$mod_checkbox_all->addOption('allbox', _AM_TDMCREATE_SETTING_ALL);
-			$mod_checkbox_all->setExtra(" onclick='xoopsCheckAll(\"settingform\", \"settingbox\");' ");
-			$mod_checkbox_all->setClass('xo-checkall');
-			$options_tray->addElement($mod_checkbox_all);
-			$mod_admin       = $isNew ? $this->tdmcreate->getConfig('display_admin') : $this->getVar('set_admin');
-			$check_mod_admin = new XoopsFormCheckBox(' ', 'set_admin', $mod_admin);
-			$check_mod_admin->addOption(1, _AM_TDMCREATE_SETTING_ADMIN);
-			$options_tray->addElement($check_mod_admin);
-			$mod_user       = $isNew ? $this->tdmcreate->getConfig('display_user') : $this->getVar('set_user');
-			$check_mod_user = new XoopsFormCheckBox(' ', 'set_user', $mod_user);
-			$check_mod_user->addOption(1, _AM_TDMCREATE_SETTING_USER);
-			$options_tray->addElement($check_mod_user);
-			$mod_blocks       = $isNew ? $this->tdmcreate->getConfig('active_blocks') : $this->getVar('set_blocks');
-			$check_mod_blocks = new XoopsFormCheckBox(' ', 'set_blocks', $mod_blocks);
-			$check_mod_blocks->addOption(1, _AM_TDMCREATE_SETTING_BLOCKS);
-			$options_tray->addElement($check_mod_blocks);
-			$mod_search       = $isNew ? $this->tdmcreate->getConfig('active_search') : $this->getVar('set_search');
-			$check_mod_search = new XoopsFormCheckBox(' ', 'set_search', $mod_search);
-			$check_mod_search->addOption(1, _AM_TDMCREATE_SETTING_SEARCH);
-			$options_tray->addElement($check_mod_search);
-			$mod_comments       = $isNew ? $this->tdmcreate->getConfig('active_comments') : $this->getVar('set_comments');
-			$check_mod_comments = new XoopsFormCheckBox(' ', 'set_comments', $mod_comments);
-			$check_mod_comments->addOption(1, _AM_TDMCREATE_SETTING_COMMENTS);
-			$options_tray->addElement($check_mod_comments);
-			$mod_notifications       = $isNew ? $this->tdmcreate->getConfig('active_notifications') : $this->getVar('set_notifications');
-			$check_mod_notifications = new XoopsFormCheckBox(' ', 'set_notifications', $mod_notifications);
-			$check_mod_notifications->addOption(1, _AM_TDMCREATE_SETTING_NOTIFICATIONS);
-			$options_tray->addElement($check_mod_notifications);
-			$mod_permissions       = $isNew ? $this->tdmcreate->getConfig('active_permissions') : $this->getVar('set_permissions');
-			$check_mod_permissions = new XoopsFormCheckBox(' ', 'set_permissions', $mod_permissions);
-			$check_mod_permissions->addOption(1, _AM_TDMCREATE_SETTING_PERMISSIONS);
-			$options_tray->addElement($check_mod_permissions);
-			$mod_inroot_copy       = $isNew ? $this->tdmcreate->getConfig('active_permissions') : $this->getVar('set_inroot_copy');
-			$check_mod_inroot_copy = new XoopsFormCheckBox(' ', 'set_inroot_copy', $mod_inroot_copy);
-			$check_mod_inroot_copy->addOption(1, _AM_TDMCREATE_SETTING_INROOT_MODULES_COPY);
-			$options_tray->addElement($check_mod_inroot_copy);
-		$tab2->addElement($options_tray);
+		// Check All Settings Options
+		$optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
+		$checkAllOptions = new XoopsFormCheckBox('', 'settingbox', 1);
+		$checkAllOptions->addOption('allbox', _AM_TDMCREATE_SETTING_ALL);
+		$checkAllOptions->setExtra(' onclick="xoopsCheckAll(\'settingform\', \'settingbox\');" ');
+		$checkAllOptions->setClass('xo-checkall');
+		$optionsTray->addElement($checkAllOptions);				
+		// Options
+        $settingOption = $this->getOptions();
+        $checkbox      = new XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br />');
+        $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
+        foreach ($this->options as $option) {
+			$checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_SETTING_' . strtoupper($option)));
+        }
+        $optionsTray->addElement($checkbox);
+		//
+		$tab2->addElement($optionsTray);
+		//
+        $modImage = $this->getVar('set_image');
+        $modImage = $modImage ? $modImage : $set['image'];
+        //
+        $uploadirectory  = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
+        $imgtray         = new XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br />');
+        $imgpath         = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . strtolower($uploadirectory) . '/');
+        $imageselect     = new XoopsFormSelect($imgpath, 'set_image', $modImage);
+        $modImage_array = XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
+        foreach ($modImage_array as $image) {
+            $imageselect->addOption("{$image}", $image);
+        }
+        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadirectory . "\", \"\", \"" . XOOPS_URL . "\")'");
+        $imgtray->addElement($imageselect);
+        $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='" . TDMC_UPLOAD_IMGMOD_URL . "/" . $modImage . "' name='image3' id='image3' alt='' /><br />"));
+        //
+        $fileseltray = new XoopsFormElementTray('', '<br />');
+        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $this->tdmcreate->getConfig('maxsize')));
+        $fileseltray->addElement(new XoopsFormLabel(''));
+        $imgtray->addElement($fileseltray);
+		$tab2->addElement($imgtray);
 		$tabTray->addElement($tab2);
 		//
 		$tab3 = new TDMCreateFormTab(_AM_TDMCREATE_NOT_IMPORTANT, 'not_important');
-		
-		$tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_IMAGE, 'set_image', 30, 100, $this->getVar('set_image')));
+		//
         $tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_MAIL, 'set_author_mail', 50, 255, $this->getVar('set_author_mail')));
         $tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_URL, 'set_author_website_url', 50, 255, $this->getVar('set_author_website_url')));
         $tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_NAME, 'set_author_website_name', 50, 255, $this->getVar('set_author_website_name')));
@@ -222,13 +234,71 @@ class TDMCreateSettings extends XoopsObject
         $tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_STATUS, 'set_status', 50, 255, $this->getVar('set_status')));
         $tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
         $tab3->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));        
-		
-		$tab3->addElement(new XoopsFormHidden('op', 'save'));
-        $tab3->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+		//
+		$buttonTray = new XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
+		$buttonTray->addElement(new XoopsFormHidden('op', 'save'));
+        $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
+		$tab3->addElement($buttonTray);
 		$tabTray->addElement($tab3);
 		$form->addElement($tabTray);
         return $form;
-    }    
+    }
+
+	/**
+     * Get Options
+     */
+	/**
+     * @param $key
+     *
+     * @return string
+     */
+	public function getOptions()
+    {
+        $ret = array();
+        if ($this->getVar('set_admin') == 1) {
+            array_push($ret, 'admin');
+        }
+        if ($this->getVar('set_user') == 1) {
+            array_push($ret, 'user');
+        }
+        if ($this->getVar('set_blocks') == 1) {
+            array_push($ret, 'blocks');
+        }
+        if ($this->getVar('set_search') == 1) {
+            array_push($ret, 'search');
+        }
+		if ($this->getVar('set_comments') == 1) {
+			array_push($ret, 'comments');
+		}           
+		if ($this->getVar('set_notifications') == 1) {
+			array_push($ret, 'notifications');
+		}
+		if ($this->getVar('set_permissions') == 1) {
+			array_push($ret, 'permissions');
+		}
+		if ($this->getVar('set_inroot_copy') == 1) {
+			array_push($ret, 'inroot');
+		}
+        
+		return $ret;
+    }
+	
+	/**
+     * Get Defined Language
+     */
+	/**
+     * @param $lang
+     *
+     * @return string
+     */
+    private static function getDefinedLanguage($lang)
+    {
+        if (defined($lang)) {
+            return constant($lang);
+        }
+        
+		return $lang;
+    }
 }
 /**
  * Class TDMCreateSettingsHandler

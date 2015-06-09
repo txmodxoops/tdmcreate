@@ -93,7 +93,7 @@ define('_AM_TDMCREATE_SETTING_SEARCH', "Activate Search");
 define('_AM_TDMCREATE_SETTING_COMMENTS', "Activate Comments");
 define('_AM_TDMCREATE_SETTING_NOTIFICATIONS', "Activate Notifications");
 define('_AM_TDMCREATE_SETTING_PERMISSIONS', "Activate Permissions");
-define('_AM_TDMCREATE_SETTING_INROOT_MODULES_COPY', "Copy of this module in root/modules");
+define('_AM_TDMCREATE_SETTING_INROOT', "Copy of this module in root/modules");
 define('_AM_TDMCREATE_SETTING_ALL', "Check All");
 //Modules.php
 //Buttons
@@ -143,12 +143,13 @@ define('_AM_TDMCREATE_MODULE_USER', "Visible User");
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_BLOCKS', "Activate Blocks");
 define('_AM_TDMCREATE_MODULE_ALL', "Check All");
+define('_AM_TDMCREATE_OPTIONS_DESC', "Select one or all items to add specific addon in this new module");
 // ---------------------
 define('_AM_TDMCREATE_MODULE_SEARCH', "Activate Search");
 define('_AM_TDMCREATE_MODULE_COMMENTS', "Activate Comments");
 define('_AM_TDMCREATE_MODULE_NOTIFICATIONS', "Activate Notifications");
 define('_AM_TDMCREATE_MODULE_PERMISSIONS', "Activate Permissions");
-define('_AM_TDMCREATE_MODULE_INROOT_MODULES_COPY', "Copy of this module in root/modules");
+define('_AM_TDMCREATE_MODULE_INROOT', "Copy of this module in root/modules");
 // Added in version 1.39
 define('_AM_TDMCREATE_MODULE_NAME_LIST', "Name");
 define('_AM_TDMCREATE_MODULE_IMAGE_LIST', "Image");
@@ -199,9 +200,8 @@ define('_AM_TDMCREATE_TABLE_IMAGE', "Table Logo");
 define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT', " Auto Increment");
 define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT_OPTION', "Default checked");
 define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC', "Check this option if table have the Auto Increment ID");
-//
+// v1.59
 define('_AM_TDMCREATE_TABLE_EXIST', "The name specified for this table is already in use");
-define('_AM_TDMCREATE_TABLE_INDEX', "Add in User Index file");
 define('_AM_TDMCREATE_TABLE_BLOCKS', "Add in Block file");
 define('_AM_TDMCREATE_TABLE_BLOCKS_DESC', "(blocks: random, latest, today)");
 define('_AM_TDMCREATE_TABLE_ADMIN', "Add in Admin Panel");
@@ -213,6 +213,8 @@ define('_AM_TDMCREATE_TABLE_COMMENTS', "Add in Comments file");
 define('_AM_TDMCREATE_TABLE_NOTIFICATIONS', "Add in Notifications file");
 define('_AM_TDMCREATE_TABLE_PERMISSIONS', "Add in Permissions file");
 // Added in version 1.91
+define('_AM_TDMCREATE_TABLE_INSTALL', "Add in Install file");
+define('_AM_TDMCREATE_TABLE_INDEX', "Add in User Index file");
 define('_AM_TDMCREATE_TABLE_SUBMIT', "Add in Submit file");
 define('_AM_TDMCREATE_TABLE_TAG', "Add in Tag file");
 define('_AM_TDMCREATE_TABLE_BROKEN', "Add in Broken file");
@@ -243,13 +245,17 @@ define('_AM_TDMCREATE_FIELD_KEY', "Key");
 define('_AM_TDMCREATE_FIELD_PARAMETERS', "Parameters");
 define('_AM_TDMCREATE_FIELD_ELEMENTS', "Options Elements");
 define('_AM_TDMCREATE_FIELD_ELEMENT_NAME', "Form: Element");
-define('_AM_TDMCREATE_FIELD_ADMIN', "Page: Show Admin Side");
-define('_AM_TDMCREATE_FIELD_USER', "Page: Show User Side");
-define('_AM_TDMCREATE_FIELD_BLOCK', "Block: View");
+define('_AM_TDMCREATE_FIELD_ADMIN', "Admin: In Files");
+define('_AM_TDMCREATE_FIELD_USER', "User: In Files");
+define('_AM_TDMCREATE_FIELD_BLOCK', "Block: In Files");
 define('_AM_TDMCREATE_FIELD_MAINFIELD', "Table: Main Field");
 define('_AM_TDMCREATE_FIELD_SEARCH', "Search: Index");
 define('_AM_TDMCREATE_FIELD_REQUIRED', "Field: Required");
 define('_AM_TDMCREATE_ADMIN_SUBMIT', "Send");
+// Added in version 1.91
+define('_AM_TDMCREATE_FIELD_THEAD', "User: In Thead");
+define('_AM_TDMCREATE_FIELD_TBODY', "User: In Tbody");
+define('_AM_TDMCREATE_FIELD_TFOOT', "User: In Tfoot");
 // List in templates
 define('_AM_TDMCREATE_ID_LIST', "Id");
 define('_AM_TDMCREATE_NAME_LIST', "Name");
@@ -365,8 +371,10 @@ define('_AM_TDMCREATE_FILE_NOTCREATED', "Problems: Creating file <b class='red'>
 //
 define('_AM_TDMCREATE_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/tdmcreate/repository/</span> of the module <span class='bold green'>%s</span>");
 define('_AM_TDMCREATE_FIELD_PARAMETERS_LIST', "<b>Parameters List</b>");
-//
+// v1.91
 define('_AM_TDMCREATE_ABOUT_MAKE_DONATION', "Make a Donation to support this module");
 define('_AM_TDMCREATE_IMPORTANT', "Main Settings");
 define('_AM_TDMCREATE_OPTIONS_CHECK', "Options Settings");
+define('_AM_TDMCREATE_CREATE_IMAGE', "Create Image Logo");
 define('_AM_TDMCREATE_NOT_IMPORTANT', "Secondary Settings");
+define('_AM_TDMCREATE_BUILDING_DELETED_CACHE_FILES', "Cache Files Are Deleted Succefully");

@@ -23,11 +23,11 @@ $op        = XoopsRequest::getString('op', 'default');
 $mid       = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
 // Clear cache
-$cacheFile1 = TDMC_CLASSES_PATH . '/cache/classpaths.cache';
-$cacheFile2 = TDMC_CLASSES_PATH . '/files/cache/classpaths.cache';
-if (file_exists($cacheFile1) && file_exists($cacheFile2)) {
-	unlink($cacheFile1);
-	unlink($cacheFile2);
+if (file_exists($cacheFile1 = TDMC_CLASSES_PATH . '/cache/classpaths.cache') && 
+	file_exists($cacheFile2 = TDMC_CLASSES_PATH . '/files/cache/classpaths.cache')) {
+	if (unlink($cacheFile1) && unlink($cacheFile2)) {
+		redirect_header('building.php?op=build', 5, _AM_TDMCREATE_BUILDING_DELETED_CACHE_FILES);
+	}
 }
 // Switch option
 switch ($op) {

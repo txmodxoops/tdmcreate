@@ -129,38 +129,41 @@ switch ($op)
 		$fields = $tdmcreate->getHandler('fields');
 		$fieldOrder = 1;
 		// Set Variables		
-		foreach($_POST['field_id'] as $key => $value) 
+		foreach($_POST['field_id'] as $key => $value)
 		{				
 			if(isset($value)){
 				$fieldsObj =& $fields->get($value);
 			} else { 					
 				$fieldsObj =& $fields->create();										
 			}
-			$order = $fieldsObj->isNew() ? $fieldOrder : XoopsRequest::getInt('field_order');
+			$order = $fieldsObj->isNew() ? $fieldOrder : $_GET['field_order'][$key];
 			// Set Data	
 			$fieldsObj->setVar( 'field_mid', $fieldMid );
-			$fieldsObj->setVar( 'field_tid', $fieldTid );								
+			$fieldsObj->setVar( 'field_tid', $fieldTid );
 			$fieldsObj->setVar( 'field_order', $order );
 			$fieldsObj->setVar( 'field_name', $_POST['field_name'][$key]);
-			$fieldsObj->setVar( 'field_type', $_POST['field_type'][$key]); 
+			$fieldsObj->setVar( 'field_type', $_POST['field_type'][$key]);
 			$fieldsObj->setVar( 'field_value', $_POST['field_value'][$key]);
 			$fieldsObj->setVar( 'field_attribute', $_POST['field_attribute'][$key]);
-			$fieldsObj->setVar( 'field_null', $_POST['field_null'][$key]); 
-			$fieldsObj->setVar( 'field_default', $_POST['field_default'][$key]); 
-			$fieldsObj->setVar( 'field_key', $_POST['field_key'][$key]);						
-			$fieldsObj->setVar( 'field_element', $_POST['field_element'][$key]);               
+			$fieldsObj->setVar( 'field_null', $_POST['field_null'][$key]);
+			$fieldsObj->setVar( 'field_default', $_POST['field_default'][$key]);
+			$fieldsObj->setVar( 'field_key', $_POST['field_key'][$key]);
+			$fieldsObj->setVar( 'field_element', $_POST['field_element'][$key]);
 			$fieldsObj->setVar( 'field_parent', (1 == $_REQUEST['field_parent'][$key]) ? 1 : 0);
+			$fieldsObj->setVar( 'field_admin', (1 == $_REQUEST['field_admin'][$key]) ? 1 : 0);
 			$fieldsObj->setVar( 'field_inlist', (1 == $_REQUEST['field_inlist'][$key]) ? 1 : 0);
 			$fieldsObj->setVar( 'field_inform', (1 == $_REQUEST['field_inform'][$key]) ? 1 : 0);
-			$fieldsObj->setVar( 'field_admin', (1 == $_REQUEST['field_admin'][$key]) ? 1 : 0);
-			$fieldsObj->setVar( 'field_user', (1 == $_REQUEST['field_user'][$key]) ? 1 : 0); 
-			$fieldsObj->setVar( 'field_block', (1 == $_REQUEST['field_block'][$key]) ? 1 : 0); 
-			$fieldsObj->setVar( 'field_main', ($key == $_REQUEST['field_main'] ? 1 : 0)); 
-			$fieldsObj->setVar( 'field_search',  (1 == $_REQUEST['field_search'][$key]) ? 1 : 0); 
+			$fieldsObj->setVar( 'field_user', (1 == $_REQUEST['field_user'][$key]) ? 1 : 0);
+			$fieldsObj->setVar( 'field_thead', (1 == $_REQUEST['field_thead'][$key]) ? 1 : 0);
+			$fieldsObj->setVar( 'field_tbody', (1 == $_REQUEST['field_tbody'][$key]) ? 1 : 0);
+			$fieldsObj->setVar( 'field_tfoot', (1 == $_REQUEST['field_tfoot'][$key]) ? 1 : 0);
+			$fieldsObj->setVar( 'field_block', (1 == $_REQUEST['field_block'][$key]) ? 1 : 0);
+			$fieldsObj->setVar( 'field_main', ($key == $_REQUEST['field_main'] ? 1 : 0));
+			$fieldsObj->setVar( 'field_search',  (1 == $_REQUEST['field_search'][$key]) ? 1 : 0);
 			$fieldsObj->setVar( 'field_required', (1 == $_REQUEST['field_required'][$key]) ? 1 : 0);
 			// Insert Data
 			$tdmcreate->getHandler('fields')->insert($fieldsObj);
-			$fieldOrder++;
+			++$fieldOrder;
 		}
 		unset($fieldOrder);
 		// Get table name from field table id

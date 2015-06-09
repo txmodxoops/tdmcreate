@@ -96,9 +96,10 @@ class UserHeader extends TDMCreateFile
         $content .= <<<EOT
 include dirname(dirname(__DIR__)) . '/mainfile.php';
 include __DIR__ . '/include/common.php';
+\$dirname = basename(__DIR__);
 // Breadcrumbs
-\$xoBreadcrumbs = array();
-\$xoBreadcrumbs[] = array("title" => \$GLOBALS['xoopsModule']->getVar('name'), "link" => {$stuModuleDirname}_URL . '/');\n
+\$xoBreadcrumbs   = array();
+\$xoBreadcrumbs[] = array('title' => \$GLOBALS['xoopsModule']->getVar('name'), 'link' => {$stuModuleDirname}_URL . '/');\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != '') {
                 $content .= <<<EOT
@@ -117,12 +118,12 @@ EOT;
         }
         $content .= <<<EOT
 //
-\$myts =& MyTextSanitizer::getInstance();
+\$myts  =& MyTextSanitizer::getInstance();
 \$style = {$stuModuleDirname}_URL . '/assets/css/style.css';
 if(!file_exists(\$style)) { return false; }
 //
-\$sysPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
-\$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');
+\$sysPathIcon16   = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
+\$sysPathIcon32   = \$GLOBALS['xoopsModule']->getInfo('sysicons32');
 \$pathModuleAdmin = \$GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 //
 \$modPathIcon16 = \$xoopsModule->getInfo('modicons16');

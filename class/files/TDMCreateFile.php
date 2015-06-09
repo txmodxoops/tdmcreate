@@ -511,7 +511,7 @@ EOT;
 /**
  * {$name} module for xoops
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       The XOOPS Project (http://xoops.org)
  * @license         {$license}
  * @package         {$dirname}
  * @since           {$since}

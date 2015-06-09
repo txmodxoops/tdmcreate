@@ -54,30 +54,29 @@ class IncludeFunctions extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
     /**
+     * @public function write
+     *  
      * @param $module
+	 * @param $table
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
+		$this->setTable($table);
         $this->setFileName($filename);
     }
 
     /*
-    *  @public function getFunctionBlock
+    *  @private function getFunctionBlock
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    public function getFunctionBlock($moduleDirname)
+    private function getFunctionBlock($moduleDirname)
     {
         $ret = <<<EOT
 \n/***************Blocks***************/
@@ -100,14 +99,14 @@ EOT;
     }
 
     /*
-    *  @public function getFunctionCleanVars
+    *  @private function getFunctionCleanVars
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    public function getFunctionCleanVars($moduleDirname)
+    private function getFunctionCleanVars($moduleDirname)
     {
         $ret = <<<EOT
 \nfunction {$moduleDirname}_CleanVars( &\$global, \$key, \$default = '', \$type = 'int' ) {
@@ -128,16 +127,88 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @private function getFunctionGetMyItemIds
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+	 * @param $tableName
+     * @return string
+     */
+    private function getFunctionGetMyItemIds($moduleDirname, $tableName)
+    {
+        $ret = <<<EOT
+\n/**
+ *  Get the permissions ids
+ */
+function {$moduleDirname}GetMyItemIds(\$permtype,\$dirname)
+{
+    global \$xoopsUser;
+    static \$permissions = array();
+    if(is_array(\$permissions) && array_key_exists(\$permtype, \$permissions)) {
+        return \$permissions[\$permtype];
+    }
+   \$moduleHandler =& xoops_gethandler('module');
+   \${$moduleDirname}Module =& \$moduleHandler->getByDirname(\$dirname);
+   \$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+   \$gpermHandler =& xoops_gethandler('groupperm');
+   \${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
+    return \${$tableName};
+}\n
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+    *  @private function getFunctionNumbersOfEntries
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+	 * @param $tableName
+     * @return string
+     */
+    private function getFunctionNumbersOfEntries($moduleDirname, $tableName)
+    {
+        $ret = <<<EOT
+\n/**
+ *  Get the number of {$tableName} from the sub categories of a category or sub topics of or topic
+ */
+function {$moduleDirname}NumbersOfEntries(\$mytree, \${$tableName}, \$entries, \$cid)
+{
+    \$count = 0;
+    if(in_array(\$cid, \${$tableName})) {
+        \$child = \$mytree->getAllChild(\$cid);
+        foreach (array_keys(\$entries) as \$i) {
+            if (\$entries[\$i]->getVar('cid') == \$cid){
+                \$count++;
+            }
+            foreach (array_keys(\$child) as \$j) {
+                if (\$entries[\$i]->getVar('cid') == \$j){
+                    \$count++;
+                }
+            }
+        }
+    }
+    return \$count;
+}\n
+EOT;
+
+        return $ret;
+    }
 
     /*
-    *  @public function getFunctionMetaKeywords
+    *  @private function getFunctionMetaKeywords
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    public function getFunctionMetaKeywords($moduleDirname)
+    private function getFunctionMetaKeywords($moduleDirname)
     {
         $ret = <<<EOT
 \nfunction {$moduleDirname}MetaKeywords(\$content)
@@ -157,14 +228,14 @@ EOT;
     }
 
     /*
-    *  @public function getFunctionDescription
+    *  @private function getFunctionDescription
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    public function getFunctionMetaDescription($moduleDirname)
+    private function getFunctionMetaDescription($moduleDirname)
     {
         $ret = <<<EOT
 \nfunction {$moduleDirname}MetaDescription(\$content)
@@ -184,7 +255,7 @@ EOT;
     }
 
     /*
-    *  @public function getRewriteUrl
+    *  @private function getRewriteUrl
     *  @param string $moduleDirname
     *  @param string $tableName
     */
@@ -193,16 +264,16 @@ EOT;
      * @param $tableName
      * @return string
      */
-    public function getRewriteUrl($moduleDirname, $tableName)
+    private function getRewriteUrl($moduleDirname, $tableName)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = <<<EOT
 \n/**
  * Rewrite all url
  *
- * @String  $module  module name
- * @String  $array   array
- * @return  $type    string replacement for any blank case
+ * @String  \$module  module name
+ * @String  \$array   array
+ * @return  \$type    string replacement for any blank case
  */
 function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 {
@@ -287,7 +358,7 @@ EOT;
     }
 
     /*
-    *  @public function getRewriteFilter
+    *  @private function getRewriteFilter
     *  @param string $moduleDirname
     *  @param string $tableName
     */
@@ -296,16 +367,16 @@ EOT;
      * @param $tableName
      * @return string
      */
-    public function getRewriteFilter($moduleDirname, $tableName)
+    private function getRewriteFilter($moduleDirname, $tableName)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = <<<EOT
 \n/**
  * Replace all escape, character, ... for display a correct url
  *
- * @String  $url    string to transform
- * @String  $type   string replacement for any blank case
- * @return  $url
+ * @String  \$url    string to transform
+ * @String  \$type   string replacement for any blank case
+ * @return  \$url
  */
 function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname}') {
 
@@ -338,11 +409,21 @@ EOT;
     public function render()
     {
         $module        = $this->getModule();
+		$table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
+		$tableName     = $table->getVar('table_name');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getFunctionBlock($moduleDirname);
-        $content .= $this->getFunctionCleanVars($moduleDirname);
+		if(1 == $table->getVar('table_blocks')) {
+			$content .= $this->getFunctionCleanVars($moduleDirname);
+		}
+		if(1 == $table->getVar('table_permissions')) {
+			$content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
+		}
+		if(1 == $table->getVar('table_category')) {
+			$content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableName);
+		}
         $content .= $this->getFunctionMetaKeywords($moduleDirname);
         $content .= $this->getFunctionMetaDescription($moduleDirname);
         //

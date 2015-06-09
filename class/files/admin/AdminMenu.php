@@ -162,7 +162,7 @@ EOT;
     {
         $module        = $this->getModule();
         $table         = $this->getTable();
-        $tables        = $this->getTables();
+        //$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
@@ -170,7 +170,8 @@ EOT;
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminMenuHeader();
         $content .= $this->getAdminMenuDashboard($language, $menu);
-        foreach (array_keys($tables) as $t) {
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_name');
+		foreach (array_keys($tables) as $t) {
             $tablePermissions = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
@@ -185,7 +186,7 @@ EOT;
 EOT;
             }
         }
-        if (is_object($table) && 1 == $table->getVar('table_permissions')) {
+        if (1 == $table->getVar('table_permissions')) {
             ++$menu;
             $content .= <<<EOT
 \$adminmenu[\$i]['title'] = {$language}{$menu};

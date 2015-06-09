@@ -78,6 +78,7 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
         $tableName     = $table->getVar('table_name');
 		$tableSoleName = $table->getVar('table_solename');
         $ret           = <<<EOT
+<!-- Header -->
 <{include file="db:{$moduleDirname}_admin_header.tpl"}>
 <{if {$tableName}_list}>
 	<table class="outer {$tableName} width100">

@@ -101,7 +101,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         // Creation of "module" folder in the Directory repository
         $this->structure->makeDir($uploadPath . '/' . $this->structure->getModuleName());
         // Copied of index.html file in "root module" folder
-        $this->structure->copyFile('', $indexFile, 'index.html');
+        //$this->structure->copyFile('', $indexFile, 'index.html');
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "admin" folder and index.html file
             $this->structure->makeDirAndCopyFile('admin', $indexFile, 'index.html');
@@ -183,19 +183,20 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $this->structure->makeDirAndCopyFile('templates/admin', $indexFile, 'index.html');
         }
         if ($table->getVar('table_name') != null) {
-            if (1 == $module->getVar('mod_blocks')) {
+            if ((1 == $module->getVar('mod_blocks')) && (1 == $table->getVar('table_blocks'))) {
                 // Creation of "templates/blocks" folder and index.html file
                 $this->structure->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.html');
             }
             // Creation of "sql" folder and index.html file
             $this->structure->makeDirAndCopyFile('sql', $indexFile, 'index.html');
-            if (1 == $table->getVar('table_notifications')) {
-                // Creation of "language/english/mail_template" folder and index.html file
-                $this->structure->makeDirAndCopyFile('language/english/mail_template', $indexFile, 'index.html');
+            if ((1 == $module->getVar('mod_notifications')) && (1 == $table->getVar('table_notifications'))) {
                 if ($language != 'english') {
                     // Creation of "language/local_language/mail_template" folder and index.html file
                     $this->structure->makeDirAndCopyFile('language/' . $language . '/mail_template', $indexFile, 'index.html');
-                }
+                } else {
+					// Creation of "language/english/mail_template" folder and index.html file
+					$this->structure->makeDirAndCopyFile('language/english/mail_template', $indexFile, 'index.html');
+				}
             }
         }		
     }
@@ -277,6 +278,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $userTemplatesPages = TemplatesUserPages::getInstance();
                 $userTemplatesPages->write($module, $table);
                 $ret[] = $userTemplatesPages->renderFile($moduleDirname . '_' . $tableName . '.tpl');
+				// User List Templates File
+                $userTemplatesPagesList = TemplatesUserPagesList::getInstance();
+                $userTemplatesPagesList->write($module, $table);
+                $ret[] = $userTemplatesPagesList->renderFile($moduleDirname . '_' . $tableName . '_list' . '.tpl');
             }
         }
         // Language Modinfo File
@@ -331,7 +336,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $ret[] = $classHelper->render();
         // Include Functions File
         $includeFunctions = IncludeFunctions::getInstance();
-        $includeFunctions->write($module, 'functions.php');
+        $includeFunctions->write($module, $table, 'functions.php');
         $ret[] = $includeFunctions->render();
         // Creation of blocks language file
         if ($table->getVar('table_name') != null) {
@@ -417,7 +422,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         if (1 == $module->getVar('mod_admin')) {
             // Templates Index File
             $userTemplatesIndex = TemplatesUserIndex::getInstance();
-            $userTemplatesIndex->write($module, $moduleDirname . '_index.tpl');
+            $userTemplatesIndex->write($module, $table, $moduleDirname . '_index.tpl');
             $ret[] = $userTemplatesIndex->render();
             // Templates Footer File
             $userTemplatesFooter = TemplatesUserFooter::getInstance();
@@ -425,7 +430,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $ret[] = $userTemplatesFooter->render();
             // Templates Header File
             $userTemplatesHeader = TemplatesUserHeader::getInstance();
-            $userTemplatesHeader->write($module, $tables, $moduleDirname . '_header.tpl');
+            $userTemplatesHeader->write($module, $table, $tables, $moduleDirname . '_header.tpl');
             $ret[] = $userTemplatesHeader->render();
         }
         // Creation of user files

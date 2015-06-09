@@ -102,7 +102,8 @@ if( !empty(\$_POST['submit']) )
 if (count ( array_intersect ( \$group, \$groups ) ) <= 0) {
     redirect_header ( 'index.php', 3, _NOPERM );
 }*/
-\$templateMain = '{$moduleDirname}_admin_permissions.tpl';
+/*\$templateMain = '{$moduleDirname}_admin_permissions.tpl';
+\$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('permissions.php'));*/
 echo \$adminMenu->addNavigation('permissions.php');
 
 \$permission = {$moduleDirname}_CleanVars(\$_REQUEST, 'permission', 1, 'int');
@@ -136,7 +137,7 @@ PRM;
     private function getPermissionsSwitch($moduleDirname, $language)
     {
         $ret = <<<PRM
-\$module_id = \$xoopsModule->getVar('mid');
+\$moduleId = \$xoopsModule->getVar('mid');
 switch(\$permission)
 {
     case 1:
@@ -200,25 +201,27 @@ PRM;
             }
         }
         $ret = <<<PRM
-\$permform = new XoopsGroupPermForm(\$formTitle, \$module_id, \$permName, \$permDesc, 'admin/permissions.php');
+\$permform = new XoopsGroupPermForm(\$formTitle, \$moduleId, \$permName, \$permDesc, 'admin/permissions.php');
 if (1 == \$permission) {
-    foreach (\$globalPerms as \$perm_id => \$perm_name) {
-        \$permform->addItem(\$perm_id, \$perm_name);
+    foreach (\$globalPerms as \$gPermId => \$gPermName) {
+        \$permform->addItem(\$gPermId, \$gPermName);
     }
-	\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
+	echo \$permform->render();
+	//\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
 } else {
     \$criteria = new CriteriaCompo();
     \$criteria->setSort('{$fieldMain}');
     \$criteria->setOrder('ASC');
-    \${$tableName}_count = \${$tableName}Handler->getCount(\$criteria);
-    \${$tableName}_arr = \${$tableName}Handler->getObjects(\$criteria);
+    \${$tableName}Count = \${$tableName}Handler->getCount(\$criteria);
+    \${$tableName}Obj = \${$tableName}Handler->getObjects(\$criteria);
     unset(\$criteria);
-    foreach (array_keys(\${$tableName}_arr) as \$i) {
-        \$permform->addItem(\${$tableName}_arr[\$i]->getVar('{$fieldId}'), \${$tableName}_arr[\$i]->getVar('{$fieldMain}'));
+    foreach (array_keys(\${$tableName}Obj) as \$i) {
+        \$permform->addItem(\${$tableName}Obj[\$i]->getVar('{$fieldId}'), \${$tableName}Obj[\$i]->getVar('{$fieldMain}'));
     }
-    // Check if {$tableName} exist before rendering the form and redirect, if there aren't {$tableName}
-    if (\${$tableName}_count > 0) {
-		\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
+    // Check if {$tableName} exist before rendering the form, and redirect if there aren't {$tableName}
+    if (\${$tableName}Count > 0) {
+		echo \$permform->render();
+		//\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
     } else {
         redirect_header ( '{$tableName}.php?op=new', 3, {$language}NOPERMSSET );
         exit ();

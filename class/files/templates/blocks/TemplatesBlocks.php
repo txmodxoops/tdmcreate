@@ -23,7 +23,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class TemplatesBlocks
  */
-class TemplatesBlocks extends TDMCreateFile
+class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -84,18 +84,17 @@ class TemplatesBlocks extends TDMCreateFile
      */
     private function getTemplatesBlocksHeader($moduleDirname, $table, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-<table class="{$tableName} width100">
+        $ret = <<<EOT
+<table class="table">
     <thead>
         <tr class="head">\n
 EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName           = $fields[$f]->getVar('field_name');
-            $lang_stu_field_name = $language . strtoupper($fieldName);
+            $fieldName        = $fields[$f]->getVar('field_name');
+            $langStuFieldName = $language . strtoupper($fieldName);
             $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$lang_stu_field_name}}></th>\n
+            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
 EOT;
         }
         $ret .= <<<EOT
@@ -123,7 +122,7 @@ EOT;
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
     <tbody>
-        <{foreach item=list from=\${$tableName}}>
+        <{foreach item=list from=\$block}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -185,10 +184,10 @@ EOT;
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
     <tbody>
-        <{foreach item=list from=\${$tableName}}>
+        <{foreach item=list from=\$block}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');

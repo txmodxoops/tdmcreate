@@ -2,7 +2,7 @@
     <tbody class="table-list">
         <{foreach item=table from=$module.tables key=table_id}>
             <{if $table.id > 0}>
-                <tr id="torder_<{$table.id}>" order="<{$table.order}>" class="tables <{cycle values='even,odd'}>">
+                <tr id="torder_<{$table.id}>" table_id="<{$table.id}>" order="<{$table.order}>" class="tables <{cycle values='even,odd'}>">
                     <td class='cell cell-width1'>&#91;<{$table.lid}>&#93;&nbsp;<img class="move" src="<{$modPathIcon16}>/drag.png" alt="<{$table.name}>" /></td>
                     <td class='cell cell-width2 name'><{$table.name}></td>
                     <td class='cell cell-width3'><img src="<{xoModuleIcons32}><{$table.image}>" alt="<{$table.name}>" height="30" /></td>

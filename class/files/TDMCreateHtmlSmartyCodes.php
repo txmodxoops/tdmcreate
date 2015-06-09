@@ -16,7 +16,7 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: htmlsmartycodes.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TDMCreateHtmlSmartyCodes.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
@@ -376,6 +376,25 @@ EOT;
     {
         $ret = <<<EOT
         <{include file='db:{$moduleDirname}_{$tableName}.tpl'}>
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+    *  @public function getSmartyIncludeFileList
+    *  @param string $name
+    */
+    /**
+     * @param $moduleDirname
+     * @param $tableName
+	 * @param $tableFieldName
+     * @return string
+     */
+    public function getSmartyIncludeFileList($moduleDirname, $tableName, $tableFieldName)
+    {
+        $ret = <<<EOT
+        <{include file='db:{$moduleDirname}_{$tableName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>
 EOT;
 
         return $ret;

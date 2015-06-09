@@ -75,18 +75,19 @@ switch ($op) {
                                  'set_website_url'    => $_POST['set_website_url'],
                                  'set_website_name'   => $_POST['set_website_name'],
                                  'set_release'        => $_POST['set_release'],
-                                 'set_status'         => $_POST['set_status'],
-                                 'set_admin'          => ((1 == $_REQUEST['set_admin']) ? 1 : 0),
-                                 'set_user'           => ((1 == $_REQUEST['set_user']) ? 1 : 0),
-                                 'set_blocks'         => ((1 == $_REQUEST['set_blocks']) ? 1 : 0),
-                                 'set_search'         => ((1 == $_REQUEST['set_search']) ? 1 : 0),
-                                 'set_comments'       => ((1 == $_REQUEST['set_comments']) ? 1 : 0),
-                                 'set_notifications'  => ((1 == $_REQUEST['set_notifications']) ? 1 : 0),
-                                 'set_permissions'    => ((1 == $_REQUEST['set_permissions']) ? 1 : 0),
-                                 'set_inroot_copy'    => ((1 == $_REQUEST['set_inroot_copy']) ? 1 : 0),
+                                 'set_status'         => $_POST['set_status'],                                 
                                  'set_donations'      => $_POST['set_donations'],
                                  'set_subversion'     => $_POST['set_subversion'])
         );
+		$settingOption = XoopsRequest::getArray('setting_option', array());
+        $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
+        $settingsObj->setVar('set_user', in_array('user', $settingOption));
+        $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption));
+        $settingsObj->setVar('set_search', in_array('search', $settingOption));
+        $settingsObj->setVar('set_comments', in_array('comments', $settingOption));
+        $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption));
+        $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption));
+        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
 
         if ($tdmcreate->getHandler('settings')->insert($settingsObj)) {
             redirect_header('settings.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, $_POST['set_name']));

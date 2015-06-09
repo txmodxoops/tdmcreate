@@ -98,6 +98,8 @@ EOT;
         $ret = <<<EOT
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
+\$start = XoopsRequest::getInt('start', 0);
+\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
 // Define Stylesheet
 \$GLOBALS['xoTheme']->addStylesheet( \$style );\n
 EOT;
@@ -106,77 +108,96 @@ EOT;
 	}
 	
 	/**
-     * @private function getBodyIndex
+     * @private function getBodyCategoriesIndex
      *     
      * @param $moduleDirname
 	 * @param $language
 	 * @return string
      */
-    private function getBodyIndex($moduleDirname, $table, $language)
+    private function getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
-		$tableName        = $table->getVar('table_name');
-		$tableSoleName    = $table->getVar('table_solename');
-        $tableFieldname   = $table->getVar('table_fieldname');
-		$tableCategory    = $table->getVar('table_category');
-		$ucfTableName     = ucfirst($tableName);
+		$ucfTableName = ucfirst($tableName);
 		// Fields
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
+        $fields = $this->getTableFields($tableMid, $tableId);
+        
+		foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
                 $fieldId = $fieldName; // fieldMain = fields parameters main field
             }
-			if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldParent = $fieldName; // fieldMain = fields parameters main field
-            }
+			$fieldParentId[] = $fields[$f]->getVar('field_parent');
 			if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
+			if (1 == $fields[$f]->getVar('field_parent')) {
+                $fieldParent = $fieldName; // fieldMain = fields parameters main field
+            }
         }
 		$ret = '';
-		if(1 == $tableCategory) {
+		if(in_array(1, $fieldParentId)) {
 			$ret .= <<<EOT
+\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
 //
-\${$tableName} = {$moduleDirname}_get{$ucfTableName}Ids('{$moduleDirname}_view', '{$moduleDirname}');\n
+include_once XOOPS_ROOT_PATH . '/class/tree.php';
+\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
+if (\${$tableName}Count > 0) {
+	\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}();
+	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
+	{
+		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
+		unset(\${$tableSoleName});
+	}
+}\n
 EOT;
 		}
-		$ret .= <<<EOT
-// 
-\$criteria = new CriteriaCompo();\n
+		
+		return $ret;
+	}
+	
+	/**
+     * @private function getBodyPagesIndex
+     *     
+     * @param $moduleDirname
+	 * @param $language
+	 * @return string
+     */
+    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+		$ucfTableName     = ucfirst($tableName);		
+		$ret              = <<<EOT
+\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
+\$count = 1;
+if (\${$tableName}Count > 0) {
+    \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
+	// Get All {$ucfTableName}
+	foreach(array_keys(\${$tableName}All) as \${$tableFieldname})
+    {
+		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+        \$acount = array('count' => \$count);
+		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);		
+		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
+        unset(\${$tableSoleName});
+		++\$count;
+    }
+    // Display Navigation
+    if (\${$tableName}Count > \$limit) {
+        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+        \$nav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start');
+        \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
+    }
+	\$GLOBALS['xoopsTpl']->assign('panel_type', \${$moduleDirname}->getConfig('panel_type'));
+	\$GLOBALS['xoopsTpl']->assign('table_type', \${$moduleDirname}->getConfig('table_type'));
+	\$GLOBALS['xoopsTpl']->assign('divideby', \${$moduleDirname}->getConfig('divideby'));
+	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
+	\$GLOBALS['xoopsTpl']->assign('lang_thereare', sprintf({$language}INDEX_THEREARE, \${$tableName}Count));
+}
+unset(\$count);
+// Breadcrumbs
+\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/index.php', 'title' => {$language}INDEX);\n
 EOT;
-		if(strstr($fieldName, 'status')) {
-			$ret .= <<<EOT
-\$criteria->add(new Criteria('{$fieldName}', 0, '!='));\n
-EOT;
-		}		
-		if(1 == $tableCategory) {
-			$ret .= <<<EOT
-\$criteria->add(new Criteria('{$fieldId}', '(' . implode(',', \${$tableName}) . ')','IN'));
-EOT;
-		}		
-		$ret .= <<<EOT
-\${$tableName}Count = \${$tableName}Handler->getCount(\$criteria);
-\${$tableName}All   = \${$tableName}Handler->getAll(\$criteria);
-\$GLOBALS['xoopsTpl']->assign('lang_thereare', sprintf({$language}INDEX_THEREARE, \${$tableName}Count));
-unset(\$criteria);\n
-EOT;
-		if(1 == $tableCategory) {
-			$ret .= <<<EOT
-\$criteria = new CriteriaCompo();
-\$criteria->setSort('{$fieldId} ASC, {$fieldMain}');
-\$criteria->setOrder('ASC');
-\$criteria->add(new Criteria('{$fieldId}', '(' . implode(',', \${$tableName}) . ')','IN'));
-\${$tableName}All = \${$tableName}Handler->getAll(\$criteria);
-//
-\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');\n
-EOT;
-		}
-		$ret .= <<<EOT
-\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
-\$count = 1;\n
-EOT;
-
+		
 		return $ret;
 	}
 	
@@ -196,7 +217,9 @@ EOT;
 // description
 {$moduleDirname}MetaDescription({$language}DESC);
 //
-\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/index.php');\n
+\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/index.php');
+\$GLOBALS['xoopsTpl']->assign('xoops_icons32_url', XOOPS_ICONS32_URL);
+\$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);\n
 EOT;
 
 		return $ret;
@@ -226,17 +249,32 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-		$table         = $this->getTable();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');        
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content 	  .= $this->getIncludeHeaderFile();
-		$content 	  .= $this->getTemplateHeaderFile($moduleDirname);
-        $content 	  .= $this->getBodyIndex($moduleDirname, $table, $language);
-		$content 	  .= $this->getDefaultFunctions($moduleDirname, $language);
-		$content 	  .= $this->getIncludeFooterFile();
+        $module         = $this->getModule();
+		$table          = $this->getTable();
+		$tables         = $this->getTableTables($module->getVar('mod_id'));
+        $filename       = $this->getFileName();
+        $moduleDirname  = $module->getVar('mod_dirname');		
+        $language       = $this->getLanguage($moduleDirname, 'MA');
+        $content        = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getIncludeHeaderFile();
+		$content .= $this->getTemplateHeaderFile($moduleDirname);
+		foreach(array_keys($tables) as $t) {
+			$tableId        = $tables[$t]->getVar('table_id');
+			$tableMid       = $tables[$t]->getVar('table_mid');		
+			$tableName      = $tables[$t]->getVar('table_name');
+			$tableSoleName  = $tables[$t]->getVar('table_solename');
+			$tableCategory  = $tables[$t]->getVar('table_category');
+			$tableFieldname = $tables[$t]->getVar('table_fieldname');
+			$tableIndex     = $tables[$t]->getVar('table_index');
+			if((1 == $tableCategory) && (1 == $tableIndex)) {
+				$content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
+			}
+			if((0 == $tableCategory) && (1 == $tableIndex)) {
+				$content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);
+			}
+		}        
+		$content .= $this->getDefaultFunctions($moduleDirname, $language);
+		$content .= $this->getIncludeFooterFile();
 		//
 		$this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

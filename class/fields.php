@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreatereate module
  *
@@ -45,6 +46,7 @@ class TDMCreateFields extends XoopsObject
     public function __construct()
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
+		$this->tdmcreate = TDMCreateHelper::getInstance();
         $this->initVar('field_id', XOBJ_DTYPE_INT);
         $this->initVar('field_mid', XOBJ_DTYPE_INT);
         $this->initVar('field_tid', XOBJ_DTYPE_INT);
@@ -58,10 +60,13 @@ class TDMCreateFields extends XoopsObject
         $this->initVar('field_key', XOBJ_DTYPE_TXTBOX);
         $this->initVar('field_element', XOBJ_DTYPE_TXTBOX);
         $this->initVar('field_parent', XOBJ_DTYPE_INT);
+		$this->initVar('field_admin', XOBJ_DTYPE_INT);
         $this->initVar('field_inlist', XOBJ_DTYPE_INT);
         $this->initVar('field_inform', XOBJ_DTYPE_INT);
-        $this->initVar('field_admin', XOBJ_DTYPE_INT);
         $this->initVar('field_user', XOBJ_DTYPE_INT);
+		$this->initVar('field_thead', XOBJ_DTYPE_INT);
+		$this->initVar('field_tbody', XOBJ_DTYPE_INT);
+        $this->initVar('field_tfoot', XOBJ_DTYPE_INT);
         $this->initVar('field_block', XOBJ_DTYPE_INT);
         $this->initVar('field_main', XOBJ_DTYPE_INT);
         $this->initVar('field_search', XOBJ_DTYPE_INT);
@@ -241,7 +246,12 @@ class TDMCreateFields extends XoopsObject
                 $checkFieldParent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
                 $checkFieldParent->addOption($i, _AM_TDMCREATE_FIELD_PARENT );
                 $parametersTray->addElement($checkFieldParent);*/
-
+			
+			$field_admin     = 0;
+            $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $i . ']', $field_admin);
+            $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
+            $parametersTray->addElement($checkFieldAdmin);
+			
             $field_inlist     = 0;
             $checkFieldInList = new XoopsFormCheckBox(' ', 'field_inlist[' . $i . ']', $field_inlist);
             $checkFieldInList->addOption(1, _AM_TDMCREATE_FIELD_INLIST);
@@ -252,15 +262,25 @@ class TDMCreateFields extends XoopsObject
             $checkFieldInForm->addOption(1, _AM_TDMCREATE_FIELD_INFORM);
             $parametersTray->addElement($checkFieldInForm);
 
-            $field_admin     = 0;
-            $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $i . ']', $field_admin);
-            $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
-            $parametersTray->addElement($checkFieldAdmin);
-
             $field_user     = 0;
             $checkFieldUser = new XoopsFormCheckBox(' ', 'field_user[' . $i . ']', $field_user);
             $checkFieldUser->addOption(1, _AM_TDMCREATE_FIELD_USER);
             $parametersTray->addElement($checkFieldUser);
+			
+			$field_thead     = 0;
+            $checkFieldThead = new XoopsFormCheckBox(' ', 'field_thead[' . $i . ']', $field_thead);
+            $checkFieldThead->addOption(1, _AM_TDMCREATE_FIELD_THEAD);
+            $parametersTray->addElement($checkFieldThead);
+			
+			$field_tbody     = 0;
+            $checkFieldTbody = new XoopsFormCheckBox(' ', 'field_tbody[' . $i . ']', $field_tbody);
+            $checkFieldTbody->addOption(1, _AM_TDMCREATE_FIELD_TBODY);
+            $parametersTray->addElement($checkFieldTbody);
+			
+			$field_tfoot     = 0;
+            $checkFieldTfoot = new XoopsFormCheckBox(' ', 'field_tfoot[' . $i . ']', $field_tfoot);
+            $checkFieldTfoot->addOption(1, _AM_TDMCREATE_FIELD_TFOOT);
+            $parametersTray->addElement($checkFieldTfoot);
 
             $field_block     = 0;
             $checkFieldBlock = new XoopsFormCheckBox('', 'field_block[' . $i . ']', $field_block);
@@ -281,6 +301,7 @@ class TDMCreateFields extends XoopsObject
             $checkFieldRequired = new XoopsFormCheckBox(' ', 'field_required[' . $i . ']', $field_required);
             $checkFieldRequired->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
             $parametersTray->addElement($checkFieldRequired);
+			//
             $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
         }
     }
@@ -375,28 +396,36 @@ class TDMCreateFields extends XoopsObject
                     $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $id . ']', $field->getVar('field_parent'));
                     $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
                     $parametersTray->addElement($checkFieldParent);
-                    /*$field_parent = ($field->getVar('field_parent') == 1) ? $id : 1;
-                    $checkFieldParent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
-                    $checkFieldParent->addOption($id, _AM_TDMCREATE_FIELD_PARENT );
-                    $parametersTray->addElement($checkFieldParent);*/
-
+					
+                    $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $id . ']', $field->getVar('field_admin'));
+                    $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
+                    $parametersTray->addElement($checkFieldAdmin);
+					
                     $checkFieldInList = new XoopsFormCheckBox(' ', 'field_inlist[' . $id . ']', $field->getVar('field_inlist'));
                     $checkFieldInList->addOption(1, _AM_TDMCREATE_FIELD_INLIST);
                     $parametersTray->addElement($checkFieldInList);
 
                     $checkFieldInForm = new XoopsFormCheckBox(' ', 'field_inform[' . $id . ']', $field->getVar('field_inform'));
                     $checkFieldInForm->addOption(1, _AM_TDMCREATE_FIELD_INFORM);
-                    $parametersTray->addElement($checkFieldInForm);
-
-                    $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $id . ']', $field->getVar('field_admin'));
-                    $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
-                    $parametersTray->addElement($checkFieldAdmin);
+                    $parametersTray->addElement($checkFieldInForm);                    
 
                     $checkFieldUser = new XoopsFormCheckBox(' ', 'field_user[' . $id . ']', $field->getVar('field_user'));
                     $checkFieldUser->addOption(1, _AM_TDMCREATE_FIELD_USER);
                     $parametersTray->addElement($checkFieldUser);
-
-                    $checkFieldBlock = new XoopsFormCheckBox('', 'field_block[' . $id . ']', $field->getVar('field_block'));
+					
+					$checkFieldThead = new XoopsFormCheckBox(' ', 'field_thead[' . $id . ']', $field->getVar('field_thead'));
+                    $checkFieldThead->addOption(1, _AM_TDMCREATE_FIELD_THEAD);
+                    $parametersTray->addElement($checkFieldThead);
+					
+					$checkFieldTbody = new XoopsFormCheckBox(' ', 'field_tbody[' . $id . ']', $field->getVar('field_tbody'));
+                    $checkFieldTbody->addOption(1, _AM_TDMCREATE_FIELD_TBODY);
+                    $parametersTray->addElement($checkFieldTbody);
+					
+					$checkFieldTfoot = new XoopsFormCheckBox(' ', 'field_tfoot[' . $id . ']', $field->getVar('field_tfoot'));
+                    $checkFieldTfoot->addOption(1, _AM_TDMCREATE_FIELD_TFOOT);
+                    $parametersTray->addElement($checkFieldTfoot);
+					
+					$checkFieldBlock = new XoopsFormCheckBox('', 'field_block[' . $id . ']', $field->getVar('field_block'));
                     $checkFieldBlock->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
                     $parametersTray->addElement($checkFieldBlock);
 
@@ -590,7 +619,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 	/**
      * Get All Fields By Module & Table Id
      */
-	public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
+	public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
 		$criteria->add(new Criteria('field_mid', $modId));
