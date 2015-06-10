@@ -33,8 +33,8 @@ define('TDMC_FONTS_PATH', TDMC_PATH . '/assets/fonts');
 define('TDMC_FONTS_URL', TDMC_URL . '/assets/fonts');
 define('TDMC_IMAGE_PATH', TDMC_PATH . '/assets/images');
 define('TDMC_IMAGE_URL', TDMC_URL . '/assets/images');
-define('TDMC_IMAGE_LOGOS_PATH', TDMC_PATH . '/assets/images/logos');
-define('TDMC_IMAGE_LOGOS_URL', TDMC_URL . '/assets/images/logos');
+define('TDMC_IMAGES_LOGOS_PATH', TDMC_PATH . '/assets/images/logos');
+define('TDMC_IMAGES_LOGOS_URL', TDMC_URL . '/assets/images/logos');
 define('TDMC_ICONS_PATH', TDMC_PATH . '/assets/icons');
 define('TDMC_ICONS_URL', TDMC_URL . '/assets/icons');
 // Uploads Directories

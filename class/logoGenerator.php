@@ -48,7 +48,7 @@ class logoGenerator
                 }
             }
         }
-        if (!file_exists($imageBase = TDMC_IMAGE_LOGOS_PATH . "/empty.png") ||
+        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . "/empty.png") ||
             !file_exists($font = TDMC_FONTS_PATH . "/VeraBd.ttf") ||
             !file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . basename($logoIcon))) {
             return false;

@@ -35,6 +35,24 @@ class TDMCreateFields extends XoopsObject
      * @var mixed
      */
     private $tdmcreate;
+	
+	/**
+     * Options
+     */
+	public $options = array(
+        'parent',
+		'admin',
+        'inlist',
+        'inform',
+        'user',
+		'thead',
+		'tbody',
+        'tfoot',
+        'block',
+        'main',
+        'search',
+        'required'
+    );
 
     /*
     *  @public function constructor class
@@ -46,7 +64,6 @@ class TDMCreateFields extends XoopsObject
     public function __construct()
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
-		$this->tdmcreate = TDMCreateHelper::getInstance();
         $this->initVar('field_id', XOBJ_DTYPE_INT);
         $this->initVar('field_mid', XOBJ_DTYPE_INT);
         $this->initVar('field_tid', XOBJ_DTYPE_INT);
@@ -120,7 +137,7 @@ class TDMCreateFields extends XoopsObject
         $form->setExtra('enctype="multipart/form-data"');
 
         // New Object HtmlTable
-        $form->addElement(new TDMCreateFormLabel('<table border="0" cellspacing="1" class="outer width100">'));
+        $form->addElement(new TDMCreateFormLabel('<table cellspacing="1" class="outer width100">'));
         $form->addElement(new TDMCreateFormLabel('<thead class="center">'));
         $form->addElement(new TDMCreateFormLabel('<tr class="head"><th colspan="9">' . $title . '</th></tr>'));
         $form->addElement(new TDMCreateFormLabel('<tr class="head width5">'));
@@ -156,8 +173,8 @@ class TDMCreateFields extends XoopsObject
         $fieldsForm = TDMCreateFields::getInstance();
         $form       = $fieldsForm->getHeaderForm($action);
         // Get handler tables
-        $table_obj           = $this->tdmcreate->getHandler('tables'); // Changed by goffy
-        $tableAutoincrement = $table_obj->get($fieldTid)->getVar('table_autoincrement'); // Added by goffy
+        $tableObj           = $this->tdmcreate->getHandler('tables'); // Changed by goffy
+        $tableAutoincrement = $tableObj->get($fieldTid)->getVar('table_autoincrement'); // Added by goffy
         // Loop for fields number
         $class = 'even';
         for ($i = 1; $i <= $fieldNumb; ++$i) {
@@ -242,11 +259,7 @@ class TDMCreateFields extends XoopsObject
             $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $i . ']', $field_parent);
             $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
             $parametersTray->addElement($checkFieldParent);
-            /*$field_parent = (1 == $tableAutoincrement) ? 2 : 1;
-                $checkFieldParent = new TDMCreateFormRadio('', 'field_parent', $field_parent);
-                $checkFieldParent->addOption($i, _AM_TDMCREATE_FIELD_PARENT );
-                $parametersTray->addElement($checkFieldParent);*/
-			
+            			
 			$field_admin     = 0;
             $checkFieldAdmin = new XoopsFormCheckBox(' ', 'field_admin[' . $i . ']', $field_admin);
             $checkFieldAdmin->addOption(1, _AM_TDMCREATE_FIELD_ADMIN);
@@ -287,11 +300,6 @@ class TDMCreateFields extends XoopsObject
             $checkFieldBlock->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
             $parametersTray->addElement($checkFieldBlock);
 
-            $fieldMain      = (1 == $tableAutoincrement) ? 2 : 1;
-            $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
-            $checkFieldMain->addOption($i, _AM_TDMCREATE_FIELD_MAINFIELD);
-            $parametersTray->addElement($checkFieldMain);
-
             $field_search       = 0;
             $check_field_search = new XoopsFormCheckBox(' ', 'field_search[' . $i . ']', $field_search);
             $check_field_search->addOption(1, _AM_TDMCREATE_FIELD_SEARCH);
@@ -301,6 +309,11 @@ class TDMCreateFields extends XoopsObject
             $checkFieldRequired = new XoopsFormCheckBox(' ', 'field_required[' . $i . ']', $field_required);
             $checkFieldRequired->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
             $parametersTray->addElement($checkFieldRequired);
+			
+            $fieldMain      = (1 == $tableAutoincrement) ? 2 : 1;
+            $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
+            $checkFieldMain->addOption($i, _AM_TDMCREATE_FIELD_MAIN);
+            $parametersTray->addElement($checkFieldMain);
 			//
             $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
         }
@@ -392,6 +405,15 @@ class TDMCreateFields extends XoopsObject
                     $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaTable));
                     unset($criteriaElement, $criteriaTable);
                     $parametersTray->addElement($fieldElementsSelect);
+					
+					// Options
+					/*$moduleOption = $this->getOptions();
+					$checkbox     = new XoopsFormCheckbox(' ', 'fields_option[' . $id . ']', $moduleOption, '<br />');
+					$checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
+					foreach ($this->options as $option) {
+						$checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_FIELD_' . strtoupper($option)));
+					}
+					$parametersTray->addElement($checkbox);*/
 
                     $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent[' . $id . ']', $field->getVar('field_parent'));
                     $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
@@ -428,19 +450,20 @@ class TDMCreateFields extends XoopsObject
 					$checkFieldBlock = new XoopsFormCheckBox('', 'field_block[' . $id . ']', $field->getVar('field_block'));
                     $checkFieldBlock->addOption(1, _AM_TDMCREATE_FIELD_BLOCK);
                     $parametersTray->addElement($checkFieldBlock);
-
-                    $fieldMain      = (1 == $field->getVar('field_main')) ? $id : 1;
-                    $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
-                    $checkFieldMain->addOption($id, _AM_TDMCREATE_FIELD_MAINFIELD);
-                    $parametersTray->addElement($checkFieldMain);
-
-                    $check_field_search = new XoopsFormCheckBox(' ', 'field_search[' . $id . ']', $field->getVar('field_search'));
+					
+					$check_field_search = new XoopsFormCheckBox(' ', 'field_search[' . $id . ']', $field->getVar('field_search'));
                     $check_field_search->addOption(1, _AM_TDMCREATE_FIELD_SEARCH);
                     $parametersTray->addElement($check_field_search);
 
                     $checkFieldRequired = new XoopsFormCheckBox(' ', 'field_required[' . $id . ']', $field->getVar('field_required'));
                     $checkFieldRequired->addOption(1, _AM_TDMCREATE_FIELD_REQUIRED);
                     $parametersTray->addElement($checkFieldRequired);
+
+                    $fieldMain      = (1 == $field->getVar('field_main')) ? $id : 1;
+                    $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
+                    $checkFieldMain->addOption($id, _AM_TDMCREATE_FIELD_MAIN);
+                    $parametersTray->addElement($checkFieldMain);                    
+					//
                     $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">' . _AM_TDMCREATE_FIELD_PARAMETERS_LIST . '</div><div class="portlet-content">' . $parametersTray->render() . '</div></div></td></tr>'));
                 }
             }
@@ -503,6 +526,75 @@ class TDMCreateFields extends XoopsObject
 		$ret['required'] = $this->getVar('field_required');
         
 		return $ret;
+    }
+	
+	/**
+     * Get Options
+     */
+	/**
+     * @param $key
+     *
+     * @return string
+     */
+	public function getOptions()
+    {
+        $ret = array();
+        //
+        if ($this->getVar('field_parent') == 1) {
+			array_push($ret, 'parent');
+        }
+		if ($this->getVar('field_admin') == 1) {
+			array_push($ret, 'admin');
+		}		
+		if ($this->getVar('field_inlist') == 1) {
+			array_push($ret, 'inlist');
+		}        
+		if ($this->getVar('field_inform') == 1) {
+			array_push($ret, 'inform');
+		}        
+		if ($this->getVar('field_user') == 1) {
+			array_push($ret, 'user');
+		}		
+		if ($this->getVar('field_thead') == 1) {
+			array_push($ret, 'thead');
+		}		
+		if ($this->getVar('field_tbody') == 1) {
+			array_push($ret, 'tbody');
+		}        
+		if ($this->getVar('field_tfoot') == 1) {
+			array_push($ret, 'tfoot');
+		}        
+		if ($this->getVar('field_block') == 1) {
+			array_push($ret, 'block');
+		}        
+		if ($this->getVar('field_main') == 1) {
+			array_push($ret, 'main');
+		}        
+		if ($this->getVar('field_search') == 1) {
+			array_push($ret, 'search');
+		}        
+		if ($this->getVar('field_required') == 1) {
+			array_push($ret, 'required');
+		}		
+		
+		return $ret;
+    }
+	
+	/**
+     * Get Defined Language
+     */
+	/**
+     * @param $lang
+     *
+     * @return string
+     */
+    private static function getDefinedLanguage($lang)
+    {
+        if (defined($lang)) {
+            return constant($lang);
+        }
+        
+		return $lang;
     }
 }
 

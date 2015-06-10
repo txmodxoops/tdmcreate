@@ -795,9 +795,17 @@ EOT;
     'default' => 0);
 
 \$modversion['config'][] = array(
-    'name' => "fbcomments",
-    'title' => "{$language}FBCOMMENTS",
-    'description' => "{$language}FBCOMMENTS_DESC",
+    'name' => "facebook_comments",
+    'title' => "{$language}FACEBOOK_COMMENTS",
+    'description' => "{$language}FACEBOOK_COMMENTS_DESC",
+    'formtype' => "yesno",
+    'valuetype' => "int",
+    'default' => 0);
+	
+\$modversion['config'][] = array(
+    'name' => "disqus_comments",
+    'title' => "{$language}DISQUS_COMMENTS",
+    'description' => "{$language}DISQUS_COMMENTS_DESC",
     'formtype' => "yesno",
     'valuetype' => "int",
     'default' => 0);\n

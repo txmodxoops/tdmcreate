@@ -137,11 +137,11 @@ EOT;
 		if(in_array(1, $fieldParentId)) {
 			$ret .= <<<EOT
 \${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
-//
-include_once XOOPS_ROOT_PATH . '/class/tree.php';
-\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
+// If there are {$tableName}
 if (\${$tableName}Count > 0) {
 	\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}();
+	include_once XOOPS_ROOT_PATH . '/class/tree.php';
+	\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
 	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
 	{
 		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();

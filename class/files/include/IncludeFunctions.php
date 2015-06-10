@@ -414,10 +414,10 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
 		$tableName     = $table->getVar('table_name');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getFunctionBlock($moduleDirname);
-		if(1 == $table->getVar('table_blocks')) {
-			$content .= $this->getFunctionCleanVars($moduleDirname);
+        if(1 == $table->getVar('table_blocks')) {
+			$content .= $this->getFunctionBlock($moduleDirname);
 		}
+		$content .= $this->getFunctionCleanVars($moduleDirname);
 		if(1 == $table->getVar('table_permissions')) {
 			$content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
 		}

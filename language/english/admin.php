@@ -248,7 +248,7 @@ define('_AM_TDMCREATE_FIELD_ELEMENT_NAME', "Form: Element");
 define('_AM_TDMCREATE_FIELD_ADMIN', "Admin: In Files");
 define('_AM_TDMCREATE_FIELD_USER', "User: In Files");
 define('_AM_TDMCREATE_FIELD_BLOCK', "Block: In Files");
-define('_AM_TDMCREATE_FIELD_MAINFIELD', "Table: Main Field");
+define('_AM_TDMCREATE_FIELD_MAIN', "Table: Main Field");
 define('_AM_TDMCREATE_FIELD_SEARCH', "Search: Index");
 define('_AM_TDMCREATE_FIELD_REQUIRED', "Field: Required");
 define('_AM_TDMCREATE_ADMIN_SUBMIT', "Send");

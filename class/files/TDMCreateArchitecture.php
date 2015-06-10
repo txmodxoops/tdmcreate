@@ -134,12 +134,12 @@ class TDMCreateArchitecture extends TDMCreateStructure
         // If file exists
         if (!file_exists($logoGifFrom)) {
             // Rename file
-            $copyFile    = TDMC_IMAGE_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
+            $copyFile    = TDMC_IMAGES_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         } else {
             // Copy file
-            $copyFile    = TDMC_IMAGE_LOGOS_URL . '/' . $stlModuleAuthor . '_logo.gif';
+            $copyFile    = TDMC_IMAGES_LOGOS_URL . '/' . $stlModuleAuthor . '_logo.gif';
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         }
