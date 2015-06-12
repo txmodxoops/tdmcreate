@@ -14,9 +14,9 @@
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         tdmcreate
- * @since           2.5.5
- * @author          Txmod Xoops <support@txmodxoops.org>
- * @version         $Id: 1.91 fieldattributes.php 11297 2014-05-14 10:58:10Z timgno $
+ * @since           2.5.7
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @version         $Id: 1.91 fieldattributes.php 13027 2015-02-14 12:18:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 

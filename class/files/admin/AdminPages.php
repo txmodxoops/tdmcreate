@@ -82,12 +82,13 @@ class AdminPages extends TDMCreateFile
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
 		$ucfTableName     = ucfirst($tableName);
+		$ccFieldId        = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret              = <<<EOT
 include  __DIR__ . '/header.php';
 //It recovered the value of argument op in URL$
 \$op = XoopsRequest::getString('op', 'list');
 // Request {$fieldId}
-\${$fieldId} = XoopsRequest::getInt('{$fieldId}');
+\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
 // Switch options
 switch (\$op)
 {\n
@@ -200,13 +201,14 @@ EOT;
     */
     private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
     {
-        $ret = <<<EOT
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+		$ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
 			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset(\${$fieldId})) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
+        if (isset(\${$ccFieldId})) {
+           \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         } else {
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
@@ -277,6 +279,7 @@ EOT;
 		$stuTableName      = strtoupper($tableName);
 		$stuTableSoleName  = strtoupper($tableSoleName);
         $stuTableFieldname = strtoupper($tableFieldname);
+		$ccFieldId         = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret               = <<<EOT
     case 'edit':
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
@@ -285,7 +288,7 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
         // Get Form
-        \${$tableName}Obj = \${$tableName}Handler->get(\${$fieldId});
+        \${$tableName}Obj = \${$tableName}Handler->get(\${$ccFieldId});
         \$form = \${$tableName}Obj->getForm();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
@@ -304,9 +307,10 @@ EOT;
     */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
     {
-        $ret = <<<EOT
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+		$ret = <<<EOT
     case 'delete':
-        \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
+        \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
             if ( !\$GLOBALS['xoopsSecurity']->check() ) {
                 redirect_header('{$tableName}.php', 3, implode(', ', \$GLOBALS['xoopsSecurity']->getErrors()));
@@ -314,10 +318,10 @@ EOT;
             if (\${$tableName}Handler->delete(\${$tableName}Obj)) {
                 redirect_header('{$tableName}.php', 3, {$language}FORM_DELETE_OK);
             } else {
-                echo \${$tableName}Obj->getHtmlErrors();
+                \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
+            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
         }
     break;\n
 EOT;
@@ -336,17 +340,17 @@ EOT;
     private function getAdminPagesUpdate($moduleDirname, $tableName, $fieldId, $fieldName)
     {
         $stuModuleName = strtoupper($moduleDirname);
+		$ccFieldId     = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret           = <<<EOT
     case 'update':
-        if (isset(\${$fieldId})) {
-            \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
+        if (isset(\${$ccFieldId})) {
+            \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         }
-        \${$tableName}Obj->setVar("\${$fieldName}", \$_POST["\${$fieldName}"]);
-
+        \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header("\${$tableName}.php", 3, _AM_{$stuModuleName}_FORM_OK);
+            redirect_header('{$tableName}.php', 3, _AM_{$stuModuleName}_FORM_OK);
         }
-        echo \${$tableName}Obj->getHtmlErrors();
+		\$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
     break;\n
 EOT;
         

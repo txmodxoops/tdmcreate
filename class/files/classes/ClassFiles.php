@@ -658,7 +658,7 @@ EOT;
     public function &getInsertId()
     {
         return \$this->db->getInsertId();
-    }\n\n	
+    }\n\n
 EOT;
     
 		return $ret;

@@ -27,8 +27,9 @@ define('_MI_TDMCREATE_ADMENU2', "Settings");
 define('_MI_TDMCREATE_ADMENU3', "Modules");
 define('_MI_TDMCREATE_ADMENU4', "Tables");
 define('_MI_TDMCREATE_ADMENU5', "Fields");
-define('_MI_TDMCREATE_ADMENU6', "Building");
-define('_MI_TDMCREATE_ADMENU7', "About");
+define('_MI_TDMCREATE_ADMENU6', "More Files");
+define('_MI_TDMCREATE_ADMENU7', "Building");
+define('_MI_TDMCREATE_ABOUT', "About");
 // 1.37
 define('_MI_TDMCREATE_CONFIG_EDITOR', "Editor");
 define('_MI_TDMCREATE_CONFIG_EDITOR_DESC', "Select an editor for the description");

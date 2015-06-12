@@ -93,15 +93,15 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         //
         $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
-		$cache1          = TDMC_CLASSES_PATH . '/cache';
-		$cache2          = TDMC_CLASSES_PATH . '/files/cache';
         $stlModuleAuthor = str_replace(' ', '', strtolower($module->getVar('mod_author')));
         $this->structure->setModuleName($module->getVar('mod_dirname'));
         $uploadPath = $this->structure->getUploadPath();
         // Creation of "module" folder in the Directory repository
         $this->structure->makeDir($uploadPath . '/' . $this->structure->getModuleName());
-        // Copied of index.html file in "root module" folder
-        //$this->structure->copyFile('', $indexFile, 'index.html');
+		if (1 != $module->getVar('mod_user')) {
+			// Copied of index.html file in "root module" folder
+			$this->structure->copyFile('', $indexFile, 'index.html');
+		}
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "admin" folder and index.html file
             $this->structure->makeDirAndCopyFile('admin', $indexFile, 'index.html');

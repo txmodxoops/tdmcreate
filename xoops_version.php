@@ -79,19 +79,23 @@ $modversion['templates'][] = array( 'file' => 'tdmcreate_modules.tpl', 'descript
 $modversion['templates'][] = array( 'file' => 'tdmcreate_tables.tpl', 'description' => '', 'type' => 'admin' );
 $modversion['templates'][] = array( 'file' => 'tdmcreate_tables_item.tpl', 'description' => '', 'type' => 'admin' );
 $modversion['templates'][] = array( 'file' => 'tdmcreate_settings.tpl', 'description' => '', 'type' => 'admin' );
+$modversion['templates'][] = array( 'file' => 'tdmcreate_morefiles.tpl', 'description' => '', 'type' => 'admin' );
 // Mysql file
 $modversion['sqlfile']['mysql'] = "sql/mysql.sql";
 // Tables
-$modversion['tables'][1] = "tdmcreate_settings";
-$modversion['tables'][2] = "tdmcreate_modules";
-$modversion['tables'][3] = "tdmcreate_tables";
-$modversion['tables'][4] = "tdmcreate_fields";
-$modversion['tables'][5] = "tdmcreate_languages";
-$modversion['tables'][6] = "tdmcreate_fieldtype";
-$modversion['tables'][7] = "tdmcreate_fieldattributes";
-$modversion['tables'][8] = "tdmcreate_fieldnull";
-$modversion['tables'][9] = "tdmcreate_fieldkey";
-$modversion['tables'][10] = "tdmcreate_fieldelements";
+$i = 1;
+$modversion['tables'][$i] = "tdmcreate_settings";
+$modversion['tables'][$i] = "tdmcreate_modules";
+$modversion['tables'][$i] = "tdmcreate_tables";
+$modversion['tables'][$i] = "tdmcreate_fields";
+$modversion['tables'][$i] = "tdmcreate_languages";
+$modversion['tables'][$i] = "tdmcreate_fieldtype";
+$modversion['tables'][$i] = "tdmcreate_fieldattributes";
+$modversion['tables'][$i] = "tdmcreate_fieldnull";
+$modversion['tables'][$i] = "tdmcreate_fieldkey";
+$modversion['tables'][$i] = "tdmcreate_fieldelements";
+$modversion['tables'][$i] = "tdmcreate_morefiles";
+unset($i);
 // Scripts to run upon installation or update
 $modversion['onInstall'] = "include/install.php";
 $modversion['onUpdate']  = "include/update.php";
@@ -148,6 +152,13 @@ $modversion['config'][$i]['default'] = 10;
 $i++;
 $modversion['config'][$i]['name'] = "fields_adminpager";
 $modversion['config'][$i]['title'] = "_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER";
+$modversion['config'][$i]['description'] = "_MI_TDMCREATE_CONFIG_";
+$modversion['config'][$i]['formtype'] = "textbox";
+$modversion['config'][$i]['valuetype'] = "int";
+$modversion['config'][$i]['default'] = 10;
+$i++;
+$modversion['config'][$i]['name'] = "morefiles_adminpager";
+$modversion['config'][$i]['title'] = "_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER";
 $modversion['config'][$i]['description'] = "_MI_TDMCREATE_CONFIG_";
 $modversion['config'][$i]['formtype'] = "textbox";
 $modversion['config'][$i]['valuetype'] = "int";

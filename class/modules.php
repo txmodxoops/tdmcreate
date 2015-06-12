@@ -16,8 +16,8 @@
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         tdmcreate
  * @since           2.5.7
- * @author          TDM TEAM DEV MODULE
- * @version         $Id: modules.php 13040 2015-04-25 15:12:12Z timgno $
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 include __DIR__ . '/autoload.php';

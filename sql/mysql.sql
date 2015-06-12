@@ -316,3 +316,16 @@ INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `f
   (13, 0, 0, 'UploadImage', 'XoopsFormUploadImage'),
   (14, 0, 0, 'UploadFile', 'XoopsFormUploadFile'),
   (15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect');
+
+#
+# Table structure for table `tdmcreate_morefiles` 5
+#
+
+CREATE TABLE `tdmcreate_morefiles` (
+  `file_id`         INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `file_mid`        INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  `file_name`       VARCHAR(100)    NOT NULL DEFAULT '',
+  `file_extension`  VARCHAR(5)      NOT NULL DEFAULT '.php',
+  `file_infolder`   VARCHAR(50)     NOT NULL DEFAULT '',
+  PRIMARY KEY (`file_id`)
+)ENGINE =InnoDB;

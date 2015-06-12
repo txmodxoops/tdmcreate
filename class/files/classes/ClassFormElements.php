@@ -617,6 +617,33 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @private function getXoopsFormTag
+    *  @param string $moduleDirname
+    *  @param string $fieldId
+    *  @param string $required
+    */
+    /**
+     * @param        $moduleDirname
+     * @param        $fieldId
+     * @param string $required
+     * @return string
+     */
+    private function getXoopsFormTag($moduleDirname, $fieldId, $required = 'false')
+    {        
+        $ret = <<<EOT
+		// Use tag module
+		\$dirTag = is_dir(XOOPS_ROOT_PATH . '/modules/tag') ? true : false;
+        if ((\$this->{$moduleDirname}->getConfig('usetag') == 1) && \$dirTag){
+            \$tagId = \$this->isNew() ? 0 : \$this->getVar('{$fieldId}');            
+            include_once XOOPS_ROOT_PATH.'/modules/tag/include/formtag.php';
+            \$form->addElement(new XoopsFormTag('tag', 60, 255, \$tagId, 0){$required});
+        }\n
+EOT;
+
+        return $ret;
+    }
 
     /*
     *  @public function renderElements
@@ -707,7 +734,11 @@ EOT;
                         $ret .= $this->getXoopsFormTextDateSelect($language, $moduleDirname, $fieldName, $required);
                         break;
                     default:
-                        // If we want to hide XoopsFormHidden() or field id
+                        // If we use tag module
+                        if (1 == $table->getVar('table_tag')) {
+                            $ret .= $this->getXoopsFormTag($moduleDirname, $fieldId, $required);
+                        }
+						// If we want to hide XoopsFormHidden() or field id
                         if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                             $ret .= $this->getXoopsFormHidden($fieldName);
                         }

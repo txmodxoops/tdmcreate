@@ -174,7 +174,7 @@ class LanguageAdmin extends LanguageDefines
 					$fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
 					$fieldNameDesc = str_replace(': ', '', $fieldNameDesc);
 				} else {				
-					$fieldNameDesc = ucfirst($rpFieldName);
+					$fieldNameDesc = strstr($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
 				}
                 //
                 $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
@@ -259,6 +259,7 @@ class LanguageAdmin extends LanguageDefines
     public function render()
     {
         $module        = $this->getModule();
+		$table         = $this->getTable();
 		$tables        = $this->getTables();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -267,9 +268,11 @@ class LanguageAdmin extends LanguageDefines
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
-            $content .= $this->getLanguageAdminClass($language, $tables);
-            $content .= $this->getLanguageAdminPermissions($language);
+            $content .= $this->getLanguageAdminClass($language, $tables);            
         }
+		if (1 == $table->getVar('table_permissions')) {
+			$content .= $this->getLanguageAdminPermissions($language);
+		}
         $content .= $this->getLanguageAdminFoot($language);
         //
         $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

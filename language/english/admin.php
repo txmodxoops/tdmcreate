@@ -202,13 +202,13 @@ define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT_OPTION', "Default checked");
 define('_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC', "Check this option if table have the Auto Increment ID");
 // v1.59
 define('_AM_TDMCREATE_TABLE_EXIST', "The name specified for this table is already in use");
-define('_AM_TDMCREATE_TABLE_BLOCKS', "Add in Block file");
+define('_AM_TDMCREATE_TABLE_BLOCKS', "Add in Block Files");
 define('_AM_TDMCREATE_TABLE_BLOCKS_DESC', "(blocks: random, latest, today)");
-define('_AM_TDMCREATE_TABLE_ADMIN', "Add in Admin Panel");
-define('_AM_TDMCREATE_TABLE_USER', "Add in User Side");
+define('_AM_TDMCREATE_TABLE_ADMIN', "Add in Admin Files");
+define('_AM_TDMCREATE_TABLE_USER', "Add in User Files");
 define('_AM_TDMCREATE_TABLE_SUBMENU', "Add in Submenu");
-define('_AM_TDMCREATE_TABLE_SEARCH', "Add in Search file");
-define('_AM_TDMCREATE_TABLE_COMMENTS', "Add in Comments file");
+define('_AM_TDMCREATE_TABLE_SEARCH', "Add in Search Files");
+define('_AM_TDMCREATE_TABLE_COMMENTS', "Add in Comments Files");
 // Added in version 1.39
 define('_AM_TDMCREATE_TABLE_NOTIFICATIONS', "Add in Notifications file");
 define('_AM_TDMCREATE_TABLE_PERMISSIONS', "Add in Permissions file");
@@ -371,10 +371,33 @@ define('_AM_TDMCREATE_FILE_NOTCREATED', "Problems: Creating file <b class='red'>
 //
 define('_AM_TDMCREATE_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/tdmcreate/repository/</span> of the module <span class='bold green'>%s</span>");
 define('_AM_TDMCREATE_FIELD_PARAMETERS_LIST', "<b>Parameters List</b>");
-// v1.91
+// Added in version v1.91
 define('_AM_TDMCREATE_ABOUT_MAKE_DONATION', "Make a Donation to support this module");
 define('_AM_TDMCREATE_IMPORTANT', "Main Settings");
 define('_AM_TDMCREATE_OPTIONS_CHECK', "Options Settings");
 define('_AM_TDMCREATE_CREATE_IMAGE', "Create Image Logo");
 define('_AM_TDMCREATE_NOT_IMPORTANT', "Secondary Settings");
 define('_AM_TDMCREATE_BUILDING_DELETED_CACHE_FILES', "Cache Files Are Deleted Succefully");
+// Admin More Files
+define('_AM_TDMCREATE_ADD_MORE_FILE', "Add More File");
+define('_AM_TDMCREATE_MORE_FILES_LIST', "More Files List");
+define('_AM_TDMCREATE_FILE_FORM_CREATED_OK', "The file <b class='green'>%s</b> is successfully created");
+define('_AM_TDMCREATE_FILE_FORM_UPDATED_OK', "The file <b class='green'>%s</b> is successfully updated");
+// Class More Files
+define('_AM_TDMCREATE_MORE_FILES_NEW', "New More File");
+define('_AM_TDMCREATE_MORE_FILES_EDIT', "Edit More File");
+define('_AM_TDMCREATE_MORE_FILES_MODULES', "Choose a module");
+define('_AM_TDMCREATE_MORE_FILES_MODULE_SELECT', "Select a Module");
+define('_AM_TDMCREATE_MORE_FILES_NAME', "File Name");
+define('_AM_TDMCREATE_MORE_FILES_NAME_DESC', "Create file name without extension");
+define('_AM_TDMCREATE_MORE_FILES_EXTENSION', "Extension File");
+define('_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC', "Create extension of this file without dot");
+define('_AM_TDMCREATE_MORE_FILES_INFOLDER', "File in the folder");
+define('_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC', "Insert this file in a folder (Type: admin, user, class, include, templates, ...)");
+// Template More Files
+define('_AM_TDMCREATE_FILE_ID', "Id");
+define('_AM_TDMCREATE_FILE_NAME_LIST', "File Name");
+define('_AM_TDMCREATE_FILE_MID_LIST', "Module Name");
+define('_AM_TDMCREATE_FILE_EXTENSION_LIST', "Extension Type");
+define('_AM_TDMCREATE_FILE_INFOLDER_LIST', "In Folder");
+define('_AM_TDMCREATE_FORM_ACTION', "Action");

@@ -16,7 +16,7 @@
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @package         tdmcreate
  * @since           2.5.7
- * @author          Txmod Xoops <support@txmodxoops.org>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
@@ -153,7 +153,7 @@ class TDMCreateTables extends XoopsObject
         $tableMid  = $this->getVar('table_mid');
         $title      = $isNew ? sprintf(_AM_TDMCREATE_TABLE_NEW) : sprintf(_AM_TDMCREATE_TABLE_EDIT);
 
-        xoops_load('xoopsformloader');
+        xoops_load('XoopsFormLoader');
         $form = new XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 		//
