@@ -110,7 +110,7 @@ EOT;
                 <ul class="menu">
                     <li><a href="<{\${$moduleDirname}_url}>"><{\$smarty.const.{$language}INDEX}></a></li>\n
 EOT;
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC');
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
 		foreach (array_keys($tables) as $i) {
             $tableName    = $tables[$i]->getVar('table_name');
             $stuTableName = strtoupper($tableName);

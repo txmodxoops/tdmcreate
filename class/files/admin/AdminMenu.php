@@ -170,7 +170,7 @@ EOT;
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminMenuHeader();
         $content .= $this->getAdminMenuDashboard($language, $menu);
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_name');
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
 		foreach (array_keys($tables) as $t) {
             $tablePermissions = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {

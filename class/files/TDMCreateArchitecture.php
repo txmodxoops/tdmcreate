@@ -216,10 +216,11 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $moduleDirname  = $module->getVar('mod_dirname');
         $icon32         = 'assets/icons/32';
         $tables 		= $this->tdmcfile->getTableTables($modId);
+		$files 		    = $this->tdmcfile->getTableMoreFiles($modId);
         $ret 			= array();
         //
         $table = array();
-        foreach (array_keys($tables) as $t) {
+        foreach(array_keys($tables) as $t) {
             $tableMid           = $tables[$t]->getVar('table_mid');
             $tableId            = $tables[$t]->getVar('table_id');
             $tableName          = $tables[$t]->getVar('table_name');
@@ -283,7 +284,17 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $userTemplatesPagesList->write($module, $table);
                 $ret[] = $userTemplatesPagesList->renderFile($moduleDirname . '_' . $tableName . '_list' . '.tpl');
             }
-        }
+			
+		}	
+		foreach(array_keys($files) as $t) {			
+			$fileName      = $files[$t]->getVar('file_name');
+			$fileExtension = $files[$t]->getVar('file_extension');
+			$fileInfolder  = $files[$t]->getVar('file_infolder');
+			// More File 
+			$moreFiles = TDMCreateMoreFiles::getInstance();
+			$moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
+			$ret[] = $moreFiles->render();		
+		}	
         // Language Modinfo File
         $languageModinfo = LanguageModinfo::getInstance();
         $languageModinfo->write($module, $table, $tables, 'modinfo.php');

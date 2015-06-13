@@ -95,6 +95,14 @@ tr.fields td.name {
     min-width: 80px;
 }
 
+tr.files td {
+    margin: 0;
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+    background-color:rgba(100,110,80,0.3);
+    vertical-align: middle;
+}
+
 /*#show_rows { margin: 0; padding: 0; width: 60%; }
 #sortable tr { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.1em; height: 16px; }*/
 

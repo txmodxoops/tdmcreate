@@ -89,3 +89,4 @@ define('_MI_TDMCREATE_CONFIG_MIN_MYSQL', "Minimum Database");
 define('_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER', "Modules adminpager");
 define('_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER', "Tables adminpager");
 define('_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER', "Fields adminpager");
+define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER', "More Files adminpager");

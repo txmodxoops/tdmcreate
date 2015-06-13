@@ -106,7 +106,7 @@ class LanguageModinfo extends LanguageDefines
      */
     private function getLanguageMenu($module, $language, $table)
     {
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_name');
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
 		$menu = 1;
         $ret  = $this->defines->getAboveHeadDefines('Admin Menu');
         $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "Dashboard");

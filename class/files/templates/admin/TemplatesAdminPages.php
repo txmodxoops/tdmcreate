@@ -298,7 +298,7 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'AM');
-        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC');
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
         $content        = $this->getTemplatesAdminPagesHeader($moduleDirname, $table, $fields, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {

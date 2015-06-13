@@ -30,6 +30,7 @@ define('_AM_TDMCREATE_ADMIN_NUMMODULES', "Statistics");
 define('_AM_TDMCREATE_THEREARE_NUMMODULES', "There are <span class='red bold'>%s</span> modules stored in the Database");
 define('_AM_TDMCREATE_THEREARE_NUMTABLES', "There are <span class='red bold'>%s</span> tables stored in the Database");
 define('_AM_TDMCREATE_THEREARE_NUMFIELDS', "There are <span class='red bold'>%s</span> fields stored in the Database");
+define('_AM_TDMCREATE_THEREARE_NUMFILES', "There are <span class='red bold'>%s</span> more files stored in the Database");
 // General
 define('_AM_TDMCREATE_FORMOK', "Successfully saved");
 define('_AM_TDMCREATE_FORMDELOK', "Successfully deleted");
