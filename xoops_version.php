@@ -27,7 +27,7 @@ $modversion['description'] = _MI_TDMCREATE_DESC;
 $modversion['author'] = "Xoops TDM";
 $modversion['author_website_url'] = "http://www.xoops.org/";
 $modversion['author_website_name'] = "Xoops Team Developers Module";
-$modversion['credits'] = "Mamba(Xoops), Timgno(Txmod Xoops)";
+$modversion['credits'] = "Mamba(Xoops), Timgno(Txmod Xoops), Goffy(German Xoops)";
 $modversion['help'] = "page=help";
 $modversion['license'] = "GNU GPL 2.0 or later";
 $modversion['license_url'] = "www.gnu.org/licenses/gpl-2.0.html/";

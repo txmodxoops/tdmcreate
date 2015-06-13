@@ -172,7 +172,7 @@ switch ($op)
 		// Set field elements
 		if ($fieldsObj->isNew()) {		    
 			// Fields Elements Handler
-			$fieldelementObj =& $tdmcreate->getHandler('fieldelements')->create();
+			/*$fieldelementObj =& $tdmcreate->getHandler('fieldelements')->create();
 			$fieldelementObj->setVar( 'fieldelement_mid', $fieldMid );
 			$fieldelementObj->setVar( 'fieldelement_tid', $fieldTid );
 			$fieldelementObj->setVar( 'fieldelement_name', 'Table : '.ucfirst($tableName) );
@@ -180,7 +180,7 @@ switch ($op)
 			// Insert new field element id for table name
 			if (!$tdmcreate->getHandler('fieldelements')->insert($fieldelementObj) ) {
 				$GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
-			}			
+			}*/
 			redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_SAVED_OK, $tableName));					
 		} else {
 			// Needed code from table name by field_tid

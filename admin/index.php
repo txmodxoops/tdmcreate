@@ -19,17 +19,17 @@
  * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
 include  __DIR__ . '/header.php';
-$count_modules = $tdmcreate->getHandler('modules')->getCount();
-$count_tables  = $tdmcreate->getHandler('tables')->getCount();
-$count_fields  = $tdmcreate->getHandler('fields')->getCount();
-$count_files  = $tdmcreate->getHandler('morefiles')->getCount();
+$countModules = $tdmcreate->getHandler('modules')->getCount();
+$countTables  = $tdmcreate->getHandler('tables')->getCount();
+$countFields  = $tdmcreate->getHandler('fields')->getCount();
+$countFiles   = $tdmcreate->getHandler('morefiles')->getCount();
 unset($criteria);
 $templateMain = 'tdmcreate_index.tpl';
 $adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $count_modules, 'Green');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $count_tables, 'Orange');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $count_fields, 'Gray');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMFILES . '</label>', $count_files, 'Red');
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $countModules, 'Green');
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $countTables, 'Orange');
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $countFields, 'Gray');
+$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>' . _AM_TDMCREATE_THEREARE_NUMFILES . '</label>', $countFiles, 'Red');
 
 // Upload Folders
 $folder = array(

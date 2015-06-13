@@ -22,7 +22,7 @@ include  __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 //
-$mod_id = XoopsRequest::getInt('mod_id');
+$modId = XoopsRequest::getInt('mod_id');
 // Request vars
 $tableId         = XoopsRequest::getInt('table_id');
 $tableMid        = XoopsRequest::getInt('table_mid');
@@ -186,6 +186,16 @@ switch ($op) {
             if ($tablesObj->isNew()) {
                 $tableTid    = $GLOBALS['xoopsDB']->getInsertId();
                 $tableAction = '&field_mid=' . $tableMid . '&field_tid=' . $tableTid . '&field_numb=' . $tableNumbFields . '&field_name=' . $tableFieldname;
+				// Fields Elements Handler 
+                $fieldelementObj =& $tdmcreate->getHandler('fieldelements')->create(); 
+                $fieldelementObj->setVar( 'fieldelement_mid', $tableMid ); 
+                $fieldelementObj->setVar( 'fieldelement_tid', $tableTid ); 
+                $fieldelementObj->setVar( 'fieldelement_name', 'Table : '.ucfirst($_POST['table_name']) ); 
+                $fieldelementObj->setVar( 'fieldelement_value', 'XoopsFormTables-'.ucfirst($_POST['table_name']) );
+                // Insert new field element id for table name 
+                if (!$tdmcreate->getHandler('fieldelements')->insert($fieldelementObj) ) { 
+                    $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
+                }
                 redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_TDMCREATE_TABLE_FORM_CREATED_OK, $_POST['table_name']));
             } else {
                 redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_TABLE_FORM_UPDATED_OK, $_POST['table_name']));
@@ -238,9 +248,18 @@ switch ($op) {
                 redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             if ($tdmcreate->getHandler('tables')->delete($tablesObj)) {
+				// Delete items in table fieldelements - idea by goffy
+                $fieldelements = $tdmcreate->getHandler('fieldelements')->getAllFieldElementsByModuleAndTableId($tableMid, $tableId);
+                foreach (array_keys($fieldelements) as $fe) { 
+                    $fieldelementsObj =& $tdmcreate->getHandler('fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
+                    if (!$tdmcreate->getHandler('fieldelements')->delete($fieldelementsObj)) {
+						$GLOBALS['xoopsTpl']->assign('error', $fieldelementsObj->getHtmlErrors());
+                    } 
+                    unset($fieldelementsObj);
+                }
                 redirect_header('tables.php', 3, _AM_TDMCREATE_FORMDELOK);
             } else {
-                echo $tablesObj->getHtmlErrors();
+                $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
         } else {
             xoops_confirm(array('ok' => 1, 'table_id' => $tableId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
