@@ -19,7 +19,7 @@
  * @version         $Id: TDMCreateArchitecture.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-include __DIR__ . '/autoload.php';
+include __DIR__ . '/../autoload.php';
 /**
  * Class TDMCreateArchitecture
  */

@@ -273,44 +273,38 @@ EOT;
         $content .= $this->getInstallModuleFolder($moduleDirname);
 		
 		foreach (array_keys($tables) as $t) {
-			$tableName = $tables[$t]->getVar('table_name');
+			$tableName      = $tables[$t]->getVar('table_name');
+			$tableInstall[] = $tables[$t]->getVar('table_install');
 			$content .= $this->getInstallTableFolder($moduleDirname, $tableName);
 		}
-		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-		foreach (array_keys($fields) as $f) {
-			$fieldElement = $fields[$f]->getVar('field_element');
-			// All fields elements selected
-			switch ($fieldElement) {
-				case 10:
-				case 13:
-					if(1 == $table->getVar('table_install')) {
-						$content .= $this->getInstallImagesFolder($moduleDirname);
-					}
-					foreach (array_keys($tables) as $t) {
-						$tableName = $tables[$t]->getVar('table_name');
-						if(1 == $tables[$t]->getVar('table_install')) {
+		if(in_array(1, $tableInstall)) {
+			$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+			foreach (array_keys($fields) as $f) {
+				$fieldElement = $fields[$f]->getVar('field_element');
+				// All fields elements selected
+				switch ($fieldElement) {
+					case 10:
+					case 13:
+						$content .= $this->getInstallImagesFolder($moduleDirname);						
+						foreach (array_keys($tables) as $t) {
+							$tableName = $tables[$t]->getVar('table_name');
 							$content .= $this->getInstallTableImagesFolder($tableName);
 						}
-					}
-					break;
-				case 11:
-					if(1 == $table->getVar('table_install')) {
+						break;
+					case 11:
 						$content .= $this->getInstallImagesShotsFolder();
-					}
-					break;
-				case 12:
-				case 14:
-					$content .= $this->getInstallFilesFolder($moduleDirname);
-					foreach (array_keys($tables) as $t) {
-						$tableName = $tables[$t]->getVar('table_name');
-						if(1 == $tables[$t]->getVar('table_install')) {
+						break;
+					case 12:
+					case 14:
+						$content .= $this->getInstallFilesFolder($moduleDirname);
+						foreach (array_keys($tables) as $t) {
+							$tableName = $tables[$t]->getVar('table_name');
 							$content .= $this->getInstallTableFilesFolder($tableName);
 						}
-					}
-					break;
+						break;
+				}
 			}
 		}
-		
         $content .= $this->getInstallFooter();
         //
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

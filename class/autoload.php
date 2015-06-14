@@ -29,8 +29,12 @@ error_reporting(E_ALL|E_STRICT);
 if(!function_exists('application_autoloader')) {
 	function application_autoloader($class) {
 		$classFilename = $class.'.php';
-		$cacheFile = __DIR__ . '/cache/classpaths.cache';
-		$pathCache = (file_exists($cacheFile)) ? unserialize(file_get_contents($cacheFile)) : array();
+		$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate';
+		if(!is_dir($cachePath)){
+			mkdir($cachePath, 0777);
+            chmod($cachePath, 0777);
+		}
+		$pathCache = (file_exists($cacheFile = $cachePath . '/classpaths.cache' )) ? unserialize(file_get_contents($cacheFile)) : array();
 		if (!is_array($pathCache)) { $pathCache = array(); }
 		
 		if (array_key_exists($class, $pathCache)) {
@@ -43,11 +47,11 @@ if(!function_exists('application_autoloader')) {
 			foreach(new RecursiveIteratorIterator($directories) as $file) {
 				if ($file->getFilename() == $classFilename) {
 					$fullPath = $file->getRealPath();
-					$pathCache[$class] = $fullPath;
-					require_once $fullPath;
+					$pathCache[$class] = $fullPath;						
+					require_once $fullPath; 
 					break;
 				}
-			}
+			}			
 		}
 
 		$serialized_paths = serialize($pathCache);
