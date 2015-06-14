@@ -104,7 +104,8 @@ As you can see, you've created a page with a list of links at the top to navigat
 			$ucfTableSoleName = UcFirstAndToLower($tableSoleName);
             $ret .= $this->defines->getAboveDefines($ucfTableSoleName);
             $ret .= $this->defines->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
-			$ret .= $this->defines->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName}");
+			$ret .= $this->defines->getDefine($language, "{$stuTableName}", "{$stuTableName}");
+			$ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_TITLE", "{$ucfTableSoleName} title");
             $ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_DESC", "{$ucfTableSoleName} description");
 			$ret .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
             $ret .= $this->defines->getAboveDefines("Caption of {$ucfTableSoleName}");
@@ -116,6 +117,14 @@ As you can see, you've created a page with a list of links at the top to navigat
 				$ret .= $this->defines->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
             }
         }
+		$ret .= $this->defines->getAboveDefines('Submit');
+		$ret .= $this->defines->getDefine($language, "SUBMIT_ALLPENDING", "All {$tableSoleName}/script information are posted pending verification.");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_DONTABUSE", "Username and IP are recorded, so please don't abuse the system.");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_ISAPPROVED", "Your {$tableSoleName} has been approved");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_PROPOSER", "Submit a {$tableSoleName}");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_RECEIVED", "We have received your {$tableSoleName} info. Thank you !");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_SUBMITONCE", "Submit your {$tableSoleName}/script only once.");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_TAKEDAYS", "This will take many days to see your {$tableSoleName}/script added successfully in our database.");
 
         return $ret;
     }

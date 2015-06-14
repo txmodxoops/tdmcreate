@@ -472,7 +472,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             }
 			// User Pdf File
             if ((1 == $table->getVar('table_pdf'))) {
-                $userPdf = UserPrint::getInstance();
+                $userPdf = UserPdf::getInstance();
                 $userPdf->write($module, $table, 'pdf.php');
                 $ret[] = $userPdf->render();
 				// User Templates Pdf File

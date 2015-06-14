@@ -86,19 +86,19 @@ class UserSubmit extends UserObjects
     {
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
-\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
+\$op = XoopsRequest::getString('op', 'form');
 // Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_submit.tpl';
+\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_submit.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
 \$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$GLOBALS['xoopsModule']->getVar('dirname', 'n') . '/assets/css/style.css', null );
-//On recupere la valeur de l'argument op dans l'URL$
-// redirection if not permissions
-if (\$perm_submit == false) {
+\$permSubmit = (\$gperm_handler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid'))) ? true : false;
+// Redirection if not permissions
+if (\$permSubmit == false) {
     redirect_header('index.php', 2, _NOPERM);
     exit();
 }
 //
-switch (\$op)
+switch(\$op)
 {\n
 EOT;
 
@@ -123,15 +123,15 @@ EOT;
     case 'form':
     default:
         //navigation
-        \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
+        \$navigation = {$language}SUBMIT_PROPOSER;
         \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
         // reference
         // title of page
-        \$title = _MD_{$stuModuleName}_SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
+        \$title = {$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
         \$title .= \$GLOBALS['xoopsModule']->name();
         \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
         //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags(_MD_{$stuModuleName}_SUBMIT_PROPOSER));
+        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT_PROPOSER));
         // Description
         \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
 
@@ -172,7 +172,7 @@ EOT;
         $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('index.php', 2, {$language}FORMOK);
+            redirect_header('index.php', 2, {$language}FORM_OK);
         }
 
         echo \${$tableName}Obj->getHtmlErrors();
@@ -194,6 +194,7 @@ EOT;
     public function getUserSubmitFooter()
     {
         $ret = <<<EOT
+}
 include  __DIR__ . '/footer.php';
 EOT;
 

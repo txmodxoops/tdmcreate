@@ -82,38 +82,40 @@ class UserVisit extends UserObjects
      * @param $moduleDirname
      * @return string
      */
-    public function getUserVisitHeader($moduleDirname, $tableName, $language)
+    public function getUserVisitHeader($moduleDirname, $tableName, $tableSoleName, $fields, $language)
     {
         $stuModuleName = strtoupper($moduleDirname);
+		$fieldId       = $this->userobjects->getUserSaveFieldId($fields);
+		$ccFieldId     = $this->tdmcfile->getCamelCase($fieldId, false, true);
 		$ret 		   = <<<EOT
 include  __DIR__ . '/header.php';
-\$lid = {$stuModuleName}_CleanVars(\$_REQUEST, 'lid', 0, 'int');
-\$cid = {$stuModuleName}_CleanVars(\$_REQUEST, 'cid', 0, 'int');
+\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
+\$cid = XoopsRequest::getInt('cid');
 
 if(!isset(\$_GET['return'])) {
-	// redirect if there aren't download
-	\$view_{$stuModuleName} = \${$stuModuleName}_Handler->get(\$lid);
-	if (count(\$view_{$stuModuleName}) == 0){
+	// redirect if there aren't {$tableSoleName}
+	\$view_{$tableName} = \${$moduleDirname}_Handler->get(\${$ccFieldId});
+	if (count(\$view_{$tableName}) == 0){
 		redirect_header('index.php', 3, {$language}SINGLE_NONEXISTENT);
 		exit();
 	}
 	//redirect if there aren't permission (cat)
-	\$categories = {$stuModuleName}_MygetItemIds('{$stuModuleName}_view', '{$stuModuleName}');
-	if(!in_array(\$view_{$stuModuleName}->getVar('cid'), \$categories)) {
+	\$categories = {$moduleDirname}GetMyItemIds('{$moduleDirname}_view', '{$moduleDirname}');
+	if(!in_array(\$view_{$tableName}->getVar('cid'), \$categories)) {
 		redirect_header(XOOPS_URL, 2, _NOPERM);
 		exit();
 	}
-	//redirect if there aren't permission (download)
-	if (\$xoopsModuleConfig['permission_download'] == 2) {
-		\$item = {$stuModuleName}_MygetItemIds('{$stuModuleName}_download_item', '{$stuModuleName}');
-		if(!in_array(\$view_{$stuModuleName}->getVar('lid'), \$item)) {
-			redirect_header('single.php?lid=' . \$view_{$stuModuleName}->getVar('lid'), 2, {$language}SINGLE_NOPERM);
+	//redirect if there aren't permission ({$tableSoleName})
+	if (\$xoopsModuleConfig['permission_{$tableSoleName}'] == 2) {
+		\$item = {$moduleDirname}GetMyItemIds('{$moduleDirname}_{$tableSoleName}_item', '{$moduleDirname}');
+		if(!in_array(\$view_{$tableName}->getVar('{$fieldId}'), \$item)) {
+			redirect_header('single.php?{$fieldId}=' . \$view_{$tableName}->getVar('{$fieldId}'), 2, {$language}SINGLE_NOPERM);
 			exit();
 		}
 	}else{
-		\$categories = {$stuModuleName}_MygetItemIds('{$stuModuleName}_download', '{$stuModuleName}');
-		if(!in_array(\$view_{$stuModuleName}->getVar('cid'), \$categories)) {
-			redirect_header('single.php?lid=' . \$view_{$stuModuleName}->getVar('lid'), 2, {$language}SINGLE_NOPERM);
+		\$categories = {$moduleDirname}GetMyItemIds('{$moduleDirname}_{$tableSoleName}', '{$moduleDirname}');
+		if(!in_array(\$view_{$tableName}->getVar('cid'), \$categories)) {
+			redirect_header('single.php?{$fieldId}=' . \$view_{$tableName}->getVar('{$fieldId}'), 2, {$language}SINGLE_NOPERM);
 			exit();
 		}
 	}
@@ -234,10 +236,11 @@ EOT;
         $tableId       = $table->getVar('table_id');
 		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
+		$tableSoleName = $table->getVar('table_solename');
 		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisitHeader($moduleDirname, $tableName, $language);
+        $content .= $this->getUserVisitHeader($moduleDirname, $tableName, $tableSoleName, $fields, $language);
         $content .= $this->getUserVisitForm($module, $tableName, $language);
         $content .= $this->getUserVisitSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserVisitFooter();

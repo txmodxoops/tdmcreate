@@ -32,7 +32,7 @@ if(!function_exists('application_autoloader')) {
 		$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
 		if(!is_dir($cachePath)){
 			mkdir($cachePath, 0777);
-            chmod($cachePath, 0777);
+            chmod($cachePath, 0777);			
 		}
 		$pathCache = (file_exists($cacheFile = $cachePath . '/classpaths.cache' )) ? unserialize(file_get_contents($cacheFile)) : array();
 		if (!is_array($pathCache)) { $pathCache = array(); }

@@ -117,6 +117,14 @@ EOT;
             }
         }
         $content .= <<<EOT
+// Permission
+include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
+\$gperm_handler =& xoops_gethandler('groupperm');
+if (is_object(\$xoopsUser)) {
+    \$groups = \$xoopsUser->getGroups();
+} else {
+    \$groups = XOOPS_GROUP_ANONYMOUS;
+}
 //
 \$myts  =& MyTextSanitizer::getInstance();
 \$style = {$stuModuleDirname}_URL . '/assets/css/style.css';

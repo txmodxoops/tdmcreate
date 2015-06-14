@@ -513,9 +513,10 @@ EOT;
         $ret    = <<<EOT
 // ------------------- Submenu ------------------- //\n
 EOT;
-        $i      = 1;
+        $i      = 0;
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName     = $tables[$t]->getVar('table_name');
+			$tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= <<<EOT
 // Sub {$tableName}
@@ -525,7 +526,14 @@ EOT;
             }
             ++$i;
         }
-        unset($i);
+		if(in_array(1, $tableSubmit)){
+		$ret .= <<<EOT
+// Sub Submit
+\$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};
+\$modversion['sub'][{$i}]['url'] = "submit.php";\n
+EOT;
+        }
+		unset($i);
 		$ret .= <<<EOT
 \n
 EOT;

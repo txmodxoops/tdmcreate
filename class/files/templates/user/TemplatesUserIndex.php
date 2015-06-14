@@ -155,7 +155,7 @@ EOT;
     <table class="table table-<{\$type}>">
 		<thead>
 			<tr>
-				<th><{\$smarty.const.{$language}{$stuTableName}_TITLE}></th>
+				<th><{\$smarty.const.{$language}{$stuTableName}}></th>
 			</tr>
 		</thead>
 		<tbody>

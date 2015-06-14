@@ -22,9 +22,13 @@ include __DIR__ . '/header.php';
 $op        = XoopsRequest::getString('op', 'default');
 $mid       = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
+$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
 // Clear cache
-if (file_exists($cache = XOOPS_VAR_PATH . '/caches/tdmcreate_cache/classpaths.cache')) {
+if (file_exists($cache = $cachePath . '/classpaths.cache')) {
 	unlink($cache);
+}
+if(!file_exists($indexFile = $cachePath.'/index.html')){
+	copy('index.html', $indexFile);
 }
 // Switch option
 switch ($op) {

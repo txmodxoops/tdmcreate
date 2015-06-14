@@ -156,14 +156,18 @@ class LanguageModinfo extends LanguageDefines
     private function getLanguageSubmenu($language, $tables)
     {
         $ret = $this->defines->getAboveDefines('Submenu');
-        $i   = 1;
+        $i   = 0;
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName     = $tables[$t]->getVar('table_name');
+			$tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= $this->defines->getDefine($language, "SMNAME{$i}", "{$tableName}");
             }
             ++$i;
         }
+		if(in_array(1, $tableSubmit)){	
+			$ret .= $this->defines->getDefine($language, "SMNAME{$i}", "Submit");
+		}
         unset($i);
 
         return $ret;
@@ -262,9 +266,11 @@ class LanguageModinfo extends LanguageDefines
         $ret .= $this->defines->getDefine($language, "ADVERTISE", "Advertisement Code");
         $ret .= $this->defines->getDefine($language, "ADVERTISE_DESC", "Insert here the advertisement code");
         $ret .= $this->defines->getDefine($language, "BOOKMARKS", "Social Bookmarks");
-        $ret .= $this->defines->getDefine($language, "BOOKMARKS_DESC", "Show Social Bookmarks in the form");
-        $ret .= $this->defines->getDefine($language, "FBCOMMENTS", "Facebook comments");
-        $ret .= $this->defines->getDefine($language, "FBCOMMENTS_DESC", "Allow Facebook comments in the form");
+        $ret .= $this->defines->getDefine($language, "BOOKMARKS_DESC", "Show Social Bookmarks in the single page");
+        $ret .= $this->defines->getDefine($language, "FACEBOOK_COMMENTS", "Facebook comments");
+        $ret .= $this->defines->getDefine($language, "FACEBOOK_COMMENTS_DESC", "Allow Facebook comments in the single page");
+		$ret .= $this->defines->getDefine($language, "DISQUS_COMMENTS", "Disqus comments");
+        $ret .= $this->defines->getDefine($language, "DISQUS_COMMENTS_DESC", "Allow Disqus comments in the single page");
 
         return $ret;
     }

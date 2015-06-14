@@ -34,7 +34,8 @@ class IncludeUpdate extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -110,8 +111,8 @@ EOT;
 
     /*
     *  @private function getIncludeUpdateVersion
-    *  @param string \$moduleDirname
-    *  @param mixed \$moduleVersion
+    *  @param string $moduleDirname
+    *  @param mixed $moduleVersion
     */
     /**
      * @param $moduleDirname

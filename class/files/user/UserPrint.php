@@ -111,46 +111,46 @@ class UserPrint extends TDMCreateFile
         $stuLpFieldName = strtoupper($lpFieldName);
         $ret               = <<<EOT
 \ninclude  __DIR__ . '/header.php';
-{$lpFieldName} = isset(\$_GET['{$fieldId}']) ? (int) (\$_GET['{$fieldId}']) : 0;
+\${$lpFieldName} = isset(\$_GET['{$fieldId}']) ? (int) (\$_GET['{$fieldId}']) : 0;
 if ( empty({$fieldId}) ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
 }
 EOT;
-        if ($fieldName == $lpFieldName . '_published') {
+        if (strstr($fieldName, 'published')) {
             $ret .= <<<EOT
 // Verify that the article is published
-{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
+\${$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
 // Not yet published
-if ( {$lpFieldName}->getVar('{$lpFieldName}_published') == 0 || {$lpFieldName}->getVar('{$lpFieldName}_published') > time() ) {
+if ( \${$lpFieldName}->getVar('{$lpFieldName}_published') == 0 || \${$lpFieldName}->getVar('{$lpFieldName}_published') > time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
         }
-        if ($fieldName == 'published') {
+        if (strstr($fieldName, 'published')) {
             $ret .= <<<EOT
 // Verify that the article is published
-{$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
+\${$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
 // Not yet published
-if ( {$lpFieldName}->getVar('published') == 0 || {$lpFieldName}->getVar('published') > time() ) {
+if ( \${$lpFieldName}->getVar('published') == 0 || \${$lpFieldName}->getVar('published') > time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
         }
-        if ($fieldName == $lpFieldName . '_expired') {
+        if (strstr($fieldName, 'expired')) {
             $ret .= <<<EOT
 // Expired
-if ( {$lpFieldName}->getVar('{$lpFieldName}_expired') != 0 && {$lpFieldName}->getVar('{$lpFieldName}_expired') < time() ) {
+if ( \${$lpFieldName}->getVar('{$lpFieldName}_expired') != 0 && \${$lpFieldName}->getVar('{$lpFieldName}_expired') < time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
 EOT;
         }
-        if ($fieldName == 'expired') {
+        if (strstr($fieldName, 'expired')) {
             $ret .= <<<EOT
 // Expired
-if ( {$lpFieldName}->getVar('expired') != 0 && {$lpFieldName}->getVar('expired') < time() ) {
+if ( \${$lpFieldName}->getVar('expired') != 0 && {$lpFieldName}->getVar('expired') < time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
@@ -159,12 +159,6 @@ EOT;
         $ret .= <<<EOT
 
 // Verify permissions
-\$gperm_handler =& xoops_gethandler('groupperm');
-if (is_object(\$xoopsUser)) {
-    \$groups = \$xoopsUser->getGroups();
-} else {
-    \$groups = XOOPS_GROUP_ANONYMOUS;
-}
 if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lpFieldName}->getVat('{$fieldId}'), \$groups, \$xoopsModule->getVar('mid'))) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 3, _NOPERM);
     exit();
