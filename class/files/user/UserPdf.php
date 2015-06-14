@@ -84,26 +84,17 @@ class UserPdf extends UserObjects
      */
     public function getUserPdfHeader($moduleDirname, $table, $language)
     {
-        $ret = <<<EOT
+        
+		$ret = <<<EOT
 include  __DIR__ . '/header.php';
+\$story_id = XoopsRequest::getInt('id');
 // Initialize content handler
 \$story_handler = xoops_getmodulehandler('story', \$dirname);
 \$topic_handler = xoops_getmodulehandler('topic', \$dirname);
 
-if(isset(\$_REQUEST['id'])) {
-	\$story_id = NewsUtils::News_CleanVars ( \$_REQUEST, 'id', 0, 'int' );
-} else {
-	\$story_alias = NewsUtils::News_CleanVars ( \$_REQUEST, 'story', 0, 'string' );
-	if(\$story_alias) {
-		\$story_id = \$story_handler->News_GetId(\$story_alias);
-	}
-}
-
-// Deprecate
-\$myts =& MyTextSanitizer::getInstance();
 // Include pdf library
-require_once XOOPS_ROOT_PATH . '/modules/news/fpdf/fpdf.inc.php';
-\$obj = \$story_handler->get(\$story_id);
+require_once XOOPS_ROOT_PATH . '/Frameworks/tcpdf/tcpdf.php';
+\$obj = \${$tableName}Handler->get(\$story_id);
 // Get user right
 \$group = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
 \$groups = explode(" ", \$obj->getVar('story_groups'));
@@ -272,8 +263,9 @@ if (\$pdf_data['subsubtitle'] != '') {
 \$pdf->SetFont(\$pdf_config['font']['content']['family'], \$pdf_config['font']['content']['style'], \$pdf_config['font']['content']['size']);
 \$pdf->WriteHTML(\$pdf_data['content'], \$pdf_config['scale']);
 
-\$pdf->Output();
-*/\n
+
+\$GLOBALS['xoopsTpl']->assign('pdfoutput', \$pdf->Output());
+\$GLOBALS['xoopsTpl']->display('db:{$moduleDirname}_pdf.tpl');\n
 EOT;
 
         return $ret;
@@ -314,7 +306,7 @@ EOT;
 		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserPdfHeader($moduleDirname);
+        $content .= $this->getUserPdfHeader($moduleDirname, $table, $language);
         $content .= $this->getUserPdfTcpdf($module, $tableName, $language);
         //$content .= $this->getUserPdfFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

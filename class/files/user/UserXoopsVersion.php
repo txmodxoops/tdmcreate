@@ -155,60 +155,72 @@ EOT;
 	 
      * @return string
      */
-    private function getModVersionArray($array = 1, $left, $desc = '', $index = null, $right = null, $n = '\n')
+    private function getModVersionArray($array = 1, $left, $desc = '', $index = null, $right = null, $arrayOptions)
     {
 		if(!is_string($desc)) {
 			if($array == 1) {
 				$ret = <<<EOT
-\$modversion['{$left}'] = {$desc};{$n}
+\$modversion['{$left}'] = {$desc};\n
 EOT;
 			}	
 			if($array == 2 && $index == 'empty') {
 				$ret = <<<EOT
-\$modversion['{$left}'][] = {$desc};{$n}
+\$modversion['{$left}'][] = {$desc};\n
 EOT;
 			}
 			if($array == 2 && !is_string($index)) {
 				$ret = <<<EOT
-\$modversion['{$left}'][{$index}] = {$desc};{$n}
+\$modversion['{$left}'][{$index}] = {$desc};\n
 EOT;
 			}
 			if($array == 2 && is_string($index)) {
 				$ret = <<<EOT
-\$modversion['{$left}']['{$index}'] = {$desc};{$n}
+\$modversion['{$left}']['{$index}'] = {$desc};\n
 EOT;
 			}
 			if($array == 3) {
 				$ret = <<<EOT
-\$modversion['{$left}'][{$index}][{$right}] = {$desc};{$n}
+\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n
+EOT;
+			}
+			if(($array == 4) && !empty($arrayOptions)) {
+				$ret = <<<EOT
+\$modversion['{$left}'][{$index}][{$right}] = {$desc};
+\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n
 EOT;
 			}
 		} else {
 			if($array == 1) {
 				$ret = <<<EOT
-\$modversion['{$left}'] = "{$desc}";{$n}
+\$modversion['{$left}'] = "{$desc}";\n
 EOT;
 			}	
 			if($array == 2 && $index == 'empty') {
 				$ret = <<<EOT
-\$modversion['{$left}'][] = "{$desc}";{$n}
+\$modversion['{$left}'][] = "{$desc}";\n
 EOT;
 			}
 			if($array == 2 && !is_string($index)) {
 				$ret = <<<EOT
-\$modversion['{$left}'][{$index}] = "{$desc}";{$n}
+\$modversion['{$left}'][{$index}] = "{$desc}";\n
 EOT;
 			}
 			if($array == 2 && is_string($index)) {
 				$ret = <<<EOT
-\$modversion['{$left}']['{$index}'] = "{$desc}";{$n}
+\$modversion['{$left}']['{$index}'] = "{$desc}";\n
 EOT;
 			}
 			if($array == 3) {
 				$ret = <<<EOT
-\$modversion['{$left}'][{$index}][{$right}] = "{$desc}";{$n}
+\$modversion['{$left}'][{$index}][{$right}] = "{$desc}";\n
 EOT;
-			}				
+			}
+			if(($array == 4) && !empty($arrayOptions)) {
+				$ret = <<<EOT
+\$modversion['{$left}'][{$index}][{$right}] = "{$desc}";
+\$modversion['{$left}'][{$index}][{$right}] = "{$arrayOptions}";\n
+EOT;
+			}
 		}
 		
 		return $ret;
@@ -459,8 +471,8 @@ EOT;
      */
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
-        $table  = $this->getTable(); 
-		$ret    = <<<EOT
+        $table = $this->getTable(); 
+		$ret   = <<<EOT
 // User\n
 EOT;
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header');

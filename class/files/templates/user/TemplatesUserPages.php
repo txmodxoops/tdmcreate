@@ -105,7 +105,8 @@ EOT;
         $tableName = $table->getVar('table_name');
 		$ret = <<<EOT
 <{if count(\${$tableName}) gt 0}>
-    <table class="table table-<{\$type}> table-responsive">\n
+<div class="table-responsive">
+    <table class="table table-<{\$type}>">\n
 EOT;
         
         return $ret;
@@ -147,18 +148,18 @@ EOT;
      */
     private function getTemplatesUserPagesTbody($moduleDirname, $table, $language)
     {
-        $tableName      = $table->getVar('table_name');
-		$tableFieldName = $table->getVar('table_fieldname');
-        $ret       		= <<<EOT
+        $tableName     = $table->getVar('table_name');
+		$tableSoleName = $table->getVar('table_solename');
+        $ret       	   = <<<EOT
 		<tbody>
 			<tr>
-			<{foreach item={$tableFieldName} from=\${$tableName}}>
+			<{foreach item={$tableSoleName} from=\${$tableName}}>
 				<td>
 					<div class="panel panel-default">
-						<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" list=\${$tableFieldName}}>
+						<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" list=\${$tableSoleName}}>
 					</div>
 				</td>
-				<{if \${$tableFieldName}.count eq \$divideby}>
+				<{if \${$tableSoleName}.count eq \$divideby}>
 				</tr><tr>
 				<{/if}>
 			<{/foreach}>
@@ -207,6 +208,7 @@ EOT;
     {
         $ret = <<<EOT
 	</table>
+</div>
 <{/if}>\n
 EOT;
 
