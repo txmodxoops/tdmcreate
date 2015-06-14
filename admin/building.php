@@ -23,7 +23,7 @@ $op        = XoopsRequest::getString('op', 'default');
 $mid       = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
 // Clear cache
-if (file_exists($cache = XOOPS_VAR_PATH . '/caches/tdmcreate/classpaths.cache')) {
+if (file_exists($cache = XOOPS_VAR_PATH . '/caches/tdmcreate_cache/classpaths.cache')) {
 	unlink($cache);
 }
 // Switch option

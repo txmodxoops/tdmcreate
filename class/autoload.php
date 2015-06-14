@@ -29,7 +29,7 @@ error_reporting(E_ALL|E_STRICT);
 if(!function_exists('application_autoloader')) {
 	function application_autoloader($class) {
 		$classFilename = $class.'.php';
-		$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate';
+		$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
 		if(!is_dir($cachePath)){
 			mkdir($cachePath, 0777);
             chmod($cachePath, 0777);
