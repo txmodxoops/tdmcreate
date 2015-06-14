@@ -102,7 +102,7 @@ tbody {
 }
 
 tr {
-   font-family: Verdana, Tahoma;
+   font-family: verdana, tahoma, sans-serif;
 }
 
 td {

@@ -93,7 +93,7 @@ function xoops_module_update_{$moduleDirname}(&\$module, \$prev_version = null)
     // irmtfan bug fix: solve templates duplicate issue
     \$ret = null;
     if (\$prev_version < {$moduleVersion}) {
-        \$ret = update_system_v{$moduleVersion}(\$module);
+        \$ret = update_{$moduleDirname}_v{$moduleVersion}(\$module);
     }
     \$errors = \$module->getErrors();
     if (!empty(\$errors)) {
@@ -110,8 +110,8 @@ EOT;
 
     /*
     *  @private function getIncludeUpdateVersion
-    *  @param string $moduleDirname
-    *  @param mixed $moduleVersion
+    *  @param string \$moduleDirname
+    *  @param mixed \$moduleVersion
     */
     /**
      * @param $moduleDirname
