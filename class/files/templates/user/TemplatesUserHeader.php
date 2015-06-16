@@ -84,7 +84,7 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
     public function getTemplatesUserHeaderTop($moduleDirname)
     {       
         $ret = <<<EOT
-<{includeq file="db:xmodules_breadcrumbs.tpl"}>
+<{includeq file="db:{$moduleDirname}_breadcrumbs.tpl"}>
 <{if \$adv != ''}>
     <div class="center"><{\$adv}></div>
 <{/if}>\n
