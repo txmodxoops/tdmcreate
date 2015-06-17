@@ -7,7 +7,7 @@
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
 
 > **Note:** This repository contains the code of the TDMCreate 1.91
-It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Txmod Xoops Web Site](http://www.txmodxoops.org), and visit the main discussion form at [XOOPS Web Site](http://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
+It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Txmod Xoops Web Site](http://www.txmodxoops.org), and visit the main discussion forum at [XOOPS Web Site](http://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
 
 Clear version
 
