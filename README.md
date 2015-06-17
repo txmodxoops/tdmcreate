@@ -14,7 +14,12 @@ Clear version
 Needed xoops 2.5.7.1, PHP 5.3 or high
 
 # Adding
- - Added table_solename field in tables
+ - Added: table_solename field in tables
+ - Added: table_install field in tables
+ - Added: table_index field in tables
+ - Added: filed_thead field in fields
+ - Added: filed_tbody field in fields
+ - Added: filed_tfoot field in fields
 
 # Info
 TDMCreate is a module that create other basic modules for CMS Xoops.
