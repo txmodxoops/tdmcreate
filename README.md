@@ -13,8 +13,10 @@ Clear version
 
 Needed xoops 2.5.7.1, PHP 5.3 or high
 
-Added table_solename field in tables
+# Adding
+ - Added table_solename field in tables
 
+# Info
 TDMCreate is a module that create other basic modules for CMS Xoops.
 
 Tested with xoops 2.5.7 and 2.5.7.1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
