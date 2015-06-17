@@ -5,18 +5,7 @@ php:
   - 5.4
   - 5.5
 
-before_install:
-  - 
-  
-install:
-  - 
-  
-before_script:
-  - mysql -e 'create database'
-
 script:
   - jquery
   - bootstrap
-
-after_script:
-  - 
+  - php
