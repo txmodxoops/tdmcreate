@@ -6,18 +6,18 @@ php:
   - 5.5
 
 before_install:
-  - 
+  - docs/install.txt
 
 install:
-  - 
+  - regular module admin system
 
 before_script:
   - mysql -e 'create database'
-  - php console/console.php ci-bootstrap
-  - php console/console.php ci-install
+  - bootstrap
 
 script:
-  - 
+  - jquery
+  - bootstrap
 
 after_script:
   - 
