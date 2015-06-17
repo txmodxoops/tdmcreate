@@ -13,7 +13,6 @@ install:
 
 before_script:
   - mysql -e 'create database'
-  - bootstrap
 
 script:
   - jquery
