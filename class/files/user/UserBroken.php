@@ -82,18 +82,20 @@ class UserBroken extends UserObjects
      * @param $moduleDirname
      * @return string
      */
-    public function getUserBrokenHeader($moduleDirname)
+    public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $ret = <<<EOT
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+		$ret = <<<EOT
 include  __DIR__ . '/header.php';
-\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'list', 'string');
+\$op = XoopsRequest::getString('op', 'list');
+\${$fieldId} = XoopsRequest::getInt('{$fieldId}');
 // Template
 \$xoopsOption['template_main'] = '{$moduleDirname}_broken.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
 \$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-//On recupere la valeur de l'argument op dans l'URL$
+
 // redirection if not permissions
-if (\$perm_submit == false) {
+if (\$permSubmit == false) {
     redirect_header('index.php', 2, _NOPERM);
     exit();
 }
@@ -163,18 +165,27 @@ EOT;
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
            redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset(\$_REQUEST['{$fieldId}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
-        } else {
-           \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
+        \${$tableName}Obj =& \${$tableName}Handler->create();
+		\$error = false;
+        \$errorMessage = '';
+        // Test first the validation
+        xoops_load("captcha");
+        \$xoopsCaptcha = XoopsCaptcha::getInstance();
+        if ( !\$xoopsCaptcha->verify() ) {
+            \$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';
+            \$error = true;
+        }\n
 EOT;
 		$ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('index.php', 2, {$language}FORMOK);
-        }
-
+        
+        if (\$error == true){
+            \$xoopsTpl->assign('error_message', \$errorMessage);
+        } else {
+			if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
+				redirect_header('index.php', 2, {$language}FORM_OK);
+			}
+		}
         echo \${$tableName}Obj->getHtmlErrors();
         \$form =& \${$tableName}Obj->getForm();
         \$form->display();
@@ -219,7 +230,7 @@ EOT;
 		$fields        = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserBrokenHeader($moduleDirname);
+        $content .= $this->getUserBrokenHeader($moduleDirname, $fields);
         $content .= $this->getUserBrokenForm($module, $tableName, $language);
         $content .= $this->getUserBrokenSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserBrokenFooter();

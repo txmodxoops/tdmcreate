@@ -125,6 +125,21 @@ ul.menu > li {
    list-style-type: none;
    padding: 0 5px 0 5px;
 }
+
+span.block-pie {
+	float:left;
+	padding:2px 8px 2px 8px;
+	border-right:1px solid #444;
+}
+
+span.block-pie:first-child {
+	padding:2px 8px 2px 0;
+}
+
+span.block-pie:last-child {
+	padding: 2px 0 2px 8px;
+	border:none;
+}
 EOT;
         $this->tdmcfile->create($moduleDirname, 'assets/css', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

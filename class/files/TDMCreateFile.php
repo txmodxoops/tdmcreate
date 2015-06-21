@@ -140,7 +140,22 @@ class TDMCreateFile extends TDMCreateTableFields
         if (isset($subdir) && is_string($subdir)) {
             $this->setSubDir($subdir);
         }
-    }    
+    }
+	
+	/*
+    *  @public function write
+    *  @param string $module
+    *  @param string $fileName
+    */
+    /**
+     * @param $module
+     * @param $fileName
+     */
+    public function write($module, $fileName)
+    {
+        $this->setModule($module);
+        $this->setFileName($fileName);
+    }
 
     /*
     *  @private function setRepositoryPath
@@ -457,6 +472,23 @@ class TDMCreateFile extends TDMCreateTableFields
     public function getStrToLower($string)
     {
         return strtolower($string);
+    }
+	
+	/*
+     *  @public function getCommentLine
+     *  @param $string
+     */
+    /**
+     * @param $string
+     * @return string
+     */
+    public function getCommentLine($string)
+    {
+        $ret = <<<EOT
+// {$string}\n
+EOT;
+		
+		return $ret;
     }
 
     /*

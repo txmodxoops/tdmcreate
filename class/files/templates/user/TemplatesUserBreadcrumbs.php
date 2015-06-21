@@ -34,7 +34,9 @@ class TemplatesUserBreadcrumbs extends TDMCreateHtmlSmartyCodes
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+		$this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -83,19 +85,21 @@ class TemplatesUserBreadcrumbs extends TDMCreateHtmlSmartyCodes
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = <<<EOT
-<ul class="breadcrumb">
-	<li><a href="<{xoAppUrl index.php}>" title="home"><i class="glyphicon glyphicon-home"></i></a></li>
-	<{foreach item=itm from=\$xoBreadcrumbs name=bcloop}>
-		<{if \$itm.link}>
-			<li><a href="<{\$itm.link}>" title="<{\$itm.title}>"><{\$itm.title}></a></li>
-		<{else}>
-			<li><{\$itm.title}></li>
-		<{/if}>
-	<{/foreach}>
-</ul>
-EOT;
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        //
+		$title    = $this->htmlcode->getSmartyDoubleVar('itm', 'title');
+		$link     = $this->htmlcode->getSmartyDoubleVar('itm', 'link');
+        $intoElse = $this->htmlcode->getHtmlLi($title);
+		$anchorIf = $this->htmlcode->getHtmlAnchor($link, $title, $title);
+		$intoIf   = $this->htmlcode->getHtmlLi($anchorIf);
+		$ifelse   = $this->htmlcode->getSmartyConditions('itm.link', '', '', $intoIf, $intoElse);
+		$glyph    = $this->htmlcode->getHtmlI('', 'glyphicon glyphicon-home');
+		$anchor   = $this->htmlcode->getHtmlAnchor("<{xoAppUrl index.php}>", $glyph, 'home');
+		$into 	  = $this->htmlcode->getHtmlLi($anchor).PHP_EOL;
+		$into     .= $this->htmlcode->getSmartyForeach('itm', 'xoBreadcrumbs', $ifelse, 'bcloop');		
+		
+		$content = $this->htmlcode->getHtmlUl($into, 'breadcrumb');
+		
+		$this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

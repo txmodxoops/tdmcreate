@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: TemplatesUserPages.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TemplatesUserCategories.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserPages
+ * Class TemplatesUserCategories
  */
-class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
+class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -44,7 +44,7 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
     *  @param null
     */
     /**
-     * @return TemplatesUserPages
+     * @return TemplatesUserCategories
      */
     public static function &getInstance()
     {
@@ -73,49 +73,55 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserPagesHeader
+    *  @private function getTemplatesUserCategoriesHeader
     *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
     */
     /**
      * @param $moduleDirname
+     * @param $table
+     * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesHeader($moduleDirname)
+    private function getTemplatesUserCategoriesHeader($moduleDirname)
     {
-        $ret = $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
+        $ret    = <<<EOT
+<{include file="db:{$moduleDirname}_header.tpl"}>\n
+EOT;
 
         return $ret;
     }
 
     /*
-    *  @private function getTemplatesUserPagesStartTable
+    *  @private function getTemplatesUserCategoriesStartTable
     *  @param string $language
     */
     /**
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesStartTable($table)
+    private function getTemplatesUserCategoriesStartTable($table)
     {
         $tableName = $table->getVar('table_name');
 		$ret = <<<EOT
 <{if count(\${$tableName}) gt 0}>
 <div class="table-responsive">
-    <table class="table table-<{\$type}>">\n
+    <table class="table table-<{\$table_type}>">\n
 EOT;
         
         return $ret;
     }
 	
 	/*
-    *  @private function getTemplatesUserPagesThead
+    *  @private function getTemplatesUserCategoriesThead
     *  @param string $language
     */
     /**
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesThead($table, $language)
+    private function getTemplatesUserCategoriesThead($table, $language)
     {
         $tableName    = $table->getVar('table_name');
 		$stuTableName = strtoupper($tableName);
@@ -130,7 +136,7 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesUserPagesTbody
+    *  @private function getTemplatesUserCategoriesTbody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -141,18 +147,18 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSolename, $language)
     {
         $ret = <<<EOT
 		<tbody>
 			<tr>
 			<{foreach item={$tableSolename} from=\${$tableName}}>
 				<td>
-					<div class="panel panel-default">
+					<div class="panel panel-<{\$panel_type}>">
 						<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSolename}=\${$tableSolename}}>
 					</div>
 				</td>
-				<{if \${$tableSolename}.count is div by \$divideby}>
+				<{if \${$tableSolename}.count eq \$divideby}>
 				</tr><tr>
 				<{/if}>
 			<{/foreach}>
@@ -164,7 +170,7 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesUserPagesTfoot
+    *  @private function getTemplatesUserCategoriesTfoot
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -175,7 +181,7 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesTfoot($table, $language)
+    private function getTemplatesUserCategoriesTfoot($table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -190,14 +196,14 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesUserPagesEndTable
+    *  @private function getTemplatesUserCategoriesEndTable
     *  @param null
     */
     /**
      * @param null
      * @return string
      */
-    private function getTemplatesUserPagesEndTable()
+    private function getTemplatesUserCategoriesEndTable()
     {
         $ret = <<<EOT
 	</table>
@@ -207,18 +213,54 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @private function getTemplatesUserCategoriesPanel
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSolename, $language)
+    {
+        $stuTableName = strtoupper($tableName);
+		$ret          = <<<EOT
+<div class="panel panel-<{\$panel_type}>">	
+	<div class="panel-heading"><{\$smarty.const.{$language}{$stuTableName}_TITLE}></div>	
+		<{foreach item={$tableSolename} from=\${$tableName}}>
+			<div class="panel panel-body">
+				<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSolename}=\${$tableSolename}}>							
+				<{if \${$tableSolename}.count is div by \$numb_col}>
+					<br />
+				<{/if}>
+			</div>
+		<{/foreach}>
+</div>\n
+EOT;
+
+        return $ret;
+    }
 
     /*
-    *  @private function getTemplatesUserPagesFooter
+    *  @private function getTemplatesUserCategoriesFooter
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
      * @return string
      */
-    private function getTemplatesUserPagesFooter($moduleDirname)
+    private function getTemplatesUserCategoriesFooter($moduleDirname)
     {
-        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
+        $ret = <<<EOT
+<{include file="db:{$moduleDirname}_footer.tpl"}>
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -234,17 +276,18 @@ EOT;
         $module         = $this->getModule();
         $table          = $this->getTable();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');
-		$tableSolename  = $table->getVar('table_solename');
+		$tableName      = $table->getVar('table_name');
+        $tableSolename  = $table->getVar('table_solename');
 		$tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserPagesHeader($moduleDirname);
-		$content .= $this->getTemplatesUserPagesStartTable($table);
-		$content .= $this->getTemplatesUserPagesThead($table, $language);
-        $content .= $this->getTemplatesUserPagesTbody($moduleDirname, $tableName, $tableSolename, $language);
-        $content .= $this->getTemplatesUserPagesTfoot($table, $language);
-		$content .= $this->getTemplatesUserPagesEndTable();
-		$content .= $this->getTemplatesUserPagesFooter($moduleDirname);
+        $content        = $this->getTemplatesUserCategoriesHeader($moduleDirname);
+		$content .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSolename, $language);
+		/*$content .= $this->getTemplatesUserCategoriesStartTable($table);
+		$content .= $this->getTemplatesUserCategoriesThead($table, $language);
+        $content .= $this->getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSolename, $language);
+		$content .= $this->getTemplatesUserCategoriesTfoot($table, $language);
+		$content .= $this->getTemplatesUserCategoriesEndTable();*/
+		$content .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

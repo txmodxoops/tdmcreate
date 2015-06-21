@@ -167,17 +167,37 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             // Verify if table_fieldname is not empty
-            $lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            //$lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
+            $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
+			$fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_block')) {
-				if (1 == $fields[$f]->getVar('field_main')) {
-					$ret .= <<<EOT
+				switch($fieldElement) {
+					case 2:
+						$ret .= <<<EOT
         \$block[\$i]['{$rpFieldName}'] = \$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-				} else {
-                $ret .= <<<EOT
+						break;
+					case 3:
+					case 4:
+						$ret .= <<<EOT
+		\$block[\$i]['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+EOT;
+						break;
+					case 8:
+					$ret .= <<<EOT
+		\$block[\$i]['{$rpFieldName}'] = XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+EOT;
+						break;
+					case 15:
+					$ret .= <<<EOT
+		\$block[\$i]['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+EOT;
+						break;
+					default:
+						$ret .= <<<EOT
         \$block[\$i]['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
+						break;
 				}
 			}
         }

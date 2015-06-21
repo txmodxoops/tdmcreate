@@ -49,7 +49,6 @@ class TDMCreateFields extends XoopsObject
 		'tbody',
         'tfoot',
         'block',
-        'main',
         'search',
         'required'
     );
@@ -566,9 +565,6 @@ class TDMCreateFields extends XoopsObject
 		}        
 		if ($this->getVar('field_block') == 1) {
 			array_push($ret, 'block');
-		}        
-		if ($this->getVar('field_main') == 1) {
-			array_push($ret, 'main');
 		}        
 		if ($this->getVar('field_search') == 1) {
 			array_push($ret, 'search');

@@ -16,7 +16,7 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: TDMCreateHelper.php 12258 2014-04-12 23:45:12Z timgno $
+ * @version         $Id: helper.php 12258 2014-04-12 23:45:12Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 

@@ -189,7 +189,7 @@ switch ($op) {
         break;
 
     case 'display':        		
-		$id = tdmcreate_CleanVars($_POST, 'mod_id', 0, 'int');
+		$id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);
 			if (isset($_POST['mod_admin'])) {

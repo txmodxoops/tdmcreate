@@ -75,57 +75,6 @@ class UserVisit extends UserObjects
     }
 
     /*
-    *  @public function getUserVisitHeader
-    *  @param null
-    */
-    /**
-     * @param $moduleDirname
-     * @return string
-     */
-    public function getUserVisitHeader($moduleDirname, $tableName, $tableSoleName, $fields, $language)
-    {
-        $stuModuleName = strtoupper($moduleDirname);
-		$fieldId       = $this->userobjects->getUserSaveFieldId($fields);
-		$ccFieldId     = $this->tdmcfile->getCamelCase($fieldId, false, true);
-		$ret 		   = <<<EOT
-include  __DIR__ . '/header.php';
-\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
-\$cid = XoopsRequest::getInt('cid');
-
-if(!isset(\$_GET['return'])) {
-	// redirect if there aren't {$tableSoleName}
-	\$view_{$tableName} = \${$moduleDirname}_Handler->get(\${$ccFieldId});
-	if (count(\$view_{$tableName}) == 0){
-		redirect_header('index.php', 3, {$language}SINGLE_NONEXISTENT);
-		exit();
-	}
-	//redirect if there aren't permission (cat)
-	\$categories = {$moduleDirname}GetMyItemIds('{$moduleDirname}_view', '{$moduleDirname}');
-	if(!in_array(\$view_{$tableName}->getVar('cid'), \$categories)) {
-		redirect_header(XOOPS_URL, 2, _NOPERM);
-		exit();
-	}
-	//redirect if there aren't permission ({$tableSoleName})
-	if (\$xoopsModuleConfig['permission_{$tableSoleName}'] == 2) {
-		\$item = {$moduleDirname}GetMyItemIds('{$moduleDirname}_{$tableSoleName}_item', '{$moduleDirname}');
-		if(!in_array(\$view_{$tableName}->getVar('{$fieldId}'), \$item)) {
-			redirect_header('single.php?{$fieldId}=' . \$view_{$tableName}->getVar('{$fieldId}'), 2, {$language}SINGLE_NOPERM);
-			exit();
-		}
-	}else{
-		\$categories = {$moduleDirname}GetMyItemIds('{$moduleDirname}_{$tableSoleName}', '{$moduleDirname}');
-		if(!in_array(\$view_{$tableName}->getVar('cid'), \$categories)) {
-			redirect_header('single.php?{$fieldId}=' . \$view_{$tableName}->getVar('{$fieldId}'), 2, {$language}SINGLE_NOPERM);
-			exit();
-		}
-	}
-}
-EOT;
-
-        return $ret;
-    }
-
-    /*
     *  @public function getAdminPagesList
     *  @param string $tableName
     *  @param string $language
@@ -136,90 +85,38 @@ EOT;
      * @param $language
      * @return string
      */
-    public function getUserVisitForm($module, $tableName, $language)
+    public function getUserVisit($moduleDirname, $tableName, $fields, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
+        $stuModuleName = strtoupper($moduleDirname);
+		$fieldId       = $this->userobjects->getUserSaveFieldId($fields);
+		$ccFieldId     = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret           = <<<EOT
-    case 'form':
-    default:
-        //navigation
-        \$navigation = {$language}SUBMIT_PROPOSER;
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
-        // reference
-        // title of page
-        \$title = {$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
-        \$title .= \$GLOBALS['xoopsModule']->name();
-        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
-        //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT_PROPOSER));
-        // Description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
-
-        // Create
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
+include  __DIR__ . '/header.php';
+\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
+\$agree = XoopsRequest::getInt('agree', 0, 'GET');
+\$sql = sprintf("UPDATE ".\$xoopsDB->prefix('partads_pards')." SET pards_hits = pards_hits+1 WHERE {$fieldId} =\${$ccFieldId}");
+\$xoopsDB->queryF(\$sql);
+\$result = \$xoopsDB->query("SELECT pards_url FROM ".\$xoopsDB->prefix('partads_pards')." WHERE {$fieldId}=\${$ccFieldId}");
+list(\$url) = \$xoopsDB->fetchRow(\$result);
+\$url = \$myts->htmlSpecialChars(preg_replace('/javascript:/si' , 'java script:', \$url), ENT_QUOTES);
+if (!empty(\$url)) {
+	header("Cache-Control: no-store, no-cache, must-revalidate"); 
+	header("Cache-Control: post-check=0, pre-check=0", false); 
+	// HTTP/1.0
+	header("Pragma: no-cache");
+	// Date in the past
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+	// always modified
+	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+	header("Refresh: 0; url=\$url");
+} else {
+	reportBroken(\${$ccFieldId});
+}\n
 EOT;
 
         return $ret;
     }
-
-    /*
-    *  @public function getUserVisitSave
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table_id
-     * @param $tableName
-     * @return string
-     */
-    public function getUserVisitSave($moduleDirname, $fields, $tableName, $language)
-    {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-		$ret     = <<<EOT
-    case 'save':
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }
-        if (isset(\$_REQUEST['{$fieldId}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
-        } else {
-           \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
-EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
-        $ret .= <<<EOT
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('index.php', 2, {$language}FORMOK);
-        }
-
-        echo \${$tableName}Obj->getHtmlErrors();
-        \$form =& \${$tableName}Obj->getForm();
-        \$form->display();
-    break;\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getUserVisitFooter
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    public function getUserVisitFooter()
-    {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
-
-        return $ret;
-    }
-
+    
     /*
     *  @public function render
     *  @param null
@@ -236,14 +133,11 @@ EOT;
         $tableId       = $table->getVar('table_id');
 		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
-		$tableSoleName = $table->getVar('table_solename');
 		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisitHeader($moduleDirname, $tableName, $tableSoleName, $fields, $language);
-        $content .= $this->getUserVisitForm($module, $tableName, $language);
-        $content .= $this->getUserVisitSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserVisitFooter();
+        $content .= $this->getUserVisit($moduleDirname, $tableName, $fields, $language);
+		
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

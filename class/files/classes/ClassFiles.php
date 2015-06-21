@@ -337,7 +337,7 @@ EOT;
         $ret               = <<<EOT
         // Permissions
         \$memberHandler = & xoops_gethandler( 'member' );
-        \$groupList     = &\$memberHandler->getGroupList();
+        \$groupList     = \$memberHandler->getGroupList();
         \$gpermHandler  = &xoops_gethandler( 'groupperm' );
         \$fullList = array_keys( \$groupList );
         global \$xoopsModule;

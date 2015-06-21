@@ -44,12 +44,8 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('tables.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
-        $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
-        $GLOBALS['xoopsTpl']->assign('tdmc_icons_url', TDMC_ICONS_URL);
-        $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);        
-        $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgtab_url', TDMC_UPLOAD_IMGTAB_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
-        $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
+        $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Get the list of modules
 		$modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
         // Redirect if there aren't modules
@@ -267,9 +263,9 @@ switch ($op) {
         break;
 
     case 'display':
-        $modId = tdmcreate_CleanVars($_POST, 'mod_id', 0, 'int');
-        if ($modId > 0) {
-            $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
+		$mid = XoopsRequest::getInt('mod_id', 0, 'POST');
+        if ($mid > 0) {
+            $modulesObj = $tdmcreate->getHandler('modules')->get($mid);
 			if (isset($_POST['mod_admin'])) {
 				$modAdmin = $modulesObj->getVar('mod_admin');
 				$modulesObj->setVar('mod_admin', !$modAdmin);
@@ -303,10 +299,9 @@ switch ($op) {
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
-        
-		$tableId = tdmcreate_CleanVars($_POST, 'table_id', 0, 'int');
-        if ($tableId > 0) {
-            $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
+        $tid = XoopsRequest::getInt('table_id', 0, 'POST');		
+        if ($tid > 0) {
+            $tablesObj = $tdmcreate->getHandler('tables')->get($tid);
 			if (isset($_POST['table_admin'])) {
 				$tableAdmin = $tablesObj->getVar('table_admin');
 				$tablesObj->setVar('table_admin', !$tableAdmin);

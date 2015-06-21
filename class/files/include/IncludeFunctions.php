@@ -168,12 +168,21 @@ EOT;
     */
     /**
      * @param $moduleDirname
+	 * @param $tableMid
+	 * @param $tableMid
 	 * @param $tableName
      * @return string
      */
-    private function getFunctionNumbersOfEntries($moduleDirname, $tableName)
+    private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
     {
-        $ret = <<<EOT
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+		foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId = $fieldName; // fieldMain = fields parameters main field
+            }			
+        }
+		$ret = <<<EOT
 \n/**
  *  Get the number of {$tableName} from the sub categories of a category or sub topics of or topic
  */
@@ -183,11 +192,11 @@ function {$moduleDirname}NumbersOfEntries(\$mytree, \${$tableName}, \$entries, \
     if(in_array(\$cid, \${$tableName})) {
         \$child = \$mytree->getAllChild(\$cid);
         foreach (array_keys(\$entries) as \$i) {
-            if (\$entries[\$i]->getVar('cid') == \$cid){
+            if (\$entries[\$i]->getVar('{$fieldId}') == \$cid){
                 \$count++;
             }
             foreach (array_keys(\$child) as \$j) {
-                if (\$entries[\$i]->getVar('cid') == \$j){
+                if (\$entries[\$i]->getVar('{$fieldId}') == \$j){
                     \$count++;
                 }
             }
@@ -412,6 +421,8 @@ EOT;
 		$table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
+		$tableId       = $table->getVar('table_id');
+		$tableMid      = $table->getVar('table_mid');
 		$tableName     = $table->getVar('table_name');
         $content       = $this->getHeaderFilesComments($module, $filename);
         if(1 == $table->getVar('table_blocks')) {
@@ -422,7 +433,7 @@ EOT;
 			$content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
 		}
 		if(1 == $table->getVar('table_category')) {
-			$content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableName);
+			$content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName);
 		}
         $content .= $this->getFunctionMetaKeywords($moduleDirname);
         $content .= $this->getFunctionMetaDescription($moduleDirname);

@@ -166,6 +166,7 @@ EOT;
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
+		$langAbout     = $this->getLanguage($moduleDirname, 'MI', 'ABOUT');
         $menu          = 1;
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminMenuHeader();
@@ -195,14 +196,13 @@ EOT;
 ++\$i;\n
 EOT;
         }
-        ++$menu;
+		unset($menu);
         $content .= <<<EOT
-\$adminmenu[\$i]['title'] = {$language}{$menu};
+\$adminmenu[\$i]['title'] = {$langAbout};
 \$adminmenu[\$i]['link']  = 'admin/about.php';
 \$adminmenu[\$i]['icon'] = \$sysPathIcon32.'/about.png';
 unset( \$i );
 EOT;
-        unset($menu);
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -203,6 +203,30 @@ class TDMCreateStructure
     {
         $this->isDir(strtolower(trim($dir)));
     }
+	
+	/*
+    *  @protected function isDirEmpty
+    *  @param string $dir
+    */
+    /**
+     * @param $dir
+     */
+	function isDirEmpty($dir)
+	{
+		$content = array();
+		$handle = opendir($dir);
+		while (false !== ($entry = readdir($handle))) {
+			if ($entry != '.' && $entry != '..') {
+				$content[] = $entry;
+			}
+		}	 
+		closedir ($handle);
+		if(count($content) > 0)	{
+			return true;
+		} else {
+			return false;
+		}
+	}
 
     /*
     *  @public function addFolderPath

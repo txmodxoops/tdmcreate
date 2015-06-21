@@ -119,8 +119,7 @@ class LanguageModinfo extends LanguageDefines
             ++$menu;
             $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "Permissions");
         }
-        ++$menu;
-        $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "About");
+        $ret .= $this->defines->getDefine($language, "ABOUT", "About");
         unset($menu);
 
         return $ret;
@@ -156,7 +155,7 @@ class LanguageModinfo extends LanguageDefines
     private function getLanguageSubmenu($language, $tables)
     {
         $ret = $this->defines->getAboveDefines('Submenu');
-        $i   = 0;
+        $i   = 1;
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
 			$tableSubmit[] = $tables[$t]->getVar('table_submit');

@@ -16,14 +16,14 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: TemplatesUserPagesList.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TemplatesUserCategoriesList.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserPagesList
+ * Class TemplatesUserCategoriesList
  */
-class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
+class TemplatesUserCategoriesList extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -44,7 +44,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     *  @param null
     */
     /**
-     * @return TemplatesUserPagesList
+     * @return TemplatesUserCategoriesList
      */
     public static function &getInstance()
     {
@@ -73,14 +73,14 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserPagesListHeader
+    *  @private function getTemplatesUserCategoriesListHeader
     *  @param string $language
     */
     /**
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesListStartTable()
+    private function getTemplatesUserCategoriesListStartTable()
     {
         $ret = <<<EOT
 <div class="table-responsive">
@@ -91,14 +91,14 @@ EOT;
     }
 	
 	/*
-    *  @private function getTemplatesUserPagesListThead
+    *  @private function getTemplatesUserCategoriesListThead
     *  @param string $language
     */
     /**
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesListThead($table, $language)
+    private function getTemplatesUserCategoriesListThead($table, $language)
     {
         $ret = <<<EOT
 		<thead>
@@ -124,7 +124,7 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesUserPagesListTbody
+    *  @private function getTemplatesUserCategoriesListTbody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -135,7 +135,7 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesListTbody($moduleDirname, $table, $language)
+    private function getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -185,7 +185,7 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesUserPagesListTfoot
+    *  @private function getTemplatesUserCategoriesListTfoot
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -196,7 +196,7 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesListTfoot($table, $language)
+    private function getTemplatesUserCategoriesListTfoot($table, $language)
     {
         $tableName = $table->getVar('table_name');
 		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -225,14 +225,14 @@ EOT;
     }
 
     /*
-    *  @private function getTemplatesUserPagesListEndTable
+    *  @private function getTemplatesUserCategoriesListEndTable
     *  @param null
     */
     /**
      * @param null
      * @return string
      */
-    private function getTemplatesUserPagesListEndTable()
+    private function getTemplatesUserCategoriesListEndTable()
     {
         $ret = <<<EOT
 	</table>
@@ -240,10 +240,10 @@ EOT;
 EOT;
 
         return $ret;
-    }	
-		
+    }
+	
 	/*
-    *  @private function getTemplatesUserPagesListPanel
+    *  @private function getTemplatesUserCategoriesListPanel
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -254,28 +254,10 @@ EOT;
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
-		$fields  = $this->getTableFields($tableMid, $tableId);
+		$fields  = $this->getTableFields($tableMid, $tableId);		
 		$ret     = '';
-		$retNumb = '';
-		foreach (array_keys($fields) as $f) {            
-            $fieldElement = $fields[$f]->getVar('field_element');            
-			if (1 == $fields[$f]->getVar('field_user')) {
-				if (1 == $fields[$f]->getVar('field_thead')) {
-					switch ($fieldElement) {
-						default:
-						case 2:						
-							$fieldName   = $fields[$f]->getVar('field_name');
-							$rpFieldName = $this->tdmcfile->getRightString($fieldName);
-							$doubleVar   = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-							$retNumb     = $this->htmlcode->getHtmlHNumb($doubleVar, '3', 'panel-title');
-							break;
-					}
-                }
-            }
-        }
-		$ret .= $this->htmlcode->getHtmlDiv($retNumb, 'panel-heading').PHP_EOL;
 		$retElem = '';
 		foreach (array_keys($fields) as $f) {            
             $fieldElement = $fields[$f]->getVar('field_element');            
@@ -283,6 +265,12 @@ EOT;
 				if (1 == $fields[$f]->getVar('field_tbody')) {
 					switch ($fieldElement) {
 						default:
+						case 2:						
+							$fieldName   = $fields[$f]->getVar('field_name');
+							$rpFieldName = $this->tdmcfile->getRightString($fieldName);
+							$doubleVar   = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+							$retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-2').PHP_EOL;
+							break;
 						case 10:
 							$fieldName   = $fields[$f]->getVar('field_name');
 							$rpFieldName = $this->tdmcfile->getRightString($fieldName);
@@ -306,32 +294,18 @@ EOT;
 							$fieldName   = $fields[$f]->getVar('field_name');
 							$rpFieldName = $this->tdmcfile->getRightString($fieldName);
 							$doubleVar   = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-							$retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-9 justify').PHP_EOL;
+							$retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-3 justify').PHP_EOL;
 							break;
 					}
                 }
             }
         }
 		$ret .= $this->htmlcode->getHtmlDiv($retElem, 'panel-body').PHP_EOL;
-		$retFoot = '';
-        foreach (array_keys($fields) as $f) {
-			if (1 == $fields[$f]->getVar('field_user')) {
-				if (1 == $fields[$f]->getVar('field_tfoot')) {
-					$fieldName     = $fields[$f]->getVar('field_name');
-					$rpFieldName   = $this->tdmcfile->getRightString($fieldName);
-					$langConst     = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
-					$lang          = $this->htmlcode->getSmartyConst($language, $langConst);
-					$doubleVar     = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-					$retFoot .= $this->htmlcode->getHtmlSpan($lang.': '.$doubleVar, 'block-pie justify').PHP_EOL;
-				} 
-            }
-        }
-        $ret .= $this->htmlcode->getHtmlDiv($retFoot, 'panel-foot').PHP_EOL;
         
 		return $ret;
     }
-
-    /*
+	
+	/*
     *  @public function renderFile
     *  @param string $filename
     */
@@ -355,17 +329,17 @@ EOT;
 			$tableSoleName  = $tables[$t]->getVar('table_solename');
 			$tableCategory  = $tables[$t]->getVar('table_category');
 			$tableFieldname = $tables[$t]->getVar('table_fieldname');
-			$tableIndex     = $tables[$t]->getVar('table_index');			
-			if(0 == $tableCategory) {
-				$content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
-			}
+			$tableIndex     = $tables[$t]->getVar('table_index');
+			if(1 == $tableCategory) {
+				$content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+			}			
 		}
-		/*$content        = $this->getTemplatesUserPagesListStartTable();
-        $content .= $this->getTemplatesUserPagesListThead($table, $language);
-        $content .= $this->getTemplatesUserPagesListTbody($moduleDirname, $table, $language);
-        $content .= $this->getTemplatesUserPagesListTfoot($table, $language);
-        $content .= $this->getTemplatesUserPagesListEndTable();*/
-		//$content = $this->getTemplatesUserPagesListPanel($moduleDirname, $table);
+		/*$content        = $this->getTemplatesUserCategoriesListStartTable();
+        $content .= $this->getTemplatesUserCategoriesListThead($table, $language);
+        $content .= $this->getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language);
+        $content .= $this->getTemplatesUserCategoriesListTfoot($table, $language);
+        $content .= $this->getTemplatesUserCategoriesListEndTable();*/
+		//$content = $this->getTemplatesUserCategoriesListPanel($moduleDirname, $table);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -96,8 +96,8 @@ include  __DIR__ . '/header.php';
 //
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-\$start = {$moduleDirname}_CleanVars( \$_REQUEST, 'start', 0);
-\$limit = \${$moduleDirname}->getConfig('userpager');
+\$start = XoopsRequest::getInt('start', 0);
+\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );
 //
@@ -137,7 +137,7 @@ EOT;
 	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
 }
 // Breadcrumbs
-\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/{$tableName}.php', 'title' => {$language}{$stuTableName});
+\$xoBreadcrumbs[] = array('title' => {$language}{$stuTableName}); //'link' => {$stuModuleDirname}_URL . '/{$tableName}.php',
 // keywords
 {$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
 unset(\$keywords);

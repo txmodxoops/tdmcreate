@@ -42,12 +42,7 @@ switch ($op)
 		$GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
 		$adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');            
 		$GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton()); 
-		$GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
-		$GLOBALS['xoopsTpl']->assign('tdmc_icons_url', TDMC_ICONS_URL);
-		$GLOBALS['xoopsTpl']->assign('tdmc_upload_url', TDMC_UPLOAD_URL);
-		$GLOBALS['xoopsTpl']->assign('tdmc_upload_imgtab_url', TDMC_UPLOAD_IMGTAB_URL);
-		$GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
-		$GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
+		$GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
 		// Redirect if there aren't modules
 		$modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
 		if ( $modulesCount == 0 ) {

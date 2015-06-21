@@ -243,56 +243,55 @@ EOT;
         $ret  = <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 //
-\$dirname = basename(__DIR__);
+//\$dirname = basename(__DIR__);
 // ------------------- Informations ------------------- //
 \$modversion = array(
     'name' => {$language}NAME,
     'version' => {$module->getVar('mod_version')},
     'description' => {$language}DESC,
-    'author' => "{$module->getVar('mod_author')}",
-    'author_mail' => "{$module->getVar('mod_author_mail')}",
-    'author_website_url' => "{$module->getVar('mod_author_website_url')}",
-    'author_website_name' => "{$module->getVar('mod_author_website_name')}",
-    'credits' => "{$module->getVar('mod_credits')}",
-    'license' => "{$module->getVar('mod_license')}",
-    'help' => "page=help",
-    'license' => "GNU GPL 2.0",
-    'license_url' => "www.gnu.org/licenses/gpl-2.0.html/",
+    'author' => '{$module->getVar('mod_author')}',
+    'author_mail' => '{$module->getVar('mod_author_mail')}',
+    'author_website_url' => '{$module->getVar('mod_author_website_url')}',
+    'author_website_name' => '{$module->getVar('mod_author_website_name')}',
+    'credits' => '{$module->getVar('mod_credits')}',
+    'license' => '{$module->getVar('mod_license')}',    
+    'license_url' => 'www.gnu.org/licenses/gpl-2.0.html/',
+	'help' => 'page=help',
     //
-    'release_info' => "{$module->getVar('mod_release_info')}",
-    'release_file' => XOOPS_URL."/modules/{\$dirname}/docs/{$module->getVar('mod_release_file')}",
-    'release_date' => "{$date}",
+    'release_info' => '{$module->getVar('mod_release_info')}',
+    'release_file' => XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}',
+    'release_date' => '{$date}',
     //
-    'manual' => "{$module->getVar('mod_manual')}",
-    'manual_file' => XOOPS_URL."/modules/{\$dirname}/docs/{$module->getVar('mod_manual_file')}",
-    'min_php' => "{$module->getVar('mod_min_php')}",
-    'min_xoops' => "{$module->getVar('mod_min_xoops')}",
-    'min_admin' => "{$module->getVar('mod_min_admin')}",
+    'manual' => '{$module->getVar('mod_manual')}',
+    'manual_file' => XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}',
+    'min_php' => '{$module->getVar('mod_min_php')}',
+    'min_xoops' => '{$module->getVar('mod_min_xoops')}',
+    'min_admin' => '{$module->getVar('mod_min_admin')}',
     'min_db' => array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}'),
-    'image' => "assets/images/{$module->getVar('mod_image')}",
-    'dirname' => "{\$dirname}",
-    //Frameworks
-    'dirmoduleadmin' => "Frameworks/moduleclasses/moduleadmin",
-    'sysicons16' => "../../Frameworks/moduleclasses/icons/16",
-    'sysicons32' => "../../Frameworks/moduleclasses/icons/32",
+    'image' => 'assets/images/{$module->getVar('mod_image')}',
+    'dirname' => '{$module->getVar('mod_dirname')}',
+    // Frameworks
+    'dirmoduleadmin' => 'Frameworks/moduleclasses/moduleadmin',
+    'sysicons16' => '../../Frameworks/moduleclasses/icons/16',
+    'sysicons32' => '../../Frameworks/moduleclasses/icons/32',
     // Local path icons
-    'modicons16' => "assets/icons/16",
-    'modicons32' => "assets/icons/32",
+    'modicons16' => 'assets/icons/16',
+    'modicons32' => 'assets/icons/32',
     //About
-    'demo_site_url' => "{$module->getVar('mod_demo_site_url')}",
-    'demo_site_name' => "{$module->getVar('mod_demo_site_name')}",
-    'support_url' => "{$module->getVar('mod_support_url')}",
-    'support_name' => "{$module->getVar('mod_support_name')}",
-    'module_website_url' => "{$module->getVar('mod_website_url')}",
-    'module_website_name' => "{$module->getVar('mod_website_name')}",
-    'release' => "{$module->getVar('mod_release')}",
-    'module_status' => "{$module->getVar('mod_status')}",
+    'demo_site_url' => '{$module->getVar('mod_demo_site_url')}',
+    'demo_site_name' => '{$module->getVar('mod_demo_site_name')}',
+    'support_url' => '{$module->getVar('mod_support_url')}',
+    'support_name' => '{$module->getVar('mod_support_name')}',
+    'module_website_url' => '{$module->getVar('mod_website_url')}',
+    'module_website_name' => '{$module->getVar('mod_website_name')}',
+    'release' => '{$module->getVar('mod_release')}',
+    'module_status' => '{$module->getVar('mod_status')}',
     // Admin system menu
     'system_menu' => 1,
     // Admin things
     'hasAdmin' => 1,
-    'adminindex' => "admin/index.php",
-    'adminmenu' => "admin/menu.php",\n
+    'adminindex' => 'admin/index.php',
+    'adminmenu' => 'admin/menu.php',\n
 EOT;
         if (1 == $module->getVar('mod_user')) {
             $ret .= <<<EOT
@@ -307,11 +306,11 @@ EOT;
         }
         $ret .= <<<EOT
     // Install/Update
-    'onInstall' => "include/install.php",\n
+    'onInstall' => 'include/install.php',\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != null) {
                 $ret .= <<<EOT
-    'onUpdate' => "include/update.php"\n
+    'onUpdate' => 'include/update.php'\n
 EOT;
 
         }
@@ -340,12 +339,12 @@ EOT;
         if (!empty($tableName)) {
             $ret .= <<<EOT
 // ------------------- Mysql ------------------- //
-\$modversion['sqlfile']['mysql'] = "sql/mysql.sql";
+\$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 // Tables\n
 EOT;
             foreach (array_keys($tables) as $t) {
                 $ret .= <<<EOT
-\$modversion['tables'][{$n}] = "{$moduleDirname}_{$tables[$t]->getVar('table_name')}";\n
+\$modversion['tables'][{$n}] = '{$moduleDirname}_{$tables[$t]->getVar('table_name')}';\n
 EOT;
                 ++$n;
             }
@@ -371,8 +370,8 @@ EOT;
         $ret = <<<EOT
 // ------------------- Search ------------------- //
 \$modversion['hasSearch'] = 1;
-\$modversion['search']['file'] = "include/search.inc.php";
-\$modversion['search']['func'] = "{$moduleDirname}_search";\n\n
+\$modversion['search']['file'] = 'include/search.inc.php';
+\$modversion['search']['func'] = '{$moduleDirname}_search';\n\n
 EOT;
 
         return $ret;
@@ -390,12 +389,12 @@ EOT;
     {
         $ret = <<<EOT
 // ------------------- Comments ------------------- //
-\$modversion['comments']['pageName'] = "comments.php";
-\$modversion['comments']['itemName'] = "com_id";
+\$modversion['comments']['pageName'] = 'comments.php';
+\$modversion['comments']['itemName'] = 'com_id';
 // Comment callback functions
-\$modversion['comments']['callbackFile'] = "include/comment_functions.php";
-\$modversion['comments']['callback']['approve'] = "{$moduleDirname}CommentsApprove";
-\$modversion['comments']['callback']['update'] = "{$moduleDirname}CommentsUpdate";\n\n
+\$modversion['comments']['callbackFile'] = 'include/comment_functions.php';
+\$modversion['comments']['callback']['approve'] = '{$moduleDirname}CommentsApprove';
+\$modversion['comments']['callback']['update'] = '{$moduleDirname}CommentsUpdate';\n\n
 EOT;
 
         return $ret;
@@ -525,7 +524,7 @@ EOT;
         $ret    = <<<EOT
 // ------------------- Submenu ------------------- //\n
 EOT;
-        $i      = 0;
+        $i      = 1;
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
 			$tableSubmit[] = $tables[$t]->getVar('table_submit');
@@ -533,7 +532,7 @@ EOT;
                 $ret .= <<<EOT
 // Sub {$tableName}
 \$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};
-\$modversion['sub'][{$i}]['url'] = "{$tableName}.php";\n
+\$modversion['sub'][{$i}]['url'] = '{$tableName}.php';\n
 EOT;
             }
             ++$i;
@@ -542,7 +541,7 @@ EOT;
 		$ret .= <<<EOT
 // Sub Submit
 \$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};
-\$modversion['sub'][{$i}]['url'] = "submit.php";\n
+\$modversion['sub'][{$i}]['url'] = 'submit.php';\n
 EOT;
         }
 		unset($i);
@@ -602,13 +601,13 @@ EOT;
         $stuTableName = strtoupper($tableName);
 		$ret = <<<EOT
 \$modversion['blocks'][] = array(
-    'file' => "{$tableName}.php",
+    'file' => '{$tableName}.php',
     'name' => {$language}{$stuTableName}_BLOCK,
     'description' => {$language}{$stuTableName}_BLOCK_DESC,
-    'show_func' => "b_{$moduleDirname}_{$tableName}_show",
-    'edit_func' => "b_{$moduleDirname}_{$tableName}_edit",
-    'options' => "{$type}|5|25|0",
-    'template' => "'{$moduleDirname}_block_{$tableName}.tpl");\n\n
+    'show_func' => 'b_{$moduleDirname}_{$tableName}_show',
+    'edit_func' => 'b_{$moduleDirname}_{$tableName}_edit',
+    'options' => '{$type}|5|25|0',
+    'template' => '{$moduleDirname}_block_{$tableName}.tpl');\n\n
 EOT;
 
         return $ret;
@@ -631,26 +630,25 @@ EOT;
         $ret           = <<<EOT
 // ------------------- Config ------------------- //\n
 EOT;
-        if (is_object($table)) {
-            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-            foreach (array_keys($fields) as $f) {
-                if ($fields[$f]->getVar('field_element') == 4) {
-                    $ret .= <<<EOT
+		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+		foreach (array_keys($fields) as $f) {
+			$fieldElement = $fields[$f]->getVar('field_element');
+			if ($fieldElement == 3 || $fieldElement == 4) {
+				$ret .= <<<EOT
 // Editor
 xoops_load('xoopseditorhandler');
 \$editorHandler = XoopsEditorHandler::getInstance();
 \$modversion['config'][] = array(
-    'name' => "{$moduleDirname}_editor",
-    'title' => "{$language}EDITOR",
-    'description' => "{$language}EDITOR_DESC",
-    'formtype' => "select",
-    'valuetype' => "text",
+    'name' => '{$moduleDirname}_editor',
+    'title' => '{$language}EDITOR',
+    'description' => '{$language}EDITOR_DESC',
+    'formtype' => 'select',
+    'valuetype' => 'text',
     'options' => array_flip(\$editorHandler->getList()),
-    'default' => "dhtml");\n\n
+    'default' => 'dhtml');\n\n
 EOT;
-                }
-            }
-        }
+			}
+		}
         if (1 == $table->getVar('table_permissions')) {
             $ret .= <<<EOT
 // Get groups
@@ -660,11 +658,11 @@ foreach (\$xoopsgroups as \$key => \$group) {
     \$groups[\$group] = \$key;
 }
 \$modversion['config'][] = array(
-    'name' => "groups",
-    'title' => "{$language}GROUPS",
-    'description' => "{$language}GROUPS_DESC",
-    'formtype' => "select_multi",
-    'valuetype' => "array",
+    'name' => 'groups',
+    'title' => '{$language}GROUPS',
+    'description' => '{$language}GROUPS_DESC',
+    'formtype' => 'select_multi',
+    'valuetype' => 'array',
     'options' => \$groups,
     'default' => \$groups);
     
@@ -677,11 +675,11 @@ foreach (\$admin_xoopsgroups as \$key => \$admin_group) {
     \$admin_groups[\$admin_group] = \$key;
 }
 \$modversion['config'][] = array(
-    'name' => "admin_groups",
-    'title' => "{$language}ADMIN_GROUPS",
-    'description' => "{$language}ADMIN_GROUPS_DESC",
-    'formtype' => "select_multi",
-    'valuetype' => "array",
+    'name' => 'admin_groups',
+    'title' => '{$language}ADMIN_GROUPS',
+    'description' => '{$language}ADMIN_GROUPS_DESC',
+    'formtype' => 'select_multi',
+    'valuetype' => 'array',
     'options' => \$admin_groups,
     'default' => \$admin_groups);\n\n
 EOT;
@@ -689,12 +687,12 @@ EOT;
         $keyword = implode(', ', $this->getKeywords());
         $ret .= <<<EOT
 \$modversion['config'][] = array(
-    'name' => "keywords",
-    'title' => "{$language}KEYWORDS",
-    'description' => "{$language}KEYWORDS_DESC",
-    'formtype' => "textbox",
-    'valuetype' => "text",
-    'default' => "{$moduleDirname}, {$keyword}");\n\n
+    'name' => 'keywords',
+    'title' => '{$language}KEYWORDS',
+    'description' => '{$language}KEYWORDS_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'text',
+    'default' => '{$moduleDirname}, {$keyword}');\n\n
 EOT;
         unset($this->keywords);
         if (is_object($table)) {
@@ -706,46 +704,46 @@ EOT;
                     $ret .= <<<EOT
 //Uploads : maxsize of image
 \$modversion['config'][] = array(
-    'name' => "maxsize",
-    'title' => "{$language}MAXSIZE",
-    'description' => "{$language}MAXSIZE_DESC",
-    'formtype' => "textbox",
-    'valuetype' => "int",
+    'name' => 'maxsize',
+    'title' => '{$language}MAXSIZE',
+    'description' => '{$language}MAXSIZE_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'int',
     'default' => 5000000);
 
 //Uploads : mimetypes of image
 \$modversion['config'][] = array(
-    'name' => "mimetypes",
-    'title' => "{$language}MIMETYPES",
-    'description' => "{$language}MIMETYPES_DESC",
-    'formtype' => "select_multi",
-    'valuetype' => "array",
-    'default' => array("image/gif", "image/jpeg", "image/png"),
-    'options' => array("bmp" => "image/bmp","gif" => "image/gif","pjpeg" => "image/pjpeg",
-                       "jpeg" => "image/jpeg","jpg" => "image/jpg","jpe" => "image/jpe",
-                       "png" => "image/png"));\n\n
+    'name' => 'mimetypes',
+    'title' => '{$language}MIMETYPES',
+    'description' => '{$language}MIMETYPES_DESC',
+    'formtype' => 'select_multi',
+    'valuetype' => 'array',
+    'default' => array('image/gif', 'image/jpeg', 'image/png'),
+    'options' => array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg',
+                       'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe',
+                       'png' => 'image/png'));\n\n
 EOT;
                 }
             }
             if (1 == $table->getVar('table_admin')) {
                 $ret .= <<<EOT
 \$modversion['config'][] = array(
-    'name' => "adminpager",
-    'title' => "{$language}ADMIN_PAGER",
-    'description' => "{$language}ADMIN_PAGER_DESC",
-    'formtype' => "textbox",
-    'valuetype' => "int",
+    'name' => 'adminpager',
+    'title' => '{$language}ADMIN_PAGER',
+    'description' => '{$language}ADMIN_PAGER_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'int',
     'default' => 10);\n\n
 EOT;
             }
             if (1 == $table->getVar('table_user')) {
                 $ret .= <<<EOT
 \$modversion['config'][] = array(
-    'name' => "userpager",
-    'title' => "{$language}USER_PAGER",
-    'description' => "{$language}USER_PAGER_DESC",
-    'formtype' => "textbox",
-    'valuetype' => "int",
+    'name' => 'userpager',
+    'title' => '{$language}USER_PAGER',
+    'description' => '{$language}USER_PAGER_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'int',
     'default' => 10);\n\n
 EOT;
             }
@@ -753,81 +751,81 @@ EOT;
         if (1 == $table->getVar('table_tag')) {
             $ret .= <<<EOT
 \$modversion['config'][] = array(
-    'name' => "usetag",
-    'title' => "{$language}USE_TAG",
-    'description' => "{$language}USE_TAG_DESC",
-    'formtype' => "yesno",
-    'valuetype' => "int",
+    'name' => 'usetag',
+    'title' => '{$language}USE_TAG',
+    'description' => '{$language}USE_TAG_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
     'default' => 0);\n\n
 EOT;
         }
         $ret .= <<<EOT
 \$modversion['config'][] = array(
-    'name' => "numb_col",
-    'title' => "{$language}NUMB_COL",
-    'description' => "{$language}NUMB_COL_DESC",
-    'formtype' => "select",
-    'valuetype' => "int",
+    'name' => 'numb_col',
+    'title' => '{$language}NUMB_COL',
+    'description' => '{$language}NUMB_COL_DESC',
+    'formtype' => 'select',
+    'valuetype' => 'int',
     'default' => 1,
-	'options' => array(1 => "1", 2 => "2", 3 => "3", 4 => "4"));
+	'options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4'));
 
 \$modversion['config'][] = array(
-    'name' => "divideby",
-    'title' => "{$language}DIVIDEBY",
-    'description' => "{$language}DIVIDEBY_DESC",
-    'formtype' => "select",
-    'valuetype' => "int",
+    'name' => 'divideby',
+    'title' => '{$language}DIVIDEBY',
+    'description' => '{$language}DIVIDEBY_DESC',
+    'formtype' => 'select',
+    'valuetype' => 'int',
     'default' => 1,
-	'options' => array(1 => "1", 2 => "2", 3 => "3", 4 => "4"));
+	'options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4'));
 	
 \$modversion['config'][] = array(
-    'name' => "table_type",
-    'title' => "{$language}TABLE_TYPE",
-    'description' => "{$language}TABLE_TYPE_DESC",
-    'formtype' => "select",
-    'valuetype' => "text",
-    'default' => "bordered",
-    'options' => array('bordered' => "bordered", 'striped' => "striped", 'hover' => "hover", 'condensed' => "condensed"));
+    'name' => 'table_type',
+    'title' => '{$language}TABLE_TYPE',
+    'description' => '{$language}TABLE_TYPE_DESC',
+    'formtype' => 'select',
+    'valuetype' => 'text',
+    'default' => 'bordered',
+    'options' => array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed'));
 						
 \$modversion['config'][] = array(
-    'name' => "table_type",
-    'title' => "{$language}PANEL_TYPE",
-    'description' => "{$language}PANEL_TYPE_DESC",
-    'formtype' => "select",
-    'valuetype' => "text",
-    'default' => "default",
-    'options' => array('default' => "default", 'primary' => "primary", 'success' => "success", 'info' => "info", 'warning' => "warning", 'danger' => "danger"));
+    'name' => 'panel_type',
+    'title' => '{$language}PANEL_TYPE',
+    'description' => '{$language}PANEL_TYPE_DESC',
+    'formtype' => 'select',
+    'valuetype' => 'text',
+    'default' => 'default',
+    'options' => array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger'));
 
 \$modversion['config'][] = array(
-    'name' => "advertise",
-    'title' => "{$language}ADVERTISE",
-    'description' => "{$language}ADVERTISE_DESC",
-    'formtype' => "textarea",
-    'valuetype' => "text",
-    'default' => "");
+    'name' => 'advertise',
+    'title' => '{$language}ADVERTISE',
+    'description' => '{$language}ADVERTISE_DESC',
+    'formtype' => 'textarea',
+    'valuetype' => 'text',
+    'default' => '');
 
 \$modversion['config'][] = array(
-    'name' => "bookmarks",
-    'title' => "{$language}BOOKMARKS",
-    'description' => "{$language}BOOKMARKS_DESC",
-    'formtype' => "yesno",
-    'valuetype' => "int",
+    'name' => 'bookmarks',
+    'title' => '{$language}BOOKMARKS',
+    'description' => '{$language}BOOKMARKS_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
     'default' => 0);
 
 \$modversion['config'][] = array(
-    'name' => "facebook_comments",
-    'title' => "{$language}FACEBOOK_COMMENTS",
-    'description' => "{$language}FACEBOOK_COMMENTS_DESC",
-    'formtype' => "yesno",
-    'valuetype' => "int",
+    'name' => 'facebook_comments',
+    'title' => '{$language}FACEBOOK_COMMENTS',
+    'description' => '{$language}FACEBOOK_COMMENTS_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
     'default' => 0);
 	
 \$modversion['config'][] = array(
-    'name' => "disqus_comments",
-    'title' => "{$language}DISQUS_COMMENTS",
-    'description' => "{$language}DISQUS_COMMENTS_DESC",
-    'formtype' => "yesno",
-    'valuetype' => "int",
+    'name' => 'disqus_comments',
+    'title' => '{$language}DISQUS_COMMENTS',
+    'description' => '{$language}DISQUS_COMMENTS_DESC',
+    'formtype' => 'yesno',
+    'valuetype' => 'int',
     'default' => 0);\n
 EOT;
 
@@ -855,28 +853,30 @@ EOT;
     {
         $stuTableName    = strtoupper($tableName);
         $stuTypeOfNotify = strtoupper($typeOfNotify);
+		$notifyFile      = explode(', ', $notifyFile);
+		$notifyFile      = implode(', ', $notifyFile);
         switch ($type) {
             case 'category':
                 $ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(
-    'name' => "category",
+    'name' => 'category',
     'title' => {$language}{$stuTableName}_NOTIFY,
     'description' => {$language}{$stuTableName}_NOTIFY_DESC,
-    'subscribe_from' => array({$notifyFile}),
-    'item_name' => "{$item}",
+    'subscribe_from' => array('index.php',{$notifyFile}),
+    'item_name' => '{$item}',
     'allow_bookmark' => 1);\n
 EOT;
                 break;
             case 'event':
                 $ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(
-    'name' => "{$typeOfNotify}",
-    'category' => "{$tableName}",
+    'name' => '{$typeOfNotify}',
+    'category' => '{$tableName}',
     'admin_only' => 1,
     'title' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY,
     'caption' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION,
     'description' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_DESC,
-    'mail_template' => "{$tableName}_{$typeOfNotify}_notify",
+    'mail_template' => '{$tableName}_{$typeOfNotify}_notify',
     'mail_subject' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT);\n
 EOT;
                 break;
@@ -905,9 +905,9 @@ EOT;
 \$modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 \$modversion['notification']['lookup_func'] = '{$moduleDirname}_notify_iteminfo';\n\n
 EOT;
-		$notifyFiles = '';
+		$notifyFiles = array();
 		$single      = 'single';		
-        $tables      = $this->getTableTables($module->getVar('mod_id'));
+        $tables      = $this->getTableTables($module->getVar('mod_id'), 'table_order');
 		foreach (array_keys($tables) as $t) {
             $tableId       = $tables[$t]->getVar('table_id');
 			$tableMid      = $tables[$t]->getVar('table_mid');
@@ -916,10 +916,8 @@ EOT;
 			$tableBroken   = $tables[$t]->getVar('table_broken');
 			$tableSubmit   = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_notifications')) {
-                if ($t <= count($tableName)) {
-					$notifyFiles = "'" . $tableName . ".php'";
-                } else {
-                    $notifyFiles = $tableName . '.php';
+                if ($t <= count($tableName)) {					
+                    $notifyFiles[] = $tables[$t]->getVar('table_name');
                 }
             }
 			if (1 == $tables[$t]->getVar('table_single')) {
@@ -929,23 +927,21 @@ EOT;
 		$fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
 		$fieldParent = null;
 		foreach (array_keys($fields) as $f) {
-            //$fieldId   = $fields[$f]->getVar('field_id');
-			$fieldMid  = $fields[$f]->getVar('field_mid');
-			$fieldTid  = $fields[$f]->getVar('field_tid');
-			$fieldName = $fields[$f]->getVar('field_name');
+			$fieldMid     = $fields[$f]->getVar('field_mid');
+			$fieldTid     = $fields[$f]->getVar('field_tid');
+			$fieldName    = $fields[$f]->getVar('field_name');
+			$fieldElement = $fields[$f]->getVar('field_element');
 			if (0 == $f) {
                 $fieldId = $fieldName;
-            }
-			if (1 == $fields[$f]->getVar('field_parent')) {
+            }			
+			if ($fieldElement > 15) {
                 $fieldParent = $fieldName;
             }
         }
         
-		$ret .= $this->getXoopsVersionNotificationCodeShort($language, 'category', 'global', 'global', $notifyFiles);
-		if(1 == $tableCategory) {
-			$ret .= $this->getXoopsVersionNotificationCodeItem($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1');
-		}
-		$ret .= $this->getXoopsVersionNotificationCodeItem($language, 'category', 'file', 'file', $single.'.php', $fieldId, 1);
+		$ret .= $this->getXoopsVersionNotificationGlobal($language, 'category', 'global', 'global', $notifyFiles);
+		$ret .= $this->getXoopsVersionNotificationCategory($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1');
+		$ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1);
 		if(1 == $tableCategory) {
 			$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify');
 		}
@@ -966,7 +962,7 @@ EOT;
     }
 	
 	/*
-    *  @private function getXoopsVersionNotificationCodeShort
+    *  @private function getXoopsVersionNotificationGlobal
     */
     /**
      * @param $language
@@ -976,24 +972,49 @@ EOT;
 	 * @param $from
      * @return string
      */
-    private function getXoopsVersionNotificationCodeShort($language, $type, $name, $title, $from)
+    private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from)
     {        
         $title = strtoupper($title);
-		$from  = explode(', ', $from);
-		$from  = implode(', ', $from);
-		$ret = <<<EOT
+		$ret = "
 \$modversion['notification']['{$type}'][] = array(
-    'name' => "{$name}",
+    'name' => '{$name}',
     'title' => {$language}{$title}_NOTIFY,
     'description' => {$language}{$title}_NOTIFY_DESC,
-    'subscribe_from' => array('index.php', {$from}));\n\n
-EOT;
+    'subscribe_from' => array('index.php', '".implode(".php', '", $from).".php'));\n
+";
 
         return $ret;
     }
 	
 	/*
-    *  @private function getXoopsVersionNotifications
+    *  @private function getXoopsVersionNotificationCategory
+    */
+    /**
+     * @param $language
+     * @param $type
+	 * @param $name
+	 * @param $title
+	 * @param $from
+     * @return string
+     */
+    private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $from, $item, $allow)
+    {        
+        $title = strtoupper($title);//{$from}
+		$ret = "
+\$modversion['notification']['{$type}'][] = array(
+    'name' => '{$name}',
+    'title' => {$language}{$title}_NOTIFY,
+    'description' => {$language}{$title}_NOTIFY_DESC,
+    'subscribe_from' => array('".implode(".php', '", $from).".php'),
+	'item_name' => '{$item}',
+    'allow_bookmark' => {$allow});\n
+";
+
+        return $ret;
+    }
+	
+	/*
+    *  @private function getXoopsVersionNotificationTableName
     */
     /**
      * @param $language
@@ -1005,16 +1026,16 @@ EOT;
 	 * @param $allow
      * @return string
      */
-    private function getXoopsVersionNotificationCodeItem($language, $type, $name, $title, $from, $item = 'cid', $allow = 1)
+    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $from, $item = 'cid', $allow = 1)
     {        
         $title = strtoupper($title);
 		$ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(
-    'name' => "{$name}",
+    'name' => '{$name}',
     'title' => {$language}{$title}_NOTIFY,
     'description' => {$language}{$title}_NOTIFY_DESC,
-    'subscribe_from' => "{$from}",
-    'item_name' => "{$item}",
+    'subscribe_from' => '{$from}.php',
+    'item_name' => '{$item}',
     'allow_bookmark' => {$allow});\n\n
 EOT;
 
@@ -1040,13 +1061,13 @@ EOT;
 		$table = strtoupper($table);
 		$ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(
-    'name' => "{$name}",
-    'category' => "{$category}",
+    'name' => '{$name}',
+    'category' => '{$category}',
     'admin_only' => {$admin},
     'title' => {$language}{$title}_{$table}_NOTIFY,
     'caption' => {$language}{$title}_{$table}_NOTIFY_CAPTION,
     'description' => {$language}{$title}_{$table}_NOTIFY_DESC,
-    'mail_template' => "{$mail}",
+    'mail_template' => '{$mail}',
     'mail_subject' => {$language}{$title}_{$table}_NOTIFY_SUBJECT);\n\n
 EOT;
 

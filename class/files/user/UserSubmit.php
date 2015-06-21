@@ -86,6 +86,7 @@ class UserSubmit extends UserObjects
     {
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
+xoops_loadLanguage('admin', \$dirname);
 \$op = XoopsRequest::getString('op', 'form');
 // Template
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_submit.tpl';
@@ -111,14 +112,15 @@ EOT;
     *  @param string $language
     */
     /**
-     * @param $module
+     * @param $moduleDirname
      * @param $tableName
      * @param $language
      * @return string
      */
-    public function getUserSubmitForm($module, $tableName, $language)
+    public function getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
+        $stuModuleDirname = strtoupper($moduleDirname);
+		$stuTableSoleName = strtoupper($tableSoleName);
         $ret           = <<<EOT
     case 'form':
     default:
@@ -138,7 +140,8 @@ EOT;
         // Create
         \${$tableName}Obj =& \${$tableName}Handler->create();
         \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
+        \$xoopsTpl->assign('form', \$form->render());
+		break;\n
 EOT;
 
         return $ret;
@@ -157,17 +160,12 @@ EOT;
      */
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-		$ret     = <<<EOT
+		$ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
+			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset(\$_REQUEST['{$fieldId}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
-        } else {
-           \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
+        \${$tableName}Obj =& \${$tableName}Handler->create();\n
 EOT;
         $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
@@ -191,10 +189,13 @@ EOT;
     /**
      * @return string
      */
-    public function getUserSubmitFooter()
+    public function getUserSubmitFooter($moduleDirname, $language)
     {
-        $ret = <<<EOT
+        $stuModuleDirname = strtoupper($moduleDirname);
+		$ret 			  = <<<EOT
 }
+// Breadcrumbs
+\$xoBreadcrumbs[] = array('title' => {$language}SUBMIT); //'link' => {$stuModuleDirname}_URL . '/submit.php';
 include  __DIR__ . '/footer.php';
 EOT;
 
@@ -217,13 +218,15 @@ EOT;
         $tableId       = $table->getVar('table_id');
 		$tableMid      = $table->getVar('table_mid');
         $tableName     = $table->getVar('table_name');
+		$tableCategory = $table->getVar('table_category');
+		$tableSoleName = $table->getVar('table_solename');
 		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitForm($module, $tableName, $language);
-        $content .= $this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserSubmitFooter();
+        $content .= $this->getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language);
+		$content .= $this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language);
+        $content .= $this->getUserSubmitFooter($moduleDirname, $language);
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

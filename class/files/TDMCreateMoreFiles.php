@@ -206,14 +206,14 @@ EOT;
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param string $filename
     */
     /**
      * @param $filename
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
         $module        = $this->getModule();
 		$filename      = $this->getFileName();

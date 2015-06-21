@@ -91,9 +91,9 @@ class LanguageMain extends LanguageDefines
         $ret .= $this->defines->getDefine($language, 'TITLE', "{$module->getVar('mod_name')}");
         $ret .= $this->defines->getDefine($language, 'DESC', "{$module->getVar('mod_description')}");
         $ret .= $this->defines->getDefine($language, 'INDEX_DESC', "Welcome to the homepage of your new module {$moduleName}!<br />
-As you can see, you've created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module TDMCreate, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br /><br />If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br /><br />If you liked the module TDMCreate and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module TDMCreate and make a donation using this button <a href='http://www.txmodxoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' /></a><br />Thanks!<br /><br />Use the link below to go to the admin and create content.");
-        $ret .= $this->defines->getDefine($language, 'INDEX_THEREARE', "There are");
-		$ret .= $this->defines->getDefine($language, 'INDEX_LATEST_LIST', "Last {$module->getVar('mod_name')}");
+As you can see, you've created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module TDMCreate, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br /><br />If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br /><br />If you liked the module TDMCreate and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module TDMCreate and make a donation using this button <a href='http://www.txmodxoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' /></a><br />Thanks!<br /><br />Use the link below to go to the admin and create content.");        
+		$ret .= $this->defines->getDefine($language, 'NO_PDF_LIBRARY', "Libraries TCPDF not there yet, upload them in root/Frameworks");
+		$ret .= $this->defines->getDefine($language, 'NO', "No");
 		$ret .= $this->defines->getAboveHeadDefines('Contents');
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
@@ -104,10 +104,9 @@ As you can see, you've created a page with a list of links at the top to navigat
 			$ucfTableSoleName = UcFirstAndToLower($tableSoleName);
             $ret .= $this->defines->getAboveDefines($ucfTableSoleName);
             $ret .= $this->defines->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
-			$ret .= $this->defines->getDefine($language, "{$stuTableName}", "{$stuTableName}");
-			$ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_TITLE", "{$ucfTableSoleName} title");
-            $ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_DESC", "{$ucfTableSoleName} description");
-			$ret .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
+			$ret .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);			
+			$ret .= $this->defines->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");			
+            $ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_DESC", "{$ucfTableSoleName} description");			
             $ret .= $this->defines->getAboveDefines("Caption of {$ucfTableSoleName}");
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
@@ -117,7 +116,11 @@ As you can see, you've created a page with a list of links at the top to navigat
 				$ret .= $this->defines->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
             }
         }
+		$ret .= $this->defines->getDefine($language, 'INDEX_THEREARE', "There are %s {$ucfTableName}");
+		$ret .= $this->defines->getDefine($language, 'INDEX_LATEST_LIST', "Last {$module->getVar('mod_name')}");
 		$ret .= $this->defines->getAboveDefines('Submit');
+		$ret .= $this->defines->getDefine($language, "SUBMIT", "Submit");
+		$ret .= $this->defines->getDefine($language, "SUBMIT_{$stuTableSoleName}", "Submit {$ucfTableSoleName}");
 		$ret .= $this->defines->getDefine($language, "SUBMIT_ALLPENDING", "All {$tableSoleName}/script information are posted pending verification.");
 		$ret .= $this->defines->getDefine($language, "SUBMIT_DONTABUSE", "Username and IP are recorded, so please don't abuse the system.");
 		$ret .= $this->defines->getDefine($language, "SUBMIT_ISAPPROVED", "Your {$tableSoleName} has been approved");

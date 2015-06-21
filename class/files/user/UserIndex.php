@@ -98,8 +98,6 @@ EOT;
         $ret = <<<EOT
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
-\$start = XoopsRequest::getInt('start', 0);
-\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
 // Define Stylesheet
 \$GLOBALS['xoTheme']->addStylesheet( \$style );\n
 EOT;
@@ -114,7 +112,7 @@ EOT;
 	 * @param $language
 	 * @return string
      */
-    private function getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
+    private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
     {
 		$ucfTableName = ucfirst($tableName);
 		// Fields
@@ -138,6 +136,7 @@ EOT;
 			$ret .= <<<EOT
 \${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
 // If there are {$tableName}
+\$count = 1;
 if (\${$tableName}Count > 0) {
 	\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}();
 	include_once XOOPS_ROOT_PATH . '/class/tree.php';
@@ -145,10 +144,14 @@ if (\${$tableName}Count > 0) {
 	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
 	{
 		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+		\$acount = array('count' => \$count);
+		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
 		unset(\${$tableSoleName});
-	}
-}\n
+	}	
+	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
+}
+unset(\$count);\n
 EOT;
 		}
 		
@@ -170,6 +173,8 @@ EOT;
 \${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
 \$count = 1;
 if (\${$tableName}Count > 0) {
+	\$start = XoopsRequest::getInt('start', 0);
+	\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
     \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
 	// Get All {$ucfTableName}
 	foreach(array_keys(\${$tableName}All) as \${$tableFieldname})
@@ -186,16 +191,15 @@ if (\${$tableName}Count > 0) {
         include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
         \$nav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start');
         \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
-    }
-	\$GLOBALS['xoopsTpl']->assign('panel_type', \${$moduleDirname}->getConfig('panel_type'));
-	\$GLOBALS['xoopsTpl']->assign('table_type', \${$moduleDirname}->getConfig('table_type'));
-	\$GLOBALS['xoopsTpl']->assign('divideby', \${$moduleDirname}->getConfig('divideby'));
-	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
+    }	
+	\$GLOBALS['xoopsTpl']->assign('divideby', \${$moduleDirname}->getConfig('divideby'));	
 	\$GLOBALS['xoopsTpl']->assign('lang_thereare', sprintf({$language}INDEX_THEREARE, \${$tableName}Count));
 }
 unset(\$count);
 // Breadcrumbs
-\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/index.php', 'title' => {$language}INDEX);\n
+\$xoBreadcrumbs[] = array('title' => {$language}INDEX); //'link' => {$stuModuleDirname}_URL . '/index.php';
+\$GLOBALS['xoopsTpl']->assign('panel_type', \${$moduleDirname}->getConfig('panel_type'));
+\$GLOBALS['xoopsTpl']->assign('table_type', \${$moduleDirname}->getConfig('table_type'));\n
 EOT;
 		
 		return $ret;
@@ -251,7 +255,7 @@ EOT;
     {
         $module         = $this->getModule();
 		$table          = $this->getTable();
-		$tables         = $this->getTableTables($module->getVar('mod_id'));
+		$tables         = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');		
         $language       = $this->getLanguage($moduleDirname, 'MA');
@@ -267,7 +271,7 @@ EOT;
 			$tableFieldname = $tables[$t]->getVar('table_fieldname');
 			$tableIndex     = $tables[$t]->getVar('table_index');
 			if((1 == $tableCategory) && (1 == $tableIndex)) {
-				$content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
+				$content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
 			}
 			if((0 == $tableCategory) && (1 == $tableIndex)) {
 				$content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);

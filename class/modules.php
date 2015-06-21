@@ -158,7 +158,7 @@ class TDMCreateModules extends XoopsObject
             $action = $_SERVER['REQUEST_URI'];
         }
 		$set = array();
-		$settings = $this->tdmcreate->getHandler('settings')->getObjects(null);
+		$settings = $this->tdmcreate->getHandler('settings')->getAllSettings(0, 0, 'set_type');
 		foreach ($settings as $setting) 
 		{
             $set['name']          		= $setting->getVar('set_name');

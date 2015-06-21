@@ -35,7 +35,8 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+		$this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -78,11 +79,7 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        $ret = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 	
 	/*
@@ -152,27 +149,27 @@ EOT;
 		$ret = <<<EOT
 <{if count(\${$tableName}) gt 0}>
 <div class="table-responsive">
-    <table class="table table-<{\$type}>">
+    <table class="table table-<{\$table_type}>">
 		<thead>
 			<tr>
-				<th><{\$smarty.const.{$language}{$stuTableName}}></th>
+				<th colspan="<{\$numb_col}>"><{\$smarty.const.{$language}{$stuTableName}}></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
-			<{foreach item={$tableSoleName} from=\${$tableName}}>
-				<td>
-					<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" list=\${$tableSoleName}}>
+				<{foreach item={$tableSoleName} from=\${$tableName}}>
+				<td>				
+					<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSoleName}=\${$tableSoleName}}>					
 				</td>
-				<{if \${$tableSoleName}.count is div by \$divideby}>
-				</tr><tr>
-				<{/if}>
-			<{/foreach}>
+			<{if \${$tableSoleName}.count is div by \$numb_col}>
+			</tr><tr>
+			<{/if}>
+				<{/foreach}>				
 			</tr>
 		</tbody>
 		<tfoot>
 			<tr>
-				<td class="{$tableSoleName}-thereare"><{\$lang_thereare}></td>
+				<td colspan="<{\$numb_col}>" class="{$tableSoleName}-thereare"><{\$lang_thereare}></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -190,18 +187,18 @@ EOT;
     /**
      * @return bool|string
      */
-    public function getTemplateUserIndexTable($moduleDirname, $tableName, $language)
+    public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
 		$ret = <<<EOT
 <{if count(\${$tableName}) gt 0}>
 	<!-- Start Show new {$tableName} in index -->
 	<div class="{$moduleDirname}-linetitle"><{\$smarty.const.{$language}INDEX_LATEST_LIST}></div>
-	<table class="table table-bordered">
+	<table class="table table-<{\$table_type}>">
 		<tr>
 			<!-- Start new link loop -->
 			<{section name=i loop=\${$tableName}}>
 				<td class="col_width<{\$numb_col}> top center">
-					<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" list=\${$tableName}[i]}>
+					<{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSoleName}=\${$tableName}[i]}>
 				</td>
 	<{if \${$tableName}[i].count is div by \$divideby}>
 		</tr><tr>
@@ -244,7 +241,7 @@ EOT;
     {
         $module        = $this->getModule();
 		$table         = $this->getTable();
-		$tables        = $this->getTableTables($module->getVar('mod_id'));
+		$tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
@@ -260,7 +257,7 @@ EOT;
 				$content .= $this->getTemplateUserIndexCategories($moduleDirname, $tableName, $tableSoleName, $language);
 			}
 			if((0 == $tableCategory) && (1 == $tableIndex)) {
-				$content .= $this->getTemplateUserIndexTable($moduleDirname, $tableName, $language);
+				$content .= $this->getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language);
 			}
 		}  
 		$content .= $this->getTemplateUserIndexFooter($moduleDirname);

@@ -83,10 +83,30 @@ class TemplatesUserSubmit extends TDMCreateFile
      * @param $language
      * @return string
      */
-    private function getTemplatesUserSubmitHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserSubmitHeader($moduleDirname)
     {
         $ret    = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>
+<{include file="db:{$moduleDirname}_header.tpl"}>\n
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+    *  @private function getTemplatesUserSubmitTableHeader
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserSubmitTableHeader($moduleDirname, $table, $language)
+    {
+        $ret    = <<<EOT
 <table class="{$moduleDirname}">
     <thead class="outer">
         <tr class="head">\n
@@ -222,6 +242,42 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @private function getTemplatesUserSubmit
+    *  @param string $moduleDirname
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $language
+     * @return string
+     */
+    private function getTemplatesUserSubmit($moduleDirname, $language)
+    {
+        
+		$ret    = <<<EOT
+	<!-- Submit helps -->
+	<div class="{$moduleDirname}-tips">
+		<ul>
+			<li><{\$smarty.const.{$language}SUBMIT_SUBMITONCE}></li>
+			<li><{\$smarty.const.{$language}SUBMIT_ALLPENDING}></li>
+			<li><{\$smarty.const.{$language}SUBMIT_DONTABUSE}></li>
+			<li><{\$smarty.const.{$language}SUBMIT_TAKEDAYS}></li>
+		</ul>
+	</div>
+	
+	<{if \$message_error != ''}>
+	<!-- Error message-->
+	<div class="errorMsg"><{\$message_error}></div>
+	<{/if}>
+	
+	<!-- Submit form -->
+	<div class="{$moduleDirname}-submitform"><{\$form}></div>\n
+EOT;
+
+        return $ret;
+    }
 
     /*
     *  @private function getTemplatesUserSubmitFooter
@@ -255,13 +311,14 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserSubmitHeader($moduleDirname, $table, $language);
+        $content        = $this->getTemplatesUserSubmitHeader($moduleDirname);
+		$content .= $this->getTemplatesUserSubmit($moduleDirname, $language);
         // Verify if table_fieldname is not empty
-        if (!empty($tableFieldname)) {
+        /*if (!empty($tableFieldname)) {
             $content .= $this->getTemplatesUserSubmitBody($moduleDirname, $table, $language);
         } else {
             $content .= $this->getTemplatesUserSubmitBodyFieldnameEmpty($moduleDirname, $table, $language);
-        }
+        }*/
         $content .= $this->getTemplatesUserSubmitFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

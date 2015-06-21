@@ -101,6 +101,7 @@ class TDMCreateSettings extends XoopsObject
         $this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('inroot_copy'));
         $this->initVar('set_donations', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('donations'));
         $this->initVar('set_subversion', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('subversion'));
+		$this->initVar('set_type', XOBJ_DTYPE_TXTBOX);
     }
 
     /**
@@ -147,12 +148,13 @@ class TDMCreateSettings extends XoopsObject
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-		$isNew = $this->isNew();
-		
+		//
+        $isNew = $this->isNew();
+        $title = $isNew ? sprintf(_AM_TDMCREATE_SETTING_NEW) : sprintf(_AM_TDMCREATE_SETTING_EDIT);
         //
         include_once(XOOPS_ROOT_PATH . '/class/xoopsformloader.php');
         //
-        $form = new XoopsThemeForm(_AM_TDMCREATE_SETTING_EDIT, 'settingform', $action, 'post');		
+        $form = new XoopsThemeForm($title, 'settingform', $action, 'post');		
         $form->setExtra('enctype="multipart/form-data"');
 		
 		$tabTray = new TDMCreateFormTabTray('', 'uniqueid', xoops_getModuleOption('jquery_theme', 'system'));
@@ -243,6 +245,24 @@ class TDMCreateSettings extends XoopsObject
 		$form->addElement($tabTray);
         return $form;
     }
+	
+	/**
+     * Get Values
+     */
+	public function getValues($keys = null, $format = null, $maxDepth = null)
+    {        
+		$ret = parent::getValues($keys, $format, $maxDepth);
+		// Values
+		$ret['id'] 		= $this->getVar('set_id');
+		$ret['name']    = $this->getVar('set_name');
+		$ret['version'] = $this->getVar('set_version');
+		$ret['image']   = $this->getVar('set_image');
+		$ret['release'] = $this->getVar('set_release');
+		$ret['status']  = $this->getVar('set_status');		
+		$ret['type']    = $this->getVar('set_type');
+        
+		return $ret;
+    }
 
 	/**
      * Get Options
@@ -314,22 +334,43 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
     }    
 
     /**
+     * @param bool $isNew
+     *
+     * @return object
+     */
+    public function &create($isNew = true)
+    {
+        return parent::create($isNew);
+    }
+
+    /**
      * retrieve a field
      *
-     * @param $i
-     * @param $fields
-     * @return mixed reference to the object
+     * @param  int $i field id
+     * @param null $fields
+     * @return mixed reference to the <a href='psi_element://TDMCreateSettings'>TDMCreateSettings</a> object
+     *                object
      */
     public function &get($i = null, $fields = null)
     {
         return parent::get($i, $fields);
     }
-    
+
+    /**
+     * get inserted id
+     *
+     * @param null
+     * @return integer reference to the {@link TDMCreateTables} object
+     */
+    public function &getInsertId()
+    {
+        return $this->db->getInsertId();
+    }
 
     /**
      * insert a new field in the database
      *
-     * @param $field object
+     * @param object $field reference to the {@link TDMCreateFields} object
      * @param bool   $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
@@ -341,5 +382,31 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
         }
 
         return true;
+    }
+	
+	/**
+     * Get Count Settings
+     */
+    public function getCountSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+		return parent::getCount($criteria);
+    }
+
+	/**
+     * Get All Settings
+     */
+	public function getAllSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+        return parent::getAll($criteria);
     }
 }

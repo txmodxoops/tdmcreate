@@ -23,7 +23,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminIndex
  */
-class AdminIndex extends TDMCreateFile
+class AdminIndex extends AdminPhpCode
 {
     /*
     *  @public function constructor
@@ -34,7 +34,9 @@ class AdminIndex extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+		$this->tdmcfile     = TDMCreateFile::getInstance();
+		$this->adminphpcode = AdminPhpCode::getInstance();
     }
 
     /*
@@ -81,17 +83,15 @@ class AdminIndex extends TDMCreateFile
      */
     public function render()
     {
-        $module            = $this->getModule();
-        $tables            = $this->getTables();
-        $filename          = $this->getFileName();
-        $moduleDirname     = $module->getVar('mod_dirname');
-        $language          = $this->getLanguage($moduleDirname, 'AM');
+        $module           = $this->getModule();
+        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $filename         = $this->getFileName();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $language         = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
-        $content           = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-include  __DIR__ . '/header.php';
-// Count elements\n
-EOT;
+        $content          = $this->getHeaderFilesComments($module, $filename);
+		$content .= $this->adminphpcode->getAdminIncludeHeader();
+		$content .= $this->getCommentLine('Count elements');
         $tableName = null;
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
@@ -114,8 +114,9 @@ EOT;
 // Info elements\n
 EOT;
             foreach (array_keys($tables) as $i) {
-                $tableName    = $tables[$i]->getVar('table_name');
-                $stuTableName = $languageThereAre . strtoupper($tableName);
+                $tableName      = $tables[$i]->getVar('table_name');
+				$tableInstall[] = $tables[$i]->getVar('table_install');
+                $stuTableName   = $languageThereAre . strtoupper($tableName);
                 $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count{$ucfTableName});\n
 EOT;
@@ -126,7 +127,7 @@ EOT;
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>No statistics</label>', 0);\n
 EOT;
         }
-		if (is_array($tables)) {
+		if (is_array($tables) && in_array(1, $tableInstall)) {
             $content .= <<<EOT
 // Upload Folders
 \$folder = array(\n
@@ -134,10 +135,12 @@ EOT;
             $stuModuleDirname = strtoupper($moduleDirname);
 			foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $content .= <<<EOT
+                if(1 == $tables[$i]->getVar('table_install')) {
+				$content .= <<<EOT
 	\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
 EOT;
-            }        
+				}
+			}        
 			$content .= <<<EOT
 );
 

@@ -27,7 +27,7 @@ class AdminPhpCode extends AdminObjects
     /*
     * @var string
     */
-    private $adminobjects;
+    protected $adminphpcode;
 
     /*
     *  @public function constructor
@@ -311,26 +311,8 @@ EOT;
         }
                 
 		return $ret;
-    }
-	
-	/*
-     *  @public function getAdminPhpCodeInsertData
-     *  @param $tableName
-     *  @param $language
-     *  @return string
-     */
-    public function getAdminPhpCodeInsertData($tableName, $language)
-    {
-        $ret = <<<EOT
-        // Insert Data
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-           redirect_header('{$tableName}.php?op=list', 2, {$language}FORMOK);
-        }\n
-EOT;
-        
-		return $ret;
-    }
-	
+    }	
+		
 	/**
      *  @public function getAdminPhpCodeXoopsSecurity
      *  @param $tableName
@@ -358,7 +340,7 @@ EOT;
         $ret = <<<EOT
         // Insert Data
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-           redirect_header('{$tableName}.php?op=list', 2, {$language}FORMOK);
+			redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
         }\n
 EOT;
         

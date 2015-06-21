@@ -19,7 +19,7 @@
  * @version         $Id: xoops_version.php 11084 2014-02-07 11:20:25Z timgno $
  */
 if (!defined('XOOPS_ROOT_PATH')){ exit(); }
-$dirname = basename(__DIR__) ;
+$dirname = basename(__DIR__);
 
 $modversion['name'] = _MI_TDMCREATE_NAME;
 $modversion['version'] = 1.91;
@@ -42,8 +42,8 @@ $modversion['dirmoduleadmin'] = "/Frameworks/moduleclasses/moduleadmin";
 $modversion['sysicons16'] = "../../Frameworks/moduleclasses/icons/16";
 $modversion['sysicons32'] = "../../Frameworks/moduleclasses/icons/32";
 // Local icons
-$modversion['modicons16'] = XOOPS_URL . "/modules/{$dirname}/assets/icons/16";
-$modversion['modicons32'] = XOOPS_URL . "/modules/{$dirname}/assets/icons/32";
+$modversion['modicons16'] = "assets/icons/16";
+$modversion['modicons32'] = "assets/icons/32";
 
 $modversion['targetdir'] = XOOPS_ROOT_PATH . "/modules/{$dirname}/modules/";
 

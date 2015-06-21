@@ -27,6 +27,7 @@ define('_AM_TDMCREATE_ADMIN_ABOUT', "About");
 define('_AM_TDMCREATE_ADMIN_PREFERENCES', "Preferences");
 define('_AM_TDMCREATE_ADMIN_UPDATE', "Update");
 define('_AM_TDMCREATE_ADMIN_NUMMODULES', "Statistics");
+define('_AM_TDMCREATE_THEREARE_NUMSETTINGS', "There are <span class='red bold'>%s</span> settings stored in the Database");
 define('_AM_TDMCREATE_THEREARE_NUMMODULES', "There are <span class='red bold'>%s</span> modules stored in the Database");
 define('_AM_TDMCREATE_THEREARE_NUMTABLES', "There are <span class='red bold'>%s</span> tables stored in the Database");
 define('_AM_TDMCREATE_THEREARE_NUMFIELDS', "There are <span class='red bold'>%s</span> fields stored in the Database");
@@ -55,7 +56,10 @@ define('_AM_TDMCREATE_DISPLAY_ADMIN', "Visible in Admin Panel");
 // 1.37
 define('_AM_TDMCREATE_DISPLAY_USER', "Visible in User View");
 // Added in version 1.91
-define('_AM_TDMCREATE_SETTING_EDIT', "Edit Customized Settings");
+define('_AM_TDMCREATE_ADD_SETTING', "Add Settings");
+define('_AM_TDMCREATE_SETTINGS_LIST', "Settings List");
+define('_AM_TDMCREATE_SETTING_NEW', "New Settings");
+define('_AM_TDMCREATE_SETTING_EDIT', "Edit Settings");
 define('_AM_TDMCREATE_SETTING_NAME', "Name");
 define('_AM_TDMCREATE_SETTING_DIRNAME', "Directory Name");
 define('_AM_TDMCREATE_SETTING_VERSION', "Version");
@@ -96,6 +100,7 @@ define('_AM_TDMCREATE_SETTING_NOTIFICATIONS', "Activate Notifications");
 define('_AM_TDMCREATE_SETTING_PERMISSIONS', "Activate Permissions");
 define('_AM_TDMCREATE_SETTING_INROOT', "Copy of this module in root/modules");
 define('_AM_TDMCREATE_SETTING_ALL', "Check All");
+define('_AM_TDMCREATE_SETTING_CHOISE', "Choise Settings");
 //Modules.php
 //Buttons
 define('_AM_TDMCREATE_ADD_MODULE', "Add new module");
@@ -345,6 +350,7 @@ define('_AM_TDMCREATE_BUILD_INROOT_DESC', "<b class='red big'>WARNING</b>: If in
 
 // Added in version 1.91
 define('_AM_TDMCREATE_CHANGE_DISPLAY', "Change Display");
+define('_AM_TDMCREATE_CHANGE_SETTINGS', "Change Settings");
 define('_AM_TDMCREATE_TOGGLE_SUCCESS', "Successfully Changed Display");
 define('_AM_TDMCREATE_TOGGLE_FAILED', "Changing Display Failed");
 define('_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST', "<b class='red big'>WARNING</b>: The table <b class='big red'>%s</b> exists for this module, create a new one with a different name");
