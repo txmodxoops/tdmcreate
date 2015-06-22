@@ -1,4 +1,4 @@
-# TDMCreate version 1.91 <img src="https://travis-ci.org/txmodxoops/TDMCreate-1.91.svg" alt="" />
+# TDMCreate version 1.91
 
 [![Build Status](https://img.shields.io/travis/txmodxoops/TDMCreate-1.91/master.svg?style=flat)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
