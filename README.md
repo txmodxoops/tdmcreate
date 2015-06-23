@@ -22,7 +22,7 @@ Needed xoops 2.5.7.1, PHP 5.3 or high
  - Added: filed_tfoot field in fields
 
 # Info
-TDMCreate is a module that create other basic modules for CMS Xoops.
+TDMCreate is a module that create other basic modules for XOOPS CMS.
 
 Tested with xoops 2.5.7 and 2.5.7.1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
