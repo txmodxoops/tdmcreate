@@ -7,3 +7,16 @@ php:
 
 env:
   - DB=mysql 
+
+before_script:
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_settings;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_modules;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_tables;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_fields;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_languages;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_fieldtype;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_fieldattributes;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_fieldnull;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_fieldkey;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_fieldelements;" -uroot; fi
+  - if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS tdmcreate_morefiles;" -uroot; fi
