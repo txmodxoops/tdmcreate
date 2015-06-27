@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,20 +10,22 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- *  TDMCreate class
+ *  TDMCreate class.
  *
  * @copyright       The XUUPS Project http://sourceforge.net/projects/xuups/
  * @license         http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package         TDMCreate
+ *
  * @since           1.0
+ *
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
+ *
  * @version         $Id: 1.91 session.php 12453 2014-03-28 18:34:46Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TDMCreateSession
+ * Class TDMCreateSession.
  */
 class TDMCreateSession
 {
@@ -30,7 +33,7 @@ class TDMCreateSession
      * Session constructor<br />
      * Starts the session with session_start()
      * <strong>Note:</strong> that if the session has already started,
-     * session_start() does nothing
+     * session_start() does nothing.
      */
     public function __construct()
     {
@@ -57,13 +60,10 @@ class TDMCreateSession
     }
 
     /**
-     * Sets a session variable
+     * Sets a session variable.
      *
      * @param string $name  name of variable
      * @param mixed  $value value of variable
-     *
-     * @return void
-     * @access public
      */
     public function setSession($name, $value)
     {
@@ -71,12 +71,11 @@ class TDMCreateSession
     }
 
     /**
-     * Fetches a session variable
+     * Fetches a session variable.
      *
      * @param string $name name of variable
      *
      * @return mixed value of session variable
-     * @access public
      */
     public function getSession($name)
     {
@@ -88,12 +87,9 @@ class TDMCreateSession
     }
 
     /**
-     * Deletes a session variable
+     * Deletes a session variable.
      *
      * @param string $name name of variable
-     *
-     * @return void
-     * @access public
      */
     public function deleteSession($name)
     {
@@ -101,10 +97,7 @@ class TDMCreateSession
     }
 
     /**
-     * Destroys the whole session
-     *
-     * @return void
-     * @access public
+     * Destroys the whole session.
      */
     public function destroySession()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: UserVisit.php 12258 2014-01-02 09:33:29Z timgno \$
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserVisit
+ * Class UserVisit.
  */
 class UserVisit extends UserObjects
 {
@@ -35,8 +38,8 @@ class UserVisit extends UserObjects
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->userobjects = UserObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -83,14 +86,15 @@ class UserVisit extends UserObjects
      * @param $module
      * @param $tableName
      * @param $language
+     *
      * @return string
      */
     public function getUserVisit($moduleDirname, $tableName, $fields, $language)
     {
         $stuModuleName = strtoupper($moduleDirname);
-		$fieldId       = $this->userobjects->getUserSaveFieldId($fields);
-		$ccFieldId     = $this->tdmcfile->getCamelCase($fieldId, false, true);
-        $ret           = <<<EOT
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
 \$agree = XoopsRequest::getInt('agree', 0, 'GET');
@@ -100,12 +104,12 @@ include  __DIR__ . '/header.php';
 list(\$url) = \$xoopsDB->fetchRow(\$result);
 \$url = \$myts->htmlSpecialChars(preg_replace('/javascript:/si' , 'java script:', \$url), ENT_QUOTES);
 if (!empty(\$url)) {
-	header("Cache-Control: no-store, no-cache, must-revalidate"); 
-	header("Cache-Control: post-check=0, pre-check=0", false); 
+	header("Cache-Control: no-store, no-cache, must-revalidate");
+	header("Cache-Control: post-check=0, pre-check=0", false);
 	// HTTP/1.0
 	header("Pragma: no-cache");
 	// Date in the past
-	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT"); 
+	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
 	// always modified
 	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 	header("Refresh: 0; url=\$url");
@@ -116,7 +120,7 @@ EOT;
 
         return $ret;
     }
-    
+
     /*
     *  @public function render
     *  @param null
@@ -126,18 +130,18 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId       = $table->getVar('table_id');
-		$tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserVisit($moduleDirname, $tableName, $fields, $language);
-		
+
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

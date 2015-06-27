@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TemplatesUserSubmit.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserSubmit
+ * Class TemplatesUserSubmit.
  */
 class TemplatesUserSubmit extends TDMCreateFile
 {
@@ -81,169 +84,15 @@ class TemplatesUserSubmit extends TDMCreateFile
      * @param $moduleDirname
      * @param $table
      * @param $language
+     *
      * @return string
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
     {
-        $ret    = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>\n
-EOT;
-
-        return $ret;
-    }
-	
-	/*
-    *  @private function getTemplatesUserSubmitTableHeader
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     * @return string
-     */
-    private function getTemplatesUserSubmitTableHeader($moduleDirname, $table, $language)
-    {
-        $ret    = <<<EOT
-<table class="{$moduleDirname}">
-    <thead class="outer">
-        <tr class="head">\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName        = $fields[$f]->getVar('field_name');
-            $langStuFieldName = $language . strtoupper($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
-EOT;
-            }
-        }
-        $ret .= <<<EOT
-        </tr>
-    </thead>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
     /*
-    *  @private function getTemplatesUserSubmitBody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     * @return string
-     */
-    private function getTemplatesUserSubmitBody($moduleDirname, $table, $language)
-    {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-                <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
-EOT;
-                        break;
-                    case 10:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-                <td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserSubmitBodyFieldnameEmpty
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     * @return string
-     */
-    private function getTemplatesUserSubmitBodyFieldnameEmpty($moduleDirname, $table, $language)
-    {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-            <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
-
-        return $ret;
-    }
-	
-	/*
     *  @private function getTemplatesUserSubmit
     *  @param string $moduleDirname
     *  @param string $language
@@ -251,32 +100,29 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getTemplatesUserSubmit($moduleDirname, $language)
-    {
-        
-		$ret    = <<<EOT
-	<!-- Submit helps -->
-	<div class="{$moduleDirname}-tips">
-		<ul>
-			<li><{\$smarty.const.{$language}SUBMIT_SUBMITONCE}></li>
-			<li><{\$smarty.const.{$language}SUBMIT_ALLPENDING}></li>
-			<li><{\$smarty.const.{$language}SUBMIT_DONTABUSE}></li>
-			<li><{\$smarty.const.{$language}SUBMIT_TAKEDAYS}></li>
-		</ul>
-	</div>
-	
-	<{if \$message_error != ''}>
-	<!-- Error message-->
-	<div class="errorMsg"><{\$message_error}></div>
-	<{/if}>
-	
-	<!-- Submit form -->
-	<div class="{$moduleDirname}-submitform"><{\$form}></div>\n
-EOT;
-
-        return $ret;
+    {        
+        $const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
+		$li     = $this->htmlcode->getHtmlLi($const).PHP_EOL;
+		$const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_ALLPENDING');
+		$li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+		$const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_DONTABUSE');
+		$li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+		$const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
+		$li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $ul     = $this->htmlcode->getHtmlUl($li).PHP_EOL;
+		$ret    = $this->htmlcode->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
+		
+		$single   = $this->htmlcode->getSmartySingleVar('message_error').PHP_EOL;
+		$divError = $this->htmlcode->getHtmlDiv($single, 'errorMsg').PHP_EOL;
+		$ret   .= $this->htmlcode->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
+		$single = $this->htmlcode->getSmartySingleVar('form').PHP_EOL;
+		$ret   .= $this->htmlcode->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
+		
+		return $ret;
     }
 
     /*
@@ -285,15 +131,12 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getTemplatesUserSubmitFooter($moduleDirname)
     {
-        $ret = <<<EOT
-<{include file="db:{$moduleDirname}_footer.tpl"}>
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /*
@@ -302,6 +145,7 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile($filename)
@@ -312,14 +156,8 @@ EOT;
         $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
         $content        = $this->getTemplatesUserSubmitHeader($moduleDirname);
-		$content .= $this->getTemplatesUserSubmit($moduleDirname, $language);
-        // Verify if table_fieldname is not empty
-        /*if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserSubmitBody($moduleDirname, $table, $language);
-        } else {
-            $content .= $this->getTemplatesUserSubmitBodyFieldnameEmpty($moduleDirname, $table, $language);
-        }*/
-        $content .= $this->getTemplatesUserSubmitFooter($moduleDirname);
+        $content       .= $this->getTemplatesUserSubmit($moduleDirname, $language);
+        $content       .= $this->getTemplatesUserSubmitFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

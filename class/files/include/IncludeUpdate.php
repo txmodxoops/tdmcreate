@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeUpdate.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeUpdate
+ * Class IncludeUpdate.
  */
 class IncludeUpdate extends TDMCreateFile
 {
@@ -35,7 +38,7 @@ class IncludeUpdate extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -78,6 +81,7 @@ class IncludeUpdate extends TDMCreateFile
     /**
      * @param $moduleDirname
      * @param $moduleVersion
+     *
      * @return string
      */
     private function getIncludeUpdateModule($moduleDirname, $moduleVersion)
@@ -117,6 +121,7 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $moduleVersion
+     *
      * @return string
      */
     private function getIncludeUpdateVersion($moduleDirname, $moduleVersion)
@@ -196,11 +201,11 @@ EOT;
      */
     public function renderFile()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $moduleVersion = str_replace('.', '', $module->getVar('mod_version'));
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getIncludeUpdateModule($moduleDirname, $moduleVersion);
         $content .= $this->getIncludeUpdateVersion($moduleDirname, $moduleVersion);
         //

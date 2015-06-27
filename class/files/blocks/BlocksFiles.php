@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: blocks_pages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class BlocksFiles
+ * Class BlocksFiles.
  */
 class BlocksFiles extends TDMCreateFile
 {
@@ -81,13 +84,14 @@ class BlocksFiles extends TDMCreateFile
      * @param $tableCategory
      * @param $fields
      * @param $fieldId
+     *
      * @return string
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/include/common.php';
 // Function show block
 function b_{$moduleDirname}_{$tableName}_show(\$options)
@@ -122,7 +126,7 @@ EOT;
     }\n
 EOT;
         } else {
-        $ret .= <<<EOT
+            $ret .= <<<EOT
 	switch(\$typeBlock)
 	{
 		// For the block: {$tableName} last
@@ -168,38 +172,38 @@ EOT;
             $fieldName = $fields[$f]->getVar('field_name');
             // Verify if table_fieldname is not empty
             //$lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
-            $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
-			$fieldElement = $fields[$f]->getVar('field_element');
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_block')) {
-				switch($fieldElement) {
-					case 2:
-						$ret .= <<<EOT
+                switch ($fieldElement) {
+                    case 2:
+                        $ret .= <<<EOT
         \$block[\$i]['{$rpFieldName}'] = \$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-						break;
-					case 3:
-					case 4:
-						$ret .= <<<EOT
+                        break;
+                    case 3:
+                    case 4:
+                        $ret .= <<<EOT
 		\$block[\$i]['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-						break;
-					case 8:
-					$ret .= <<<EOT
+                        break;
+                    case 8:
+                    $ret .= <<<EOT
 		\$block[\$i]['{$rpFieldName}'] = XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-						break;
-					case 15:
-					$ret .= <<<EOT
+                        break;
+                    case 15:
+                    $ret .= <<<EOT
 		\$block[\$i]['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
-						break;
-					default:
-						$ret .= <<<EOT
+                        break;
+                    default:
+                        $ret .= <<<EOT
         \$block[\$i]['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
-						break;
-				}
-			}
+                        break;
+                }
+            }
         }
         $ret .= <<<EOT
     }
@@ -224,14 +228,15 @@ EOT;
      * @param $fieldId
      * @param $fieldMain
      * @param $language
+     *
      * @return string
      */
     private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-		$stuTableName = strtoupper($tableName);
+        $stuTableName = strtoupper($tableName);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
 // Function edit block
 function b_{$moduleDirname}_{$tableName}_edit(\$options)
 {
@@ -272,25 +277,26 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile($filename)
     {
-        $module         = $this->getModule();
-        $table          = $this->getTable();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tableName = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $tableCategory  = $table->getVar('table_category');
-        $language       = $this->getLanguage($moduleDirname, 'MB');
-        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $tableCategory = $table->getVar('table_category');
+        $language = $this->getLanguage($moduleDirname, 'MB');
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName   = $fields[$f]->getVar('field_name');
-			$fieldParent = $fields[$f]->getVar('field_parent');
-			if (0 == $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldParent = $fields[$f]->getVar('field_parent');
+            if (0 == $f) {
                 $fieldId = $fieldName;
             }
-			if (1 == $fields[$f]->getVar('field_main')) {
+            if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }
         }

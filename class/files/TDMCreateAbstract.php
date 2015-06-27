@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,18 +10,20 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TDMCreateAbstract.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Abstract base class
+ * Abstract base class.
  */
 abstract class TDMCreateAbstract
 {
@@ -28,37 +31,38 @@ abstract class TDMCreateAbstract
     * @var mixed
     */
     protected $tdmcreate;
-	
-	/**
-     * "module" attribute fot files
+
+    /**
+     * "module" attribute fot files.
      *
      * @var mixed
      */
     protected $module;
 
     /**
-     * "table" attribute fot files
+     * "table" attribute fot files.
      *
      * @var mixed
      */
     protected $table;
 
     /**
-     * "tables" attribute fot files
+     * "tables" attribute fot files.
      *
      * @var mixed
      */
     protected $tables;
 
     /**
-     * "fields" attribute fot files
+     * "fields" attribute fot files.
      *
      * @var mixed
      */
     protected $fields;
 
     /**
-     * public function setFileName
+     * public function setFileName.
+     *
      * @param mixed $module
      */
     public function setModule($module)
@@ -81,7 +85,8 @@ abstract class TDMCreateAbstract
     }
 
     /**
-     * public function setTable
+     * public function setTable.
+     *
      * @param mixed $table
      */
     public function setTable($table)
@@ -104,7 +109,8 @@ abstract class TDMCreateAbstract
     }
 
     /**
-     * public function setTables
+     * public function setTables.
+     *
      * @param mixed $tables
      */
     public function setTables($tables)
@@ -128,6 +134,7 @@ abstract class TDMCreateAbstract
 
     /**
      * @public function setFields
+     *
      * @param mixed $fields
      */
     public function setFields($fields)

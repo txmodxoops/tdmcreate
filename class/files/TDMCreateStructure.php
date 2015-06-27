@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,22 +10,24 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TDMCreateStructure.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class TDMCreateStructure
+ * Class TDMCreateStructure.
  */
 class TDMCreateStructure
-{	
-	/*
+{
+    /*
     * @var mixed
     */
     private $xoopsFile;
@@ -59,7 +62,7 @@ class TDMCreateStructure
     public function __construct()
     {
         //parent::__construct();
-		$this->xoopsFile = XoopsFile::getInstance();
+        $this->xoopsFile = XoopsFile::getInstance();
     }
 
     /*
@@ -77,8 +80,8 @@ class TDMCreateStructure
         }
 
         return $instance;
-    } 
-    
+    }
+
     /*
     *  @protected function setUploadPath
     *  @param string $path
@@ -96,7 +99,6 @@ class TDMCreateStructure
     *  @return string $path
     */
     /**
-     * @return null
      */
     protected function getUploadPath()
     {
@@ -120,7 +122,6 @@ class TDMCreateStructure
     *  @return string $moduleName
     */
     /**
-     * @return null
      */
     protected function getModuleName()
     {
@@ -144,7 +145,6 @@ class TDMCreateStructure
     *  @return string $folderName
     */
     /**
-     * @return null
      */
     private function getFolderName()
     {
@@ -168,7 +168,6 @@ class TDMCreateStructure
     *  @return string $fileName
     */
     /**
-     * @return null
      */
     private function getFileName()
     {
@@ -203,30 +202,30 @@ class TDMCreateStructure
     {
         $this->isDir(strtolower(trim($dir)));
     }
-	
-	/*
+
+    /*
     *  @protected function isDirEmpty
     *  @param string $dir
     */
     /**
      * @param $dir
      */
-	function isDirEmpty($dir)
-	{
-		$content = array();
-		$handle = opendir($dir);
-		while (false !== ($entry = readdir($handle))) {
-			if ($entry != '.' && $entry != '..') {
-				$content[] = $entry;
-			}
-		}	 
-		closedir ($handle);
-		if(count($content) > 0)	{
-			return true;
-		} else {
-			return false;
-		}
-	}
+    public function isDirEmpty($dir)
+    {
+        $content = array();
+        $handle = opendir($dir);
+        while (false !== ($entry = readdir($handle))) {
+            if ($entry != '.' && $entry != '..') {
+                $content[] = $entry;
+            }
+        }
+        closedir($handle);
+        if (count($content) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /*
     *  @public function addFolderPath
@@ -236,6 +235,7 @@ class TDMCreateStructure
     /**
      * @param      $folderName
      * @param bool $fileName
+     *
      * @return string
      */
     private function addFolderPath($folderName, $fileName = false)
@@ -243,9 +243,9 @@ class TDMCreateStructure
         $this->setFolderName($folderName);
         if ($fileName) {
             $this->setFileName($fileName);
-            $ret = $this->getUploadPath() . DS . $this->getModuleName() . DS . $this->getFolderName() . DS . $this->getFileName();
+            $ret = $this->getUploadPath().DS.$this->getModuleName().DS.$this->getFolderName().DS.$this->getFileName();
         } else {
-            $ret = $this->getUploadPath() . DS . $this->getModuleName() . DS . $this->getFolderName();
+            $ret = $this->getUploadPath().DS.$this->getModuleName().DS.$this->getFolderName();
         }
 
         return $ret;

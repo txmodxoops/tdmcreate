@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: UserPdf.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserPdf
+ * Class UserPdf.
  */
 class UserPdf extends UserObjects
 {
@@ -35,8 +38,8 @@ class UserPdf extends UserObjects
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->userobjects = UserObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -83,13 +86,14 @@ class UserPdf extends UserObjects
      * @param $module
      * @param $tableName
      * @param $language
+     *
      * @return string
      */
     public function getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language)
     {
         $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-		$stuModuleDirname = strtoupper($moduleDirname);
-        $ret           = <<<EOT
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ret = <<<EOT
 include  __DIR__ . '/header.php';
 if(file_exists(\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/tcpdf.php')) {
 	require_once \$tcpdf;
@@ -100,37 +104,37 @@ if(file_exists(\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/tcpdf.php')) {
 \${$tableName}Handler =& {$moduleDirname}->getHandler('{$tableName}');
 \$pdfContent = \${$tableName}Handler->get(\$this->getVar('{$fieldId}'));\n
 EOT;
-		foreach(array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-			$fieldDefault = $fields[$f]->getVar('field_default');
-			$fieldElement = $fields[$f]->getVar('field_element');
-			switch($fieldElement) {
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldDefault = $fields[$f]->getVar('field_default');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            switch ($fieldElement) {
                 case 2:
-					if(strstr($fieldName, 'title') || strstr($fieldName, 'name') && $fieldDefault == '') {
-					$ret .= <<<EOT
+                    if (strstr($fieldName, 'title') || strstr($fieldName, 'name') && $fieldDefault == '') {
+                        $ret .= <<<EOT
 \$pdfData['title'] = strip_tags(\$pdfContent->getVar('{$fieldName}'));\n
 EOT;
-					}
-				break;
-				case 3:
+                    }
+                break;
+                case 3:
                 case 4:
-					$ret .= <<<EOT
+                    $ret .= <<<EOT
 \$pdfData['content'] = strip_tags(\$pdfContent->getVar('{$fieldName}'));\n
 EOT;
-				break;
+                break;
                 case 8:
-					$ret .= <<<EOT
+                    $ret .= <<<EOT
 \$pdfData['author'] = XoopsUser::getUnameFromId(\$pdfContent->getVar('{$fieldName}'));\n
 EOT;
-				break;				
-				case 15:
-					$ret .= <<<EOT
+                break;
+                case 15:
+                    $ret .= <<<EOT
 \$pdfData['date'] = formatTimeStamp(\$pdfContent->getVar('{$fieldName}'));\n
 EOT;
-				break;				
-			}
-		}
-		$ret .= <<<EOT
+                break;
+            }
+        }
+        $ret .= <<<EOT
 //
 \$pdfData['creator'] = \$GLOBALS['xoopsConfig']['xoops_sitename'];
 \$pdfData['subject'] = \$GLOBALS['xoopsConfig']['slogan'];
@@ -154,9 +158,9 @@ define('{$stuModuleDirname}_IMAGES_PATH', XOOPS_ROOT_PATH.'/images/');
 \$pdfData['fontsize'] = 12;
 // For schinese
 if (_LANGCODE == "cn") {
-	\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']); 
+	\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']);
 } else {
-	\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']); 
+	\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']);
 }
 // set document information
 \$pdf->SetCreator(\$pdfData['creator']);
@@ -176,13 +180,13 @@ if (_LANGCODE == "cn") {
 \$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
 
 // For schinese
-if (_LANGCODE == "cn") { 
+if (_LANGCODE == "cn") {
 	\$pdf->setHeaderFont(array('gbsn00lp', '', \$pdfData['fontsize']));
 	\$pdf->setFooterFont(array('gbsn00lp', '', \$pdfData['fontsize']));
 } else {
 	\$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
 	\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
-}	
+}
 // set some language-dependent strings (optional)
 if (@file_exists(\$lang = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php')) {
     require_once(\$lang);
@@ -211,16 +215,16 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId       = $table->getVar('table_id');
-		$tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language);
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

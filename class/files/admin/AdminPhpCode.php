@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,18 +10,20 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: AdminPhpCode.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class AdminPhpCode
+ * Class AdminPhpCode.
  */
 class AdminPhpCode extends AdminObjects
 {
@@ -65,17 +68,19 @@ class AdminPhpCode extends AdminObjects
     *  @return string
     */
     public function getAdminIncludeHeader()
-    {        
-        $ret              = <<<EOT
+    {
+        $ret = <<<EOT
 include  __DIR__ . '/header.php';\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /**
-     *  @public function getAdminSwitch    
-	 *  @param $content
+     *  @public function getAdminSwitch
+     *
+     *  @param $content
+     *
      *  @return string
      */
     public function getAdminSwitch($content)
@@ -86,13 +91,15 @@ switch {\n
 }\n
 EOT;
 
-		return $ret;
+        return $ret;
     }
-	
-	/**
-     *  @public function getAdminStringCaseDefaultSwitch    
+
+    /**
+     *  @public function getAdminStringCaseDefaultSwitch
+     *
      *  @param $case
-	 *  @param $content
+     *  @param $content
+     *
      *  @return string
      */
     public function getAdminStringCaseDefaultSwitch($case = 'list', $content)
@@ -104,13 +111,15 @@ EOT;
     break;\n
 EOT;
 
-		return $ret;
+        return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getAdminStringCaseSwitch
+     *
      *  @param $case
-	 *  @param $content
+     *  @param $content
+     *
      *  @return string
      */
     public function getAdminStringCaseSwitch($case = 'list', $content)
@@ -121,11 +130,11 @@ EOT;
     break;\n
 EOT;
 
-		return $ret;
+        return $ret;
     }
-	
-	/*
-    *  @public function getAdminNumericCaseDefaultSwitch    
+
+    /*
+    *  @public function getAdminNumericCaseDefaultSwitch
     *  @param $case
     *  @return string
     */
@@ -138,11 +147,11 @@ EOT;
     break;\n
 EOT;
 
-		return $ret;
+        return $ret;
     }
-	
-	/*
-    *  @public function getAdminNumericCaseSwitch    
+
+    /*
+    *  @public function getAdminNumericCaseSwitch
     *  @param $case
     *  @return string
     */
@@ -154,28 +163,30 @@ EOT;
     break;\n
 EOT;
 
-		return $ret;
+        return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getAdminTemplateMain
-    *  @param $moduleDirname	
+    *  @param $moduleDirname
     *  @param $tableName
     *  @return string
     */
     public function getAdminTemplateMain($moduleDirname, $tableName)
     {
-		$ret = <<<EOT
+        $ret = <<<EOT
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n
 EOT;
-		
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getAdminXoopsTplAssign
+     *
      *  @param string $tplString
      *  @param string $phpRender
+     *
      *  @return string
      */
     public function getAdminXoopsTplAssign($tplString, $phpRender)
@@ -183,14 +194,16 @@ EOT;
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->assign('{$tplString}', \${$phpRender});\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getAdminXoopsTplAppend
+     *
      *  @param string $tplString
      *  @param string $phpRender
+     *
      *  @return string
      */
     public function getAdminXoopsTplAppend($tplString, $phpRender)
@@ -198,14 +211,16 @@ EOT;
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->append('{$tplString}', \${$phpRender});\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getAdminXoopsTplAppendByRef
+     *
      *  @param string $tplString
      *  @param string $phpRender
+     *
      *  @return string
      */
     public function getAdminXoopsTplAppendByRef($tplString, $phpRender)
@@ -213,15 +228,15 @@ EOT;
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', \${$phpRender});\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getAdminTemplateMain
-    *  @param $moduleDirname	
+    *  @param $moduleDirname
     *  @param $tableName
-	*  @param $admin
+    *  @param $admin
     *  @return string
     */
     public function getAdminItemButton($moduleDirname, $tableName, $admin = false)
@@ -232,13 +247,15 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getAdminAddNavigation
+     *
      *  @param $tableName
+     *
      *  @return string
      */
     public function getAdminAddNavigation($tableName)
@@ -246,13 +263,15 @@ EOT;
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /**
      *  @public function getAdminObjHandlerCreate
+     *
      *  @param string $tableName
+     *
      *  @return string
      */
     public function getAdminObjHandlerCreate($tableName)
@@ -260,15 +279,17 @@ EOT;
         $ret = <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->create();\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /**
      *  @public function getAdminPhpCodeSetVarsObjects
+     *
      *  @param $moduleDirname
      *  @param $tableName
      *  @param $fields
+     *
      *  @return string
      */
     public function getAdminPhpCodeSetVarsObjects($moduleDirname, $tableName, $fields)
@@ -277,7 +298,7 @@ EOT;
         // Set Vars\n
 EOT;
         foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
@@ -292,9 +313,9 @@ EOT;
                         $ret .= $this->adminobjects->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
-						if(1 == $fields[$f]->getVar('field_main')) {							
-							$fieldMain = $fieldName;
-						}
+                        if (1 == $fields[$f]->getVar('field_main')) {
+                            $fieldMain = $fieldName;
+                        }
                         $ret .= $this->adminobjects->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
@@ -309,13 +330,15 @@ EOT;
                 }
             }
         }
-                
-		return $ret;
-    }	
-		
-	/**
+
+        return $ret;
+    }
+
+    /**
      *  @public function getAdminPhpCodeXoopsSecurity
+     *
      *  @param $tableName
+     *
      *  @return string
      */
     public function getAdminPhpCodeXoopsSecurity($tableName)
@@ -325,11 +348,11 @@ EOT;
 			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getAdminPhpCodeInsertData
     *  @param $tableName
     *  @param $language
@@ -343,13 +366,15 @@ EOT;
 			redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
         }\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getAdminPhpCodeGetFormError
+     *
      *  @param $tableName
+     *
      *  @return string
      */
     public function getAdminPhpCodeGetFormError($tableName)
@@ -361,13 +386,15 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());\n
 EOT;
 
-		return $ret;
+        return $ret;
     }
 
     /**
      *  @public function getAdminPhpCodeGetFormId
+     *
      *  @param string $tableName
      *  @param string $fieldId
+     *
      *  @return string
      */
     public function getAdminPhpCodeGetFormId($tableName, $fieldId)
@@ -378,14 +405,16 @@ EOT;
         \$form = \${$tableName}Obj->getForm();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /**
      *  @public function getAdminPhpCodeGetObjHandlerId
+     *
      *  @param string $tableName
      *  @param string $fieldId
+     *
      *  @return string
      */
     public function getAdminPhpCodeGetObjHandlerId($tableName, $fieldId)
@@ -396,8 +425,8 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getAdminPhpCodeDelete
     *  @param string $tableName
     *  @param string $language
@@ -440,7 +469,7 @@ EOT;
     public function getAdminPhpCodeUpdate($moduleDirname, $tableName, $language, $fieldId, $fieldMain)
     {
         $upModuleName = strtoupper($moduleDirname);
-        $ret          = <<<EOT
+        $ret = <<<EOT
     case 'update':
         if (isset(\${$fieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
@@ -453,8 +482,8 @@ EOT;
         echo \${$tableName}Obj->getHtmlErrors();
     break;\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /*
@@ -469,7 +498,7 @@ EOT;
         $ret = <<<EOT
 include  __DIR__ . '/footer.php';
 EOT;
-        
-		return $ret;
-    }    
+
+        return $ret;
+    }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,28 +10,30 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: LanguageDefines.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class LanguageDefines
+ * Class LanguageDefines.
  */
 class LanguageDefines extends TDMCreateFile
 {
-        /*
+    /*
     * @var mixed
     */
     protected $defines;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -39,7 +42,7 @@ class LanguageDefines extends TDMCreateFile
      */
     public function __construct()
     {
-		parent::__construct();
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
@@ -56,6 +59,7 @@ class LanguageDefines extends TDMCreateFile
         if (!$instance) {
             $instance = new self();
         }
+
         return $instance;
     }
 
@@ -69,6 +73,7 @@ class LanguageDefines extends TDMCreateFile
         $ret = <<<EOT
 // ---------------- {$string} ----------------\n
 EOT;
+
         return $ret;
     }
 
@@ -82,6 +87,7 @@ EOT;
         $ret = <<<EOT
 // {$string}\n
 EOT;
+
         return $ret;
     }
 
@@ -95,9 +101,10 @@ EOT;
     public function getDefine($language, $defined, $description)
     {
         $defined = strtoupper($defined);
-		$ret = <<<EOT
+        $ret = <<<EOT
 define('{$language}{$defined}', "{$description}");\n
 EOT;
+
         return $ret;
     }
 
@@ -107,6 +114,7 @@ EOT;
     */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getBelowDefines($string)
@@ -114,6 +122,7 @@ EOT;
         $ret = <<<EOT
 // ---------------- {$string} ----------------
 EOT;
+
         return $ret;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,21 +10,23 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: 1.91 TemplatesAdminAbout.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesAdminAbout
+ * Class TemplatesAdminAbout.
  */
-class TemplatesAdminAbout extends TDMCreateFile
+class TemplatesAdminAbout extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -34,7 +37,9 @@ class TemplatesAdminAbout extends TDMCreateFile
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -82,14 +87,14 @@ class TemplatesAdminAbout extends TDMCreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = <<<EOT
-<!-- Header -->
-<{includeq file="db:{$moduleDirname}_admin_header.tpl"}>
-<!-- About Page -->
-<div class="top"><{\$about}></div>
-<!-- Footer -->
-<{includeq file="db:{$moduleDirname}_admin_footer.tpl"}>
-EOT;
+        $content       = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
+		$content .= $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'header', true).PHP_EOL;
+		$content .= $this->htmlcode->getHtmlComment('About Page').PHP_EOL;
+		$single   = $this->htmlcode->getSmartySingleVar('about');
+		$content .= $this->htmlcode->getHtmlDiv($single, 'top').PHP_EOL;
+		$content .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
+		$content .= $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'footer', true);
+		
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

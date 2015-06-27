@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TemplatesUserRss.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserRss
+ * Class TemplatesUserRss.
  */
 class TemplatesUserRss extends TDMCreateFile
 {
@@ -69,7 +72,7 @@ class TemplatesUserRss extends TDMCreateFile
     {
         $this->setModule($module);
     }
-   
+
     /*
     *  @private function getTemplatesUserRssXml
     *  @param string $moduleDirname
@@ -80,6 +83,7 @@ class TemplatesUserRss extends TDMCreateFile
      * @param $moduleDirname
      * @param $table
      * @param $language
+     *
      * @return string
      */
     private function getTemplatesUserRssXml()
@@ -129,14 +133,15 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile($filename)
     {
-        $module         = $this->getModule();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserRssXml();
+        $module = $this->getModule();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getTemplatesUserRssXml();
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

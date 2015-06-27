@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: user_footer.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserFooter
+ * Class UserFooter.
  */
 class UserFooter extends TDMCreateFile
 {
@@ -78,17 +81,17 @@ class UserFooter extends TDMCreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
+        $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $stu_mod_name  = strtoupper($moduleDirname);
-        $filename      = $this->getFileName();
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $stu_mod_name = strtoupper($moduleDirname);
+        $filename = $this->getFileName();
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 if (count(\$xoBreadcrumbs) > 1) {
     \$GLOBALS['xoopsTpl']->assign('xoBreadcrumbs', \$xoBreadcrumbs);
-}		
+}
 \$sysPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
-\$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');	
+\$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');
 \$GLOBALS['xoopsTpl']->assign('sysPathIcon32', \$sysPathIcon32);
 \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stu_mod_name}_URL);
 \$GLOBALS['xoopsTpl']->assign('adv', xoops_getModuleOption('advertise', \$dirname));

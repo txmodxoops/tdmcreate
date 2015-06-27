@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: xoopsversion_file.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserXoopsVersion
+ * Class UserXoopsVersion.
  */
 class UserXoopsVersion extends TDMCreateFile
 {
@@ -112,118 +115,120 @@ class UserXoopsVersion extends TDMCreateFile
     {
         return $this->keywords;
     }
-	
-	/**
+
+    /**
      * @private function getModVersionHeaderComment
      *
-     * @param $comment	 
+     * @param $comment
+     *
      * @return string
      */
     private function getModVersionHeaderComment($comment)
     {
-		$ret = <<<EOT
+        $ret = <<<EOT
 // ------------------- {$comment} ------------------- //
 EOT;
-		
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      * @private function getModVersionComment
      *
-     * @param $comment	 
+     * @param $comment
+     *
      * @return string
      */
     private function getModVersionComment($comment)
     {
-		$ret = <<<EOT
+        $ret = <<<EOT
 // {$comment}
 EOT;
-		
-		return $ret;
+
+        return $ret;
     }
-	
-	/**
+
+    /**
      * @private function getModVersionArray
      *
      * @param $array
-	 * @param $type
-	 * @param $left
-	 * @param $desc
+     * @param $type
+     * @param $left
+     * @param $desc
      * @param $index
-	 * @param $right 
-	 
+     * @param $right
+
      * @return string
      */
     private function getModVersionArray($array = 1, $left, $desc = '', $index = null, $right = null, $arrayOptions)
     {
-		if(!is_string($desc)) {
-			if($array == 1) {
-				$ret = <<<EOT
+        if (!is_string($desc)) {
+            if ($array == 1) {
+                $ret = <<<EOT
 \$modversion['{$left}'] = {$desc};\n
 EOT;
-			}	
-			if($array == 2 && $index == 'empty') {
-				$ret = <<<EOT
+            }
+            if ($array == 2 && $index == 'empty') {
+                $ret = <<<EOT
 \$modversion['{$left}'][] = {$desc};\n
 EOT;
-			}
-			if($array == 2 && !is_string($index)) {
-				$ret = <<<EOT
+            }
+            if ($array == 2 && !is_string($index)) {
+                $ret = <<<EOT
 \$modversion['{$left}'][{$index}] = {$desc};\n
 EOT;
-			}
-			if($array == 2 && is_string($index)) {
-				$ret = <<<EOT
+            }
+            if ($array == 2 && is_string($index)) {
+                $ret = <<<EOT
 \$modversion['{$left}']['{$index}'] = {$desc};\n
 EOT;
-			}
-			if($array == 3) {
-				$ret = <<<EOT
+            }
+            if ($array == 3) {
+                $ret = <<<EOT
 \$modversion['{$left}'][{$index}][{$right}] = {$desc};\n
 EOT;
-			}
-			if(($array == 4) && !empty($arrayOptions)) {
-				$ret = <<<EOT
+            }
+            if (($array == 4) && !empty($arrayOptions)) {
+                $ret = <<<EOT
 \$modversion['{$left}'][{$index}][{$right}] = {$desc};
 \$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n
 EOT;
-			}
-		} else {
-			if($array == 1) {
-				$ret = <<<EOT
+            }
+        } else {
+            if ($array == 1) {
+                $ret = <<<EOT
 \$modversion['{$left}'] = "{$desc}";\n
 EOT;
-			}	
-			if($array == 2 && $index == 'empty') {
-				$ret = <<<EOT
+            }
+            if ($array == 2 && $index == 'empty') {
+                $ret = <<<EOT
 \$modversion['{$left}'][] = "{$desc}";\n
 EOT;
-			}
-			if($array == 2 && !is_string($index)) {
-				$ret = <<<EOT
+            }
+            if ($array == 2 && !is_string($index)) {
+                $ret = <<<EOT
 \$modversion['{$left}'][{$index}] = "{$desc}";\n
 EOT;
-			}
-			if($array == 2 && is_string($index)) {
-				$ret = <<<EOT
+            }
+            if ($array == 2 && is_string($index)) {
+                $ret = <<<EOT
 \$modversion['{$left}']['{$index}'] = "{$desc}";\n
 EOT;
-			}
-			if($array == 3) {
-				$ret = <<<EOT
+            }
+            if ($array == 3) {
+                $ret = <<<EOT
 \$modversion['{$left}'][{$index}][{$right}] = "{$desc}";\n
 EOT;
-			}
-			if(($array == 4) && !empty($arrayOptions)) {
-				$ret = <<<EOT
+            }
+            if (($array == 4) && !empty($arrayOptions)) {
+                $ret = <<<EOT
 \$modversion['{$left}'][{$index}][{$right}] = "{$desc}";
 \$modversion['{$left}'][{$index}][{$right}] = "{$arrayOptions}";\n
 EOT;
-			}
-		}
-		
-		return $ret;
+            }
+        }
+
+        return $ret;
     }
 
     /*
@@ -234,13 +239,14 @@ EOT;
      * @param $module
      * @param $table
      * @param $language
+     *
      * @return string
      */
     private function getXoopsVersionHeader($module, $table, $language)
     {
-		//$dateString = preg_replace('/[^0-9]/', '/', _DBDATESTRING);
+        //$dateString = preg_replace('/[^0-9]/', '/', _DBDATESTRING);
         $date = date(_DBDATESTRING); // _DBDATESTRING
-        $ret  = <<<EOT
+        $ret = <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 //
 //\$dirname = basename(__DIR__);
@@ -254,7 +260,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
     'author_website_url' => '{$module->getVar('mod_author_website_url')}',
     'author_website_name' => '{$module->getVar('mod_author_website_name')}',
     'credits' => '{$module->getVar('mod_credits')}',
-    'license' => '{$module->getVar('mod_license')}',    
+    'license' => '{$module->getVar('mod_license')}',
     'license_url' => 'www.gnu.org/licenses/gpl-2.0.html/',
 	'help' => 'page=help',
     //
@@ -309,10 +315,9 @@ EOT;
     'onInstall' => 'include/install.php',\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != null) {
-                $ret .= <<<EOT
+            $ret .= <<<EOT
     'onUpdate' => 'include/update.php'\n
 EOT;
-
         }
         $ret .= <<<EOT
 );\n
@@ -329,13 +334,14 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $table
+     *
      * @return string
      */
     private function getXoopsVersionMySQL($moduleDirname, $table, $tables)
     {
         $tableName = $table->getVar('table_name');
-        $n         = 1;
-        $ret       = '';
+        $n = 1;
+        $ret = '';
         if (!empty($tableName)) {
             $ret .= <<<EOT
 // ------------------- Mysql ------------------- //
@@ -350,11 +356,11 @@ EOT;
             }
             unset($n);
         }
-		$ret .= <<<EOT
+        $ret .= <<<EOT
 \n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /*
@@ -363,6 +369,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getXoopsVersionSearch($moduleDirname)
@@ -383,6 +390,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getXoopsVersionComments($moduleDirname)
@@ -407,19 +415,20 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $table
+     *
      * @return string
      */
     private function getXoopsVersionTemplatesAdmin($moduleDirname, $table, $tables)
     {
-        $ret    = <<<EOT
+        $ret = <<<EOT
 // ------------------- Templates ------------------- //
 // Admin\n
 EOT;
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', false, true);
-		$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', false, true);
-		$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', false, true);
-		foreach (array_keys($tables) as $t) {
-			$tableName        = $tables[$t]->getVar('table_name');
+        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', false, true);
+        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', false, true);
+        foreach (array_keys($tables) as $t) {
+            $tableName = $tables[$t]->getVar('table_name');
             $tablePermissions = $tables[$t]->getVar('table_permissions');
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, false, true);
         }
@@ -437,75 +446,77 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getXoopsVersionTemplatesLine($moduleDirname, $type, $extra = false, $isAdmin = false)
-    {        
-		if ($isAdmin) {
+    {
+        if ($isAdmin) {
             $ret = <<<EOT
 \$modversion['templates'][] = array('file' => '{$moduleDirname}_admin_{$type}.tpl', 'description' => '', 'type' => 'admin');\n
 EOT;
         } else {
-			if(!$extra) {
-				$ret = <<<EOT
+            if (!$extra) {
+                $ret = <<<EOT
 \$modversion['templates'][] = array('file' => '{$moduleDirname}_{$type}.tpl', 'description' => '');\n
 EOT;
-			} else {	
-				$ret = <<<EOT
+            } else {
+                $ret = <<<EOT
 \$modversion['templates'][] = array('file' => '{$moduleDirname}_{$type}_{$extra}.tpl', 'description' => '');\n
 EOT;
-			}
-		}
-        
-		return $ret;
+            }
+        }
+
+        return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getXoopsVersionTemplatesUser
     *  @param $moduleDirname
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
-        $table = $this->getTable(); 
-		$ret   = <<<EOT
+        $table = $this->getTable();
+        $ret = <<<EOT
 // User\n
 EOT;
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header');
-		$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index');
-		foreach (array_keys($tables) as $t) {
+        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index');
+        foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName);
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName);
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
         }
-		$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs');
-		if(1 == $table->getVar('table_broken')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken');
-		}
-		if(1 == $table->getVar('table_pdf')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf');
-		}
-		if(1 == $table->getVar('table_print')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'print');
-		}
-		if(1 == $table->getVar('table_rate')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate');
-		}
-		if(1 == $table->getVar('table_rss')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss');
-		}
-		if(1 == $table->getVar('table_search')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'search');
-		}
-		if(1 == $table->getVar('table_single')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'single');
-		}
-		if(1 == $table->getVar('table_submit')) {
-			$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit');
-		}
+        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs');
+        if (1 == $table->getVar('table_broken')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken');
+        }
+        if (1 == $table->getVar('table_pdf')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf');
+        }
+        if (1 == $table->getVar('table_print')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'print');
+        }
+        if (1 == $table->getVar('table_rate')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate');
+        }
+        if (1 == $table->getVar('table_rss')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss');
+        }
+        if (1 == $table->getVar('table_search')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'search');
+        }
+        if (1 == $table->getVar('table_single')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'single');
+        }
+        if (1 == $table->getVar('table_submit')) {
+            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit');
+        }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer');
 
         return $ret;
@@ -517,17 +528,18 @@ EOT;
     */
     /**
      * @param $language
+     *
      * @return string
      */
     private function getXoopsVersionSubmenu($language, $tables)
     {
-        $ret    = <<<EOT
+        $ret = <<<EOT
 // ------------------- Submenu ------------------- //\n
 EOT;
-        $i      = 1;
+        $i = 1;
         foreach (array_keys($tables) as $t) {
-            $tableName     = $tables[$t]->getVar('table_name');
-			$tableSubmit[] = $tables[$t]->getVar('table_submit');
+            $tableName = $tables[$t]->getVar('table_name');
+            $tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= <<<EOT
 // Sub {$tableName}
@@ -537,17 +549,18 @@ EOT;
             }
             ++$i;
         }
-		if(in_array(1, $tableSubmit)){
-		$ret .= <<<EOT
+        if (in_array(1, $tableSubmit)) {
+            $ret .= <<<EOT
 // Sub Submit
 \$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};
 \$modversion['sub'][{$i}]['url'] = 'submit.php';\n
 EOT;
         }
-		unset($i);
-		$ret .= <<<EOT
+        unset($i);
+        $ret .= <<<EOT
 \n
 EOT;
+
         return $ret;
     }
 
@@ -559,6 +572,7 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getXoopsVersionBlocks($moduleDirname, $table, $tables, $language)
@@ -566,27 +580,27 @@ EOT;
         $ret = <<<EOT
 // ------------------- Blocks ------------------- //\n
 EOT;
-        
-		foreach (array_keys($tables) as $i) {
-            $tableName      = $tables[$i]->getVar('table_name');
-			$tableFieldName = $tables[$i]->getVar('table_fieldname');
+
+        foreach (array_keys($tables) as $i) {
+            $tableName = $tables[$i]->getVar('table_name');
+            $tableFieldName = $tables[$i]->getVar('table_fieldname');
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 if (1 == $tables[$i]->getVar('table_category')) {
-					$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $tableFieldName);
-				} else {
-					$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'last');
-					$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'new');
-					$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'hits');
-					$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'top');
-					$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'random');
-				}
+                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $tableFieldName);
+                } else {
+                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'last');
+                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'new');
+                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'hits');
+                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'top');
+                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'random');
+                }
             }
         }
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getXoopsVersionTypeBlocks
     *  @param $moduleDirname
     *  @param $language
@@ -594,12 +608,13 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $type)
     {
         $stuTableName = strtoupper($tableName);
-		$ret = <<<EOT
+        $ret = <<<EOT
 \$modversion['blocks'][] = array(
     'file' => '{$tableName}.php',
     'name' => {$language}{$stuTableName}_BLOCK,
@@ -622,19 +637,20 @@ EOT;
      * @param $module
      * @param $table
      * @param $language
+     *
      * @return string
      */
     private function getXoopsVersionConfig($module, $table, $language)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret           = <<<EOT
+        $ret = <<<EOT
 // ------------------- Config ------------------- //\n
 EOT;
-		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-		foreach (array_keys($fields) as $f) {
-			$fieldElement = $fields[$f]->getVar('field_element');
-			if ($fieldElement == 3 || $fieldElement == 4) {
-				$ret .= <<<EOT
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if ($fieldElement == 3 || $fieldElement == 4) {
+                $ret .= <<<EOT
 // Editor
 xoops_load('xoopseditorhandler');
 \$editorHandler = XoopsEditorHandler::getInstance();
@@ -647,8 +663,8 @@ xoops_load('xoopseditorhandler');
     'options' => array_flip(\$editorHandler->getList()),
     'default' => 'dhtml');\n\n
 EOT;
-			}
-		}
+            }
+        }
         if (1 == $table->getVar('table_permissions')) {
             $ret .= <<<EOT
 // Get groups
@@ -665,7 +681,7 @@ foreach (\$xoopsgroups as \$key => \$group) {
     'valuetype' => 'array',
     'options' => \$groups,
     'default' => \$groups);
-    
+
 // Get Admin groups
 \$criteria = new CriteriaCompo();
 \$criteria->add( new Criteria( 'group_type', 'Admin' ) );
@@ -777,7 +793,7 @@ EOT;
     'valuetype' => 'int',
     'default' => 1,
 	'options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4'));
-	
+
 \$modversion['config'][] = array(
     'name' => 'table_type',
     'title' => '{$language}TABLE_TYPE',
@@ -786,7 +802,7 @@ EOT;
     'valuetype' => 'text',
     'default' => 'bordered',
     'options' => array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed'));
-						
+
 \$modversion['config'][] = array(
     'name' => 'panel_type',
     'title' => '{$language}PANEL_TYPE',
@@ -819,7 +835,7 @@ EOT;
     'formtype' => 'yesno',
     'valuetype' => 'int',
     'default' => 0);
-	
+
 \$modversion['config'][] = array(
     'name' => 'disqus_comments',
     'title' => '{$language}DISQUS_COMMENTS',
@@ -847,14 +863,15 @@ EOT;
      * @param $notifyFile
      * @param $item
      * @param $typeOfNotify
+     *
      * @return string
      */
     private function getTypeNotifications($language, $type = 'category', $tableName, $notifyFile, $item, $typeOfNotify)
     {
-        $stuTableName    = strtoupper($tableName);
+        $stuTableName = strtoupper($tableName);
         $stuTypeOfNotify = strtoupper($typeOfNotify);
-		$notifyFile      = explode(', ', $notifyFile);
-		$notifyFile      = implode(', ', $notifyFile);
+        $notifyFile = explode(', ', $notifyFile);
+        $notifyFile = implode(', ', $notifyFile);
         switch ($type) {
             case 'category':
                 $ret = <<<EOT
@@ -894,88 +911,91 @@ EOT;
      * @param $moduleDirname
      * @param $language
      * @param $filename
+     *
      * @return string
      */
     private function getXoopsVersionNotifications($module, $language, $filename)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-		$ret           = <<<EOT
+        $ret = <<<EOT
 // ------------------- Notifications ------------------- //
 \$modversion['hasNotification'] = 1;
 \$modversion['notification']['lookup_file'] = 'include/notification.inc.php';
 \$modversion['notification']['lookup_func'] = '{$moduleDirname}_notify_iteminfo';\n\n
 EOT;
-		$notifyFiles = array();
-		$single      = 'single';		
-        $tables      = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-		foreach (array_keys($tables) as $t) {
-            $tableId       = $tables[$t]->getVar('table_id');
-			$tableMid      = $tables[$t]->getVar('table_mid');
-			$tableName     = $tables[$t]->getVar('table_name');
-			$tableCategory = $tables[$t]->getVar('table_category');
-			$tableBroken   = $tables[$t]->getVar('table_broken');
-			$tableSubmit   = $tables[$t]->getVar('table_submit');
+        $notifyFiles = array();
+        $single = 'single';
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        foreach (array_keys($tables) as $t) {
+            $tableId = $tables[$t]->getVar('table_id');
+            $tableMid = $tables[$t]->getVar('table_mid');
+            $tableName = $tables[$t]->getVar('table_name');
+            $tableCategory = $tables[$t]->getVar('table_category');
+            $tableBroken = $tables[$t]->getVar('table_broken');
+            $tableSubmit = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_notifications')) {
-                if ($t <= count($tableName)) {					
+                if ($t <= count($tableName)) {
                     $notifyFiles[] = $tables[$t]->getVar('table_name');
                 }
             }
-			if (1 == $tables[$t]->getVar('table_single')) {
+            if (1 == $tables[$t]->getVar('table_single')) {
                 $single = $tableName;
             }
         }
-		$fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
-		$fieldParent = null;
-		foreach (array_keys($fields) as $f) {
-			$fieldMid     = $fields[$f]->getVar('field_mid');
-			$fieldTid     = $fields[$f]->getVar('field_tid');
-			$fieldName    = $fields[$f]->getVar('field_name');
-			$fieldElement = $fields[$f]->getVar('field_element');
-			if (0 == $f) {
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fieldParent = null;
+        foreach (array_keys($fields) as $f) {
+            $fieldMid = $fields[$f]->getVar('field_mid');
+            $fieldTid = $fields[$f]->getVar('field_tid');
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if (0 == $f) {
                 $fieldId = $fieldName;
-            }			
-			if ($fieldElement > 15) {
+            }
+            if ($fieldElement > 15) {
                 $fieldParent = $fieldName;
             }
         }
-        
-		$ret .= $this->getXoopsVersionNotificationGlobal($language, 'category', 'global', 'global', $notifyFiles);
-		$ret .= $this->getXoopsVersionNotificationCategory($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1');
-		$ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1);
-		if(1 == $tableCategory) {
-			$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify');
-		}
-		$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_modify', 'global', 1, 'global', 'filemodify', 'global_filemodify_notify');
-		if(1 == $tableBroken) {
-			$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_broken', 'global', 1, 'global', 'filebroken', 'global_filebroken_notify');
-		}
-		if(1 == $tableSubmit) {
-			$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'global', 1, 'global', 'filesubmit', 'global_filesubmit_notify');
-		}
-		$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'global', 0, 'global', 'newfile', 'global_newfile_notify');
-		if(1 == $tableCategory) {
-			$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'category', 1, 'category', 'filesubmit', 'category_filesubmit_notify');
-			$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'category', 0, 'category', 'newfile', 'category_newfile_notify');
-		}
-		$ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', 'file', 1, 'file', 'approve', 'file_approve_notify');
+
+        $ret .= $this->getXoopsVersionNotificationGlobal($language, 'category', 'global', 'global', $notifyFiles);
+        $ret .= $this->getXoopsVersionNotificationCategory($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1');
+        $ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1);
+        if (1 == $tableCategory) {
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify');
+        }
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_modify', 'global', 1, 'global', 'filemodify', 'global_filemodify_notify');
+        if (1 == $tableBroken) {
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_broken', 'global', 1, 'global', 'filebroken', 'global_filebroken_notify');
+        }
+        if (1 == $tableSubmit) {
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'global', 1, 'global', 'filesubmit', 'global_filesubmit_notify');
+        }
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'global', 0, 'global', 'newfile', 'global_newfile_notify');
+        if (1 == $tableCategory) {
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'category', 1, 'category', 'filesubmit', 'category_filesubmit_notify');
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'category', 0, 'category', 'newfile', 'category_newfile_notify');
+        }
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', 'file', 1, 'file', 'approve', 'file_approve_notify');
+
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getXoopsVersionNotificationGlobal
     */
     /**
      * @param $language
      * @param $type
-	 * @param $name
-	 * @param $title
-	 * @param $from
+     * @param $name
+     * @param $title
+     * @param $from
+     *
      * @return string
      */
     private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from)
-    {        
+    {
         $title = strtoupper($title);
-		$ret = "
+        $ret = "
 \$modversion['notification']['{$type}'][] = array(
     'name' => '{$name}',
     'title' => {$language}{$title}_NOTIFY,
@@ -985,22 +1005,23 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getXoopsVersionNotificationCategory
     */
     /**
      * @param $language
      * @param $type
-	 * @param $name
-	 * @param $title
-	 * @param $from
+     * @param $name
+     * @param $title
+     * @param $from
+     *
      * @return string
      */
     private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $from, $item, $allow)
-    {        
+    {
         $title = strtoupper($title);//{$from}
-		$ret = "
+        $ret = "
 \$modversion['notification']['{$type}'][] = array(
     'name' => '{$name}',
     'title' => {$language}{$title}_NOTIFY,
@@ -1012,24 +1033,25 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getXoopsVersionNotificationTableName
     */
     /**
      * @param $language
      * @param $type
-	 * @param $name
-	 * @param $title
-	 * @param $from
-	 * @param $item
-	 * @param $allow
+     * @param $name
+     * @param $title
+     * @param $from
+     * @param $item
+     * @param $allow
+     *
      * @return string
      */
     private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $from, $item = 'cid', $allow = 1)
-    {        
+    {
         $title = strtoupper($title);
-		$ret = <<<EOT
+        $ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(
     'name' => '{$name}',
     'title' => {$language}{$title}_NOTIFY,
@@ -1041,25 +1063,26 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getXoopsVersionNotifications
     */
     /**
      * @param $language
      * @param $type
-	 * @param $name
-	 * @param $title
-	 * @param $from
-	 * @param $item
-	 * @param $mail
+     * @param $name
+     * @param $title
+     * @param $from
+     * @param $item
+     * @param $mail
+     *
      * @return string
      */
     private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin = 1, $title, $table, $mail)
-    {        
+    {
         $title = strtoupper($title);
-		$table = strtoupper($table);
-		$ret = <<<EOT
+        $table = strtoupper($table);
+        $ret = <<<EOT
 \$modversion['notification']['{$type}'][] = array(
     'name' => '{$name}',
     'category' => '{$category}',
@@ -1083,13 +1106,13 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-		$tables        = $this->getTables();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $tables = $this->getTables();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MI');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $language = $this->getLanguage($moduleDirname, 'MI');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getXoopsVersionHeader($module, $table, $language);
         if (1 == $module->getVar('mod_admin')) {
             $content .= $this->getXoopsVersionTemplatesAdmin($moduleDirname, $table, $tables);
@@ -1097,20 +1120,20 @@ EOT;
         if (1 == $module->getVar('mod_user')) {
             $content .= $this->getXoopsVersionTemplatesUser($moduleDirname, $tables);
         }
-		$content .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
-		if (1 == $table->getVar('table_search')) {
-			$content .= $this->getXoopsVersionSearch($moduleDirname);
-		}
-		if (1 == $table->getVar('table_comments')) {
-			$content .= $this->getXoopsVersionComments($moduleDirname);
-		}
+        $content .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
+        if (1 == $table->getVar('table_search')) {
+            $content .= $this->getXoopsVersionSearch($moduleDirname);
+        }
+        if (1 == $table->getVar('table_comments')) {
+            $content .= $this->getXoopsVersionComments($moduleDirname);
+        }
 
-		//if (1 == $table->getVar('table_submenu')) {
-			$content .= $this->getXoopsVersionSubmenu($language, $tables);
-		//}
-		if (1 == $table->getVar('table_blocks')) {
-			$content .= $this->getXoopsVersionBlocks($moduleDirname, $table, $tables, $language);
-		}
+        //if (1 == $table->getVar('table_submenu')) {
+            $content .= $this->getXoopsVersionSubmenu($language, $tables);
+        //}
+        if (1 == $table->getVar('table_blocks')) {
+            $content .= $this->getXoopsVersionBlocks($moduleDirname, $table, $tables, $language);
+        }
         $content .= $this->getXoopsVersionConfig($module, $table, $language);
         if (1 == $table->getVar('table_notifications')) {
             $content .= $this->getXoopsVersionNotifications($module, $language, $filename);

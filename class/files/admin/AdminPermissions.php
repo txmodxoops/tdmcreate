@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: AdminPermissions.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class AdminPermissions
+ * Class AdminPermissions.
  */
 class AdminPermissions extends TDMCreateFile
 {
@@ -70,7 +73,7 @@ class AdminPermissions extends TDMCreateFile
     {
         $this->setModule($module);
         $this->setTable($table);
-		$this->setTables($tables);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -82,13 +85,14 @@ class AdminPermissions extends TDMCreateFile
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getPermissionsHeader($moduleDirname, $language)
     {
-        $table     = $this->getTable();
-		$tableName = $table->getVar('table_name');
-		$ret = <<<PRM
+        $table = $this->getTable();
+        $tableName = $table->getVar('table_name');
+        $ret = <<<PRM
 \ninclude  __DIR__ . '/header.php';
 include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
 if( !empty(\$_POST['submit']) )
@@ -132,6 +136,7 @@ PRM;
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getPermissionsSwitch($moduleDirname, $language)
@@ -176,22 +181,23 @@ PRM;
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getPermissionsBody($moduleDirname, $language)
     {
         $tables = $this->getTables();
         foreach (array_keys($tables) as $t) {
-            $tableId  = $tables[$t]->getVar('table_id');
-			$tableMid = $tables[$t]->getVar('table_mid');
+            $tableId = $tables[$t]->getVar('table_id');
+            $tableMid = $tables[$t]->getVar('table_mid');
             if (1 == $tables[$t]->getVar('table_permissions')) {
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
-		$ucfTableName = ucfirst($tableName); 
+        $ucfTableName = ucfirst($tableName);
         $fields = $this->getTableFields($tableMid, $tableId);
-		$fieldId   = 'id';
-		$fieldMain = 'title';
+        $fieldId = 'id';
+        $fieldMain = 'title';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -255,11 +261,11 @@ PRM;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $language = $this->getLanguage($moduleDirname, 'AM');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getPermissionsHeader($moduleDirname, $language);
         $content .= $this->getPermissionsSwitch($moduleDirname, $language);
         $content .= $this->getPermissionsBody($moduleDirname, $language);

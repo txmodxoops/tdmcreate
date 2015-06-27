@@ -1,6 +1,7 @@
 <?php
+
 /**
- * XOOPS form radio compo
+ * XOOPS form radio compo.
  *
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -11,32 +12,34 @@
  *
  * @copyright   The XOOPS project http://www.xoops.org/
  * @license     GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package     tdmcreate
+ *
  * @since       1.91
+ *
  * @author      Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  * @author      Taiwen Jiang <phppp@users.sourceforge.net>
+ *
  * @version     $Id: TDMCreateFormRadio.php 12360 2014-12-06 13:18:22Z timgno $
  */
 class TDMCreateFormRadio extends XoopsFormRadio
-{    
+{
     /**
-     * Prepare HTML for output
+     * Prepare HTML for output.
      *
      * @return string HTML
      */
     public function render()
     {
-        $ret           = '';
-        $ele_name      = $this->getName();
-        $ele_title     = $this->getTitle();
-        $ele_value     = $this->getValue();
-        $ele_options   = $this->getOptions();
-        $ele_extra     = $this->getExtra();
+        $ret = '';
+        $ele_name = $this->getName();
+        $ele_title = $this->getTitle();
+        $ele_value = $this->getValue();
+        $ele_options = $this->getOptions();
+        $ele_extra = $this->getExtra();
         $ele_delimeter = empty($this->columns) ? $this->getDelimeter() : '';
         if (!empty($this->columns)) {
             $ret .= '<table class="table table-bordered"><tr>';
         }
-        $i      = 0;
+        $i = 0;
         $id_ele = 0;
         foreach ($ele_options as $value => $name) {
             ++$id_ele;
@@ -46,11 +49,11 @@ class TDMCreateFormRadio extends XoopsFormRadio
                 }
                 $ret .= '<td class="radio">';
             }
-            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . htmlspecialchars($ele_title, ENT_QUOTES) . '" value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
+            $ret .= '<input type="radio" name="'.$ele_name.'" id="'.$ele_name.'['.$value.']'.$id_ele.'" title = "'.htmlspecialchars($ele_title, ENT_QUOTES).'" value="'.htmlspecialchars($value, ENT_QUOTES).'"';
             if (isset($ele_value) && $value == $ele_value) {
                 $ret .= ' checked="checked"';
             }
-            $ret .= $ele_extra . ' />' . "<label name='xolb_{$ele_name}' for='" . $ele_name . '[' . $value . ']' . $id_ele . "'><span><span></span></span>" . $name . "</label>" . $ele_delimeter;
+            $ret .= $ele_extra.' />'."<label name='xolb_{$ele_name}' for='".$ele_name.'['.$value.']'.$id_ele."'><span><span></span></span>".$name.'</label>'.$ele_delimeter;
             if (!empty($this->columns)) {
                 $ret .= '</td>';
                 if (++$i % $this->columns == 0) {
@@ -60,7 +63,7 @@ class TDMCreateFormRadio extends XoopsFormRadio
         }
         if (!empty($this->columns)) {
             if ($span = $i % $this->columns) {
-                $ret .= '<td colspan="' . ($this->columns - $span) . '"></td></tr>';
+                $ret .= '<td colspan="'.($this->columns - $span).'"></td></tr>';
             }
             $ret .= '</table>';
         }

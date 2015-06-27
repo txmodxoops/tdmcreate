@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,16 +10,18 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.5
+ *
  * @author          Txmod Xoops <support@txmodxoops.org>
+ *
  * @version         $Id: 1.59 modules.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include  __DIR__ . '/header.php';
+include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 //
@@ -41,7 +44,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
-        $modulesAll   = $tdmcreate->getHandler('modules')->getAllModules($start, $limit);
+        $modulesAll = $tdmcreate->getHandler('modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
@@ -54,8 +57,8 @@ switch ($op) {
                 unset($module);
             }
             if ($modulesCount > $limit) {
-                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
+                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
+                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
@@ -71,8 +74,8 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $modulesObj =& $tdmcreate->getHandler('modules')->create();
-        $form       = $modulesObj->getForm();
+        $modulesObj = &$tdmcreate->getHandler('modules')->create();
+        $form = $modulesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -81,37 +84,37 @@ switch ($op) {
             redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($modId)) {
-            $modulesObj =& $tdmcreate->getHandler('modules')->get($modId);
+            $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
         } else {
-            $modulesObj =& $tdmcreate->getHandler('modules')->create();
+            $modulesObj = &$tdmcreate->getHandler('modules')->create();
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
         //Form module save
         $modulesObj->setVars(array(
-                                 'mod_name'                => $_POST['mod_name'],
-                                 'mod_dirname'             => $moduleDirname,
-                                 'mod_version'             => $_POST['mod_version'],
-                                 'mod_since'               => $_POST['mod_since'],
-                                 'mod_min_php'             => $_POST['mod_min_php'],
-                                 'mod_min_xoops'           => $_POST['mod_min_xoops'],
-                                 'mod_min_admin'           => $_POST['mod_min_admin'],
-                                 'mod_min_mysql'           => $_POST['mod_min_mysql'],
-                                 'mod_description'         => $_POST['mod_description'],
-                                 'mod_author'              => $_POST['mod_author'],
-                                 'mod_author_mail'         => $_POST['mod_author_mail'],
-                                 'mod_author_website_url'  => $_POST['mod_author_website_url'],
+                                 'mod_name' => $_POST['mod_name'],
+                                 'mod_dirname' => $moduleDirname,
+                                 'mod_version' => $_POST['mod_version'],
+                                 'mod_since' => $_POST['mod_since'],
+                                 'mod_min_php' => $_POST['mod_min_php'],
+                                 'mod_min_xoops' => $_POST['mod_min_xoops'],
+                                 'mod_min_admin' => $_POST['mod_min_admin'],
+                                 'mod_min_mysql' => $_POST['mod_min_mysql'],
+                                 'mod_description' => $_POST['mod_description'],
+                                 'mod_author' => $_POST['mod_author'],
+                                 'mod_author_mail' => $_POST['mod_author_mail'],
+                                 'mod_author_website_url' => $_POST['mod_author_website_url'],
                                  'mod_author_website_name' => $_POST['mod_author_website_name'],
-                                 'mod_credits'             => $_POST['mod_credits'],
-                                 'mod_license'             => $_POST['mod_license'],
-                                 'mod_release_info'        => $_POST['mod_release_info'],
-                                 'mod_release_file'        => $_POST['mod_release_file'],
-                                 'mod_manual'              => $_POST['mod_manual'],
-                                 'mod_manual_file'         => $_POST['mod_manual_file']));
+                                 'mod_credits' => $_POST['mod_credits'],
+                                 'mod_license' => $_POST['mod_license'],
+                                 'mod_release_info' => $_POST['mod_release_info'],
+                                 'mod_release_file' => $_POST['mod_release_file'],
+                                 'mod_manual' => $_POST['mod_manual'],
+                                 'mod_manual_file' => $_POST['mod_manual_file'], ));
         //Form mod_image
-        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
+        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         $uploader = new XoopsMediaUploader(TDMC_UPLOAD_IMGMOD_PATH, $tdmcreate->getConfig('mimetypes'),
                                            $tdmcreate->getConfig('maxsize'), null, null);
-        if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {            
+        if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
@@ -124,18 +127,18 @@ switch ($op) {
         }
         //Form module save
         $modulesObj->setVars(array(
-                                 'mod_demo_site_url'  => $_POST['mod_demo_site_url'],
+                                 'mod_demo_site_url' => $_POST['mod_demo_site_url'],
                                  'mod_demo_site_name' => $_POST['mod_demo_site_name'],
-                                 'mod_support_url'    => $_POST['mod_support_url'],
-                                 'mod_support_name'   => $_POST['mod_support_name'],
-                                 'mod_website_url'    => $_POST['mod_website_url'],
-                                 'mod_website_name'   => $_POST['mod_website_name'],
-                                 'mod_release'        => $_POST['mod_release'],
-                                 'mod_status'         => $_POST['mod_status'],                                 
-                                 'mod_donations'      => $_POST['mod_donations'],
-                                 'mod_subversion'     => $_POST['mod_subversion'])
+                                 'mod_support_url' => $_POST['mod_support_url'],
+                                 'mod_support_name' => $_POST['mod_support_name'],
+                                 'mod_website_url' => $_POST['mod_website_url'],
+                                 'mod_website_name' => $_POST['mod_website_name'],
+                                 'mod_release' => $_POST['mod_release'],
+                                 'mod_status' => $_POST['mod_status'],
+                                 'mod_donations' => $_POST['mod_donations'],
+                                 'mod_subversion' => $_POST['mod_subversion'], )
         );
-		$moduleOption = XoopsRequest::getArray('module_option', array());
+        $moduleOption = XoopsRequest::getArray('module_option', array());
         $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
         $modulesObj->setVar('mod_user', in_array('user', $moduleOption));
         $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption));
@@ -154,7 +157,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        $form =& $modulesObj->getForm();
+        $form = &$modulesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -168,12 +171,12 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
-        $form       = $modulesObj->getForm();
+        $form = $modulesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
     case 'delete':
-        $modulesObj =& $tdmcreate->getHandler('modules')->get($modId);
+        $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -188,44 +191,44 @@ switch ($op) {
         }
         break;
 
-    case 'display':        		
-		$id = XoopsRequest::getInt('mod_id', 0, 'POST');
+    case 'display':
+        $id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);
-			if (isset($_POST['mod_admin'])) {
-				$mod_admin = $modulesObj->getVar('mod_admin');
-				$modulesObj->setVar('mod_admin', !$mod_admin);
-			}
-			if (isset($_POST['mod_user'])) {
-				$mod_user = $modulesObj->getVar('mod_user');
-				$modulesObj->setVar('mod_user', !$mod_user);
-			}
-			if (isset($_POST['mod_blocks'])) {
-				$mod_blocks = $modulesObj->getVar('mod_blocks');
-				$modulesObj->setVar('mod_blocks', !$mod_blocks);
-			}
-			if (isset($_POST['mod_search'])) {
-				$mod_search = $modulesObj->getVar('mod_search');
-				$modulesObj->setVar('mod_search', !$mod_search);
-			}
-			if (isset($_POST['mod_comments'])) {
-				$mod_comments = $modulesObj->getVar('mod_comments');
-				$modulesObj->setVar('mod_comments', !$mod_comments);
-			}
-			if (isset($_POST['mod_notifications'])) {
-				$mod_notifications = $modulesObj->getVar('mod_notifications');
-				$modulesObj->setVar('mod_notifications', !$mod_notifications);
-			}
-			if (isset($_POST['mod_permissions'])) {
-				$mod_permissions  = $modulesObj->getVar('mod_permissions');
-				$modulesObj->setVar('mod_permissions', !$mod_permissions);
-			}
+            if (isset($_POST['mod_admin'])) {
+                $mod_admin = $modulesObj->getVar('mod_admin');
+                $modulesObj->setVar('mod_admin', !$mod_admin);
+            }
+            if (isset($_POST['mod_user'])) {
+                $mod_user = $modulesObj->getVar('mod_user');
+                $modulesObj->setVar('mod_user', !$mod_user);
+            }
+            if (isset($_POST['mod_blocks'])) {
+                $mod_blocks = $modulesObj->getVar('mod_blocks');
+                $modulesObj->setVar('mod_blocks', !$mod_blocks);
+            }
+            if (isset($_POST['mod_search'])) {
+                $mod_search = $modulesObj->getVar('mod_search');
+                $modulesObj->setVar('mod_search', !$mod_search);
+            }
+            if (isset($_POST['mod_comments'])) {
+                $mod_comments = $modulesObj->getVar('mod_comments');
+                $modulesObj->setVar('mod_comments', !$mod_comments);
+            }
+            if (isset($_POST['mod_notifications'])) {
+                $mod_notifications = $modulesObj->getVar('mod_notifications');
+                $modulesObj->setVar('mod_notifications', !$mod_notifications);
+            }
+            if (isset($_POST['mod_permissions'])) {
+                $mod_permissions = $modulesObj->getVar('mod_permissions');
+                $modulesObj->setVar('mod_permissions', !$mod_permissions);
+            }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
                 redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        }		
+        }
         break;
 }
 
-include  __DIR__ . '/footer.php';
+include __DIR__.'/footer.php';

@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeInstall.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeInstall
+ * Class IncludeInstall.
  */
 class IncludeInstall extends TDMCreateFile
 {
@@ -81,6 +84,7 @@ class IncludeInstall extends TDMCreateFile
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getInstallModuleFolder($moduleDirname)
@@ -110,6 +114,7 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $tableName
+     *
      * @return string
      */
     private function getInstallTableFolder($moduleDirname, $tableName)
@@ -132,6 +137,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getInstallImagesFolder($moduleDirname)
@@ -148,13 +154,14 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getInstallImagesShotsFolder
     *  @param null
     */
     /**
      * @param null
+     *
      * @return string
      */
     private function getInstallImagesShotsFolder()
@@ -178,6 +185,7 @@ EOT;
     */
     /**
      * @param $tableName
+     *
      * @return string
      */
     private function getInstallTableImagesFolder($tableName)
@@ -201,6 +209,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getInstallFilesFolder($moduleDirname)
@@ -223,6 +232,7 @@ EOT;
     */
     /**
      * @param $tableName
+     *
      * @return string
      */
     private function getInstallTableFilesFolder($tableName)
@@ -264,47 +274,47 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
+        $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $table         = $this->getTable();
-        $tables        = $this->getTables();
-        $filename      = $this->getFileName();
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $table = $this->getTable();
+        $tables = $this->getTables();
+        $filename = $this->getFileName();
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInstallModuleFolder($moduleDirname);
-		
-		foreach (array_keys($tables) as $t) {
-			$tableName      = $tables[$t]->getVar('table_name');
-			$tableInstall[] = $tables[$t]->getVar('table_install');
-			$content .= $this->getInstallTableFolder($moduleDirname, $tableName);
-		}
-		if(in_array(1, $tableInstall)) {
-			$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-			foreach (array_keys($fields) as $f) {
-				$fieldElement = $fields[$f]->getVar('field_element');
-				// All fields elements selected
-				switch ($fieldElement) {
-					case 10:
-					case 13:
-						$content .= $this->getInstallImagesFolder($moduleDirname);						
-						foreach (array_keys($tables) as $t) {
-							$tableName = $tables[$t]->getVar('table_name');
-							$content .= $this->getInstallTableImagesFolder($tableName);
-						}
-						break;
-					case 11:
-						$content .= $this->getInstallImagesShotsFolder();
-						break;
-					case 12:
-					case 14:
-						$content .= $this->getInstallFilesFolder($moduleDirname);
-						foreach (array_keys($tables) as $t) {
-							$tableName = $tables[$t]->getVar('table_name');
-							$content .= $this->getInstallTableFilesFolder($tableName);
-						}
-						break;
-				}
-			}
-		}
+
+        foreach (array_keys($tables) as $t) {
+            $tableName = $tables[$t]->getVar('table_name');
+            $tableInstall[] = $tables[$t]->getVar('table_install');
+            $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
+        }
+        if (in_array(1, $tableInstall)) {
+            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+            foreach (array_keys($fields) as $f) {
+                $fieldElement = $fields[$f]->getVar('field_element');
+                // All fields elements selected
+                switch ($fieldElement) {
+                    case 10:
+                    case 13:
+                        $content .= $this->getInstallImagesFolder($moduleDirname);
+                        foreach (array_keys($tables) as $t) {
+                            $tableName = $tables[$t]->getVar('table_name');
+                            $content .= $this->getInstallTableImagesFolder($tableName);
+                        }
+                        break;
+                    case 11:
+                        $content .= $this->getInstallImagesShotsFolder();
+                        break;
+                    case 12:
+                    case 14:
+                        $content .= $this->getInstallFilesFolder($moduleDirname);
+                        foreach (array_keys($tables) as $t) {
+                            $tableName = $tables[$t]->getVar('table_name');
+                            $content .= $this->getInstallTableFilesFolder($tableName);
+                        }
+                        break;
+                }
+            }
+        }
         $content .= $this->getInstallFooter();
         //
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
