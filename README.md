@@ -8,6 +8,7 @@
 
 <p align="center">
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/pr?style=flat"></a>
+<a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/issue?style=flat"></a>
 </p>
 
 > **Note:** This repository contains the code of the TDMCreate 1.91
