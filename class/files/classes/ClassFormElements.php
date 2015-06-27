@@ -696,12 +696,12 @@ EOT;
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
             }
-            if (1 == $fields[$f]->getVar('field_parent')) {
+            /*if (1 == $fields[$f]->getVar('field_parent')) {
                 $fieldPid = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_main')) {
+            }*/
+            /*if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
-            }
+            }*/
             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';

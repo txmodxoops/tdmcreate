@@ -659,47 +659,29 @@ EOT;
      *
      * @return string
      */
-    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false)
+    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false)
     {
-        if (!$admin) {
-            $ret = <<<EOT
+        if (!$admin && !$q) {
+			$ret = <<<EOT
 <{include file='db:{$moduleDirname}_{$fileName}.tpl'}>
 EOT;
-        } else {
-            $ret = <<<EOT
+        } elseif ($admin && !$q) { 
+			$ret = <<<EOT
 <{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>
 EOT;
-        }
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getSmartyIncludeQueryFile
-    *  @param string $name
-    */
-    /**
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $admin
-     *
-     * @return string
-     */
-    public function getSmartyIncludeQueryFile($moduleDirname, $fileName = 'header', $admin = false)
-    {
-        if (!$admin) {
-            $ret = <<<EOT
+        } elseif (!$admin && $q) {
+				$ret = <<<EOT
 <{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>
 EOT;
-        } else {
-            $ret = <<<EOT
+		} elseif ($admin && $q) {
+			$ret = <<<EOT
 <{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>
 EOT;
-        }
+		}
 
         return $ret;
     }
-
+    
     /*
     *  @public function getSmartyIncludeFileListSection
     *  @param string $name

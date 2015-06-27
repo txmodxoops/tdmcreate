@@ -188,7 +188,7 @@ class TDMCreateSettings extends XoopsObject
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
-        $settingOption = $this->getOptions();
+        $settingOption = $this->getSettingsOptions();
         $checkbox = new XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
@@ -277,35 +277,35 @@ class TDMCreateSettings extends XoopsObject
      *
      * @return string
      */
-    public function getOptions()
+    private function getSettingsOptions()
     {
-        $ret = array();
+        $retSet = array();
         if ($this->getVar('set_admin') == 1) {
-            array_push($ret, 'admin');
+            array_push($retSet, 'admin');
         }
         if ($this->getVar('set_user') == 1) {
-            array_push($ret, 'user');
+            array_push($retSet, 'user');
         }
         if ($this->getVar('set_blocks') == 1) {
-            array_push($ret, 'blocks');
+            array_push($retSet, 'blocks');
         }
         if ($this->getVar('set_search') == 1) {
-            array_push($ret, 'search');
+            array_push($retSet, 'search');
         }
         if ($this->getVar('set_comments') == 1) {
-            array_push($ret, 'comments');
+            array_push($retSet, 'comments');
         }
         if ($this->getVar('set_notifications') == 1) {
-            array_push($ret, 'notifications');
+            array_push($retSet, 'notifications');
         }
         if ($this->getVar('set_permissions') == 1) {
-            array_push($ret, 'permissions');
+            array_push($retSet, 'permissions');
         }
         if ($this->getVar('set_inroot_copy') == 1) {
-            array_push($ret, 'inroot');
+            array_push($retSet, 'inroot');
         }
 
-        return $ret;
+        return $retSet;
     }
 
     /**

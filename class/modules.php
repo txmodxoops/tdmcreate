@@ -270,7 +270,7 @@ class TDMCreateModules extends XoopsObject
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
-        $moduleOption = $this->getOptions();
+        $moduleOption = $this->getModulesOptions();
         $checkbox = new XoopsFormCheckbox(' ', 'module_option', $moduleOption, '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
@@ -473,35 +473,35 @@ class TDMCreateModules extends XoopsObject
      *
      * @return string
      */
-    public function getOptions()
+    private function getModulesOptions()
     {
-        $ret = array();
+        $retMod = array();
         if ($this->getVar('mod_admin') == 1) {
-            array_push($ret, 'admin');
+            array_push($retMod, 'admin');
         }
         if ($this->getVar('mod_user') == 1) {
-            array_push($ret, 'user');
+            array_push($retMod, 'user');
         }
         if ($this->getVar('mod_blocks') == 1) {
-            array_push($ret, 'blocks');
+            array_push($retMod, 'blocks');
         }
         if ($this->getVar('mod_search') == 1) {
-            array_push($ret, 'search');
+            array_push($retMod, 'search');
         }
         if ($this->getVar('mod_comments') == 1) {
-            array_push($ret, 'comments');
+            array_push($retMod, 'comments');
         }
         if ($this->getVar('mod_notifications') == 1) {
-            array_push($ret, 'notifications');
+            array_push($retMod, 'notifications');
         }
         if ($this->getVar('mod_permissions') == 1) {
-            array_push($ret, 'permissions');
+            array_push($retMod, 'permissions');
         }
         if ($this->getVar('mod_inroot_copy') == 1) {
-            array_push($ret, 'inroot');
+            array_push($retMod, 'inroot');
         }
 
-        return $ret;
+        return $retMod;
     }
 
     /**

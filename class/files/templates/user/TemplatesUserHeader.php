@@ -85,7 +85,7 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-        $ret = $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'breadcrumbs').PHP_EOL;
+        $ret = $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true).PHP_EOL;
         $var = $this->htmlcode->getSmartySingleVar('ads');
         $div = $this->htmlcode->getHtmlDiv($var, 'center').PHP_EOL;
         $ret .= $this->htmlcode->getSmartyConditions('ads', ' != ', '\'\'', $div).PHP_EOL;

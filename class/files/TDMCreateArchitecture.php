@@ -32,6 +32,11 @@ class TDMCreateArchitecture extends TDMCreateStructure
     * @var mixed
     */
     private $tdmcreate;
+	
+	/*
+    * @var mixed
+    */
+    private $tdmcfile;
 
     /*
     * @var mixed
@@ -88,10 +93,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $table = null;
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableAdmin = $tables[$t]->getVar('table_admin');
-            $tableUser = $tables[$t]->getVar('table_user');
-            $tableBlocks = $tables[$t]->getVar('table_blocks');
+            $tableName[] = $tables[$t]->getVar('table_name');            
             $table = $this->tdmcreate->getHandler('tables')->get($tableId);
         }
         //
@@ -185,7 +187,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "templates/admin" folder and index.html file
             $this->structure->makeDirAndCopyFile('templates/admin', $indexFile, 'index.html');
         }
-        if ($table->getVar('table_name') != null) {
+        if (!empty($tableName)) {
             if ((1 == $module->getVar('mod_blocks')) && (1 == $table->getVar('table_blocks'))) {
                 // Creation of "templates/blocks" folder and index.html file
                 $this->structure->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.html');
@@ -224,6 +226,24 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $ret = array();
         //
         $table = array();
+		$tableCategory = array();
+		$tableImage = array();
+		$tableAdmin = array();
+		$tableUser = array();
+		$tableBlocks = array();
+		$tableSearch = array();
+		$tableComments = array();
+		$tableNotifications = array();
+		$tablePermissions = array();
+		$tableBroken = array();
+		$tablePdf = array();
+		$tablePrint = array();
+		$tableRate = array();
+		$tableRss = array();
+		$tableSingle = array();
+		$tableSubmit = array();
+		$tableVisit = array();
+		$tableTag = array();
         foreach (array_keys($tables) as $t) {
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableId = $tables[$t]->getVar('table_id');
