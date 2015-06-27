@@ -2,9 +2,17 @@
 filter:
     excluded_paths:
         - assets/*
+<<<<<<< HEAD
 		- docs/*
+=======
+	- docs/*
+>>>>>>> origin/master
 
 build:
     environment:
         php:
+<<<<<<< HEAD
             version: 5.5.15       # Common versions: 5.4, 5.5, 5.6 or hhvm
+=======
+            version: 5.5.15       # Common versions: 5.4, 5.5, 5.6 or hhvm
+>>>>>>> origin/master
