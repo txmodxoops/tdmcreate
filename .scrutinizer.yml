@@ -3,3 +3,8 @@ filter:
     excluded_paths:
         - assets/*
 		- docs/*
+
+build:
+    environment:
+        php:
+            version: 5.5.15       # Common versions: 5.4, 5.5, 5.6 or hhvm
