@@ -9,7 +9,7 @@
 <p>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/pr?style=flat"></a>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/issue?style=flat"></a>
-[![Github Releases (by Release)](https://img.shields.io/github/downloads/txmodxoops/TDMCreate-1.91/v3.2/total.svg)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
+[![Github Releases (by Release)](https://img.shields.io/github/downloads/txmodxoops/TDMCreate-1.91/alpha-3-2/total.svg)](https://github.com/txmodxoops/TDMCreate-1.91/releases/tag/alpha-3-2)
 </p>
 
 > **Note:** This repository contains the code of the TDMCreate 1.91
