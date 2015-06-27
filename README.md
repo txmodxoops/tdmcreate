@@ -6,7 +6,7 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91)
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
 
-<p align="center">
+<p>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/pr?style=flat"></a>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/issue?style=flat"></a>
 </p>
