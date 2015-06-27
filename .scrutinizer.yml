@@ -1,0 +1,5 @@
+# .scrutinizer.yml
+filter:
+    excluded_paths:
+        - assets/*
+		- docs/*
