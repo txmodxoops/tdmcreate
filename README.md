@@ -1,6 +1,6 @@
 # TDMCreate version 1.91
 
-[![Build Status](https://img.shields.io/travis/txmodxoops/TDMCreate-1.91/master.svg?style=flat)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
+[![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91)
