@@ -85,14 +85,14 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-        $ret  = $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'breadcrumbs').PHP_EOL;
-		$var  = $this->htmlcode->getSmartySingleVar('ads');
-		$div  = $this->htmlcode->getHtmlDiv($var, 'center').PHP_EOL;
-		$ret .= $this->htmlcode->getSmartyConditions('ads', ' != ', '\'\'', $div).PHP_EOL;
+        $ret = $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'breadcrumbs').PHP_EOL;
+        $var = $this->htmlcode->getSmartySingleVar('ads');
+        $div = $this->htmlcode->getHtmlDiv($var, 'center').PHP_EOL;
+        $ret .= $this->htmlcode->getSmartyConditions('ads', ' != ', '\'\'', $div).PHP_EOL;
 
         return $ret;
     }
-    
+
     /*
     *  @public function render
     *  @param null
@@ -107,7 +107,7 @@ class TemplatesUserHeader extends TDMCreateHtmlSmartyCodes
         $moduleDirname = $module->getVar('mod_dirname');
         //$language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserHeader($moduleDirname);
-        
+
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

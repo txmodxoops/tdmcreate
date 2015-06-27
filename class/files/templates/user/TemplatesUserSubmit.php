@@ -105,25 +105,25 @@ class TemplatesUserSubmit extends TDMCreateHtmlSmartyCodes
      * @return string
      */
     private function getTemplatesUserSubmit($moduleDirname, $language)
-    {        
-        $const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
-		$li     = $this->htmlcode->getHtmlLi($const).PHP_EOL;
-		$const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_ALLPENDING');
-		$li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
-		$const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_DONTABUSE');
-		$li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
-		$const  = $this->htmlcode->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
-		$li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
-        $ul     = $this->htmlcode->getHtmlUl($li).PHP_EOL;
-		$ret    = $this->htmlcode->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
-		
-		$single   = $this->htmlcode->getSmartySingleVar('message_error').PHP_EOL;
-		$divError = $this->htmlcode->getHtmlDiv($single, 'errorMsg').PHP_EOL;
-		$ret   .= $this->htmlcode->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
-		$single = $this->htmlcode->getSmartySingleVar('form').PHP_EOL;
-		$ret   .= $this->htmlcode->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
-		
-		return $ret;
+    {
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
+        $li = $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_ALLPENDING');
+        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_DONTABUSE');
+        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
+        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $ul = $this->htmlcode->getHtmlUl($li).PHP_EOL;
+        $ret = $this->htmlcode->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
+
+        $single = $this->htmlcode->getSmartySingleVar('message_error').PHP_EOL;
+        $divError = $this->htmlcode->getHtmlDiv($single, 'errorMsg').PHP_EOL;
+        $ret   .= $this->htmlcode->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('form').PHP_EOL;
+        $ret   .= $this->htmlcode->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
+
+        return $ret;
     }
 
     /*
@@ -151,12 +151,12 @@ class TemplatesUserSubmit extends TDMCreateHtmlSmartyCodes
      */
     public function renderFile($filename)
     {
-        $module         = $this->getModule();
-        $table          = $this->getTable();
-        $moduleDirname  = $module->getVar('mod_dirname');
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserSubmitHeader($moduleDirname);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getTemplatesUserSubmitHeader($moduleDirname);
         $content       .= $this->getTemplatesUserSubmit($moduleDirname, $language);
         $content       .= $this->getTemplatesUserSubmitFooter($moduleDirname);
         //

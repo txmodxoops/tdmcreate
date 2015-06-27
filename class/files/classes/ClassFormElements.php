@@ -90,8 +90,8 @@ class ClassFormElements extends TDMCreateFile
     private function getXoopsFormText($language, $fieldName, $fieldDefault, $required = 'false')
     {
         $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
-		$ccFieldName  = $this->tdmcfile->getCamelCase($fieldName, false, true);
-		if ($fieldDefault != '') {
+        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        if ($fieldDefault != '') {
             $ret = <<<EOT
         // Form Text {$ucfFieldName}
 		\${$ccFieldName} = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');

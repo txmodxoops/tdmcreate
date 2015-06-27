@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,27 +10,29 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TemplatesUserMoreFiles.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserMoreFiles
+ * Class TemplatesUserMoreFiles.
  */
 class TemplatesUserMoreFiles extends TDMCreateFile
 {
     //
-	private $folder;
-	//
-	private $extension;
-	/*
+    private $folder;
+    //
+    private $extension;
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -66,33 +69,35 @@ class TemplatesUserMoreFiles extends TDMCreateFile
     */
     /**
      * @param $module
-	 * @param $filename
+     * @param $filename
+     *
      * @return string
      */
     public function write($module, $folder = '', $filename, $extension)
     {
         $this->setModule($module);
-		$this->setFileName($filename);
-		if($folder != ''){
-			$this->folder = 'templates/'.$folder;
-		} else {
-			$this->folder = 'templates';
-		}
-		$this->extension = $extension;
+        $this->setFileName($filename);
+        if ($folder != '') {
+            $this->folder = 'templates/'.$folder;
+        } else {
+            $this->folder = 'templates';
+        }
+        $this->extension = $extension;
     }
-    
+
     /*
     *  @private function getTemplatesUserMoreFile
     *  @param null
     */
     /**
      * @param null
+     *
      * @return string
      */
     private function getTemplatesUserMoreFile()
     {
-		$ret = <<<EOT
-<div class="panel">    
+        $ret = <<<EOT
+<div class="panel">
 	Pleace! Enter here your template code here
 </div>
 EOT;
@@ -106,16 +111,17 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile()
     {
-        $module        = $this->getModule();
-		$filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getTemplatesUserMoreFile();
+        $content = $this->getTemplatesUserMoreFile();
         //
-        $this->tdmcfile->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, $this->folder, $filename.'.'.$this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

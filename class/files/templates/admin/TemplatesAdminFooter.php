@@ -84,24 +84,24 @@ class TemplatesAdminFooter extends TDMCreateHtmlSmartyCodes
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
-        $moduleName    = $module->getVar('mod_name');
+        $module = $this->getModule();
+        $filename = $this->getFileName();
+        $moduleName = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
-        $supportName   = $module->getVar('mod_support_name');
-        $supportUrl    = $module->getVar('mod_support_url');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        
+        $supportName = $module->getVar('mod_support_name');
+        $supportUrl = $module->getVar('mod_support_url');
+        $language = $this->getLanguage($moduleDirname, 'AM');
+
         $singleNoVar = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-		$img         = $this->htmlcode->getHtmlImage($singleNoVar, 'XOOPS');
-		$anchor      = $this->htmlcode->getHtmlAnchor('http://www.xoops.org', $img, 'Visit XOOPS', '_blank');
-		$content     = $this->htmlcode->getHtmlDiv($anchor, 'center').PHP_EOL;
-		$tree        = $this->htmlcode->getHtmlStrong($moduleName);
-		$tree    .= $this->htmlcode->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
-		$tree    .= $this->htmlcode->getHtmlAnchor($supportUrl, $supportName, 'Visit '.$supportName, '', 'tooltip', 'external');
-		$content .= $this->htmlcode->getHtmlDiv($tree, 'center smallsmall italic pad5');
-		
-		$this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $img = $this->htmlcode->getHtmlImage($singleNoVar, 'XOOPS');
+        $anchor = $this->htmlcode->getHtmlAnchor('http://www.xoops.org', $img, 'Visit XOOPS', '_blank');
+        $content = $this->htmlcode->getHtmlDiv($anchor, 'center').PHP_EOL;
+        $tree = $this->htmlcode->getHtmlStrong($moduleName);
+        $tree    .= $this->htmlcode->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
+        $tree    .= $this->htmlcode->getHtmlAnchor($supportUrl, $supportName, 'Visit '.$supportName, '', 'tooltip', 'external');
+        $content .= $this->htmlcode->getHtmlDiv($tree, 'center smallsmall italic pad5');
+
+        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

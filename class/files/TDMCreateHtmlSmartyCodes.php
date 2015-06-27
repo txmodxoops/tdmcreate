@@ -68,10 +68,11 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     */
     /**
      * @param $comment
+     *
      * @return string
      */
     public function getHtmlEmpty($comment = '')
-    {        
+    {
         $ret = <<<EOT
 {$comment}
 EOT;
@@ -79,24 +80,25 @@ EOT;
         return $ret;
     }
 
-	/*
+    /*
     *  @public function getHtmlComment
     *  @param string $comment
     */
     /**
      * @param $comment
+     *
      * @return string
      */
     public function getHtmlComment($comment = '')
-    {        
+    {
         $ret = <<<EOT
 <!-- {$comment} -->
 EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getHtmlBr
     *  @param string $numb
     *  @param string $class
@@ -109,18 +111,18 @@ EOT;
      */
     public function getHtmlBr($numb = 1, $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = '';
-		for($i = 0; $i < $numb; $i++) {
-			$ret .= <<<EOT
+        for ($i = 0; $i < $numb; ++$i) {
+            $ret .= <<<EOT
 <br{$class} />
 EOT;
-		}
-		
+        }
+
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getHtmlHNumb
     *  @param string $class
     *  @param string $content
@@ -133,7 +135,7 @@ EOT;
      */
     public function getHtmlHNumb($content = '', $n = '1', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <h{$n}{$class}>{$content}</h{$n}>
 EOT;
@@ -154,7 +156,7 @@ EOT;
      */
     public function getHtmlDiv($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <div{$class}>
     {$content}
@@ -163,8 +165,8 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getHtmlPre
     *  @param string $class
     *  @param string $content
@@ -177,7 +179,7 @@ EOT;
      */
     public function getHtmlPre($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <pre{$class}>
     {$content}
@@ -200,7 +202,7 @@ EOT;
      */
     public function getHtmlSpan($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <span{$class}>{$content}</span>
 EOT;
@@ -221,7 +223,7 @@ EOT;
      */
     public function getHtmlParagraph($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <p{$class}>
     {$content}
@@ -244,7 +246,7 @@ EOT;
      */
     public function getHtmlI($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <i{$class}>{$content}</i>
 EOT;
@@ -265,7 +267,7 @@ EOT;
      */
     public function getHtmlUl($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <ul{$class}>
     {$content}
@@ -288,7 +290,7 @@ EOT;
      */
     public function getHtmlOl($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <ol{$class}>
     {$content}
@@ -311,15 +313,15 @@ EOT;
      */
     public function getHtmlLi($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 	<li{$class}>{$content}</li>
 EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getHtmlStrong
     *  @param string $class
     *  @param string $content
@@ -332,7 +334,7 @@ EOT;
      */
     public function getHtmlStrong($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 	<strong{$class}>{$content}</strong>
 EOT;
@@ -357,10 +359,10 @@ EOT;
      */
     public function getHtmlAnchor($url = '#', $content = '&nbsp;', $title = '', $target = '', $class = '', $rel = '')
     {
-        $target = ($target != '') ? " target='{$target}'" : '';		
-		$class  = ($class != '') ? " class='{$class}'" : '';
-		$rel    = ($rel != '') ? " rel='{$rel}'" : '';
-		
+        $target = ($target != '') ? " target='{$target}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $rel = ($rel != '') ? " rel='{$rel}'" : '';
+
         $ret = <<<EOT
 <a{$class} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>
 EOT;
@@ -383,7 +385,7 @@ EOT;
      */
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <img{$class} src='{$src}' alt='{$alt}' />
 EOT;
@@ -404,7 +406,7 @@ EOT;
      */
     public function getHtmlTable($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
 <table{$class}>
     {$content}
@@ -427,7 +429,7 @@ EOT;
      */
     public function getHtmlTableThead($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
     <thead{$class}>
         {$content}
@@ -450,7 +452,7 @@ EOT;
      */
     public function getHtmlTableTbody($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
     <tbody{$class}>
         {$content}
@@ -473,7 +475,7 @@ EOT;
      */
     public function getHtmlTableTfoot($content = '', $class = '')
     {
-        $class  = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $ret = <<<EOT
     <tfoot{$class}>
         {$content}
@@ -514,14 +516,14 @@ EOT;
     /**
      * @param $content
      * @param $class
-	 * @param $colspan
+     * @param $colspan
      *
      * @return string
      */
     public function getHtmlTableHead($content = '', $class = '', $colspan = '')
     {
-        $class   = ($class != '') ? " class='{$class}'" : '';
-		$colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
         $ret = <<<EOT
 			<th{$colspan}{$class}>{$content}</th>
 EOT;
@@ -537,48 +539,50 @@ EOT;
     /**
      * @param $content
      * @param $class
-	 * @param $colspan
+     * @param $colspan
      *
      * @return string
      */
     public function getHtmlTableData($content = '', $class = '', $colspan = '')
     {
-        $class   = ($class != '') ? " class='{$class}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
         $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
-		$ret = <<<EOT
+        $ret = <<<EOT
 			<td{$colspan}{$class}>{$content}</td>
 EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getSmartyComment
     *  @param string $comment
     */
     /**
      * @param $comment
+     *
      * @return string
      */
     public function getSmartyComment($comment = '')
-    {        
+    {
         $ret = <<<EOT
 <{* {$content} *}>
 EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getSmartyNoSimbol
     *  @param string $content
     */
     /**
      * @param $content
+     *
      * @return string
      */
     public function getSmartyNoSimbol($content = '')
-    {        
+    {
         $ret = <<<EOT
 <{{$content}}>
 EOT;
@@ -669,8 +673,8 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getSmartyIncludeQueryFile
     *  @param string $name
     */
@@ -743,7 +747,7 @@ EOT;
     *  @param string $type
     *  @param string $contentIf
     *  @param mixed  $contentElse
-	*  @param bool   $count
+    *  @param bool   $count
     */
     /**
      * @param string $condition
@@ -759,37 +763,37 @@ EOT;
     {
         if (!$contentElse) {
             if (!$count) {
-				$ret = <<<EOT
+                $ret = <<<EOT
 <{if \${$condition}{$operator}{$type}}>\n
 EOT;
-			} elseif (!$noSimbol) {
-				$ret = <<<EOT
+            } elseif (!$noSimbol) {
+                $ret = <<<EOT
 <{if {$condition}{$operator}{$type}}>\n
 EOT;
-			} else {
-				$ret = <<<EOT
+            } else {
+                $ret = <<<EOT
 <{if count(\${$condition}){$operator}{$type}}>\n
 EOT;
-			}
-		$ret .= <<<EOT
+            }
+            $ret .= <<<EOT
 	{$contentIf}
 <{/if}>
 EOT;
         } else {
             if (!$count) {
-				$ret = <<<EOT
+                $ret = <<<EOT
 <{if \${$condition}{$operator}{$type}}>\n
 EOT;
-			} elseif (!$noSimbol) {
-				$ret = <<<EOT
+            } elseif (!$noSimbol) {
+                $ret = <<<EOT
 <{if {$condition}{$operator}{$type}}>\n
 EOT;
-			} else {
-				$ret = <<<EOT
+            } else {
+                $ret = <<<EOT
 <{if count(\${$condition}){$operator}{$type}}>\n
 EOT;
-			}
-		$ret .= <<<EOT
+            }
+            $ret .= <<<EOT
     {$contentIf}
 <{else}>
     {$contentElse}

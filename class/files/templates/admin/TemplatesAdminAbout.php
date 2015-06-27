@@ -84,17 +84,17 @@ class TemplatesAdminAbout extends TDMCreateHtmlSmartyCodes
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
-		$content .= $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'header', true).PHP_EOL;
-		$content .= $this->htmlcode->getHtmlComment('About Page').PHP_EOL;
-		$single   = $this->htmlcode->getSmartySingleVar('about');
-		$content .= $this->htmlcode->getHtmlDiv($single, 'top').PHP_EOL;
-		$content .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
-		$content .= $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'footer', true);
-		
+        $content = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
+        $content .= $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'header', true).PHP_EOL;
+        $content .= $this->htmlcode->getHtmlComment('About Page').PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('about');
+        $content .= $this->htmlcode->getHtmlDiv($single, 'top').PHP_EOL;
+        $content .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
+        $content .= $this->htmlcode->getSmartyIncludeQueryFile($moduleDirname, 'footer', true);
+
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

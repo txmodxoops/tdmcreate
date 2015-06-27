@@ -100,9 +100,9 @@ class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
     private function getTemplatesAdminPermissions()
     {
         $form = $this->htmlcode->getSmartySingleVar('form');
-		$ret  = $this->htmlcode->getHtmlDiv($form, 'spacer').PHP_EOL;
-		$ret .= $this->htmlcode->getHtmlBr(2).PHP_EOL;
-		
+        $ret = $this->htmlcode->getHtmlDiv($form, 'spacer').PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlBr(2).PHP_EOL;
+
         return $ret;
     }
 
@@ -129,11 +129,11 @@ class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        $content       = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
+        $language = $this->getLanguage($moduleDirname, 'AM');
+        $content = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
         $content      .= $this->getTemplatesAdminPermissions();
         $content      .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
         //

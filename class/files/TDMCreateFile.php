@@ -530,7 +530,7 @@ EOT;
         $authorWebsiteUrl = $module->getVar('mod_author_website_url');
         $license = $module->getVar('mod_license');
         $subversion = $module->getVar('mod_subversion');
-		$date = date('D Y/m/d H:i:s');
+        $date = date('D Y/m/d H:i:s');
         if (is_null($noPhpFile)) {
             $ret = <<<EOT
 <?php
