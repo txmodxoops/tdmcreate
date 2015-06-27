@@ -2,7 +2,6 @@
 filter:
     excluded_paths:
         - assets/*
-	- docs/*
 
 build:
     environment:
