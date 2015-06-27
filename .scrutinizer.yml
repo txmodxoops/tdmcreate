@@ -2,4 +2,4 @@
 filter:
     excluded_paths:
         - assets/*
-		- docs/*
+	- docs/*
