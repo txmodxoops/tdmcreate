@@ -143,8 +143,8 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
 		$div     = $this->htmlcode->getHtmlDiv($include, 'panel panel-'.$single);
 		$cont    = $this->htmlcode->getHtmlTableData($div).PHP_EOL;
 		$html    = $this->htmlcode->getHtmlEmpty('</tr><tr>').PHP_EOL;
-		$cont   .= $this->htmlcode->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-		$foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
+		$cont   .= $this->htmlcode->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+		$foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
 		$tr      = $this->htmlcode->getHtmlTableRow($foreach).PHP_EOL;
 
         return $this->htmlcode->getHtmlTableTbody($tr).PHP_EOL;
@@ -269,9 +269,9 @@ EOT;
 		
         $single = $this->htmlcode->getSmartySingleVar('table_type');
 		$table  = $this->getTemplatesUserIndexTableThead($tableName, $language);
-		$table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language);
-        $div    = $this->htmlcode->getHtmlDiv($tab, 'table-responsive').PHP_EOL;
+		$table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);        
         $table .= $this->htmlcode->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
+		$div    = $this->htmlcode->getHtmlDiv($table, 'table-responsive').PHP_EOL;
 		return $this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
     }
 

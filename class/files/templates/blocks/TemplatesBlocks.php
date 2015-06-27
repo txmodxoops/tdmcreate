@@ -115,7 +115,7 @@ class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $language)
+    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
 		$td = '';
 		if (1 == $tableAutoincrement) {
@@ -212,10 +212,10 @@ EOT;*/
     *  @param string $language
     *  @return string
     */
-    private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $language)
+    private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $tbody  = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language);
-		$tbody .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $language);
+		$tbody .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
 		$tbody .= $this->getTemplatesBlocksTableTfoot();
 		$single = $this->htmlcode->getSmartySingleVar('table_type');
 		
@@ -236,13 +236,13 @@ EOT;*/
         $module         = $this->getModule();
         $table          = $this->getTable();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableName      = $table->getVar('table_name');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MB');
-        $content        = $this->getTemplatesBlocksTableThead($moduleDirname, $table, $language);
-        $content       .= $this->getTemplatesBlocksTableTbody($moduleDirname, $table, $language);
-
-        //$content .= $this->getTemplatesBlocksTable($moduleDirname);
+        $tableId        = $table->getVar('table_id');
+		$tableMid       = $table->getVar('table_mid');
+		$tableName      = $table->getVar('table_name');
+        $tableSoleName  = $table->getVar('table_solename');
+		$tableAutoincrement = $table->getVar('table_autoincrement');
+        $language       = $this->getLanguage($moduleDirname, 'MB');        
+        $content = $this->getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
         //
         $this->tdmcfile->create($moduleDirname, 'templates/blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

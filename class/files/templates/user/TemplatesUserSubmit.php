@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class TemplatesUserSubmit.
  */
-class TemplatesUserSubmit extends TDMCreateFile
+class TemplatesUserSubmit extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -39,6 +39,7 @@ class TemplatesUserSubmit extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*

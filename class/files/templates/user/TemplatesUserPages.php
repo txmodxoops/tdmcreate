@@ -99,9 +99,9 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
     */
     private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language)
     {
-        $tbody  = $this->getTemplatesAdminPagesTableThead($tableName, $language);
-		$tbody .= $this->getTemplatesAdminPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language);
-		$tbody .= $this->getTemplatesAdminPagesTableTfoot();
+        $tbody  = $this->getTemplatesUserPagesTableThead($tableName, $language);
+		$tbody .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language);
+		$tbody .= $this->getTemplatesUserPagesTableTfoot();
 		$single = $this->htmlcode->getSmartySingleVar('table_type');
 		
         return $this->htmlcode->getHtmlTable($tbody, 'table table-'.$single).PHP_EOL;
@@ -116,7 +116,7 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesThead($tableName, $language)
+    private function getTemplatesUserPagesTableThead($tableName, $language)
     {
         $stuTableName = strtoupper($tableName);        
 		$single = $this->htmlcode->getSmartySingleVar('divideby');
@@ -140,15 +140,15 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language)
     {
         $single  = $this->htmlcode->getSmartySingleVar('panel_type');
 		$include = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
 		$div     = $this->htmlcode->getHtmlDiv($include, 'panel panel-'.$single);
 		$cont    = $this->htmlcode->getHtmlTableData($div).PHP_EOL;
 		$html    = $this->htmlcode->getHtmlEmpty('</tr><tr>').PHP_EOL;
-		$cont   .= $this->htmlcode->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-		$foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
+		$cont   .= $this->htmlcode->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+		$foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
 		$tr      = $this->htmlcode->getHtmlTableRow($foreach).PHP_EOL;
 
         return $this->htmlcode->getHtmlTableTbody($tr).PHP_EOL;
