@@ -280,31 +280,12 @@ class TDMCreateSettings extends XoopsObject
     private function getSettingsOptions()
     {
         $retSet = array();
-        if ($this->getVar('set_admin') == 1) {
-            array_push($retSet, 'admin');
-        }
-        if ($this->getVar('set_user') == 1) {
-            array_push($retSet, 'user');
-        }
-        if ($this->getVar('set_blocks') == 1) {
-            array_push($retSet, 'blocks');
-        }
-        if ($this->getVar('set_search') == 1) {
-            array_push($retSet, 'search');
-        }
-        if ($this->getVar('set_comments') == 1) {
-            array_push($retSet, 'comments');
-        }
-        if ($this->getVar('set_notifications') == 1) {
-            array_push($retSet, 'notifications');
-        }
-        if ($this->getVar('set_permissions') == 1) {
-            array_push($retSet, 'permissions');
-        }
-        if ($this->getVar('set_inroot_copy') == 1) {
-            array_push($retSet, 'inroot');
-        }
-
+		foreach ($this->options as $option) {
+			if ($this->getVar('set_'.$option) == 1) {
+				array_push($retSet, $option);
+			}
+		}
+		
         return $retSet;
     }
 

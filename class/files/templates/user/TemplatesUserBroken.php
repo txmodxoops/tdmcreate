@@ -104,19 +104,19 @@ class TemplatesUserBroken extends TDMCreateHtmlSmartyCodes
      */
     private function getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language)
     {
-        $ret = '';
+        $th = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $stuFieldName = strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 $const = $this->htmlcode->getSmartyConst($language, $stuFieldName);
-                $ret .= $this->htmlcode->getHtmlTableHead($const, 'center').PHP_EOL;
+                $th .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $const).PHP_EOL;
             }
         }
-        $row = $this->htmlcode->getHtmlTableRow($ret, 'head').PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableThead($row, 'outer').PHP_EOL;
+        return $this->htmlcode->getHtmlTag('thead', array('class' => 'outer'), $tr).PHP_EOL;
     }
 
     /*

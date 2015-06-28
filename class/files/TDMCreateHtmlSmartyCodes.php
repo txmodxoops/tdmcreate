@@ -63,6 +63,60 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     }
 
     /*
+    *  @public function getHtmlTag
+    *  @param string $tag
+	*  @param array  $attributes
+	*  @param string $content
+	*  @param bool   $closed
+    */
+    /**
+     * @param $tag
+	 * @param $attributes
+	 * @param $content
+	 * @param $closed
+     *
+     * @return string
+     */
+    public function getHtmlTag($tag = '', $attributes = array(), $content = '', $closed = true)
+    {
+        if (empty($attributes)) {
+            $attributes = array();
+        }
+		$attr = $this->getAttributes($attributes);
+		if(!$closed) {
+			$ret = <<<EOT
+<{$tag}{$attr} />
+EOT;
+		} else {
+			$ret = <<<EOT
+<{$tag}{$attr}>{$content}</{$tag}>
+EOT;
+		}
+		
+        return $ret;
+    }
+	
+	 /*
+    *  @private function setAttributes
+    *  @param array $attributes
+    */
+	/**
+     * @param  $attributes
+     * @return string
+     */
+    private function getAttributes($attributes)
+    {
+        $str = '';
+        foreach ($attributes as $name => $value) {
+            if ($name != '_') {
+                $str .= ' ' . $name . '="' . $value . '"';
+            }
+        }
+
+        return $str;
+    }
+	
+	/*
     *  @public function getHtmlEmpty
     *  @param string $comment
     */

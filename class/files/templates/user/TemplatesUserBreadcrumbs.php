@@ -91,16 +91,16 @@ class TemplatesUserBreadcrumbs extends TDMCreateHtmlSmartyCodes
         //
         $title = $this->htmlcode->getSmartyDoubleVar('itm', 'title');
         $link = $this->htmlcode->getSmartyDoubleVar('itm', 'link');
-        $intoElse = $this->htmlcode->getHtmlLi($title);
+        $intoElse = $this->htmlcode->getHtmlTag('li', array(), $title);
         $anchorIf = $this->htmlcode->getHtmlAnchor($link, $title, $title);
-        $intoIf = $this->htmlcode->getHtmlLi($anchorIf);
+        $intoIf = $this->htmlcode->getHtmlTag('li', array(), $anchorIf);
         $ifelse = $this->htmlcode->getSmartyConditions('itm.link', '', '', $intoIf, $intoElse);
-        $glyph = $this->htmlcode->getHtmlI('', 'glyphicon glyphicon-home');
+        $glyph = $this->htmlcode->getHtmlTag('i', array('class' => 'glyphicon glyphicon-home'));
         $anchor = $this->htmlcode->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
-        $into = $this->htmlcode->getHtmlLi($anchor).PHP_EOL;
+        $into = $this->htmlcode->getHtmlTag('li', array(), $anchor).PHP_EOL;
         $into     .= $this->htmlcode->getSmartyForeach('itm', 'xoBreadcrumbs', $ifelse, 'bcloop');
 
-        $content = $this->htmlcode->getHtmlUl($into, 'breadcrumb');
+        $content = $this->htmlcode->getHtmlTag('ul', array('class' => 'breadcrumb'), $into);
 
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

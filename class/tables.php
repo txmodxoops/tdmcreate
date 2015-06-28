@@ -248,7 +248,7 @@ class TDMCreateTables extends XoopsObject
         $tableCheckAll->setClass('xo-checkall');
         $optionsTray->addElement($tableCheckAll);
         // Options
-        $tableOption = $this->getOptions();
+        $tableOption = $this->getTablesOptions();
         $checkbox = new XoopsFormCheckbox(' ', 'table_option', $tableOption, '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
@@ -304,68 +304,16 @@ class TDMCreateTables extends XoopsObject
      *
      * @return string
      */
-    public function getOptions()
+    public function getTablesOptions()
     {
-        $ret = array();
-        if ($this->getVar('table_install') == 1) {
-            array_push($ret, 'install');
-        }
-        if ($this->getVar('table_index') == 1) {
-            array_push($ret, 'index');
-        }
-        if ($this->getVar('table_admin') == 1) {
-            array_push($ret, 'admin');
-        }
-        if ($this->getVar('table_user') == 1) {
-            array_push($ret, 'user');
-        }
-        if ($this->getVar('table_blocks') == 1) {
-            array_push($ret, 'blocks');
-        }
-        if ($this->getVar('table_submenu') == 1) {
-            array_push($ret, 'submenu');
-        }
-        if ($this->getVar('table_submit') == 1) {
-            array_push($ret, 'submit');
-        }
-        if ($this->getVar('table_tag') == 1) {
-            array_push($ret, 'tag');
-        }
-        if ($this->getVar('table_broken') == 1) {
-            array_push($ret, 'broken');
-        }
-        if ($this->getVar('table_search') == 1) {
-            array_push($ret, 'search');
-        }
-        if ($this->getVar('table_comments') == 1) {
-            array_push($ret, 'comments');
-        }
-        if ($this->getVar('table_notifications') == 1) {
-            array_push($ret, 'notifications');
-        }
-        if ($this->getVar('table_permissions') == 1) {
-            array_push($ret, 'permissions');
-        }
-        if ($this->getVar('table_rate') == 1) {
-            array_push($ret, 'rate');
-        }
-        if ($this->getVar('table_print') == 1) {
-            array_push($ret, 'print');
-        }
-        if ($this->getVar('table_pdf') == 1) {
-            array_push($ret, 'pdf');
-        }
-        if ($this->getVar('table_rss') == 1) {
-            array_push($ret, 'rss');
-        }
-        if ($this->getVar('table_single') == 1) {
-            array_push($ret, 'single');
-        }
-        if ($this->getVar('table_visit') == 1) {
-            array_push($ret, 'visit');
-        }
-
-        return $ret;
+        $retTable = array();
+        foreach ($this->options as $option) {
+			if ($this->getVar('table_'.$option) == 1) {
+				array_push($retTable, $option);
+			}
+		}
+        
+        return $retTable;
     }
 
     /**

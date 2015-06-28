@@ -89,11 +89,11 @@ class TemplatesAdminHeader extends TDMCreateHtmlSmartyCodes
         $moduleDirname = $module->getVar('mod_dirname');
 
         $navigation = $this->htmlcode->getSmartySingleVar('navigation');
-        $due = $this->htmlcode->getHtmlSpan($navigation, 'left').PHP_EOL;
+        $due = $this->htmlcode->getHtmlTag('span', array('class' => 'left'), $navigation).PHP_EOL;
         $buttons = $this->htmlcode->getSmartySingleVar('buttons');
-        $right = $this->htmlcode->getHtmlSpan($buttons.'&nbsp;', 'left');
-        $due       .= $this->htmlcode->getSmartyConditions('buttons', '', '', $right);
-        $content = $this->htmlcode->getHtmlDiv($due, 'top');
+        $right = $this->htmlcode->getHtmlTag('span', array('class' => 'left'), $buttons.'&nbsp;');
+        $due .= $this->htmlcode->getSmartyConditions('buttons', '', '', $right).PHP_EOL;
+        $content = $this->htmlcode->getHtmlTag('div', array('class' => 'top'), $due);
 
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -92,7 +92,7 @@ class TemplatesAdminIndex extends TDMCreateHtmlSmartyCodes
         $content .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
         $content .= $this->htmlcode->getHtmlComment('Index Page').PHP_EOL;
         $single = $this->htmlcode->getSmartySingleVar('index');
-        $content .= $this->htmlcode->getHtmlDiv($single, 'top').PHP_EOL;
+        $content .= $this->htmlcode->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
         $content .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
         $content .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 

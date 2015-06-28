@@ -475,33 +475,14 @@ class TDMCreateModules extends XoopsObject
      */
     private function getModulesOptions()
     {
-        $retMod = array();
-        if ($this->getVar('mod_admin') == 1) {
-            array_push($retMod, 'admin');
-        }
-        if ($this->getVar('mod_user') == 1) {
-            array_push($retMod, 'user');
-        }
-        if ($this->getVar('mod_blocks') == 1) {
-            array_push($retMod, 'blocks');
-        }
-        if ($this->getVar('mod_search') == 1) {
-            array_push($retMod, 'search');
-        }
-        if ($this->getVar('mod_comments') == 1) {
-            array_push($retMod, 'comments');
-        }
-        if ($this->getVar('mod_notifications') == 1) {
-            array_push($retMod, 'notifications');
-        }
-        if ($this->getVar('mod_permissions') == 1) {
-            array_push($retMod, 'permissions');
-        }
-        if ($this->getVar('mod_inroot_copy') == 1) {
-            array_push($retMod, 'inroot');
-        }
+        $retModules = array();
+		foreach ($this->options as $option) {
+			if ($this->getVar('mod_'.$option) == 1) {
+				array_push($retModules, $option);
+			}
+		}
 
-        return $retMod;
+        return $retModules;
     }
 
     /**

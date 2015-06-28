@@ -100,8 +100,8 @@ class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
     private function getTemplatesAdminPermissions()
     {
         $form = $this->htmlcode->getSmartySingleVar('form');
-        $ret = $this->htmlcode->getHtmlDiv($form, 'spacer').PHP_EOL;
-        $ret .= $this->htmlcode->getHtmlBr(2).PHP_EOL;
+        $ret  = $this->htmlcode->getHtmlTag('div', array('class' => 'spacer'), $form).PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlTag('br', array(), '', false).PHP_EOL;
 
         return $ret;
     }

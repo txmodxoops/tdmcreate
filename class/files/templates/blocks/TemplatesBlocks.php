@@ -120,7 +120,7 @@ class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-            $td    .= $this->htmlcode->getHtmlTableData($double, 'center').PHP_EOL;
+            $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -137,28 +137,28 @@ class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
                         // Now with HTML5 is not supported inline style in the parameters of the HTML tag
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $span = $this->htmlcode->getHtmlSpan($double);
-                        $td .= $this->htmlcode->getHtmlTableData($span, 'center').PHP_EOL;
+                        $span = $this->htmlcode->getHtmlTag('span', array(), $double);
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $span).PHP_EOL;
                         /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
 EOT;*/
                         break;
                     case 10:
-                        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32');
+                        $src  = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlImage($src, $tableName);
-                        $td  .= $this->htmlcode->getHtmlTableData($img, 'center').PHP_EOL;
+                        $img  = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
+                        $td  .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     case 13:
                         $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlImage($single."/images/{$tableName}/".$double, $tableName);
-                        $td    .= $this->htmlcode->getHtmlTableData($img, 'center').PHP_EOL;
+                        $img    = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
+                        $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
                         if (0 != $f) {
                             $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td    .= $this->htmlcode->getHtmlTableData($double, 'center').PHP_EOL;
+                            $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
                         }
                         break;
                 }
@@ -167,18 +167,18 @@ EOT;*/
         $lang = $this->htmlcode->getSmartyConst('', '_EDIT');
         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
         $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 edit.png');
-        $img = $this->htmlcode->getHtmlImage($src, $tableName);
-        $anchor = $this->htmlcode->getHtmlAnchor($tableName.".php?op=edit&amp;{$fieldId}=".$double, $img, $lang).PHP_EOL;
+        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
+        $anchor = $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=edit&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
         $lang = $this->htmlcode->getSmartyConst('', '_DELETE');
         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
         $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-        $img = $this->htmlcode->getHtmlImage($src.$double, $tableName);
-        $anchor .= $this->htmlcode->getHtmlAnchor($tableName.".php?op=delete&amp;{$fieldId}=".$double, $img, $lang).PHP_EOL;
-        $td     .= $this->htmlcode->getHtmlTableData("\n".$anchor, 'center').PHP_EOL;
+        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src.$double, 'alt' => $tableName), '', false);
+        $anchor .= $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
+        $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), "\n".$anchor).PHP_EOL;
         $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values="odd, even"');
-        $tr = $this->htmlcode->getHtmlTableRow($td, $cycle).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
         $foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName.'_list', $tr).PHP_EOL;
-        $tbody = $this->htmlcode->getHtmlTableTbody($foreach).PHP_EOL;
+        $tbody = $this->htmlcode->getHtmlTag('tbody', array(), $foreach).PHP_EOL;
 
         return $this->htmlcode->getSmartyConditions($tableName.'_count', '', '', $tbody).PHP_EOL;
     }
@@ -198,10 +198,10 @@ EOT;*/
      */
     private function getTemplatesBlocksTableTfoot()
     {
-        $td = $this->htmlcode->getHtmlTableData('&nbsp;').PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTableRow($td).PHP_EOL;
+        $td = $this->htmlcode->getHtmlTag('td', array(), '&nbsp;').PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array(), $td).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableTfoot($tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('tfoot', array(),$tr).PHP_EOL;
     }
 
     /*
