@@ -95,11 +95,11 @@ class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
             $fieldName = $fields[$f]->getVar('field_name');
             $stuFieldName = $language.strtoupper($fieldName);
             $lang = $this->htmlcode->getSmartyConst($language, $stuFieldName);
-            $th    .= $this->htmlcode->getHtmlTableHead($lang, 'center').PHP_EOL;
+            $th          .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
         }
-        $tr = $this->htmlcode->getHtmlTableRow($th, 'head').PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableThead($tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
     }
 
     /*
@@ -219,7 +219,7 @@ EOT;*/
         $tbody .= $this->getTemplatesBlocksTableTfoot();
         $single = $this->htmlcode->getSmartySingleVar('table_type');
 
-        return $this->htmlcode->getHtmlTable($tbody, 'table table-'.$single).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $tbody).PHP_EOL;
     }
 
     /*

@@ -134,7 +134,7 @@ class TemplatesUserBroken extends TDMCreateHtmlSmartyCodes
      */
     private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language)
     {
-        $ret = '';
+        $td = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -143,27 +143,28 @@ class TemplatesUserBroken extends TDMCreateHtmlSmartyCodes
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
-                        $span = $this->htmlcode->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>", "#<{\${$tableSolename}.{$rpFieldName}}>").PHP_EOL;
-                        $ret .= $this->htmlcode->getHtmlTableData($span, 'center').PHP_EOL;
+                        $span = $this->htmlcode->getHtmlTag('span', array('class' => "#<{\${$tableSolename}.{$rpFieldName}}>"), "<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>").PHP_EOL;
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $span).PHP_EOL;
                         break;
                     case 10:
-                        $img = $this->htmlcode->getHtmlImage("<{xoModuleIcons32}><{\${$tableSolename}.{$rpFieldName}}>", $tableName);
-                        $ret .= $this->htmlcode->getHtmlTableData($img, 'center').PHP_EOL;
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => "<{xoModuleIcons32}><{\${$tableSolename}.{$rpFieldName}}>", 'alt' => $tableName), '', false);
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     case 13:
-                        $img = $this->htmlcode->getHtmlImage("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>", $tableName);
-                        $ret .= $this->htmlcode->getHtmlTableData($img, 'center').PHP_EOL;
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => "<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>", 'alt' => $tableName), '', false);
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
-                        $ret .= $this->htmlcode->getHtmlTableData("<{\${$tableSolename}.{$rpFieldName}}>", 'center').PHP_EOL;
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), "<{\${$tableSolename}.{$rpFieldName}}>").PHP_EOL;
                         break;
                 }
             }
         }
-        $row = $this->htmlcode->getHtmlTableRow($ret, '<{cycle values="odd, even"}>').PHP_EOL;
-        $foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $row).PHP_EOL;
+        $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values=\'odd, even\'');
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
+        $tbody = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $tr).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableTbody($foreach).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('tbody', array(), $tbody).PHP_EOL;
     }
 
     /*

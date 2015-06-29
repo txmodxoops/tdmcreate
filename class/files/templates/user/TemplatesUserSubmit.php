@@ -107,21 +107,21 @@ class TemplatesUserSubmit extends TDMCreateHtmlSmartyCodes
     private function getTemplatesUserSubmit($moduleDirname, $language)
     {
         $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
-        $li = $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $li = $this->htmlcode->getHtmlTag('li', array(), $const).PHP_EOL;
         $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_ALLPENDING');
-        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $li    .= $this->htmlcode->getHtmlTag('li', array(), $const).PHP_EOL;
         $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_DONTABUSE');
-        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $li    .= $this->htmlcode->getHtmlTag('li', array(), $const).PHP_EOL;
         $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
-        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
-        $ul = $this->htmlcode->getHtmlUl($li).PHP_EOL;
-        $ret = $this->htmlcode->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
+        $li    .= $this->htmlcode->getHtmlTag('li', array(), $const).PHP_EOL;
+        $ul = $this->htmlcode->getHtmlTag('ul', array(), $li).PHP_EOL;
+        $ret = $this->htmlcode->getHtmlTag('div', array('class' => $moduleDirname.'-tips'), $ul).PHP_EOL;
 
         $single = $this->htmlcode->getSmartySingleVar('message_error').PHP_EOL;
-        $divError = $this->htmlcode->getHtmlDiv($single, 'errorMsg').PHP_EOL;
+        $divError = $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $single).PHP_EOL;
         $ret   .= $this->htmlcode->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
         $single = $this->htmlcode->getSmartySingleVar('form').PHP_EOL;
-        $ret   .= $this->htmlcode->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
+        $ret   .= $this->htmlcode->getHtmlTag('div', array('class' => $moduleDirname.'-submitform'), $single).PHP_EOL;
 
         return $ret;
     }

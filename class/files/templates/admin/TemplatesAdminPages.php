@@ -129,7 +129,7 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-            $td    .= $this->htmlcode->getHtmlTableData($double, 'center').PHP_EOL;
+            $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
         }
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -263,8 +263,8 @@ EOT;*/
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
         $content = $this->getTemplatesAdminPagesHeader($moduleDirname);
-        $content .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
-        $content .= $this->getTemplatesAdminPagesFooter($moduleDirname);
+        $content      .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
+        $content      .= $this->getTemplatesAdminPagesFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

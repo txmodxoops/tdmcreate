@@ -100,7 +100,7 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
         $table = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language);
 
-        return $this->htmlcode->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $table).PHP_EOL;
     }
 
     /*
@@ -117,10 +117,10 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
         $stuTableName = strtoupper($tableName);
         $lang = $this->htmlcode->getSmartyConst($language, $stuTableName);
         $single = $this->htmlcode->getSmartySingleVar('numb_col');
-        $th = $this->htmlcode->getHtmlTableHead($lang, '', $single).PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTableRow($th, 'head').PHP_EOL;
+        $th = $this->htmlcode->getHtmlTag('th', array('colspan' => $single), $lang).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableThead($tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
     }
 
     /*
@@ -140,14 +140,14 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
     {
         $single = $this->htmlcode->getSmartySingleVar('panel_type');
         $include = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
-        $div = $this->htmlcode->getHtmlDiv($include, 'panel panel-'.$single);
-        $cont = $this->htmlcode->getHtmlTableData($div).PHP_EOL;
+        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-'.$single), $include);
+        $cont = $this->htmlcode->getHtmlTag('td', array(), $div).PHP_EOL;
         $html = $this->htmlcode->getHtmlEmpty('</tr><tr>').PHP_EOL;
         $cont   .= $this->htmlcode->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
         $foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTableRow($foreach).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array(), $foreach).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableTbody($tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('tbody', array(), $tr).PHP_EOL;
     }
 
     /*
@@ -165,10 +165,10 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
      */
     private function getTemplatesUserIndexTableTfoot()
     {
-        $td = $this->htmlcode->getHtmlTableData('&nbsp;').PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTableRow($td).PHP_EOL;
+        $td = $this->htmlcode->getHtmlTag('td', array(), '&nbsp;').PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array(), $td).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTableTfoot($tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('tfoot', array(), $tr).PHP_EOL;
     }
 
     /*

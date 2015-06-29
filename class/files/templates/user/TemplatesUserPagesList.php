@@ -279,7 +279,7 @@ EOT;
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retNumb = $this->htmlcode->getHtmlHNumb($doubleVar, '3', 'panel-title');
+                            $retNumb = $this->htmlcode->getHtmlTag('h3', array('class' => 'panel-title'), $doubleVar);
                             break;
                     }
                 }
@@ -298,8 +298,8 @@ EOT;
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlImage($singleVar.'/'.$doubleVar, "{$tableName}");
-                            $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
+                            $img = $this->htmlcode->getHtmlgetHtmlTag('img', array('src' => $singleVar.'/'.$doubleVar, 'alt' => $tableName), '', false);
+                            $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-3'), $img).PHP_EOL;
                             unset($img);
                             break;
                         case 13:
@@ -307,8 +307,8 @@ EOT;
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
-                            $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
+                            $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleVar."/images/{$tableName}/".$doubleVar, 'alt' => $tableName), '', false);
+                            $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-3'), $img).PHP_EOL;
                             unset($img);
                             break;
                         case 3:
@@ -316,13 +316,13 @@ EOT;
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-9 justify').PHP_EOL;
+                            $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-9'), $doubleVar).PHP_EOL;
                             break;
                     }
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlDiv($retElem, 'panel-body').PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-body'), $retElem).PHP_EOL;
         $retFoot = '';
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -332,11 +332,11 @@ EOT;
                     $langConst = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
                     $lang = $this->htmlcode->getSmartyConst($language, $langConst);
                     $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                    $retFoot .= $this->htmlcode->getHtmlSpan($lang.': '.$doubleVar, 'block-pie justify').PHP_EOL;
+                    $retFoot .= $this->htmlcode->getHtmlTag('span', array('class' => 'block-pie justify'), $lang.': '.$doubleVar).PHP_EOL;
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlDiv($retFoot, 'panel-foot').PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-foot'), $retFoot).PHP_EOL;
 
         return $ret;
     }
