@@ -622,7 +622,8 @@ EOT;
     {
         $ucfTopicTableName = ucfirst($topicTableName);
         $stlTopicTableName = strtolower($topicTableName);
-        $ret = <<<EOT
+        $ccFieldPid        = $this->tdmcfile->getCamelCase($fieldPid, false, true);
+		$ret = <<<EOT
         // Form Topic {$ucfTopicTableName}
         \${$stlTopicTableName}Handler = \$this->{$moduleDirname}->getHandler('{$stlTopicTableName}');
         \$criteria = new CriteriaCompo();
@@ -631,8 +632,8 @@ EOT;
             include_once(XOOPS_ROOT_PATH . '/class/tree.php');
 			\${$stlTopicTableName}All = \${$stlTopicTableName}Handler->getAll(\$criteria);
             \${$stlTopicTableName}Tree = new XoopsObjectTree( \${$stlTopicTableName}All, '{$fieldId}', '{$fieldPid}' );
-            \${$fieldPid} = \${$stlTopicTableName}Tree->makeSelBox( '{$fieldPid}', '{$fieldMain}', '--', \$this->getVar('{$fieldPid}', 'e' ), true );
-            \$form->addElement( new XoopsFormLabel ( {$language}, \${$fieldPid} ){$required} );
+            \${$ccFieldPid} = \${$stlTopicTableName}Tree->makeSelBox( '{$fieldPid}', '{$fieldMain}', '--', \$this->getVar('{$fieldPid}', 'e' ), true );
+            \$form->addElement( new XoopsFormLabel ( {$language}, \${$ccFieldPid} ){$required} );
         }
 		unset(\$criteria);\n
 EOT;

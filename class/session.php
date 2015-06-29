@@ -51,12 +51,13 @@ class TDMCreateSession
      */
     public static function &getInstance()
     {
-        static $_sess = false;
-        if (!isset($_sess)) {
-            $_sess = new self();
+        static $instance = false;
+        if (!isset($instance)) {
+			$class = __CLASS__;
+            $instance = new $class();
         }
 
-        return $_sess;
+        return $instance;
     }
 
     /**

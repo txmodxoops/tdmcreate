@@ -109,7 +109,7 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
         }
 
         $lang = $this->htmlcode->getSmartyConst($language, 'FORM_ACTION');
-        $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
+        $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center width5'), $lang).PHP_EOL;
         $tr   = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
         $ret  = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
 
@@ -182,7 +182,7 @@ EOT;*/
         $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 delete.png');
         $img = $this->htmlcode->getHtmlTag('img', array('src' => $src.$double, 'alt' => $tableName), '', false);
         $anchor .= $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
-        $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), "\n".$anchor).PHP_EOL;
+        $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor).PHP_EOL;
         $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values="odd, even"');
         $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
         $foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName.'_list', $tr).PHP_EOL;
@@ -226,8 +226,8 @@ EOT;*/
         $ifList = $this->htmlcode->getSmartyConditions($tableName.'_list', '', '', $htmlTable).PHP_EOL;
         $single = $this->htmlcode->getSmartySingleVar('form');
         $divComm = $this->htmlcode->getHtmlComment('Display navigation').PHP_EOL;
-        $divComm .= $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $single).PHP_EOL;
-        $ifList .= $this->htmlcode->getSmartyConditions('form', '', '', $divComm).PHP_EOL;
+        //$divComm .= $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $single).PHP_EOL;
+        $ifList .= $this->htmlcode->getSmartyConditions('form', '', '', $single).PHP_EOL;
         $single = $this->htmlcode->getSmartySingleVar('error');
         $strong = $this->htmlcode->getHtmlTag('strong', array(), $single).PHP_EOL;
         $div = $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $strong).PHP_EOL;
