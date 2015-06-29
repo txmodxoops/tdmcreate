@@ -280,12 +280,12 @@ class TDMCreateSettings extends XoopsObject
     private function getSettingsOptions()
     {
         $retSet = array();
-		foreach ($this->options as $option) {
-			if ($this->getVar('set_'.$option) == 1) {
-				array_push($retSet, $option);
-			}
-		}
-		
+        foreach ($this->options as $option) {
+            if ($this->getVar('set_'.$option) == 1) {
+                array_push($retSet, $option);
+            }
+        }
+
         return $retSet;
     }
 

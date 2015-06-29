@@ -110,8 +110,8 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
 
         $lang = $this->htmlcode->getSmartyConst($language, 'FORM_ACTION');
         $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center width5'), $lang).PHP_EOL;
-        $tr   = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
-        $ret  = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $ret = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
 
         return $ret;
     }
@@ -160,7 +160,7 @@ EOT;*/
                     case 13:
                         $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img    = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
                         $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
@@ -174,16 +174,16 @@ EOT;*/
         }
         $lang = $this->htmlcode->getSmartyConst('', '_EDIT');
         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 edit.png');
+        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 edit.png');
         $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
         $anchor = $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=edit&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
         $lang = $this->htmlcode->getSmartyConst('', '_DELETE');
         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src.$double, 'alt' => $tableName), '', false);
+        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 delete.png');
+        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
         $anchor .= $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
         $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor).PHP_EOL;
-        $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values="odd, even"');
+        $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values=\'odd, even\'');
         $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
         $foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName.'_list', $tr).PHP_EOL;
         $tbody = $this->htmlcode->getHtmlTag('tbody', array(), $foreach).PHP_EOL;
@@ -204,7 +204,7 @@ EOT;*/
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $this->htmlcode->getHtmlTable($tbody, 'table table-bordered').PHP_EOL;
+        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-bordered  table-striped'), $tbody).PHP_EOL;
     }
 
     /*

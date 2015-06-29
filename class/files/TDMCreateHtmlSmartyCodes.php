@@ -65,15 +65,15 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     /*
     *  @public function getHtmlTag
     *  @param string $tag
-	*  @param array  $attributes
-	*  @param string $content
-	*  @param bool   $closed
+    *  @param array  $attributes
+    *  @param string $content
+    *  @param bool   $closed
     */
     /**
      * @param $tag
-	 * @param $attributes
-	 * @param $content
-	 * @param $closed
+     * @param $attributes
+     * @param $content
+     * @param $closed
      *
      * @return string
      */
@@ -82,26 +82,27 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
         if (empty($attributes)) {
             $attributes = array();
         }
-		$attr = $this->getAttributes($attributes);
-		if(!$closed) {
-			$ret = <<<EOT
+        $attr = $this->getAttributes($attributes);
+        if (!$closed) {
+            $ret = <<<EOT
 <{$tag}{$attr} />
 EOT;
-		} else {
-			$ret = <<<EOT
+        } else {
+            $ret = <<<EOT
 <{$tag}{$attr}>{$content}</{$tag}>
 EOT;
-		}
-		
+        }
+
         return $ret;
     }
-	
-	 /*
+
+     /*
     *  @private function setAttributes
     *  @param array $attributes
     */
-	/**
+    /**
      * @param  $attributes
+     *
      * @return string
      */
     private function getAttributes($attributes)
@@ -109,14 +110,14 @@ EOT;
         $str = '';
         foreach ($attributes as $name => $value) {
             if ($name != '_') {
-                $str .= ' ' . $name . '="' . $value . '"';
+                $str .= ' '.$name.'="'.$value.'"';
             }
         }
 
         return $str;
     }
-	
-	/*
+
+    /*
     *  @public function getHtmlEmpty
     *  @param string $comment
     */
@@ -716,26 +717,26 @@ EOT;
     public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false)
     {
         if (!$admin && !$q) {
-			$ret = <<<EOT
+            $ret = <<<EOT
 <{include file='db:{$moduleDirname}_{$fileName}.tpl'}>
 EOT;
-        } elseif ($admin && !$q) { 
-			$ret = <<<EOT
+        } elseif ($admin && !$q) {
+            $ret = <<<EOT
 <{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>
 EOT;
         } elseif (!$admin && $q) {
-				$ret = <<<EOT
+            $ret = <<<EOT
 <{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>
 EOT;
-		} elseif ($admin && $q) {
-			$ret = <<<EOT
+        } elseif ($admin && $q) {
+            $ret = <<<EOT
 <{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>
 EOT;
-		}
+        }
 
         return $ret;
     }
-    
+
     /*
     *  @public function getSmartyIncludeFileListSection
     *  @param string $name

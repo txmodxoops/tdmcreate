@@ -165,7 +165,7 @@ SQL;
         $j = 0;
         $comma = array();
         $row = array();
-		$type = '';
+        $type = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
@@ -353,25 +353,19 @@ SQL;
     */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
     {
-        $retAutoincrement = <<<SQL
-  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},
-SQL;
-        $retFieldAttribute = <<<SQL
-  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},
-SQL;
-        $fieldDefault = <<<SQL
-  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},
-SQL;
-        $retShort = <<<SQL
-  `{$fieldName}` {$fieldTypeValue},
-SQL;
-        $ret = $retShort;
+        $retAutoincrement = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
+        $retFieldAttribute = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
+        $fieldDefault = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
+        $retShort = "  `{$fieldName}` {$fieldTypeValue},";
+
         if ($autoincrement != null) {
             $ret = $retAutoincrement;
         } elseif ($fieldAttribute != null) {
             $ret = $retFieldAttribute;
         } elseif ($fieldAttribute == null) {
             $ret = $fieldDefault;
+        } else {
+            $ret = $retShort;
         }
 
         return $ret;
@@ -385,29 +379,19 @@ SQL;
     {
         switch ($key) {
             case 2: // PRIMARY KEY
-                $ret = <<<SQL
-  PRIMARY KEY (`{$fieldName}`)
-SQL;
+                $ret = "  PRIMARY KEY (`{$fieldName}`)";
                 break;
             case 3: // UNIQUE KEY
-                $ret = <<<SQL
-  UNIQUE KEY `{$fieldName}` (`{$fieldName}`)
-SQL;
+                $ret = "  UNIQUE KEY `{$fieldName}` (`{$fieldName}`)";
                 break;
             case 4: // KEY
-                $ret = <<<SQL
-  KEY `{$fieldName}` (`{$fieldName}`)
-SQL;
+                $ret = "  KEY `{$fieldName}` (`{$fieldName}`)";
                 break;
             case 5: // INDEX
-                $ret = <<<SQL
-  INDEX (`{$fieldName}`)
-SQL;
+                $ret = "  INDEX (`{$fieldName}`)";
                 break;
             case 6: // FULLTEXT KEY
-                $ret = <<<SQL
-  FULLTEXT KEY `{$fieldName}` (`{$fieldName}`)
-SQL;
+                $ret = "  FULLTEXT KEY `{$fieldName}` (`{$fieldName}`)";
                 break;
         }
 
@@ -422,9 +406,7 @@ SQL;
     */
     private function getComma($row, $comma = null)
     {
-        $ret = <<<SQL
-            {$row}{$comma}
-SQL;
+        $ret = "			{$row}{$comma}";
 
         return $ret;
     }

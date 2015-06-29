@@ -308,11 +308,11 @@ class TDMCreateTables extends XoopsObject
     {
         $retTable = array();
         foreach ($this->options as $option) {
-			if ($this->getVar('table_'.$option) == 1) {
-				array_push($retTable, $option);
-			}
-		}
-        
+            if ($this->getVar('table_'.$option) == 1) {
+                array_push($retTable, $option);
+            }
+        }
+
         return $retTable;
     }
 

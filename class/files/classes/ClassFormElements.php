@@ -622,8 +622,8 @@ EOT;
     {
         $ucfTopicTableName = ucfirst($topicTableName);
         $stlTopicTableName = strtolower($topicTableName);
-        $ccFieldPid        = $this->tdmcfile->getCamelCase($fieldPid, false, true);
-		$ret = <<<EOT
+        $ccFieldPid = $this->tdmcfile->getCamelCase($fieldPid, false, true);
+        $ret = <<<EOT
         // Form Topic {$ucfTopicTableName}
         \${$stlTopicTableName}Handler = \$this->{$moduleDirname}->getHandler('{$stlTopicTableName}');
         \$criteria = new CriteriaCompo();

@@ -476,11 +476,11 @@ class TDMCreateModules extends XoopsObject
     private function getModulesOptions()
     {
         $retModules = array();
-		foreach ($this->options as $option) {
-			if ($this->getVar('mod_'.$option) == 1) {
-				array_push($retModules, $option);
-			}
-		}
+        foreach ($this->options as $option) {
+            if ($this->getVar('mod_'.$option) == 1) {
+                array_push($retModules, $option);
+            }
+        }
 
         return $retModules;
     }
