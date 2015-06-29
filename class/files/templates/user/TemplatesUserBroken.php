@@ -204,7 +204,7 @@ class TemplatesUserBroken extends TDMCreateHtmlSmartyCodes
         $content = $this->getTemplatesUserBrokenFileHeader($moduleDirname).PHP_EOL;
         $contentTable = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
         $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language);
-        $content .= $this->htmlcode->getHtmlTable($contentTable, 'table table-bordered').PHP_EOL;
+        $content .= $this->htmlcode->getHtmlTag('table', array('class' => 'table table-bordered'), $contentTable).PHP_EOL;
         $content .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

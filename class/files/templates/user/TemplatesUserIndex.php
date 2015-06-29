@@ -269,8 +269,8 @@ EOT;
         $single = $this->htmlcode->getSmartySingleVar('table_type');
         $table = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
-        $table .= $this->htmlcode->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
-        $div = $this->htmlcode->getHtmlDiv($table, 'table-responsive').PHP_EOL;
+        $table .= $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $table).PHP_EOL;
+        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'table-responsive'), $table).PHP_EOL;
 
         return $this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
     }

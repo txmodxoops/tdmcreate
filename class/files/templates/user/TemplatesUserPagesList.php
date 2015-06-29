@@ -285,7 +285,7 @@ EOT;
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlDiv($retNumb, 'panel-heading').PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-heading'), $retNumb).PHP_EOL;
         $retElem = '';
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -298,7 +298,7 @@ EOT;
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlgetHtmlTag('img', array('src' => $singleVar.'/'.$doubleVar, 'alt' => $tableName), '', false);
+                            $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleVar.'/'.$doubleVar, 'alt' => $tableName), '', false);
                             $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-3'), $img).PHP_EOL;
                             unset($img);
                             break;
