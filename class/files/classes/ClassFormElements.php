@@ -683,6 +683,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
+		$tableAutoincrement = $table->getVar('table_autoincrement');
         $languageFunct = $this->getLanguage($moduleDirname, 'AM');
         //$language_table = $languageFunct . strtoupper($tableName);
         $ret = '';
@@ -694,15 +695,8 @@ EOT;
             $fieldElement = $fields[$f]->getVar('field_element');
             $fieldParent = $fields[$f]->getVar('field_parent');
             $fieldInForm = $fields[$f]->getVar('field_inform');
-            if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fieldId = $fieldName;
-            }
-            /*if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldPid = $fieldName;
-            }*/
-            /*if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
-            }*/
+            $fieldId = ((0 == $f) && (1 == $tableAutoincrement)) ? $fieldName : '';
+
             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
@@ -759,18 +753,11 @@ EOT;
                         break;
                     default:
                         // If we use tag module
-                        if (1 == $table->getVar('table_tag')) {
-                            $ret .= $this->getXoopsFormTag($moduleDirname, $fieldId, $required);
-                        }
+                        $ret .= (1 == $table->getVar('table_tag')) ? $this->getXoopsFormTag($moduleDirname, $fieldId, $required) : '';
                         // If we want to hide XoopsFormHidden() or field id
-                        if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                            $ret .= $this->getXoopsFormHidden($fieldName);
-                        }
+                        $ret .= ((0 == $f) && (1 == $tableAutoincrement)) ? $this->getXoopsFormHidden($fieldName) : '';
                         break;
-                }
-                /*if (($fieldElement <= 15)) {
-                    $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $tableName, $fieldId, $fieldPid, $fieldMain, $required);
-                }*/
+                }                
                 if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
                         $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
@@ -782,15 +769,9 @@ EOT;
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
                         foreach (array_keys($fieldsTopics) as $f) {
                             $fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
-                            if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                                $fieldIdTopic = $fieldNameTopic;
-                            }
-                            if (1 == $fieldsTopics[$f]->getVar('field_parent')) {
-                                $fieldPidTopic = $fieldNameTopic;
-                            }
-                            if (1 == $fieldsTopics[$f]->getVar('field_main')) {
-                                $fieldMainTopic = $fieldNameTopic;
-                            }
+                            $fieldIdTopic = ((0 == $f) && (1 == $tableAutoincrement)) ? $fieldNameTopic : '';
+                            $fieldPidTopic = (1 == $fieldsTopics[$f]->getVar('field_parent')) ? $fieldNameTopic : '';
+                            $fieldMainTopic = (1 == $fieldsTopics[$f]->getVar('field_main')) ? $fieldNameTopic : '';
                         }
                         $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldIdTopic, $fieldPidTopic, $fieldMainTopic, $required);
                     } else {

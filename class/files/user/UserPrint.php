@@ -91,6 +91,7 @@ class UserPrint extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
+		$tableSoleName = $table->getVar('table_solename');
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -102,10 +103,11 @@ class UserPrint extends TDMCreateFile
                 if ($str !== false) {
                     $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
-            }
+            }			
             $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
+				$ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
             } else {
                 if (1 == $fields[$f]->getVar('field_main')) {
                     $fieldMain = $fieldName; // fieldMain = fields parameters main field
@@ -118,7 +120,7 @@ class UserPrint extends TDMCreateFile
 \ninclude  __DIR__ . '/header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_print.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';
-\${$lpFieldName} = XoopsRequest::getInt('{$fieldId}', 0, 'GET');
+\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}', 0, 'GET');
 if ( empty({$fieldId}) ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
 }
@@ -126,9 +128,9 @@ EOT;
         if (strstr($fieldName, 'published')) {
             $ret .= <<<EOT
 // Verify that the article is published
-\${$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
+\${$tableSoleName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
 // Not yet {$fieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') == 0 || \${$lpFieldName}->getVar('{$fieldName}') > time() ) {
+if ( \${$tableSoleName}->getVar('{$fieldName}') == 0 || \${$tableSoleName}->getVar('{$fieldName}') > time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
@@ -137,7 +139,7 @@ EOT;
         if (strstr($fieldName, 'expired')) {
             $ret .= <<<EOT
 // {$ucfFieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') != 0 && \${$lpFieldName}->getVar('{$fieldName}') < time() ) {
+if ( \${$tableSoleName}->getVar('{$fieldName}') != 0 && \${$tableSoleName}->getVar('{$fieldName}') < time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
@@ -146,7 +148,7 @@ EOT;
         if (strstr($fieldName, 'date')) {
             $ret .= <<<EOT
 // {$ucfFieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') != 0 && \${$lpFieldName}->getVar('{$fieldName}') < time() ) {
+if ( \${$tableSoleName}->getVar('{$fieldName}') != 0 && \${$tableSoleName}->getVar('{$fieldName}') < time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
@@ -155,7 +157,7 @@ EOT;
         if (strstr($fieldName, 'time')) {
             $ret .= <<<EOT
 // {$ucfFieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') != 0 && \${$lpFieldName}->getVar('{$fieldName}') < time() ) {
+if ( \${$tableSoleName}->getVar('{$fieldName}') != 0 && \${$tableSoleName}->getVar('{$fieldName}') < time() ) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
     exit();
 }
@@ -164,7 +166,7 @@ EOT;
         $ret .= <<<EOT
 
 // Verify permissions
-if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lpFieldName}->getVat('{$fieldId}'), \$groups, \$xoopsModule->getVar('mid'))) {
+if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$tableSoleName}->getVat('{$fieldId}'), \$groups, \$xoopsModule->getVar('mid'))) {
     redirect_header({$stuModuleDirname}_URL . '/index.php', 3, _NOPERM);
     exit();
 }
