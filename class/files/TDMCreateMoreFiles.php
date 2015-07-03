@@ -173,7 +173,7 @@ EOT;
     private function getMoreFilesFileSql()
     {
         $ret = <<<EOT
-Pleace! put your sql code here\n
+# Pleace! put your sql code here\n
 EOT;
 
         return $ret;
@@ -192,7 +192,7 @@ EOT;
     {
         $ret = <<<EOT
 @charset "UTF-8";
-{$header}\n\nPleace! put your sql code here\n
+{$header}\n\n/*Pleace! put your sql code here*/\n
 EOT;
 
         return $ret;

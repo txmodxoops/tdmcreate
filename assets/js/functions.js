@@ -92,3 +92,23 @@ function tdmcreate_setStatus( data, img, file ) {
         }
     });
 }
+
+function tdmcreate_setActive( data, img, file ) {
+    // Post request
+    $.post( file, data , function( reponse, textStatus ) {
+        if (textStatus == 'success') {
+			$('img#'+img).hide();
+			$('#loading_'+img).show();
+			setTimeout( function() {
+				$('#loading_'+img).hide();
+				$('img#'+img).fadeIn('fast');
+			}, 500);
+            // Change image src
+            if ($('img#'+img).attr("src") == IMG_ON) {
+                $('img#'+img).attr("src",IMG_OFF);
+            } else {
+                $('img#'+img).attr("src",IMG_ON);
+            }
+        }
+    });
+}

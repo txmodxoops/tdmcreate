@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminAbout.
  */
-class AdminAbout extends TDMCreateFile
+class AdminAbout extends AdminPhpCode
 {
     /*
     *  @public function constructor
@@ -37,7 +37,9 @@ class AdminAbout extends TDMCreateFile
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->adminphpcode = AdminPhpCode::getInstance();
     }
 
     /*
@@ -85,15 +87,16 @@ class AdminAbout extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $moduleDonations = $module->getVar('mod_donations');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-include  __DIR__ . '/header.php';
+        $content  = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->adminphpcode->getAdminIncludeDir('header');
+		$content .= <<<EOT
 \$templateMain = '{$moduleDirname}_admin_about.tpl';
 \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('about.php'));
 \$GLOBALS['xoopsTpl']->assign('about', \$adminMenu->renderAbout('{$moduleDonations}', false));
-include  __DIR__ . '/footer.php';
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->adminphpcode->getAdminIncludeDir('footer');
+		
+		$this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

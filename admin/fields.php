@@ -163,16 +163,7 @@ switch ($op) {
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
-            // Fields Elements Handler
-            /*$fieldelementObj =& $tdmcreate->getHandler('fieldelements')->create();
-            $fieldelementObj->setVar( 'fieldelement_mid', $fieldMid );
-            $fieldelementObj->setVar( 'fieldelement_tid', $fieldTid );
-            $fieldelementObj->setVar( 'fieldelement_name', 'Table : '.ucfirst($tableName) );
-            $fieldelementObj->setVar( 'fieldelement_value', 'XoopsFormTables-'.ucfirst($tableName) );
-            // Insert new field element id for table name
-            if (!$tdmcreate->getHandler('fieldelements')->insert($fieldelementObj) ) {
-                $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
-            }*/
+            // Fields Elements Handler            
             redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_SAVED_OK, $tableName));
         } else {
             // Needed code from table name by field_tid

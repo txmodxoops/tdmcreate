@@ -93,7 +93,7 @@ class AdminIndex extends AdminPhpCode
         $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->adminphpcode->getAdminIncludeHeader();
+        $content .= $this->adminphpcode->getAdminIncludeDir('header');
         $content .= $this->getCommentLine('Count elements');
         $tableName = null;
         if (is_array($tables)) {
@@ -158,9 +158,10 @@ EOT;
 // Render Index
 echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
-include  __DIR__ . '/footer.php';
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->adminphpcode->getAdminIncludeDir('footer');
+		
+		$this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

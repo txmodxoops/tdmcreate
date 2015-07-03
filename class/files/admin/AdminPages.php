@@ -44,6 +44,7 @@ class AdminPages extends TDMCreateFile
         parent::__construct();
         $this->adminobjects = AdminObjects::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
+		$this->adminphpcode = AdminPhpCode::getInstance();
     }
 
     /*
