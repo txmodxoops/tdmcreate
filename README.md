@@ -3,7 +3,6 @@
 [![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/code-structure)
-[![Code Coverage](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/?branch=master)
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91)
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
 
