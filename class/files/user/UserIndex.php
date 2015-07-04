@@ -118,7 +118,7 @@ EOT;
      *
      * @return string
      */
-    private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
+    private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName)
     {
         $ucfTableName = ucfirst($tableName);
         // Fields
@@ -147,9 +147,9 @@ if (\${$tableName}Count > 0) {
 	\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}();
 	include_once XOOPS_ROOT_PATH . '/class/tree.php';
 	\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
-	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
+	foreach (array_keys(\${$tableName}All) as \$i)
 	{
-		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
 		\$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
@@ -172,7 +172,7 @@ EOT;
      *
      * @return string
      */
-    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language)
+    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
@@ -184,9 +184,9 @@ if (\${$tableName}Count > 0) {
 	\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
     \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
 	// Get All {$ucfTableName}
-	foreach(array_keys(\${$tableName}All) as \${$tableFieldname})
+	foreach(array_keys(\${$tableName}All) as \$i)
     {
-		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
         \$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
@@ -277,13 +277,12 @@ EOT;
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableCategory = $tables[$t]->getVar('table_category');
-            $tableFieldname = $tables[$t]->getVar('table_fieldname');
             $tableIndex = $tables[$t]->getVar('table_index');
             if ((1 == $tableCategory) && (1 == $tableIndex)) {
-                $content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
+                $content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName);
             }
             if ((0 == $tableCategory) && (1 == $tableIndex)) {
-                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);
+                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language);
             }
         }
         $content .= $this->getDefaultFunctions($moduleDirname, $language);

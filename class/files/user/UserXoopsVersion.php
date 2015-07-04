@@ -481,7 +481,8 @@ EOT;
      */
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
-        $table = $this->getTable();
+        $rightFieldsList = array('broken', 'pdf', 'print', 'rate', 'rss', 'search', 'single', 'submit');
+		$table = $this->getTable();
         $ret = <<<EOT
 // User\n
 EOT;
@@ -493,29 +494,10 @@ EOT;
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs');
-        if (1 == $table->getVar('table_broken')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken');
-        }
-        if (1 == $table->getVar('table_pdf')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf');
-        }
-        if (1 == $table->getVar('table_print')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'print');
-        }
-        if (1 == $table->getVar('table_rate')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate');
-        }
-        if (1 == $table->getVar('table_rss')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss');
-        }
-        if (1 == $table->getVar('table_search')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'search');
-        }
-        if (1 == $table->getVar('table_single')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'single');
-        }
-        if (1 == $table->getVar('table_submit')) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit');
+        foreach($rightFieldsList as $rightList) {
+			if (1 == $table->getVar('table_'.$rightList)) {
+				$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $rightList);
+			}
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer');
 

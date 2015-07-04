@@ -348,6 +348,19 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @public function getPhpCodeRedirectHeader
+    *  @param $tableName
+    *  @param $options
+	*  @param $numb
+	*  @param $var
+    *  @return string
+    */
+    public function getPhpCodeRedirectHeader($tableName, $options, $numb = 2, $var)
+    {
+        return "redirect_header('{$tableName}.php{$options}', {$numb}, {$var});\n";
+    }
 
     /**
      *  @public function getPhpCodeGetFormError
@@ -389,66 +402,65 @@ EOT;
     }
 
     /**
-     *  @public function getPhpCodeGetObjHandlerId
+     *  @public function getPhpCodeHandler
      *
      *  @param string $tableName
-     *  @param string $fieldId
+     *  @param string $var
      *
      *  @return string
      */
-    public function getPhpCodeGetObjHandlerId($tableName, $fieldId)
+    public function getPhpCodeHandler($tableName, $var, $get = false, $insert = false, $delete = false, $obj = '')
     {
-        $ret = <<<EOT
-        \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n
-EOT;
-
+		if($get) {
+			$ret = "\${$tableName}Handler->get(\${$var});";
+		} elseif($delete && ($obj != '')) {
+			$ret = "\${$tableName}Handler->insert(\${$var}{$obj});";
+		} elseif($delete && ($obj != '')) {
+			$ret = "\${$tableName}Handler->delete(\${$var}{$obj});";
+		}
+		
         return $ret;
     }
 
     /*
-    *  @public function getPhpCodeDelete
+    *  @public function getPhpCodeCaseDelete
     *  @param string $tableName
     *  @param string $language
     *  @param string $fieldId
     *  @param string $fieldMain
     *  @return string
     */
-    public function getPhpCodeDelete($tableName, $language, $fieldId, $fieldMain)
+    public function getPhpCodeCaseDelete($language, $tableName, $fieldId, $fieldMain)
     {
-        $ret = <<<EOT
-    case 'delete':
+        $content = <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
             if ( !\$GLOBALS['xoopsSecurity']->check() ) {
                 redirect_header('{$tableName}.php', 3, implode(', ', \$GLOBALS['xoopsSecurity']->getErrors()));
             }
             if (\${$tableName}Handler->delete(\${$tableName}Obj)) {
-                redirect_header('{$tableName}.php', 3, {$language}FORMDELOK);
+                redirect_header('{$tableName}.php', 3, {$language}FORM_DELETE_OK);
             } else {
                 echo \${$tableName}Obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORMSUREDEL, \${$tableName}Obj->getVar('{$fieldMain}')));
-        }
-    break;\n
+            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
+        }\n
 EOT;
-
-        return $ret;
+        
+		return $this->getPhpCodeCaseSwitch('delete', $content);
     }
 
     /*
     *  @public function getPhpCodeUpdate
-    *  @param string $moduleDirname
-    *  @param string $tableName
     *  @param string $language
+    *  @param string $tableName    
     *  @param string $fieldId
-    *  @param string $fieldMain
     *  @return string
     */
-    public function getPhpCodeUpdate($language, $tableName, $language, $fieldId, $fieldMain)
+    public function getPhpCodeUpdate($language, $tableName, $fieldId)
     {
-        $ret = <<<EOT
-    case 'update':
+        $content = <<<EOT
         if (isset(\${$fieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         }
@@ -457,10 +469,9 @@ EOT;
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header("\${$tableName}.php", 3, {$language}FORM_OK);
         }
-        echo \${$tableName}Obj->getHtmlErrors();
-    break;\n
+        echo \${$tableName}Obj->getHtmlErrors();\n
 EOT;
 
-        return $ret;
+        return $this->getPhpCodeCaseSwitch('update', $content);
     }    
 }
