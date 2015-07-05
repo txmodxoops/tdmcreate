@@ -87,16 +87,16 @@ class AdminAbout extends AdminPhpCode
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $moduleDonations = $module->getVar('mod_donations');
-        $content  = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->adminphpcode->getAdminIncludeDir('header');
-		$content .= <<<EOT
+        $content .= <<<EOT
 \$templateMain = '{$moduleDirname}_admin_about.tpl';
 \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('about.php'));
 \$GLOBALS['xoopsTpl']->assign('about', \$adminMenu->renderAbout('{$moduleDonations}', false));
 EOT;
         $content .= $this->adminphpcode->getAdminIncludeDir('footer');
-		
-		$this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

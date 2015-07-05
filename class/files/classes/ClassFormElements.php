@@ -683,7 +683,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-		$tableAutoincrement = $table->getVar('table_autoincrement');
+        $tableAutoincrement = $table->getVar('table_autoincrement');
         $languageFunct = $this->getLanguage($moduleDirname, 'AM');
         //$language_table = $languageFunct . strtoupper($tableName);
         $ret = '';
@@ -757,7 +757,7 @@ EOT;
                         // If we want to hide XoopsFormHidden() or field id
                         $ret .= ((0 == $f) && (1 == $tableAutoincrement)) ? $this->getXoopsFormHidden($fieldName) : '';
                         break;
-                }                
+                }
                 if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
                         $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
@@ -769,8 +769,8 @@ EOT;
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
                         foreach (array_keys($fieldsTopics) as $f) {
                             $fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
-                            $fieldIdTopic   = ((0 == $f) && (1 == $tableAutoincrement)) ? $fieldNameTopic : '';
-                            $fieldPidTopic  = (1 == $fieldsTopics[$f]->getVar('field_parent')) ? $fieldNameTopic : '';
+                            $fieldIdTopic = ((0 == $f) && (1 == $tableAutoincrement)) ? $fieldNameTopic : '';
+                            $fieldPidTopic = (1 == $fieldsTopics[$f]->getVar('field_parent')) ? $fieldNameTopic : '';
                             $fieldMainTopic = (1 == $fieldsTopics[$f]->getVar('field_main')) ? $fieldNameTopic : '';
                         }
                         $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldIdTopic, $fieldPidTopic, $fieldMainTopic, $required);

@@ -160,27 +160,23 @@ class TDMCreateTables extends XoopsObject
         xoops_load('XoopsFormLoader');
         $form = new XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        
-        $tabTray = new TDMCreateFormTabTray('', 'uniqueid', xoops_getModuleOption('jquery_theme', 'system'));
-        
-        $tab1 = new TDMCreateFormTab(_AM_TDMCREATE_IMPORTANT, 'important');
-        
+
         $modules = $this->tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
-        $tab1->addElement($modulesSelect, true);
-        
+        $form->addElement($modulesSelect, true);
+
         $tableNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_NAME, 'table_name', 40, 150, $tableName);
         $tableNameText->setDescription(_AM_TDMCREATE_TABLE_NAME_DESC);
-        $tab1->addElement($tableNameText, true);
-        
+        $form->addElement($tableNameText, true);
+
         $tableSoleNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
         $tableSoleNameText->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
-        $tab1->addElement($tableSoleNameText, true);
-        
+        $form->addElement($tableSoleNameText, true);
+
         $tablesHandler = &$this->tdmcreate->getHandler('tables');
         $criteria = new CriteriaCompo(new Criteria('table_category', 0), 'AND');
         $criteria->add(new Criteria('table_mid', $tableMid), 'AND');
@@ -191,29 +187,28 @@ class TDMCreateTables extends XoopsObject
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
         $category = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
         $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);
-        $tab1->addElement($category);
+        $form->addElement($category);
 
-        
         $tableFieldname = new XoopsFormText(_AM_TDMCREATE_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
         $tableFieldname->setDescription(_AM_TDMCREATE_TABLE_FIELDNAME_DESC);
-        $tab1->addElement($tableFieldname);
-        
+        $form->addElement($tableFieldname);
+
         $tableNumbFileds = new XoopsFormText(_AM_TDMCREATE_TABLE_NBFIELDS, 'table_nbfields', 10, 25, $this->getVar('table_nbfields'));
         $tableNumbFileds->setDescription(_AM_TDMCREATE_TABLE_NBFIELDS_DESC);
-        $tab1->addElement($tableNumbFileds, true);
-        
+        $form->addElement($tableNumbFileds, true);
+
         if (!$isNew) {
             $tableOrder = new XoopsFormText(_AM_TDMCREATE_TABLE_ORDER, 'table_order', 5, 10, $this->getVar('table_order'));
             $tableOrder->setDescription(_AM_TDMCREATE_TABLE_ORDER_DESC);
-            $tab1->addElement($tableOrder, true);
+            $form->addElement($tableOrder, true);
         }
-        
+
         $getTableImage = $this->getVar('table_image');
         $tableImage = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
         $uploadsDirectory = '/uploads/tdmcreate/images/tables';
         $iconsDirectory = is_dir(XOOPS_ROOT_PATH.$icons32Directory) ? $icons32Directory : $uploadsDirectory;
-        
+
         $imgtray1 = new XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br />');
         $imgpath1 = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
@@ -229,18 +224,15 @@ class TDMCreateTables extends XoopsObject
         $fileseltray1->addElement(new XoopsFormLabel(''));
         $imgtray1->addElement($fileseltray1);
         $imgtray1->setDescription(_AM_TDMCREATE_TABLE_IMAGE_DESC);
-        $tab1->addElement($imgtray1);
-        
+        $form->addElement($imgtray1);
+
         $tableAutoincrement = $this->isNew() ? 1 : $this->getVar('table_autoincrement');
         $checkTableAutoincrement = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_AUTO_INCREMENT, 'table_autoincrement', $tableAutoincrement);
         $checkTableAutoincrement->setDescription(_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC);
-        $tab1->addElement($checkTableAutoincrement);
-        $tabTray->addElement($tab1);
-        
-        $tab2 = new TDMCreateFormTab(_AM_TDMCREATE_OPTIONS_CHECK, 'options_check');
-        
+        $form->addElement($checkTableAutoincrement);
+
         $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
-        
+
         $tableCheckAll = new XoopsFormCheckBox('', 'tablebox', 1);
         $tableCheckAll->addOption('allbox', _AM_TDMCREATE_TABLE_ALL);
         $tableCheckAll->setExtra(' onclick="xoopsCheckAll(\'tableform\', \'tablebox\');" ');
@@ -250,22 +242,20 @@ class TDMCreateTables extends XoopsObject
         $tableOption = $this->getTablesOptions();
         $checkbox = new XoopsFormCheckbox(' ', 'table_option', $tableOption, '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
-        foreach ($this->options as $option) {
+        foreach ($this->optionsTables as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_'.strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
-        
+
         $optionsTray->setDescription(_AM_TDMCREATE_TABLE_OPTIONS_CHECKS_DESC);
-        
-        $tab2->addElement($optionsTray);
-        
+
+        $form->addElement($optionsTray);
+
         $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormHidden('table_id', ($isNew ? 0 : $this->getVar('table_id'))));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
-        $tab2->addElement($buttonTray);
-        $tabTray->addElement($tab2);
-        $form->addElement($tabTray);
+        $form->addElement($buttonTray);
 
         return $form;
     }

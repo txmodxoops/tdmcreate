@@ -21,10 +21,9 @@
  *
  * @version         $Id: logoGenerator.php 12258 2014-01-02 09:33:29Z timgno $
  */
-
 include_once dirname(dirname(dirname(__DIR__))).'/mainfile.php';
 // get function name and parameter  $_GET['f']($_GET["p"]);
-if (function_exists($_GET['f'])) { 
+if (function_exists($_GET['f'])) {
     include_once 'logoGenerator.php';
     $ret = logoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
     phpFunction($ret);
@@ -37,10 +36,11 @@ if (function_exists($_GET['f'])) {
  */
 function phpFunction($val = '')
 {   // create php function here
-    if($val != '') {
-		echo $val;
-	}
-	return false;
+    if ($val != '') {
+        echo $val;
+    }
+
+    return false;
 }
 
 /**

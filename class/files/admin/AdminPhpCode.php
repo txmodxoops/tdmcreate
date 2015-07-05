@@ -61,8 +61,8 @@ class AdminPhpCode extends AdminObjects
 
         return $instance;
     }
-    	
-	/*
+
+    /*
     *  @public function getAdminIncludeHeader
     *  @param $filename
     *  @return string
@@ -483,5 +483,5 @@ EOT;
 EOT;
 
         return $ret;
-    }    
+    }
 }

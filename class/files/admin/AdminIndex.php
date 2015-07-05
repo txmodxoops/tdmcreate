@@ -160,8 +160,8 @@ echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
 EOT;
         $content .= $this->adminphpcode->getAdminIncludeDir('footer');
-		
-		$this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

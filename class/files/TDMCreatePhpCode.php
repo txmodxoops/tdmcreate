@@ -61,8 +61,8 @@ class TDMCreatePhpCode extends AdminObjects
 
         return $instance;
     }
-    	
-	/*
+
+    /*
     *  @public function getPhpCodeIncludeDir
     *  @param $filename
     *  @return string
@@ -104,47 +104,47 @@ EOT;
      */
     public function getPhpCodeCaseSwitch($case = 'list', $content, $defaultAfterCase = false, $default = false)
     {
-		if($defaultAfterCase) {
-			if(is_string($case)) {
-				$ret = <<<EOT
+        if ($defaultAfterCase) {
+            if (is_string($case)) {
+                $ret = <<<EOT
     case '{$case}':\n
 EOT;
-			} else {
-				$ret = <<<EOT
+            } else {
+                $ret = <<<EOT
     case {$case}:\n
 EOT;
-			}
-			$ret = <<<EOT
+            }
+            $ret = <<<EOT
     default:\n
 	\t\t{$content}
 		break;\n
 EOT;
-		} else {
-			if(is_string($case)) {
-				$ret = <<<EOT
+        } else {
+            if (is_string($case)) {
+                $ret = <<<EOT
     case '{$case}':\n
 EOT;
-			} else {
-				$ret = <<<EOT
+            } else {
+                $ret = <<<EOT
     case {$case}:\n
 EOT;
-			}
-			$ret = <<<EOT
+            }
+            $ret = <<<EOT
 	\t\t{$content}
 		break;\n
 EOT;
-		}
-		if($default) {
-			$ret = <<<EOT
+        }
+        if ($default) {
+            $ret = <<<EOT
     default:\n
 	\t\t{$content}
 		break;\n
 EOT;
-		}
-		
+        }
+
         return $ret;
-    }    
-    
+    }
+
     /*
     *  @public function getPhpCodeTemplateMain
     *  @param $moduleDirname
@@ -348,13 +348,13 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getPhpCodeRedirectHeader
     *  @param $tableName
     *  @param $options
-	*  @param $numb
-	*  @param $var
+    *  @param $numb
+    *  @param $var
     *  @return string
     */
     public function getPhpCodeRedirectHeader($tableName, $options, $numb = 2, $var)
@@ -411,14 +411,14 @@ EOT;
      */
     public function getPhpCodeHandler($tableName, $var, $get = false, $insert = false, $delete = false, $obj = '')
     {
-		if($get) {
-			$ret = "\${$tableName}Handler->get(\${$var});";
-		} elseif($insert && ($obj != '')) {
-			$ret = "\${$tableName}Handler->insert(\${$var}{$obj});";
-		} elseif($delete && ($obj != '')) {
-			$ret = "\${$tableName}Handler->delete(\${$var}{$obj});";
-		}
-		
+        if ($get) {
+            $ret = "\${$tableName}Handler->get(\${$var});";
+        } elseif ($insert && ($obj != '')) {
+            $ret = "\${$tableName}Handler->insert(\${$var}{$obj});";
+        } elseif ($delete && ($obj != '')) {
+            $ret = "\${$tableName}Handler->delete(\${$var}{$obj});";
+        }
+
         return $ret;
     }
 
@@ -447,14 +447,14 @@ EOT;
             xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
         }\n
 EOT;
-        
-		return $this->getPhpCodeCaseSwitch('delete', $content);
+
+        return $this->getPhpCodeCaseSwitch('delete', $content);
     }
 
     /*
     *  @public function getPhpCodeUpdate
     *  @param string $language
-    *  @param string $tableName    
+    *  @param string $tableName
     *  @param string $fieldId
     *  @return string
     */
@@ -473,5 +473,5 @@ EOT;
 EOT;
 
         return $this->getPhpCodeCaseSwitch('update', $content);
-    }    
+    }
 }

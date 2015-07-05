@@ -41,14 +41,14 @@ class TDMCreateFile extends TDMCreateTableFields
      * @var mixed
      */
     private $filename;
-    
+
     /**
      * "uploadPath" attribute of the files.
      *
      * @var string
      */
     private $uploadPath;
-    
+
     /*
     * @var string
     */

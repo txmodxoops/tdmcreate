@@ -191,20 +191,20 @@ switch ($op) {
 
     case 'display':
         $modFieldArray = array('admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions');
-		$id = XoopsRequest::getInt('mod_id', 0, 'POST');
+        $id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);
-			foreach ($modFieldArray as $moduleField) {
-				if (isset($_POST['mod_'.$moduleField])) {
-					$modField = $modulesObj->getVar('mod_'.$moduleField);
-					$modulesObj->setVar('mod_'.$moduleField, !$modField);
-				}
-			}
+            foreach ($modFieldArray as $moduleField) {
+                if (isset($_POST['mod_'.$moduleField])) {
+                    $modField = $modulesObj->getVar('mod_'.$moduleField);
+                    $modulesObj->setVar('mod_'.$moduleField, !$modField);
+                }
+            }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
                 redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        }        
+        }
         break;
 }
 

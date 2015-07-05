@@ -482,7 +482,7 @@ EOT;
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
         $rightFieldsList = array('broken', 'pdf', 'print', 'rate', 'rss', 'search', 'single', 'submit');
-		$table = $this->getTable();
+        $table = $this->getTable();
         $ret = <<<EOT
 // User\n
 EOT;
@@ -494,10 +494,10 @@ EOT;
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs');
-        foreach($rightFieldsList as $rightList) {
-			if (1 == $table->getVar('table_'.$rightList)) {
-				$ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $rightList);
-			}
+        foreach ($rightFieldsList as $rightList) {
+            if (1 == $table->getVar('table_'.$rightList)) {
+                $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $rightList);
+            }
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer');
 

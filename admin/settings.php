@@ -40,7 +40,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' .$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
         $settingsCount = $tdmcreate->getHandler('settings')->getCountSettings();
         $settingsAll = $tdmcreate->getHandler('settings')->getAllSettings($start, $limit);
         // Display settings list
@@ -89,7 +89,7 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-		if (isset($setId)) {
+        if (isset($setId)) {
             $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
         } else {
             $settingsObj = &$tdmcreate->getHandler('settings')->create();

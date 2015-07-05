@@ -69,8 +69,8 @@ switch ($op) {
         foreach ($files as $file) {
             if ($file) {
                 $build['list'] = $file;
-				$GLOBALS['xoopsTpl']->append('builds', $build);
-            }            
+                $GLOBALS['xoopsTpl']->append('builds', $build);
+            }
         }
         unset($build);
         // Directory to saved all files

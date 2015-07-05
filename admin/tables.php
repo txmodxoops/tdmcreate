@@ -267,31 +267,31 @@ switch ($op) {
 
     case 'display':
         $modArray = array('admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions');
-		$mid = XoopsRequest::getInt('mod_id', 0, 'POST');
+        $mid = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($mid > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($mid);
-			foreach ($modArray as $modField) {
-				if (isset($_POST['mod_'.$modField])) {
-					$ucfModFiled = ucfirst($modField);
-					$mod.$ucfModFiled = $modulesObj->getVar('mod_'.$modField);
-					$modulesObj->setVar('mod_'.$modField, !$mod.$ucfModFiled);
-				}
-			}
+            foreach ($modArray as $modField) {
+                if (isset($_POST['mod_'.$modField])) {
+                    $ucfModFiled = ucfirst($modField);
+                    $mod.$ucfModFiled = $modulesObj->getVar('mod_'.$modField);
+                    $modulesObj->setVar('mod_'.$modField, !$mod.$ucfModFiled);
+                }
+            }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
                 redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
         $tableArray = array('admin', 'user', 'blocks', 'submenu', 'search', 'comments', 'notifications', 'permissions');
-		$tid = XoopsRequest::getInt('table_id', 0, 'POST');
+        $tid = XoopsRequest::getInt('table_id', 0, 'POST');
         if ($tid > 0) {
             $tablesObj = $tdmcreate->getHandler('tables')->get($tid);
             foreach ($tableArray as $tableField) {
-				if (isset($_POST['table_'.$tableField])) {
-					$tblField = $tablesObj->getVar('table_'.$tableField);
-					$tablesObj->setVar('table_'.$tableField, !$tblField);
-				}
-			}			
+                if (isset($_POST['table_'.$tableField])) {
+                    $tblField = $tablesObj->getVar('table_'.$tableField);
+                    $tablesObj->setVar('table_'.$tableField, !$tblField);
+                }
+            }
             if ($tdmcreate->getHandler('tables')->insert($tablesObj)) {
                 redirect_header('tables.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }

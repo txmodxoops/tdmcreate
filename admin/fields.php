@@ -163,7 +163,7 @@ switch ($op) {
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
-            // Fields Elements Handler            
+            // Fields Elements Handler
             redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_SAVED_OK, $tableName));
         } else {
             // Needed code from table name by field_tid
@@ -229,15 +229,15 @@ switch ($op) {
 
     case 'display':
         $fieldsArray = array('parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required');
-		$fieldId = XoopsRequest::getInt('field_id', 0, 'POST');
+        $fieldId = XoopsRequest::getInt('field_id', 0, 'POST');
         if ($fieldId > 0) {
             $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
             foreach ($fieldsArray as $field) {
-				if (isset($_POST['field_'.$field])) {
-					$fldField = $fieldsObj->getVar('field_'.$field);
-					$fieldsObj->setVar('field_'.$field, !$fldField);
-				}
-			}			
+                if (isset($_POST['field_'.$field])) {
+                    $fldField = $fieldsObj->getVar('field_'.$field);
+                    $fieldsObj->setVar('field_'.$field, !$fldField);
+                }
+            }
             if ($tdmcreate->getHandler('fields')->insert($fieldsObj)) {
                 redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }

@@ -91,7 +91,7 @@ class UserPrint extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
-		$tableSoleName = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -103,11 +103,11 @@ class UserPrint extends TDMCreateFile
                 if ($str !== false) {
                     $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
-            }			
+            }
             $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
-				$ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+                $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
             } else {
                 if (1 == $fields[$f]->getVar('field_main')) {
                     $fieldMain = $fieldName; // fieldMain = fields parameters main field
