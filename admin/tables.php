@@ -272,9 +272,8 @@ switch ($op) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($mid);
             foreach ($modArray as $modField) {
                 if (isset($_POST['mod_'.$modField])) {
-                    $ucfModFiled = ucfirst($modField);
-                    $mod.$ucfModFiled = $modulesObj->getVar('mod_'.$modField);
-                    $modulesObj->setVar('mod_'.$modField, !$mod.$ucfModFiled);
+                    $mField = $modulesObj->getVar('mod_'.$modField);
+                    $modulesObj->setVar('mod_'.$modField, !$mField);
                 }
             }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
