@@ -13,12 +13,12 @@
 /**
  * morefiles class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @copyright       The XOOPS Project http:sourceforge.net/projects/xoops/
+ * @license         GNU GPL 2 (http:www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http:www.txmodxoops.org/>
  *
  * @version         $Id: morefiles.php 13080 2015-06-12 10:12:32Z timgno $
  */
@@ -58,7 +58,7 @@ class TDMCreateMoreFiles extends XoopsObject
     public function __construct()
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
-        //
+        
         $this->initVar('file_id', XOBJ_DTYPE_INT);
         $this->initVar('file_mid', XOBJ_DTYPE_INT);
         $this->initVar('file_name', XOBJ_DTYPE_TXTBOX);
@@ -107,40 +107,38 @@ class TDMCreateMoreFiles extends XoopsObject
      */
     public function getForm($action = false)
     {
-        //
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        //
+        
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_MORE_FILES_NEW) : sprintf(_AM_TDMCREATE_MORE_FILES_EDIT);
-        //
+        
         xoops_load('XoopsFormLoader');
-        //
+        
         $form = new XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        //
+        
         $modules = $this->tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', _AM_TDMCREATE_MORE_FILES_MODULE_SELECT);
         foreach ($modules as $mod) {
-            //$modulesSelect->addOptionArray();
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
-        //
+        
         $modName = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
         $modName->setDescription(_AM_TDMCREATE_MORE_FILES_NAME_DESC);
         $form->addElement($modName, true);
-        //
+        
         $fileEstension = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
         $fileEstension->setDescription(_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC);
         $form->addElement($fileEstension, true);
-        //
+        
         $fileInfolder = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
         $fileInfolder->setDescription(_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC);
         $form->addElement($fileInfolder, true);
-        //
+        
         $form->addElement(new XoopsFormHidden('op', 'save'));
         $form->addElement(new XoopsFormButton(_REQUIRED.' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
 
@@ -202,7 +200,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      * @param int  $i      field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
+     * @return mixed reference to the <a href='psi_element:TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
     public function &get($i = null, $fields = null)

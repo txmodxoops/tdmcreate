@@ -13,12 +13,12 @@
 /**
  * modules class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @copyright       The XOOPS Project http:sourceforge.net/projects/xoops/
+ * @license         GNU GPL 2 (http:www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http:www.txmodxoops.org/>
  *
  * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
@@ -74,7 +74,7 @@ class TDMCreateModules extends XoopsObject
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $setId = XoopsRequest::getInt('set_id');
         $this->settings = $this->tdmcreate->getHandler('settings')->get($setId);
-        //
+        
         $this->initVar('mod_id', XOBJ_DTYPE_INT);
         $this->initVar('mod_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_name'));
         $this->initVar('mod_dirname', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_dirname'));
@@ -157,7 +157,7 @@ class TDMCreateModules extends XoopsObject
      */
     public function getForm($action = false)
     {
-        //
+        
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
@@ -203,44 +203,44 @@ class TDMCreateModules extends XoopsObject
             $set['donations'] = $setting->getVar('set_donations');
             $set['subversion'] = $setting->getVar('set_subversion');
         }
-        //
+        
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_MODULE_NEW) : sprintf(_AM_TDMCREATE_MODULE_EDIT);
-        //
+        
         include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-        //
+        
         $form = new XoopsThemeForm($title, 'moduleform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        //
+        
         $tabTray = new TDMCreateFormTabTray('', 'uniqueid', xoops_getModuleOption('jquery_theme', 'system'));
-        //
+        
         $tab1 = new TDMCreateFormTab(_AM_TDMCREATE_IMPORTANT, 'important');
-        //
+        
         $modName = $isNew ? $set['name'] : $this->getVar('mod_name');
         $modName = new XoopsFormText(_AM_TDMCREATE_MODULE_NAME, 'mod_name', 50, 255, $modName);
         $modName->setDescription(_AM_TDMCREATE_MODULE_NAME_DESC);
         $tab1->addElement($modName, true);
-        //
+        
         $modDirname = $isNew ? $set['dirname'] : $this->getVar('mod_dirname');
         $modDirname = new XoopsFormText(_AM_TDMCREATE_MODULE_DIRNAME, 'mod_dirname', 25, 255, $modDirname);
         $modDirname->setDescription(_AM_TDMCREATE_MODULE_DIRNAME_DESC);
         $tab1->addElement($modDirname, true);
-        //
+        
         $modVersion = $isNew ? $set['version'] : $this->getVar('mod_version');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_VERSION, 'mod_version', 10, 25, $modVersion), true);
-        //
+        
         $modSince = $isNew ? $set['since'] : $this->getVar('mod_since');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_SINCE, 'mod_since', 10, 25, $modSince), true);
-        //
+        
         $modMinPhp = $isNew ? $set['min_php'] : $this->getVar('mod_min_php');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MIN_PHP, 'mod_min_php', 10, 25, $modMinPhp), true);
-        //
+        
         $modMinXoops = $isNew ? $set['min_xoops'] : $this->getVar('mod_min_xoops');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MIN_XOOPS, 'mod_min_xoops', 10, 25, $modMinXoops), true);
-        //
+        
         $modMinAdmin = $isNew ? $set['min_admin'] : $this->getVar('mod_min_admin');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MIN_ADMIN, 'mod_min_admin', 10, 25, $modMinAdmin), true);
-        //
+        
         $modMinMysql = $isNew ? $set['min_mysql'] : $this->getVar('mod_min_mysql');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MIN_MYSQL, 'mod_min_mysql', 10, 25, $modMinMysql), true);
         // Name description
@@ -259,9 +259,9 @@ class TDMCreateModules extends XoopsObject
         $modLicense = $isNew ? $set['license'] : $this->getVar('mod_license');
         $tab1->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_LICENSE, 'mod_license', 50, 255, $modLicense), true);
         $tabTray->addElement($tab1);
-        //
+        
         $tab2 = new TDMCreateFormTab(_AM_TDMCREATE_OPTIONS_CHECK, 'options_check');
-        //
+        
         $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
         // Check All Modules Options
         $checkAllOptions = new XoopsFormCheckBox('', 'modulebox', 1);
@@ -277,15 +277,15 @@ class TDMCreateModules extends XoopsObject
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_MODULE_'.strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
-        //
+        
         $tab2->addElement($optionsTray);
         $tabTray->addElement($tab2);
-        //
+        
         $tab3 = new TDMCreateFormTab(_AM_TDMCREATE_CREATE_IMAGE, 'create_image');
-        //
+        
         $modImage = $this->getVar('mod_image');
         $modImage = $modImage ? $modImage : $set['image'];
-        //
+        
         $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
         $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br />');
         $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './'.strtolower($uploadDirectory).'/');
@@ -297,7 +297,7 @@ class TDMCreateModules extends XoopsObject
         $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")'");
         $imgtray->addElement($imageselect);
         $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br />"));
-        //
+        
         $fileseltray = new XoopsFormElementTray('', '<br />');
         $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $this->tdmcreate->getConfig('maxsize')));
         $fileseltray->addElement(new XoopsFormLabel(''));
@@ -326,67 +326,67 @@ class TDMCreateModules extends XoopsObject
         $buttonLogoGenerator4 = new XoopsFormButton('', 'button4', _AM_TDMCREATE_MODULE_CREATENEWLOGO, 'button');
         $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"".TDMC_URL."\")' ");
         $createLogoTray->addElement($buttonLogoGenerator4);
-        //
+        
         $tab3->addElement($createLogoTray);
         $tabTray->addElement($tab3);
-        //
+        
         $tab4 = new TDMCreateFormTab(_AM_TDMCREATE_NOT_IMPORTANT, 'not_important');
         //------------ END LOGO GENERATOR --------------------
-        //
+        
         $modAuthorMail = $isNew ? $set['author_mail'] : $this->getVar('mod_author_mail');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_AUTHOR_MAIL, 'mod_author_mail', 50, 255, $modAuthorMail));
-        //
+        
         $modAuthorWebsiteUrl = $isNew ? $set['author_website_url'] : $this->getVar('mod_author_website_url');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_AUTHOR_WEBSITE_URL, 'mod_author_website_url', 50, 255, $modAuthorWebsiteUrl));
-        //
+        
         $modAuthorWebsiteName = $isNew ? $set['author_website_name'] : $this->getVar('mod_author_website_name');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_AUTHOR_WEBSITE_NAME, 'mod_author_website_name', 50, 255, $modAuthorWebsiteName));
-        //
+        
         $modCredits = $isNew ? $set['credits'] : $this->getVar('mod_credits');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_CREDITS, 'mod_credits', 50, 255, $modCredits));
-        //
+        
         $modReleaseInfo = $isNew ? $set['release_info'] : $this->getVar('mod_release_info');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_RELEASE_INFO, 'mod_release_info', 50, 255, $modReleaseInfo));
-        //
+        
         $modReleaseFile = $isNew ? $set['release_file'] : $this->getVar('mod_release_file');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_RELEASE_FILE, 'mod_release_file', 50, 255, $modReleaseFile));
-        //
+        
         $modManual = $isNew ? $set['manual'] : $this->getVar('mod_manual');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MANUAL, 'mod_manual', 50, 255, $modManual));
-        //
+        
         $modManualFile = $isNew ? $set['manual_file'] : $this->getVar('mod_manual_file');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MANUAL_FILE, 'mod_manual_file', 50, 255, $modManualFile));
-        //
+        
         $modDemoSiteUrl = $isNew ? $set['demo_site_url'] : $this->getVar('mod_demo_site_url');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_DEMO_SITE_URL, 'mod_demo_site_url', 50, 255, $modDemoSiteUrl));
-        //
+        
         $modDemoSiteName = $isNew ? $set['demo_site_name'] : $this->getVar('mod_demo_site_name');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_DEMO_SITE_NAME, 'mod_demo_site_name', 50, 255, $modDemoSiteName));
-        //
+        
         $modSupportUrl = $isNew ? $set['support_url'] : $this->getVar('mod_support_url');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_SUPPORT_URL, 'mod_support_url', 50, 255, $modSupportUrl));
-        //
+        
         $modSupportName = $isNew ? $set['support_name'] : $this->getVar('mod_support_name');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_SUPPORT_NAME, 'mod_support_name', 50, 255, $modSupportName));
-        //
+        
         $modWebsiteUrl = $isNew ? $set['website_url'] : $this->getVar('mod_website_url');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_WEBSITE_URL, 'mod_website_url', 50, 255, $modWebsiteUrl));
-        //
+        
         $modWebsiteName = $isNew ? $set['website_name'] : $this->getVar('mod_website_name');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_WEBSITE_NAME, 'mod_website_name', 50, 255, $modWebsiteName));
-        //
+        
         $modRelease = $isNew ? $set['release'] : $this->getVar('mod_release');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_RELEASE, 'mod_release', 50, 255, $modRelease));
-        //
+        
         $modStatus = $isNew ? $set['status'] : $this->getVar('mod_status');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_STATUS, 'mod_status', 50, 255, $modStatus));
-        //
+        
         $modDonations = $isNew ? $set['donations'] : $this->getVar('mod_donations');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_PAYPAL_BUTTON, 'mod_donations', 50, 255, $modDonations));
-        //
+        
         $modSubversion = $isNew ? $set['subversion'] : $this->getVar('mod_subversion');
         $tab4->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_SUBVERSION, 'mod_subversion', 50, 255, $modSubversion));
-        //
+        
         $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
@@ -541,7 +541,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      * @param int  $i      field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
+     * @return mixed reference to the <a href='psi_element:TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
     public function &get($i = null, $fields = null)

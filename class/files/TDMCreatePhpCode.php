@@ -413,7 +413,7 @@ EOT;
     {
 		if($get) {
 			$ret = "\${$tableName}Handler->get(\${$var});";
-		} elseif($delete && ($obj != '')) {
+		} elseif($insert && ($obj != '')) {
 			$ret = "\${$tableName}Handler->insert(\${$var}{$obj});";
 		} elseif($delete && ($obj != '')) {
 			$ret = "\${$tableName}Handler->delete(\${$var}{$obj});";
