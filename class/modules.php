@@ -51,7 +51,7 @@ class TDMCreateModules extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $optionsModules = array(
         'admin',
         'user',
         'blocks',
@@ -476,9 +476,9 @@ class TDMCreateModules extends XoopsObject
     private function getModulesOptions()
     {
         $retModules = array();
-        foreach ($this->options as $option) {
-            if ($this->getVar('mod_'.$option) == 1) {
-                array_push($retModules, $option);
+        foreach ($this->optionsModules as $optionModule) {
+            if ($this->getVar('mod_'.$optionModule) == 1) {
+                array_push($retModules, $optionModule);
             }
         }
 

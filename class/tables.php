@@ -44,7 +44,7 @@ class TDMCreateTables extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $optionsTables = array(
         'install',
         'index',
         'blocks',
@@ -169,7 +169,6 @@ class TDMCreateTables extends XoopsObject
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
-            $modulesSelect->addOptionArray();
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $tab1->addElement($modulesSelect, true);
@@ -307,9 +306,9 @@ class TDMCreateTables extends XoopsObject
     public function getTablesOptions()
     {
         $retTable = array();
-        foreach ($this->options as $option) {
-            if ($this->getVar('table_'.$option) == 1) {
-                array_push($retTable, $option);
+        foreach ($this->optionsTables as $optionTable) {
+            if ($this->getVar('table_'.$optionTable) == 1) {
+                array_push($retTable, $optionTable);
             }
         }
 

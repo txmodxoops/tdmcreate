@@ -40,9 +40,9 @@ class TDMCreateFields extends XoopsObject
     private $tdmcreate;
 
     /**
-     * Options.
+     * optionFields.
      */
-    public $options = array(
+    public $optionsFields = array(
         'parent',
         'admin',
         'inlist',
@@ -531,9 +531,9 @@ class TDMCreateFields extends XoopsObject
     public function getFieldsOptions()
     {
         $retField = array();
-        foreach ($this->options as $option) {
-            if ($this->getVar('field_'.$option) == 1) {
-                array_push($retField, $option);
+        foreach ($this->optionsFields as $optionField) {
+            if ($this->getVar('field_'.$optionField) == 1) {
+                array_push($retField, $optionField);
             }
         }
         
