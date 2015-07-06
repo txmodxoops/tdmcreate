@@ -550,7 +550,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             }// User Visit File
             if (in_array(1, $tableVisit)) {
                 $userVisit = UserVisit::getInstance();
-                $userVisit->write($module, $table, 'visit.php');
+                $userVisit->write($module, 'visit.php');
                 $ret[] = $userVisit->render();
             }
             // User Tag Files

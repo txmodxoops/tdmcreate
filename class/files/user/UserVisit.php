@@ -62,18 +62,15 @@ class UserVisit extends UserObjects
     /*
     *  @public function write
     *  @param string $module
-    *  @param mixed $table
     *  @param string $filename
     */
     /**
      * @param $module
-     * @param $table
      * @param $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
         $this->setFileName($filename);
     }
 
@@ -98,9 +95,9 @@ class UserVisit extends UserObjects
 include  __DIR__ . '/header.php';
 \${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
 \$agree = XoopsRequest::getInt('agree', 0, 'GET');
-\$sql = sprintf("UPDATE ".\$xoopsDB->prefix('partads_pards')." SET pards_hits = pards_hits+1 WHERE {$fieldId} =\${$ccFieldId}");
+\$sql = sprintf("UPDATE ".\$xoopsDB->prefix('{$moduleDirname}_{$tableName}')." SET hits = hits+1 WHERE {$fieldId} =\${$ccFieldId}");
 \$xoopsDB->queryF(\$sql);
-\$result = \$xoopsDB->query("SELECT pards_url FROM ".\$xoopsDB->prefix('partads_pards')." WHERE {$fieldId}=\${$ccFieldId}");
+\$result = \$xoopsDB->query("SELECT url FROM ".\$xoopsDB->prefix('{$moduleDirname}_{$tableName}')." WHERE {$fieldId}=\${$ccFieldId}");
 list(\$url) = \$xoopsDB->fetchRow(\$result);
 \$url = \$myts->htmlSpecialChars(preg_replace('/javascript:/si' , 'java script:', \$url), ENT_QUOTES);
 if (!empty(\$url)) {
@@ -131,17 +128,21 @@ EOT;
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
+        $tables = $this->getTableTables($module->getVar('mod_id'));
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
+		foreach(array_keys($tables) as $t){
+			$tableId = $tables[$t]->getVar('table_id');
+			$tableMid = $tables[$t]->getVar('table_mid');
+			$tableName = $tables[$t]->getVar('table_name');
+			$tableVisit[] = $tables[$t]->getVar('table_visit');
+		}
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisit($moduleDirname, $tableName, $fields, $language);
-
+		if(in_array(1, $tableVisit)) {
+			$content .= $this->getUserVisit($moduleDirname, $tableName, $fields, $language);
+		}
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

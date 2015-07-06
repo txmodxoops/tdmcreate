@@ -64,11 +64,11 @@ switch ($op) {
         unset($tablesCount);
         // Display modules list
         if ($modulesCount > 0) {
-            foreach (array_keys($modulesAll) as $i) {
-                $module = $modulesAll[$i]->getValues();
+            foreach (array_keys($modulesAll) as $m) {
+                $module = $modulesAll[$m]->getValues();
                 // Get the list of tables
                 $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
-                $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($i);
+                $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($m);
                 // Display tables list
                 $tables = array();
                 $lid = 1;
