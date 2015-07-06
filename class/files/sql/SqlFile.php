@@ -165,38 +165,25 @@ SQL;
         $j = 0;
         $comma = array();
         $row = array();
-        $type = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
             $ret = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName = $fields[$f]->getVar('field_name');
-            $fieldType = $fields[$f]->getVar('field_type');
+            $fieldTypeFields = $fields[$f]->getVar('field_type');
             $fieldValue = $fields[$f]->getVar('field_value');
-            $fieldAttribute = $fields[$f]->getVar('field_attribute');
-            $fieldNull = $fields[$f]->getVar('field_null');
+            $fieldAttributeFields = $fields[$f]->getVar('field_attribute');
+            $fieldNullFields = $fields[$f]->getVar('field_null');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldKey = $fields[$f]->getVar('field_key');
-            if ($fieldType > 1) {
-                $fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldType);
-                $fieldTypeName = $fType->getVar('fieldtype_name');
-            } else {
-                $fieldType = null;
-            }
-            if ($fieldAttribute > 1) {
-                $fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttribute);
-                $fieldAttribute = $fAttribute->getVar('fieldattribute_name');
-            } else {
-                $fieldAttribute = null;
-            }
-            if ($fieldNull > 1) {
-                $fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNull);
-                $fieldNull = $fNull->getVar('fieldnull_name');
-            } else {
-                $fieldNull = null;
-            }
+			$fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldTypeFields);
+			$fieldTypeName = ($fieldTypeFields > 1) ? $fType->getVar('fieldtype_name') : null;            
+			$fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttributeFields);
+			$fieldAttribute = ($fieldAttributeFields > 1) ? $fAttribute->getVar('fieldattribute_name') : null;
+			$fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNullFields);
+			$fieldNull = ($fieldNullFields > 1) ? $fNull->getVar('fieldnull_name') : null;
             if (!empty($fieldName)) {
-                switch ($fieldType) {
+                switch ($fieldTypeFields) {
                     case 2:
                     case 3:
                     case 4:

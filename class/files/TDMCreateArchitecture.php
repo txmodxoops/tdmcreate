@@ -91,6 +91,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $tables = $this->tdmcfile->getTableTables($modId);
         //
         $table = null;
+		$tableName = array();
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName[] = $tables[$t]->getVar('table_name');
@@ -141,16 +142,11 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         // Creation of 'module_author_logo.gif' file
         $this->structure->copyFile('assets/images', $copyNewFile, $stlModuleAuthor.'_logo.gif');        
-        // Creation of 'credits.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/credits.txt', 'credits.txt');
-        // Creation of 'install.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/install.txt', 'install.txt');
-        // Creation of 'lang_diff.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/lang_diff.txt', 'lang_diff.txt');
-        // Creation of 'license.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/license.txt', 'license.txt');
-        // Creation of 'readme.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/readme.txt', 'readme.txt');        
+        $docs = array('credits.txt', 'install.txt', 'lang_diff.txt', 'license.txt', 'readme.txt');
+		foreach($docs as $doc) {
+			// Creation of docs file
+			$this->structure->copyFile('docs', TDMC_DOCS_PATH.'/'.$doc, $doc);
+		}		
         // Creation of 'default english' folder
         if ($language != 'english') {
             // Creation of "language/local_language" folder and index.html file
