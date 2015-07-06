@@ -50,5 +50,6 @@ Codeception = 2.0.13
 Selenium IDE = 2.9.0
 
 [![Stories in Ready](https://badge.waffle.io/txmodxoops/TDMCreate-1.91.svg?label=ready&title=Ready)](http://waffle.io/txmodxoops/TDMCreate-1.91)
+[![Stories in Work in Progress](https://badge.waffle.io/txmodxoops/TDMCreate-1.91.svg?label=workinprogress&title=Work in Progress)](http://waffle.io/txmodxoops/TDMCreate-1.91)
 
 [![Throughput Graph](https://graphs.waffle.io/txmodxoops/TDMCreate-1.91/throughput.svg)](https://waffle.io/txmodxoops/TDMCreate-1.91/metrics)
