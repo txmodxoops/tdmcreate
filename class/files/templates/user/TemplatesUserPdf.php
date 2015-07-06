@@ -85,9 +85,7 @@ class TemplatesUserPdf extends TDMCreateFile
      */
     private function getTemplatesUserPdfBody()
     {
-        $ret = <<<EOT
-<div><{\$pdfoutput}></div>
-EOT;
+        $ret = "<div><{\$pdfoutput}></div>";
 
         return $ret;
     }

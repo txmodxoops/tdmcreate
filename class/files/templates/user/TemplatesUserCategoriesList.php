@@ -76,7 +76,7 @@ class TemplatesUserCategoriesList extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserCategoriesListHeader
+    *  @private function getTemplatesUserCategoriesListTable
     *  @param string $language
     */
     /**
@@ -84,18 +84,17 @@ class TemplatesUserCategoriesList extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesListStartTable()
+    private function getTemplatesUserCategoriesListTable($moduleDirname, $tableName, $tableSolename, $language)
     {
-        $ret = <<<EOT
-<div class="table-responsive">
-    <table class="table table-<{\$type}>">\n
-EOT;
+        $single = $this->htmlcode->getSmartySingleVar('table_type');
+        $table = $this->getTemplatesUserCategoriesListTableThead($tableName, $language);
+        $table .= $this->getTemplatesUserCategoriesListTableTBody($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $table).PHP_EOL;
     }
 
     /*
-    *  @private function getTemplatesUserCategoriesListThead
+    *  @private function getTemplatesUserCategoriesListTableThead
     *  @param string $language
     */
     /**
@@ -103,34 +102,19 @@ EOT;
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesListThead($table, $language)
+    private function getTemplatesUserCategoriesListTableThead($tableName, $language)
     {
-        $ret = <<<EOT
-		<thead>
-			<tr>\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_thead')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                    $ret .= <<<EOT
-				<th><{\$list.{$rpFieldName}}></th>\n
-EOT;
-                }
-            }
-        }
-        $ret .= <<<EOT
-			</tr>
-		</thead>\n
-EOT;
+        $stuTableName = strtoupper($tableName);
+        $lang = $this->htmlcode->getSmartyConst($language, $stuTableName);
+        $single = $this->htmlcode->getSmartySingleVar('numb_col');
+        $th = $this->htmlcode->getHtmlTag('th', array('colspan' => $single), $lang).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
     }
 
     /*
-    *  @private function getTemplatesUserCategoriesListTbody
+    *  @private function getTemplatesUserCategoriesListTableTbody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -142,53 +126,18 @@ EOT;
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language)
+    private function getTemplatesUserCategoriesListTableTbody($moduleDirname, $tableName, $tableSolename, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
-		<tbody>
-			<tr>\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_tbody')) {
-                    switch ($fieldElement) {
-                        default:
-                        case 10:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $ret .= <<<EOT
-				<td class="center pad5"><img src="<{\$xoops_icons32_url}>/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
-EOT;
-                            break;
-                        case 13:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $ret .= <<<EOT
-				<td class="center pad5"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
-EOT;
-                            break;
-                        case 2:
-                        case 3:
-                        case 4:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $ret .= <<<EOT
-				<td class="justify pad5"><{\$list.{$rpFieldName}}></td>\n
-EOT;
-                            break;
-                    }
-                }
-            }
-        }
-        $ret .= <<<EOT
-			</tr>
-		</tbody>\n
-EOT;
+        $single = $this->htmlcode->getSmartySingleVar('panel_type');
+        $include = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
+        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-'.$single), $include);
+        $cont = $this->htmlcode->getHtmlTag('td', array(), $div).PHP_EOL;
+        $html = $this->htmlcode->getHtmlEmpty('</tr><tr>').PHP_EOL;
+        $cont   .= $this->htmlcode->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+        $foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array(), $foreach).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('tbody', array(), $tr).PHP_EOL;
     }
 
     /*
@@ -204,51 +153,12 @@ EOT;
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesListTfoot($table, $language)
+    private function getTemplatesUserCategoriesListTableTfoot()
     {
-        $tableName = $table->getVar('table_name');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $ret = <<<EOT
-		<tfoot>
-			<tr>\n
-EOT;
+        $td = $this->htmlcode->getHtmlTag('td', array(), '&nbsp;').PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array(), $td).PHP_EOL;
 
-        foreach (array_keys($fields) as $f) {
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_tfoot')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                    $ret .= <<<EOT
-				<td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
-                }
-            }
-        }
-        $ret .= <<<EOT
-			</tr>
-		</tfoot>\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserCategoriesListEndTable
-    *  @param null
-    */
-    /**
-     * @param null
-     *
-     * @return string
-     */
-    private function getTemplatesUserCategoriesListEndTable()
-    {
-        $ret = <<<EOT
-	</table>
-</div>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getHtmlTag('tfoot', array(), $tr).PHP_EOL;
     }
 
     /*
@@ -310,9 +220,8 @@ EOT;
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-body'), $retElem).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('div', array('class' => 'panel-body'), $retElem).PHP_EOL;
     }
 
     /*
@@ -327,10 +236,8 @@ EOT;
     public function renderFile($filename)
     {
         $module = $this->getModule();
-        $table = $this->getTable();
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        //$tableFieldname = $table->getVar('table_fieldname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = '';
         foreach (array_keys($tables) as $t) {
@@ -345,13 +252,7 @@ EOT;
                 $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }
         }
-        /*$content        = $this->getTemplatesUserCategoriesListStartTable();
-        $content .= $this->getTemplatesUserCategoriesListThead($table, $language);
-        $content .= $this->getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language);
-        $content .= $this->getTemplatesUserCategoriesListTfoot($table, $language);
-        $content .= $this->getTemplatesUserCategoriesListEndTable();*/
-        //$content = $this->getTemplatesUserCategoriesListPanel($moduleDirname, $table);
-        //
+
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

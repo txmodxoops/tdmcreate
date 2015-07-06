@@ -212,19 +212,6 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
     private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $stuTableName = strtoupper($tableName);
-        /*$ret = <<<EOT
-<div class="panel panel-<{\$panel_type}>">
-    <div class="panel-heading"><{\$smarty.const.{$language}{$stuTableName}_TITLE}></div>
-        <{foreach item={$tableSolename} from=\${$tableName}}>
-            <div class="panel panel-body">
-                <{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSolename}=\${$tableSolename}}>
-                <{if \${$tableSolename}.count is div by \$numb_col}>
-                    <br />
-                <{/if}>
-            </div>
-        <{/foreach}>
-</div>\n
-EOT;*/
 
         $incl = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName).PHP_EOL;
         $html = $this->htmlcode->getHtmlEmpty('<br />').PHP_EOL;
@@ -233,6 +220,7 @@ EOT;*/
         $div = $this->htmlcode->getHtmlTag('div', array('class' => 'panel-heading'), $const).PHP_EOL;
         $cont = $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-body'), $incl).PHP_EOL;
         $div .= $this->htmlcode->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
+        $div .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-footer'), '&nbsp;').PHP_EOL;
         $panelType = $this->htmlcode->getSmartySingleVar('panel_type');
 
         return $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-'.$panelType), $div).PHP_EOL;
@@ -272,10 +260,8 @@ EOT;*/
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserCategoriesHeader($moduleDirname);
         $content .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSolename, $language);
-        /*
-        $content .= $this->getTemplatesUserCategories($moduleDirname, $tableName, $tableSolename, $language);*/
         $content .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
-        //
+
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

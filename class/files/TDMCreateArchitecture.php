@@ -398,7 +398,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         if ($table->getVar('table_name') != null) {
             // Include Install File
             $includeInstall = IncludeInstall::getInstance();
-            $includeInstall->write($module, $table, $tables, 'install.php');
+            $includeInstall->write($module, 'install.php');
             $ret[] = $includeInstall->render();
             if (in_array(1, $tableBlocks)) {
                 // Language Blocks File

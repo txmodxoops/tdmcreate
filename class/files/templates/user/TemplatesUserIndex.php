@@ -98,7 +98,7 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
     {
         $single = $this->htmlcode->getSmartySingleVar('table_type');
         $table = $this->getTemplatesUserIndexTableThead($tableName, $language);
-        $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language);
+        $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
 
         return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $table).PHP_EOL;
     }
