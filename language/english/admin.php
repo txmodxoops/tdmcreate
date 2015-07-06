@@ -158,7 +158,7 @@ define('_AM_TDMCREATE_MODULE_SEARCH', 'Activate Search');
 define('_AM_TDMCREATE_MODULE_COMMENTS', 'Activate Comments');
 define('_AM_TDMCREATE_MODULE_NOTIFICATIONS', 'Activate Notifications');
 define('_AM_TDMCREATE_MODULE_PERMISSIONS', 'Activate Permissions');
-define('_AM_TDMCREATE_MODULE_INROOT', 'Copy of this module in root/modules');
+define('_AM_TDMCREATE_MODULE_INROOT_COPY', 'Copy of this module in root/modules');
 // Added in version 1.39
 define('_AM_TDMCREATE_MODULE_NAME_LIST', 'Name');
 define('_AM_TDMCREATE_MODULE_IMAGE_LIST', 'Image');

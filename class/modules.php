@@ -59,7 +59,7 @@ class TDMCreateModules extends XoopsObject
         'comments',
         'notifications',
         'permissions',
-        'inroot',
+        'inroot_copy',
     );
 
     /*
@@ -73,47 +73,48 @@ class TDMCreateModules extends XoopsObject
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $setId = XoopsRequest::getInt('set_id');
-        $this->settings = $this->tdmcreate->getHandler('settings')->get($setId);
+        $this->settings = $this->tdmcreate->getHandler('settings');
+		$setting = $this->settings->get($setId);
 
         $this->initVar('mod_id', XOBJ_DTYPE_INT);
-        $this->initVar('mod_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_name'));
-        $this->initVar('mod_dirname', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_dirname'));
-        $this->initVar('mod_version', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_version'));
-        $this->initVar('mod_since', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_since'));
-        $this->initVar('mod_min_php', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_php'));
-        $this->initVar('mod_min_xoops', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_xoops'));
-        $this->initVar('mod_min_admin', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_admin'));
-        $this->initVar('mod_min_mysql', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_mysql'));
-        $this->initVar('mod_description', XOBJ_DTYPE_TXTAREA, $this->settings->getVar('set_description'));
-        $this->initVar('mod_author', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author'));
-        $this->initVar('mod_author_mail', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author_mail'));
-        $this->initVar('mod_author_website_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author_website_url'));
-        $this->initVar('mod_author_website_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author_website_name'));
-        $this->initVar('mod_credits', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_credits'));
-        $this->initVar('mod_license', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_license'));
-        $this->initVar('mod_release_info', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_release_info'));
-        $this->initVar('mod_release_file', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_release_file'));
-        $this->initVar('mod_manual', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_manual'));
-        $this->initVar('mod_manual_file', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_manual_file'));
-        $this->initVar('mod_image', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_image'));
-        $this->initVar('mod_demo_site_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_demo_site_url'));
-        $this->initVar('mod_demo_site_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_demo_site_name'));
-        $this->initVar('mod_support_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_support_url'));
-        $this->initVar('mod_support_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_support_name'));
-        $this->initVar('mod_website_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_website_url'));
-        $this->initVar('mod_website_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_website_name'));
-        $this->initVar('mod_release', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_release'));
-        $this->initVar('mod_status', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_status'));
-        $this->initVar('mod_admin', XOBJ_DTYPE_INT, $this->settings->getVar('set_admin'));
-        $this->initVar('mod_user', XOBJ_DTYPE_INT, $this->settings->getVar('set_user'));
-        $this->initVar('mod_blocks', XOBJ_DTYPE_INT, $this->settings->getVar('set_blocks'));
-        $this->initVar('mod_search', XOBJ_DTYPE_INT, $this->settings->getVar('set_search'));
-        $this->initVar('mod_comments', XOBJ_DTYPE_INT, $this->settings->getVar('set_comments'));
-        $this->initVar('mod_notifications', XOBJ_DTYPE_INT, $this->settings->getVar('set_notifications'));
-        $this->initVar('mod_permissions', XOBJ_DTYPE_INT, $this->settings->getVar('set_permissions'));
-        $this->initVar('mod_inroot_copy', XOBJ_DTYPE_INT, $this->settings->getVar('set_inroot_copy'));
-        $this->initVar('mod_donations', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_donations'));
-        $this->initVar('mod_subversion', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_subversion'));
+        $this->initVar('mod_name', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_name'));
+        $this->initVar('mod_dirname', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_dirname'));
+        $this->initVar('mod_version', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_version'));
+        $this->initVar('mod_since', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_since'));
+        $this->initVar('mod_min_php', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_min_php'));
+        $this->initVar('mod_min_xoops', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_min_xoops'));
+        $this->initVar('mod_min_admin', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_min_admin'));
+        $this->initVar('mod_min_mysql', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_min_mysql'));
+        $this->initVar('mod_description', XOBJ_DTYPE_TXTAREA, $setting->getVar('set_description'));
+        $this->initVar('mod_author', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_author'));
+        $this->initVar('mod_author_mail', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_author_mail'));
+        $this->initVar('mod_author_website_url', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_author_website_url'));
+        $this->initVar('mod_author_website_name', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_author_website_name'));
+        $this->initVar('mod_credits', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_credits'));
+        $this->initVar('mod_license', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_license'));
+        $this->initVar('mod_release_info', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_release_info'));
+        $this->initVar('mod_release_file', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_release_file'));
+        $this->initVar('mod_manual', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_manual'));
+        $this->initVar('mod_manual_file', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_manual_file'));
+        $this->initVar('mod_image', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_image'));
+        $this->initVar('mod_demo_site_url', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_demo_site_url'));
+        $this->initVar('mod_demo_site_name', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_demo_site_name'));
+        $this->initVar('mod_support_url', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_support_url'));
+        $this->initVar('mod_support_name', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_support_name'));
+        $this->initVar('mod_website_url', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_website_url'));
+        $this->initVar('mod_website_name', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_website_name'));
+        $this->initVar('mod_release', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_release'));
+        $this->initVar('mod_status', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_status'));
+        $this->initVar('mod_admin', XOBJ_DTYPE_INT, $setting->getVar('set_admin'));
+        $this->initVar('mod_user', XOBJ_DTYPE_INT, $setting->getVar('set_user'));
+        $this->initVar('mod_blocks', XOBJ_DTYPE_INT, $setting->getVar('set_blocks'));
+        $this->initVar('mod_search', XOBJ_DTYPE_INT, $setting->getVar('set_search'));
+        $this->initVar('mod_comments', XOBJ_DTYPE_INT, $setting->getVar('set_comments'));
+        $this->initVar('mod_notifications', XOBJ_DTYPE_INT, $setting->getVar('set_notifications'));
+        $this->initVar('mod_permissions', XOBJ_DTYPE_INT, $setting->getVar('set_permissions'));
+        $this->initVar('mod_inroot_copy', XOBJ_DTYPE_INT, $setting->getVar('set_inroot_copy'));
+        $this->initVar('mod_donations', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_donations'));
+        $this->initVar('mod_subversion', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_subversion'));
     }
 
     /**
