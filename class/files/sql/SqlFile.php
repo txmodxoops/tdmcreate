@@ -304,7 +304,6 @@ SQL;
             }
         }
         // ================= COMMA CICLE ================= //
-        //$row[] = $this->getCommaCicle($comma, $j);
         $ret .= implode("\n", $row);
         unset($j);
         $ret .= $this->getFootDatabaseTable();
@@ -321,9 +320,7 @@ SQL;
      */
     private function getFootDatabaseTable()
     {
-        $ret = <<<SQL
-\n) ENGINE=InnoDB;\n\n
-SQL;
+        $ret = "\n) ENGINE=InnoDB;\n\n";
 
         return $ret;
     }
@@ -384,40 +381,7 @@ SQL;
 
         return $ret;
     }
-
-    /*
-    *  @private function getComma
-    *  @param $row
-    *  @param $comma
-    *  @return string
-    */
-    private function getComma($row, $comma = null)
-    {
-        $ret = "			{$row}{$comma}";
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getCommaCicle
-    *  @param $comma
-    *  @param $index
-    *  @return string
-    */
-    private function getCommaCicle($comma, $index)
-    {
-        // Comma issue
-        for ($i = 1; $i <= $index; ++$i) {
-            if ($i != $index - 1) {
-                $ret = $this->getComma(isset($comma[$i]), ',')."\n";
-            } else {
-                $ret = $this->getComma(isset($comma[$i]))."\n";
-            }
-        }
-
-        return $ret;
-    }
-
+    
     /*
     *  @public function render
     *  @param null
@@ -430,8 +394,8 @@ SQL;
         $moduleName = strtolower($module->getVar('mod_name'));
         $moduleDirname = strtolower($module->getVar('mod_dirname'));
         $content = $this->getHeaderSqlComments($moduleName);
-        $content      .= $this->getDatabaseTables($moduleDirname);
-        //
+        $content .= $this->getDatabaseTables($moduleDirname);
+
         $this->tdmcfile->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

@@ -82,15 +82,13 @@ class UserVisit extends UserObjects
     /**
      * @param $module
      * @param $tableName
-     * @param $language
      *
      * @return string
      */
-    public function getUserVisit($moduleDirname, $tableName, $fields, $language)
+    public function getUserVisit($moduleDirname, $tableName, $fields)
     {
-        $stuModuleName = strtoupper($moduleDirname);
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $fieldId = (string) $this->userobjects->getUserSaveFieldId($fields);
+        $ccFieldId = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
@@ -138,10 +136,9 @@ EOT;
 			$tableVisit[] = $tables[$t]->getVar('table_visit');
 		}
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
-        $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
 		if(in_array(1, $tableVisit)) {
-			$content .= $this->getUserVisit($moduleDirname, $tableName, $fields, $language);
+			$content .= $this->getUserVisit($moduleDirname, $tableName, $fields);
 		}
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
