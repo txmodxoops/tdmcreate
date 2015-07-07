@@ -191,7 +191,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function &create($isNew = true)
     {
-        return $this->create($isNew);
+        return parent::create($isNew);
     }
 
     /**
@@ -205,7 +205,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function &get($i = null, $fields = null)
     {
-        return $this->get($i, $fields);
+        return parent::get($i, $fields);
     }
 
     /**
@@ -230,7 +230,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function &insert(&$field, $force = false)
     {
-        if (!$this->insert($field, $force)) {
+        if (!parent::insert($field, $force)) {
             return false;
         }
 

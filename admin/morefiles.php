@@ -53,7 +53,7 @@ switch ($op) {
         // Display morefiles list
         if ($morefilesCount > 0) {
             foreach (array_keys($morefilesAll) as $i) {
-                $files = $morefilesAll[$i]->getValues();
+                $files = $morefilesAll[$i]->getValuesMoreFiles();
                 $GLOBALS['xoopsTpl']->append('files_list', $files);
                 unset($files);
             }
@@ -76,7 +76,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $morefilesObj = &$tdmcreate->getHandler('morefiles')->create();
-        $form = $morefilesObj->getForm();
+        $form = $morefilesObj->getFormMoreFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
