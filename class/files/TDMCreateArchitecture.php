@@ -193,7 +193,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $moduleDirname = $module->getVar('mod_dirname');
         $icon32 = 'assets/icons/32';
         $tables = $this->tdmcfile->getTableTables($modId);
-        $files = $this->tdmcfile->getTableMoreFiles($modId);
+        $files = $this->tdmcfile->getTableAddFiles($modId);
         $ret = array();
         //
         $table = array();

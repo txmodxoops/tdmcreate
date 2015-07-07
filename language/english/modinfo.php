@@ -30,7 +30,7 @@ define('_MI_TDMCREATE_ADMENU2', 'Settings');
 define('_MI_TDMCREATE_ADMENU3', 'Modules');
 define('_MI_TDMCREATE_ADMENU4', 'Tables');
 define('_MI_TDMCREATE_ADMENU5', 'Fields');
-define('_MI_TDMCREATE_ADMENU6', 'More Files');
+define('_MI_TDMCREATE_ADMENU6', 'Add Files');
 define('_MI_TDMCREATE_ADMENU7', 'Building');
 define('_MI_TDMCREATE_ABOUT', 'About');
 // 1.37

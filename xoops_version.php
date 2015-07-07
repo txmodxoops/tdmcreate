@@ -84,7 +84,7 @@ $modversion['templates'][] = array('file' => 'tdmcreate_modules.tpl', 'descripti
 $modversion['templates'][] = array('file' => 'tdmcreate_tables.tpl', 'description' => '', 'type' => 'admin');
 $modversion['templates'][] = array('file' => 'tdmcreate_tables_item.tpl', 'description' => '', 'type' => 'admin');
 $modversion['templates'][] = array('file' => 'tdmcreate_settings.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_morefiles.tpl', 'description' => '', 'type' => 'admin');
+$modversion['templates'][] = array('file' => 'tdmcreate_addfiles.tpl', 'description' => '', 'type' => 'admin');
 // Mysql file
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 // Tables

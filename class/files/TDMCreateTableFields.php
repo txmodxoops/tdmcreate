@@ -126,15 +126,15 @@ class TDMCreateTableFields extends TDMCreateAbstract
      *
      *  @return mixed
      */
-    public function getTableMoreFiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getTableAddFiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('file_mid', $mId)); // $mId = module Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $morefiles = $this->tdmcreate->getHandler('morefiles')->getObjects($criteria);
+        $addfiles = $this->tdmcreate->getHandler('addfiles')->getObjects($criteria);
         unset($criteria);
 
-        return $morefiles;
+        return $addfiles;
     }
 }

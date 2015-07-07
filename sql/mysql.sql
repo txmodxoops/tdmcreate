@@ -319,10 +319,10 @@ INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `f
   (15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect');
 
 #
-# Table structure for table `tdmcreate_morefiles` 5
+# Table structure for table `tdmcreate_addfiles` 5
 #
 
-CREATE TABLE `tdmcreate_morefiles` (
+CREATE TABLE `tdmcreate_addfiles` (
   `file_id`         INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
   `file_mid`        INT(5) UNSIGNED NOT NULL DEFAULT '0',
   `file_name`       VARCHAR(100)    NOT NULL DEFAULT '',

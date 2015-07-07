@@ -26,7 +26,7 @@ $countSettings = $tdmcreate->getHandler('settings')->getCount();
 $countModules = $tdmcreate->getHandler('modules')->getCount();
 $countTables = $tdmcreate->getHandler('tables')->getCount();
 $countFields = $tdmcreate->getHandler('fields')->getCount();
-$countFiles = $tdmcreate->getHandler('morefiles')->getCount();
+$countFiles = $tdmcreate->getHandler('addfiles')->getCount();
 unset($criteria);
 $templateMain = 'tdmcreate_index.tpl';
 $adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);

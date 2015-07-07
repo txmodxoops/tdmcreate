@@ -389,21 +389,21 @@ define('_AM_TDMCREATE_CREATE_IMAGE', 'Create Image Logo');
 define('_AM_TDMCREATE_NOT_IMPORTANT', 'Secondary Settings');
 define('_AM_TDMCREATE_BUILDING_DELETED_CACHE_FILES', 'Cache Files Are Deleted Succefully');
 // Admin More Files
-define('_AM_TDMCREATE_ADD_MORE_FILE', 'Add More File');
-define('_AM_TDMCREATE_MORE_FILES_LIST', 'More Files List');
+define('_AM_TDMCREATE_ADD_FILE', 'Add More File');
+define('_AM_TDMCREATE_ADDFILES_LIST', 'More Files List');
 define('_AM_TDMCREATE_FILE_FORM_CREATED_OK', "The file <b class='green'>%s</b> is successfully created");
 define('_AM_TDMCREATE_FILE_FORM_UPDATED_OK', "The file <b class='green'>%s</b> is successfully updated");
 // Class More Files
-define('_AM_TDMCREATE_MORE_FILES_NEW', 'New More File');
-define('_AM_TDMCREATE_MORE_FILES_EDIT', 'Edit More File');
-define('_AM_TDMCREATE_MORE_FILES_MODULES', 'Choose a module');
-define('_AM_TDMCREATE_MORE_FILES_MODULE_SELECT', 'Select a Module');
-define('_AM_TDMCREATE_MORE_FILES_NAME', 'File Name');
-define('_AM_TDMCREATE_MORE_FILES_NAME_DESC', 'Create file name without extension');
-define('_AM_TDMCREATE_MORE_FILES_EXTENSION', 'Extension File');
-define('_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC', 'Create extension of this file without dot');
-define('_AM_TDMCREATE_MORE_FILES_INFOLDER', 'File in the folder');
-define('_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC', 'Insert this file in a folder (Type: admin, user, class, include, templates, ...)');
+define('_AM_TDMCREATE_ADDFILES_NEW', 'New More File');
+define('_AM_TDMCREATE_ADDFILES_EDIT', 'Edit More File');
+define('_AM_TDMCREATE_ADDFILES_MODULES', 'Choose a module');
+define('_AM_TDMCREATE_ADDFILES_MODULE_SELECT', 'Select a Module');
+define('_AM_TDMCREATE_ADDFILES_NAME', 'File Name');
+define('_AM_TDMCREATE_ADDFILES_NAME_DESC', 'Create file name without extension');
+define('_AM_TDMCREATE_ADDFILES_EXTENSION', 'Extension File');
+define('_AM_TDMCREATE_ADDFILES_EXTENSION_DESC', 'Create extension of this file without dot');
+define('_AM_TDMCREATE_ADDFILES_INFOLDER', 'File in the folder');
+define('_AM_TDMCREATE_ADDFILES_INFOLDER_DESC', 'Insert this file in a folder (Type: admin, user, class, include, templates, ...)');
 // Template More Files
 define('_AM_TDMCREATE_FILE_ID', 'Id');
 define('_AM_TDMCREATE_FILE_NAME_LIST', 'File Name');
