@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeSearch.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeSearch
+ * Class IncludeSearch.
  */
 class IncludeSearch extends TDMCreateFile
 {
@@ -81,6 +84,7 @@ class IncludeSearch extends TDMCreateFile
     /**
      * @param $fieldSearch
      * @param $options
+     *
      * @return string
      */
     public function getSearchField($fieldSearch, $options)
@@ -92,9 +96,9 @@ class IncludeSearch extends TDMCreateFile
             $sql .= '(';
             for ($i = 0; $i < $nb_fieldSearch; ++$i) {
                 if ($i != $nb_fieldSearch - 1) {
-                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[' . $options . ']% OR ';
+                    $sql .= ''.$fieldSearch[$i].' LIKE %$queryarray['.$options.']% OR ';
                 } else {
-                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[0]%';
+                    $sql .= ''.$fieldSearch[$i].' LIKE %$queryarray[0]%';
                 }
             }
             $sql .= ')';
@@ -109,16 +113,17 @@ class IncludeSearch extends TDMCreateFile
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     public function getSearchFunction($moduleDirname)
     {
-        $table          = $this->getTable();
-        $tableName      = $table->getVar('table_name');
+        $table = $this->getTable();
+        $tableName = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $fieldId        = '';
-        $fieldSearch    = null;
-        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldId = '';
+        $fieldSearch = null;
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
@@ -132,7 +137,7 @@ class IncludeSearch extends TDMCreateFile
             }
         }
         $img_search = 'blank.gif';
-        $ret        = <<<EOT
+        $ret = <<<EOT
 \n// search callback functions
 function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$userid)
 {
@@ -145,7 +150,7 @@ function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$use
     {
         \$sql .= " AND (
 EOT;
-        $ret .= $this->getSearchField($fieldSearch, 0) . '";';
+        $ret .= $this->getSearchField($fieldSearch, 0).'";';
         $ret .= <<<EOT
 
         for(\$i = 1; \$i < \$count; ++\$i)
@@ -182,10 +187,10 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getSearchFunction($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

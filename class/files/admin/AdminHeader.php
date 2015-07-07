@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: admin_header.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class AdminHeader
+ * Class AdminHeader.
  */
 class AdminHeader extends TDMCreateFile
 {
@@ -70,7 +73,7 @@ class AdminHeader extends TDMCreateFile
     {
         $this->setModule($module);
         $this->setTable($table);
-		$this->setTables($tables);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -82,12 +85,13 @@ class AdminHeader extends TDMCreateFile
     /**
      * @param $moduleDirname
      * @param $table
+     *
      * @return string
      */
     private function getAdminHeader($moduleDirname, $table, $tables)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
 \ninclude dirname(dirname(dirname(__DIR__))). '/include/cp_header.php';
 \$thisPath = dirname(__DIR__);
 include_once \$thisPath.'/include/common.php';
@@ -99,13 +103,12 @@ include_once \$thisPath.'/include/common.php';
 \$modPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('modicons32');\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != '') {
-                $ret .= <<<EOT
+            $ret .= <<<EOT
 // Get instance of module
 \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n
 EOT;
-
         }
-		if (is_array($tables)) {
+        if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ret .= <<<EOT
@@ -152,12 +155,12 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-		$tables        = $this->getTables();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $tables = $this->getTables();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminHeader($moduleDirname, $table, $tables);
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

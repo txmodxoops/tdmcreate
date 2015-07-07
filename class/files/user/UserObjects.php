@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: objects.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserObjects
+ * Class UserObjects.
  */
 class UserObjects extends TDMCreateFile
 {
@@ -29,8 +32,8 @@ class UserObjects extends TDMCreateFile
     * @var string
     */
     protected $userobjects;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -40,10 +43,10 @@ class UserObjects extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-	/*
+    /*
     *  @static function &getInstance
     *  @param null
     */
@@ -73,6 +76,7 @@ include  __DIR__ . '/header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';\n
 EOT;
+
         return $ret;
     }
 
@@ -88,6 +92,7 @@ include  __DIR__ . '/header.php';
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
 include_once XOOPS_ROOT_PATH.'/header.php';\n
 EOT;
+
         return $ret;
     }
 
@@ -103,10 +108,11 @@ EOT;
         $ret = <<<EOT
 include  __DIR__ . '/footer.php';
 EOT;
+
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getSimpleSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -118,6 +124,7 @@ EOT;
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n
 EOT;
+
         return $ret;
     }
 
@@ -133,6 +140,7 @@ EOT;
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', strtotime(\$_POST['{$fieldName}']));\n
 EOT;
+
         return $ret;
     }
 
@@ -148,20 +156,21 @@ EOT;
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', ((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0'));\n
 EOT;
+
         return $ret;
     }
 
     /*
     *  @public function getUrlFileSetVar
     *  @param $moduleDirname
-	*  @param $tableName
+    *  @param $tableName
     *  @param $fieldName
     *  @return string
     */
     public function getUrlFileSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-		$ret = <<<EOT
+        $ret = <<<EOT
         // Set Var {$fieldName}
         \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
 		// Set Var {$fieldName}
@@ -179,8 +188,8 @@ EOT;
             }
         }\n
 EOT;
-        
-		return $ret;
+
+        return $ret;
     }
 
     /*
@@ -211,6 +220,7 @@ EOT;
             \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
         }\n
 EOT;
+
         return $ret;
     }
 
@@ -224,13 +234,13 @@ EOT;
     public function getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fpmf)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/images/{$tableName}';
         \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
                                                          \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {            
+        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
 			\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);
             \$imgName = str_replace(' ', '', \$_POST['{$fpmf}']).'.'.\$extension;
 			\$uploader->setPrefix(\$imgName);
@@ -245,6 +255,7 @@ EOT;
             \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
         }\n
 EOT;
+
         return $ret;
     }
 
@@ -258,7 +269,7 @@ EOT;
     public function getUploadFileSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
@@ -275,47 +286,51 @@ EOT;
             }
         }\n
 EOT;
+
         return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getUserSaveElements
      *
      *  @param $fields
+     *
      *  @return string
      */
     public function getUserSaveFieldId($fields)
     {
-		foreach (array_keys($fields) as $f) {
+        foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
-			if (0 == $f) {
+            if (0 == $f) {
                 $fieldId = $fieldName;
             }
         }
-		return $fieldId;
-	}
-	
-	/**
+
+        return $fieldId;
+    }
+
+    /**
      *  @public function getUserSaveElements
      *
-	 *  @param $moduleDirname
+     *  @param $moduleDirname
      *  @param $tableName
      *  @param $fields
+     *
      *  @return string
      */
     public function getUserSaveElements($moduleDirname, $tableName, $fields)
     {
-		$ret = '';
-		foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
+        $ret = '';
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-			if(1 == $fields[$f]->getVar('field_main')) {							
-				$fieldMain = $fieldName;
-			}
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName;
+            }
             if ((5 == $fieldElement) || (6 == $fieldElement)) {
                 $ret .= $this->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
-            } elseif (13 == $fieldElement) {                
-				$ret .= $this->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+            } elseif (13 == $fieldElement) {
+                $ret .= $this->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
             } elseif (14 == $fieldElement) {
                 $ret .= $this->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
@@ -324,9 +339,10 @@ EOT;
                 $ret .= $this->getSimpleSetVar($tableName, $fieldName);
             }
         }
-		return $ret;
-	}
-	
+
+        return $ret;
+    }
+
     /*
     *  @public function getSimpleGetVar
     *  @param string $lpFieldName
@@ -341,6 +357,7 @@ EOT;
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
+
         return $ret;
     }
 
@@ -361,6 +378,7 @@ EOT;
 \t\t\${$rpFieldName} =& \${$tableNameTopic}Handler->get(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));
 \t\t\${$lpFieldName}['{$rpFieldName}'] = \${$rpFieldName}->getVar('{$fieldNameTopic}');\n
 EOT;
+
         return $ret;
     }
 
@@ -380,10 +398,11 @@ EOT;
 \t\t\$upload_image = \${$fieldName} ? \${$fieldName} : 'blank.gif';
 \t\t\${$lpFieldName}['{$rpFieldName}'] = \$upload_image;\n
 EOT;
+
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getUrlFileGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
@@ -397,6 +416,7 @@ EOT;
 \t\t\t\t// Get Var {$fieldName}
 \t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
+
         return $ret;
     }
 
@@ -414,6 +434,7 @@ EOT;
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
+
         return $ret;
     }
 
@@ -431,6 +452,7 @@ EOT;
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n
 EOT;
+
         return $ret;
     }
 
@@ -448,6 +470,7 @@ EOT;
 \t\t// Get Var {$fieldName}
 \t\t\${$lpFieldName}['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n
 EOT;
+
         return $ret;
     }
 }

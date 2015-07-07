@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,18 +10,20 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TemplatesAdminPages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class TemplatesAdminPages
+ * Class TemplatesAdminPages.
  */
 class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
 {
@@ -35,6 +38,7 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -68,191 +72,168 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
     /*
     *  @private function getTemplatesAdminPagesHeader
     *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
     *  @return string
     */
-    private function getTemplatesAdminPagesHeader($moduleDirname, $table, $fields, $language)
+    private function getTemplatesAdminPagesHeader($moduleDirname)
     {
-        $tableName     = $table->getVar('table_name');
-		$tableSoleName = $table->getVar('table_solename');
-        $ret           = <<<EOT
-<!-- Header -->
-<{include file="db:{$moduleDirname}_admin_header.tpl"}>
-<{if {$tableName}_list}>
-	<table class="outer {$tableName} width100">
-        <thead>
-            <tr class="head">\n
-EOT;
-        $langHeadId = $language . strtoupper($tableSoleName) . '_ID';
-		if (1 == $table->getVar('table_autoincrement')) {
-			$ret .= <<<EOT
-				<th class="center"><{\$smarty.const.{$langHeadId}}></th>\n
-EOT;
-		}
-		foreach (array_keys($fields) as $f) {
-            $fieldName     = $fields[$f]->getVar('field_name');
-			$rpFieldName   = $this->tdmcfile->getRightString($fieldName);
-            $langFieldName = $language . strtoupper($tableSoleName) . '_' . strtoupper($rpFieldName);
-			if (1 == $fields[$f]->getVar('field_inlist')) {
-				$ret .= <<<EOT
-                <th class="center"><{\$smarty.const.{$langFieldName}}></th>\n
-EOT;
-			}
-        }
-        $ret .= <<<EOT
-                <th class="center"><{\$smarty.const.{$language}FORM_ACTION}></th>
-            </tr>
-        </thead>\n
-EOT;
+        $ret = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
+        $ret .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
 
         return $ret;
     }
 
     /*
-    *  @private function getTemplatesAdminPagesBody
+    *  @private function getTemplatesAdminPagesTableThead
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fields
     *  @param string $language
     *  @return string
     */
-    private function getTemplatesAdminPagesBody($moduleDirname, $table, $fields, $language)
+    private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-        <{if {$tableName}_count}>
-		<tbody>		
-            <{foreach item=list from=\${$tableName}_list}>
-                <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        if (1 == $table->getVar('table_autoincrement')) {
-			$ret .= <<<EOT
-					<td class="center"><{\$list.id}></td>\n
-EOT;
-		}
-		foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
+        $th = '';
+        $langHeadId = strtoupper($tableSoleName).'_ID';
+        if (1 == $tableAutoincrement) {
+            $lang = $this->htmlcode->getSmartyConst($language, $langHeadId);
+            $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
+        }
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $langFieldName = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
+            if (1 == $fields[$f]->getVar('field_inlist')) {
+                $lang = $this->htmlcode->getSmartyConst($language, $langFieldName);
+                $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
+            }
+        }
+
+        $lang = $this->htmlcode->getSmartyConst($language, 'FORM_ACTION');
+        $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center width5'), $lang).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $ret = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesAdminPagesTableTBody
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fields
+    *  @param string $language
+    *  @return string
+    */
+    private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
+    {
+        $td = '';
+        if (1 == $tableAutoincrement) {
+            $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
+            $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
+        }
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_inlist')) {
                 switch ($fieldElement) {
                     case 9:
-                        $ret .= <<<EOT
+                        // This is to be reviewed, as it was initially to style = "backgroung-color: #"
+                        // Now with HTML5 is not supported inline style in the parameters of the HTML tag
+                        // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
+                        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $span = $this->htmlcode->getHtmlTag('span', array(), $double);
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $span).PHP_EOL;
+                        /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
-EOT;
+EOT;*/
                         break;
                     case 10:
-                        $ret .= <<<EOT
-                    <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32');
+                        $src .= $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
+                        $td  .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     case 13:
-                        $ret .= <<<EOT
-                    <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                        $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
+                        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
+                        $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
-                        $ret .= <<<EOT
-                    <td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
+                        if (0 != $f) {
+                            $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
+                        }
                         break;
                 }
             }
         }
-        $ret .= <<<EOT
-                    <td class="center">
-                        <a href="{$tableName}.php?op=edit&amp;{$fieldId}=<{\$list.id}>" title="<{\$smarty.const._EDIT}>">
-                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{\$smarty.const._EDIT}>" />
-                        </a>
-                        <a href="{$tableName}.php?op=delete&amp;{$fieldId}=<{\$list.id}>" title="<{\$smarty.const._DELETE}>">
-                            <img src="<{xoModuleIcons16 delete.png}>" alt="<{\$smarty.const._DELETE}>" />
-                        </a>
-                    </td>
-                </tr>
-            <{/foreach}>		
-        </tbody>
-		<{/if}>
-    </table>\n
-EOT;
+        $lang = $this->htmlcode->getSmartyConst('', '_EDIT');
+        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
+        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 edit.png');
+        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
+        $anchor = $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=edit&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
+        $lang = $this->htmlcode->getSmartyConst('', '_DELETE');
+        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
+        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 delete.png');
+        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
+        $anchor .= $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
+        $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor).PHP_EOL;
+        $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values=\'odd, even\'');
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
+        $foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName.'_list', $tr).PHP_EOL;
+        $tbody = $this->htmlcode->getHtmlTag('tbody', array(), $foreach).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getSmartyConditions($tableName.'_count', '', '', $tbody).PHP_EOL;
     }
 
     /*
-    *  @private function getTemplatesAdminPagesBodyFieldnameEmpty
+    *  @private function getTemplatesAdminPagesTable
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fields
     *  @param string $language
     *  @return string
     */
-    private function getTemplatesAdminPagesBodyFieldnameEmpty($moduleDirname, $table, $fields, $language)
+    private function getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-		<{if {$tableName}_count}>
-		<tbody>		
-            <{foreach item=list from=\${$tableName}_list}>
-                <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        if (1 == $table->getVar('table_autoincrement')) {
-			$ret .= <<<EOT
-					<td class="center"><{\$list.id}></td>\n
-EOT;
-		}
-		foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if (0 == $f) {
-                $fieldId = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_inlist')) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-                    <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;">\t\t</span></td>\n
-EOT;
-                        break;
-                    case 10:
-                        $ret .= <<<EOT
-                    <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-                    <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-                    <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-                    <td class="center">
-                        <a href="{$tableName}.php?op=edit&amp;{$fieldId}=<{\$list.{$fieldId}}>" title="<{\$smarty.const._EDIT}>">
-                            <img src="<{xoModuleIcons16 edit.png}>" alt="<{\$smarty.const._EDIT}>" />
-                        </a>
-                        <a href="{$tableName}.php?op=delete&amp;{$fieldId}=<{\$list.{$fieldId}}>" title="<{\$smarty.const._DELETE}>">
-                            <img src="<{xoModuleIcons16 delete.png}>" alt="<{\$smarty.const._DELETE}>" />
-                        </a>
-                    </td>
-                </tr>
-            <{/foreach}>		
-        </tbody>
-		<{/if}>
-    </table>\n
-EOT;
+        $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
+        $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-bordered  table-striped'), $tbody).PHP_EOL;
+    }
+
+    /*
+    *  @private function getTemplatesAdminPages
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fields
+    *  @param string $language
+    *  @return string
+    */
+    private function getTemplatesAdminPages($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    {
+        $htmlTable = $this->getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
+        $htmlTable .= $this->htmlcode->getHtmlTag('div', array('class' => 'clear'), '&nbsp;').PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('pagenav');
+        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'xo-pagenav floatright'), $single);
+        $div       .= $this->htmlcode->getHtmlTag('div', array('class' => 'clear spacer'), '').PHP_EOL;
+        $htmlTable .= $this->htmlcode->getSmartyConditions('pagenav', '', '', $div).PHP_EOL;
+        $ifList = $this->htmlcode->getSmartyConditions($tableName.'_list', '', '', $htmlTable).PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('form');
+        $divComm = $this->htmlcode->getHtmlComment('Display navigation').PHP_EOL;
+        //$divComm .= $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $single).PHP_EOL;
+        $ifList .= $this->htmlcode->getSmartyConditions('form', '', '', $single).PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('error');
+        $strong = $this->htmlcode->getHtmlTag('strong', array(), $single).PHP_EOL;
+        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $strong).PHP_EOL;
+        $ifList .= $this->htmlcode->getSmartyConditions('error', '', '', $div).PHP_EOL;
+
+        return $ifList;
     }
 
     /*
@@ -262,26 +243,9 @@ EOT;
     */
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
-        $ret = <<<EOT
-    <div class="clear">&nbsp;</div>
-    <{if \$pagenav}><br />
-        <!-- Display navigation -->
-        <div class="xo-pagenav floatright"><{\$pagenav}></div><div class="clear spacer"></div>
-    <{/if}>
-<{/if}>
-<{if \$form}>
-	<!-- Display form (add,edit) -->
-	<div class="spacer"><{\$form}></div>
-<{/if}>
-<{if \$error}>
-    <div class="errorMsg">
-        <strong><{\$error}></strong>
-    </div>
-<{/if}>
-<br />
-<!-- Footer -->
-<{include file="db:{$moduleDirname}_admin_footer.tpl"}>
-EOT;
+        $ret = $this->htmlcode->getHtmlTag('br', array(), '', false).PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
+        $ret .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true);
 
         return $ret;
     }
@@ -293,20 +257,14 @@ EOT;
     */
     public function renderFile($filename)
     {
-        $module         = $this->getModule();
-        $table          = $this->getTable();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'AM');
-        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
-        $content        = $this->getTemplatesAdminPagesHeader($moduleDirname, $table, $fields, $language);
-        // Verify if table_fieldname is not empty
-        if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesAdminPagesBody($moduleDirname, $table, $fields, $language);
-        } else {
-            $content .= $this->getTemplatesAdminPagesBodyFieldnameEmpty($moduleDirname, $table, $fields, $language);
-        }
-        $content .= $this->getTemplatesAdminPagesFooter($moduleDirname);
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language = $this->getLanguage($moduleDirname, 'AM');
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
+        $content = $this->getTemplatesAdminPagesHeader($moduleDirname);
+        $content      .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
+        $content      .= $this->getTemplatesAdminPagesFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

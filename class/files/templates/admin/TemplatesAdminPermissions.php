@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: pages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesAdminPermissions
+ * Class TemplatesAdminPermissions.
  */
 class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
 {
@@ -36,6 +39,7 @@ class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -76,52 +80,45 @@ class TemplatesAdminPermissions extends TDMCreateHtmlSmartyCodes
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-        $ret = <<<EOT
-<{include file="db:{$moduleDirname}_admin_header.tpl"}>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
     }
-	
-	/*
+
+    /*
     *  @private function getTemplatesAdminPermissions
     *  @param null
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getTemplatesAdminPermissions()
     {
-        $ret = <<<EOT
-<div class="spacer"><{\$form}></div>
-<br /><br />\n
-EOT;
+        $form = $this->htmlcode->getSmartySingleVar('form');
+        $ret = $this->htmlcode->getHtmlTag('div', array('class' => 'spacer'), $form).PHP_EOL;
+        $ret .= $this->htmlcode->getHtmlTag('br', array(), '', false).PHP_EOL;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getTemplatesAdminPermissionsFooter
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getTemplatesAdminPermissionsFooter($moduleDirname)
     {
-        $ret = <<<EOT
-<{include file="db:{$moduleDirname}_admin_footer.tpl"}>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
-
 
     /*
     *  @public function render
@@ -132,13 +129,13 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
-        $content       = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
-		$content       .= $this->getTemplatesAdminPermissions();
-		$content       .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
+        $language = $this->getLanguage($moduleDirname, 'AM');
+        $content = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
+        $content      .= $this->getTemplatesAdminPermissions();
+        $content      .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

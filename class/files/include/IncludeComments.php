@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeComments.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeComments
+ * Class IncludeComments.
  */
 class IncludeComments extends TDMCreateFile
 {
@@ -34,7 +37,7 @@ class IncludeComments extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile  = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->tdmcreate = TDMCreateHelper::getInstance();
     }
 
@@ -78,17 +81,18 @@ class IncludeComments extends TDMCreateFile
     /**
      * @param $module
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderCommentsIncludes($module, $filename)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename . '.php');
+        $content = $this->getHeaderFilesComments($module, $filename.'.php');
         $content .= <<<EOT
 include_once '../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/include/{$filename}.php';
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'include', $filename.'.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }
@@ -101,20 +105,21 @@ EOT;
     /**
      * @param $module
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderCommentsNew($module, $filename)
     {
-        $table         = $this->getTable();
+        $table = $this->getTable();
         $moduleDirname = strtolower($module->getVar('mod_dirname'));
-        $tableName     = $table->getVar('table_name');
-        $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $tableName = $table->getVar('table_name');
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fpmf = $fields[$f]->getVar('field_name');
             }
         }
-        $content = $this->getHeaderFilesComments($module, $filename . '.php');
+        $content = $this->getHeaderFilesComments($module, $filename.'.php');
         $content .= <<<EOT
 include '../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
@@ -126,7 +131,7 @@ if (\$com_itemid > 0) {
     include XOOPS_ROOT_PATH.'/include/{$filename}.php';
 }
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'include', $filename.'.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
     }

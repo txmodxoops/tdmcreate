@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: templates_footer.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserFooter
+ * Class TemplatesUserFooter.
  */
 class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
 {
@@ -34,7 +37,9 @@ class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -81,12 +86,12 @@ class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = <<<EOT
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = <<<EOT
 <{if \$bookmarks != 0}>
 <{include file="db:system_bookmarks.html"}>
 <{/if}>
@@ -96,13 +101,12 @@ class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
 <div class="pull-left"><{\$copyright}></div>\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != null) {
-                $content .= <<<EOT
+            $content .= <<<EOT
 <{if \$pagenav != ''}>
     <div class="pull-right"><{\$pagenav}></div>
 <{/if}>
 <br />\n
 EOT;
-
         }
         $content .= <<<EOT
 <{if \$xoops_isadmin}>

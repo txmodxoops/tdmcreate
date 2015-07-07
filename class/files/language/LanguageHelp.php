@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,18 +10,20 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: 1.91 LanguageHelp.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class LanguageHelp
+ * Class LanguageHelp.
  */
 class LanguageHelp extends LanguageDefines
 {
@@ -78,12 +81,12 @@ class LanguageHelp extends LanguageDefines
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
-        $moduleName    = $module->getVar('mod_name');
+        $module = $this->getModule();
+        $filename = $this->getFileName();
+        $moduleName = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $GLOBALS['xoopsConfig']['language'];
-        $content       = <<<EOT
+        $language = $GLOBALS['xoopsConfig']['language'];
+        $content = <<<EOT
 <div id="help-template" class="outer">
     <h1 class="head">Help:
         <a class="ui-corner-all tooltip" href="<{\$xoops_url}>/modules/{$moduleDirname}/admin/index.php"
@@ -113,7 +116,7 @@ Detailed instructions on installing modules are available in the <a href="http:/
 </div>
 EOT;
         if ($language != 'english') {
-            $this->tdmcfile->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+            $this->tdmcfile->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
         }
         $this->tdmcfile->create($moduleDirname, 'language/english/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

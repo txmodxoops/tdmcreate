@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -10,41 +11,43 @@
  */
 
 /**
- * morefiles class
+ * morefiles class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ * @copyright       The XOOPS Project http:sourceforge.net/projects/xoops/
+ * @license         GNU GPL 2 (http:www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ *
  * @since           2.5.7
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ *
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http:www.txmodxoops.org/>
+ *
  * @version         $Id: morefiles.php 13080 2015-06-12 10:12:32Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-include __DIR__ . '/autoload.php';
+include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateMoreFiles
 *  @extends XoopsObject
 */
 
 /**
- * Class TDMCreateMoreFiles
+ * Class TDMCreateMoreFiles.
  */
 class TDMCreateMoreFiles extends XoopsObject
 {
     /**
-     * Tdmcreate
+     * Tdmcreate.
      *
      * @var mixed
      */
     private $tdmcreate;
-	
-	/**
-     * Settings
+
+    /**
+     * Settings.
      *
      * @var mixed
      */
     private $settings;
-	
+
     /*
     *  @public function constructor class
     *  @param null
@@ -54,10 +57,10 @@ class TDMCreateMoreFiles extends XoopsObject
      */
     public function __construct()
     {
-        $this->tdmcreate = TDMCreateHelper::getInstance();		
-		//
+        $this->tdmcreate = TDMCreateHelper::getInstance();
+
         $this->initVar('file_id', XOBJ_DTYPE_INT);
-		$this->initVar('file_mid', XOBJ_DTYPE_INT);
+        $this->initVar('file_mid', XOBJ_DTYPE_INT);
         $this->initVar('file_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('file_extension', XOBJ_DTYPE_TXTBOX);
         $this->initVar('file_infolder', XOBJ_DTYPE_TXTBOX);
@@ -99,65 +102,64 @@ class TDMCreateMoreFiles extends XoopsObject
     */
     /**
      * @param bool $action
+     *
      * @return XoopsThemeForm
      */
     public function getForm($action = false)
     {
-        //
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
-        }		
-        //
+        }
+
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_MORE_FILES_NEW) : sprintf(_AM_TDMCREATE_MORE_FILES_EDIT);
-        //
+
         xoops_load('XoopsFormLoader');
-        //
+
         $form = new XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-		//
-        $modules       = $this->tdmcreate->getHandler('modules')->getObjects(null);
+
+        $modules = $this->tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', _AM_TDMCREATE_MORE_FILES_MODULE_SELECT);
         foreach ($modules as $mod) {
-            //$modulesSelect->addOptionArray();
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
-		//
+
         $modName = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
         $modName->setDescription(_AM_TDMCREATE_MORE_FILES_NAME_DESC);
-        $form->addElement($modName, true);		
-        //
+        $form->addElement($modName, true);
+
         $fileEstension = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
-		$fileEstension->setDescription(_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC);
-		$form->addElement($fileEstension, true);
-        //        
-		$fileInfolder = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
-		$fileInfolder->setDescription(_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC);
-		$form->addElement($fileInfolder, true);
-        //
-		$form->addElement(new XoopsFormHidden('op', 'save'));
-        $form->addElement(new XoopsFormButton(_REQUIRED . ' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
-		
+        $fileEstension->setDescription(_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC);
+        $form->addElement($fileEstension, true);
+
+        $fileInfolder = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
+        $fileInfolder->setDescription(_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC);
+        $form->addElement($fileInfolder, true);
+
+        $form->addElement(new XoopsFormHidden('op', 'save'));
+        $form->addElement(new XoopsFormButton(_REQUIRED.' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
+
         return $form;
-    }    
-	
-	/**
-     * Get Values
+    }
+
+    /**
+     * Get Values.
      */
-	public function getValues($keys = null, $format = null, $maxDepth = null)
-    {        
-		$ret = parent::getValues($keys, $format, $maxDepth);
-		// Values
-		$ret['id']        = $this->getVar('file_id');
-		$ret['mid']       = $this->tdmcreate->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
-		$ret['name']      = $this->getVar('file_name');
-		$ret['extension'] = $this->getVar('file_extension');
-		$ret['infolder']  = $this->getVar('file_infolder');
-        
-		return $ret;
-    }	
+    public function getValues($keys = null, $format = null, $maxDepth = null)
+    {
+        $ret = parent::getValues($keys, $format, $maxDepth);
+        // Values
+        $ret['id'] = $this->getVar('file_id');
+        $ret['mid'] = $this->tdmcreate->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
+        $ret['name'] = $this->getVar('file_name');
+        $ret['extension'] = $this->getVar('file_extension');
+        $ret['infolder'] = $this->getVar('file_infolder');
+
+        return $ret;
+    }
 }
 
 /*
@@ -166,7 +168,7 @@ class TDMCreateMoreFiles extends XoopsObject
 */
 
 /**
- * Class TDMCreateMoreFilesHandler
+ * Class TDMCreateMoreFilesHandler.
  */
 class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 {
@@ -193,12 +195,13 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * retrieve a field
+     * retrieve a field.
      *
-     * @param  int $i field id
+     * @param int  $i      field id
      * @param null $fields
-     * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
-     *                object
+     *
+     * @return mixed reference to the <a href='psi_element:TDMCreateFields'>TDMCreateFields</a> object
+     *               object
      */
     public function &get($i = null, $fields = null)
     {
@@ -206,10 +209,11 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * get inserted id
+     * get inserted id.
      *
      * @param null
-     * @return integer reference to the {@link TDMCreateTables} object
+     *
+     * @return int reference to the {@link TDMCreateTables} object
      */
     public function &getInsertId()
     {
@@ -217,7 +221,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * insert a new field in the database
+     * insert a new field in the database.
      *
      * @param object $field reference to the {@link TDMCreateFields} object
      * @param bool   $force
@@ -232,9 +236,9 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 
         return true;
     }
-	
-	/**
-     * Get Count Modules
+
+    /**
+     * Get Count Modules.
      */
     public function getCountMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -243,19 +247,21 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
         $criteria->setOrder($order);
         $criteria->setStart($start);
         $criteria->setLimit($limit);
-		return parent::getCount($criteria);
+
+        return parent::getCount($criteria);
     }
 
-	/**
-     * Get All Modules
+    /**
+     * Get All Modules.
      */
-	public function getAllMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    public function getAllMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         $criteria->setStart($start);
         $criteria->setLimit($limit);
+
         return parent::getAll($criteria);
     }
 }

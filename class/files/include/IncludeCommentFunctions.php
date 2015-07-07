@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeCommentFunctions.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeCommentFunctions
+ * Class IncludeCommentFunctions.
  */
 class IncludeCommentFunctions extends TDMCreateFile
 {
@@ -34,7 +37,7 @@ class IncludeCommentFunctions extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile  = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->tdmcreate = TDMCreateHelper::getInstance();
     }
 
@@ -81,14 +84,14 @@ class IncludeCommentFunctions extends TDMCreateFile
      */
     public function renderFile()
     {
-        $module           = $this->getModule();
-        $table            = $this->getTable();
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $tableName        = $table->getVar('table_name');
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tableName = $table->getVar('table_name');
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
-        $filename         = $this->getFileName();
-        $content          = $this->getHeaderFilesComments($module, $filename);
+        $ucfTableName = ucfirst($tableName);
+        $filename = $this->getFileName();
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {

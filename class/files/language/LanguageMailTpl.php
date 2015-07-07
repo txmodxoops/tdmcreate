@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,22 +10,24 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: 1.91 LanguageMailTpl.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class LanguageMailTpl
+ * Class LanguageMailTpl.
  */
 class LanguageMailTpl extends LanguageDefines
 {
-	/*
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -34,7 +37,7 @@ class LanguageMailTpl extends LanguageDefines
     public function __construct()
     {
         parent::__construct();
-        $this->defines  = LanguageDefines::getInstance();
+        $this->defines = LanguageDefines::getInstance();
     }
 
     /*
@@ -72,13 +75,14 @@ class LanguageMailTpl extends LanguageDefines
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile($filename)
     {
-        $module        = $this->getModule();
+        $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = <<<EOT
+        $content = <<<EOT
 // ---------- Templates Mail Content Dummy ---------- //
 Hello {X_UNAME},
 

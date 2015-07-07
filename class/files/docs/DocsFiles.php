@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: DocsFiles.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class DocsFiles
+ * Class DocsFiles.
  */
 class DocsFiles extends TDMCreateFile
 {
@@ -79,12 +82,13 @@ class DocsFiles extends TDMCreateFile
      * @param $moduleDirname
      * @param $mod_version
      * @param $mod_author
+     *
      * @return string
      */
     public function getChangeLogFile($moduleDirname, $mod_version, $mod_author)
     {
         $date = date('Y/m/d G:i:s');
-        $ret  = <<<EOT
+        $ret = <<<EOT
 ====================================
  {$date} Version {$mod_version}
 ====================================
@@ -103,6 +107,7 @@ EOT;
      * @param $mod_credits
      * @param $mod_author_website_url
      * @param $mod_description
+     *
      * @return string
      */
     public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description)
@@ -168,6 +173,7 @@ EOT;
     */
     /**
      * @param $mod_version
+     *
      * @return string
      */
     public function getLangDiffFile($mod_version)
@@ -191,12 +197,12 @@ EOT;
      */
     public function render()
     {
-        $module                 = $this->getModule();
-        $moduleDirname          = $module->getVar('mod_dirname');
-        $mod_author             = $module->getVar('mod_author');
-        $mod_credits            = $module->getVar('mod_credits');
+        $module = $this->getModule();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $mod_author = $module->getVar('mod_author');
+        $mod_credits = $module->getVar('mod_credits');
         $mod_author_website_url = $module->getVar('mod_author_website_url');
-        $mod_description        = $module->getVar('mod_description');
+        $mod_description = $module->getVar('mod_description');
         switch ($filename = $this->getFileName()) {
             case 'changelog':
                 $content = $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);

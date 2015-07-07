@@ -19,18 +19,18 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: AdminPhpCode.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TDMCreatePhpCode.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class AdminPhpCode.
+ * Class TDMCreatePhpCode.
  */
-class AdminPhpCode extends AdminObjects
+class TDMCreatePhpCode extends AdminObjects
 {
     /*
     * @var string
     */
-    protected $adminphpcode;
+    protected $TDMCreatePhpCode;
 
     /*
     *  @public function constructor
@@ -50,7 +50,7 @@ class AdminPhpCode extends AdminObjects
     *  @param null
     */
     /**
-     * @return AdminPhpCode
+     * @return TDMCreatePhpCode
      */
     public static function &getInstance()
     {
@@ -63,27 +63,27 @@ class AdminPhpCode extends AdminObjects
     }
 
     /*
-    *  @public function getAdminIncludeHeader
+    *  @public function getPhpCodeIncludeDir
     *  @param $filename
     *  @return string
     */
-    public function getAdminIncludeDir($filename = '')
+    public function getPhpCodeIncludeDir($filename = '')
     {
         $ret = <<<EOT
-include  __DIR__ . '/{$filename}.php';\n
+include __DIR__ .'/{$filename}.php';\n
 EOT;
 
         return $ret;
     }
 
     /**
-     *  @public function getAdminSwitch
+     *  @public function getPhpCodeSwitch
      *
      *  @param $content
      *
      *  @return string
      */
-    public function getAdminSwitch($content)
+    public function getPhpCodeSwitch($content)
     {
         $ret = <<<EOT
 switch {\n
@@ -95,84 +95,63 @@ EOT;
     }
 
     /**
-     *  @public function getAdminStringCaseDefaultSwitch
+     *  @public function getPhpCodeCaseSwitch
      *
      *  @param $case
      *  @param $content
      *
      *  @return string
      */
-    public function getAdminStringCaseDefaultSwitch($case = 'list', $content)
+    public function getPhpCodeCaseSwitch($case = 'list', $content, $defaultAfterCase = false, $default = false)
     {
-        $ret = <<<EOT
-    case '{$case}':
-    default:\n
-	\t\t{$content}
-    break;\n
-EOT;
-
-        return $ret;
-    }
-
-    /**
-     *  @public function getAdminStringCaseSwitch
-     *
-     *  @param $case
-     *  @param $content
-     *
-     *  @return string
-     */
-    public function getAdminStringCaseSwitch($case = 'list', $content)
-    {
-        $ret = <<<EOT
+        if ($defaultAfterCase) {
+            if (is_string($case)) {
+                $ret = <<<EOT
     case '{$case}':\n
-	\t\t{$content}
-    break;\n
 EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getAdminNumericCaseDefaultSwitch
-    *  @param $case
-    *  @return string
-    */
-    public function getAdminNumericCaseDefaultSwitch($case = 1)
-    {
-        $ret = <<<EOT
-    case {$case}:
+            } else {
+                $ret = <<<EOT
+    case {$case}:\n
+EOT;
+            }
+            $ret = <<<EOT
     default:\n
 	\t\t{$content}
-    break;\n
+		break;\n
 EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getAdminNumericCaseSwitch
-    *  @param $case
-    *  @return string
-    */
-    public function getAdminNumericCaseSwitch($case = 1)
-    {
-        $ret = <<<EOT
+        } else {
+            if (is_string($case)) {
+                $ret = <<<EOT
+    case '{$case}':\n
+EOT;
+            } else {
+                $ret = <<<EOT
     case {$case}:\n
-	\t\t{$content}
-    break;\n
 EOT;
+            }
+            $ret = <<<EOT
+	\t\t{$content}
+		break;\n
+EOT;
+        }
+        if ($default) {
+            $ret = <<<EOT
+    default:\n
+	\t\t{$content}
+		break;\n
+EOT;
+        }
 
         return $ret;
     }
 
     /*
-    *  @public function getAdminTemplateMain
+    *  @public function getPhpCodeTemplateMain
     *  @param $moduleDirname
     *  @param $tableName
     *  @return string
     */
-    public function getAdminTemplateMain($moduleDirname, $tableName)
+    public function getPhpCodeTemplateMain($moduleDirname, $tableName)
     {
         $ret = <<<EOT
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n
@@ -182,14 +161,14 @@ EOT;
     }
 
     /**
-     *  @public function getAdminXoopsTplAssign
+     *  @public function getPhpCodeXoopsTplAssign
      *
      *  @param string $tplString
      *  @param string $phpRender
      *
      *  @return string
      */
-    public function getAdminXoopsTplAssign($tplString, $phpRender)
+    public function getPhpCodeXoopsTplAssign($tplString, $phpRender)
     {
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->assign('{$tplString}', \${$phpRender});\n
@@ -199,14 +178,14 @@ EOT;
     }
 
     /**
-     *  @public function getAdminXoopsTplAppend
+     *  @public function getPhpCodeXoopsTplAppend
      *
      *  @param string $tplString
      *  @param string $phpRender
      *
      *  @return string
      */
-    public function getAdminXoopsTplAppend($tplString, $phpRender)
+    public function getPhpCodeXoopsTplAppend($tplString, $phpRender)
     {
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->append('{$tplString}', \${$phpRender});\n
@@ -216,14 +195,14 @@ EOT;
     }
 
     /**
-     *  @public function getAdminXoopsTplAppendByRef
+     *  @public function getPhpCodeXoopsTplAppendByRef
      *
      *  @param string $tplString
      *  @param string $phpRender
      *
      *  @return string
      */
-    public function getAdminXoopsTplAppendByRef($tplString, $phpRender)
+    public function getPhpCodeXoopsTplAppendByRef($tplString, $phpRender)
     {
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', \${$phpRender});\n
@@ -233,13 +212,13 @@ EOT;
     }
 
     /*
-    *  @public function getAdminItemButton
+    *  @public function getPhpCodeItemButton
     *  @param $moduleDirname
     *  @param $tableName
     *  @param $admin
     *  @return string
     */
-    public function getAdminItemButton($moduleDirname, $tableName, $admin = false)
+    public function getPhpCodeItemButton($moduleDirname, $tableName, $admin = false)
     {
         $ret = <<<EOT
         \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
@@ -252,13 +231,13 @@ EOT;
     }
 
     /**
-     *  @public function getAdminAddNavigation
+     *  @public function getPhpCodeAddNavigation
      *
      *  @param $tableName
      *
      *  @return string
      */
-    public function getAdminAddNavigation($tableName)
+    public function getPhpCodeAddNavigation($tableName)
     {
         $ret = <<<EOT
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));\n
@@ -268,13 +247,13 @@ EOT;
     }
 
     /**
-     *  @public function getAdminObjHandlerCreate
+     *  @public function getPhpCodeObjHandlerCreate
      *
      *  @param string $tableName
      *
      *  @return string
      */
-    public function getAdminObjHandlerCreate($tableName)
+    public function getPhpCodeObjHandlerCreate($tableName)
     {
         $ret = <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->create();\n
@@ -284,7 +263,7 @@ EOT;
     }
 
     /**
-     *  @public function getAdminPhpCodeSetVarsObjects
+     *  @public function getPhpCodeSetVarsObjects
      *
      *  @param $moduleDirname
      *  @param $tableName
@@ -292,7 +271,7 @@ EOT;
      *
      *  @return string
      */
-    public function getAdminPhpCodeSetVarsObjects($moduleDirname, $tableName, $fields)
+    public function getPhpCodeSetVarsObjects($moduleDirname, $tableName, $fields)
     {
         $ret = <<<EOT
         // Set Vars\n
@@ -335,13 +314,13 @@ EOT;
     }
 
     /**
-     *  @public function getAdminPhpCodeXoopsSecurity
+     *  @public function getPhpCodeXoopsSecurity
      *
      *  @param $tableName
      *
      *  @return string
      */
-    public function getAdminPhpCodeXoopsSecurity($tableName)
+    public function getPhpCodeXoopsSecurity($tableName)
     {
         $ret = <<<EOT
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -353,12 +332,12 @@ EOT;
     }
 
     /*
-    *  @public function getAdminPhpCodeInsertData
+    *  @public function getPhpCodeInsertData
     *  @param $tableName
     *  @param $language
     *  @return string
     */
-    public function getAdminPhpCodeInsertData($tableName, $language)
+    public function getPhpCodeInsertData($tableName, $language)
     {
         $ret = <<<EOT
         // Insert Data
@@ -370,14 +349,27 @@ EOT;
         return $ret;
     }
 
+    /*
+    *  @public function getPhpCodeRedirectHeader
+    *  @param $tableName
+    *  @param $options
+    *  @param $numb
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeRedirectHeader($tableName, $options, $numb = 2, $var)
+    {
+        return "redirect_header('{$tableName}.php{$options}', {$numb}, {$var});\n";
+    }
+
     /**
-     *  @public function getAdminPhpCodeGetFormError
+     *  @public function getPhpCodeGetFormError
      *
      *  @param $tableName
      *
      *  @return string
      */
-    public function getAdminPhpCodeGetFormError($tableName)
+    public function getPhpCodeGetFormError($tableName)
     {
         $ret = <<<EOT
         // Get Form
@@ -390,14 +382,14 @@ EOT;
     }
 
     /**
-     *  @public function getAdminPhpCodeGetFormId
+     *  @public function getPhpCodeGetFormId
      *
      *  @param string $tableName
      *  @param string $fieldId
      *
      *  @return string
      */
-    public function getAdminPhpCodeGetFormId($tableName, $fieldId)
+    public function getPhpCodeGetFormId($tableName, $fieldId)
     {
         $ret = <<<EOT
         // Get Form
@@ -410,66 +402,65 @@ EOT;
     }
 
     /**
-     *  @public function getAdminPhpCodeGetObjHandlerId
+     *  @public function getPhpCodeHandler
      *
      *  @param string $tableName
-     *  @param string $fieldId
+     *  @param string $var
      *
      *  @return string
      */
-    public function getAdminPhpCodeGetObjHandlerId($tableName, $fieldId)
+    public function getPhpCodeHandler($tableName, $var, $get = false, $insert = false, $delete = false, $obj = '')
     {
-        $ret = <<<EOT
-        \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n
-EOT;
+        if ($get) {
+            $ret = "\${$tableName}Handler->get(\${$var});";
+        } elseif ($insert && ($obj != '')) {
+            $ret = "\${$tableName}Handler->insert(\${$var}{$obj});";
+        } elseif ($delete && ($obj != '')) {
+            $ret = "\${$tableName}Handler->delete(\${$var}{$obj});";
+        }
 
         return $ret;
     }
 
     /*
-    *  @public function getAdminPhpCodeDelete
+    *  @public function getPhpCodeCaseDelete
     *  @param string $tableName
     *  @param string $language
     *  @param string $fieldId
     *  @param string $fieldMain
     *  @return string
     */
-    public function getAdminPhpCodeDelete($tableName, $language, $fieldId, $fieldMain)
+    public function getPhpCodeCaseDelete($language, $tableName, $fieldId, $fieldMain)
     {
-        $ret = <<<EOT
-    case 'delete':
+        $content = <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
             if ( !\$GLOBALS['xoopsSecurity']->check() ) {
                 redirect_header('{$tableName}.php', 3, implode(', ', \$GLOBALS['xoopsSecurity']->getErrors()));
             }
             if (\${$tableName}Handler->delete(\${$tableName}Obj)) {
-                redirect_header('{$tableName}.php', 3, {$language}FORMDELOK);
+                redirect_header('{$tableName}.php', 3, {$language}FORM_DELETE_OK);
             } else {
                 echo \${$tableName}Obj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORMSUREDEL, \${$tableName}Obj->getVar('{$fieldMain}')));
-        }
-    break;\n
+            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
+        }\n
 EOT;
 
-        return $ret;
+        return $this->getPhpCodeCaseSwitch('delete', $content);
     }
 
     /*
-    *  @public function getAdminPhpCodeUpdate
-    *  @param string $moduleDirname
-    *  @param string $tableName
+    *  @public function getPhpCodeUpdate
     *  @param string $language
+    *  @param string $tableName
     *  @param string $fieldId
-    *  @param string $fieldMain
     *  @return string
     */
-    public function getAdminPhpCodeUpdate($language, $tableName, $language, $fieldId, $fieldMain)
+    public function getPhpCodeUpdate($language, $tableName, $fieldId)
     {
-        $ret = <<<EOT
-    case 'update':
+        $content = <<<EOT
         if (isset(\${$fieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         }
@@ -478,10 +469,9 @@ EOT;
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header("\${$tableName}.php", 3, {$language}FORM_OK);
         }
-        echo \${$tableName}Obj->getHtmlErrors();
-    break;\n
+        echo \${$tableName}Obj->getHtmlErrors();\n
 EOT;
 
-        return $ret;
+        return $this->getPhpCodeCaseSwitch('update', $content);
     }
 }

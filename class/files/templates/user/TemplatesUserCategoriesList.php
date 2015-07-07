@@ -19,14 +19,14 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: TemplatesUserPagesList.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: TemplatesUserCategoriesList.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserPagesList.
+ * Class TemplatesUserCategoriesList.
  */
-class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
+class TemplatesUserCategoriesList extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -47,7 +47,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     *  @param null
     */
     /**
-     * @return TemplatesUserPagesList
+     * @return TemplatesUserCategoriesList
      */
     public static function &getInstance()
     {
@@ -76,7 +76,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserPagesListTable
+    *  @private function getTemplatesUserCategoriesListTable
     *  @param string $language
     */
     /**
@@ -84,17 +84,17 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesListTable($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserCategoriesListTable($moduleDirname, $tableName, $tableSolename, $language)
     {
         $single = $this->htmlcode->getSmartySingleVar('table_type');
-        $table = $this->getTemplatesUserPagesListTableThead($tableName, $language);
-        $table .= $this->getTemplatesUserPagesListTableTBody($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
+        $table = $this->getTemplatesUserCategoriesListTableThead($tableName, $language);
+        $table .= $this->getTemplatesUserCategoriesListTableTBody($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
 
         return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $table).PHP_EOL;
     }
 
     /*
-    *  @private function getTemplatesUserPagesListTableThead
+    *  @private function getTemplatesUserCategoriesListTableThead
     *  @param string $language
     */
     /**
@@ -102,7 +102,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesListTableThead($tableName, $language)
+    private function getTemplatesUserCategoriesListTableThead($tableName, $language)
     {
         $stuTableName = strtoupper($tableName);
         $lang = $this->htmlcode->getSmartyConst($language, $stuTableName);
@@ -114,7 +114,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserPagesListTableTbody
+    *  @private function getTemplatesUserCategoriesListTableTbody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -126,7 +126,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesListTableTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserCategoriesListTableTbody($moduleDirname, $tableName, $tableSolename, $language)
     {
         $single = $this->htmlcode->getSmartySingleVar('panel_type');
         $include = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
@@ -141,7 +141,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserPagesListTfoot
+    *  @private function getTemplatesUserCategoriesListTfoot
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -153,7 +153,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesListTableTfoot()
+    private function getTemplatesUserCategoriesListTableTfoot()
     {
         $td = $this->htmlcode->getHtmlTag('td', array(), '&nbsp;').PHP_EOL;
         $tr = $this->htmlcode->getHtmlTag('tr', array(), $td).PHP_EOL;
@@ -162,7 +162,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     }
 
     /*
-    *  @private function getTemplatesUserPagesListPanel
+    *  @private function getTemplatesUserCategoriesListPanel
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -174,28 +174,10 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $ret = '';
-        $retNumb = '';
-        foreach (array_keys($fields) as $f) {
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_thead')) {
-                    switch ($fieldElement) {
-                        default:
-                        case 2:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retNumb = $this->htmlcode->getHtmlTag('h3', array('class' => 'panel-title'), $doubleVar);
-                            break;
-                    }
-                }
-            }
-        }
-        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-heading'), $retNumb).PHP_EOL;
         $retElem = '';
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -203,12 +185,18 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
+                        case 2:
+                            $fieldName = $fields[$f]->getVar('field_name');
+                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-2'), $doubleVar).PHP_EOL;
+                            break;
                         case 10:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleVar.'/'.$doubleVar, 'alt' => $tableName), '', false);
+                            $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleVar.'/'.$doubleVar, 'alt' => "{$tableName}"), '', false);
                             $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-3'), $img).PHP_EOL;
                             unset($img);
                             break;
@@ -217,7 +205,7 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleVar."/images/{$tableName}/".$doubleVar, 'alt' => $tableName), '', false);
+                            $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleVar."/images/{$tableName}/".$doubleVar, 'alt' => "{$tableName}"), '', false);
                             $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-3'), $img).PHP_EOL;
                             unset($img);
                             break;
@@ -226,29 +214,14 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-9'), $doubleVar).PHP_EOL;
+                            $retElem .= $this->htmlcode->getHtmlTag('span', array('class' => 'col-sm-3 justify'), $doubleVar).PHP_EOL;
                             break;
                     }
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-body'), $retElem).PHP_EOL;
-        $retFoot = '';
-        foreach (array_keys($fields) as $f) {
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_tfoot')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                    $langConst = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
-                    $lang = $this->htmlcode->getSmartyConst($language, $langConst);
-                    $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                    $retFoot .= $this->htmlcode->getHtmlTag('span', array('class' => 'block-pie justify'), $lang.': '.$doubleVar).PHP_EOL;
-                }
-            }
-        }
-        $ret .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-foot'), $retFoot).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('div', array('class' => 'panel-body'), $retElem).PHP_EOL;
     }
 
     /*
@@ -273,8 +246,10 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableCategory = $tables[$t]->getVar('table_category');
-            if (0 == $tableCategory) {
-                $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+            $tableFieldname = $tables[$t]->getVar('table_fieldname');
+            $tableIndex = $tables[$t]->getVar('table_index');
+            if (1 == $tableCategory) {
+                $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }
         }
 

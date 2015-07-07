@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: UserPdf.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserPdf
+ * Class UserPdf.
  */
 class UserPdf extends UserObjects
 {
@@ -35,8 +38,8 @@ class UserPdf extends UserObjects
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->userobjects = UserObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -75,126 +78,6 @@ class UserPdf extends UserObjects
     }
 
     /*
-    *  @public function getUserPdfHeader
-    *  @param null
-    */
-    /**
-     * @param $moduleDirname
-     * @return string
-     */
-    public function getUserPdfHeader($moduleDirname, $table, $language)
-    {
-        
-		$ret = <<<EOT
-include  __DIR__ . '/header.php';
-\$story_id = XoopsRequest::getInt('id');
-// Initialize content handler
-\$story_handler = xoops_getmodulehandler('story', \$dirname);
-\$topic_handler = xoops_getmodulehandler('topic', \$dirname);
-
-// Include pdf library
-require_once XOOPS_ROOT_PATH . '/Frameworks/tcpdf/tcpdf.php';
-\$obj = \${$tableName}Handler->get(\$story_id);
-// Get user right
-\$group = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : array(XOOPS_GROUP_ANONYMOUS);
-\$groups = explode(" ", \$obj->getVar('story_groups'));
-if (count(array_intersect(\$group, \$groups)) <= 0) {
-    redirect_header('index.php', 2, _NOPERM);
-    exit();
-}
-
-// Construct page array
-\$page = array();
-//\$page = \$obj->toArray();
-\$story_topic = \$obj->getVar('story_topic');
-
-if (isset(\$story_topic) && \$story_topic > 0) {
-
-    \$view_topic = \$topic_handler->get(\$story_topic);
-
-    if (!isset(\$view_topic)) {
-        redirect_header('index.php', 3, _NEWS_MD_TOPIC_ERROR);
-        exit();
-    }
-
-    if (\$view_topic->getVar('topic_modid') != \$thisModule->getVar('mid')) {
-        redirect_header('index.php', 3, _NEWS_MD_TOPIC_ERROR);
-        exit();
-    }
-
-    if (\$view_topic->getVar('topic_online') == '0') {
-        redirect_header('index.php', 3, _NEWS_MD_TOPIC_ERROR);
-        exit();
-    }
-
-    // Check the access permission
-    \$perm_handler = NewsPermission::getHandler();
-    if (!\$perm_handler->News_IsAllowed(\$xoopsUser, 'news_view', \$view_topic->getVar('topic_id'), \$thisModule)) {
-        redirect_header("index.php", 3, _NOPERM);
-        exit;
-    }
-
-    if (xoops_getModuleOption('disp_option', \$thisModule->getVar('dirname')) && \$view_topic->getVar('topic_showpdf') == '0') {
-        redirect_header("index.php", 3, _NOPERM);
-        exit;
-    } elseif (xoops_getModuleOption('disp_pdflink', \$thisModule->getVar('dirname')) == '0') {
-        redirect_header("index.php", 3, _NOPERM);
-        exit;
-    }
-
-}
-
-\$page['title'] = \$obj->getVar('story_title');
-\$page['alias'] = \$obj->getVar('story_alias');
-\$page['text'] = \$obj->getVar('story_text', 's');
-
-// Generate content data
-\$contentmain = str_replace('[pagebreak]', '<br /><br />', \$page['text']);
-\$contentmain = html_entity_decode(\$page['text']);
-// Because fpdf does not support some tags as ul and li and other extended
-// characters : hack by Jef - www.aquaportail.com
-\$smallthings = array("<ul>", "</ul>", "<li>", "</li>", "&#39;", "&#039;",
-    "&rsquo;", "&lsquo;", "&bull;", "&oelig;", "&ndash;", "[pagebreak]");
-\$betterthings = array("", "", "->", "\n", "'", "'", "'", "'", "->", "oe",
-    "*", "<br /><br />");
-\$contentmain = str_replace(\$smallthings, \$betterthings, \$contentmain);
-
-\$pdf_config['slogan'] = \$myts->displayTarea(\$xoopsConfig['sitename'] . ' - ' . \$xoopsConfig['slogan']);
-//\$pdf_data['title'] = \$xoopsConfig['sitename'];
-//\$pdf_data['title'] = \$myts->htmlSpecialChars(\$page['title']);
-\$pdf_data['title'] = str_replace("&#039;", "'", \$page['title']);
-\$pdf_data['subsubtitle'] = '';
-\$pdf_data['date'] = formatTimestamp(\$obj->getVar('story_create'), _MEDIUMDATESTRING);
-\$pdf_data['filename'] = preg_replace("/[^0-9a-z\-_\.]/i", '', \$page['alias']);
-\$pdf_data['content'] = str_replace("&#39;", "'", \$contentmain);
-\$pdf_data['author'] = XoopsUser::getUnameFromId(\$obj->getVar('story_uid'));
-
-//Other stuff
-\$puff = '<br />';
-\$puffer = '<br /><br /><br />';
-
-//Date / Author display
-if (isset(\$story_topic) && \$story_topic > 0  &&  \$view_topic->getVar('topic_showtype') != '0') {
-  if (\$view_topic->getVar('topic_showdate')) {
-      \$page_date = \$pdf_data['date'];
-  }
-  if (\$view_topic->getVar('topic_showauthor')) {
-       \$page_author = ' - '.\$pdf_data['author'];
-  }
-}else {
-  if (xoops_getModuleOption('disp_date', \$thisModule->getVar('dirname'))) {
-      \$page_date = \$pdf_data['date'];
-  }
-  if (xoops_getModuleOption('disp_author', \$thisModule->getVar('dirname'))) {
-      \$page_author = ' - '.\$pdf_data['author'];
-  }
-}
-EOT;
-
-        return $ret;
-    }
-
-    /*
     *  @public function getAdminPagesList
     *  @param string $tableName
     *  @param string $language
@@ -203,85 +86,121 @@ EOT;
      * @param $module
      * @param $tableName
      * @param $language
+     *
      * @return string
      */
-    public function getUserPdfTcpdf($module, $tableName, $language)
+    public function getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
-        $ret           = <<<EOT
-//create the A4-PDF...
-\$pdf = new TCPDF();
-if (method_exists(\$pdf, "encoding")) {
-    \$pdf->encoding(\$pdf_data, _CHARSET);
-}
-\$pdf->SetCreator(\$pdf_config['creator']);
-\$pdf->SetTitle(\$pdf_data['title']);
-\$pdf->SetAuthor(\$pdf_data['author']);
-\$pdf->SetSubject();
-\$out = \$pdf_config['url'] . ', ' . \$pdf_data['author'] . ', ' . \$pdf_data['title'] . ', ' . \$pdf_data['subtitle'] . ', ' . \$pdf_data['subsubtitle'];
-\$pdf->SetKeywords(\$out);
-\$pdf->SetAutoPageBreak(true, 25);
-\$pdf->SetMargins(\$pdf_config['margin']['left'], \$pdf_config['margin']['top'], \$pdf_config['margin']['right']);
-\$pdf->Open();
-
-//First page
-\$pdf->AddPage();
-\$pdf->SetXY(24, 25);
-\$pdf->SetTextColor(10, 60, 160);
-\$pdf->SetFont(\$pdf_config['font']['slogan']['family'], \$pdf_config['font']['slogan']['style'], \$pdf_config['font']['slogan']['size']);
-\$pdf->WriteHTML(\$pdf_config['slogan'], \$pdf_config['scale']);
-\$pdf->Line(25, 30, 190, 30);
-\$pdf->SetXY(25, 35);
-\$pdf->SetFont(\$pdf_config['font']['title']['family'], \$pdf_config['font']['title']['style'], \$pdf_config['font']['title']['size']);
-\$pdf->WriteHTML(\$pdf_data['title'], \$pdf_config['scale']);
-
-if (\$pdf_data['subtitle'] != '') {
-    \$pdf->WriteHTML(\$puff, \$pdf_config['scale']);
-    \$pdf->SetFont(\$pdf_config['font']['subtitle']['family'], \$pdf_config['font']['subtitle']['style'], \$pdf_config['font']['subtitle']['size']);
-    \$pdf->WriteHTML(\$pdf_data['subtitle'], \$pdf_config['scale']);
-}
-if (\$pdf_data['subsubtitle'] != '') {
-    \$pdf->WriteHTML(\$puff, \$pdf_config['scale']);
-    \$pdf->SetFont(\$pdf_config['font']['subsubtitle']['family'], \$pdf_config['font']['subsubtitle']['style'], \$pdf_config['font']['subsubtitle']['size']);
-    \$pdf->WriteHTML(\$pdf_data['subsubtitle'], \$pdf_config['scale']);
-}
-\$pdf->WriteHTML(\$puff, \$pdf_config['scale']);
-\$pdf->SetFont(\$pdf_config['font']['author']['family'], \$pdf_config['font']['author']['style'], \$pdf_config['font']['author']['size']);
-//\$out = _NEWS_MD_AUTHOR.': ';
-\$out = \$page_date;
-\$out .= \$page_author;
-\$pdf->WriteHTML(\$out, \$pdf_config['scale']);
-\$pdf->WriteHTML(\$puff, \$pdf_config['scale']);
-//\$out = _NEWS_MD_DATE.': ';
-//\$out = \$pdf_data['date'];
-//\$pdf->WriteHTML(\$out, \$pdf_config['scale']);
-//\$pdf->WriteHTML(\$puff, \$pdf_config['scale']);
-
-\$pdf->SetTextColor(0, 0, 0);
-\$pdf->WriteHTML(\$puff, \$pdf_config['scale']);
-
-\$pdf->SetFont(\$pdf_config['font']['content']['family'], \$pdf_config['font']['content']['style'], \$pdf_config['font']['content']['size']);
-\$pdf->WriteHTML(\$pdf_data['content'], \$pdf_config['scale']);
-
-
-\$GLOBALS['xoopsTpl']->assign('pdfoutput', \$pdf->Output());
-\$GLOBALS['xoopsTpl']->display('db:{$moduleDirname}_pdf.tpl');\n
-EOT;
-
-        return $ret;
-    }    
-
-    /*
-    *  @public function getUserPdfFooter
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    public function getUserPdfFooter()
-    {
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $stuModuleDirname = strtoupper($moduleDirname);
         $ret = <<<EOT
-include  __DIR__ . '/footer.php';
+include  __DIR__ . '/header.php';
+if(file_exists(\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/tcpdf.php')) {
+	require_once \$tcpdf;
+} else {
+	redirect_header("{$tableName}.php?{$fieldId}=\${$fieldId}", 2, {$language}NO_PDF_LIBRARY);
+}
+//
+\${$tableName}Handler =& {$moduleDirname}->getHandler('{$tableName}');
+\$pdfContent = \${$tableName}Handler->get(\$this->getVar('{$fieldId}'));\n
+EOT;
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldDefault = $fields[$f]->getVar('field_default');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            switch ($fieldElement) {
+                case 2:
+                    if (strstr($fieldName, 'title') || strstr($fieldName, 'name') && $fieldDefault == '') {
+                        $ret .= <<<EOT
+\$pdfData['title'] = strip_tags(\$pdfContent->getVar('{$fieldName}'));\n
+EOT;
+                    }
+                break;
+                case 3:
+                case 4:
+                    $ret .= <<<EOT
+\$pdfData['content'] = strip_tags(\$pdfContent->getVar('{$fieldName}'));\n
+EOT;
+                break;
+                case 8:
+                    $ret .= <<<EOT
+\$pdfData['author'] = XoopsUser::getUnameFromId(\$pdfContent->getVar('{$fieldName}'));\n
+EOT;
+                break;
+                case 15:
+                    $ret .= <<<EOT
+\$pdfData['date'] = formatTimeStamp(\$pdfContent->getVar('{$fieldName}'));\n
+EOT;
+                break;
+            }
+        }
+        $ret .= <<<EOT
+//
+\$pdfData['creator'] = \$GLOBALS['xoopsConfig']['xoops_sitename'];
+\$pdfData['subject'] = \$GLOBALS['xoopsConfig']['slogan'];
+\$pdfData['keywords'] = {$moduleDirname}->getConfig('keywords');
+//
+define('{$stuModuleDirname}_CREATOR', \$pdfData['creator']);
+define('{$stuModuleDirname}_AUTHOR', \$pdfData['author']);
+define('{$stuModuleDirname}_HEADER_TITLE', \$pdfData['title']);
+define('{$stuModuleDirname}_HEADER_STRING', \$pdfData['subject']);
+define('{$stuModuleDirname}_HEADER_LOGO', 'logo.gif');
+define('{$stuModuleDirname}_IMAGES_PATH', XOOPS_ROOT_PATH.'/images/');
+
+\$myts =& MyTextSanitizer::getInstance();
+\$content = '';
+\$content .= \$myts->undoHtmlSpecialChars(\$pdfData['content']);
+\$content = \$myts->displayTarea(\$content);
+
+\$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false);
+\$title = \$myts->undoHtmlSpecialChars(\$pdfData['title']);
+\$keywords = \$myts->undoHtmlSpecialChars(\$pdfData['keywords']);
+\$pdfData['fontsize'] = 12;
+// For schinese
+if (_LANGCODE == "cn") {
+	\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']);
+} else {
+	\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']);
+}
+// set document information
+\$pdf->SetCreator(\$pdfData['creator']);
+\$pdf->SetAuthor(\$pdfData['author']);
+\$pdf->SetTitle(\$title);
+\$pdf->SetKeywords(\$keywords);
+
+// set default header data
+\$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, {$stuModuleDirname}_HEADER_TITLE, {$stuModuleDirname}_HEADER_STRING);
+
+//set margins
+\$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP + 10, PDF_MARGIN_RIGHT);
+//set auto page breaks
+\$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
+\$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+\$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+\$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor
+
+// For schinese
+if (_LANGCODE == "cn") {
+	\$pdf->setHeaderFont(array('gbsn00lp', '', \$pdfData['fontsize']));
+	\$pdf->setFooterFont(array('gbsn00lp', '', \$pdfData['fontsize']));
+} else {
+	\$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+	\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+}
+// set some language-dependent strings (optional)
+if (@file_exists(\$lang = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php')) {
+    require_once(\$lang);
+    \$pdf->setLanguageArray(\$l);
+}
+// Initialize document
+\$pdf->AliasNbPages();
+// Add Page document
+\$pdf->AddPage();
+\$pdf->writeHTMLCell(\$w=0, \$h=0, \$x='', \$y='', \$content, \$border=0, \$ln=1, \$fill=0, \$reseth=true, \$align='', \$autopadding=true);
+// Pdf Filename
+// Output
+\$GLOBALS['xoopsTpl']->assign('pdfoutput', \$pdf->Output('{$tableName}.pdf', 'I'));
+\$GLOBALS['xoopsTpl']->display('db:{$moduleDirname}_pdf.tpl');\n
 EOT;
 
         return $ret;
@@ -296,19 +215,17 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId       = $table->getVar('table_id');
-		$tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserPdfHeader($moduleDirname, $table, $language);
-        $content .= $this->getUserPdfTcpdf($module, $tableName, $language);
-        //$content .= $this->getUserPdfFooter();
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language);
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

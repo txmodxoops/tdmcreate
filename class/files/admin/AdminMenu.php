@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: admin_menu.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class AdminMenu
+ * Class AdminMenu.
  */
 class AdminMenu extends TDMCreateFile
 {
@@ -104,6 +107,7 @@ EOT;
     /**
      * @param $language
      * @param $menu
+     *
      * @return string
      */
     private function getAdminMenuDashboard($language, $menu)
@@ -127,6 +131,7 @@ EOT;
     /**
      * @param $tables
      * @param $t
+     *
      * @return string
      */
     private function getAdminMenuImagesPath($tables, $t)
@@ -160,18 +165,19 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
+        $module = $this->getModule();
+        $table = $this->getTable();
         //$tables        = $this->getTables();
-        $filename      = $this->getFileName();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
-        $menu          = 1;
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $language = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
+        $langAbout = $this->getLanguage($moduleDirname, 'MI', 'ABOUT');
+        $menu = 1;
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminMenuHeader();
         $content .= $this->getAdminMenuDashboard($language, $menu);
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-		foreach (array_keys($tables) as $t) {
+        foreach (array_keys($tables) as $t) {
             $tablePermissions = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
@@ -195,14 +201,13 @@ EOT;
 ++\$i;\n
 EOT;
         }
-        ++$menu;
+        unset($menu);
         $content .= <<<EOT
-\$adminmenu[\$i]['title'] = {$language}{$menu};
+\$adminmenu[\$i]['title'] = {$langAbout};
 \$adminmenu[\$i]['link']  = 'admin/about.php';
 \$adminmenu[\$i]['icon'] = \$sysPathIcon32.'/about.png';
 unset( \$i );
 EOT;
-        unset($menu);
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: UserSubmit.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserSubmit
+ * Class UserSubmit.
  */
 class UserSubmit extends UserObjects
 {
@@ -35,8 +38,8 @@ class UserSubmit extends UserObjects
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->userobjects = UserObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -80,12 +83,14 @@ class UserSubmit extends UserObjects
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     public function getUserSubmitHeader($moduleDirname)
     {
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
+xoops_loadLanguage('admin', \$dirname);
 \$op = XoopsRequest::getString('op', 'form');
 // Template
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_submit.tpl';
@@ -111,15 +116,17 @@ EOT;
     *  @param string $language
     */
     /**
-     * @param $module
+     * @param $moduleDirname
      * @param $tableName
      * @param $language
+     *
      * @return string
      */
-    public function getUserSubmitForm($module, $tableName, $language)
+    public function getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
-        $ret           = <<<EOT
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuTableSoleName = strtoupper($tableSoleName);
+        $ret = <<<EOT
     case 'form':
     default:
         //navigation
@@ -138,7 +145,8 @@ EOT;
         // Create
         \${$tableName}Obj =& \${$tableName}Handler->create();
         \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
+        \$xoopsTpl->assign('form', \$form->render());
+		break;\n
 EOT;
 
         return $ret;
@@ -153,21 +161,17 @@ EOT;
      * @param $moduleDirname
      * @param $table_id
      * @param $tableName
+     *
      * @return string
      */
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-		$ret     = <<<EOT
+        $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
+			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
-        if (isset(\$_REQUEST['{$fieldId}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
-        } else {
-           \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
+        \${$tableName}Obj =& \${$tableName}Handler->create();\n
 EOT;
         $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
@@ -191,10 +195,13 @@ EOT;
     /**
      * @return string
      */
-    public function getUserSubmitFooter()
+    public function getUserSubmitFooter($moduleDirname, $language)
     {
+        $stuModuleDirname = strtoupper($moduleDirname);
         $ret = <<<EOT
 }
+// Breadcrumbs
+\$xoBreadcrumbs[] = array('title' => {$language}SUBMIT); //'link' => {$stuModuleDirname}_URL . '/submit.php';
 include  __DIR__ . '/footer.php';
 EOT;
 
@@ -210,20 +217,22 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId       = $table->getVar('table_id');
-		$tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $tableCategory = $table->getVar('table_category');
+        $tableSoleName = $table->getVar('table_solename');
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitForm($module, $tableName, $language);
+        $content .= $this->getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language);
         $content .= $this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserSubmitFooter();
+        $content .= $this->getUserSubmitFooter($moduleDirname, $language);
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

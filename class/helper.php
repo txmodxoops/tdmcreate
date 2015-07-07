@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          trabis <lusopoemas@gmail.com>
- * @version         $Id: TDMCreateHelper.php 12258 2014-04-12 23:45:12Z timgno $
+ *
+ * @version         $Id: helper.php 12258 2014-04-12 23:45:12Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TDMCreateHelper
+ * Class TDMCreateHelper.
  */
 class TDMCreateHelper
 {
@@ -59,7 +62,7 @@ class TDMCreateHelper
      */
     public function __construct($debug)
     {
-        $this->debug   = $debug;
+        $this->debug = $debug;
         $this->dirname = basename(dirname(__DIR__));
     }
 
@@ -69,6 +72,7 @@ class TDMCreateHelper
     */
     /**
      * @param bool $debug
+     *
      * @return TDMCreateHelper
      */
     public static function &getInstance($debug = false)
@@ -103,6 +107,7 @@ class TDMCreateHelper
     */
     /**
      * @param null $name
+     *
      * @return null|string
      */
     public function getConfig($name = null)
@@ -111,16 +116,16 @@ class TDMCreateHelper
             $this->initConfig();
         }
         if (!$name) {
-            $this->addLog("Getting all config");
+            $this->addLog('Getting all config');
 
             return $this->config;
         }
         if (!isset($this->config[$name])) {
             $this->addLog("ERROR :: CONFIG '{$name}' does not exist");
 
-            return null;
+            return;
         }
-        $this->addLog("Getting config '{$name}' : " . $this->config[$name]);
+        $this->addLog("Getting config '{$name}' : ".$this->config[$name]);
 
         return $this->config[$name];
     }
@@ -133,6 +138,7 @@ class TDMCreateHelper
     /**
      * @param null $name
      * @param null $value
+     *
      * @return mixed
      */
     public function setConfig($name = null, $value = null)
@@ -141,7 +147,7 @@ class TDMCreateHelper
             $this->initConfig();
         }
         $this->config[$name] = $value;
-        $this->addLog("Setting config '{$name}' : " . $this->config[$name]);
+        $this->addLog("Setting config '{$name}' : ".$this->config[$name]);
 
         return $this->config[$name];
     }
@@ -152,16 +158,17 @@ class TDMCreateHelper
     */
     /**
      * @param $name
+     *
      * @return mixed
      */
     public function &getHandler($name)
     {
-        if (!isset($this->handler[$name . '_handler'])) {
+        if (!isset($this->handler[$name.'_handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name . '_handler'];
+        return $this->handler[$name.'_handler'];
     }
 
     /*
@@ -174,7 +181,7 @@ class TDMCreateHelper
         if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
         } else {
-            $hModule      = xoops_gethandler('module');
+            $hModule = xoops_gethandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
@@ -187,7 +194,7 @@ class TDMCreateHelper
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig   = xoops_gethandler('config');
+        $hModConfig = xoops_gethandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 
@@ -200,8 +207,8 @@ class TDMCreateHelper
      */
     public function initHandler($name)
     {
-        $this->addLog('INIT ' . $name . ' HANDLER');
-        $this->handler[$name . '_handler'] = xoops_getModuleHandler($name, $this->dirname);
+        $this->addLog('INIT '.$name.' HANDLER');
+        $this->handler[$name.'_handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
     /*

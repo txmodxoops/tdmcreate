@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: pages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserPages
+ * Class UserPages.
  */
 class UserPages extends UserObjects
 {
@@ -35,7 +38,7 @@ class UserPages extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile    = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->userobjects = UserObjects::getInstance();
     }
 
@@ -58,16 +61,16 @@ class UserPages extends UserObjects
 
     /**
      * @public function write
-     *  
+     *
      * @param $module
      * @param $table
-	 * @param $filename
+     * @param $filename
      */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
-		$this->setFileName($filename);
+        $this->setFileName($filename);
     }
 
     /*
@@ -78,26 +81,27 @@ class UserPages extends UserObjects
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     private function getUserPages($moduleDirname, $language)
     {
-        $table            = $this->getTable();
-        $tableName        = $table->getVar('table_name');
-		$tableSoleName    = $table->getVar('table_solename');
-        $tableFieldname   = $table->getVar('table_fieldname');
+        $table = $this->getTable();
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
+        $tableFieldname = $table->getVar('table_fieldname');
         $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableName     = strtoupper($tableName);
-		$stuTableSoleName = strtoupper($tableSoleName);
-        $lcfTableName     = lcfirst($tableName);
-        $ucfTableName     = ucfirst($tableName);
-        $ret              = <<<EOT
+        $stuTableName = strtoupper($tableName);
+        $stuTableSoleName = strtoupper($tableSoleName);
+        $lcfTableName = lcfirst($tableName);
+        $ucfTableName = ucfirst($tableName);
+        $ret = <<<EOT
 include  __DIR__ . '/header.php';
 //
 \$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-\$start = {$moduleDirname}_CleanVars( \$_REQUEST, 'start', 0);
-\$limit = \${$moduleDirname}->getConfig('userpager');
+\$start = XoopsRequest::getInt('start', 0);
+\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );
 //
@@ -118,10 +122,10 @@ EOT;
         // Fields
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName   = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
-            }            
+            }
         }
         $ret .= <<<EOT
         \$keywords[] = \${$lcfTableName}All[\$i]->getVar('{$fieldMain}');
@@ -137,7 +141,7 @@ EOT;
 	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
 }
 // Breadcrumbs
-\$xoBreadcrumbs[] = array('link' => {$stuModuleDirname}_URL . '/{$tableName}.php', 'title' => {$language}{$stuTableName});
+\$xoBreadcrumbs[] = array('title' => {$language}{$stuTableName}); //'link' => {$stuModuleDirname}_URL . '/{$tableName}.php',
 // keywords
 {$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
 unset(\$keywords);
@@ -158,15 +162,16 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile()
     {
-        $module        = $this->getModule();
-		$filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserPages($moduleDirname, $language);
         //
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

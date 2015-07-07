@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,26 +10,28 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: building.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__ . '/header.php';
-$op        = XoopsRequest::getString('op', 'default');
-$mid       = XoopsRequest::getInt('mod_id');
+include __DIR__.'/header.php';
+$op = XoopsRequest::getString('op', 'default');
+$mid = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
-$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
+$cachePath = XOOPS_VAR_PATH.'/caches/tdmcreate_cache';
 // Clear cache
-if (file_exists($cache = $cachePath . '/classpaths.cache')) {
-	unlink($cache);
+if (file_exists($cache = $cachePath.'/classpaths.cache')) {
+    unlink($cache);
 }
-if(!file_exists($indexFile = $cachePath.'/index.html')){
-	copy('index.html', $indexFile);
+if (!file_exists($indexFile = $cachePath.'/index.html')) {
+    copy('index.html', $indexFile);
 }
 // Switch option
 switch ($op) {
@@ -38,8 +41,8 @@ switch ($op) {
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
         // Directories for copy from to
-        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . strtolower($moduleDirname);
-        $toDir   = XOOPS_ROOT_PATH . '/modules/' . strtolower($moduleDirname);
+        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH.'/'.strtolower($moduleDirname);
+        $toDir = XOOPS_ROOT_PATH.'/modules/'.strtolower($moduleDirname);
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
             if (is_dir($fromDir)) {
@@ -51,11 +54,11 @@ switch ($op) {
             }
         }
         // Structure
-        include_once TDMC_CLASSES_PATH . '/files/TDMCreateArchitecture.php';
+        include_once TDMC_CLASSES_PATH.'/files/TDMCreateArchitecture.php';
         $handler = TDMCreateArchitecture::getInstance();
         // Creation of the structure of folders and files
-        $base_architecture = $handler->createBaseFoldersFiles($moduleObj);
-        if (false !== $base_architecture) {
+        $baseArchitecture = $handler->createBaseFoldersFiles($moduleObj);
+        if (false !== $baseArchitecture) {
             $GLOBALS['xoopsTpl']->assign('base_architecture', true);
         } else {
             $GLOBALS['xoopsTpl']->assign('base_architecture', false);
@@ -66,8 +69,8 @@ switch ($op) {
         foreach ($files as $file) {
             if ($file) {
                 $build['list'] = $file;
+                $GLOBALS['xoopsTpl']->append('builds', $build);
             }
-            $GLOBALS['xoopsTpl']->append('builds', $build);
         }
         unset($build);
         // Directory to saved all files
@@ -88,10 +91,10 @@ switch ($op) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         unset($nbModules);
-        include_once TDMC_PATH . '/class/building.php';
+        include_once TDMC_PATH.'/class/building.php';
         $handler = TDMCreateBuilding::getInstance();
-        $form    = $handler->getForm();
+        $form = $handler->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }
-include __DIR__ . '/footer.php';
+include __DIR__.'/footer.php';

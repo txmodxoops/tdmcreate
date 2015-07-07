@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeNotifications.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeNotifications
+ * Class IncludeNotifications.
  */
 class IncludeNotifications extends TDMCreateFile
 {
@@ -79,18 +82,19 @@ class IncludeNotifications extends TDMCreateFile
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     public function getNotificationsFunction($moduleDirname)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $table            = $this->getTable();
-        $tableName        = $table->getVar('table_name');
-        $tableFieldname   = $table->getVar('table_fieldname');
-		$tableSolename    = $table->getVar('table_solename');
-        $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldParent      = 'cid';
-		foreach (array_keys($fields) as $f) {
+        $table = $this->getTable();
+        $tableName = $table->getVar('table_name');
+        $tableFieldname = $table->getVar('table_fieldname');
+        $tableSolename = $table->getVar('table_solename');
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldParent = 'cid';
+        foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
@@ -98,15 +102,15 @@ class IncludeNotifications extends TDMCreateFile
             if (1 == $fields[$f]->getVar('field_parent')) {
                 $fieldParent = $fieldName;
             }
-			if (1 == $fields[$f]->getVar('field_main')) {
+            if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }
         }
-		if(1 == $table->getVar('table_single')) {
-			$tableSingle = 'single';
-		} else {
-			$tableSingle = $tableName;
-		}
+        if (1 == $table->getVar('table_single')) {
+            $tableSingle = 'single';
+        } else {
+            $tableSingle = $tableName;
+        }
         $ret = <<<EOT
 \n// comment callback functions
 function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
@@ -146,16 +150,16 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
             \$result_array = \$xoopsDB->fetchArray(\$result);
             \$item['name'] = \$result_array['{$fieldMain}'];\n
 EOT;
-            if ($fieldParent) {
-				$ret .= <<<EOT
+        if ($fieldParent) {
+            $ret .= <<<EOT
 			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id;\n
 EOT;
-			} else {
-				$ret .= <<<EOT
+        } else {
+            $ret .= <<<EOT
 			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldId}=' . \$item_id;\n
 EOT;
-			}
-			$ret .= <<<EOT
+        }
+        $ret .= <<<EOT
 			return \$item;
         break;
     }
@@ -174,10 +178,10 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getNotificationsFunction($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

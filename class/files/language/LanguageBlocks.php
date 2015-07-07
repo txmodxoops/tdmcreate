@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,18 +10,20 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: LanguageBlocks.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
- * Class LanguageBlocks
+ * Class LanguageBlocks.
  */
 class LanguageBlocks extends LanguageDefines
 {
@@ -34,7 +37,7 @@ class LanguageBlocks extends LanguageDefines
     public function __construct()
     {
         parent::__construct();
-        $this->defines  = LanguageDefines::getInstance();
+        $this->defines = LanguageDefines::getInstance();
     }
 
     /*
@@ -80,23 +83,24 @@ class LanguageBlocks extends LanguageDefines
     /**
      * @param $module
      * @param $language
+     *
      * @return string
      */
     private function getLanguageBlock($module, $language)
     {
         $tables = $this->getTables();
-        $ret    = $this->defines->getAboveDefines('Admin Edit');
-        $ret .= $this->defines->getDefine($language, 'DISPLAY', "How Many Tables to Display");
-        $ret .= $this->defines->getDefine($language, 'TITLELENGTH', "Title Length");
-        $ret .= $this->defines->getDefine($language, 'CATTODISPLAY', "Categories to Display");
-        $ret .= $this->defines->getDefine($language, 'ALLCAT', "All Categories");
+        $ret = $this->defines->getAboveDefines('Admin Edit');
+        $ret .= $this->defines->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
+        $ret .= $this->defines->getDefine($language, 'TITLELENGTH', 'Title Length');
+        $ret .= $this->defines->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
+        $ret .= $this->defines->getDefine($language, 'ALLCAT', 'All Categories');
         foreach (array_keys($tables) as $t) {
-            $tableName    = $tables[$t]->getVar('table_name');
+            $tableName = $tables[$t]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
             $ret .= $this->defines->getAboveDefines($ucfTableName);
             $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
-                $fieldName    = $fields[$f]->getVar('field_name');
+                $fieldName = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);
                 //
                 $rpFieldName = $this->tdmcfile->getRightString($fieldName);
@@ -134,11 +138,11 @@ class LanguageBlocks extends LanguageDefines
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MB');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $language = $this->getLanguage($moduleDirname, 'MB');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getLanguageBlock($module, $language);
         $content .= $this->getLanguageFooter();
         //

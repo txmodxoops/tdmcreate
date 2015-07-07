@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,13 +10,15 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TDMCreateFile.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
@@ -23,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 xoops_load('XoopsFile');
 
 /**
- * Class TDMCreateFile
+ * Class TDMCreateFile.
  */
 class TDMCreateFile extends TDMCreateTableFields
 {
@@ -33,32 +36,18 @@ class TDMCreateFile extends TDMCreateTableFields
     private $xoopsFile;
 
     /**
-     * "filename" attribute of the files
+     * "filename" attribute of the files.
      *
      * @var mixed
      */
-    private $fileName;
+    private $filename;
 
     /**
-     * "path" attribute of the files
-     *
-     * @var string
-     */
-    private $path;
-
-    /**
-     * "uploadPath" attribute of the files
+     * "uploadPath" attribute of the files.
      *
      * @var string
      */
     private $uploadPath;
-
-    /**
-     * "folder_name" attribute of the files
-     *
-     * @var string
-     */
-    private $folderName;
 
     /*
     * @var string
@@ -95,7 +84,7 @@ class TDMCreateFile extends TDMCreateTableFields
     public function __construct()
     {
         parent::__construct();
-		$this->xoopsFile = XoopsFile::getHandler();
+        $this->xoopsFile = XoopsFile::getHandler();
         $this->tdmcreate = TDMCreateHelper::getInstance();
     }
 
@@ -118,7 +107,7 @@ class TDMCreateFile extends TDMCreateTableFields
 
     /**
      * @public function create
-     *  
+     *
      * @param $moduleDirname
      * @param $subdir
      * @param $fileName
@@ -130,7 +119,7 @@ class TDMCreateFile extends TDMCreateTableFields
     public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = false, $notCreated = false, $mode = 'w+')
     {
         $this->setFileName($fileName);
-        $this->created    = $created;
+        $this->created = $created;
         $this->notCreated = $notCreated;
         $this->setMode($mode);
         $this->setRepositoryPath($moduleDirname);
@@ -140,7 +129,22 @@ class TDMCreateFile extends TDMCreateTableFields
         if (isset($subdir) && is_string($subdir)) {
             $this->setSubDir($subdir);
         }
-    }    
+    }
+
+    /*
+    *  @public function write
+    *  @param string $module
+    *  @param string $fileName
+    */
+    /**
+     * @param $module
+     * @param $fileName
+     */
+    public function write($module, $fileName)
+    {
+        $this->setModule($module);
+        $this->setFileName($fileName);
+    }
 
     /*
     *  @private function setRepositoryPath
@@ -151,7 +155,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     private function setRepositoryPath($moduleDirname)
     {
-        $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH . DIRECTORY_SEPARATOR . $moduleDirname;
+        $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH.DIRECTORY_SEPARATOR.$moduleDirname;
     }
 
     /*
@@ -188,8 +192,10 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-     * public function setFileName
+     * public function setFileName.
+     *
      * @param $fileName
+     *
      * @internal param mixed $file_name
      */
     public function setFileName($fileName)
@@ -226,7 +232,6 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @param null
     */
     /**
-     * @return null
      */
     private function getContent()
     {
@@ -252,7 +257,7 @@ class TDMCreateFile extends TDMCreateTableFields
             }
         }
         //return 'root module';
-        return null;
+        return;
     }
 
     /*
@@ -265,7 +270,7 @@ class TDMCreateFile extends TDMCreateTableFields
     private function getUploadPath()
     {
         if ($this->getSubDir() != null) {
-            $ret = $this->getRepositoryPath() . DIRECTORY_SEPARATOR . $this->getSubDir();
+            $ret = $this->getRepositoryPath().DIRECTORY_SEPARATOR.$this->getSubDir();
         } else {
             $ret = $this->getRepositoryPath();
         }
@@ -314,7 +319,6 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @param null
     */
     /**
-     * @return null
      */
     private function getMode()
     {
@@ -331,16 +335,17 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param        $moduleDirname
      * @param string $prefix
      * @param string $suffix
+     *
      * @return string
      */
     public function getLanguage($moduleDirname, $prefix = '', $suffix = '')
     {
-        $lang = '_' . $prefix . '_' . strtoupper($moduleDirname);
+        $lang = '_'.$prefix.'_'.strtoupper($moduleDirname);
         $ret = $lang;
         if (!empty($suffix) || $suffix != '_') {
-            $ret = $lang . '_' . $suffix;
+            $ret = $lang.'_'.$suffix;
         } elseif ($suffix == '_') {
-            $ret = $lang . '_';
+            $ret = $lang.'_';
         }
 
         return $ret;
@@ -352,19 +357,21 @@ class TDMCreateFile extends TDMCreateTableFields
     */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getLeftString($string)
-    {        
+    {
         return substr($string, 0, strpos($string, '_'));
     }
-	
-	/*
+
+    /*
     *  @public function getRightString
     *  @param string $string
     */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getRightString($string)
@@ -380,83 +387,108 @@ class TDMCreateFile extends TDMCreateTableFields
 
         return $string;
     }
-	
-	/*
+
+    /*
      *  @public function getCamelCase
      *  @param $string
      */
     /**
      * @param $string
-	 * @param $ucfirst
-	 * @param $lcfirst
+     * @param $ucfirst
+     * @param $lcfirst
+     *
      * @return string
      */
     public function getCamelCase($string, $ucfirst = false, $lcfirst = false)
     {
         $rightString = $this->getRightString($string);
-		$leftString  = $this->getLeftString($string);
-		if ($ucfirst) {
-            $ret = $this->getUcfirst($leftString) . $this->getUcfirst($rightString);
-            return $ret;           
+        $leftString = $this->getLeftString($string);
+        if ($ucfirst) {
+            $ret = $this->getUcfirst($leftString).$this->getUcfirst($rightString);
+
+            return $ret;
         }
-		if ($lcfirst) {
-            $ret = $this->getlcfirst($leftString) . $this->getUcfirst($rightString);
-            return $ret;           
+        if ($lcfirst) {
+            $ret = $this->getlcfirst($leftString).$this->getUcfirst($rightString);
+
+            return $ret;
         }
-		
+
         return $string;
     }
-	
-	/*
+
+    /*
      *  @public function getUcfirst
      *  @param $string
      */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getUcfirst($string)
     {
         return ucfirst($string);
     }
-	
-	/*
+
+    /*
      *  @public function getLcfirst
      *  @param $string
      */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getLcfirst($string)
     {
         return lcfirst($string);
     }
-	
-	/*
+
+    /*
      *  @public function getStrToUpper
      *  @param $string
      */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getStrToUpper($string)
     {
         return strtoupper($string);
     }
-	
-	/*
+
+    /*
      *  @public function getStrToLower
      *  @param $string
      */
     /**
      * @param $string
+     *
      * @return string
      */
     public function getStrToLower($string)
     {
         return strtolower($string);
+    }
+
+    /*
+     *  @public function getCommentLine
+     *  @param $string
+     */
+    /**
+     * @param $string
+     *
+     * @return string
+     */
+    public function getCommentLine($string)
+    {
+        $ret = <<<EOT
+// {$string}\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -467,39 +499,40 @@ class TDMCreateFile extends TDMCreateTableFields
     /**
      * @param $module
      * @param $fileName
-	 * @param $noPhpFile
+     * @param $noPhpFile
+     *
      * @return string
      */
     public function getHeaderFilesComments($module, $fileName, $noPhpFile = null)
     {
-        $name             = $module->getVar('mod_name');
-        $dirname          = $module->getVar('mod_dirname');
-        $version          = $module->getVar('mod_version');
-        $since            = $module->getVar('mod_since');
-        $minXoops         = $module->getVar('mod_min_xoops');
-        $author           = $module->getVar('mod_author');
-        $credits          = $module->getVar('mod_credits');
-        $author_mail      = $module->getVar('mod_author_mail');
+        $name = $module->getVar('mod_name');
+        $dirname = $module->getVar('mod_dirname');
+        $version = $module->getVar('mod_version');
+        $since = $module->getVar('mod_since');
+        $minXoops = $module->getVar('mod_min_xoops');
+        $author = $module->getVar('mod_author');
+        $credits = $module->getVar('mod_credits');
+        $authorMail = $module->getVar('mod_author_mail');
         $authorWebsiteUrl = $module->getVar('mod_author_website_url');
-        $license          = $module->getVar('mod_license');
-        $subversion       = $module->getVar('mod_subversion');
-        $date             = date('D Y/m/d G:i:s');
-        if(is_null($noPhpFile)) {
-			$ret = <<<EOT
+        $license = $module->getVar('mod_license');
+        $subversion = $module->getVar('mod_subversion');
+        $date = date('D Y/m/d H:i:s');
+        if (is_null($noPhpFile)) {
+            $ret = <<<EOT
 <?php
 /*\n
 EOT;
-		} elseif(is_string($noPhpFile)) {
-			$ret = <<<EOT
+        } elseif (is_string($noPhpFile)) {
+            $ret = <<<EOT
 {$noPhpFile}
 /*\n
 EOT;
-		} else {
-			$ret = <<<EOT
+        } else {
+            $ret = <<<EOT
 /*\n
 EOT;
-		}
-		$ret .= <<<EOT
+        }
+        $ret .= <<<EOT
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
@@ -516,7 +549,7 @@ EOT;
  * @package         {$dirname}
  * @since           {$since}
  * @min_xoops       {$minXoops}
- * @author          {$author} - Email:<{$author_mail}> - Website:<{$authorWebsiteUrl}>
+ * @author          {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>
  * @version         \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$
  */\n
 EOT;
@@ -533,13 +566,13 @@ EOT;
      */
     public function renderFile()
     {
-        $fileName   = $this->getFileName();
-        $path       = $this->getUploadPath() . DIRECTORY_SEPARATOR . $fileName;
-        $created    = $this->getCreated();
+        $fileName = $this->getFileName();
+        $path = $this->getUploadPath().DIRECTORY_SEPARATOR.$fileName;
+        $created = $this->getCreated();
         $notCreated = $this->getNotCreated();
         $folderName = $this->getFolderName();
-        $mode       = $this->getMode();
-        $ret        = '';
+        $mode = $this->getMode();
+        $ret = '';
         if (!$this->xoopsFile->__construct($path, true)) {
             // Force to create file if not exist
             if ($this->xoopsFile->open($mode, true)) {

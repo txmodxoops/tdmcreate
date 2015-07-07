@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: UserRss.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserRss
+ * Class UserRss.
  */
 class UserRss extends TDMCreateFile
 {
@@ -35,8 +38,8 @@ class UserRss extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->userobjects = UserObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -82,15 +85,16 @@ class UserRss extends TDMCreateFile
     /**
      * @param $moduleDirname
      * @param $language
+     *
      * @return string
      */
     public function getUserRss($moduleDirname, $language)
     {
-        $table     = $this->getTable();
+        $table = $this->getTable();
         $tableName = $table->getVar('table_name');
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName   = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             $rpFieldName = $fieldName;
             if (strpos($fieldName, '_')) {
                 $str = strpos($fieldName, '_');
@@ -108,8 +112,8 @@ class UserRss extends TDMCreateFile
             if (1 == $fields[$f]->getVar('field_parent')) {
                 $fieldParent = $fieldName;
             } else {
-				$fieldParent = 'cid';
-			}
+                $fieldParent = 'cid';
+            }
         }
 
         $ret = <<<EOT
@@ -202,11 +206,11 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserRss($moduleDirname, $language);
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

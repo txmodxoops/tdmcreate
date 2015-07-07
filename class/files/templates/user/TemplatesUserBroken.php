@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,21 +10,23 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TemplatesUserBroken.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserBroken
+ * Class TemplatesUserBroken.
  */
-class TemplatesUserBroken extends TDMCreateFile
+class TemplatesUserBroken extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -36,6 +39,7 @@ class TemplatesUserBroken extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -72,7 +76,21 @@ class TemplatesUserBroken extends TDMCreateFile
     }
 
     /*
-    *  @private function getTemplatesUserBrokenHeader
+    *  @private function getTemplatesUserBrokenFileHeader
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     *
+     * @return string
+     */
+    private function getTemplatesUserBrokenFileHeader($moduleDirname)
+    {
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header');
+    }
+
+    /*
+    *  @private function getTemplatesUserBrokenTableHead
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
@@ -81,32 +99,24 @@ class TemplatesUserBroken extends TDMCreateFile
      * @param $moduleDirname
      * @param $table
      * @param $language
+     *
      * @return string
      */
-    private function getTemplatesUserBrokenHeader($moduleDirname, $table, $language)
+    private function getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language)
     {
-        $ret    = <<<EOT
-<{include file="db:{$moduleDirname}_header.tpl"}>
-<table class="{$moduleDirname}">
-    <thead class="outer">
-        <tr class="head">\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $th = '';
+        $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
-            $fieldName        = $fields[$f]->getVar('field_name');
-            $langStuFieldName = $language . strtoupper($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                $ret .= <<<EOT
-            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
-EOT;
+            $fieldName = $fields[$f]->getVar('field_name');
+            $stuFieldName = strtoupper($fieldName);
+            if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
+                $const = $this->htmlcode->getSmartyConst($language, $stuFieldName);
+                $th .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $const).PHP_EOL;
             }
         }
-        $ret .= <<<EOT
-        </tr>
-    </thead>\n
-EOT;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('thead', array('class' => 'outer'), $tr).PHP_EOL;
     }
 
     /*
@@ -119,125 +129,56 @@ EOT;
      * @param $moduleDirname
      * @param $table
      * @param $language
+     *
      * @return string
      */
-    private function getTemplatesUserBrokenBody($moduleDirname, $table, $language)
+    private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language)
     {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $td = '';
+        $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName  = $this->tdmcfile->getRightString($fieldName);
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
-                        $ret .= <<<EOT
-                <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
-EOT;
+                        $span = $this->htmlcode->getHtmlTag('span', array('class' => "#<{\${$tableSolename}.{$rpFieldName}}>"), "<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>").PHP_EOL;
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $span).PHP_EOL;
                         break;
                     case 10:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => "<{xoModuleIcons32}><{\${$tableSolename}.{$rpFieldName}}>", 'alt' => $tableName), '', false);
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     case 13:
-                        $ret .= <<<EOT
-                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
-EOT;
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => "<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>", 'alt' => $tableName), '', false);
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
-                        $ret .= <<<EOT
-                <td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
+                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), "<{\${$tableSolename}.{$rpFieldName}}>").PHP_EOL;
                         break;
                 }
             }
         }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
+        $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values=\'odd, even\'');
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
+        $tbody = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $tr).PHP_EOL;
 
-        return $ret;
+        return $this->htmlcode->getHtmlTag('tbody', array(), $tbody).PHP_EOL;
     }
 
     /*
-    *  @private function getTemplatesUserBrokenBodyFieldnameEmpty
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     * @return string
-     */
-    private function getTemplatesUserBrokenBodyFieldnameEmpty($moduleDirname, $table, $language)
-    {
-        $tableName = $table->getVar('table_name');
-        $ret       = <<<EOT
-    <tbody>
-        <{foreach item=list from=\${$tableName}}>
-            <tr class="<{cycle values='odd, even'}>">\n
-EOT;
-        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
-                switch ($fieldElement) {
-                    case 9:
-                        $ret .= <<<EOT
-            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
-EOT;
-                        break;
-                    case 13:
-                        $ret .= <<<EOT
-            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
-EOT;
-                        break;
-                    default:
-                        $ret .= <<<EOT
-            <td class="center"><{\$list.{$fieldName}}></td>\n
-EOT;
-                        break;
-                }
-            }
-        }
-        $ret .= <<<EOT
-            </tr>
-        <{/foreach}>
-    </tbody>
-</table>\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserBrokenFooter
+    *  @private function getTemplatesUserBrokenFileFooter
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
-    private function getTemplatesUserBrokenFooter($moduleDirname)
+    private function getTemplatesUserBrokenFileFooter($moduleDirname)
     {
-        $ret = <<<EOT
-<{include file="db:{$moduleDirname}_footer.tpl"}>
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /*
@@ -246,23 +187,25 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile($filename)
     {
-        $module         = $this->getModule();
-        $table          = $this->getTable();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $language       = $this->getLanguage($moduleDirname, 'MA');
-        $content        = $this->getTemplatesUserBrokenHeader($moduleDirname, $table, $language);
-        // Verify if table_fieldname is not empty
-        if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserBrokenBody($moduleDirname, $table, $language);
-        } else {
-            $content .= $this->getTemplatesUserBrokenBodyFieldnameEmpty($moduleDirname, $table, $language);
-        }
-        $content .= $this->getTemplatesUserBrokenFooter($moduleDirname);
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $tableSolename = $table->getVar('table_solename');
+        $tableAutoincrement = $table->getVar('table_autoincrement');
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getTemplatesUserBrokenFileHeader($moduleDirname).PHP_EOL;
+        $contentTable = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
+        $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language);
+        $content .= $this->htmlcode->getHtmlTag('table', array('class' => 'table table-bordered'), $contentTable).PHP_EOL;
+        $content .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

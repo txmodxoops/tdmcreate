@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: user_header.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserHeader
+ * Class UserHeader.
  */
 class UserHeader extends TDMCreateFile
 {
@@ -35,7 +38,7 @@ class UserHeader extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -85,14 +88,14 @@ class UserHeader extends TDMCreateFile
      */
     public function render()
     {
-        $module           = $this->getModule();
-        $table            = $this->getTable();
-        $tables           = $this->getTables();
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $filename         = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $tables = $this->getTables();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $filename = $this->getFileName();
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $content          = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
 include dirname(dirname(__DIR__)) . '/mainfile.php';
 include __DIR__ . '/include/common.php';
@@ -102,13 +105,12 @@ include __DIR__ . '/include/common.php';
 \$xoBreadcrumbs[] = array('title' => \$GLOBALS['xoopsModule']->getVar('name'), 'link' => {$stuModuleDirname}_URL . '/');\n
 EOT;
         if (is_object($table) && $table->getVar('table_name') != '') {
-                $content .= <<<EOT
+            $content .= <<<EOT
 // Get instance of module
 \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n
 EOT;
-
         }
-		if (is_array($tables)) {
+        if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $content .= <<<EOT

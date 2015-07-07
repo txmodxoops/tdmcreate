@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,21 +10,23 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: admin_index.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class AdminIndex
+ * Class AdminIndex.
  */
-class AdminIndex extends TDMCreateFile
+class AdminIndex extends AdminPhpCode
 {
     /*
     *  @public function constructor
@@ -34,7 +37,9 @@ class AdminIndex extends TDMCreateFile
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->adminphpcode = AdminPhpCode::getInstance();
     }
 
     /*
@@ -81,22 +86,20 @@ class AdminIndex extends TDMCreateFile
      */
     public function render()
     {
-        $module            = $this->getModule();
-        $tables            = $this->getTables();
-        $filename          = $this->getFileName();
-        $moduleDirname     = $module->getVar('mod_dirname');
-        $language          = $this->getLanguage($moduleDirname, 'AM');
+        $module = $this->getModule();
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $filename = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
-        $content           = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-include  __DIR__ . '/header.php';
-// Count elements\n
-EOT;
+        $content = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->adminphpcode->getAdminIncludeDir('header');
+        $content .= $this->getCommentLine('Count elements');
         $tableName = null;
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-				$ucfTableName = ucfirst($tableName);
+                $ucfTableName = ucfirst($tableName);
                 $content .= <<<EOT
 //\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 \$count{$ucfTableName} = \${$tableName}Handler->getCount();\n
@@ -114,8 +117,9 @@ EOT;
 // Info elements\n
 EOT;
             foreach (array_keys($tables) as $i) {
-                $tableName    = $tables[$i]->getVar('table_name');
-                $stuTableName = $languageThereAre . strtoupper($tableName);
+                $tableName = $tables[$i]->getVar('table_name');
+                $tableInstall[] = $tables[$i]->getVar('table_install');
+                $stuTableName = $languageThereAre.strtoupper($tableName);
                 $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count{$ucfTableName});\n
 EOT;
@@ -126,19 +130,21 @@ EOT;
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>No statistics</label>', 0);\n
 EOT;
         }
-		if (is_array($tables)) {
+        if (is_array($tables) && in_array(1, $tableInstall)) {
             $content .= <<<EOT
 // Upload Folders
 \$folder = array(\n
 EOT;
             $stuModuleDirname = strtoupper($moduleDirname);
-			foreach (array_keys($tables) as $i) {
+            foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $content .= <<<EOT
+                if (1 == $tables[$i]->getVar('table_install')) {
+                    $content .= <<<EOT
 	\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
 EOT;
-            }        
-			$content .= <<<EOT
+                }
+            }
+            $content .= <<<EOT
 );
 
 // Uploads Folders Created
@@ -147,13 +153,14 @@ foreach (array_keys( \$folder) as \$i) {
     \$adminMenu->addConfigBoxLine(array(\$folder[\$i], '777'), 'chmod');
 }\n
 EOT;
-		}
-		$content .= <<<EOT
+        }
+        $content .= <<<EOT
 // Render Index
 echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
-include  __DIR__ . '/footer.php';
 EOT;
+        $content .= $this->adminphpcode->getAdminIncludeDir('footer');
+
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

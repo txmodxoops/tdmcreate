@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,21 +10,23 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: TemplatesUserDisqusComments.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class TemplatesUserDisqusComments
+ * Class TemplatesUserDisqusComments.
  */
-class TemplatesUserDisqusComments extends TDMCreateFile
+class TemplatesUserDisqusComments extends TDMCreateHtmlSmartyCodes
 {
     /*
     *  @public function constructor
@@ -36,6 +39,7 @@ class TemplatesUserDisqusComments extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -62,30 +66,28 @@ class TemplatesUserDisqusComments extends TDMCreateFile
     */
     /**
      * @param $module
-	 * @param $filename
+     * @param $filename
+     *
      * @return string
      */
     public function write($module, $filename)
     {
         $this->setModule($module);
-		$this->setFileName($filename);
+        $this->setFileName($filename);
     }
-    
+
     /*
     *  @private function getTemplatesCommentCode
     *  @param null
     */
     /**
      * @param null
+     *
      * @return string
      */
     private function getTemplatesCommentCode()
     {
-        $ret = <<<EOT
-Pleace! Enter here your comments code
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getHtmlEmpty('Pleace! Enter here your comments code');
     }
 
     /*
@@ -94,14 +96,15 @@ EOT;
     */
     /**
      * @param $filename
+     *
      * @return bool|string
      */
     public function renderFile()
     {
-        $module         = $this->getModule();
-		$filename       = $this->getFileName();
-        $moduleDirname  = $module->getVar('mod_dirname');
-        $content        = $this->getTemplatesCommentCode();        
+        $module = $this->getModule();
+        $filename = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $content = $this->getTemplatesCommentCode();
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

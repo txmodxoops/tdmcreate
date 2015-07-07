@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: 1.91 CssStyles.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class CssStyles
+ * Class CssStyles.
  */
 class CssStyles extends TDMCreateFile
 {
@@ -35,7 +38,7 @@ class CssStyles extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -79,10 +82,10 @@ class CssStyles extends TDMCreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-		$content       = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
+        $content = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
         $content      .= <<<EOT
 table > .{$moduleDirname} {
    margin: 0;
@@ -124,6 +127,21 @@ ul.menu > li {
    text-align: center;
    list-style-type: none;
    padding: 0 5px 0 5px;
+}
+
+span.block-pie {
+	float:left;
+	padding:2px 8px 2px 8px;
+	border-right:1px solid #444;
+}
+
+span.block-pie:first-child {
+	padding:2px 8px 2px 0;
+}
+
+span.block-pie:last-child {
+	padding: 2px 0 2px 8px;
+	border:none;
 }
 EOT;
         $this->tdmcfile->create($moduleDirname, 'assets/css', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

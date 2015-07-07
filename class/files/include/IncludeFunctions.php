@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: 1.91 IncludeFunctions.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeFunctions
+ * Class IncludeFunctions.
  */
 class IncludeFunctions extends TDMCreateFile
 {
@@ -56,15 +59,15 @@ class IncludeFunctions extends TDMCreateFile
 
     /**
      * @public function write
-     *  
+     *
      * @param $module
-	 * @param $table
+     * @param $table
      * @param $filename
      */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
-		$this->setTable($table);
+        $this->setTable($table);
         $this->setFileName($filename);
     }
 
@@ -74,6 +77,7 @@ class IncludeFunctions extends TDMCreateFile
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getFunctionBlock($moduleDirname)
@@ -104,6 +108,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getFunctionCleanVars($moduleDirname)
@@ -127,14 +132,15 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getFunctionGetMyItemIds
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
-	 * @param $tableName
+     * @param $tableName
+     *
      * @return string
      */
     private function getFunctionGetMyItemIds($moduleDirname, $tableName)
@@ -161,18 +167,28 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @private function getFunctionNumbersOfEntries
     *  @param string $moduleDirname
     */
     /**
      * @param $moduleDirname
-	 * @param $tableName
+     * @param $tableMid
+     * @param $tableMid
+     * @param $tableName
+     *
      * @return string
      */
-    private function getFunctionNumbersOfEntries($moduleDirname, $tableName)
+    private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
     {
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId = $fieldName; // fieldMain = fields parameters main field
+            }
+        }
         $ret = <<<EOT
 \n/**
  *  Get the number of {$tableName} from the sub categories of a category or sub topics of or topic
@@ -183,11 +199,11 @@ function {$moduleDirname}NumbersOfEntries(\$mytree, \${$tableName}, \$entries, \
     if(in_array(\$cid, \${$tableName})) {
         \$child = \$mytree->getAllChild(\$cid);
         foreach (array_keys(\$entries) as \$i) {
-            if (\$entries[\$i]->getVar('cid') == \$cid){
+            if (\$entries[\$i]->getVar('{$fieldId}') == \$cid){
                 \$count++;
             }
             foreach (array_keys(\$child) as \$j) {
-                if (\$entries[\$i]->getVar('cid') == \$j){
+                if (\$entries[\$i]->getVar('{$fieldId}') == \$j){
                     \$count++;
                 }
             }
@@ -206,6 +222,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getFunctionMetaKeywords($moduleDirname)
@@ -233,6 +250,7 @@ EOT;
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     private function getFunctionMetaDescription($moduleDirname)
@@ -262,12 +280,13 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $tableName
+     *
      * @return string
      */
     private function getRewriteUrl($moduleDirname, $tableName)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
 \n/**
  * Rewrite all url
  *
@@ -326,10 +345,10 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
             if (\$type == 'comment-edit/' || \$type == 'comment-reply/' || \$type == 'comment-delete/') {
                 return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
             }
-            
+
             return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name  . \$id . \$page . \$rewrite_ext;
             break;
-            
+
          case 'short':
             if(\$topic_name) {
                 \$topic_name = \$topic_name . '/';
@@ -347,7 +366,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
             if (\$type == 'comment-edit/' || \$type == 'comment-reply/' || \$type == 'comment-delete/') {
                 return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
             }
-            
+
             return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name . \$page . \$rewrite_ext;
             break;
     }
@@ -365,12 +384,13 @@ EOT;
     /**
      * @param $moduleDirname
      * @param $tableName
+     *
      * @return string
      */
     private function getRewriteFilter($moduleDirname, $tableName)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        $ret = <<<EOT
 \n/**
  * Replace all escape, character, ... for display a correct url
  *
@@ -384,7 +404,7 @@ function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname
     \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
     \${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
     \$regular_expression = \${$moduleDirname}->getConfig('regular_expression');
-    
+
     \$url = strip_tags(\$url);
     \$url = preg_replace("`\[.*\]`U", "", \$url);
     \$url = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
@@ -408,22 +428,24 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-		$table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-		$tableName     = $table->getVar('table_name');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        if(1 == $table->getVar('table_blocks')) {
-			$content .= $this->getFunctionBlock($moduleDirname);
-		}
-		$content .= $this->getFunctionCleanVars($moduleDirname);
-		if(1 == $table->getVar('table_permissions')) {
-			$content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
-		}
-		if(1 == $table->getVar('table_category')) {
-			$content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableName);
-		}
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $content = $this->getHeaderFilesComments($module, $filename);
+        if (1 == $table->getVar('table_blocks')) {
+            $content .= $this->getFunctionBlock($moduleDirname);
+        }
+        $content .= $this->getFunctionCleanVars($moduleDirname);
+        if (1 == $table->getVar('table_permissions')) {
+            $content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
+        }
+        if (1 == $table->getVar('table_category')) {
+            $content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName);
+        }
         $content .= $this->getFunctionMetaKeywords($moduleDirname);
         $content .= $this->getFunctionMetaDescription($moduleDirname);
         //

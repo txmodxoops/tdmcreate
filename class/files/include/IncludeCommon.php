@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: IncludeCommon.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class IncludeCommon
+ * Class IncludeCommon.
  */
 class IncludeCommon extends TDMCreateFile
 {
@@ -35,7 +38,7 @@ class IncludeCommon extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -79,18 +82,19 @@ class IncludeCommon extends TDMCreateFile
     */
     /**
      * @param $module
+     *
      * @return string
      */
     private function getCommonCode($module)
     {
-        $table                   = $this->getTable();
-        $moduleDirname           = $module->getVar('mod_dirname');
-        $stuModuleDirname        = strtoupper($moduleDirname);
-        $moduleAuthor            = $module->getVar('mod_author');
+        $table = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $moduleAuthor = $module->getVar('mod_author');
         $moduleAuthorWebsiteName = $module->getVar('mod_author_website_name');
-        $moduleAuthorWebsiteUrl  = $module->getVar('mod_author_website_url');
-        $moduleAuthorImage       = str_replace(' ', '', strtolower($moduleAuthor));
-        $ret                     = <<<EOT
+        $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
+        $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
+        $ret = <<<EOT
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
     define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
@@ -105,32 +109,32 @@ if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
     define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
     define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
 EOT;
-		$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-		$fieldElement = array();
-		foreach (array_keys($fields) as $f) {
-			$fieldElement[] = $fields[$f]->getVar('field_element');
-		}	
-		if(in_array(10, $fieldElement)) {
-			$ret .= <<<EOT
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldElement = array();
+        foreach (array_keys($fields) as $f) {
+            $fieldElement[] = $fields[$f]->getVar('field_element');
+        }
+        if (in_array(10, $fieldElement)) {
+            $ret .= <<<EOT
 	define('{$stuModuleDirname}_UPLOAD_SHOTS_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');
     define('{$stuModuleDirname}_UPLOAD_SHOTS_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');\n
 EOT;
-		}
-		if(in_array(array(11, 12), $fieldElement)) {
-			$ret .= <<<EOT
+        }
+        if (in_array(array(11, 12), $fieldElement)) {
+            $ret .= <<<EOT
 	define('{$stuModuleDirname}_UPLOAD_FILES_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/files');
     define('{$stuModuleDirname}_UPLOAD_FILES_URL', {$stuModuleDirname}_UPLOAD_PATH.'/files');\n
 EOT;
-		}
-		if(in_array(13, $fieldElement)) {
-			$ret .= <<<EOT
+        }
+        if (in_array(13, $fieldElement)) {
+            $ret .= <<<EOT
 	define('{$stuModuleDirname}_UPLOAD_IMAGE_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images');
     define('{$stuModuleDirname}_UPLOAD_IMAGE_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images');\n
 EOT;
-		}
-		$ret .= <<<EOT
+        }
+        $ret .= <<<EOT
 	define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
-    \$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';    
+    \$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';
 }
 // module information
 \$copyright = "<a href='{$moduleAuthorWebsiteUrl}' title='{$moduleAuthorWebsiteName}' target='_blank'>
@@ -153,10 +157,10 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
+        $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $filename      = $this->getFileName();
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $filename = $this->getFileName();
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getCommonCode($module);
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

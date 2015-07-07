@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,24 +10,24 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
 /**
- * TDMCreateFormRaw - raw form element
+ * TDMCreateFormRaw - raw form element.
  *
  * This class has special treatment by xoopsforms, it will render the raw
  * value provided without wrapping in HTML
  *
  * @category  Xoops\Form\Raw
- * @package   Xoops\Form
+ *
  * @author    trabis <trabisdementia@gmail.com>
  * @copyright 2012-2014 The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ *
  * @link      http://xoops.org
  * @since     2.6.0
-*/
+ */
 class TDMCreateFormRaw extends XoopsFormElement
 {
-
     /**
-     * __construct
+     * __construct.
      *
      * @param string $value value
      */
@@ -36,7 +37,7 @@ class TDMCreateFormRaw extends XoopsFormElement
     }
 
     /**
-     * render
+     * render.
      *
      * @return string rendered form element
      */

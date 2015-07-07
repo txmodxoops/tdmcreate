@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,19 +10,21 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.0
+ *
  * @author          Txmod Xoops http://www.txmodxoops.org
+ *
  * @version         $Id: UserSearch.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
- * Class UserSearch
+ * Class UserSearch.
  */
 class UserSearch extends UserObjects
 {
@@ -35,8 +38,8 @@ class UserSearch extends UserObjects
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
-		$this->userobjects = UserObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -80,6 +83,7 @@ class UserSearch extends UserObjects
     */
     /**
      * @param $moduleDirname
+     *
      * @return string
      */
     public function getUserSearchHeader($moduleDirname)
@@ -116,12 +120,13 @@ EOT;
      * @param $module
      * @param $tableName
      * @param $language
+     *
      * @return string
      */
     public function getUserSearchForm($module, $tableName, $language)
     {
         $stuModuleName = strtoupper($module->getVar('mod_name'));
-        $ret           = <<<EOT
+        $ret = <<<EOT
     case 'form':
     default:
         //navigation
@@ -155,12 +160,13 @@ EOT;
      * @param $moduleDirname
      * @param $table_id
      * @param $tableName
+     *
      * @return string
      */
     public function getUserSearchSave($moduleDirname, $fields, $tableName, $language)
     {
         $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-		$ret     = <<<EOT
+        $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
            redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
@@ -211,16 +217,16 @@ EOT;
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $table         = $this->getTable();
-        $filename      = $this->getFileName();
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId       = $table->getVar('table_id');
-		$tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-		$fields 	   = $this->tdmcfile->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSearchHeader($moduleDirname);
         $content .= $this->getUserSearchForm($module, $tableName, $language);
         $content .= $this->getUserSearchSave($moduleDirname, $fields, $tableName, $language);

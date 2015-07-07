@@ -1,4 +1,5 @@
 <?php
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,13 +10,15 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module
+ * tdmcreate module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package         tdmcreate
+ *
  * @since           2.5.7
+ *
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
+ *
  * @version         $Id: 1.91 fieldattributes.php 13027 2015-02-14 12:18:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
@@ -26,7 +29,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 */
 
 /**
- * Class TDMCreateFieldattributes
+ * Class TDMCreateFieldattributes.
  */
 class TDMCreateFieldattributes extends XoopsObject
 {
@@ -51,7 +54,7 @@ class TDMCreateFieldattributes extends XoopsObject
 */
 
 /**
- * Class TDMCreateFieldattributesHandler
+ * Class TDMCreateFieldattributesHandler.
  */
 class TDMCreateFieldattributesHandler extends XoopsPersistableObjectHandler
 {
