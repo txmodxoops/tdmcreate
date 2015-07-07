@@ -127,7 +127,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return parent::getObjects($criteria);
+        return $this->getObjects($criteria);
     }
 
     /**
@@ -141,7 +141,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteria);
     }
 
     /**
@@ -157,6 +157,6 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteria);
     }
 }
