@@ -97,7 +97,7 @@ class TDMCreateMoreFiles extends XoopsObject
     }
 
     /*
-    *  @public function getForm
+    *  @public function getFormMoreFiles
     *  @param mixed $action
     */
     /**
@@ -105,7 +105,7 @@ class TDMCreateMoreFiles extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormMoreFiles($action = false)
     {
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -148,9 +148,9 @@ class TDMCreateMoreFiles extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('file_id');
         $ret['mid'] = $this->tdmcreate->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
@@ -191,7 +191,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function &create($isNew = true)
     {
-        return parent::create($isNew);
+        return $this->create($isNew);
     }
 
     /**
@@ -205,7 +205,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function &get($i = null, $fields = null)
     {
-        return parent::get($i, $fields);
+        return $this->get($i, $fields);
     }
 
     /**
@@ -230,7 +230,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function &insert(&$field, $force = false)
     {
-        if (!parent::insert($field, $force)) {
+        if (!$this->insert($field, $force)) {
             return false;
         }
 

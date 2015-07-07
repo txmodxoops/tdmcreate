@@ -138,7 +138,7 @@ class TDMCreateSettings extends XoopsObject
     }
 
     /*
-    *  @public function getForm
+    *  @public function getFormSettings
     *  @param mixed $action
     */
     /**
@@ -146,7 +146,7 @@ class TDMCreateSettings extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormSettings($action = false)
     {
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -242,9 +242,9 @@ class TDMCreateSettings extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesSettings($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('set_id');
         $ret['name'] = $this->getVar('set_name');

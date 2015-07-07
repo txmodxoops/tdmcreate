@@ -499,9 +499,9 @@ class TDMCreateFields extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesFields($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         $ret['id'] = $this->getVar('field_id');
         $ret['mid'] = $this->getVar('field_mid');
         $ret['tid'] = $this->getVar('field_tid');

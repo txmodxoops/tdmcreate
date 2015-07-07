@@ -138,7 +138,7 @@ class TDMCreateTables extends XoopsObject
     }
 
     /*
-    *  @static function getForm
+    *  @static function getFormTables
     *  @param mixed $action
     */
     /**
@@ -146,7 +146,7 @@ class TDMCreateTables extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormTables($action = false)
     {
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -256,9 +256,9 @@ class TDMCreateTables extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesTables($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('table_id');
         $ret['mid'] = $this->getVar('table_mid');

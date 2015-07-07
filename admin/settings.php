@@ -46,7 +46,7 @@ switch ($op) {
         // Display settings list
         if ($settingsCount > 0) {
             foreach (array_keys($settingsAll) as $i) {
-                $setting = $settingsAll[$i]->getValues();
+                $setting = $settingsAll[$i]->getValuesSettings();
                 $GLOBALS['xoopsTpl']->append('settings_list', $setting);
                 unset($setting);
             }
@@ -69,7 +69,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $settingsObj = &$tdmcreate->getHandler('settings')->create();
-        $form = $settingsObj->getForm();
+        $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -81,7 +81,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
-        $form = $settingsObj->getForm();
+        $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -148,7 +148,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
-        $form = &$settingsObj->getForm();
+        $form = &$settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
     break;
     case 'delete':

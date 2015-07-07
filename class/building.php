@@ -69,7 +69,7 @@ class TDMCreateBuilding extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormBuilding($action = false)
     {
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];

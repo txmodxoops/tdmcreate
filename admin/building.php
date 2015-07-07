@@ -93,7 +93,7 @@ switch ($op) {
         unset($nbModules);
         include_once TDMC_PATH.'/class/building.php';
         $handler = TDMCreateBuilding::getInstance();
-        $form = $handler->getForm();
+        $form = $handler->getFormBuilding();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }

@@ -62,7 +62,7 @@ switch ($op) {
             $tlid = 1;
             foreach (array_keys($tablesAll) as $tid) {
                 // Display tables list
-                $table = $tablesAll[$tid]->getValues();
+                $table = $tablesAll[$tid]->getValuesTables();
                 $talid = array('lid' => $tlid);
                 $table = array_merge($table, $talid);
                 // Get the list of fields
@@ -73,7 +73,7 @@ switch ($op) {
                 $lid = 1;
                 if ($fieldsCount > 0) {
                     foreach (array_keys($fieldsAll) as $fid) {
-                        $field = $fieldsAll[$fid]->getValues();
+                        $field = $fieldsAll[$fid]->getValuesFields();
                         $falid = array('lid' => $lid);
                         $fields[] = array_merge($field, $falid);
                         unset($field);
@@ -171,7 +171,7 @@ switch ($op) {
         }
         //
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
-        $form = $fieldsObj->getForm(null, $fieldTid);
+        $form = $fieldsObj->getFormNew(null, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
     break;
 

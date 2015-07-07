@@ -65,7 +65,7 @@ switch ($op) {
         // Display modules list
         if ($modulesCount > 0) {
             foreach (array_keys($modulesAll) as $m) {
-                $module = $modulesAll[$m]->getValues();
+                $module = $modulesAll[$m]->getValuesModules();
                 // Get the list of tables
                 $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
                 $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($m);
@@ -74,7 +74,7 @@ switch ($op) {
                 $lid = 1;
                 if ($tablesCount > 0) {
                     foreach (array_keys($tablesAll) as $t) {
-                        $table = $tablesAll[$t]->getValues();
+                        $table = $tablesAll[$t]->getValuesTables();
                         $alid = array('lid' => $lid);
                         $tables[] = array_merge($table, $alid);
                         unset($table);
@@ -104,7 +104,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $tablesObj = &$tdmcreate->getHandler('tables')->create();
-        $form = $tablesObj->getForm();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -202,7 +202,7 @@ switch ($op) {
         }
         //
         $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
-        $form = $tablesObj->getForm();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -215,7 +215,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
-        $form = $tablesObj->getForm();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
