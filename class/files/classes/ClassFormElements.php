@@ -622,7 +622,6 @@ EOT;
     {
         $ucfTopicTableName = ucfirst($topicTableName);
         $stlTopicTableName = strtolower($topicTableName);
-        $ccFieldPid = $this->tdmcfile->getCamelCase($fieldPid, false, true);
         $ret = <<<EOT
         // Form Topic {$ucfTopicTableName}
         \${$stlTopicTableName}Handler = \$this->{$moduleDirname}->getHandler('{$stlTopicTableName}');
@@ -690,7 +689,10 @@ EOT;
         $ret = '';
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
         $fieldElementId = array();
-        foreach (array_keys($fields) as $f) {
+        $fieldTopicId = null;
+		$fieldTopicPid = null;
+		$fieldTopicMain = null;
+		foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldElement = $fields[$f]->getVar('field_element');
