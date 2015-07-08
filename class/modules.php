@@ -526,10 +526,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
     public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getCount($criteria);
     }
@@ -540,11 +537,21 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
     public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+
+        return $this->getAll($criteria);
+    }
+	
+	/**
+     * Get Criteria
+     */
+    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    {
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return $this->getAll($criteria);
+        return $criteria;
     }
 }

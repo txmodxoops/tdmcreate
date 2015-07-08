@@ -651,10 +651,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
     public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getCount($criteria);
     }
@@ -665,10 +662,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
     public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getAll($criteria);
     }
@@ -681,11 +675,21 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('field_mid', $modId));
         $criteria->add(new Criteria('field_tid', $tabId));
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+
+        return $this->getAll($criteria);
+    }
+	
+	/**
+     * Get Criteria
+     */
+    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    {
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return $this->getAll($criteria);
+        return $criteria;
     }
 }

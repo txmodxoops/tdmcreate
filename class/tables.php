@@ -397,10 +397,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
     public function getCountTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getCount($criteria);
     }
@@ -411,10 +408,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
     public function getAllTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getAll($criteria);
     }
@@ -426,11 +420,21 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
     {
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('table_mid', $modId));
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+
+        return $this->getAll($criteria);
+    }
+	
+	/**
+     * Get Criteria
+     */
+    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    {
         $criteria->setSort($sort);
         $criteria->setOrder($order);
         $criteria->setStart($start);
         $criteria->setLimit($limit);
 
-        return $this->getAll($criteria);
+        return $criteria;
     }
 }
