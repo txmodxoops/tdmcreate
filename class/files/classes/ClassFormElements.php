@@ -680,9 +680,9 @@ EOT;
         $module = $this->getModule();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableName = $table->getVar('table_name');        
-		$tableSoleName = $table->getVar('table_solename');
-		$tableFieldName = $table->getVar('table_fieldname');
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
+        $tableFieldName = $table->getVar('table_fieldname');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $languageFunct = $this->getLanguage($moduleDirname, 'AM');
         //$language_table = $languageFunct . strtoupper($tableName);
@@ -690,9 +690,9 @@ EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
         $fieldElementId = array();
         $fieldTopicId = null;
-		$fieldTopicPid = null;
-		$fieldTopicMain = null;
-		foreach (array_keys($fields) as $f) {
+        $fieldTopicPid = null;
+        $fieldTopicMain = null;
+        foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -761,21 +761,21 @@ EOT;
                         $ret .= ((0 == $f) && (1 == $tableAutoincrement)) ? $this->getXoopsFormHidden($fieldName) : '';
                         break;
                 }
-                if ($fieldElement > 15) {					
+                if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
-                        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);						
+                        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
-                        $fieldElementName = $fieldElements->getVar('fieldelement_name');						
+                        $fieldElementName = $fieldElements->getVar('fieldelement_name');
                         $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', $fieldNameDesc);
-                        $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);                        
-						foreach (array_keys($fieldsTopics) as $f) {
+                        $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
+                        foreach (array_keys($fieldsTopics) as $f) {
                             $fieldTopicName = $fieldsTopics[$f]->getVar('field_name');
-							// Is no a best solution, will be modified
-                            $fieldTopicId = ((0 == $f) && (1 == $tableAutoincrement)) ? $fieldTopicName : (!empty($tableFieldName) ? $tableFieldName . '_id' : 'id');
-                            $fieldTopicPid = (1 == $fieldsTopics[$f]->getVar('field_parent')) ? $fieldTopicName : (!empty($tableFieldName) ? $tableFieldName . '_pid' : 'pid');
-                            $fieldTopicMain = (1 == $fieldsTopics[$f]->getVar('field_main')) ? $fieldTopicName : (!empty($tableFieldName) ? $tableFieldName . '_title' : 'title');
+                            // Is no a best solution, will be modified
+                            $fieldTopicId = ((0 == $f) && (1 == $tableAutoincrement)) ? $fieldTopicName : (!empty($tableFieldName) ? $tableFieldName.'_id' : 'id');
+                            $fieldTopicPid = (1 == $fieldsTopics[$f]->getVar('field_parent')) ? $fieldTopicName : (!empty($tableFieldName) ? $tableFieldName.'_pid' : 'pid');
+                            $fieldTopicMain = (1 == $fieldsTopics[$f]->getVar('field_main')) ? $fieldTopicName : (!empty($tableFieldName) ? $tableFieldName.'_title' : 'title');
                         }
                         $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldTopicId, $fieldTopicPid, $fieldTopicMain, $required);
                     } else {
@@ -783,7 +783,7 @@ EOT;
                     }
                 }
             }
-        }		
+        }
         unset($fieldElementId);
 
         return $ret;

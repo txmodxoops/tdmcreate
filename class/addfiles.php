@@ -243,10 +243,7 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     public function getCountAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getCount($criteria);
     }
@@ -257,11 +254,21 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     public function getAllAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getAll($criteria);
+    }
+
+    /**
+     * Get Criteria.
+     */
+    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    {
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+
+        return $criteria;
     }
 }

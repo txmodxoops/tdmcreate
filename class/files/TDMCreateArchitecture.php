@@ -85,8 +85,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
     public function createBaseFoldersFiles($module)
     {
         // Module
-        $modId = $module->getVar('mod_id'); 
-		$language = $GLOBALS['xoopsConfig']['language'];
+        $modId = $module->getVar('mod_id');
+        $language = $GLOBALS['xoopsConfig']['language'];
         // Id of tables
         $tables = $this->tdmcfile->getTableTables($modId);
         //
@@ -149,10 +149,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         // Creation of language subfolder
         $language = ($language != 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
-		// Creation of "language/local_language" folder and index.html file
-		$this->structure->makeDirAndCopyFile('language/'.$language, $indexFile, 'index.html');
-		// Creation of "language/local_language/help" folder and index.html file
-		$this->structure->makeDirAndCopyFile('language/'.$language.'/help', $indexFile, 'index.html');
+        // Creation of "language/local_language" folder and index.html file
+        $this->structure->makeDirAndCopyFile('language/'.$language, $indexFile, 'index.html');
+        // Creation of "language/local_language/help" folder and index.html file
+        $this->structure->makeDirAndCopyFile('language/'.$language.'/help', $indexFile, 'index.html');
 
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "templates/admin" folder and index.html file
@@ -166,8 +166,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "sql" folder and index.html file
             $this->structure->makeDirAndCopyFile('sql', $indexFile, 'index.html');
             if ((1 == $module->getVar('mod_notifications')) && (1 == $table->getVar('table_notifications'))) {
-				// Creation of "language/local_language/mail_template" folder and index.html file
-				$this->structure->makeDirAndCopyFile('language/'.$language.'/mail_template', $indexFile, 'index.html');
+                // Creation of "language/local_language/mail_template" folder and index.html file
+                $this->structure->makeDirAndCopyFile('language/'.$language.'/mail_template', $indexFile, 'index.html');
             }
         }
     }
