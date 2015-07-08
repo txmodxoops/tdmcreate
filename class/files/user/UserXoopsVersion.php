@@ -905,10 +905,10 @@ EOT;
 \$modversion['notification']['lookup_func'] = '{$moduleDirname}_notify_iteminfo';\n\n
 EOT;
         $notifyFiles = array();
-		$tableId = null;
-		$tableCategory = array();
+        $tableId = null;
+        $tableCategory = array();
         $tableBroken = array();
-		$tableSubmit = array();
+        $tableSubmit = array();
         $single = 'single';
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         foreach (array_keys($tables) as $t) {
@@ -929,7 +929,7 @@ EOT;
         }
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $fieldId = null;
-		$fieldParent = null;
+        $fieldParent = null;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');

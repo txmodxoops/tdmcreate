@@ -176,12 +176,12 @@ SQL;
             $fieldNullFields = $fields[$f]->getVar('field_null');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldKey = $fields[$f]->getVar('field_key');
-			$fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldTypeFields);
-			$fieldTypeName = ($fieldTypeFields > 1) ? $fType->getVar('fieldtype_name') : null;            
-			$fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttributeFields);
-			$fieldAttribute = ($fieldAttributeFields > 1) ? $fAttribute->getVar('fieldattribute_name') : null;
-			$fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNullFields);
-			$fieldNull = ($fieldNullFields > 1) ? $fNull->getVar('fieldnull_name') : null;
+            $fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldTypeFields);
+            $fieldTypeName = ($fieldTypeFields > 1) ? $fType->getVar('fieldtype_name') : null;
+            $fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttributeFields);
+            $fieldAttribute = ($fieldAttributeFields > 1) ? $fAttribute->getVar('fieldattribute_name') : null;
+            $fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNullFields);
+            $fieldNull = ($fieldNullFields > 1) ? $fNull->getVar('fieldnull_name') : null;
             if (!empty($fieldName)) {
                 switch ($fieldTypeFields) {
                     case 2:
@@ -381,7 +381,7 @@ SQL;
 
         return $ret;
     }
-    
+
     /*
     *  @public function render
     *  @param null

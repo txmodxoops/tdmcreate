@@ -129,17 +129,17 @@ EOT;
         $tables = $this->getTableTables($module->getVar('mod_id'));
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-		foreach(array_keys($tables) as $t){
-			$tableId = $tables[$t]->getVar('table_id');
-			$tableMid = $tables[$t]->getVar('table_mid');
-			$tableName = $tables[$t]->getVar('table_name');
-			$tableVisit[] = $tables[$t]->getVar('table_visit');
-		}
+        foreach (array_keys($tables) as $t) {
+            $tableId = $tables[$t]->getVar('table_id');
+            $tableMid = $tables[$t]->getVar('table_mid');
+            $tableName = $tables[$t]->getVar('table_name');
+            $tableVisit[] = $tables[$t]->getVar('table_visit');
+        }
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $content = $this->getHeaderFilesComments($module, $filename);
-		if(in_array(1, $tableVisit)) {
-			$content .= $this->getUserVisit($moduleDirname, $tableName, $fields);
-		}
+        if (in_array(1, $tableVisit)) {
+            $content .= $this->getUserVisit($moduleDirname, $tableName, $fields);
+        }
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

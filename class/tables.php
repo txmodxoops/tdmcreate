@@ -176,7 +176,7 @@ class TDMCreateTables extends XoopsObject
         $tableSoleNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
         $tableSoleNameText->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
         $form->addElement($tableSoleNameText, true);
-        
+
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
         $category = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
         $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);

@@ -74,7 +74,7 @@ class TDMCreateModules extends XoopsObject
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $setId = XoopsRequest::getInt('set_id');
         $this->settings = $this->tdmcreate->getHandler('settings');
-		$setting = $this->settings->get($setId);
+        $setting = $this->settings->get($setId);
 
         $this->initVar('mod_id', XOBJ_DTYPE_INT);
         $this->initVar('mod_name', XOBJ_DTYPE_TXTBOX, $setting->getVar('set_name'));
@@ -382,7 +382,7 @@ class TDMCreateModules extends XoopsObject
 
         return $form;
     }
-    
+
     /**
      * Get Values.
      */
