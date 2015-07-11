@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminIndex.
  */
-class AdminIndex extends AdminPhpCode
+class AdminIndex extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class AdminIndex extends AdminPhpCode
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->adminphpcode = AdminPhpCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -93,7 +93,7 @@ class AdminIndex extends AdminPhpCode
         $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->adminphpcode->getAdminIncludeDir('header');
+        $content .= $this->phpcode->getPhpCodeIncludeDir('header');
         $content .= $this->getCommentLine('Count elements');
         $tableName = null;
         if (is_array($tables)) {
@@ -159,7 +159,7 @@ EOT;
 echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
 EOT;
-        $content .= $this->adminphpcode->getAdminIncludeDir('footer');
+        $content .= $this->phpcode->getPhpCodeIncludeDir('footer');
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

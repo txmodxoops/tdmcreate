@@ -30,7 +30,7 @@ class TDMCreatePhpCode extends AdminObjects
     /*
     * @var string
     */
-    protected $TDMCreatePhpCode;
+    protected $phpcode = null;
 
     /*
     *  @public function constructor
@@ -63,15 +63,46 @@ class TDMCreatePhpCode extends AdminObjects
     }
 
     /*
+    *  @public function getPhpCodeCommentLine
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeCommentLine($comment, $var = '')
+    {
+        $ret = "// {$comment} {$var}\n";
+
+        return $ret;
+    }
+
+    /*
     *  @public function getPhpCodeIncludeDir
     *  @param $filename
     *  @return string
     */
     public function getPhpCodeIncludeDir($filename = '')
     {
-        $ret = <<<EOT
-include __DIR__ .'/{$filename}.php';\n
-EOT;
+        $ret = "include __DIR__ .'/{$filename}.php';\n";
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodeXoopsRequest
+    *  @param $var1
+    *  @param $var2
+    *  @param $type
+    *  @param $metod
+    *  @return string
+    */
+    public function getPhpCodeXoopsRequest($var1 = '', $var2 = '', $type = 'String', $metod = false)
+    {
+        if ($type == 'String') {
+            $ret = "\${$var1} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
+        } elseif ($type == 'Int') {
+            $ret = "\${$var1} = XoopsRequest::getInt('{$var1}');\n";
+        } elseif ($type == 'Int' && $metod) {
+            $ret = "\${$var1} = XoopsRequest::getInt('{$var1}', {$var2}, '{$metod}');\n";
+        }
 
         return $ret;
     }
@@ -106,38 +137,30 @@ EOT;
     {
         if ($defaultAfterCase) {
             if (is_string($case)) {
-                $ret = <<<EOT
-    case '{$case}':\n
-EOT;
+                $ret = "\tcase '{$case}':\n";
             } else {
-                $ret = <<<EOT
-    case {$case}:\n
-EOT;
+                $ret = "\tcase {$case}:\n";
             }
             $ret = <<<EOT
-    default:\n
-	\t\t{$content}
+    default:
+\t\t{$content}
 		break;\n
 EOT;
         } else {
             if (is_string($case)) {
-                $ret = <<<EOT
-    case '{$case}':\n
-EOT;
+                $ret = "\tcase '{$case}':\n";
             } else {
-                $ret = <<<EOT
-    case {$case}:\n
-EOT;
+                $ret = "\tcase {$case}:\n";
             }
             $ret = <<<EOT
-	\t\t{$content}
+\t\t{$content}
 		break;\n
 EOT;
         }
         if ($default) {
             $ret = <<<EOT
-    default:\n
-	\t\t{$content}
+    default:
+\t\t{$content}
 		break;\n
 EOT;
         }
@@ -148,14 +171,12 @@ EOT;
     /*
     *  @public function getPhpCodeTemplateMain
     *  @param $moduleDirname
-    *  @param $tableName
+    *  @param $filename
     *  @return string
     */
-    public function getPhpCodeTemplateMain($moduleDirname, $tableName)
+    public function getPhpCodeTemplateMain($moduleDirname, $filename)
     {
-        $ret = <<<EOT
-        \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n
-EOT;
+        $ret = "\$templateMain = '{$moduleDirname}_admin_{$filename}.tpl';\n";
 
         return $ret;
     }
@@ -170,9 +191,7 @@ EOT;
      */
     public function getPhpCodeXoopsTplAssign($tplString, $phpRender)
     {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->assign('{$tplString}', \${$phpRender});\n
-EOT;
+        $ret = "\$GLOBALS['xoopsTpl']->assign('{$tplString}', \${$phpRender});\n";
 
         return $ret;
     }
@@ -187,9 +206,7 @@ EOT;
      */
     public function getPhpCodeXoopsTplAppend($tplString, $phpRender)
     {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->append('{$tplString}', \${$phpRender});\n
-EOT;
+        $ret = "\$GLOBALS['xoopsTpl']->append('{$tplString}', \${$phpRender});\n";
 
         return $ret;
     }
@@ -204,44 +221,30 @@ EOT;
      */
     public function getPhpCodeXoopsTplAppendByRef($tplString, $phpRender)
     {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', \${$phpRender});\n
-EOT;
+        $ret = "\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', \${$phpRender});\n";
 
         return $ret;
     }
 
     /*
     *  @public function getPhpCodeItemButton
-    *  @param $moduleDirname
+    *  @param $language
     *  @param $tableName
     *  @param $admin
     *  @return string
     */
-    public function getPhpCodeItemButton($moduleDirname, $tableName, $admin = false)
+    public function getPhpCodeItemButton($language, $tableName, $tableSoleName, $op = '?op=new', $type = 'add')
     {
-        $ret = <<<EOT
-        \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
-        \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
-        \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());\n
-EOT;
-
-        return $ret;
-    }
-
-    /**
-     *  @public function getPhpCodeAddNavigation
-     *
-     *  @param $tableName
-     *
-     *  @return string
-     */
-    public function getPhpCodeAddNavigation($tableName)
-    {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));\n
-EOT;
+        $stuTableName = strtoupper($tableName);
+        $stuTableSoleName = strtoupper($tableSoleName);
+        $stuType = strtoupper($type);
+        if ($type = 'add') {
+            $ret = "\$adminMenu->addItemButton({$language}{$stuType}_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+        } elseif ($type = 'list') {
+            $ret = "\$adminMenu->addItemButton({$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+        } else {
+            $ret = "\$adminMenu->addItemButton({$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+        }
 
         return $ret;
     }
@@ -255,9 +258,7 @@ EOT;
      */
     public function getPhpCodeObjHandlerCreate($tableName)
     {
-        $ret = <<<EOT
-        \${$tableName}Obj =& \${$tableName}Handler->create();\n
-EOT;
+        $ret = "\${$tableName}Obj =& \${$tableName}Handler->create();\n";
 
         return $ret;
     }
@@ -273,9 +274,8 @@ EOT;
      */
     public function getPhpCodeSetVarsObjects($moduleDirname, $tableName, $fields)
     {
-        $ret = <<<EOT
-        // Set Vars\n
-EOT;
+        $ret = $this->getPhpCodeCommentLine('Set Vars');
+
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');

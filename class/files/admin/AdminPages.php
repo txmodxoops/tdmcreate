@@ -44,7 +44,7 @@ class AdminPages extends TDMCreateFile
         parent::__construct();
         $this->adminobjects = AdminObjects::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->adminphpcode = AdminPhpCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -87,11 +87,12 @@ class AdminPages extends TDMCreateFile
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = $this->phpcode->getPhpCodeIncludeDir('header');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest('op', 'list', 'String');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest($fieldId, '', 'Int');
         $ret = <<<EOT
-include  __DIR__ . '/header.php';
-//It recovered the value of argument op in URL$
-\$op = XoopsRequest::getString('op', 'list');
-// Request {$fieldId}
 \${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
 // Switch options
 switch (\$op)
@@ -149,7 +150,7 @@ EOT;
         {
             foreach (array_keys(\${$tableName}All) as \$i)
             {
-				\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
+				\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
                 \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
                 unset(\${$tableSoleName});
             }

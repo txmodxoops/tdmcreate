@@ -40,7 +40,7 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @var mixed
      */
-    private $filename;
+    private $filename = null;
 
     /**
      * "uploadPath" attribute of the files.
@@ -52,7 +52,7 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    private $content;
+    private $content = null;
 
     /*
     * @var mixed
@@ -67,12 +67,12 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    private $mode;
+    private $mode = null;
 
     /*
     * @var string
     */
-    protected $tdmcfile;
+    protected $tdmcfile = null;
 
     /*
     *  @public function constructor
