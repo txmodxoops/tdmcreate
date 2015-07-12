@@ -280,7 +280,7 @@ EOT;
      *
      * @param mixed \$action
      */
-    public function getForm(\$action = false)
+    public function getForm{$ucfTableName}(\$action = false)
     {
         if(\$action === false) {
             \$action = \$_SERVER['REQUEST_URI'];

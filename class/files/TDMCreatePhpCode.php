@@ -87,6 +87,37 @@ class TDMCreatePhpCode extends AdminObjects
     }
 
     /*
+     * @public function getPhpCodeConditions
+     * @param string $condition
+     * @param string $operator
+     * @param string $type
+     * @param string $contentIf
+     * @param mixed  $contentElse
+     *
+     * @return string
+     */
+    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false)
+    {
+        if (false !== $contentElse) {
+            $ret = <<<EOT
+	if ({$condition}{$operator}{$type}) {
+		{$contentIf}
+	}\n
+EOT;
+        } else {
+            $ret = <<<EOT
+	if ({$condition}{$operator}{$type}) {
+		{$contentIf}
+	} else {
+		{$contentElse}
+    }\n
+EOT;
+        }
+
+        return $ret;
+    }
+
+    /*
     *  @public function getPhpCodeXoopsRequest
     *  @param $var1
     *  @param $var2
@@ -110,15 +141,17 @@ class TDMCreatePhpCode extends AdminObjects
     /**
      *  @public function getPhpCodeSwitch
      *
+     *  @param $op
      *  @param $content
      *
      *  @return string
      */
-    public function getPhpCodeSwitch($content)
+    public function getPhpCodeSwitch($op, $content)
     {
         $ret = <<<EOT
-switch {\n
-	\t{$content}
+// Switch options
+switch (\${$op}){
+	{$content}
 }\n
 EOT;
 
@@ -135,33 +168,28 @@ EOT;
      */
     public function getPhpCodeCaseSwitch($case = 'list', $content, $defaultAfterCase = false, $default = false)
     {
+        if (is_string($case)) {
+            $ret = "\tcase '{$case}':\n";
+        } else {
+            $ret = "\tcase {$case}:\n";
+        }
         if ($defaultAfterCase) {
-            if (is_string($case)) {
-                $ret = "\tcase '{$case}':\n";
-            } else {
-                $ret = "\tcase {$case}:\n";
-            }
-            $ret = <<<EOT
+            $ret .= <<<EOT
     default:
-\t\t{$content}
-		break;\n
+		{$content}
+	break;\n
 EOT;
         } else {
-            if (is_string($case)) {
-                $ret = "\tcase '{$case}':\n";
-            } else {
-                $ret = "\tcase {$case}:\n";
-            }
-            $ret = <<<EOT
-\t\t{$content}
-		break;\n
+            $ret .= <<<EOT
+		{$content}
+	break;\n
 EOT;
         }
-        if ($default) {
+        if ($default !== false) {
             $ret = <<<EOT
     default:
-\t\t{$content}
-		break;\n
+		{$default}
+	break;\n
 EOT;
         }
 
@@ -360,6 +388,37 @@ EOT;
     public function getPhpCodeRedirectHeader($tableName, $options, $numb = 2, $var)
     {
         return "redirect_header('{$tableName}.php{$options}', {$numb}, {$var});\n";
+    }
+
+    /*
+    *  @public function getPhpCodeXoopsSecurityCheck
+    *  @param null
+    *  @return boolean
+    */
+    public function getPhpCodeXoopsSecurityCheck()
+    {
+        return "\$GLOBALS['xoopsSecurity']->check()";
+    }
+
+    /*
+    *  @public function getPhpCodeXoopsSecurityGetError
+    *  @param null
+    *  @return string
+    */
+    public function getPhpCodeXoopsSecurityGetError()
+    {
+        return "\$GLOBALS['xoopsSecurity']->getErrors()";
+    }
+
+    /*
+    *  @public function getPhpCodeImplode
+    *  @param $left
+    *  @param $right
+    *  @return string
+    */
+    public function getPhpCodeImplode($left, $right)
+    {
+        return "implode('{$left} ', {$right})";
     }
 
     /**

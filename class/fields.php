@@ -344,12 +344,7 @@ class TDMCreateFields extends XoopsObject
         $fName = $tables->getVar('table_fieldname');
 
         // Get the list of fields
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('field_mid', $fieldMid));
-        $criteria->add(new Criteria('field_tid', $fieldTid));
-        $criteria->setSort('field_id'); //added by goffy
-        $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteria);
-        unset($criteria);
+        $fields = $this->tdmcreate->getHandler('fields')->getAllFieldsByModuleAndTableId($fieldMid, $fieldTid, 0, 0, 'field_id');
         $id = 1;
         foreach ($fields as $field) {
             $class = ($class == 'even') ? 'odd' : 'even';

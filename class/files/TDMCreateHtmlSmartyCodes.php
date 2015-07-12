@@ -329,6 +329,7 @@ EOT;
     *  @param string $contentIf
     *  @param mixed  $contentElse
     *  @param bool   $count
+    * @param bool    $noSimbol
     */
     /**
      * @param string $condition
@@ -337,6 +338,7 @@ EOT;
      * @param string $contentIf
      * @param mixed  $contentElse
      * @param bool   $count
+     * @param bool   $noSimbol
      *
      * @return string
      */
