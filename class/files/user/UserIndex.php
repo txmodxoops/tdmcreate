@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserIndex.
  */
-class UserIndex extends UserObjects
+class UserIndex extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class UserIndex extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -149,7 +149,7 @@ if (\${$tableName}Count > 0) {
 	\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
 	foreach (array_keys(\${$tableName}All) as \$i)
 	{
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
 		\$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
@@ -186,7 +186,7 @@ if (\${$tableName}Count > 0) {
 	// Get All {$ucfTableName}
 	foreach(array_keys(\${$tableName}All) as \$i)
     {
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
         \$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});

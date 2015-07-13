@@ -25,13 +25,8 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminPages.
  */
-class AdminPages extends TDMCreateFile
-{
-    /*
-    * @var string
-    */
-    private $adminobjects;
-
+class AdminPages extends TDMCreatePhpCode
+{   
     /*
     *  @public function constructor
     *  @param null
@@ -42,7 +37,6 @@ class AdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->adminobjects = AdminObjects::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
@@ -89,11 +83,10 @@ class AdminPages extends TDMCreateFile
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = $this->phpcode->getPhpCodeIncludeDir('header');
         $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret .= $this->phpcode->getPhpCodeXoopsRequest('op', 'list', 'String');
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest('op', 'op', 'list', 'String');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
-        $ret .= $this->phpcode->getPhpCodeXoopsRequest($fieldId, '', 'Int');
-        $ret = <<<EOT
-\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+		$ret .= <<<EOT
 // Switch options
 switch (\$op)
 {\n
@@ -222,28 +215,28 @@ EOT;
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->adminobjects->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $this->phpcode->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 10:
-                        $ret .= $this->adminobjects->getImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->phpcode->getImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->adminobjects->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->phpcode->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
                         if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
-                        $ret .= $this->adminobjects->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= $this->phpcode->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
-                        $ret .= $this->adminobjects->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->phpcode->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $this->adminobjects->getTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $this->phpcode->getTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
+                        $ret .= $this->phpcode->getSimpleSetVar($tableName, $fieldName);
                         break;
                 }
             }
@@ -360,7 +353,12 @@ EOT;
      */
     private function getAdminPagesFooter()
     {
-        return $this->phpcode->getPhpCodeIncludeDir('footer');
+        $ret = <<<EOT
+}
+EOT;
+		
+		$ret .= $this->phpcode->getPhpCodeIncludeDir('footer');
+		return $ret;
     }
 
     /*

@@ -399,9 +399,9 @@ define('_AM_TDMCREATE_ADDFILES_EDIT', 'Edit More File');
 define('_AM_TDMCREATE_ADDFILES_MODULES', 'Choose a module');
 define('_AM_TDMCREATE_ADDFILES_MODULE_SELECT', 'Select a Module');
 define('_AM_TDMCREATE_ADDFILES_NAME', 'File Name');
-define('_AM_TDMCREATE_ADDFILES_NAME_DESC', 'Create file name without extension');
+define('_AM_TDMCREATE_ADDFILES_NAME_DESC', 'Enter file name without extension');
 define('_AM_TDMCREATE_ADDFILES_EXTENSION', 'Extension File');
-define('_AM_TDMCREATE_ADDFILES_EXTENSION_DESC', 'Create extension of this file without dot');
+define('_AM_TDMCREATE_ADDFILES_EXTENSION_DESC', 'Enter extension of this file without dot');
 define('_AM_TDMCREATE_ADDFILES_INFOLDER', 'File in the folder');
 define('_AM_TDMCREATE_ADDFILES_INFOLDER_DESC', 'Insert this file in a folder (Type: admin, user, class, include, templates, ...)');
 // Template More Files

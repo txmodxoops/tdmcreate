@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserPages.
  */
-class UserPages extends UserObjects
+class UserPages extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class UserPages extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -115,7 +115,7 @@ if (\${$lcfTableName}Count > 0) {
     // Get All {$ucfTableName}
 	foreach (array_keys(\${$lcfTableName}All) as \$i)
     {
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
         \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
         unset(\${$tableSoleName});\n
 EOT;

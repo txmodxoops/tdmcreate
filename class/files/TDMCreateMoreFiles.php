@@ -255,7 +255,6 @@ EOT;
                 break;
         }
 
-        //
         $this->tdmcfile->create($moduleDirname, $this->folder, $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

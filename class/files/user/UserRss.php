@@ -39,7 +39,7 @@ class UserRss extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*

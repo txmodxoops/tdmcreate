@@ -582,10 +582,14 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $languageHelp = LanguageHelp::getInstance();
         $languageHelp->write($module, 'help.html');
         $ret[] = $languageHelp->render();
-        // Include Jquery File
-        $includeJquery = IncludeJquery::getInstance();
-        $includeJquery->write($module, 'functions.js');
-        $ret[] = $includeJquery->render();
+        // Javascript Jquery File
+        $jsJquery = JsJquery::getInstance();
+        $jsJquery->write($module, 'functions.js');
+        $ret[] = $jsJquery->render();
+		// Preloads Core File
+        $preloadsCore = PreloadsCore::getInstance();
+        $preloadsCore->write($module, 'core.php');
+        $ret[] = $preloadsCore->render();
         // User Xoops Version File
         $userXoopsVersion = UserXoopsVersion::getInstance();
         $userXoopsVersion->write($module, $table, $tables, 'xoops_version.php');

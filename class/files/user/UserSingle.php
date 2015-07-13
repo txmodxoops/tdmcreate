@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserSingle.
  */
-class UserSingle extends UserObjects
+class UserSingle extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class UserSingle extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -165,7 +165,7 @@ EOT;
      */
     public function getUserSingleSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -177,7 +177,7 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->phpcode->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -202,6 +202,7 @@ EOT;
     public function getUserSingleFooter()
     {
         $ret = <<<EOT
+}
 include  __DIR__ . '/footer.php';
 EOT;
 

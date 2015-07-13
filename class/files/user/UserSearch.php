@@ -202,6 +202,7 @@ EOT;
     public function getUserSearchFooter()
     {
         $ret = <<<EOT
+}
 include  __DIR__ . '/footer.php';
 EOT;
 

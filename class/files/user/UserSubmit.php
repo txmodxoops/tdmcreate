@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserSubmit.
  */
-class UserSubmit extends UserObjects
+class UserSubmit extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class UserSubmit extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -173,7 +173,7 @@ EOT;
         }
         \${$tableName}Obj =& \${$tableName}Handler->create();\n
 EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->phpcode->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORM_OK);

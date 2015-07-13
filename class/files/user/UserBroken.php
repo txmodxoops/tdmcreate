@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserBroken.
  */
-class UserBroken extends UserObjects
+class UserBroken extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class UserBroken extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -88,7 +88,7 @@ class UserBroken extends UserObjects
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \$op = XoopsRequest::getString('op', 'list');
@@ -165,7 +165,7 @@ EOT;
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -182,7 +182,7 @@ EOT;
             \$error = true;
         }\n
 EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->phpcode->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
 
         if (\$error == true){
@@ -194,7 +194,7 @@ EOT;
 		}
         echo \${$tableName}Obj->getHtmlErrors();
         \$form =& \${$tableName}Obj->getForm();
-        \$form->display();
+        \$xoopsTpl->assign('form', \$form->display());
     break;\n
 EOT;
 
@@ -211,6 +211,7 @@ EOT;
     public function getUserBrokenFooter()
     {
         $ret = <<<EOT
+}
 include  __DIR__ . '/footer.php';
 EOT;
 

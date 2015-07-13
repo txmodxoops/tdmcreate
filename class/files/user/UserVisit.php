@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserVisit.
  */
-class UserVisit extends UserObjects
+class UserVisit extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class UserVisit extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -87,7 +87,7 @@ class UserVisit extends UserObjects
      */
     public function getUserVisit($moduleDirname, $tableName, $fields)
     {
-        $fieldId = (string) $this->userobjects->getUserSaveFieldId($fields);
+        $fieldId = (string) $this->phpcode->getUserSaveFieldId($fields);
         $ccFieldId = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
