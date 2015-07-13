@@ -586,7 +586,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $jsJquery = JsJquery::getInstance();
         $jsJquery->write($module, 'functions.js');
         $ret[] = $jsJquery->render();
-		// Preloads Core File
+        // Preloads Core File
         $preloadsCore = PreloadsCore::getInstance();
         $preloadsCore->write($module, 'core.php');
         $ret[] = $preloadsCore->render();

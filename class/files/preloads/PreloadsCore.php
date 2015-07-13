@@ -75,7 +75,7 @@ class PreloadsCore extends TDMCreateFile
         $this->setModule($module);
         $this->setFileName($filename);
     }
-    
+
     /*
     *  @public function render
     *  @param null
@@ -85,17 +85,17 @@ class PreloadsCore extends TDMCreateFile
     {
         $module = $this->getModule();
         $filename = $this->getFileName();
-		$moduleDirname = $module->getVar('mod_dirname');
-		$ucfModuleDirname = ucfirst($moduleDirname);
+        $moduleDirname = $module->getVar('mod_dirname');
+        $ucfModuleDirname = ucfirst($moduleDirname);
         $content = $this->getHeaderFilesComments($module, $filename);
-		
-		$content .= <<<EOT
+
+        $content .= <<<EOT
 /**
  * {$ucfModuleDirname} core preloads
  *
  */
 class {$ucfModuleDirname}CorePreload extends XoopsPreloadItem
-{	
+{
 	// Here your functions method
 	// Example:
 	/**
@@ -106,9 +106,9 @@ class {$ucfModuleDirname}CorePreload extends XoopsPreloadItem
         // Here your event
         exit();
     }
-}	
+}
 EOT;
-        
+
         $this->tdmcfile->create($moduleDirname, 'preloads', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

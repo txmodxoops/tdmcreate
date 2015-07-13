@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  * Class AdminPages.
  */
 class AdminPages extends TDMCreatePhpCode
-{   
+{
     /*
     *  @public function constructor
     *  @param null
@@ -86,7 +86,7 @@ class AdminPages extends TDMCreatePhpCode
         $ret .= $this->phpcode->getPhpCodeXoopsRequest('op', 'op', 'list', 'String');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
         $ret .= $this->phpcode->getPhpCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-		$ret .= <<<EOT
+        $ret .= <<<EOT
 // Switch options
 switch (\$op)
 {\n
@@ -356,9 +356,10 @@ EOT;
         $ret = <<<EOT
 }
 EOT;
-		
-		$ret .= $this->phpcode->getPhpCodeIncludeDir('footer');
-		return $ret;
+
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('footer');
+
+        return $ret;
     }
 
     /*

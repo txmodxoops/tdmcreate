@@ -37,6 +37,7 @@ class JsJquery extends TDMCreateFile
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
@@ -84,8 +85,8 @@ class JsJquery extends TDMCreateFile
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        //$content = $this->getHeaderFilesComments($module, $filename);
-        $content = <<<EOT
+        $content = $this->getHeaderFilesComments($module, $filename, 0);
+        $content .= <<<EOT
 $(document).ready(function(){
     $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
     $( ".check" ).css("color","#fff").button();
@@ -93,6 +94,7 @@ $(document).ready(function(){
     $( ".toolbar" ).css("color","#000").buttonset();
 });
 EOT;
+
         $this->tdmcfile->create($moduleDirname, 'assets/js', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

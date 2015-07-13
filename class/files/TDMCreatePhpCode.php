@@ -85,8 +85,8 @@ class TDMCreatePhpCode extends TDMCreateFile
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getSimpleSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -431,8 +431,8 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getUserHeader
     *  @param string $moduleDirname
     *  @param string $tableName
@@ -479,8 +479,8 @@ include  __DIR__ . '/footer.php';
 EOT;
 
         return $ret;
-    }    
-    
+    }
+
     /**
      *  @public function getUserSaveElements
      *
@@ -532,8 +532,8 @@ EOT;
         }
 
         return $ret;
-    }    
-    
+    }
+
     /*
      * @public function getPhpCodeConditions
      * @param string $condition
@@ -568,7 +568,7 @@ EOT;
     /*
     *  @public function getPhpCodeXoopsRequest
     *  @param $left
-	*  @param $var1
+    *  @param $var1
     *  @param $var2
     *  @param $type
     *  @param $metod
