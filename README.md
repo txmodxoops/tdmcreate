@@ -1,3 +1,8 @@
+# Support
+
+Support
+If you liked the module TDMCreate and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module TDMCreate and make a donation using this button <a href="http://www.txmodxoops.org/modules/xdonations/index.php" title="Button Donations" target="_blank"><img src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" alt="Button Donations" /></a>
+
 # TDMCreate version 1.91
 
 [![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
