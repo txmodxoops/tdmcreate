@@ -165,7 +165,7 @@ EOT;
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getPhpCodeUserSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -177,7 +177,7 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        $ret .= $this->phpcode->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->phpcode->getPhpCodeUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);

@@ -19,7 +19,7 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: user_index.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserIndex.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
@@ -100,9 +100,8 @@ EOT;
      */
     private function getTemplateHeaderFile($moduleDirname)
     {
-        $ret = <<<EOT
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';
+        $ret = $this->phpcode->getPhpCodeUserHeader($moduleDirname, 'index');
+		$ret .= <<<EOT
 // Define Stylesheet
 \$GLOBALS['xoTheme']->addStylesheet( \$style );\n
 EOT;

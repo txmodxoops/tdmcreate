@@ -215,28 +215,28 @@ EOT;
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->phpcode->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $this->phpcode->getPhpCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 10:
-                        $ret .= $this->phpcode->getImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->phpcode->getPhpCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->phpcode->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->phpcode->getPhpCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
                         if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
-                        $ret .= $this->phpcode->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= $this->phpcode->getPhpCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
-                        $ret .= $this->phpcode->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->phpcode->getPhpCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $this->phpcode->getTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $this->phpcode->getPhpCodeTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->phpcode->getSimpleSetVar($tableName, $fieldName);
+                        $ret .= $this->phpcode->getPhpCodeSetVar($tableName, $fieldName, '$'.$fieldName);
                         break;
                 }
             }

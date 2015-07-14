@@ -88,7 +88,7 @@ class UserBroken extends TDMCreateFile
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getPhpCodeUserSaveFieldId($fields);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \$op = XoopsRequest::getString('op', 'list');
@@ -165,7 +165,7 @@ EOT;
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getPhpCodeUserSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -182,7 +182,7 @@ EOT;
             \$error = true;
         }\n
 EOT;
-        $ret .= $this->phpcode->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->phpcode->getPhpCodeUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
 
         if (\$error == true){

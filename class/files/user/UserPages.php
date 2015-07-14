@@ -19,7 +19,7 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: pages.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserPages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
@@ -95,13 +95,12 @@ class UserPages extends TDMCreateFile
         $stuTableSoleName = strtoupper($tableSoleName);
         $lcfTableName = lcfirst($tableName);
         $ucfTableName = ucfirst($tableName);
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-//
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-\$start = XoopsRequest::getInt('start', 0);
-\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
+        $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
+		$ret .= $this->phpcode->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
+		$ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+		$ret .= $this->phpcode->getPhpCodeXoopsRequest('start', 'start', '0', 'Int');
+		$ret .= $this->phpcode->getPhpCodeXoopsRequest('limit', 'limit', "\${$moduleDirname}->getConfig('userpager')", 'Int');
+		$ret .= <<<EOT
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );
 //
@@ -149,11 +148,11 @@ unset(\$keywords);
 {$moduleDirname}MetaDescription({$language}{$stuTableSoleName}_DESC);
 //
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$tableName}.php');
-//
-include  __DIR__ . '/footer.php';
-EOT;
 
-        return $ret;
+EOT;
+		$ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
+        
+		return $ret;
     }
 
     /*

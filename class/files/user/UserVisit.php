@@ -87,7 +87,7 @@ class UserVisit extends TDMCreateFile
      */
     public function getUserVisit($moduleDirname, $tableName, $fields)
     {
-        $fieldId = (string) $this->phpcode->getUserSaveFieldId($fields);
+        $fieldId = (string) $this->phpcode->getPhpCodeUserSaveFieldId($fields);
         $ccFieldId = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';

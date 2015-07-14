@@ -76,79 +76,79 @@ class TDMCreatePhpCode extends TDMCreateFile
 
     /*
     *  @public function getPhpCodeIncludeDir
-    *  @param $filename
+    *  @param $directory
+	*  @param $filename
+	*  @param $once
     *  @return string
     */
-    public function getPhpCodeIncludeDir($filename = '')
+    public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false)
     {
-        $ret = "include __DIR__ .'/{$filename}.php';\n";
-
+        if(!$once) {
+			$ret = "include {$directory} .'/{$filename}.php';\n";
+		} else {
+			$ret = "include_once {$directory} .'/{$filename}.php';\n";
+		}
+		
         return $ret;
-    }
-
+    }	
+	
     /*
-    *  @public function getSimpleSetVar
+    *  @public function getPhpCodeSetVar
     *  @param string $tableName
     *  @param string $fieldName
+	*  @param string $var
     *  @return string
     */
-    public function getSimpleSetVar($tableName, $fieldName)
+    public function getPhpCodeSetVar($tableName, $fieldName, $var)
     {
         $ret = <<<EOT
         // Set Var {$fieldName}
-        \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n
+        \${$tableName}Obj->setVar('{$fieldName}', {$var});\n
 EOT;
 
         return $ret;
     }
 
     /*
-    *  @public function getTextDateSelectSetVar
+    *  @public function getPhpCodeTextDateSelectSetVar
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getTextDateSelectSetVar($tableName, $fieldName)
+    public function getPhpCodeTextDateSelectSetVar($tableName, $fieldName)
     {
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        \${$tableName}Obj->setVar('{$fieldName}', strtotime(\$_POST['{$fieldName}']));\n
-EOT;
+        $ret = $this->getPhpCodeSetVar($tableName, $fieldName, "strtotime(\$_POST['{$fieldName}'])");
 
         return $ret;
     }
 
     /*
-    *  @public function getCheckBoxOrRadioYNSetVar
+    *  @public function getPhpCodeCheckBoxOrRadioYNSetVar
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getCheckBoxOrRadioYNSetVar($tableName, $fieldName)
+    public function getPhpCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName)
     {
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        \${$tableName}Obj->setVar('{$fieldName}', ((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0'));\n
-EOT;
+        $ret = $this->getPhpCodeSetVar($tableName, $fieldName, "((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0')");
 
         return $ret;
     }
 
     /*
-    *  @public function getUrlFileSetVar
+    *  @public function getPhpCodeUrlFileSetVar
     *  @param $moduleDirname
     *  @param $tableName
     *  @param $fieldName
     *  @return string
     */
-    public function getUrlFileSetVar($moduleDirname, $tableName, $fieldName)
+    public function getPhpCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        \${$tableName}Obj->setVar('{$fieldName}', formatUrl(\$_REQUEST['{$fieldName}']));\n
-		// Set Var {$fieldName}
-        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        $ret = $this->getPhpCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
+		$ret .= $this->getPhpCodeCommentLine('Set Var', $fieldName);
+		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+		$ret .= <<<EOT
         \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH . '/{$tableName}',
 														\${$moduleDirname}->getConfig('mimetypes'),
                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
@@ -167,17 +167,17 @@ EOT;
     }
 
     /*
-    *  @public function getImageListSetVar
+    *  @public function getPhpCodeImageListSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getImageListSetVar($moduleDirname, $tableName, $fieldName)
+    public function getPhpCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
     {
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
+		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+		$ret .= <<<EOT
         \$uploaddir = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
         \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
                                                          \${$moduleDirname}->getConfig('maxsize'), null, null);
@@ -199,18 +199,18 @@ EOT;
     }
 
     /*
-    *  @public function getUploadImageSetVar
+    *  @public function getPhpCodeUploadImageSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
+    public function getPhpCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
+		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+		$ret .= <<<EOT
         \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_IMAGE_PATH.'/{$tableName}',
 														\${$moduleDirname}->getConfig('mimetypes'),
                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
@@ -234,13 +234,13 @@ EOT;
     }
 
     /*
-    *  @public function getUploadFileSetVar
+    *  @public function getPhpCodeUploadFileSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getUploadFileSetVar($moduleDirname, $tableName, $fieldName)
+    public function getPhpCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = <<<EOT
@@ -265,11 +265,11 @@ EOT;
     }
 
     /*
-    *  @public function getIdGetVar
+    *  @public function getPhpCodeIdGetVar
     *  @param string $lpFieldName
     *  @return string
     */
-    public function getIdGetVar($lpFieldName)
+    public function getPhpCodeIdGetVar($lpFieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var Id
@@ -280,14 +280,14 @@ EOT;
     }
 
     /*
-    *  @public function getSimpleGetVar
+    *  @public function getPhpCodeSimpleGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getPhpCodeSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -298,7 +298,7 @@ EOT;
     }
 
     /*
-    *  @public function getTopicGetVar
+    *  @public function getPhpCodeTopicGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
@@ -307,7 +307,7 @@ EOT;
     *  @param string $fieldNameTopic
     *  @return string
     */
-    public function getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic)
+    public function getPhpCodeTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldNameParent}
@@ -319,7 +319,7 @@ EOT;
     }
 
     /*
-    *  @public function getParentTopicGetVar
+    *  @public function getPhpCodeParentTopicGetVar
     *  @param string $moduleDirname
     *  @param string $lpFieldName
     *  @param string $rpFieldName
@@ -329,7 +329,7 @@ EOT;
     *  @param string $fieldNameParent
     *  @return string
     */
-    public function getParentTopicGetVar($moduleDirname, $lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent)
+    public function getPhpCodeParentTopicGetVar($moduleDirname, $lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent)
     {
         $ret = <<<EOT
 \t\t\t\tif(!isset(\${$tableNameTopic}Handler)) {
@@ -344,14 +344,14 @@ EOT;
     }
 
     /*
-    *  @public function getUploadImageGetVar
+    *  @public function getPhpCodeUploadImageGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getPhpCodeUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -362,14 +362,14 @@ EOT;
         return $ret;
     }
     /*
-    *  @public function getUrlFileGetVar
+    *  @public function getPhpCodeUrlFileGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getPhpCodeUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -379,14 +379,14 @@ EOT;
         return $ret;
     }
     /*
-    *  @public function getTextAreaGetVar
+    *  @public function getPhpCodeTextAreaGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getPhpCodeTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -397,14 +397,14 @@ EOT;
     }
 
     /*
-    *  @public function getSelectUserGetVar
+    *  @public function getPhpCodeSelectUserGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     * @return string
     */
-    public function getSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getPhpCodeSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -415,14 +415,14 @@ EOT;
     }
 
     /*
-    *  @public function getTextDateSelectGetVar
+    *  @public function getPhpCodeTextDateSelectGetVar
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getPhpCodeTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -433,62 +433,65 @@ EOT;
     }
 
     /*
-    *  @public function getUserHeader
+    *  @public function getPhpCodeUserHeader
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @return string
     */
-    public function getUserHeader($moduleDirname, $tableName)
+    public function getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName)
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';\n
-EOT;
+
+		$ret = "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';\n";
 
         return $ret;
     }
-
-    /*
-    *  @public function getUserIndex
+	
+	/*
+    *  @public function getPhpCodeUserHeader
     *  @param string $moduleDirname
+    *  @param string $tableName
     *  @return string
     */
-    public function getUserIndex($moduleDirname)
+    public function getPhpCodeUserHeader($moduleDirname, $tableName)
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';\n
-EOT;
+        $ret = $this->getPhpCodeIncludeDir('header');
+		$ret .= $this->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
+		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
 
         return $ret;
     }
-
+    
     /*
-    *  @public function getUserFooter
+    *  @public function getPhpCodePermissionsHeader
     *  @param null
     */
     /**
      * @return string
      */
-    public function getUserFooter()
+    public function getPhpCodePermissionsHeader()
     {
         $ret = <<<EOT
-include  __DIR__ . '/footer.php';
+// Permission
+include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
+\$gperm_handler =& xoops_gethandler('groupperm');
+if (is_object(\$xoopsUser)) {
+    \$groups = \$xoopsUser->getGroups();
+} else {
+    \$groups = XOOPS_GROUP_ANONYMOUS;
+}
 EOT;
 
         return $ret;
     }
 
     /**
-     *  @public function getUserSaveElements
+     *  @public function getPhpCodeUserSaveElements
      *
      *  @param $fields
      *
      *  @return string
      */
-    public function getUserSaveFieldId($fields)
+    public function getPhpCodeUserSaveFieldId($fields)
     {
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -501,7 +504,7 @@ EOT;
     }
 
     /**
-     *  @public function getUserSaveElements
+     *  @public function getPhpCodeUserSaveElements
      *
      *  @param $moduleDirname
      *  @param $tableName
@@ -509,7 +512,7 @@ EOT;
      *
      *  @return string
      */
-    public function getUserSaveElements($moduleDirname, $tableName, $fields)
+    public function getPhpCodeUserSaveElements($moduleDirname, $tableName, $fields)
     {
         $ret = '';
         foreach (array_keys($fields) as $f) {
@@ -519,15 +522,15 @@ EOT;
                 $fieldMain = $fieldName;
             }
             if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= $this->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                $ret .= $this->getPhpCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
             } elseif (13 == $fieldElement) {
-                $ret .= $this->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                $ret .= $this->getPhpCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
             } elseif (14 == $fieldElement) {
-                $ret .= $this->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                $ret .= $this->getPhpCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
-                $ret .= $this->getTextDateSelectSetVar($tableName, $fieldName);
+                $ret .= $this->getPhpCodeTextDateSelectSetVar($tableName, $fieldName);
             } else {
-                $ret .= $this->getSimpleSetVar($tableName, $fieldName);
+                $ret .= $this->getPhpCodeSetVar($tableName, $fieldName, '$'.$fieldName);
             }
         }
 
@@ -580,7 +583,7 @@ EOT;
             $ret = "\${$left} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
         } elseif ($type == 'Int') {
             $ret = "\${$left} = XoopsRequest::getInt('{$var1}');\n";
-        } elseif ($type == 'Int' && $metod) {
+        } elseif ($type == 'Int' && $metod !== false) {
             $ret = "\${$left} = XoopsRequest::getInt('{$var1}', {$var2}, '{$metod}');\n";
         }
 

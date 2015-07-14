@@ -173,7 +173,7 @@ EOT;
         }
         \${$tableName}Obj =& \${$tableName}Handler->create();\n
 EOT;
-        $ret .= $this->phpcode->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->phpcode->getPhpCodeUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORM_OK);

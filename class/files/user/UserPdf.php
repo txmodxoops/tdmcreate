@@ -91,7 +91,7 @@ class UserPdf extends TDMCreateFile
      */
     public function getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language)
     {
-        $fieldId = $this->phpcode->getUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getPhpCodeUserSaveFieldId($fields);
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
