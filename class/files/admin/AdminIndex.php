@@ -93,7 +93,7 @@ class AdminIndex extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->phpcode->getPhpCodeIncludeDir('header');
+        $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
         $content .= $this->getCommentLine('Count elements');
         $tableName = null;
         if (is_array($tables)) {
@@ -159,7 +159,7 @@ EOT;
 echo \$adminMenu->addNavigation('index.php');
 echo \$adminMenu->renderIndex();
 EOT;
-        $content .= $this->phpcode->getPhpCodeIncludeDir('footer');
+        $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

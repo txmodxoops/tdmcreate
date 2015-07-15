@@ -81,7 +81,7 @@ class AdminPages extends TDMCreatePhpCode
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-        $ret = $this->phpcode->getPhpCodeIncludeDir('header');
+        $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
         $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret .= $this->phpcode->getPhpCodeXoopsRequest('op', 'op', 'list', 'String');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
@@ -357,7 +357,7 @@ EOT;
 }
 EOT;
 
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('footer');
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
         return $ret;
     }

@@ -88,31 +88,11 @@ class UserSingle extends TDMCreateFile
      */
     public function getUserSingleHeader($moduleDirname)
     {
-        $ret = <<<EOT
-// Local Header
-include  __DIR__ . '/header.php';
-\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
-// Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_single.tpl';
-// Root Header
-include_once XOOPS_ROOT_PATH.'/header.php';
-// Added Style
-\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-// redirection if not permissions
-if (\$perm_submit == false) {
-    redirect_header('index.php', 2, _NOPERM);
-    exit();
-}
-//
-switch (\$op)
-{\n
-EOT;
-
-        return $ret;
+        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
     }
 
     /*
-    *  @public function getAdminPagesList
+    *  @public function getUserSingleTop
     *  @param string $tableName
     *  @param string $language
     */
@@ -123,36 +103,21 @@ EOT;
      *
      * @return string
      */
-    public function getUserSingleForm($module, $tableName, $language)
+    public function getUserSingleTop($module, $tableName, $fields, $language)
     {
         $stuModuleName = strtoupper($module->getVar('mod_name'));
-        $ret = <<<EOT
-    case 'form':
-    default:
-        //navigation
-        \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
-        // reference
-        // title of page
-        \$title = _MD_{$stuModuleName}_SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
-        \$title .= \$GLOBALS['xoopsModule']->name();
-        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
-        //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags(_MD_{$stuModuleName}_SUBMIT_PROPOSER));
-        // Description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
-
-        // Create
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
-EOT;
+		$fieldId = (string) $this->phpcode->getPhpCodeGetFieldId($fields);
+		$fieldPid = (string) $this->phpcode->getPhpCodeGetFieldParentId($fields);
+        $ccFieldId = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
+		$ccFieldPid = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = $this->phpcode->getPhpCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+		$ret .= $this->phpcode->getPhpCodeXoopsRequest($ccFieldPid, $fieldPid, '', 'Int');
 
         return $ret;
     }
 
     /*
-    *  @public function getUserSingleSave
+    *  @public function getUserSingleMiddle
     *  @param string $moduleDirname
     *  @param string $tableName
     */
@@ -163,9 +128,9 @@ EOT;
      *
      * @return string
      */
-    public function getUserSingleSave($moduleDirname, $fields, $tableName, $language)
+    public function getUserSingleMiddle($moduleDirname, $tableName, $fields, $language)
     {
-        $fieldId = $this->phpcode->getPhpCodeUserSaveFieldId($fields);
+        $fieldId = (string) $this->phpcode->getPhpCodeGetFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -201,12 +166,7 @@ EOT;
      */
     public function getUserSingleFooter()
     {
-        $ret = <<<EOT
-}
-include  __DIR__ . '/footer.php';
-EOT;
-
-        return $ret;
+        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
     }
 
     /*
@@ -225,12 +185,15 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
+		$tableSingle = $table->getVar('table_name');
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSingleHeader($moduleDirname);
-        $content .= $this->getUserSingleForm($module, $tableName, $language);
-        $content .= $this->getUserSingleSave($moduleDirname, $fields, $tableName, $language);
+		if(1 == $tableSingle) {
+			$content .= $this->getUserSingleTop($module, $tableName, $fields, $language);
+			$content .= $this->getUserSingleMiddle($moduleDirname, $tableName, $fields, $language);
+		}
         $content .= $this->getUserSingleFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

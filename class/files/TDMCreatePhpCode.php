@@ -454,7 +454,7 @@ EOT;
     */
     public function getPhpCodeUserHeader($moduleDirname, $tableName)
     {
-        $ret = $this->getPhpCodeIncludeDir('header');
+        $ret = $this->getPhpCodeIncludeDir('__DIR__', 'header');
 		$ret .= $this->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
 		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
 
@@ -485,13 +485,13 @@ EOT;
     }
 
     /**
-     *  @public function getPhpCodeUserSaveElements
+     *  @public function getPhpCodeGetFieldId
      *
      *  @param $fields
      *
      *  @return string
      */
-    public function getPhpCodeUserSaveFieldId($fields)
+    public function getPhpCodeGetFieldId($fields)
     {
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -501,6 +501,25 @@ EOT;
         }
 
         return $fieldId;
+    }
+	
+	/**
+     *  @public function getPhpCodeGetFieldParentId
+     *
+     *  @param $fields
+     *
+     *  @return string
+     */
+    public function getPhpCodeGetFieldParentId($fields)
+    {
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (1 == $fields[$f]->getVar('field_parent')) {
+                $fieldPid = $fieldName;
+            }
+        }
+
+        return $fieldPid;
     }
 
     /**
@@ -964,23 +983,24 @@ EOT;
 
     /*
     *  @public function getPhpCodeUpdate
-    *  @param string $language
-    *  @param string $tableName
-    *  @param string $fieldId
+    *  @param $language
+    *  @param $tableName
+    *  @param $fieldId
+	*  @param $fieldName
     *  @return string
     */
-    public function getPhpCodeUpdate($language, $tableName, $fieldId)
+    public function getPhpCodeUpdate($language, $tableName, $fieldId, $fieldName)
     {
         $content = <<<EOT
         if (isset(\${$fieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         }
-        \${$tableName}Obj->setVar("\${$tableName}_display", \$_POST["\${$tableName}_display"]);
+        \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
 
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header("\${$tableName}.php", 3, {$language}FORM_OK);
         }
-        echo \${$tableName}Obj->getHtmlErrors();\n
+        \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
 EOT;
 
         return $this->getPhpCodeCaseSwitch('update', $content);

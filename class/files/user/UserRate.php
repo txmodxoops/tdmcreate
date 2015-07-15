@@ -165,7 +165,7 @@ EOT;
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->phpcode->getPhpCodeUserSaveFieldId($fields);
+        $fieldId = $this->phpcode->getPhpCodeGetFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
