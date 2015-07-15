@@ -32,13 +32,13 @@ class UserRate extends TDMCreateFile
     * @var mixed
     */
     private $phpcode = null;
-	
-	/*
+
+    /*
     * @var mixed
     */
     private $xoopscode = null;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -50,7 +50,7 @@ class UserRate extends TDMCreateFile
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-		$this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*

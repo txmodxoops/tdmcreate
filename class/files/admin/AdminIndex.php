@@ -100,8 +100,7 @@ class AdminIndex extends TDMCreateFile
                 $tableName = $tables[$i]->getVar('table_name');
                 $ucfTableName = ucfirst($tableName);
                 $content .= <<<EOT
-//\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
-\$count{$ucfTableName} = \${$tableName}Handler->getCount();\n
+\$count{$ucfTableName} = \${$tableName}Handler->getCount{$ucfTableName}();\n
 EOT;
             }
         }

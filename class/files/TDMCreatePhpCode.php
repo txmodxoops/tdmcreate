@@ -35,7 +35,7 @@ class TDMCreatePhpCode
      *
      */
     public function __construct()
-    {        
+    {
     }
 
     /*
@@ -83,8 +83,8 @@ class TDMCreatePhpCode
         }
 
         return $ret;
-    }     
-    
+    }
+
     /*
      * @public function getPhpCodeConditions
      * @param string $condition
@@ -115,7 +115,7 @@ EOT;
 
         return $ret;
     }
-    
+
     /**
      *  @public function getPhpCodeSwitch
      *
@@ -173,7 +173,7 @@ EOT;
 
         return $ret;
     }
-    
+
     /*
     *  @public function getPhpCodeImplode
     *  @param $left
@@ -184,8 +184,8 @@ EOT;
     {
         return "implode('{$left} ', {$right})";
     }
-	
-	/*
+
+    /*
     *  @public function getPhpCodeSprintf
     *  @param $left
     *  @param $right
@@ -195,18 +195,18 @@ EOT;
     {
         return "sprintf({$left}, {$right})";
     }
-	
-	/*
+
+    /*
     *  @public function getPhpCodeEmpty
-    *  @param $var    
+    *  @param $var
     *  @return string
     */
     public function getPhpCodeEmpty($var)
     {
         return "empty({$var})";
     }
-	
-	/*
+
+    /*
     *  @public function getPhpCodeHeader
     *  @param $var
     *  @return string
@@ -214,5 +214,43 @@ EOT;
     public function getPhpCodeHeader($var)
     {
         return "header({$var})";
+    }
+
+    /*
+    *  @public function getPhpCodeRawurlencode
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeRawurlencode($var)
+    {
+        return "rawurlencode({$var})";
+    }
+
+    /*
+    *  @public function getPhpCodeHtmlentities
+    *  @param $var
+    *  @param $quote
+    *  @return string
+    */
+    public function getPhpCodeHtmlentities($var, $quote = false)
+    {
+        $var = $quote != false ? $var.', '.$quote : $var;
+        $ret = "htmlentities({$var})";
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodeHtmlspecialchars
+    *  @param $var
+    *  @param $quote
+    *  @return string
+    */
+    public function getPhpCodeHtmlspecialchars($var, $quote = false)
+    {
+        $var = $quote != false ? $var.', '.$quote : $var;
+        $ret = "htmlspecialchars({$var})";
+
+        return $ret;
     }
 }

@@ -31,13 +31,13 @@ class AdminPages extends TDMCreateFile
     * @var mixed
     */
     private $phpcode = null;
-	
-	/*
+
+    /*
     * @var mixed
     */
     private $xoopscode = null;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -49,7 +49,7 @@ class AdminPages extends TDMCreateFile
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-		$this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -96,7 +96,7 @@ class AdminPages extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'list', 'String');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
         $ret .= <<<EOT
 // Switch options
 switch (\$op)
