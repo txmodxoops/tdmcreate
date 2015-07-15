@@ -25,9 +25,19 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminPages.
  */
-class AdminPages extends TDMCreatePhpCode
+class AdminPages extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+	
+	/*
+    * @var mixed
+    */
+    private $xoopscode = null;
+	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -39,6 +49,7 @@ class AdminPages extends TDMCreatePhpCode
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
+		$this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -83,9 +94,9 @@ class AdminPages extends TDMCreatePhpCode
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
         $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret .= $this->phpcode->getPhpCodeXoopsRequest('op', 'op', 'list', 'String');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'list', 'String');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
-        $ret .= $this->phpcode->getPhpCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
         $ret .= <<<EOT
 // Switch options
 switch (\$op)
@@ -215,28 +226,28 @@ EOT;
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->phpcode->getPhpCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 10:
-                        $ret .= $this->phpcode->getPhpCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->phpcode->getPhpCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
                         if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
-                        $ret .= $this->phpcode->getPhpCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= $this->xoopscode->getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
-                        $ret .= $this->phpcode->getPhpCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $this->phpcode->getPhpCodeTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->phpcode->getPhpCodeSetVar($tableName, $fieldName, '$'.$fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeSetVar($tableName, $fieldName, '$_POST[\''.$fieldName.'\']');
                         break;
                 }
             }
@@ -403,7 +414,7 @@ EOT;
             $content .= $this->getAdminPagesUpdate($language, $tableName, $fieldId, $fieldName);
         }
         $content .= $this->getAdminPagesFooter();
-        //
+
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

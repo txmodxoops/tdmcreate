@@ -29,6 +29,16 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 class UserBroken extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+	
+	/*
+    * @var mixed
+    */
+    private $xoopscode = null;
+	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -40,6 +50,7 @@ class UserBroken extends TDMCreateFile
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
+		$this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -88,7 +99,7 @@ class UserBroken extends TDMCreateFile
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $fieldId = $this->phpcode->getPhpCodeGetFieldId($fields);
+        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \$op = XoopsRequest::getString('op', 'list');
@@ -165,7 +176,7 @@ EOT;
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->phpcode->getPhpCodeGetFieldId($fields);
+        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -182,7 +193,7 @@ EOT;
             \$error = true;
         }\n
 EOT;
-        $ret .= $this->phpcode->getPhpCodeUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->xoopscode->getXoopsCodeUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
 
         if (\$error == true){

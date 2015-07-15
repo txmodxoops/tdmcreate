@@ -29,6 +29,16 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 class UserPages extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+	
+	/*
+    * @var mixed
+    */
+    private $xoopscode = null;
+	
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -40,6 +50,7 @@ class UserPages extends TDMCreateFile
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
+		$this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -96,10 +107,10 @@ class UserPages extends TDMCreateFile
         $lcfTableName = lcfirst($tableName);
         $ucfTableName = ucfirst($tableName);
         $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
-        $ret .= $this->phpcode->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
+        $ret .= $this->xoopscode->getXoopsCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->phpcode->getPhpCodeXoopsRequest('start', 'start', '0', 'Int');
-        $ret .= $this->phpcode->getPhpCodeXoopsRequest('limit', 'limit', "\${$moduleDirname}->getConfig('userpager')", 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('limit', 'limit', "\${$moduleDirname}->getConfig('userpager')", 'Int');
         $ret .= <<<EOT
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );

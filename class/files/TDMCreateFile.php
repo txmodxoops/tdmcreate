@@ -149,7 +149,8 @@ class TDMCreateFile extends TDMCreateTableFields
     /**
      * TDMCreateFile::load().
      *
-     * @param string $name
+     * @param $folder
+     * @param $name
      *
      * @return bool
      */
@@ -175,6 +176,8 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @param $folder
      * @param $name
+	 * @param $module
+     * @param $filename
      *
      * @return
      */
