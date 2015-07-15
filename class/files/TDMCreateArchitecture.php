@@ -315,7 +315,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $ret[] = $adminHeader->render();
             // Admin Index File
             $adminIndex = AdminIndex::getInstance();
-            $adminIndex->write($module, $tables, 'index.php');
+            $adminIndex->write($module, 'index.php');
             $ret[] = $adminIndex->render();
             // Admin Menu File
             $adminMenu = AdminMenu::getInstance();

@@ -106,12 +106,12 @@ class UserSingle extends TDMCreateFile
     public function getUserSingleTop($module, $tableName, $fields, $language)
     {
         $stuModuleName = strtoupper($module->getVar('mod_name'));
-		$fieldId = (string) $this->phpcode->getPhpCodeGetFieldId($fields);
-		$fieldPid = (string) $this->phpcode->getPhpCodeGetFieldParentId($fields);
+        $fieldId = (string) $this->phpcode->getPhpCodeGetFieldId($fields);
+        $fieldPid = (string) $this->phpcode->getPhpCodeGetFieldParentId($fields);
         $ccFieldId = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
-		$ccFieldPid = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldPid = (string) $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = $this->phpcode->getPhpCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-		$ret .= $this->phpcode->getPhpCodeXoopsRequest($ccFieldPid, $fieldPid, '', 'Int');
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest($ccFieldPid, $fieldPid, '', 'Int');
 
         return $ret;
     }
@@ -185,15 +185,15 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-		$tableSingle = $table->getVar('table_name');
+        $tableSingle = $table->getVar('table_name');
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSingleHeader($moduleDirname);
-		if(1 == $tableSingle) {
-			$content .= $this->getUserSingleTop($module, $tableName, $fields, $language);
-			$content .= $this->getUserSingleMiddle($moduleDirname, $tableName, $fields, $language);
-		}
+        if (1 == $tableSingle) {
+            $content .= $this->getUserSingleTop($module, $tableName, $fields, $language);
+            $content .= $this->getUserSingleMiddle($moduleDirname, $tableName, $fields, $language);
+        }
         $content .= $this->getUserSingleFooter();
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

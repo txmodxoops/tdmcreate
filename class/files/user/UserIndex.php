@@ -101,7 +101,7 @@ EOT;
     private function getTemplateHeaderFile($moduleDirname)
     {
         $ret = $this->phpcode->getPhpCodeUserHeader($moduleDirname, 'index');
-		$ret .= <<<EOT
+        $ret .= <<<EOT
 // Define Stylesheet
 \$GLOBALS['xoTheme']->addStylesheet( \$style );\n
 EOT;

@@ -146,6 +146,52 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->setFileName($fileName);
     }
 
+    /**
+     * TDMCreateFile::load().
+     *
+     * @param string $name
+     *
+     * @return bool
+     */
+    public static function load($folder = 'admin', $name = 'about')
+    {
+        if ($folder != '') {
+            if (!class_exists(ucfirst($folder).ucfirst($name))) {
+                if (file_exists($class = __DIR__.'/'.$folder.'/'.ucfirst($folder).ucfirst($name).'.php')) {
+                    include $class;
+                } else {
+                    trigger_error('Require Item : '.str_replace(TDMC_CLASSES_PATH, '', $folder).' In File '.__FILE__.' at Line '.__LINE__, E_USER_WARNING);
+
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * TDMCreateFile::getHandler().
+     *
+     * @param $folder
+     * @param $name
+     *
+     * @return
+     */
+    public static function getHandler($folder = 'admin', $name = 'about', $module, $filename)
+    {
+        $ret = null;
+        self::load($folder, $name);
+        $class = ucfirst($folder).ucfirst($name);
+        if (class_exists($class)) {
+            $ret = new $class($module, $filename);
+        } else {
+            trigger_error('Class '.$class.' not exist in File '.__FILE__.' at Line '.__LINE__, E_USER_WARNING);
+        }
+
+        return $ret;
+    }
+
     /*
     *  @private function setRepositoryPath
     *  @param string $moduleDirname

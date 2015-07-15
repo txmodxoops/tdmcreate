@@ -96,11 +96,11 @@ class UserPages extends TDMCreateFile
         $lcfTableName = lcfirst($tableName);
         $ucfTableName = ucfirst($tableName);
         $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
-		$ret .= $this->phpcode->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
-		$ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-		$ret .= $this->phpcode->getPhpCodeXoopsRequest('start', 'start', '0', 'Int');
-		$ret .= $this->phpcode->getPhpCodeXoopsRequest('limit', 'limit', "\${$moduleDirname}->getConfig('userpager')", 'Int');
-		$ret .= <<<EOT
+        $ret .= $this->phpcode->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest('start', 'start', '0', 'Int');
+        $ret .= $this->phpcode->getPhpCodeXoopsRequest('limit', 'limit', "\${$moduleDirname}->getConfig('userpager')", 'Int');
+        $ret .= <<<EOT
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );
 //
@@ -150,9 +150,9 @@ unset(\$keywords);
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$tableName}.php');
 
 EOT;
-		$ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
-        
-		return $ret;
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
+
+        return $ret;
     }
 
     /*

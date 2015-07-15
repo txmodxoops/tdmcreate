@@ -77,26 +77,26 @@ class TDMCreatePhpCode extends TDMCreateFile
     /*
     *  @public function getPhpCodeIncludeDir
     *  @param $directory
-	*  @param $filename
-	*  @param $once
+    *  @param $filename
+    *  @param $once
     *  @return string
     */
     public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false)
     {
-        if(!$once) {
-			$ret = "include {$directory} .'/{$filename}.php';\n";
-		} else {
-			$ret = "include_once {$directory} .'/{$filename}.php';\n";
-		}
-		
+        if (!$once) {
+            $ret = "include {$directory} .'/{$filename}.php';\n";
+        } else {
+            $ret = "include_once {$directory} .'/{$filename}.php';\n";
+        }
+
         return $ret;
-    }	
-	
+    }
+
     /*
     *  @public function getPhpCodeSetVar
     *  @param string $tableName
     *  @param string $fieldName
-	*  @param string $var
+    *  @param string $var
     *  @return string
     */
     public function getPhpCodeSetVar($tableName, $fieldName, $var)
@@ -146,9 +146,9 @@ EOT;
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->getPhpCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
-		$ret .= $this->getPhpCodeCommentLine('Set Var', $fieldName);
-		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-		$ret .= <<<EOT
+        $ret .= $this->getPhpCodeCommentLine('Set Var', $fieldName);
+        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= <<<EOT
         \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH . '/{$tableName}',
 														\${$moduleDirname}->getConfig('mimetypes'),
                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
@@ -176,8 +176,8 @@ EOT;
     public function getPhpCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
     {
         $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
-		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-		$ret .= <<<EOT
+        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= <<<EOT
         \$uploaddir = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
         \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
                                                          \${$moduleDirname}->getConfig('maxsize'), null, null);
@@ -209,8 +209,8 @@ EOT;
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
-		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-		$ret .= <<<EOT
+        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= <<<EOT
         \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_IMAGE_PATH.'/{$tableName}',
 														\${$moduleDirname}->getConfig('mimetypes'),
                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
@@ -440,13 +440,12 @@ EOT;
     */
     public function getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName)
     {
-
-		$ret = "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';\n";
+        $ret = "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';\n";
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getPhpCodeUserHeader
     *  @param string $moduleDirname
     *  @param string $tableName
@@ -455,12 +454,12 @@ EOT;
     public function getPhpCodeUserHeader($moduleDirname, $tableName)
     {
         $ret = $this->getPhpCodeIncludeDir('__DIR__', 'header');
-		$ret .= $this->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
-		$ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->getPhpCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
+        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
 
         return $ret;
     }
-    
+
     /*
     *  @public function getPhpCodePermissionsHeader
     *  @param null
@@ -502,8 +501,8 @@ EOT;
 
         return $fieldId;
     }
-	
-	/**
+
+    /**
      *  @public function getPhpCodeGetFieldParentId
      *
      *  @param $fields
@@ -986,7 +985,7 @@ EOT;
     *  @param $language
     *  @param $tableName
     *  @param $fieldId
-	*  @param $fieldName
+    *  @param $fieldName
     *  @return string
     */
     public function getPhpCodeUpdate($language, $tableName, $fieldId, $fieldName)

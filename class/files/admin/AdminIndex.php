@@ -70,10 +70,9 @@ class AdminIndex extends TDMCreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -140,13 +139,12 @@ EOT;
                 $tableName = $tables[$i]->getVar('table_name');
                 if (1 == $tables[$i]->getVar('table_install')) {
                     $content .= <<<EOT
-	\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
+		{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
 EOT;
                 }
             }
             $content .= <<<EOT
 );
-
 // Uploads Folders Created
 foreach (array_keys( \$folder) as \$i) {
     \$adminMenu->addConfigBoxLine(\$folder[\$i], 'folder');
@@ -157,7 +155,7 @@ EOT;
         $content .= <<<EOT
 // Render Index
 echo \$adminMenu->addNavigation('index.php');
-echo \$adminMenu->renderIndex();
+echo \$adminMenu->renderIndex();\n
 EOT;
         $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
