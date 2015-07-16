@@ -99,7 +99,7 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
     private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language)
     {
         $tbody = $this->getTemplatesUserPagesTableThead($tableName, $language);
-        $tbody .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language);
+        $tbody .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename);
         $tbody .= $this->getTemplatesUserPagesTableTfoot();
         $single = $this->getSmartySingleVar('table_type');
 
@@ -129,17 +129,17 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
     /*
     *  @private function getTemplatesUserPagesTbody
     *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
+    *  @param string $tableName
+    *  @param string $tableSolename
     */
     /**
      * @param $moduleDirname
-     * @param $table
-     * @param $language
+     * @param $tableName
+     * @param $tableSolename
      *
      * @return string
      */
-    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename)
     {
         $single = $this->getSmartySingleVar('panel_type');
         $include = $this->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
@@ -223,8 +223,8 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
         $tableSolename = $table->getVar('table_solename');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserPagesHeader($moduleDirname);
-        $content      .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSolename, $language);
-        $content      .= $this->getTemplatesUserPagesFooter($moduleDirname);
+        $content .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSolename, $language);
+        $content .= $this->getTemplatesUserPagesFooter($moduleDirname);
         //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

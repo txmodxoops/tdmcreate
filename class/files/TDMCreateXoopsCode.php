@@ -124,31 +124,7 @@ EOT;
 														\${$moduleDirname}->getConfig('mimetypes'),
                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);\n";
     }
-
-    /*
-    *  @public function getXoopsCodeUrlFileSetVar
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $fieldName
-    *  @return string
-    */
-    public function getXoopsCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName)
-    {
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
-        $ret .= $this->getXoopsCodeCommentLine('Set Var', $fieldName);
-        $ret .= $this->getXoopsCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
-        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
-        $ifelse = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
-        $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
-        $contentIf = "\$errors = \$uploader->getErrors();\n";
-        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
-
-        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
-    }
-
+    
     /*
     *  @public function getXoopsCodeImageListSetVar
     *  @param string $moduleDirname
@@ -199,24 +175,34 @@ EOT;
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
         return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
-    }
-
+    }	
+	
     /*
-    *  @public function getXoopsCodeUploadFileSetVar
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldName
+    *  @public function getXoopsCodeFileSetVar
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $fieldName
+	*  @param $formatUrl
     *  @return string
     */
-    public function getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName)
+    public function getXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->getXoopsCodeCommentLine('Set Var', $fieldName);
-        $ret .= $this->getXoopsCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+		if($formatUrl) {
+			$ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
+			$ret .= $this->getPhpCodeCommentLine('Set Var', $fieldName);
+		} else {
+			$ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
+        }
+		$ret .= $this->getXoopsCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
         $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
-        $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
-        $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+		if($formatUrl) {
+			$ifelse = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+		} else {
+			$ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
+			$ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+		}
         $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
@@ -639,34 +625,34 @@ EOT;
      */
     public function getXoopsCodeSetVarsObjects($moduleDirname, $tableName, $fields)
     {
-        $ret = $this->getPhpCodeCommentLine('Set Vars');
+        $ret = '';
 
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
+			if (1 == $fields[$f]->getVar('field_main')) {
+				$fieldMain = $fieldName;
+			}
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $this->getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $this->getImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->getXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName, true);
                         break;
-                    case 13:
-                        if (1 == $fields[$f]->getVar('field_main')) {
-                            $fieldMain = $fieldName;
-                        }
-                        $ret .= $this->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                    case 13:                        
+                        $ret .= $this->getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
-                        $ret .= $this->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->getXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $this->getTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $this->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
                         $ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");

@@ -97,7 +97,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false)
     {
-        if (false !== $contentElse) {
+        if (false === $contentElse) {
             $ret = <<<EOT
 	if ({$condition}{$operator}{$type}) {
 		{$contentIf}
@@ -112,6 +112,77 @@ EOT;
     }\n
 EOT;
         }
+
+        return $ret;
+    }
+	
+	/*
+     * @public function getPhpCodeForeach
+     * @param string $array
+     * @param string $content	 
+     * @param string $value
+     * @param string $arrayKey
+	 * @param string $key
+     *
+     * @return string
+     */
+    public function getPhpCodeForeach($array = '', $content = '', $value = false, $arrayKey = false, $key = false)
+    {
+        
+		if ((false === $arrayKey) && (false === $key)) {
+            $vars = "{$array} as {$value}";
+        } elseif ((false === $arrayKey) && (false !== $key)) {
+            $vars = "{$array} as {$key} => {$value}";
+        } elseif ((false !== $arrayKey) && (false === $key)) {
+            $vars = "array_key({$array}) as {$value}";
+        }
+		
+		$ret = <<<EOT
+	foreach({$vars}) {
+		{$content}
+	}\n
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+     * @public function getPhpCodeFor
+     * @param $var
+     * @param $content	 
+     * @param $value
+     * @param $initVal
+	 * @param $operator
+     *
+     * @return string
+     */
+    public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '')
+    {		
+		$ret = <<<EOT
+	for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
+		{$content}
+	}\n
+EOT;
+
+        return $ret;
+    }
+	
+	/*
+     * @public function getPhpCodeWhile
+     * @param $var
+     * @param $content	 
+     * @param $value
+	 * @param $operator
+     *
+     * @return string
+     */
+    public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '')
+    {		
+		$ret = <<<EOT
+	while(\${$var} {$operator} {$value}) {
+		{$content}
+	}\n
+EOT;
 
         return $ret;
     }

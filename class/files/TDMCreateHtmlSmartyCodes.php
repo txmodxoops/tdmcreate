@@ -31,7 +31,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     /*
     * @var string
     */
-    protected $htmlcode = '';
+    protected $htmlcode = null;
 
     /*
     *  @public function constructor

@@ -216,42 +216,9 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         } else {
            \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
-        // Set Vars\n
+        }\n
 EOT;
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ($f > 0) { // If we want to hide field id
-                switch ($fieldElement) {
-                    case 5:
-                    case 6:
-                        $ret .= $this->xoopscode->getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
-                        break;
-                    case 10:
-                        $ret .= $this->xoopscode->getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
-                        break;
-                    case 12:
-                        $ret .= $this->xoopscode->getXoopsCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName);
-                        break;
-                    case 13:
-                        if (1 == $fields[$f]->getVar('field_main')) {
-                            $fieldMain = $fieldName;
-                        }
-                        $ret .= $this->xoopscode->getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
-                        break;
-                    case 14:
-                        $ret .= $this->xoopscode->getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
-                        break;
-                    case 15:
-                        $ret .= $this->xoopscode->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
-                        break;
-                    default:
-                        $ret .= $this->xoopscode->getXoopsCodeSetVar($tableName, $fieldName, '$_POST[\''.$fieldName.'\']');
-                        break;
-                }
-            }
-        }
+        $ret .= $this->xoopscode->getXoopsCodeSetVarsObjects($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         // Insert Data
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
@@ -365,7 +332,7 @@ EOT;
     private function getAdminPagesFooter()
     {
         $ret = <<<EOT
-}
+}\n
 EOT;
 
         $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
