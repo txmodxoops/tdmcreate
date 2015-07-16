@@ -344,38 +344,15 @@ EOT;
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
     {
-        if (false === $contentElse) {
-            if (!$count && (false === $noSimbol)) {
-                $ret = <<<EOT
-<{if \${$condition}{$operator}{$type}}>\n
-EOT;
-            } elseif (true === $noSimbol) {
-                $ret = <<<EOT
-<{if {$condition}{$operator}{$type}}>\n
-EOT;
-            } elseif ($count) {
-                $ret = <<<EOT
-<{if count(\${$condition}){$operator}{$type}}>\n
-EOT;
-            }
+        $ret = '';
+		if (false === $contentElse) {
+            $ret .= $this->getConditions($ret, $condition, $operator, $type, $count, $noSimbol);
             $ret .= <<<EOT
 	{$contentIf}
 <{/if}>
 EOT;
         } else {
-            if (!$count && (false === $noSimbol)) {
-                $ret = <<<EOT
-<{if \${$condition}{$operator}{$type}}>\n
-EOT;
-            } elseif (true === $noSimbol) {
-                $ret = <<<EOT
-<{if {$condition}{$operator}{$type}}>\n
-EOT;
-            } elseif ($count) {
-                $ret = <<<EOT
-<{if count(\${$condition}){$operator}{$type}}>\n
-EOT;
-            }
+            $ret .= $this->getConditions($ret, $condition, $operator, $type, $count, $noSimbol);
             $ret .= <<<EOT
     {$contentIf}
 <{else}>
@@ -383,6 +360,37 @@ EOT;
 <{/if}>
 EOT;
         }
+
+        return $ret;
+    }
+	
+	/*
+     * @private function getConditions
+     *
+     * @param $ret
+	 * @param $condition
+     * @param $operator
+     * @param $type
+     * @param $count
+     * @param $noSimbol
+     *
+     * @return string
+     */
+    private function getConditions($ret = '', $condition = '', $operator = '', $type = '', $count = false, $noSimbol = false)
+    {
+			if (!$count && (false === $noSimbol)) {
+                $ret .= <<<EOT
+<{if \${$condition}{$operator}{$type}}>\n
+EOT;
+            } elseif (true === $noSimbol) {
+                $ret .= <<<EOT
+<{if {$condition}{$operator}{$type}}>\n
+EOT;
+            } elseif ($count) {
+                $ret .= <<<EOT
+<{if count(\${$condition}){$operator}{$type}}>\n
+EOT;
+            }    
 
         return $ret;
     }
