@@ -351,7 +351,7 @@ EOT;
 EOT;
             } elseif (!$noSimbol) {
                 $ret = <<<EOT
-<{if {$condition}{$operator}{$type}}>\n
+<{if \${$condition}{$operator}{$type}}>\n
 EOT;
             } else {
                 $ret = <<<EOT
@@ -369,7 +369,7 @@ EOT;
 EOT;
             } elseif (!$noSimbol) {
                 $ret = <<<EOT
-<{if {$condition}{$operator}{$type}}>\n
+<{if \${$condition}{$operator}{$type}}>\n
 EOT;
             } else {
                 $ret = <<<EOT
