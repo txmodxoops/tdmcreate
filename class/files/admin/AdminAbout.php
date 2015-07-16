@@ -101,8 +101,8 @@ class AdminAbout extends TDMCreateFile
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
         $content .= $this->xoopscode->getXoopsCodeTemplateMain($moduleDirname, 'about');
-        $content .= $this->xoopscode->getXoopsCodeXoopsTplAssign('navigation', "\$adminMenu->addNavigation('about.php')");
-        $content .= $this->xoopscode->getXoopsCodeXoopsTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");
+        $content .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('about.php')");
+        $content .= $this->xoopscode->getXoopsCodeTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");
         $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

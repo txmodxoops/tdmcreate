@@ -88,8 +88,8 @@ EOT;
 
     /*
     *  @public function getXoopsCodeCheckBoxOrRadioYNSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
+    *  @param $tableName
+    *  @param $fieldName
     *  @return string
     */
     public function getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName)
@@ -97,6 +97,32 @@ EOT;
         $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0')");
 
         return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeGetConfig
+    *  @param $moduleDirname
+    *  @param $name
+    *  @return string
+    */
+    public function getXoopsCodeGetConfig($moduleDirname, $name)
+    {
+        return "\${$moduleDirname}->getConfig('{$name}')";
+    }
+
+    /*
+    *  @public function getXoopsCodeGetConfig
+    *  @param $var
+    *  @param $dirPath
+    *  @param $tableName
+    *  @param $moduleDirname
+    *  @return string
+    */
+    public function getXoopsCodeMediaUploader($var = '', $dirPath, $tableName, $moduleDirname)
+    {
+        return "\${$var} = new XoopsMediaUploader({$dirPath} . '/{$tableName}',
+														\${$moduleDirname}->getConfig('mimetypes'),
+                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);\n";
     }
 
     /*
@@ -112,22 +138,15 @@ EOT;
         $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
         $ret .= $this->getXoopsCodeCommentLine('Set Var', $fieldName);
         $ret .= $this->getXoopsCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= <<<EOT
-        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH . '/{$tableName}',
-														\${$moduleDirname}->getConfig('mimetypes'),
-                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
-            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
-            if (!\$uploader->upload()) {
-                \$errors = \$uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, \$errors);
-            } else {
-                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
-            }
-        }\n
-EOT;
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        $ifelse = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+        $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
 
-        return $ret;
+        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
     }
 
     /*
@@ -141,25 +160,17 @@ EOT;
     {
         $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
         $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= <<<EOT
-        \$uploaddir = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
-        \$uploader = new XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
-            //\$uploader->setPrefix('{$fieldName}_');
-            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
-            if (!\$uploader->upload()) {
-                \$errors = \$uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, \$errors);
-            } else {
-                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
-            }
-        } else {
-            \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
-        }\n
-EOT;
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
+        $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+        $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
-        return $ret;
+        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
     }
 
     /*
@@ -174,27 +185,20 @@ EOT;
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
         $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= <<<EOT
-        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_IMAGE_PATH.'/{$tableName}',
-														\${$moduleDirname}->getConfig('mimetypes'),
-                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
-			\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);
-            \$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;
-			\$uploader->setPrefix(\$imgName);
-            \$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
-            if (!\$uploader->upload()) {
-                \$errors = \$uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, \$errors);
-            } else {
-                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
-            }
-        } else {
-            \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
-        }\n
-EOT;
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_IMAGE_PATH", $tableName, $moduleDirname);
 
-        return $ret;
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        $ifelse = "\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);\n";
+        $ifelse .= "\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;\n";
+        $ifelse .= "\$uploader->setPrefix(\$imgName);\n";
+        $ifelse .= "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);\n";
+        $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
+
+        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
     }
 
     /*
@@ -207,25 +211,18 @@ EOT;
     public function getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        \$uploader = new XoopsMediaUploader({$stuModuleDirname}_UPLOAD_FILES_PATH.'/{$tableName}',
-														\${$moduleDirname}->getConfig('mimetypes'),
-                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);
-        if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
-            //\$uploader->setPrefix('{$fieldName}_') ;
-            //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);
-            if (!\$uploader->upload()) {
-                \$errors = \$uploader->getErrors();
-                redirect_header('javascript:history.go(-1)', 3, \$errors);
-            } else {
-                \${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());
-            }
-        }\n
-EOT;
+        $ret = $this->getXoopsCodeCommentLine('Set Var', $fieldName);
+        $ret .= $this->getXoopsCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
+        $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+        $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
 
-        return $ret;
+        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
     }
 
     /*
@@ -244,14 +241,14 @@ EOT;
     }
 
     /*
-    *  @public function getXoopsCodeSimpleGetVar
+    *  @public function getXoopsCodeGetVarAll
     *  @param string $lpFieldName
     *  @param string $rpFieldName
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getXoopsCodeSimpleGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getXoopsCodeGetVarAll($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         $ret = <<<EOT
 \t\t\t\t// Get Var {$fieldName}
@@ -335,12 +332,7 @@ EOT;
     */
     public function getXoopsCodeUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
-        $ret = <<<EOT
-\t\t\t\t// Get Var {$fieldName}
-\t\t\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
-EOT;
-
-        return $ret;
+        return $this->getXoopsCodeGetVarAll($lpFieldName, $rpFieldName, $tableName, $fieldName);
     }
     /*
     *  @public function getXoopsCodeTextAreaGetVar
@@ -512,7 +504,7 @@ EOT;
             } elseif (15 == $fieldElement) {
                 $ret .= $this->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
             } else {
-                $ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, '$'.$fieldName);
+                $ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
             }
         }
 
@@ -555,16 +547,16 @@ EOT;
     }
 
     /**
-     *  @public function getXoopsCodeXoopsTplAssign
+     *  @public function getXoopsCodeTplAssign
      *
      *  @param string $tplString
      *  @param string $phpRender
      *
      *  @return string
      */
-    public function getXoopsCodeXoopsTplAssign($tplString, $phpRender)
+    public function getXoopsCodeTplAssign($tplString, $phpRender)
     {
-        $ret = "\$GLOBALS['xoopsTpl']->assign('{$tplString}', \${$phpRender});\n";
+        $ret = "\$GLOBALS['xoopsTpl']->assign('{$tplString}', {$phpRender});\n";
 
         return $ret;
     }
@@ -579,7 +571,7 @@ EOT;
      */
     public function getXoopsCodeXoopsTplAppend($tplString, $phpRender)
     {
-        $ret = "\$GLOBALS['xoopsTpl']->append('{$tplString}', \${$phpRender});\n";
+        $ret = "\$GLOBALS['xoopsTpl']->append('{$tplString}', {$phpRender});\n";
 
         return $ret;
     }
@@ -594,7 +586,7 @@ EOT;
      */
     public function getXoopsCodeXoopsTplAppendByRef($tplString, $phpRender)
     {
-        $ret = "\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', \${$phpRender});\n";
+        $ret = "\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', {$phpRender});\n";
 
         return $ret;
     }
@@ -677,7 +669,7 @@ EOT;
                         $ret .= $this->getTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->getSimpleSetVar($tableName, $fieldName);
+                        $ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
                         break;
                 }
             }
@@ -687,21 +679,20 @@ EOT;
     }
 
     /**
-     *  @public function getXoopsCodeXoopsSecurity
+     *  @public function getXoopsCodeSecurity
      *
      *  @param $tableName
      *
      *  @return string
      */
-    public function getXoopsCodeXoopsSecurity($tableName)
+    public function getXoopsCodeSecurity($tableName)
     {
-        $ret = <<<EOT
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }\n
-EOT;
+        $securityError = $this->getXoopsCodeSecurityGetError();
+        $implode = $this->getPhpCodeImplode(',', $securityError);
+        $content = $this->getXoopsCodeRedirectHeader($tableName, '', 3, $implode);
+        $securityCheck = $this->getXoopsCodeSecurityCheck();
 
-        return $ret;
+        return $this->getPhpCodeConditions('!'.$securityCheck, '', '', $content);
     }
 
     /*
@@ -712,14 +703,10 @@ EOT;
     */
     public function getXoopsCodeInsertData($tableName, $language)
     {
-        $ret = <<<EOT
-        // Insert Data
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-			redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
-        }\n
-EOT;
+        $content = $this->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
+        $handlerInsert = $this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
 
-        return $ret;
+        return $this->getPhpCodeConditions($handlerInsert, '', '', $content);
     }
 
     /*
@@ -730,27 +717,27 @@ EOT;
     *  @param $var
     *  @return string
     */
-    public function getXoopsCodeRedirectHeader($tableName, $options, $numb = 2, $var)
+    public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = 2, $var)
     {
         return "redirect_header('{$tableName}.php{$options}', {$numb}, {$var});\n";
     }
 
     /*
-    *  @public function getXoopsCodeXoopsSecurityCheck
+    *  @public function getXoopsCodeSecurityCheck
     *  @param null
     *  @return boolean
     */
-    public function getXoopsCodeXoopsSecurityCheck()
+    public function getXoopsCodeSecurityCheck()
     {
         return "\$GLOBALS['xoopsSecurity']->check()";
     }
 
     /*
-    *  @public function getXoopsCodeXoopsSecurityGetError
+    *  @public function getXoopsCodeSecurityGetError
     *  @param null
     *  @return string
     */
-    public function getXoopsCodeXoopsSecurityGetError()
+    public function getXoopsCodeSecurityGetError()
     {
         return "\$GLOBALS['xoopsSecurity']->getErrors()";
     }
@@ -854,17 +841,15 @@ EOT;
     */
     public function getXoopsCodeUpdate($language, $tableName, $fieldId, $fieldName)
     {
-        $content = <<<EOT
-        if (isset(\${$fieldId})) {
-            \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
-        }
-        \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
+        $isset = $this->getPhpCodeIsset($fieldId);
+        $get = $this->getXoopsCodeHandler($tableName, $fieldId, true);
+        $content = $this->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
+        $content .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+        $handlerInsert = $this->$this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
+        $redirect = $this->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
+        $content .= $this->getPhpCodeConditions($handlerInsert, '', '', $redirect);
 
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header("\${$tableName}.php", 3, {$language}FORM_OK);
-        }
-        \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
-EOT;
+        $content .= $this->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
 
         return $this->getPhpCodeCaseSwitch('update', $content);
     }

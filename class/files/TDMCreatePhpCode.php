@@ -175,6 +175,16 @@ EOT;
     }
 
     /*
+    *  @public function getPhpCodeIsset
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeIsset($var)
+    {
+        return "isset(\${$var})";
+    }
+
+    /*
     *  @public function getPhpCodeImplode
     *  @param $left
     *  @param $right
@@ -228,29 +238,29 @@ EOT;
 
     /*
     *  @public function getPhpCodeHtmlentities
-    *  @param $var
-    *  @param $quote
+    *  @param $entitiesVar
+    *  @param $entitiesQuote
     *  @return string
     */
-    public function getPhpCodeHtmlentities($var, $quote = false)
+    public function getPhpCodeHtmlentities($entitiesVar, $entitiesQuote = false)
     {
-        $var = $quote != false ? $var.', '.$quote : $var;
-        $ret = "htmlentities({$var})";
+        $entitiesVar = $entitiesQuote !== false ? $entitiesVar.', '.$entitiesQuote : $entitiesVar;
+        $entities = "htmlentities({$entitiesVar})";
 
-        return $ret;
+        return $entities;
     }
 
     /*
     *  @public function getPhpCodeHtmlspecialchars
-    *  @param $var
-    *  @param $quote
+    *  @param $specialVar
+    *  @param $specialQuote
     *  @return string
     */
-    public function getPhpCodeHtmlspecialchars($var, $quote = false)
+    public function getPhpCodeHtmlspecialchars($specialVar, $specialQuote = false)
     {
-        $var = $quote != false ? $var.', '.$quote : $var;
-        $ret = "htmlspecialchars({$var})";
+        $specialVar = $specialQuote !== false ? $specialVar.', '.$specialQuote : $specialVar;
+        $specialchars = "htmlspecialchars({$specialVar})";
 
-        return $ret;
+        return $specialchars;
     }
 }
