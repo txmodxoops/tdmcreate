@@ -148,7 +148,7 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
         $cont = $this->htmlcode->getHtmlTag('td', array(), $div).PHP_EOL;
         $html = $this->htmlcode->getHtmlEmpty('</tr><tr>').PHP_EOL;
         $cont   .= $this->htmlcode->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-        $foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
+        $foreach = $this->htmlcode->getSmartyForeach($tableSolename, $tableName."_list", $cont).PHP_EOL;
         $tr = $this->htmlcode->getHtmlTag('tr', array(), $foreach).PHP_EOL;
 
         return $this->htmlcode->getHtmlTag('tbody', array(), $tr).PHP_EOL;
@@ -189,7 +189,7 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
         $div = $this->htmlcode->getHtmlTag('div', array('class' => 'table-responsive'), $table).PHP_EOL;
 
-        return $this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
+        return $this->htmlcode->getSmartyConditions($tableName.'_list', ' > ', '0', $div, false, true).PHP_EOL;
     }
 
     /*
