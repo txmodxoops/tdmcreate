@@ -345,7 +345,7 @@ EOT;
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
     {
         $ret = '';
-		if (false === $contentElse) {
+        if (false === $contentElse) {
             $ret .= $this->getConditions($ret, $condition, $operator, $type, $count, $noSimbol);
             $ret .= <<<EOT
 	{$contentIf}
@@ -363,12 +363,12 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
      * @private function getConditions
      *
      * @param $ret
-	 * @param $condition
+     * @param $condition
      * @param $operator
      * @param $type
      * @param $count
@@ -378,19 +378,19 @@ EOT;
      */
     private function getConditions($ret = '', $condition = '', $operator = '', $type = '', $count = false, $noSimbol = false)
     {
-			if (!$count && (false === $noSimbol)) {
-                $ret .= <<<EOT
-<{if \${$condition}{$operator}{$type}}>\n
+        $operatorType = "{$operator}{$type}";
+        $noCount = "{$condition}{$operatorType}";
+        $countFunct = "count(\${$condition}){$operatorType}";
+        if (!$count && (false === $noSimbol)) {
+            $var = "\${$noCount}";
+        } elseif (true === $noSimbol) {
+            $var = "{$noCount}";
+        } elseif ($count) {
+            $var = "{$countFunct}";
+        }
+        $ret .= <<<EOT
+<{if {$var}}>\n
 EOT;
-            } elseif (true === $noSimbol) {
-                $ret .= <<<EOT
-<{if {$condition}{$operator}{$type}}>\n
-EOT;
-            } elseif ($count) {
-                $ret .= <<<EOT
-<{if count(\${$condition}){$operator}{$type}}>\n
-EOT;
-            }    
 
         return $ret;
     }
