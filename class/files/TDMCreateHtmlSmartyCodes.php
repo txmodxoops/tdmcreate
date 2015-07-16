@@ -344,7 +344,7 @@ EOT;
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
     {
-        if (!$contentElse) {
+        if (false === $contentElse) {
             if (!$count && (false === $noSimbol)) {
                 $ret = <<<EOT
 <{if \${$condition}{$operator}{$type}}>\n
@@ -353,7 +353,7 @@ EOT;
                 $ret = <<<EOT
 <{if {$condition}{$operator}{$type}}>\n
 EOT;
-            } else {
+            } elseif ($count) {
                 $ret = <<<EOT
 <{if count(\${$condition}){$operator}{$type}}>\n
 EOT;
@@ -371,7 +371,7 @@ EOT;
                 $ret = <<<EOT
 <{if {$condition}{$operator}{$type}}>\n
 EOT;
-            } else {
+            } elseif ($count) {
                 $ret = <<<EOT
 <{if count(\${$condition}){$operator}{$type}}>\n
 EOT;

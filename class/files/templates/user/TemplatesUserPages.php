@@ -189,7 +189,7 @@ class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
         $div = $this->htmlcode->getHtmlTag('div', array('class' => 'table-responsive'), $table).PHP_EOL;
 
-        return $this->htmlcode->getSmartyConditions($tableName.'_list', ' > ', '0', $div, false, true).PHP_EOL;
+        return $this->htmlcode->getSmartyConditions($tableName.'_list', ' > ', '0', $div, false, false).PHP_EOL;
     }
 
     /*
