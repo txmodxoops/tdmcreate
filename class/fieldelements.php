@@ -106,10 +106,10 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaCountFieldElements = new CriteriaCompo();
+        $criteriaCountFieldElements = $this->getFieldElementsCriteria($criteriaCountFieldElements, $start, $limit, $sort, $order);
 
-        return parent::getCount($criteria);
+        return parent::getCount($criteriaCountFieldElements);
     }
 
     /**
@@ -117,10 +117,10 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getObjectsFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaObjectsFieldElements = new CriteriaCompo();
+        $criteriaObjectsFieldElements = $this->getFieldElementsCriteria($criteriaObjectsFieldElements, $start, $limit, $sort, $order);
 
-        return $this->getObjects($criteria);
+        return $this->getObjects($criteriaObjectsFieldElements);
     }
 
     /**
@@ -128,10 +128,10 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllFieldElements = new CriteriaCompo();
+        $criteriaAllFieldElements = $this->getFieldElementsCriteria($criteriaAllFieldElements, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllFieldElements);
     }
 
     /**
@@ -139,24 +139,24 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldElementsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('fieldelement_mid', $modId));
-        $criteria->add(new Criteria('fieldelement_tid', $tabId));
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllFieldElementsByModule = new CriteriaCompo();
+        $criteriaAllFieldElementsByModule->add(new Criteria('fieldelement_mid', $modId));
+        $criteriaAllFieldElementsByModule->add(new Criteria('fieldelement_tid', $tabId));
+        $criteriaAllFieldElementsByModule = $this->getFieldElementsCriteria($criteriaAllFieldElementsByModule, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllFieldElementsByModule);
     }
 
     /**
-     * Get Criteria.
+     * Get FieldElements Criteria.
      */
-    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    private function getFieldElementsCriteria($criteriaFieldElements, $start, $limit, $sort, $order)
     {
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteriaFieldElements->setStart($start);
+        $criteriaFieldElements->setLimit($limit);
+        $criteriaFieldElements->setSort($sort);
+        $criteriaFieldElements->setOrder($order);
 
-        return $criteria;
+        return $criteriaFieldElements;
     }
 }
