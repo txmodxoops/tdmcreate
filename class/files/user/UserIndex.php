@@ -48,7 +48,6 @@ class UserIndex extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
@@ -95,11 +94,7 @@ class UserIndex extends TDMCreateFile
      */
     private function getIncludeHeaderFile()
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';\n
-EOT;
-
-        return $ret;
+        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
     }
 
     /**
@@ -256,11 +251,7 @@ EOT;
      */
     private function getIncludeFooterFile()
     {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
-
-        return $ret;
+        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
     }
 
     /*
@@ -298,8 +289,8 @@ EOT;
         $content .= $this->getDefaultFunctions($moduleDirname, $language);
         $content .= $this->getIncludeFooterFile();
         //
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

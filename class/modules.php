@@ -384,9 +384,9 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-     * Get Values.
+     * Get Modules Values.
      */
-    public function getValuesModules($keys = null, $format = null, $maxDepth = null)
+    public function getModulesValues($keys = null, $format = null, $maxDepth = null)
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
@@ -408,7 +408,7 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-     * Get Options.
+     * Get Modules Options.
      */
     /**
      * @param $key

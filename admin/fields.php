@@ -65,7 +65,7 @@ switch ($op) {
             $tlid = 1;
             foreach (array_keys($tablesAll) as $tid) {
                 // Display tables list
-                $table = $tablesAll[$tid]->getValuesTables();
+                $table = $tablesAll[$tid]->getTablesValues();
                 $talid = array('lid' => $tlid);
                 $table = array_merge($table, $talid);
                 // Get the list of fields
@@ -76,7 +76,7 @@ switch ($op) {
                 $lid = 1;
                 if ($fieldsCount > 0) {
                     foreach (array_keys($fieldsAll) as $fid) {
-                        $field = $fieldsAll[$fid]->getValuesFields();
+                        $field = $fieldsAll[$fid]->getFieldsValues();
                         $falid = array('lid' => $lid);
                         $fields[] = array_merge($field, $falid);
                         unset($field);

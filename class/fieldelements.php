@@ -108,10 +108,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
     public function getCountFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return parent::getCount($criteria);
     }
@@ -122,10 +119,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
     public function getObjectsFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getObjects($criteria);
     }
@@ -136,10 +130,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
     public function getAllFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getAll($criteria);
     }
@@ -152,11 +143,21 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
         $criteria = new CriteriaCompo();
         $criteria->add(new Criteria('fieldelement_mid', $modId));
         $criteria->add(new Criteria('fieldelement_tid', $tabId));
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getAll($criteria);
+    }
+
+    /**
+     * Get Criteria.
+     */
+    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    {
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+
+        return $criteria;
     }
 }

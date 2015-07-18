@@ -146,9 +146,9 @@ class TDMCreateAddFiles extends XoopsObject
     }
 
     /**
-     * Get Values.
+     * Get AddFiles Values.
      */
-    public function getValuesAddFiles($keys = null, $format = null, $maxDepth = null)
+    public function getAddFilesValues($keys = null, $format = null, $maxDepth = null)
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
@@ -254,6 +254,18 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     public function getAllAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
+        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+
+        return $this->getAll($criteria);
+    }
+
+    /**
+     * Get All AddFiles By Module Id.
+     */
+    public function getAllAddFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    {
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('file_mid', $modId));
         $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
 
         return $this->getAll($criteria);

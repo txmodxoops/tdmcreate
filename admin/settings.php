@@ -46,7 +46,7 @@ switch ($op) {
         // Display settings list
         if ($settingsCount > 0) {
             foreach (array_keys($settingsAll) as $i) {
-                $setting = $settingsAll[$i]->getValuesSettings();
+                $setting = $settingsAll[$i]->getSettingsValues();
                 $GLOBALS['xoopsTpl']->append('settings_list', $setting);
                 unset($setting);
             }

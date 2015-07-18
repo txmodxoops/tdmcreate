@@ -53,7 +53,7 @@ switch ($op) {
         // Display addfiles list
         if ($addfilesCount > 0) {
             foreach (array_keys($addfilesAll) as $i) {
-                $files = $addfilesAll[$i]->getValuesAddFiles();
+                $files = $addfilesAll[$i]->getAddFilesValues();
                 $GLOBALS['xoopsTpl']->append('files_list', $files);
                 unset($files);
             }

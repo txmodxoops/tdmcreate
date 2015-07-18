@@ -375,7 +375,6 @@ EOT;
      */
     private function getXoopsFormUploadImage($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
         $stuSoleName = strtoupper($tableSoleName);
         $ucfFieldName = $this->getCamelCase($fieldName, true);

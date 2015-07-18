@@ -254,9 +254,9 @@ class TDMCreateTables extends XoopsObject
     }
 
     /**
-     * Get Values.
+     * Get Tables Values.
      */
-    public function getValuesTables($keys = null, $format = null, $maxDepth = null)
+    public function getTablesValues($keys = null, $format = null, $maxDepth = null)
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
@@ -274,12 +274,21 @@ class TDMCreateTables extends XoopsObject
         $ret['comments'] = $this->getVar('table_comments');
         $ret['notifications'] = $this->getVar('table_notifications');
         $ret['permissions'] = $this->getVar('table_permissions');
+        $ret['tag'] = $this->getVar('table_tag');
+        $ret['broken'] = $this->getVar('table_broken');
+        $ret['pdf'] = $this->getVar('table_pdf');
+        $ret['print'] = $this->getVar('table_print');
+        $ret['rate'] = $this->getVar('table_rate');
+        $ret['rss'] = $this->getVar('table_rss');
+        $ret['single'] = $this->getVar('table_single');
+        $ret['submit'] = $this->getVar('table_submit');
+        $ret['visit'] = $this->getVar('table_visit');
 
         return $ret;
     }
 
     /**
-     * Get Options.
+     * Get Tables Options.
      */
     /**
      * @param $key

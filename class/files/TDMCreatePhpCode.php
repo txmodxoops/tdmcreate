@@ -62,7 +62,41 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeCommentLine($comment, $var = '')
     {
-        $ret = "// {$comment} {$var}\n";
+        return "// {$comment} {$var}\n";
+    }
+
+    /*
+    *  @public function getPhpCodeVariables
+    *  @param $type
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeVariables($type = 'REQUEST', $var = '')
+    {
+        $type = strtoupper($type);
+        switch ($type) {
+            case 'GET':
+                $ret = "\$_GET['{$var}']";
+                break;
+            case 'POST':
+                $ret = "\$_POST['{$var}']";
+                break;
+            case 'FILES':
+                $ret = "\$_FILES['{$var}']";
+                break;
+            case 'COOKIE':
+                $ret = "\$_COOKIE['{$var}']";
+                break;
+            case 'ENV':
+                $ret = "\$_ENV['{$var}']";
+                break;
+            case 'SERVER':
+                $ret = "\$_SERVER['{$var}']";
+                break;
+            default:
+                $ret = "\$_REQUEST['{$var}']";
+                break;
+        }
 
         return $ret;
     }
@@ -115,29 +149,28 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
      * @public function getPhpCodeForeach
      * @param string $array
-     * @param string $content	 
+     * @param string $content
      * @param string $value
      * @param string $arrayKey
-	 * @param string $key
+     * @param string $key
      *
      * @return string
      */
     public function getPhpCodeForeach($array = '', $content = '', $value = false, $arrayKey = false, $key = false)
     {
-        
-		if ((false === $arrayKey) && (false === $key)) {
+        if ((false === $arrayKey) && (false === $key)) {
             $vars = "{$array} as {$value}";
         } elseif ((false === $arrayKey) && (false !== $key)) {
             $vars = "{$array} as {$key} => {$value}";
         } elseif ((false !== $arrayKey) && (false === $key)) {
             $vars = "array_key({$array}) as {$value}";
         }
-		
-		$ret = <<<EOT
+
+        $ret = <<<EOT
 	foreach({$vars}) {
 		{$content}
 	}\n
@@ -145,20 +178,20 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
      * @public function getPhpCodeFor
      * @param $var
-     * @param $content	 
+     * @param $content
      * @param $value
      * @param $initVal
-	 * @param $operator
+     * @param $operator
      *
      * @return string
      */
     public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '')
-    {		
-		$ret = <<<EOT
+    {
+        $ret = <<<EOT
 	for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
 		{$content}
 	}\n
@@ -166,19 +199,19 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
      * @public function getPhpCodeWhile
      * @param $var
-     * @param $content	 
+     * @param $content
      * @param $value
-	 * @param $operator
+     * @param $operator
      *
      * @return string
      */
     public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '')
-    {		
-		$ret = <<<EOT
+    {
+        $ret = <<<EOT
 	while(\${$var} {$operator} {$value}) {
 		{$content}
 	}\n

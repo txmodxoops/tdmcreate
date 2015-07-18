@@ -88,7 +88,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $modId = $module->getVar('mod_id');
         $language = $GLOBALS['xoopsConfig']['language'];
         // Id of tables
-        $tables = $this->tdmcfile->getTableTables($modId);
+        $tables = $this->tdmcreate->getHandler('tables')->getAllTablesByModuleId($modId);
         //
         $table = null;
         $tableName = array();
@@ -187,8 +187,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $modId = $module->getVar('mod_id');
         $moduleDirname = $module->getVar('mod_dirname');
         $icon32 = 'assets/icons/32';
-        $tables = $this->tdmcfile->getTableTables($modId);
-        $files = $this->tdmcfile->getTableAddFiles($modId);
+        $tables = $this->tdmcreate->getHandler('tables')->getAllTablesByModuleId($modId);
+        $files = $this->tdmcreate->getHandler('addfiles')->getAllAddFilesByModuleId($modId);
         $ret = array();
         //
         $table = array();
@@ -522,7 +522,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // User Single File
             if (in_array(1, $tableSingle)) {
                 $userSingle = UserSingle::getInstance();
-                $userSingle->write($module, $table, 'single.php');
+                $userSingle->write($module, 'single.php');
                 $ret[] = $userSingle->render();
                 // User Templates Single File
                 $userTemplatesSingle = TemplatesUserSingle::getInstance();

@@ -42,6 +42,9 @@ class TDMCreateMoreFiles extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -95,10 +98,10 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFilePhp($header)
     {
-        $ret = <<<EOT
-<?php
-{$header}\n
-EOT;
+        $ret = "<?php\n{$header}\n";
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert here your php code');
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
         return $ret;
     }
@@ -114,13 +117,7 @@ EOT;
      */
     private function getMoreFilesFileTpl()
     {
-        $ret = <<<EOT
-<div class="panel">
-	Pleace! put your template code here
-</div>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getHtmlTag('div', array('class', 'panel'), 'Pleace! put your template code here');
     }
 
     /*
@@ -134,13 +131,7 @@ EOT;
      */
     private function getMoreFilesFileHtml()
     {
-        $ret = <<<EOT
-<div class="panel">
-	Pleace! put your Html code here
-</div>\n
-EOT;
-
-        return $ret;
+        return $this->htmlcode->getHtmlTag('div', array('class', 'panel'), 'Pleace! put your Html code here');
     }
 
     /*
@@ -154,11 +145,7 @@ EOT;
      */
     private function getMoreFilesFileText()
     {
-        $ret = <<<EOT
-Pleace! put your text code here\n
-EOT;
-
-        return $ret;
+        return "Pleace! put your text code here\n";
     }
 
     /*
@@ -172,11 +159,7 @@ EOT;
      */
     private function getMoreFilesFileSql()
     {
-        $ret = <<<EOT
-# Pleace! put your sql code here\n
-EOT;
-
-        return $ret;
+        return "# Pleace! put your sql code here\n";
     }
 
     /*
@@ -190,12 +173,7 @@ EOT;
      */
     private function getMoreFilesFileCss($header)
     {
-        $ret = <<<EOT
-@charset "UTF-8";
-{$header}\n\n/*Pleace! put your sql code here*/\n
-EOT;
-
-        return $ret;
+        return "@charset \"UTF-8\";\n{$header}\n\n/*Pleace! put your sql code here*/\n";
     }
 
     /*
@@ -209,11 +187,7 @@ EOT;
      */
     private function getMoreFilesFileDefault()
     {
-        $ret = <<<EOT
-\n
-EOT;
-
-        return $ret;
+        return "\n";
     }
 
     /*

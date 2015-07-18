@@ -50,7 +50,7 @@ switch ($op) {
         // Display modules list
         if ($modulesCount > 0) {
             foreach (array_keys($modulesAll) as $i) {
-                $module = $modulesAll[$i]->getValuesModules();
+                $module = $modulesAll[$i]->getModulesValues();
                 $GLOBALS['xoopsTpl']->append('modules_list', $module);
                 unset($module);
             }

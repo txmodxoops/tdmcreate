@@ -65,7 +65,7 @@ switch ($op) {
         // Display modules list
         if ($modulesCount > 0) {
             foreach (array_keys($modulesAll) as $m) {
-                $module = $modulesAll[$m]->getValuesModules();
+                $module = $modulesAll[$m]->getModulesValues();
                 // Get the list of tables
                 $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
                 $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($m);
@@ -74,7 +74,7 @@ switch ($op) {
                 $lid = 1;
                 if ($tablesCount > 0) {
                     foreach (array_keys($tablesAll) as $t) {
-                        $table = $tablesAll[$t]->getValuesTables();
+                        $table = $tablesAll[$t]->getTablesValues();
                         $alid = array('lid' => $lid);
                         $tables[] = array_merge($table, $alid);
                         unset($table);
