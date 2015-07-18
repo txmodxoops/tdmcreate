@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateTables
@@ -405,10 +405,10 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getCountTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaCountTables = new CriteriaCompo();
+        $criteriaCountTables = $this->getTablesCriteria($criteriaCountTables, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteria);
+        return $this->getCount($criteriaCountTables);
     }
 
     /**
@@ -416,10 +416,10 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllTables = new CriteriaCompo();
+        $criteriaAllTables = $this->getTablesCriteria($criteriaAllTables, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllTables);
     }
 
     /**
@@ -427,23 +427,23 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllTablesByModuleId($modId, $start = 0, $limit = 0, $sort = 'table_order ASC, table_id, table_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('table_mid', $modId));
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllTablesByModuleId = new CriteriaCompo();
+        $criteriaAllTablesByModuleId->add(new Criteria('table_mid', $modId));
+        $criteriaAllTablesByModuleId = $this->getTablesCriteria($criteriaAllTablesByModuleId, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllTablesByModuleId);
     }
 
     /**
-     * Get Criteria.
+     * Get Tables Criteria.
      */
-    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    private function getTablesCriteria($criteriaTables, $start, $limit, $sort, $order)
     {
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteriaTables->setStart($start);
+        $criteriaTables->setLimit($limit);
+        $criteriaTables->setSort($sort);
+        $criteriaTables->setOrder($order);
 
-        return $criteria;
+        return $criteriaTables;
     }
 }

@@ -22,7 +22,7 @@
  *
  * @version         $Id: morefiles.php 13080 2015-06-12 10:12:32Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateMoreFiles
@@ -238,25 +238,25 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * Get Count Modules.
+     * Get Count AddFiles.
      */
     public function getCountAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAddFilesCount = new CriteriaCompo();
+        $criteriaAddFilesCount = $this->getAddFilesCriteria($criteriaAddFilesCount, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteria);
+        return $this->getCount($criteriaAddFilesCount);
     }
 
     /**
-     * Get All Modules.
+     * Get All AddFiles.
      */
     public function getAllAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAddFilesAdd = new CriteriaCompo();
+        $criteriaAddFilesAdd = $this->getAddFilesCriteria($criteriaAddFilesAdd, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAddFilesAdd);
     }
 
     /**
@@ -264,23 +264,23 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllAddFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('file_mid', $modId));
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAddFilesByModuleId = new CriteriaCompo();
+        $criteriaAddFilesByModuleId->add(new Criteria('file_mid', $modId));
+        $criteriaAddFilesByModuleId = $this->getAddFilesCriteria($criteriaAddFilesByModuleId, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAddFilesByModuleId);
     }
 
     /**
-     * Get Criteria.
+     * Get AddFiles Criteria.
      */
-    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    private function getAddFilesCriteria($criteriaAddFiles, $start, $limit, $sort, $order)
     {
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteriaAddFiles->setStart($start);
+        $criteriaAddFiles->setLimit($limit);
+        $criteriaAddFiles->setSort($sort);
+        $criteriaAddFiles->setOrder($order);
 
-        return $criteria;
+        return $criteriaAddFiles;
     }
 }

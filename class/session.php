@@ -22,7 +22,6 @@
  *
  * @version         $Id: 1.91 session.php 12453 2014-03-28 18:34:46Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
  * Class TDMCreateSession.

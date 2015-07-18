@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateModules
@@ -525,10 +525,10 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      */
     public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaCountModules = new CriteriaCompo();
+        $criteriaCountModules = $this->getModulesCriteria($criteriaCountModules, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteria);
+        return $this->getCount($criteriaCountModules);
     }
 
     /**
@@ -536,22 +536,22 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllModules = new CriteriaCompo();
+        $criteriaAllModules = $this->getModulesCriteria($criteriaAllModules, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllModules);
     }
 
     /**
-     * Get Criteria.
+     * Get Modules Criteria.
      */
-    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    private function getModulesCriteria($criteriaModules, $start, $limit, $sort, $order)
     {
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteriaModules->setStart($start);
+        $criteriaModules->setLimit($limit);
+        $criteriaModules->setSort($sort);
+        $criteriaModules->setOrder($order);
 
-        return $criteria;
+        return $criteriaModules;
     }
 }

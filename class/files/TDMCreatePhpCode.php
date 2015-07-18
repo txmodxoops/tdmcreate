@@ -26,8 +26,8 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  * Class TDMCreatePhpCode.
  */
 class TDMCreatePhpCode
-{
-    /*
+{	
+	/*
     *  @public function constructor
     *  @param null
     */

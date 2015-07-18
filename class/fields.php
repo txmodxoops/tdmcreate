@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateFields
@@ -645,10 +645,10 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaCountFields = new CriteriaCompo();
+        $criteriaCountFields = $this->getFieldsCriteria($criteriaCountFields, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteria);
+        return $this->getCount($criteriaCountFields);
     }
 
     /**
@@ -656,10 +656,10 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllFields = new CriteriaCompo();
+        $criteriaAllFields = $this->getFieldsCriteria($criteriaAllFields, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllFields);
     }
 
     /**
@@ -667,24 +667,24 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('field_mid', $modId));
-        $criteria->add(new Criteria('field_tid', $tabId));
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllFieldsByModule = new CriteriaCompo();
+        $criteriaAllFieldsByModule->add(new Criteria('field_mid', $modId));
+        $criteriaAllFieldsByModule->add(new Criteria('field_tid', $tabId));
+        $criteriaAllFieldsByModule = $this->getFieldsCriteria($criteriaAllFieldsByModule, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllFieldsByModule);
     }
 
     /**
-     * Get Criteria.
+     * Get Fields Criteria.
      */
-    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    private function getFieldsCriteria($criteriaFields, $start, $limit, $sort, $order)
     {
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteriaFields->setStart($start);
+        $criteriaFields->setLimit($limit);
+        $criteriaFields->setSort($sort);
+        $criteriaFields->setOrder($order);
 
-        return $criteria;
+        return $criteriaFields;
     }
 }

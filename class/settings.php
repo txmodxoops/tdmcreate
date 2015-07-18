@@ -22,7 +22,7 @@
  *
  * @version         $Id: settings.php 13070 2015-05-19 12:24:20Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateSettings
@@ -365,10 +365,10 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaCountSettings = new CriteriaCompo();
+        $criteriaCountSettings = $this->getSettingsCriteria($criteriaCountSettings, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteria);
+        return $this->getCount($criteriaCountSettings);
     }
 
     /**
@@ -376,22 +376,22 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria = $this->getCriteria($criteria, $start, $limit, $sort, $order);
+        $criteriaAllSettings = new CriteriaCompo();
+        $criteriaAllSettings = $this->getSettingsCriteria($criteriaAllSettings, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteria);
+        return $this->getAll($criteriaAllSettings);
     }
 
     /**
-     * Get Criteria.
+     * Get Settings Criteria.
      */
-    private function getCriteria($criteria, $start, $limit, $sort, $order)
+    private function getSettingsCriteria($criteriaSettings, $start, $limit, $sort, $order)
     {
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
+        $criteriaSettings->setStart($start);
+        $criteriaSettings->setLimit($limit);
+        $criteriaSettings->setSort($sort);
+        $criteriaSettings->setOrder($order);
 
-        return $criteria;
+        return $criteriaSettings;
     }
 }

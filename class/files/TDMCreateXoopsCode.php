@@ -25,9 +25,14 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class TDMCreateXoopsCode.
  */
-class TDMCreateXoopsCode extends TDMCreatePhpCode
+class TDMCreateXoopsCode
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -36,7 +41,7 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
      */
     public function __construct()
     {
-        parent::__construct();
+		$this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -127,8 +132,8 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
     */
     public function getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
     {
-        $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
-        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret = $this->phpcode->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
         $ret .= $this->getXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
         $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
@@ -136,10 +141,10 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
         $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
-        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+        return $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
     }
 
     /*
@@ -152,8 +157,8 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
     public function getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
-        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
         $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_IMAGE_PATH", $tableName, $moduleDirname);
 
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
@@ -164,10 +169,10 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
         $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
-        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+        return $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
     }
 
     /*
@@ -183,11 +188,11 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
         $stuModuleDirname = strtoupper($moduleDirname);
         if ($formatUrl) {
             $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
-            $ret .= $this->getPhpCodeCommentLine('Set Var', $fieldName);
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         } else {
-            $ret = $this->getPhpCodeCommentLine('Set Var', $fieldName);
+            $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         }
-        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
         $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
         if ($formatUrl) {
@@ -199,9 +204,9 @@ class TDMCreateXoopsCode extends TDMCreatePhpCode
         $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
+        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
 
-        return $this->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
+        return $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
     }
 
     /*
@@ -361,9 +366,9 @@ EOT;
     */
     public function getXoopsCodeUserHeader($moduleDirname, $tableName)
     {
-        $ret = $this->getPhpCodeIncludeDir('__DIR__', 'header');
+        $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
         $ret .= $this->getXoopsCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
-        $ret .= $this->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
 
         return $ret;
     }
@@ -650,11 +655,11 @@ EOT;
     public function getXoopsCodeSecurity($tableName)
     {
         $securityError = $this->getXoopsCodeSecurityGetError();
-        $implode = $this->getPhpCodeImplode(',', $securityError);
+        $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
         $content = $this->getXoopsCodeRedirectHeader($tableName, '', 3, $implode);
         $securityCheck = $this->getXoopsCodeSecurityCheck();
 
-        return $this->getPhpCodeConditions('!'.$securityCheck, '', '', $content);
+        return $this->phpcode->getPhpCodeConditions('!'.$securityCheck, '', '', $content);
     }
 
     /*
@@ -668,7 +673,7 @@ EOT;
         $content = $this->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
         $handlerInsert = $this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
 
-        return $this->getPhpCodeConditions($handlerInsert, '', '', $content);
+        return $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $content);
     }
 
     /*
@@ -789,20 +794,20 @@ EOT;
             xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
         }\n
 EOT;
-        $isset = $this->getPhpCodeIsset($fieldId);
-        $if1 = $this->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
+        /*$isset = $this->phpcode->getPhpCodeIsset($fieldId);
+        $if1 = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
         $get = $this->getXoopsCodeHandler($tableName, $fieldId, true);
-        $if2 = $this->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
-        $content = $this->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
+        $if2 = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
+        $content = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
         //$content .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
         $handlerInsert = $this->$this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
         $redirect = $this->getXoopsCodeRedirectHeader($tableName, '', 2, "{$language}FORM_DELETE_OK");
 
         $else = $this->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
 
-        $content .= $this->getPhpCodeConditions($handlerInsert, '', '', $redirect, $else);
+        $content .= $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $redirect, $else);*/
 
-        return $this->getPhpCodeCaseSwitch('delete', $content);
+        return $this->phpcode->getPhpCodeCaseSwitch('delete', $content);
     }
 
     /*
@@ -815,16 +820,16 @@ EOT;
     */
     public function getXoopsCodeUpdate($language, $tableName, $fieldId, $fieldName)
     {
-        $isset = $this->getPhpCodeIsset($fieldId);
+        $isset = $this->phpcode->getPhpCodeIsset($fieldId);
         $get = $this->getXoopsCodeHandler($tableName, $fieldId, true);
-        $content = $this->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
+        $content = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
         $content .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
         $handlerInsert = $this->$this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
         $redirect = $this->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_UPDATE_OK");
-        $content .= $this->getPhpCodeConditions($handlerInsert, '', '', $redirect);
+        $content .= $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $redirect);
 
         $content .= $this->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
 
-        return $this->getPhpCodeCaseSwitch('update', $content);
+        return $this->phpcode->getPhpCodeCaseSwitch('update', $content);
     }
 }

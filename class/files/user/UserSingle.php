@@ -116,9 +116,9 @@ class UserSingle extends TDMCreateFile
         $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
         $fieldPid = $this->xoopscode->getXoopsCodeGetFieldParentId($fields);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ccFieldPid = $this->getCamelCase($fieldId, false, true);
-        $ret = $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, $fieldPid, '', 'Int');
+        $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
+        $ret = $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, $fieldPid, '0', 'Int');
         $ret .= "\$view{$stuTableName} = ".$this->xoopscode->getXoopsCodeHandler($tableName, $fieldId, true);
 
         $ret .= <<<EOT
@@ -212,9 +212,11 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         foreach (array_keys($tables) as $t) {
             $tableId[] = $tables[$t]->getVar('table_id');
-            $tableMid[] = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableMid[] = $tables[$t]->getVar('table_mid');            
             $tableSingle[] = $tables[$t]->getVar('table_single');
+			if (in_array(1, $tableSingle)) {
+				$tableName = $tables[$t]->getVar('table_name');
+			}
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
