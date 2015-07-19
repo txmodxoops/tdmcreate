@@ -166,8 +166,6 @@ EOT;
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
-        //$tables        = $this->getTables();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
@@ -177,8 +175,9 @@ EOT;
         $content .= $this->getAdminMenuHeader();
         $content .= $this->getAdminMenuDashboard($language, $menu);
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $tablePermissions = array();
         foreach (array_keys($tables) as $t) {
-            $tablePermissions = $tables[$t]->getVar('table_permissions');
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
                 $content .= <<<EOT
@@ -192,7 +191,7 @@ EOT;
 EOT;
             }
         }
-        if (1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             ++$menu;
             $content .= <<<EOT
 \$adminmenu[\$i]['title'] = {$language}{$menu};

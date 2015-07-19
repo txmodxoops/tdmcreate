@@ -22,7 +22,6 @@
  *
  * @version         $Id: settings.php 13070 2015-05-19 12:24:20Z timgno $
  */
-
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateSettings

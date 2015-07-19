@@ -278,7 +278,7 @@ EOT;
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInstallModuleFolder($moduleDirname);
-
+        $tableInstall = array();
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
@@ -287,39 +287,32 @@ EOT;
             if (in_array(1, $tableInstall)) {
                 $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
             }
-        }
-        $fields = $this->getTableFields($tableMid, $tableId);
-        foreach (array_keys($fields) as $f) {
-            $fieldElement = $fields[$f]->getVar('field_element');
-            // All fields elements selected
-            switch ($fieldElement) {
-                case 10:
-                case 11:
-                    $content .= $this->getInstallImagesShotsFolder($tableName);
-                    break;
-                case 13:
-                    $content .= $this->getInstallImagesFolder($moduleDirname);
-                    foreach (array_keys($tables) as $t) {
-                        $tableName = $tables[$t]->getVar('table_name');
-                        $tableInstall[] = $tables[$t]->getVar('table_install');
+            $fields = $this->getTableFields($tableMid, $tableId);
+            foreach (array_keys($fields) as $f) {
+                $fieldElement = $fields[$f]->getVar('field_element');
+                // All fields elements selected
+                switch ($fieldElement) {
+                    case 10:
+                    case 11:
+                        $content .= $this->getInstallImagesShotsFolder($tableName);
+                        break;
+                    case 13:
                         if (in_array(1, $tableInstall)) {
+                            $content .= $this->getInstallImagesFolder($moduleDirname);
                             $content .= $this->getInstallTableImagesFolder($tableName);
                         }
-                    }
-                    break;
-                case 12:
-                case 14:
-                    $content .= $this->getInstallFilesFolder($moduleDirname);
-                    foreach (array_keys($tables) as $t) {
-                        $tableName = $tables[$t]->getVar('table_name');
-                        $tableInstall[] = $tables[$t]->getVar('table_install');
+                        break;
+                    case 12:
+                    case 14:
                         if (in_array(1, $tableInstall)) {
+                            $content .= $this->getInstallFilesFolder($moduleDirname);
                             $content .= $this->getInstallTableFilesFolder($tableName);
                         }
-                    }
-                    break;
+                        break;
+                }
             }
         }
+
         $content .= $this->getInstallFooter();
 
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

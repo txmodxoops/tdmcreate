@@ -31,8 +31,8 @@ class TDMCreateXoopsCode
     * @var mixed
     */
     private $phpcode = null;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -41,7 +41,7 @@ class TDMCreateXoopsCode
      */
     public function __construct()
     {
-		$this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -144,7 +144,9 @@ class TDMCreateXoopsCode
         $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
-        return $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+        $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+
+        return $ret;
     }
 
     /*
@@ -172,7 +174,9 @@ class TDMCreateXoopsCode
         $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
-        return $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+        $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+
+        return $ret;
     }
 
     /*
@@ -206,7 +210,9 @@ class TDMCreateXoopsCode
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
         $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
 
-        return $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
+        $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
+
+        return $ret;
     }
 
     /*

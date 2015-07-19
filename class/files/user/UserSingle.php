@@ -212,11 +212,11 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         foreach (array_keys($tables) as $t) {
             $tableId[] = $tables[$t]->getVar('table_id');
-            $tableMid[] = $tables[$t]->getVar('table_mid');            
+            $tableMid[] = $tables[$t]->getVar('table_mid');
             $tableSingle[] = $tables[$t]->getVar('table_single');
-			if (in_array(1, $tableSingle)) {
-				$tableName = $tables[$t]->getVar('table_name');
-			}
+            if (in_array(1, $tableSingle)) {
+                $tableName = $tables[$t]->getVar('table_name');
+            }
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');

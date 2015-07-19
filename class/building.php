@@ -10,19 +10,18 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-/**
- * TDMCreateBuilding class.
- *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- *
- * @since           2.5.x
- *
- * @author          TDM TEAM DEV MODULE
- *
- * @version         $Id: building.php 12425 2014-02-23 22:40:09Z timgno $
- */
-
+ /**
+  * TDMCreateBuilding class.
+  *
+  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+  *
+  * @since           2.5.x
+  *
+  * @author          TDM TEAM DEV MODULE
+  *
+  * @version         $Id: building.php 12425 2014-02-23 22:40:09Z timgno $
+  */
  include __DIR__.'/autoload.php';
 /**
  * Class TDMCreateBuilding.

@@ -693,7 +693,7 @@ EOT;
     'default' => '{$moduleDirname}, {$keyword}');\n\n
 EOT;
         unset($this->keywords);
-        if (is_object($table)) {
+        //if (is_object($table)) {
             foreach (array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
                 if ((10 == $fieldElement) || (11 == $fieldElement) ||
@@ -723,8 +723,8 @@ EOT;
 EOT;
                 }
             }
-            if (1 == $table->getVar('table_admin')) {
-                $ret .= <<<EOT
+        if (1 == $table->getVar('table_admin')) {
+            $ret .= <<<EOT
 \$modversion['config'][] = array(
     'name' => 'adminpager',
     'title' => '{$language}ADMIN_PAGER',
@@ -733,9 +733,9 @@ EOT;
     'valuetype' => 'int',
     'default' => 10);\n\n
 EOT;
-            }
-            if (1 == $table->getVar('table_user')) {
-                $ret .= <<<EOT
+        }
+        if (1 == $table->getVar('table_user')) {
+            $ret .= <<<EOT
 \$modversion['config'][] = array(
     'name' => 'userpager',
     'title' => '{$language}USER_PAGER',
@@ -744,8 +744,8 @@ EOT;
     'valuetype' => 'int',
     'default' => 10);\n\n
 EOT;
-            }
         }
+        //}
         if (1 == $table->getVar('table_tag')) {
             $ret .= <<<EOT
 \$modversion['config'][] = array(

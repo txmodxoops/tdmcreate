@@ -109,18 +109,20 @@ class LanguageModinfo extends LanguageDefines
      *
      * @return string
      */
-    private function getLanguageMenu($module, $language, $table)
+    private function getLanguageMenu($module, $language)
     {
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $menu = 1;
         $ret = $this->defines->getAboveHeadDefines('Admin Menu');
         $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", 'Dashboard');
-        foreach (array_keys($tables) as $i) {
+        $tablePermissions = array();
+        foreach (array_keys($tables) as $t) {
             ++$menu;
-            $ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
+            $ucfTableName = ucfirst($tables[$t]->getVar('table_name'));
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "{$ucfTableName}");
         }
-        if (is_object($table) && 1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             ++$menu;
             $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
@@ -390,7 +392,7 @@ class LanguageModinfo extends LanguageDefines
         $language = $this->getLanguage($moduleDirname, 'MI');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getLanguageMain($language, $module);
-        $content .= $this->getLanguageMenu($module, $language, $table);
+        $content .= $this->getLanguageMenu($module, $language);
         if (1 == $table->getVar('table_admin')) {
             $content .= $this->getLanguageAdmin($language);
         }

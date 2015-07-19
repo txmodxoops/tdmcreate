@@ -192,6 +192,7 @@ class LanguageAdmin extends LanguageDefines
                         $ret .= $this->defines->getDefine($language, 'FORM_URL_UPLOAD', "{$fieldNameDesc} in uploads files");
                         break;
                     case 13:
+                        $ret .= $this->defines->getDefine($language, "{$ucfTableSoleName}_IMAGE", 'Image');
                         $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in uploads images");
                         break;
                     case 14:
@@ -273,7 +274,11 @@ class LanguageAdmin extends LanguageDefines
             $content .= $this->getLanguageAdminPages($language, $tables);
             $content .= $this->getLanguageAdminClass($language, $tables);
         }
-        if (1 == $table->getVar('table_permissions')) {
+        $tablePermissions = array();
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+        }
+        if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguageAdminPermissions($language);
         }
         $content .= $this->getLanguageAdminFoot($language);
