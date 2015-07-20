@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageAdmin.
  */
-class LanguageAdmin extends LanguageDefines
+class LanguageAdmin extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -60,15 +60,12 @@ class LanguageAdmin extends LanguageDefines
     /*
     *  @public function write
     *  @param string $module
-    *  @param string $tables
     *  @param string $filename
     *  @param $filename
     */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
-        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -169,7 +166,7 @@ class LanguageAdmin extends LanguageDefines
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $stuFieldName = strtoupper($fieldName);
                 //
-                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 15) {
                     $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
                     $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
@@ -263,8 +260,7 @@ class LanguageAdmin extends LanguageDefines
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
-        $tables = $this->getTables();
+        $tables = $this->getTableTables($module->getVar('mod_id'));
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
@@ -283,8 +279,8 @@ class LanguageAdmin extends LanguageDefines
         }
         $content .= $this->getLanguageAdminFoot($language);
         //
-        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

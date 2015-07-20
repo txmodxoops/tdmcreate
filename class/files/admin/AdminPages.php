@@ -47,7 +47,6 @@ class AdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
@@ -74,29 +73,28 @@ class AdminPages extends TDMCreateFile
     *  @param string $module
     *  @param string $table
     */
-    public function write($module, $table)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
+        $this->setFileName($filename);
     }
 
     /*
     *  @private function getAdminPagesHeader
     *  @param string $moduleDirname
-    *  @param string $tableName
     *  @param $fieldId
     *  @return string
     */
-    private function getAdminPagesHeader($moduleDirname, $tableName, $fieldId)
+    private function getAdminPagesHeader($moduleDirname, $fieldId)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName = ucfirst($tableName);
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
         $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'list', 'String');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
+
         $ret .= <<<EOT
 // Switch options
 switch (\$op)
@@ -115,20 +113,14 @@ EOT;
     *  @param $fields
     *  @param $fieldId
     *  @param $fieldInForm
-    *  @param $fieldMain
     *  @return string
     */
-    private function getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain)
+    private function getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldInForm)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $tableFieldname = $table->getVar('table_fieldname');
         $ucfTableName = ucfirst($tableName);
         $stuTableName = strtoupper($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
-        $stuTableFieldname = strtoupper($tableFieldname);
-        $tableAutoincrement = $table->getVar('table_autoincrement');
         $ret = <<<EOT
 		\$start = XoopsRequest::getInt('start', 0);
         \$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('adminpager'));
@@ -201,13 +193,12 @@ EOT;
     *  @param string $language
     *  @param string $fields
     *  @param string $fieldId
-    *  @param string $fieldMain
     *  @return string
     */
-    private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
+    private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId)
     {
         $ucfTableName = ucfirst($tableName);
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
 			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
@@ -237,21 +228,17 @@ EOT;
     *  @private function getAdminPagesEdit
     *  @param string $moduleDirname
     *  @param string $tableName
-    *  @param string $tableFieldname
+    *  @param string $tableSoleName
     *  @param string $language
     *  @param string $fieldId
     *  @return string
     */
-    private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId)
+    private function getAdminPagesEdit($moduleDirname, $tableName, $tableSoleName, $language, $fieldId)
     {
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $tableFieldname = $table->getVar('table_fieldname');
         $stuTableName = strtoupper($tableName);
         $ucfTableName = ucfirst($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
-        $stuTableFieldname = strtoupper($tableFieldname);
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $content = <<<EOT
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
@@ -277,7 +264,7 @@ EOT;
     */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
     {
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $content = <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
@@ -307,7 +294,7 @@ EOT;
     */
     private function getAdminPagesUpdate($language, $tableName, $fieldId, $fieldName)
     {
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $content = <<<EOT
         if (isset(\${$ccFieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
@@ -345,36 +332,42 @@ EOT;
     *  @param null
     */
     /**
-     * @param $filename
+     * @param null
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
+        $tables = $this->getTableTables($module->getVar('mod_id'));
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $language = $this->tdmcfile->getLanguage($moduleDirname, 'AM');
-        $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            $fieldInForm = $fields[$f]->getVar('field_inform');
-            if (0 == $f) {
-                $fieldId = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
+        $language = $this->getLanguage($moduleDirname, 'AM');
+        foreach (array_keys($tables) as $t) {
+            $tableId = $tables[$t]->getVar('table_id');
+            $tableMid = $tables[$t]->getVar('table_mid');
+            $tableName = $tables[$t]->getVar('table_name');
+            $tableSoleName = $tables[$t]->getVar('table_solename');
+            $fields = $this->getTableFields($tableMid, $tableId);
+            foreach (array_keys($fields) as $f) {
+                $fieldName = $fields[$f]->getVar('field_name');
+                $fieldInForm = $fields[$f]->getVar('field_inform');
+                if (0 == $f) {
+                    $fieldId = $fieldName;
+                }
+                if (1 == $fields[$f]->getVar('field_main')) {
+                    $fieldMain = $fieldName;
+                }
             }
         }
+
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminPagesHeader($moduleDirname, $tableName, $fieldId);
-        $content .= $this->getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain);
+        $content .= $this->getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldInForm);
         if (1 == $fieldInForm) {
             $content .= $this->getAdminPagesNew($moduleDirname, $tableName, $language);
-            $content .= $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain);
-            $content .= $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId);
+            $content .= $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId);
+            $content .= $this->getAdminPagesEdit($moduleDirname, $tableName, $tableSoleName, $language, $fieldId);
         }
         $content .= $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain);
         if (strstr($fieldName, 'update') || strstr($fieldName, 'online') || strstr($fieldName, 'display')) {
@@ -382,8 +375,8 @@ EOT;
         }
         $content .= $this->getAdminPagesFooter();
 
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

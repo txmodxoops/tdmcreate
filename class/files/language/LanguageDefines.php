@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageDefines.
  */
-class LanguageDefines extends TDMCreateFile
+class LanguageDefines
 {
     /*
     * @var mixed
@@ -42,8 +42,6 @@ class LanguageDefines extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -70,11 +68,7 @@ class LanguageDefines extends TDMCreateFile
     */
     public function getAboveHeadDefines($string)
     {
-        $ret = <<<EOT
-// ---------------- {$string} ----------------\n
-EOT;
-
-        return $ret;
+        return "// ---------------- {$string} ----------------\n";
     }
 
     /*
@@ -84,11 +78,7 @@ EOT;
     */
     public function getAboveDefines($string)
     {
-        $ret = <<<EOT
-// {$string}\n
-EOT;
-
-        return $ret;
+        return "// {$string}\n";
     }
 
     /*
@@ -101,9 +91,7 @@ EOT;
     public function getDefine($language, $defined, $description)
     {
         $defined = strtoupper($defined);
-        $ret = <<<EOT
-define('{$language}{$defined}', "{$description}");\n
-EOT;
+        $ret = "define('{$language}{$defined}', \"{$description}\");\n";
 
         return $ret;
     }
@@ -119,10 +107,6 @@ EOT;
      */
     public function getBelowDefines($string)
     {
-        $ret = <<<EOT
-// ---------------- {$string} ----------------
-EOT;
-
-        return $ret;
+        return "// ---------------- {$string} ----------------\n";
     }
 }

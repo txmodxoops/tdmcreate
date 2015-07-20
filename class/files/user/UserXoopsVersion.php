@@ -532,6 +532,7 @@ EOT;
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
+            --$i;
             $ret .= <<<EOT
 // Sub Submit
 \$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};

@@ -242,8 +242,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tableAdmin)) {
                 // Admin Pages File
                 $adminPages = AdminPages::getInstance();
-                $adminPages->write($module, $table);
-                $ret[] = $adminPages->renderFile($tableName.'.php');
+                $adminPages->write($module, $tableName.'.php');
+                $ret[] = $adminPages->render();
                 // Admin Templates File
                 $adminTemplatesPages = TemplatesAdminPages::getInstance();
                 $adminTemplatesPages->write($module, $table);
@@ -306,7 +306,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         // Language Modinfo File
         $languageModinfo = LanguageModinfo::getInstance();
-        $languageModinfo->write($module, $table, $tables, 'modinfo.php');
+        $languageModinfo->write($module, 'modinfo.php');
         $ret[] = $languageModinfo->render();
         if (1 == $module->getVar('mod_admin')) {
             // Admin Header File
@@ -347,7 +347,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $ret[] = $adminTemplatesHeader->render();
             // Language Admin File
             $languageAdmin = LanguageAdmin::getInstance();
-            $languageAdmin->write($module, $table, $tables, 'admin.php');
+            $languageAdmin->write($module, 'admin.php');
             $ret[] = $languageAdmin->render();
         }
         // Class Helper File
@@ -367,7 +367,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tableBlocks)) {
                 // Language Blocks File
                 $languageBlocks = LanguageBlocks::getInstance();
-                $languageBlocks->write($module, $tables, 'blocks.php');
+                $languageBlocks->write($module, 'blocks.php');
                 $ret[] = $languageBlocks->render();
             }
             // Creation of admin permission files
@@ -389,8 +389,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $includeNotifications->render();
                 // Language Mail Template Category File
                 $languageMailTpl = LanguageMailTpl::getInstance();
-                $languageMailTpl->write($module);
-                $ret[] = $languageMailTpl->renderFile('category_new_notify.tpl');
+                $languageMailTpl->write($module, 'category_new_notify.tpl');
+                $ret[] = $languageMailTpl->render();
             }
             // Creation of sql file
             if ($table->getVar('table_name') != null) {
@@ -559,7 +559,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $ret[] = $userIndex->render();
             // Language Main File
             $languageMain = LanguageMain::getInstance();
-            $languageMain->write($module, $tables, 'main.php');
+            $languageMain->write($module, 'main.php');
             $ret[] = $languageMain->render();
             // User Templates Submit File
             $userTemplatesUserBreadcrumbs = TemplatesUserBreadcrumbs::getInstance();
