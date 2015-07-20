@@ -110,12 +110,10 @@ EOT;
     *  @param $table
     *  @param $tableFieldname
     *  @param $language
-    *  @param $fields
-    *  @param $fieldId
     *  @param $fieldInForm
     *  @return string
     */
-    private function getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldInForm)
+    private function getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fieldInForm)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
@@ -127,7 +125,7 @@ EOT;
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));\n
 EOT;
-        if (1 == $fieldInForm) {
+        if (in_array(1, $fieldInForm)) {
             $ret .= <<<EOT
         \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());\n
@@ -343,7 +341,8 @@ EOT;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
-        foreach (array_keys($tables) as $t) {
+        $fieldInForm = array();
+		foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
@@ -351,7 +350,7 @@ EOT;
             $fields = $this->getTableFields($tableMid, $tableId);
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
-                $fieldInForm = $fields[$f]->getVar('field_inform');
+                $fieldInForm[] = $fields[$f]->getVar('field_inform');
                 if (0 == $f) {
                     $fieldId = $fieldName;
                 }
@@ -363,8 +362,8 @@ EOT;
 
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminPagesHeader($moduleDirname, $tableName, $fieldId);
-        $content .= $this->getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fields, $fieldId, $fieldInForm);
-        if (1 == $fieldInForm) {
+        $content .= $this->getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fieldInForm);
+        if (in_array(1, $fieldInForm)) {
             $content .= $this->getAdminPagesNew($moduleDirname, $tableName, $language);
             $content .= $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId);
             $content .= $this->getAdminPagesEdit($moduleDirname, $tableName, $tableSoleName, $language, $fieldId);

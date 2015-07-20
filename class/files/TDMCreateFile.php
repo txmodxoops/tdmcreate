@@ -57,12 +57,12 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var mixed
     */
-    private $created = false;
+    private $created = null;
 
     /*
     * @var mixed
     */
-    private $notCreated = false;
+    private $notCreated = null;
 
     /*
     * @var string
@@ -116,11 +116,11 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param $notCreated
      * @param $mode
      */
-    public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = false, $notCreated = false, $mode = 'w+')
+    public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = null, $notCreated = null, $mode = 'w+')
     {
         $this->setFileName($fileName);
-        $this->created = $created;
-        $this->notCreated = $notCreated;
+        $this->setCreated($created);
+        $this->setNotCreated($notCreated);
         $this->setMode($mode);
         $this->setRepositoryPath($moduleDirname);
         if (!empty($content) && is_string($content)) {
@@ -175,19 +175,17 @@ class TDMCreateFile extends TDMCreateTableFields
      * TDMCreateFile::getHandler().
      *
      * @param $folder
-     * @param $name
-     * @param $module
-     * @param $filename
+     * @param $name     
      *
      * @return
      */
-    public static function getHandler($folder = 'admin', $name = 'about', $module, $filename)
+    public static function getHandler($folder = 'admin', $name = 'about')
     {
         $ret = null;
         self::load($folder, $name);
         $class = ucfirst($folder).ucfirst($name);
         if (class_exists($class)) {
-            $ret = new $class($module, $filename);
+            $ret = new $class();
         } else {
             trigger_error('Class '.$class.' not exist in File '.__FILE__.' at Line '.__LINE__, E_USER_WARNING);
         }
@@ -328,6 +326,30 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
+    *  @private function setCreated
+    *  @param null
+    */
+    /**
+     * @return bool
+     */
+    private function setCreated($created)
+    {
+        $this->created = $created;
+    }
+
+    /*
+    *  @private function setNotCreated
+    *  @param $notCreated
+    */
+    /**
+     * @return bool
+     */
+    private function setNotCreated($notCreated)
+    {
+        $this->notCreated = $notCreated;
+    }
+	
+	/*
     *  @private function getCreated
     *  @param null
     */
