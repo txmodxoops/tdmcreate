@@ -7,14 +7,9 @@ If you liked the module TDMCreate and thanks to the long process for giving the 
 
 [![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
-[![Code Coverage](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/?branch=master)
-[![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
-
-[![Build Status](https://img.shields.io/travis/txmodxoops/TDMCreate-1.91/master.svg?style=flat)](https://travis-ci.org/XOOPS/XoopsCore)
-[![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
 [![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/XOOPS/XoopsCore/code-structure)
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/XOOPS/XoopsCore)
+[![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
 
 <p>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/pr?style=flat"></a>
