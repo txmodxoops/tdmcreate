@@ -11,6 +11,11 @@ If you liked the module TDMCreate and thanks to the long process for giving the 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/?branch=master)
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases)
 
+[![Build Status](https://img.shields.io/travis/txmodxoops/TDMCreate-1.91/master.svg?style=flat)](https://travis-ci.org/XOOPS/XoopsCore)
+[![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/XOOPS/XoopsCore/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/XOOPS/XoopsCore)
+
 <p>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/pr?style=flat"></a>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/issue?style=flat"></a>
