@@ -41,8 +41,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
-        $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
         $modulesAll = $tdmcreate->getHandler('modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
@@ -192,36 +191,15 @@ switch ($op) {
         break;
 
     case 'display':
+        $modFieldArray = array('admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions');
         $id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);
-            if (isset($_POST['mod_admin'])) {
-                $mod_admin = $modulesObj->getVar('mod_admin');
-                $modulesObj->setVar('mod_admin', !$mod_admin);
-            }
-            if (isset($_POST['mod_user'])) {
-                $mod_user = $modulesObj->getVar('mod_user');
-                $modulesObj->setVar('mod_user', !$mod_user);
-            }
-            if (isset($_POST['mod_blocks'])) {
-                $mod_blocks = $modulesObj->getVar('mod_blocks');
-                $modulesObj->setVar('mod_blocks', !$mod_blocks);
-            }
-            if (isset($_POST['mod_search'])) {
-                $mod_search = $modulesObj->getVar('mod_search');
-                $modulesObj->setVar('mod_search', !$mod_search);
-            }
-            if (isset($_POST['mod_comments'])) {
-                $mod_comments = $modulesObj->getVar('mod_comments');
-                $modulesObj->setVar('mod_comments', !$mod_comments);
-            }
-            if (isset($_POST['mod_notifications'])) {
-                $mod_notifications = $modulesObj->getVar('mod_notifications');
-                $modulesObj->setVar('mod_notifications', !$mod_notifications);
-            }
-            if (isset($_POST['mod_permissions'])) {
-                $mod_permissions = $modulesObj->getVar('mod_permissions');
-                $modulesObj->setVar('mod_permissions', !$mod_permissions);
+            foreach ($modFieldArray as $moduleField) {
+                if (isset($_POST['mod_'.$moduleField])) {
+                    $modField = $modulesObj->getVar('mod_'.$moduleField);
+                    $modulesObj->setVar('mod_'.$moduleField, !$modField);
+                }
             }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
                 redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);

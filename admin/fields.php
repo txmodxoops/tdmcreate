@@ -163,19 +163,10 @@ switch ($op) {
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
-            // Fields Elements Handler
-            /*$fieldelementObj =& $tdmcreate->getHandler('fieldelements')->create();
-            $fieldelementObj->setVar( 'fieldelement_mid', $fieldMid );
-            $fieldelementObj->setVar( 'fieldelement_tid', $fieldTid );
-            $fieldelementObj->setVar( 'fieldelement_name', 'Table : '.ucfirst($tableName) );
-            $fieldelementObj->setVar( 'fieldelement_value', 'XoopsFormTables-'.ucfirst($tableName) );
-            // Insert new field element id for table name
-            if (!$tdmcreate->getHandler('fieldelements')->insert($fieldelementObj) ) {
-                $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
-            }*/
+            // Redirect to field.php if saved
             redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_SAVED_OK, $tableName));
         } else {
-            // Needed code from table name by field_tid
+            // Redirect to field.php if updated - (Needed code from table name by field_tid)
             redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_UPDATED_OK, $tableName));
         }
         //
@@ -187,6 +178,7 @@ switch ($op) {
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
+		$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
@@ -237,44 +229,15 @@ switch ($op) {
     break;
 
     case 'display':
-        $fieldId = tdmcreate_CleanVars($_POST, 'field_id', 0, 'int');
+        $fieldsArray = array('parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required');
+        $fieldId = XoopsRequest::getInt('field_id', 0, 'POST');
         if ($fieldId > 0) {
             $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
-            if (isset($_POST['field_parent'])) {
-                $field_parent = $fieldsObj->getVar('field_parent');
-                $fieldsObj->setVar('field_parent', !$field_parent);
-            }
-            if (isset($_POST['field_inlist'])) {
-                $field_inlist = $fieldsObj->getVar('field_inlist');
-                $fieldsObj->setVar('field_inlist', !$field_inlist);
-            }
-            if (isset($_POST['field_inform'])) {
-                $field_inform = $fieldsObj->getVar('field_inform');
-                $fieldsObj->setVar('field_inform', !$field_inform);
-            }
-            if (isset($_POST['field_admin'])) {
-                $field_admin = $fieldsObj->getVar('field_admin');
-                $fieldsObj->setVar('field_admin', !$field_admin);
-            }
-            if (isset($_POST['field_user'])) {
-                $field_user = $fieldsObj->getVar('field_user');
-                $fieldsObj->setVar('field_user', !$field_user);
-            }
-            if (isset($_POST['field_block'])) {
-                $field_block = $fieldsObj->getVar('field_block');
-                $fieldsObj->setVar('field_block', !$field_block);
-            }
-            if (isset($_POST['field_main'])) {
-                $field_main = $fieldsObj->getVar('field_main');
-                $fieldsObj->setVar('field_main', !$field_main);
-            }
-            if (isset($_POST['field_search'])) {
-                $field_search = $fieldsObj->getVar('field_search');
-                $fieldsObj->setVar('field_search', !$field_search);
-            }
-            if (isset($_POST['field_required'])) {
-                $field_required = $fieldsObj->getVar('field_required');
-                $fieldsObj->setVar('field_required', !$field_required);
+            foreach ($fieldsArray as $field) {
+                if (isset($_POST['field_'.$field])) {
+                    $fldField = $fieldsObj->getVar('field_'.$field);
+                    $fieldsObj->setVar('field_'.$field, !$fldField);
+                }
             }
             if ($tdmcreate->getHandler('fields')->insert($fieldsObj)) {
                 redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
