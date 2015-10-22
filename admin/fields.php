@@ -37,11 +37,8 @@ switch ($op) {
         $limit = XoopsRequest::getInt('limit', $tdmcreate->getConfig('tables_adminpager'));
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
-        //$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/bootstrap.min.css');
-        //$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/bootstrap-theme.min.css');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
-        //$GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/bootstrap.min.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
@@ -65,7 +62,7 @@ switch ($op) {
             $tlid = 1;
             foreach (array_keys($tablesAll) as $tid) {
                 // Display tables list
-                $table = $tablesAll[$tid]->getTablesValues();
+                $table = $tablesAll[$tid]->getValues();
                 $talid = array('lid' => $tlid);
                 $table = array_merge($table, $talid);
                 // Get the list of fields
@@ -76,7 +73,7 @@ switch ($op) {
                 $lid = 1;
                 if ($fieldsCount > 0) {
                     foreach (array_keys($fieldsAll) as $fid) {
-                        $field = $fieldsAll[$fid]->getFieldsValues();
+                        $field = $fieldsAll[$fid]->getValues();
                         $falid = array('lid' => $lid);
                         $fields[] = array_merge($field, $falid);
                         unset($field);
@@ -104,13 +101,7 @@ switch ($op) {
     case 'new':
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
-        //$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/bootstrap.min.css');
-        //$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/bootstrap-theme.min.css');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
-        //$GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/bootstrap.min.js');
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
@@ -173,6 +164,15 @@ switch ($op) {
         // Set field elements
         if ($fieldsObj->isNew()) {
             // Fields Elements Handler
+            /*$fieldelementObj =& $tdmcreate->getHandler('fieldelements')->create();
+            $fieldelementObj->setVar( 'fieldelement_mid', $fieldMid );
+            $fieldelementObj->setVar( 'fieldelement_tid', $fieldTid );
+            $fieldelementObj->setVar( 'fieldelement_name', 'Table : '.ucfirst($tableName) );
+            $fieldelementObj->setVar( 'fieldelement_value', 'XoopsFormTables-'.ucfirst($tableName) );
+            // Insert new field element id for table name
+            if (!$tdmcreate->getHandler('fieldelements')->insert($fieldelementObj) ) {
+                $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
+            }*/
             redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_SAVED_OK, $tableName));
         } else {
             // Needed code from table name by field_tid
@@ -180,20 +180,13 @@ switch ($op) {
         }
         //
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
-        $form = $fieldsObj->getFormNew(null, $fieldTid);
+        $form = $fieldsObj->getForm(null, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
     break;
 
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
-        //$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/bootstrap.min.css');
-        //$GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/bootstrap-theme.min.css');
-        $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
-        //$GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/bootstrap.min.js');
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
@@ -244,15 +237,44 @@ switch ($op) {
     break;
 
     case 'display':
-        $fieldsArray = array('parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required');
-        $fieldId = XoopsRequest::getInt('field_id', 0, 'POST');
+        $fieldId = tdmcreate_CleanVars($_POST, 'field_id', 0, 'int');
         if ($fieldId > 0) {
             $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
-            foreach ($fieldsArray as $field) {
-                if (isset($_POST['field_'.$field])) {
-                    $fldField = $fieldsObj->getVar('field_'.$field);
-                    $fieldsObj->setVar('field_'.$field, !$fldField);
-                }
+            if (isset($_POST['field_parent'])) {
+                $field_parent = $fieldsObj->getVar('field_parent');
+                $fieldsObj->setVar('field_parent', !$field_parent);
+            }
+            if (isset($_POST['field_inlist'])) {
+                $field_inlist = $fieldsObj->getVar('field_inlist');
+                $fieldsObj->setVar('field_inlist', !$field_inlist);
+            }
+            if (isset($_POST['field_inform'])) {
+                $field_inform = $fieldsObj->getVar('field_inform');
+                $fieldsObj->setVar('field_inform', !$field_inform);
+            }
+            if (isset($_POST['field_admin'])) {
+                $field_admin = $fieldsObj->getVar('field_admin');
+                $fieldsObj->setVar('field_admin', !$field_admin);
+            }
+            if (isset($_POST['field_user'])) {
+                $field_user = $fieldsObj->getVar('field_user');
+                $fieldsObj->setVar('field_user', !$field_user);
+            }
+            if (isset($_POST['field_block'])) {
+                $field_block = $fieldsObj->getVar('field_block');
+                $fieldsObj->setVar('field_block', !$field_block);
+            }
+            if (isset($_POST['field_main'])) {
+                $field_main = $fieldsObj->getVar('field_main');
+                $fieldsObj->setVar('field_main', !$field_main);
+            }
+            if (isset($_POST['field_search'])) {
+                $field_search = $fieldsObj->getVar('field_search');
+                $fieldsObj->setVar('field_search', !$field_search);
+            }
+            if (isset($_POST['field_required'])) {
+                $field_required = $fieldsObj->getVar('field_required');
+                $fieldsObj->setVar('field_required', !$field_required);
             }
             if ($tdmcreate->getHandler('fields')->insert($fieldsObj)) {
                 redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);

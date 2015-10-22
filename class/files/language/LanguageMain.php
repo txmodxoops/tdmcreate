@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageMain.
  */
-class LanguageMain extends TDMCreateFile
+class LanguageMain extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -60,16 +60,19 @@ class LanguageMain extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
+    *  @param mixed $tables
     *  @param string $filename
     */
     /**
      * @param $module
+     * @param $tables
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
+        $this->setTables($tables);
     }
 
     /*
@@ -86,7 +89,7 @@ class LanguageMain extends TDMCreateFile
     private function geLanguagetMain($module, $language)
     {
         $moduleName = $module->getVar('mod_name');
-        $tables = $this->getTableTables($module->getVar('mod_id'));
+        $tables = $this->getTables();
         $ret = $this->defines->getAboveHeadDefines('Main');
         $ret .= $this->defines->getDefine($language, 'INDEX', 'Home');
         $ret .= $this->defines->getDefine($language, 'TITLE', "{$module->getVar('mod_name')}");
@@ -112,7 +115,7 @@ As you can see, you've created a page with a list of links at the top to navigat
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
-                $rpFieldName = $this->getRightString($fieldName);
+                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                 $fieldNameDesc = ucfirst($rpFieldName);
                 $ret .= $this->defines->getDefine($language, $stuTableSoleName.'_'.$rpFieldName, $fieldNameDesc);
             }
@@ -168,8 +171,8 @@ As you can see, you've created a page with a list of links at the top to navigat
         $content .= $this->geLanguagetMain($module, $language);
         $content .= $this->geLanguagetMainFooter($language);
         //
-        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

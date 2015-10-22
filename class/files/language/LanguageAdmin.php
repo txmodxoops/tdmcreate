@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageAdmin.
  */
-class LanguageAdmin extends TDMCreateFile
+class LanguageAdmin extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -60,12 +60,15 @@ class LanguageAdmin extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
+    *  @param string $tables
     *  @param string $filename
     *  @param $filename
     */
-    public function write($module, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
+        $this->setTable($table);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -166,7 +169,7 @@ class LanguageAdmin extends TDMCreateFile
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $stuFieldName = strtoupper($fieldName);
                 //
-                $rpFieldName = $this->getRightString($fieldName);
+                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                 if ($fieldElement > 15) {
                     $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
                     $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
@@ -189,7 +192,6 @@ class LanguageAdmin extends TDMCreateFile
                         $ret .= $this->defines->getDefine($language, 'FORM_URL_UPLOAD', "{$fieldNameDesc} in uploads files");
                         break;
                     case 13:
-                        $ret .= $this->defines->getDefine($language, "{$ucfTableSoleName}_IMAGE", 'Image');
                         $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in uploads images");
                         break;
                     case 14:
@@ -260,7 +262,8 @@ class LanguageAdmin extends TDMCreateFile
     public function render()
     {
         $module = $this->getModule();
-        $tables = $this->getTableTables($module->getVar('mod_id'));
+        $table = $this->getTable();
+        $tables = $this->getTables();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
@@ -270,17 +273,13 @@ class LanguageAdmin extends TDMCreateFile
             $content .= $this->getLanguageAdminPages($language, $tables);
             $content .= $this->getLanguageAdminClass($language, $tables);
         }
-        $tablePermissions = array();
-        foreach (array_keys($tables) as $t) {
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-        }
-        if (in_array(1, $tablePermissions)) {
+        if (1 == $table->getVar('table_permissions')) {
             $content .= $this->getLanguageAdminPermissions($language);
         }
         $content .= $this->getLanguageAdminFoot($language);
         //
-        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

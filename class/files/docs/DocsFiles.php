@@ -85,14 +85,14 @@ class DocsFiles extends TDMCreateFile
      *
      * @return string
      */
-    public function getChangeLogFile($moduleDirname, $modVersion, $modAuthor)
+    public function getChangeLogFile($moduleDirname, $mod_version, $mod_author)
     {
         $date = date('Y/m/d G:i:s');
         $ret = <<<EOT
 ====================================
- {$date} Version {$modVersion}
+ {$date} Version {$mod_version}
 ====================================
- - Original release {$moduleDirname} ({$modAuthor})
+ - Original release {$moduleDirname} ({$mod_author})
 EOT;
 
         return $ret;
@@ -110,19 +110,19 @@ EOT;
      *
      * @return string
      */
-    public function getCreditsFile($modAuthor, $modCredits, $modAuthorWebsiteUrl, $modDescription)
+    public function getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description)
     {
         $ret = <<<EOT
 Read Me First
 =============
 
-Originally created by the {$modAuthor}.
+Originally created by the {$mod_author}.
 
-Modified by {$modCredits} ({$modAuthorWebsiteUrl})
+Modified by {$mod_credits} ({$mod_author_website_url})
 
-Contributors: {$modCredits} ({$modAuthorWebsiteUrl})
+Contributors: {$mod_credits} ({$mod_author_website_url})
 
-{$modDescription}
+{$mod_description}
 EOT;
 
         return $ret;
@@ -172,21 +172,17 @@ EOT;
     *  @param null
     */
     /**
-     * @param $modVersion
+     * @param $mod_version
      *
      * @return string
      */
-    public function getLangDiffFile($modVersion)
+    public function getLangDiffFile($mod_version)
     {
         $ret = <<<EOT
-Legend :
-+ Added
-- Removed
-* Modified
+List of added language defines
+=============
 
-To see the differences of language files, see on language folder
-
-// {$modVersion}
+// {$mod_version}
 EOT;
 
         return $ret;
@@ -203,16 +199,16 @@ EOT;
     {
         $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $modAuthor = $module->getVar('mod_author');
-        $modCredits = $module->getVar('mod_credits');
-        $modAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
-        $modDescription = $module->getVar('mod_description');
+        $mod_author = $module->getVar('mod_author');
+        $mod_credits = $module->getVar('mod_credits');
+        $mod_author_website_url = $module->getVar('mod_author_website_url');
+        $mod_description = $module->getVar('mod_description');
         switch ($filename = $this->getFileName()) {
             case 'changelog':
-                $content = $this->getChangeLogFile($moduleDirname, $modVersion, $modAuthor);
+                $content = $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);
                 break;
             case 'credits':
-                $content = $this->getCreditsFile($modAuthor, $modCredits, $modAuthorWebsiteUrl, $modDescription);
+                $content = $this->getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description);
                 break;
             case 'install':
                 $content = $this->getInstallFile();
@@ -220,8 +216,8 @@ EOT;
             case 'readme':
                 $content = $this->getReadmeFile();
                 break;
-            case 'lang':
-                $content = $this->getLangDiffFile($modVersion);
+            case 'lang_diff':
+                $content = $this->getLangDiffFile($mod_version);
                 break;
         }
         $this->tdmcfile->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

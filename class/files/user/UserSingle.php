@@ -26,18 +26,8 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserSingle.
  */
-class UserSingle extends TDMCreateFile
+class UserSingle extends UserObjects
 {
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
-
     /*
     *  @public function constructor
     *  @param null
@@ -48,9 +38,8 @@ class UserSingle extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -73,15 +62,18 @@ class UserSingle extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
+    *  @param mixed $table
     *  @param string $filename
     */
     /**
      * @param $module
+     * @param $table
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
+        $this->setTable($table);
         $this->setFileName($filename);
     }
 
@@ -96,90 +88,105 @@ class UserSingle extends TDMCreateFile
      */
     public function getUserSingleHeader($moduleDirname)
     {
-        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
-    }
-
-    /*
-     * @public function getUserSingleTop
-     *
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fields
-     * @param $language
-     *
-     * @return string
-     */
-    public function getUserSingleTop($moduleDirname, $tableName, $fields, $language)
-    {
-        $stuModuleName = strtoupper($moduleDirname);
-        $stuTableName = ucfirst($tableName);
-        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
-        $fieldPid = $this->xoopscode->getXoopsCodeGetFieldParentId($fields);
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-        $ret = $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, $fieldPid, '0', 'Int');
-        $ret .= "\$view{$stuTableName} = ".$this->xoopscode->getXoopsCodeHandler($tableName, $fieldId, true);
-
-        $ret .= <<<EOT
-\n// Template
+        $ret = <<<EOT
+// Local Header
+include  __DIR__ . '/header.php';
+\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
+// Template
 \$xoopsOption['template_main'] = '{$moduleDirname}_single.tpl';
+// Root Header
 include_once XOOPS_ROOT_PATH.'/header.php';
-\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/styles.css', null );
-
-// redirect if not exist
-if (count(\$view{$stuTableName}) == 0 || \$view{$stuTableName}->getVar('status') == 0){
-    redirect_header('index.php', 3, {$language}SINGLE_NOT_EXIST);
+// Added Style
+\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
+// redirection if not permissions
+if (\$perm_submit == false) {
+    redirect_header('index.php', 2, _NOPERM);
     exit();
 }
-
-// For the permissions
-\$categories = {$moduleDirname}GetMyItemIds('{$moduleDirname}_view', '{$moduleDirname}');
-if(!in_array(\$view{$stuTableName}->getVar('{$fieldPid}'), \$categories)) {
-    redirect_header(XOOPS_URL, 2, _NOPERM);
-    exit();
-}
-
+//
+switch (\$op)
+{\n
 EOT;
 
         return $ret;
     }
 
     /*
-     * @public function getUserSingleMiddle
-     *
-     * @param $moduleDirname
+    *  @public function getAdminPagesList
+    *  @param string $tableName
+    *  @param string $language
+    */
+    /**
+     * @param $module
      * @param $tableName
-     * @param $fields
      * @param $language
      *
      * @return string
      */
-    public function getUserSingleMiddle($moduleDirname, $tableName, $fields, $language)
+    public function getUserSingleForm($module, $tableName, $language)
     {
-        $fieldId = (string) $this->xoopscode->getXoopsCodeGetFieldId($fields);
+        $stuModuleName = strtoupper($module->getVar('mod_name'));
         $ret = <<<EOT
-    \n
+    case 'form':
+    default:
+        //navigation
+        \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
+        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
+        // reference
+        // title of page
+        \$title = _MD_{$stuModuleName}_SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
+        \$title .= \$GLOBALS['xoopsModule']->name();
+        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
+        //description
+        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags(_MD_{$stuModuleName}_SUBMIT_PROPOSER));
+        // Description
+        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
+
+        // Create
+        \${$tableName}Obj =& \${$tableName}Handler->create();
+        \$form = \${$tableName}Obj->getForm();
+        \$xoopsTpl->assign('form', \$form->render());\n
 EOT;
 
         return $ret;
     }
 
     /*
-     * @public function getUserSingleBottom
-     *
+    *  @public function getUserSingleSave
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    */
+    /**
      * @param $moduleDirname
+     * @param $table_id
      * @param $tableName
-     * @param $fields
-     * @param $language
      *
      * @return string
      */
-    public function getUserSingleBottom($moduleDirname, $tableName, $fields, $language)
+    public function getUserSingleSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = (string) $this->xoopscode->getXoopsCodeGetFieldId($fields);
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
         $ret = <<<EOT
-    \n
+    case 'save':
+        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
+           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
+        }
+        if (isset(\$_REQUEST['{$fieldId}'])) {
+           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
+        } else {
+           \${$tableName}Obj =& \${$tableName}Handler->create();
+        }
+EOT;
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= <<<EOT
+        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
+            redirect_header('index.php', 2, {$language}FORMOK);
+        }
+
+        echo \${$tableName}Obj->getHtmlErrors();
+        \$form =& \${$tableName}Obj->getForm();
+        \$form->display();
+    break;\n
 EOT;
 
         return $ret;
@@ -194,7 +201,11 @@ EOT;
      */
     public function getUserSingleFooter()
     {
-        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
+        $ret = <<<EOT
+include  __DIR__ . '/footer.php';
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -207,30 +218,21 @@ EOT;
     public function render()
     {
         $module = $this->getModule();
-        $tables = $this->tdmcreate->getHandler('tables')->getAllTablesByModuleId($module->getVar('mod_id'));
+        $table = $this->getTable();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        foreach (array_keys($tables) as $t) {
-            $tableId[] = $tables[$t]->getVar('table_id');
-            $tableMid[] = $tables[$t]->getVar('table_mid');
-            $tableSingle[] = $tables[$t]->getVar('table_single');
-            if (in_array(1, $tableSingle)) {
-                $tableName = $tables[$t]->getVar('table_name');
-            }
-        }
-        $fields = $this->getTableFields($tableMid, $tableId);
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSingleHeader($moduleDirname);
-        if (in_array(1, $tableSingle)) {
-            $content .= $this->getUserSingleTop($moduleDirname, $tableName, $fields, $language);
-            $content .= $this->getUserSingleMiddle($moduleDirname, $tableName, $fields, $language);
-            $content .= $this->getUserSingleBottom($moduleDirname, $tableName, $fields, $language);
-        }
+        $content .= $this->getUserSingleForm($module, $tableName, $language);
+        $content .= $this->getUserSingleSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserSingleFooter();
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

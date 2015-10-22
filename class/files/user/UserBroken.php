@@ -26,18 +26,8 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserBroken.
  */
-class UserBroken extends TDMCreateFile
+class UserBroken extends UserObjects
 {
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
-
     /*
     *  @public function constructor
     *  @param null
@@ -49,8 +39,7 @@ class UserBroken extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -99,7 +88,7 @@ class UserBroken extends TDMCreateFile
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
 \$op = XoopsRequest::getString('op', 'list');
@@ -176,7 +165,7 @@ EOT;
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -193,7 +182,7 @@ EOT;
             \$error = true;
         }\n
 EOT;
-        $ret .= $this->xoopscode->getXoopsCodeUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
 
         if (\$error == true){
@@ -205,7 +194,7 @@ EOT;
 		}
         echo \${$tableName}Obj->getHtmlErrors();
         \$form =& \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->display());
+        \$form->display();
     break;\n
 EOT;
 
@@ -222,7 +211,6 @@ EOT;
     public function getUserBrokenFooter()
     {
         $ret = <<<EOT
-}
 include  __DIR__ . '/footer.php';
 EOT;
 

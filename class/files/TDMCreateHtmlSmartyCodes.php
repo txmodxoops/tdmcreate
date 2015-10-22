@@ -31,7 +31,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     /*
     * @var string
     */
-    protected $htmlcode = null;
+    protected $htmlcode;
 
     /*
     *  @public function constructor
@@ -65,15 +65,15 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     /*
     *  @public function getHtmlTag
     *  @param string $tag
-    *  @param array  $attributes
-    *  @param string $content
-    *  @param bool   $closed
+	*  @param array  $attributes
+	*  @param string $content
+	*  @param bool   $closed
     */
     /**
      * @param $tag
-     * @param $attributes
-     * @param $content
-     * @param $closed
+	 * @param $attributes
+	 * @param $content
+	 * @param $closed
      *
      * @return string
      */
@@ -82,27 +82,26 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
         if (empty($attributes)) {
             $attributes = array();
         }
-        $attr = $this->getAttributes($attributes);
-        if (!$closed) {
-            $ret = <<<EOT
+		$attr = $this->getAttributes($attributes);
+		if(!$closed) {
+			$ret = <<<EOT
 <{$tag}{$attr} />
 EOT;
-        } else {
-            $ret = <<<EOT
+		} else {
+			$ret = <<<EOT
 <{$tag}{$attr}>{$content}</{$tag}>
 EOT;
-        }
-
+		}
+		
         return $ret;
     }
-
-     /*
+	
+	 /*
     *  @private function setAttributes
     *  @param array $attributes
     */
-    /**
+	/**
      * @param  $attributes
-     *
      * @return string
      */
     private function getAttributes($attributes)
@@ -110,14 +109,14 @@ EOT;
         $str = '';
         foreach ($attributes as $name => $value) {
             if ($name != '_') {
-                $str .= ' '.$name.'="'.$value.'"';
+                $str .= ' ' . $name . '="' . $value . '"';
             }
         }
 
         return $str;
     }
-
-    /*
+	
+	/*
     *  @public function getHtmlEmpty
     *  @param string $comment
     */
@@ -148,6 +147,462 @@ EOT;
     {
         $ret = <<<EOT
 <!-- {$comment} -->
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlBr
+    *  @param string $numb
+    *  @param string $class
+    */
+    /**
+     * @param $numb
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlBr($numb = 1, $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = '';
+        for ($i = 0; $i < $numb; ++$i) {
+            $ret .= <<<EOT
+<br{$class} />
+EOT;
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlHNumb
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlHNumb($content = '', $n = '1', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<h{$n}{$class}>{$content}</h{$n}>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlDiv
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlDiv($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<div{$class}>
+    {$content}
+</div>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlPre
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlPre($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<pre{$class}>
+    {$content}
+</pre>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlSpan
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlSpan($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<span{$class}>{$content}</span>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlParagraph
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlParagraph($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<p{$class}>
+    {$content}
+</p>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlI
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlI($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<i{$class}>{$content}</i>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlUl
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlUl($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<ul{$class}>
+    {$content}
+</ul>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlOl
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlOl($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<ol{$class}>
+    {$content}
+</ol>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlLi
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlLi($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+	<li{$class}>{$content}</li>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlStrong
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlStrong($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+	<strong{$class}>{$content}</strong>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlAnchor
+    *  @param string $class
+    *  @param string $url
+    *  @param string $target
+    *  @param string $content
+    */
+    /**
+     * @param $url
+     * @param $content
+     * @param $target
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlAnchor($url = '#', $content = '&nbsp;', $title = '', $target = '', $class = '', $rel = '')
+    {
+        $target = ($target != '') ? " target='{$target}'" : '';
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $rel = ($rel != '') ? " rel='{$rel}'" : '';
+
+        $ret = <<<EOT
+<a{$class} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlImage
+    *  @param string $src
+    *  @param string $alt
+    *  @param string $class
+    */
+    /**
+     * @param $src
+     * @param $alt
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<img{$class} src='{$src}' alt='{$alt}' />
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTable
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlTable($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+<table{$class}>
+    {$content}
+</table>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableThead
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlTableThead($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+    <thead{$class}>
+        {$content}
+    </thead>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableTbody
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlTableTbody($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+    <tbody{$class}>
+        {$content}
+    </tbody>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableTfoot
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlTableTfoot($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+    <tfoot{$class}>
+        {$content}
+    </tfoot>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableRow
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     *
+     * @return string
+     */
+    public function getHtmlTableRow($content = '', $class = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $ret = <<<EOT
+		<tr{$class}>
+            {$content}
+        </tr>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableHead
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     * @param $colspan
+     *
+     * @return string
+     */
+    public function getHtmlTableHead($content = '', $class = '', $colspan = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
+        $ret = <<<EOT
+			<th{$colspan}{$class}>{$content}</th>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getHtmlTableData
+    *  @param string $class
+    *  @param string $content
+    */
+    /**
+     * @param $content
+     * @param $class
+     * @param $colspan
+     *
+     * @return string
+     */
+    public function getHtmlTableData($content = '', $class = '', $colspan = '')
+    {
+        $class = ($class != '') ? " class='{$class}'" : '';
+        $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
+        $ret = <<<EOT
+			<td{$colspan}{$class}>{$content}</td>
 EOT;
 
         return $ret;
@@ -261,26 +716,26 @@ EOT;
     public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false)
     {
         if (!$admin && !$q) {
-            $ret = <<<EOT
+			$ret = <<<EOT
 <{include file='db:{$moduleDirname}_{$fileName}.tpl'}>
 EOT;
-        } elseif ($admin && !$q) {
-            $ret = <<<EOT
+        } elseif ($admin && !$q) { 
+			$ret = <<<EOT
 <{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>
 EOT;
         } elseif (!$admin && $q) {
-            $ret = <<<EOT
+				$ret = <<<EOT
 <{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>
 EOT;
-        } elseif ($admin && $q) {
-            $ret = <<<EOT
+		} elseif ($admin && $q) {
+			$ret = <<<EOT
 <{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>
 EOT;
-        }
+		}
 
         return $ret;
     }
-
+    
     /*
     *  @public function getSmartyIncludeFileListSection
     *  @param string $name
@@ -329,7 +784,6 @@ EOT;
     *  @param string $contentIf
     *  @param mixed  $contentElse
     *  @param bool   $count
-    * @param bool    $noSimbol
     */
     /**
      * @param string $condition
@@ -338,21 +792,43 @@ EOT;
      * @param string $contentIf
      * @param mixed  $contentElse
      * @param bool   $count
-     * @param bool   $noSimbol
      *
      * @return string
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
     {
-        $ret = '';
-        if (false === $contentElse) {
-            $ret .= $this->getConditions($ret, $condition, $operator, $type, $count, $noSimbol);
+        if (!$contentElse) {
+            if (!$count) {
+                $ret = <<<EOT
+<{if \${$condition}{$operator}{$type}}>\n
+EOT;
+            } elseif (!$noSimbol) {
+                $ret = <<<EOT
+<{if {$condition}{$operator}{$type}}>\n
+EOT;
+            } else {
+                $ret = <<<EOT
+<{if count(\${$condition}){$operator}{$type}}>\n
+EOT;
+            }
             $ret .= <<<EOT
 	{$contentIf}
 <{/if}>
 EOT;
         } else {
-            $ret .= $this->getConditions($ret, $condition, $operator, $type, $count, $noSimbol);
+            if (!$count) {
+                $ret = <<<EOT
+<{if \${$condition}{$operator}{$type}}>\n
+EOT;
+            } elseif (!$noSimbol) {
+                $ret = <<<EOT
+<{if {$condition}{$operator}{$type}}>\n
+EOT;
+            } else {
+                $ret = <<<EOT
+<{if count(\${$condition}){$operator}{$type}}>\n
+EOT;
+            }
             $ret .= <<<EOT
     {$contentIf}
 <{else}>
@@ -360,37 +836,6 @@ EOT;
 <{/if}>
 EOT;
         }
-
-        return $ret;
-    }
-
-    /*
-     * @private function getConditions
-     *
-     * @param $ret
-     * @param $condition
-     * @param $operator
-     * @param $type
-     * @param $count
-     * @param $noSimbol
-     *
-     * @return string
-     */
-    private function getConditions($ret = '', $condition = '', $operator = '', $type = '', $count = false, $noSimbol = false)
-    {
-        $operatorType = "{$operator}{$type}";
-        $noCount = "{$condition}{$operatorType}";
-        $countFunct = "count(\${$condition}){$operatorType}";
-        if (!$count && (false === $noSimbol)) {
-            $var = "\${$noCount}";
-        } elseif (true === $noSimbol) {
-            $var = "{$noCount}";
-        } elseif ($count) {
-            $var = "{$countFunct}";
-        }
-        $ret .= <<<EOT
-<{if {$var}}>\n
-EOT;
 
         return $ret;
     }

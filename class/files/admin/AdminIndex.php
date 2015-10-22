@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminIndex.
  */
-class AdminIndex extends TDMCreateFile
+class AdminIndex extends AdminPhpCode
 {
     /*
     *  @public function constructor
@@ -39,7 +39,7 @@ class AdminIndex extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->adminphpcode = AdminPhpCode::getInstance();
     }
 
     /*
@@ -70,9 +70,10 @@ class AdminIndex extends TDMCreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -92,7 +93,7 @@ class AdminIndex extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
+        $content .= $this->adminphpcode->getAdminIncludeHeader();
         $content .= $this->getCommentLine('Count elements');
         $tableName = null;
         if (is_array($tables)) {
@@ -100,7 +101,8 @@ class AdminIndex extends TDMCreateFile
                 $tableName = $tables[$i]->getVar('table_name');
                 $ucfTableName = ucfirst($tableName);
                 $content .= <<<EOT
-\$count{$ucfTableName} = \${$tableName}Handler->getCount{$ucfTableName}();\n
+//\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
+\$count{$ucfTableName} = \${$tableName}Handler->getCount();\n
 EOT;
             }
         }
@@ -138,12 +140,13 @@ EOT;
                 $tableName = $tables[$i]->getVar('table_name');
                 if (1 == $tables[$i]->getVar('table_install')) {
                     $content .= <<<EOT
-		{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
+	\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
 EOT;
                 }
             }
             $content .= <<<EOT
 );
+
 // Uploads Folders Created
 foreach (array_keys( \$folder) as \$i) {
     \$adminMenu->addConfigBoxLine(\$folder[\$i], 'folder');
@@ -154,10 +157,9 @@ EOT;
         $content .= <<<EOT
 // Render Index
 echo \$adminMenu->addNavigation('index.php');
-echo \$adminMenu->renderIndex();\n
+echo \$adminMenu->renderIndex();
+include  __DIR__ . '/footer.php';
 EOT;
-        $content .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
-
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

@@ -165,25 +165,38 @@ SQL;
         $j = 0;
         $comma = array();
         $row = array();
+		$type = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
             $ret = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
             $fieldName = $fields[$f]->getVar('field_name');
-            $fieldTypeFields = $fields[$f]->getVar('field_type');
+            $fieldType = $fields[$f]->getVar('field_type');
             $fieldValue = $fields[$f]->getVar('field_value');
-            $fieldAttributeFields = $fields[$f]->getVar('field_attribute');
-            $fieldNullFields = $fields[$f]->getVar('field_null');
+            $fieldAttribute = $fields[$f]->getVar('field_attribute');
+            $fieldNull = $fields[$f]->getVar('field_null');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldKey = $fields[$f]->getVar('field_key');
-            $fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldTypeFields);
-            $fieldTypeName = ($fieldTypeFields > 1) ? $fType->getVar('fieldtype_name') : null;
-            $fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttributeFields);
-            $fieldAttribute = ($fieldAttributeFields > 1) ? $fAttribute->getVar('fieldattribute_name') : null;
-            $fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNullFields);
-            $fieldNull = ($fieldNullFields > 1) ? $fNull->getVar('fieldnull_name') : null;
+            if ($fieldType > 1) {
+                $fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldType);
+                $fieldTypeName = $fType->getVar('fieldtype_name');
+            } else {
+                $fieldType = null;
+            }
+            if ($fieldAttribute > 1) {
+                $fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttribute);
+                $fieldAttribute = $fAttribute->getVar('fieldattribute_name');
+            } else {
+                $fieldAttribute = null;
+            }
+            if ($fieldNull > 1) {
+                $fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNull);
+                $fieldNull = $fNull->getVar('fieldnull_name');
+            } else {
+                $fieldNull = null;
+            }
             if (!empty($fieldName)) {
-                switch ($fieldTypeFields) {
+                switch ($fieldType) {
                     case 2:
                     case 3:
                     case 4:
@@ -304,6 +317,7 @@ SQL;
             }
         }
         // ================= COMMA CICLE ================= //
+        //$row[] = $this->getCommaCicle($comma, $j);
         $ret .= implode("\n", $row);
         unset($j);
         $ret .= $this->getFootDatabaseTable();
@@ -320,7 +334,9 @@ SQL;
      */
     private function getFootDatabaseTable()
     {
-        $ret = "\n) ENGINE=InnoDB;\n\n";
+        $ret = <<<SQL
+\n) ENGINE=InnoDB;\n\n
+SQL;
 
         return $ret;
     }
@@ -337,19 +353,25 @@ SQL;
     */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
     {
-        $retAutoincrement = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
-        $retFieldAttribute = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
-        $fieldDefault = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
-        $retShort = "  `{$fieldName}` {$fieldTypeValue},";
-
+        $retAutoincrement = <<<SQL
+  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},
+SQL;
+        $retFieldAttribute = <<<SQL
+  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},
+SQL;
+        $fieldDefault = <<<SQL
+  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},
+SQL;
+        $retShort = <<<SQL
+  `{$fieldName}` {$fieldTypeValue},
+SQL;
+        $ret = $retShort;
         if ($autoincrement != null) {
             $ret = $retAutoincrement;
         } elseif ($fieldAttribute != null) {
             $ret = $retFieldAttribute;
         } elseif ($fieldAttribute == null) {
             $ret = $fieldDefault;
-        } else {
-            $ret = $retShort;
         }
 
         return $ret;
@@ -363,20 +385,65 @@ SQL;
     {
         switch ($key) {
             case 2: // PRIMARY KEY
-                $ret = "  PRIMARY KEY (`{$fieldName}`)";
+                $ret = <<<SQL
+  PRIMARY KEY (`{$fieldName}`)
+SQL;
                 break;
             case 3: // UNIQUE KEY
-                $ret = "  UNIQUE KEY `{$fieldName}` (`{$fieldName}`)";
+                $ret = <<<SQL
+  UNIQUE KEY `{$fieldName}` (`{$fieldName}`)
+SQL;
                 break;
             case 4: // KEY
-                $ret = "  KEY `{$fieldName}` (`{$fieldName}`)";
+                $ret = <<<SQL
+  KEY `{$fieldName}` (`{$fieldName}`)
+SQL;
                 break;
             case 5: // INDEX
-                $ret = "  INDEX (`{$fieldName}`)";
+                $ret = <<<SQL
+  INDEX (`{$fieldName}`)
+SQL;
                 break;
             case 6: // FULLTEXT KEY
-                $ret = "  FULLTEXT KEY `{$fieldName}` (`{$fieldName}`)";
+                $ret = <<<SQL
+  FULLTEXT KEY `{$fieldName}` (`{$fieldName}`)
+SQL;
                 break;
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getComma
+    *  @param $row
+    *  @param $comma
+    *  @return string
+    */
+    private function getComma($row, $comma = null)
+    {
+        $ret = <<<SQL
+            {$row}{$comma}
+SQL;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getCommaCicle
+    *  @param $comma
+    *  @param $index
+    *  @return string
+    */
+    private function getCommaCicle($comma, $index)
+    {
+        // Comma issue
+        for ($i = 1; $i <= $index; ++$i) {
+            if ($i != $index - 1) {
+                $ret = $this->getComma(isset($comma[$i]), ',')."\n";
+            } else {
+                $ret = $this->getComma(isset($comma[$i]))."\n";
+            }
         }
 
         return $ret;
@@ -394,8 +461,8 @@ SQL;
         $moduleName = strtolower($module->getVar('mod_name'));
         $moduleDirname = strtolower($module->getVar('mod_dirname'));
         $content = $this->getHeaderSqlComments($moduleName);
-        $content .= $this->getDatabaseTables($moduleDirname);
-
+        $content      .= $this->getDatabaseTables($moduleDirname);
+        //
         $this->tdmcfile->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

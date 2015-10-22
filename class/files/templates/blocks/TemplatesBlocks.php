@@ -95,11 +95,11 @@ class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
             $fieldName = $fields[$f]->getVar('field_name');
             $stuFieldName = $language.strtoupper($fieldName);
             $lang = $this->htmlcode->getSmartyConst($language, $stuFieldName);
-            $th          .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
+            $th    .= $this->htmlcode->getHtmlTableHead($lang, 'center').PHP_EOL;
         }
-        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTableRow($th, 'head').PHP_EOL;
 
-        return $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTableThead($tr).PHP_EOL;
     }
 
     /*
@@ -144,15 +144,15 @@ class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
 EOT;*/
                         break;
                     case 10:
-                        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32');
+                        $src  = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
+                        $img  = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
                         $td  .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     case 13:
                         $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
+                        $img    = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
                         $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
@@ -201,7 +201,7 @@ EOT;*/
         $td = $this->htmlcode->getHtmlTag('td', array(), '&nbsp;').PHP_EOL;
         $tr = $this->htmlcode->getHtmlTag('tr', array(), $td).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTag('tfoot', array(), $tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTag('tfoot', array(),$tr).PHP_EOL;
     }
 
     /*
@@ -219,7 +219,7 @@ EOT;*/
         $tbody .= $this->getTemplatesBlocksTableTfoot();
         $single = $this->htmlcode->getSmartySingleVar('table_type');
 
-        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $tbody).PHP_EOL;
+        return $this->htmlcode->getHtmlTable($tbody, 'table table-'.$single).PHP_EOL;
     }
 
     /*

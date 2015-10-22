@@ -64,17 +64,17 @@ switch ($op) {
         unset($tablesCount);
         // Display modules list
         if ($modulesCount > 0) {
-            foreach (array_keys($modulesAll) as $m) {
-                $module = $modulesAll[$m]->getModulesValues();
+            foreach (array_keys($modulesAll) as $i) {
+                $module = $modulesAll[$i]->getValues();
                 // Get the list of tables
                 $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
-                $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($m);
+                $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($i);
                 // Display tables list
                 $tables = array();
                 $lid = 1;
                 if ($tablesCount > 0) {
                     foreach (array_keys($tablesAll) as $t) {
-                        $table = $tablesAll[$t]->getTablesValues();
+                        $table = $tablesAll[$t]->getValues();
                         $alid = array('lid' => $lid);
                         $tables[] = array_merge($table, $alid);
                         unset($table);
@@ -104,7 +104,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $tablesObj = &$tdmcreate->getHandler('tables')->create();
-        $form = $tablesObj->getFormTables();
+        $form = $tablesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -202,7 +202,7 @@ switch ($op) {
         }
         //
         $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
-        $form = $tablesObj->getFormTables();
+        $form = $tablesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -215,7 +215,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
-        $form = $tablesObj->getFormTables();
+        $form = $tablesObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -266,30 +266,76 @@ switch ($op) {
         break;
 
     case 'display':
-        $modArray = array('admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions');
         $mid = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($mid > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($mid);
-            foreach ($modArray as $modField) {
-                if (isset($_POST['mod_'.$modField])) {
-                    $mField = $modulesObj->getVar('mod_'.$modField);
-                    $modulesObj->setVar('mod_'.$modField, !$mField);
-                }
+            if (isset($_POST['mod_admin'])) {
+                $modAdmin = $modulesObj->getVar('mod_admin');
+                $modulesObj->setVar('mod_admin', !$modAdmin);
+            }
+            if (isset($_POST['mod_user'])) {
+                $mod_user = $modulesObj->getVar('mod_user');
+                $modulesObj->setVar('mod_user', !$mod_user);
+            }
+            if (isset($_POST['mod_blocks'])) {
+                $modBlocks = $modulesObj->getVar('mod_blocks');
+                $modulesObj->setVar('mod_blocks', !$modBlocks);
+            }
+            if (isset($_POST['mod_search'])) {
+                $modSearch = $modulesObj->getVar('mod_search');
+                $modulesObj->setVar('mod_search', !$modSearch);
+            }
+            if (isset($_POST['mod_comments'])) {
+                $modComments = $modulesObj->getVar('mod_comments');
+                $modulesObj->setVar('mod_comments', !$modComments);
+            }
+            if (isset($_POST['mod_notifications'])) {
+                $modNotifications = $modulesObj->getVar('mod_notifications');
+                $modulesObj->setVar('mod_notifications', !$modNotifications);
+            }
+            if (isset($_POST['mod_permissions'])) {
+                $modPermissions = $modulesObj->getVar('mod_permissions');
+                $modulesObj->setVar('mod_permissions', !$modPermissions);
             }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
                 redirect_header('modules.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
-        $tableArray = array('admin', 'user', 'blocks', 'submenu', 'search', 'comments', 'notifications', 'permissions');
         $tid = XoopsRequest::getInt('table_id', 0, 'POST');
         if ($tid > 0) {
             $tablesObj = $tdmcreate->getHandler('tables')->get($tid);
-            foreach ($tableArray as $tableField) {
-                if (isset($_POST['table_'.$tableField])) {
-                    $tblField = $tablesObj->getVar('table_'.$tableField);
-                    $tablesObj->setVar('table_'.$tableField, !$tblField);
-                }
+            if (isset($_POST['table_admin'])) {
+                $tableAdmin = $tablesObj->getVar('table_admin');
+                $tablesObj->setVar('table_admin', !$tableAdmin);
+            }
+            if (isset($_POST['table_user'])) {
+                $tableUser = $tablesObj->getVar('table_user');
+                $tablesObj->setVar('table_user', !$tableUser);
+            }
+            if (isset($_POST['table_blocks'])) {
+                $tableBlocks = $tablesObj->getVar('table_blocks');
+                $tablesObj->setVar('table_blocks', !$tableBlocks);
+            }
+            if (isset($_POST['table_submenu'])) {
+                $tableSubmenu = $tablesObj->getVar('table_submenu');
+                $tablesObj->setVar('table_submenu', !$tableSubmenu);
+            }
+            if (isset($_POST['table_search'])) {
+                $tableSearch = $tablesObj->getVar('table_search');
+                $tablesObj->setVar('table_search', !$tableSearch);
+            }
+            if (isset($_POST['table_comments'])) {
+                $tableComments = $tablesObj->getVar('table_comments');
+                $tablesObj->setVar('table_comments', !$tableComments);
+            }
+            if (isset($_POST['table_notifications'])) {
+                $tableNotifications = $tablesObj->getVar('table_notifications');
+                $tablesObj->setVar('table_notifications', !$tableNotifications);
+            }
+            if (isset($_POST['table_permissions'])) {
+                $tablePermissions = $tablesObj->getVar('table_permissions');
+                $tablesObj->setVar('table_permissions', !$tablePermissions);
             }
             if ($tdmcreate->getHandler('tables')->insert($tablesObj)) {
                 redirect_header('tables.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);

@@ -40,13 +40,15 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
         $settingsCount = $tdmcreate->getHandler('settings')->getCountSettings();
         $settingsAll = $tdmcreate->getHandler('settings')->getAllSettings($start, $limit);
         // Display settings list
         if ($settingsCount > 0) {
             foreach (array_keys($settingsAll) as $i) {
-                $setting = $settingsAll[$i]->getSettingsValues();
+                $setting = $settingsAll[$i]->getValues();
                 $GLOBALS['xoopsTpl']->append('settings_list', $setting);
                 unset($setting);
             }
@@ -69,7 +71,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $settingsObj = &$tdmcreate->getHandler('settings')->create();
-        $form = $settingsObj->getFormSettings();
+        $form = $settingsObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -81,7 +83,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
-        $form = $settingsObj->getFormSettings();
+        $form = $settingsObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -91,8 +93,6 @@ switch ($op) {
         }
         if (isset($setId)) {
             $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
-        } else {
-            $settingsObj = &$tdmcreate->getHandler('settings')->create();
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save
@@ -148,7 +148,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
-        $form = &$settingsObj->getFormSettings();
+        $form = &$settingsObj->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
     break;
     case 'delete':

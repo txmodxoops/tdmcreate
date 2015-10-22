@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageModinfo.
  */
-class LanguageModinfo extends TDMCreateFile
+class LanguageModinfo extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -60,15 +60,21 @@ class LanguageModinfo extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
+    *  @param mixed $table
+    *  @param mixed $tables
     *  @param string $filename
     */
     /**
      * @param $module
+     * @param $table
+     * @param $tables
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
+        $this->setTable($table);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -103,20 +109,18 @@ class LanguageModinfo extends TDMCreateFile
      *
      * @return string
      */
-    private function getLanguageMenu($module, $language)
+    private function getLanguageMenu($module, $language, $table)
     {
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $menu = 1;
         $ret = $this->defines->getAboveHeadDefines('Admin Menu');
         $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", 'Dashboard');
-        $tablePermissions = array();
-        foreach (array_keys($tables) as $t) {
+        foreach (array_keys($tables) as $i) {
             ++$menu;
-            $ucfTableName = ucfirst($tables[$t]->getVar('table_name'));
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
             $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "{$ucfTableName}");
         }
-        if (in_array(1, $tablePermissions)) {
+        if (is_object($table) && 1 == $table->getVar('table_permissions')) {
             ++$menu;
             $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
@@ -161,15 +165,13 @@ class LanguageModinfo extends TDMCreateFile
         $i = 1;
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
-            $ucfTableName = ucfirst($tableName);
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= $this->defines->getDefine($language, "SMNAME{$i}", "{$ucfTableName}");
+                $ret .= $this->defines->getDefine($language, "SMNAME{$i}", "{$tableName}");
             }
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
-            --$i;
             $ret .= $this->defines->getDefine($language, "SMNAME{$i}", 'Submit');
         }
         unset($i);
@@ -233,24 +235,32 @@ class LanguageModinfo extends TDMCreateFile
      *
      * @return string
      */
-    private function getLanguageConfig($language, $tableImage, $tableTag)
+    private function getLanguageConfig($language, $table)
     {
         $ret = $this->defines->getAboveDefines('Config');
-        if ($tableImage != '') {
+        if (is_object($table) && $table->getVar('table_image') != '') {
             $ret .= $this->defines->getDefine($language, 'EDITOR', 'Editor');
             $ret .= $this->defines->getDefine($language, 'EDITOR_DESC', 'Select the Editor to use');
         }
         $ret .= $this->defines->getDefine($language, 'KEYWORDS', 'Keywords');
         $ret .= $this->defines->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
-        if ($tableImage != '') {
-            $ret .= $this->defines->getDefine($language, 'MAXSIZE', 'Max size');
-            $ret .= $this->defines->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads file in byte');
-            $ret .= $this->defines->getDefine($language, 'MIMETYPES', 'Mime Types');
-            $ret .= $this->defines->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
-        }
-        if (in_array(1, $tableTag)) {
-            $ret .= $this->defines->getDefine($language, 'USE_TAG', 'Use TAG');
-            $ret .= $this->defines->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
+        if (is_object($table)) {
+            /*if ($table->getVar('table_permissions') != 0) {
+                $ret .= $this->defines->getDefine($language, "GROUPS", "Groups");
+                $ret .= $this->defines->getDefine($language, "GROUPS_DESC", "Groups to have permissions");
+                $ret .= $this->defines->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
+                $ret .= $this->defines->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
+            }*/
+            if ($table->getVar('table_image') != '') {
+                $ret .= $this->defines->getDefine($language, 'MAXSIZE', 'Max size');
+                $ret .= $this->defines->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads file in byte');
+                $ret .= $this->defines->getDefine($language, 'MIMETYPES', 'Mime Types');
+                $ret .= $this->defines->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
+            }
+            if ($table->getVar('table_tag') != 0) {
+                $ret .= $this->defines->getDefine($language, 'USE_TAG', 'Use TAG');
+                $ret .= $this->defines->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
+            }
         }
         $ret .= $this->defines->getDefine($language, 'NUMB_COL', 'Number Columns');
         $ret .= $this->defines->getDefine($language, 'NUMB_COL_DESC', 'Number Columns to View.');
@@ -373,46 +383,37 @@ class LanguageModinfo extends TDMCreateFile
     public function render()
     {
         $module = $this->getModule();
-        $tables = $this->getTableTables($module->getVar('mod_id'));
+        $table = $this->getTable();
+        $tables = $this->getTables();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MI');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getLanguageMain($language, $module);
-        $content .= $this->getLanguageMenu($module, $language);
-        foreach (array_keys($tables) as $t) {
-            $tableAdmin[] = $tables[$t]->getVar('table_admin');
-            $tableUser[] = $tables[$t]->getVar('table_user');
-            $tableSubmenu[] = $tables[$t]->getVar('table_submenu');
-            $tableBlocks[] = $tables[$t]->getVar('table_blocks');
-            $tableImage = $tables[$t]->getVar('table_image');
-            $tableTag[] = $tables[$t]->getVar('table_tag');
-            $tableNotifications[] = $tables[$t]->getVar('table_notifications');
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-        }
-        if (in_array(1, $tableAdmin)) {
+        $content .= $this->getLanguageMenu($module, $language, $table);
+        if (1 == $table->getVar('table_admin')) {
             $content .= $this->getLanguageAdmin($language);
         }
-        if (in_array(1, $tableUser)) {
+        if (1 == $table->getVar('table_user')) {
             $content .= $this->getLanguageUser($language);
         }
-        //if (in_array(1, $tableSubmenu)) {
+        //if (1 == $table->getVar('table_submenu')) {
             $content .= $this->getLanguageSubmenu($language, $tables);
         //}
-        if (in_array(1, $tableBlocks)) {
+        if (1 == $table->getVar('table_blocks')) {
             $content .= $this->getLanguageBlocks($tables, $language);
         }
-        $content .= $this->getLanguageConfig($language, $tableImage, $tableTag);
-        if (in_array(1, $tableNotifications)) {
+        $content .= $this->getLanguageConfig($language, $table);
+        if (1 == $table->getVar('table_notifications')) {
             $content .= $this->getLanguageNotifications($language);
         }
-        if (in_array(1, $tablePermissions)) {
+        if (1 == $table->getVar('table_permissions')) {
             $content .= $this->getLanguagePermissionsGroups($language);
         }
         $content .= $this->getLanguageFooter();
         //
-        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

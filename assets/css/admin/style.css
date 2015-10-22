@@ -144,12 +144,7 @@ img.imageToggle {
     vertical-align: middle;
 }
 
-
-.width5{ width:    5%; }
 .width6{ width:    6%; }
-.width8{ width:    8%; }
-.width9{ width:    9%; }
-
 
 .bred {background-color:rgba(255,0,0,0.3); padding: 5px; border-bottom: 1px solid #ccc;} /* red */
 .bgreen {background-color:rgba(0,255,0,0.3); padding: 5px; border-bottom: 1px solid #ccc;} /* green */
@@ -196,12 +191,6 @@ img.imageToggle {
 }
 
 .table-list tr { margin: 0; padding: 0; width: 100%; }
-.tdm-table { 
-  border-spacing: 0; 
-}
-.tdm-table td{ 
-  border: 0px solid #fff; 
-}
 
 .table-list tr td img.move {
     margin-right: 20px;
@@ -220,8 +209,56 @@ tbody.table-list tr td {
     text-align: center;
 }
 
-.cell  {
-    border: 1px solid #fff !important;
+.cell.cell-width1 {
+    width: 4%;
+}
+
+.cell.cell-width2 {
+    width: 10%;
+}
+
+.cell.cell-width3 {
+    width: 9%;
+}
+
+.cell.cell-width4 {
+    width: 5%;
+}
+
+.cell.cell-width5 {
+    width: 5%;
+}
+
+.cell.cell-width6 {
+    width: 4%;
+}
+
+.cell.cell-width7 {
+    width: 5%;
+}
+
+.cell.cell-width8 {
+    width: 8%;
+}
+
+.cell.cell-width9 {
+    width: 6%;
+}
+
+.cell.cell-width10 {
+    width: 8%;
+}
+
+.cell.cell-width11 {
+    width: 9%;
+}
+
+.cell.cell-width12 {
+    width: 9%;
+}
+
+.cell.cell-width13 {
+    width: 5%;
 }
 
 .field-list tr { margin: 0; padding: 0; width: 100%; }

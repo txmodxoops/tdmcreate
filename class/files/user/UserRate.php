@@ -26,18 +26,8 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserRate.
  */
-class UserRate extends TDMCreateFile
+class UserRate extends UserObjects
 {
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
-
     /*
     *  @public function constructor
     *  @param null
@@ -49,8 +39,7 @@ class UserRate extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -176,7 +165,7 @@ EOT;
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -188,7 +177,7 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        $ret .= $this->xoopscode->getXoopsCodeUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -213,7 +202,6 @@ EOT;
     public function getUserRateFooter()
     {
         $ret = <<<EOT
-}
 include  __DIR__ . '/footer.php';
 EOT;
 

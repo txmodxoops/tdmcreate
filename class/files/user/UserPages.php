@@ -19,25 +19,15 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: UserPages.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: pages.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
  * Class UserPages.
  */
-class UserPages extends TDMCreateFile
+class UserPages extends UserObjects
 {
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
-
     /*
     *  @public function constructor
     *  @param null
@@ -49,8 +39,7 @@ class UserPages extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -106,12 +95,13 @@ class UserPages extends TDMCreateFile
         $stuTableSoleName = strtoupper($tableSoleName);
         $lcfTableName = lcfirst($tableName);
         $ucfTableName = ucfirst($tableName);
-        $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
-        $ret .= $this->xoopscode->getXoopsCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('limit', 'limit', "\${$moduleDirname}->getConfig('userpager')", 'Int');
-        $ret .= <<<EOT
+        $ret = <<<EOT
+include  __DIR__ . '/header.php';
+//
+\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
+include_once XOOPS_ROOT_PATH . '/header.php';
+\$start = XoopsRequest::getInt('start', 0);
+\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
 // Define Stylesheet
 \$xoTheme->addStylesheet( \$style );
 //
@@ -125,7 +115,7 @@ if (\${$lcfTableName}Count > 0) {
     // Get All {$ucfTableName}
 	foreach (array_keys(\${$lcfTableName}All) as \$i)
     {
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
         \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
         unset(\${$tableSoleName});\n
 EOT;
@@ -159,9 +149,9 @@ unset(\$keywords);
 {$moduleDirname}MetaDescription({$language}{$stuTableSoleName}_DESC);
 //
 \$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$tableName}.php');
-
+//
+include  __DIR__ . '/footer.php';
 EOT;
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
         return $ret;
     }

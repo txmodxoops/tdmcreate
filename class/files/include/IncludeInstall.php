@@ -70,9 +70,11 @@ class IncludeInstall extends TDMCreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
+        $this->setTable($table);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -155,14 +157,14 @@ EOT;
 
     /*
     *  @private function getInstallImagesShotsFolder
-    *  @param $tableName
+    *  @param null
     */
     /**
-     * @param $tableName
+     * @param null
      *
      * @return string
      */
-    private function getInstallImagesShotsFolder($tableName)
+    private function getInstallImagesShotsFolder()
     {
         $ret = <<<EOT
 // Making of "{$tableName}" images folder
@@ -274,47 +276,47 @@ EOT;
     {
         $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tables = $this->getTableTables($module->getVar('mod_id'));
+        $table = $this->getTable();
+        $tables = $this->getTables();
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInstallModuleFolder($moduleDirname);
-        $tableInstall = array();
+
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
             $tableInstall[] = $tables[$t]->getVar('table_install');
-            if (in_array(1, $tableInstall)) {
-                $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
-            }
-            $fields = $this->getTableFields($tableMid, $tableId);
+            $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
+        }
+        if (in_array(1, $tableInstall)) {
+            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
                 // All fields elements selected
                 switch ($fieldElement) {
                     case 10:
-                    case 11:
-                        $content .= $this->getInstallImagesShotsFolder($tableName);
-                        break;
                     case 13:
-                        if (in_array(1, $tableInstall)) {
-                            $content .= $this->getInstallImagesFolder($moduleDirname);
+                        $content .= $this->getInstallImagesFolder($moduleDirname);
+                        foreach (array_keys($tables) as $t) {
+                            $tableName = $tables[$t]->getVar('table_name');
                             $content .= $this->getInstallTableImagesFolder($tableName);
                         }
                         break;
+                    case 11:
+                        $content .= $this->getInstallImagesShotsFolder();
+                        break;
                     case 12:
                     case 14:
-                        if (in_array(1, $tableInstall)) {
-                            $content .= $this->getInstallFilesFolder($moduleDirname);
+                        $content .= $this->getInstallFilesFolder($moduleDirname);
+                        foreach (array_keys($tables) as $t) {
+                            $tableName = $tables[$t]->getVar('table_name');
                             $content .= $this->getInstallTableFilesFolder($tableName);
                         }
                         break;
                 }
             }
         }
-
         $content .= $this->getInstallFooter();
-
+        //
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

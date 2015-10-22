@@ -49,7 +49,7 @@ $adminmenu[$i]['link'] = 'admin/fields.php';
 $adminmenu[$i]['icon'] = $modPathIcon32.'/fields.png';
 ++$i;
 $adminmenu[$i]['title'] = _MI_TDMCREATE_ADMENU6;
-$adminmenu[$i]['link'] = 'admin/addfiles.php';
+$adminmenu[$i]['link'] = 'admin/morefiles.php';
 $adminmenu[$i]['icon'] = $modPathIcon32.'/files.png';
 ++$i;
 $adminmenu[$i]['title'] = _MI_TDMCREATE_ADMENU7;

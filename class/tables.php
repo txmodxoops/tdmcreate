@@ -13,15 +13,16 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http:sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 (http:www.gnu.org/licenses/old-licenses/gpl-2.0.html)
+ * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
  *
- * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http:www.txmodxoops.org/>
+ * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
  * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
+defined('XOOPS_ROOT_PATH') or die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateTables
@@ -43,7 +44,7 @@ class TDMCreateTables extends XoopsObject
     /**
      * Options.
      */
-    public $optionsTables = array(
+    public $options = array(
         'install',
         'index',
         'blocks',
@@ -137,7 +138,7 @@ class TDMCreateTables extends XoopsObject
     }
 
     /*
-    *  @static function getFormTables
+    *  @static function getForm
     *  @param mixed $action
     */
     /**
@@ -145,7 +146,7 @@ class TDMCreateTables extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getFormTables($action = false)
+    public function getForm($action = false)
     {
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
@@ -158,49 +159,58 @@ class TDMCreateTables extends XoopsObject
 
         xoops_load('XoopsFormLoader');
         $form = new XoopsThemeForm($title, 'tableform', $action, 'post', true);
-        $form->setExtra('enctype="multipart/form-data"');
-
+        $form->setExtra('enctype="multipart/form-data"');        
+        //
         $modules = $this->tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
+            //$modulesSelect->addOptionArray();
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
-
+        //
         $tableNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_NAME, 'table_name', 40, 150, $tableName);
         $tableNameText->setDescription(_AM_TDMCREATE_TABLE_NAME_DESC);
         $form->addElement($tableNameText, true);
-
+        //
         $tableSoleNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
         $tableSoleNameText->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
         $form->addElement($tableSoleNameText, true);
-
+        //
+        $tablesHandler = &$this->tdmcreate->getHandler('tables');
+        $criteria = new CriteriaCompo(new Criteria('table_category', 0), 'AND');
+        $criteria->add(new Criteria('table_mid', $tableMid), 'AND');
+        $criteria->add(new Criteria('table_name', $tableName));
+        $tableCategory = $tablesHandler->getCount($criteria);
+        unset($criteria);
+        //if ( ($tableCategory == 0) || $isNew ) {
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
         $category = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
         $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);
         $form->addElement($category);
-
+        //}
+        //
         $tableFieldname = new XoopsFormText(_AM_TDMCREATE_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
         $tableFieldname->setDescription(_AM_TDMCREATE_TABLE_FIELDNAME_DESC);
         $form->addElement($tableFieldname);
-
+        //
         $tableNumbFileds = new XoopsFormText(_AM_TDMCREATE_TABLE_NBFIELDS, 'table_nbfields', 10, 25, $this->getVar('table_nbfields'));
         $tableNumbFileds->setDescription(_AM_TDMCREATE_TABLE_NBFIELDS_DESC);
         $form->addElement($tableNumbFileds, true);
-
+        //
         if (!$isNew) {
             $tableOrder = new XoopsFormText(_AM_TDMCREATE_TABLE_ORDER, 'table_order', 5, 10, $this->getVar('table_order'));
             $tableOrder->setDescription(_AM_TDMCREATE_TABLE_ORDER_DESC);
             $form->addElement($tableOrder, true);
         }
-
+        //
         $getTableImage = $this->getVar('table_image');
         $tableImage = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
         $uploadsDirectory = '/uploads/tdmcreate/images/tables';
         $iconsDirectory = is_dir(XOOPS_ROOT_PATH.$icons32Directory) ? $icons32Directory : $uploadsDirectory;
-
+        //
         $imgtray1 = new XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br />');
         $imgpath1 = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
@@ -217,14 +227,14 @@ class TDMCreateTables extends XoopsObject
         $imgtray1->addElement($fileseltray1);
         $imgtray1->setDescription(_AM_TDMCREATE_TABLE_IMAGE_DESC);
         $form->addElement($imgtray1);
-
+        //
         $tableAutoincrement = $this->isNew() ? 1 : $this->getVar('table_autoincrement');
         $checkTableAutoincrement = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_AUTO_INCREMENT, 'table_autoincrement', $tableAutoincrement);
         $checkTableAutoincrement->setDescription(_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC);
-        $form->addElement($checkTableAutoincrement);
-
+        $form->addElement($checkTableAutoincrement);        
+        //
         $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
-
+        //
         $tableCheckAll = new XoopsFormCheckBox('', 'tablebox', 1);
         $tableCheckAll->addOption('allbox', _AM_TDMCREATE_TABLE_ALL);
         $tableCheckAll->setExtra(' onclick="xoopsCheckAll(\'tableform\', \'tablebox\');" ');
@@ -234,15 +244,15 @@ class TDMCreateTables extends XoopsObject
         $tableOption = $this->getTablesOptions();
         $checkbox = new XoopsFormCheckbox(' ', 'table_option', $tableOption, '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
-        foreach ($this->optionsTables as $option) {
+        foreach ($this->options as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_'.strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
-
+        //
         $optionsTray->setDescription(_AM_TDMCREATE_TABLE_OPTIONS_CHECKS_DESC);
-
+        //
         $form->addElement($optionsTray);
-
+        //
         $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormHidden('table_id', ($isNew ? 0 : $this->getVar('table_id'))));
@@ -253,11 +263,11 @@ class TDMCreateTables extends XoopsObject
     }
 
     /**
-     * Get Tables Values.
+     * Get Values.
      */
-    public function getTablesValues($keys = null, $format = null, $maxDepth = null)
+    public function getValues($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = $this->getValues($keys, $format, $maxDepth);
+        $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('table_id');
         $ret['mid'] = $this->getVar('table_mid');
@@ -273,21 +283,12 @@ class TDMCreateTables extends XoopsObject
         $ret['comments'] = $this->getVar('table_comments');
         $ret['notifications'] = $this->getVar('table_notifications');
         $ret['permissions'] = $this->getVar('table_permissions');
-        $ret['tag'] = $this->getVar('table_tag');
-        $ret['broken'] = $this->getVar('table_broken');
-        $ret['pdf'] = $this->getVar('table_pdf');
-        $ret['print'] = $this->getVar('table_print');
-        $ret['rate'] = $this->getVar('table_rate');
-        $ret['rss'] = $this->getVar('table_rss');
-        $ret['single'] = $this->getVar('table_single');
-        $ret['submit'] = $this->getVar('table_submit');
-        $ret['visit'] = $this->getVar('table_visit');
 
         return $ret;
     }
 
     /**
-     * Get Tables Options.
+     * Get Options.
      */
     /**
      * @param $key
@@ -297,12 +298,12 @@ class TDMCreateTables extends XoopsObject
     public function getTablesOptions()
     {
         $retTable = array();
-        foreach ($this->optionsTables as $optionTable) {
-            if ($this->getVar('table_'.$optionTable) == 1) {
-                array_push($retTable, $optionTable);
-            }
-        }
-
+        foreach ($this->options as $option) {
+			if ($this->getVar('table_'.$option) == 1) {
+				array_push($retTable, $option);
+			}
+		}
+        
         return $retTable;
     }
 
@@ -362,7 +363,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      * @param int  $i      field id
      * @param null $fields
      *
-     * @return mixed reference to the <a href='psi_element:TDMCreateFields'>TDMCreateFields</a> object
+     * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
     public function &get($i = null, $fields = null)
@@ -404,10 +405,13 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getCountTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
-        $criteriaCountTables = new CriteriaCompo();
-        $criteriaCountTables = $this->getTablesCriteria($criteriaCountTables, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getCount($criteriaCountTables);
+        return parent::getCount($criteria);
     }
 
     /**
@@ -415,10 +419,13 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
-        $criteriaAllTables = new CriteriaCompo();
-        $criteriaAllTables = $this->getTablesCriteria($criteriaAllTables, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getAll($criteriaAllTables);
+        return parent::getAll($criteria);
     }
 
     /**
@@ -426,23 +433,13 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllTablesByModuleId($modId, $start = 0, $limit = 0, $sort = 'table_order ASC, table_id, table_name', $order = 'ASC')
     {
-        $criteriaAllTablesByModuleId = new CriteriaCompo();
-        $criteriaAllTablesByModuleId->add(new Criteria('table_mid', $modId));
-        $criteriaAllTablesByModuleId = $this->getTablesCriteria($criteriaAllTablesByModuleId, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('table_mid', $modId));
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getAll($criteriaAllTablesByModuleId);
-    }
-
-    /**
-     * Get Tables Criteria.
-     */
-    private function getTablesCriteria($criteriaTables, $start, $limit, $sort, $order)
-    {
-        $criteriaTables->setStart($start);
-        $criteriaTables->setLimit($limit);
-        $criteriaTables->setSort($sort);
-        $criteriaTables->setOrder($order);
-
-        return $criteriaTables;
+        return parent::getAll($criteria);
     }
 }

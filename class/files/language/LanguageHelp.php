@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageHelp.
  */
-class LanguageHelp extends TDMCreateFile
+class LanguageHelp extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -108,10 +108,6 @@ Detailed instructions on installing modules are available in the <a href="http:/
         The TDMCreate module continues to expand, to get to the conditions to create modules, more and more sophisticated.<br />
         For this reason, I invite all developers to report and send in svn any changes or additions to this module, so that we can jointly contribute to the development <br /><br />
     </p>
-	<h4 class="odd">Support</h4>
-    <p class="even">
-		If you liked the module TDMCreate and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module TDMCreate and make a donation using this button <a href="http://www.txmodxoops.org/modules/xdonations/index.php" title="Donation To Txmod Xoops" target="_blank"><img src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" alt="Button Donations" /></a><br /><br />Thanks!
-	</p>
     <h4 class="odd">Tutorial</h4>
     <p class="even">
         You can find a more detailed to this Video Tutorial <a href="http://www.youtube.com/watch?v=dg7zGFCopxY" rel="external">here</a>
@@ -119,10 +115,11 @@ Detailed instructions on installing modules are available in the <a href="http:/
     <!-- -----Help Content ---------- -->
 </div>
 EOT;
-        $language = ($language != 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
+        if ($language != 'english') {
+            $this->tdmcfile->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        }
+        $this->tdmcfile->create($moduleDirname, 'language/english/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        $this->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

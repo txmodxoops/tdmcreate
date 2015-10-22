@@ -22,6 +22,7 @@
  *
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
+defined('XOOPS_ROOT_PATH') or die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateFields
@@ -39,9 +40,9 @@ class TDMCreateFields extends XoopsObject
     private $tdmcreate;
 
     /**
-     * optionFields.
+     * Options.
      */
-    public $optionsFields = array(
+    public $options = array(
         'parent',
         'admin',
         'inlist',
@@ -333,7 +334,7 @@ class TDMCreateFields extends XoopsObject
         // Header function class
         $fieldsForm = self::getInstance();
         $form = $fieldsForm->getHeaderForm($action);
-
+        //
         $class = 'even';
         // Get the number of fields - goffy
         $tablesHandler = &$this->tdmcreate->getHandler('tables');
@@ -343,7 +344,12 @@ class TDMCreateFields extends XoopsObject
         $fName = $tables->getVar('table_fieldname');
 
         // Get the list of fields
-        $fields = $this->tdmcreate->getHandler('fields')->getAllFieldsByModuleAndTableId($fieldMid, $fieldTid, 0, 0, 'field_id');
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('field_mid', $fieldMid));
+        $criteria->add(new Criteria('field_tid', $fieldTid));
+        $criteria->setSort('field_id'); //added by goffy
+        $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteria);
+        unset($criteria);
         $id = 1;
         foreach ($fields as $field) {
             $class = ($class == 'even') ? 'odd' : 'even';
@@ -354,6 +360,8 @@ class TDMCreateFields extends XoopsObject
             } else {
                 // show field with settings
                 $form->addElement(new XoopsFormHidden('field_id['.$id.']', $fieldId));
+                //$form->addElement(new XoopsFormHidden('field_mid', $fieldMid));
+                //$form->addElement(new XoopsFormHidden('field_tid', $fieldTid));
 
                 $form->addElement(new TDMCreateFormLabel('<tr class="'.$class.'">'));
                 // Index ID
@@ -399,6 +407,15 @@ class TDMCreateFields extends XoopsObject
                     $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaTable));
                     unset($criteriaElement, $criteriaTable);
                     $parametersTray->addElement($fieldElementsSelect);
+
+                    // Options
+                    /*$moduleOption = $this->getOptions();
+                    $checkbox     = new XoopsFormCheckbox(' ', 'fields_option[' . $id . ']', $moduleOption, '<br />');
+                    $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
+                    foreach ($this->options as $option) {
+                        $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_FIELD_' . strtoupper($option)));
+                    }
+                    $parametersTray->addElement($checkbox);*/
 
                     $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent['.$id.']', $field->getVar('field_parent'));
                     $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
@@ -491,11 +508,11 @@ class TDMCreateFields extends XoopsObject
     }
 
     /**
-     * Get Fields Values.
+     * Get Values.
      */
-    public function getFieldsValues($keys = null, $format = null, $maxDepth = null)
+    public function getValues($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = $this->getValues($keys, $format, $maxDepth);
+        $ret = parent::getValues($keys, $format, $maxDepth);
         $ret['id'] = $this->getVar('field_id');
         $ret['mid'] = $this->getVar('field_mid');
         $ret['tid'] = $this->getVar('field_tid');
@@ -515,23 +532,52 @@ class TDMCreateFields extends XoopsObject
     }
 
     /**
-     * Get Fields Options.
+     * Get Options.
      */
     /**
      * @param $key
      *
      * @return string
      */
-    public function getFieldsOptions()
+    public function getOptions()
     {
-        $retField = array();
-        foreach ($this->optionsFields as $optionField) {
-            if ($this->getVar('field_'.$optionField) == 1) {
-                array_push($retField, $optionField);
-            }
+        $ret = array();
+        //
+        if ($this->getVar('field_parent') == 1) {
+            array_push($ret, 'parent');
+        }
+        if ($this->getVar('field_admin') == 1) {
+            array_push($ret, 'admin');
+        }
+        if ($this->getVar('field_inlist') == 1) {
+            array_push($ret, 'inlist');
+        }
+        if ($this->getVar('field_inform') == 1) {
+            array_push($ret, 'inform');
+        }
+        if ($this->getVar('field_user') == 1) {
+            array_push($ret, 'user');
+        }
+        if ($this->getVar('field_thead') == 1) {
+            array_push($ret, 'thead');
+        }
+        if ($this->getVar('field_tbody') == 1) {
+            array_push($ret, 'tbody');
+        }
+        if ($this->getVar('field_tfoot') == 1) {
+            array_push($ret, 'tfoot');
+        }
+        if ($this->getVar('field_block') == 1) {
+            array_push($ret, 'block');
+        }
+        if ($this->getVar('field_search') == 1) {
+            array_push($ret, 'search');
+        }
+        if ($this->getVar('field_required') == 1) {
+            array_push($ret, 'required');
         }
 
-        return $retField;
+        return $ret;
     }
 
     /**
@@ -644,10 +690,13 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
-        $criteriaCountFields = new CriteriaCompo();
-        $criteriaCountFields = $this->getFieldsCriteria($criteriaCountFields, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getCount($criteriaCountFields);
+        return parent::getCount($criteria);
     }
 
     /**
@@ -655,10 +704,13 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
-        $criteriaAllFields = new CriteriaCompo();
-        $criteriaAllFields = $this->getFieldsCriteria($criteriaAllFields, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getAll($criteriaAllFields);
+        return parent::getAll($criteria);
     }
 
     /**
@@ -666,24 +718,14 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
-        $criteriaAllFieldsByModule = new CriteriaCompo();
-        $criteriaAllFieldsByModule->add(new Criteria('field_mid', $modId));
-        $criteriaAllFieldsByModule->add(new Criteria('field_tid', $tabId));
-        $criteriaAllFieldsByModule = $this->getFieldsCriteria($criteriaAllFieldsByModule, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('field_mid', $modId));
+        $criteria->add(new Criteria('field_tid', $tabId));
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getAll($criteriaAllFieldsByModule);
-    }
-
-    /**
-     * Get Fields Criteria.
-     */
-    private function getFieldsCriteria($criteriaFields, $start, $limit, $sort, $order)
-    {
-        $criteriaFields->setStart($start);
-        $criteriaFields->setLimit($limit);
-        $criteriaFields->setSort($sort);
-        $criteriaFields->setOrder($order);
-
-        return $criteriaFields;
+        return parent::getAll($criteria);
     }
 }

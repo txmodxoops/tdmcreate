@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageBlocks.
  */
-class LanguageBlocks extends TDMCreateFile
+class LanguageBlocks extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -60,16 +60,19 @@ class LanguageBlocks extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
+    *  @param mixed $tables
     *  @param string $filename
     */
     /**
      * @param $module
+     * @param $tables
      * @param $filename
      */
-    public function write($module, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
+        $this->setTables($tables);
     }
 
     /*
@@ -83,8 +86,9 @@ class LanguageBlocks extends TDMCreateFile
      *
      * @return string
      */
-    private function getLanguageBlock($module, $tables, $language)
+    private function getLanguageBlock($module, $language)
     {
+        $tables = $this->getTables();
         $ret = $this->defines->getAboveDefines('Admin Edit');
         $ret .= $this->defines->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
         $ret .= $this->defines->getDefine($language, 'TITLELENGTH', 'Title Length');
@@ -99,7 +103,7 @@ class LanguageBlocks extends TDMCreateFile
                 $fieldName = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);
                 //
-                $rpFieldName = $this->getRightString($fieldName);
+                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                 $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
                 //
                 $fieldNameDesc = ucfirst($rpFieldName);
@@ -136,15 +140,14 @@ class LanguageBlocks extends TDMCreateFile
     {
         $module = $this->getModule();
         $filename = $this->getFileName();
-        $tables = $this->getTableTables($module->getVar('mod_id'));
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MB');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getLanguageBlock($module, $tables, $language);
+        $content .= $this->getLanguageBlock($module, $language);
         $content .= $this->getLanguageFooter();
         //
-        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

@@ -76,16 +76,173 @@ class TemplatesUserPrint extends TDMCreateFile
 
     /*
     *  @private function getTemplatesUserPrintHeader
-    *  @param null
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
     */
     /**
-     * @param null
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
      *
      * @return string
      */
-    private function getTemplatesUserPrint()
+    private function getTemplatesUserPrintHeader($moduleDirname, $table, $language)
     {
-        $ret = "<div><{\$print}></div>";
+        $ret = <<<EOT
+<{include file="db:{$moduleDirname}_header.tpl"}>
+<table class="{$moduleDirname}">
+    <thead class="outer">
+        <tr class="head">\n
+EOT;
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $langStuFieldName = $language.strtoupper($fieldName);
+            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+                $ret .= <<<EOT
+            <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
+EOT;
+            }
+        }
+        $ret .= <<<EOT
+        </tr>
+    </thead>\n
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserPrintBody
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
+     *
+     * @return string
+     */
+    private function getTemplatesUserPrintBody($moduleDirname, $table, $language)
+    {
+        $tableName = $table->getVar('table_name');
+        $ret = <<<EOT
+    <tbody>
+        <{foreach item=list from=\${$tableName}}>
+            <tr class="<{cycle values='odd, even'}>">\n
+EOT;
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+                switch ($fieldElement) {
+                    case 9:
+                        $ret .= <<<EOT
+                <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">\t\t</span></td>\n
+EOT;
+                        break;
+                    case 10:
+                        $ret .= <<<EOT
+                <td class="center"><img src="<{xoModuleIcons32}><{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
+EOT;
+                        break;
+                    case 13:
+                        $ret .= <<<EOT
+                <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}"></td>\n
+EOT;
+                        break;
+                    default:
+                        $ret .= <<<EOT
+                <td class="center"><{\$list.{$rpFieldName}}></td>\n
+EOT;
+                        break;
+                }
+            }
+        }
+        $ret .= <<<EOT
+            </tr>
+        <{/foreach}>
+    </tbody>
+</table>\n
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserPrintBodyFieldnameEmpty
+    *  @param string $moduleDirname
+    *  @param string $table
+    *  @param string $language
+    */
+    /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $language
+     *
+     * @return string
+     */
+    private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table, $language)
+    {
+        $tableName = $table->getVar('table_name');
+        $ret = <<<EOT
+    <tbody>
+        <{foreach item=list from=\${$tableName}}>
+            <tr class="<{cycle values='odd, even'}>">\n
+EOT;
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
+                switch ($fieldElement) {
+                    case 9:
+                        $ret .= <<<EOT
+            <td class="center"><span style="background-color: #<{\$list.{$fieldName}}>;"></span></td>\n
+EOT;
+                        break;
+                    case 13:
+                        $ret .= <<<EOT
+            <td class="center"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$fieldName}}>" alt="{$tableName}"></td>\n
+EOT;
+                        break;
+                    default:
+                        $ret .= <<<EOT
+            <td class="center"><{\$list.{$fieldName}}></td>\n
+EOT;
+                        break;
+                }
+            }
+        }
+        $ret .= <<<EOT
+            </tr>
+        <{/foreach}>
+    </tbody>
+</table>\n
+EOT;
+
+        return $ret;
+    }
+
+    /*
+    *  @private function getTemplatesUserPrintFooter
+    *  @param string $moduleDirname
+    */
+    /**
+     * @param $moduleDirname
+     *
+     * @return string
+     */
+    private function getTemplatesUserPrintFooter($moduleDirname)
+    {
+        $ret = <<<EOT
+<{include file="db:{$moduleDirname}_footer.tpl"}>
+EOT;
 
         return $ret;
     }
@@ -102,9 +259,19 @@ class TemplatesUserPrint extends TDMCreateFile
     public function renderFile($filename)
     {
         $module = $this->getModule();
+        $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getTemplatesUserPrint();
-
+        $tableFieldname = $table->getVar('table_fieldname');
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $content = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
+        // Verify if table_fieldname is not empty
+        if (!empty($tableFieldname)) {
+            $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table, $language);
+        } else {
+            $content .= $this->getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table, $language);
+        }
+        $content .= $this->getTemplatesUserPrintFooter($moduleDirname);
+        //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

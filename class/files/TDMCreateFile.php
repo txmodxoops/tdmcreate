@@ -40,7 +40,14 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @var mixed
      */
-    private $filename = null;
+    private $fileName;
+
+    /**
+     * "path" attribute of the files.
+     *
+     * @var string
+     */
+    private $path;
 
     /**
      * "uploadPath" attribute of the files.
@@ -49,30 +56,37 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     private $uploadPath;
 
+    /**
+     * "folder_name" attribute of the files.
+     *
+     * @var string
+     */
+    private $folderName;
+
     /*
     * @var string
     */
-    private $content = null;
+    private $content;
 
     /*
     * @var mixed
     */
-    private $created = null;
+    private $created = false;
 
     /*
     * @var mixed
     */
-    private $notCreated = null;
+    private $notCreated = false;
 
     /*
     * @var string
     */
-    private $mode = null;
+    private $mode;
 
     /*
     * @var string
     */
-    protected $tdmcfile = null;
+    protected $tdmcfile;
 
     /*
     *  @public function constructor
@@ -116,11 +130,11 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param $notCreated
      * @param $mode
      */
-    public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = null, $notCreated = null, $mode = 'w+')
+    public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = false, $notCreated = false, $mode = 'w+')
     {
         $this->setFileName($fileName);
-        $this->setCreated($created);
-        $this->setNotCreated($notCreated);
+        $this->created = $created;
+        $this->notCreated = $notCreated;
         $this->setMode($mode);
         $this->setRepositoryPath($moduleDirname);
         if (!empty($content) && is_string($content)) {
@@ -144,53 +158,6 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         $this->setModule($module);
         $this->setFileName($fileName);
-    }
-
-    /**
-     * TDMCreateFile::load().
-     *
-     * @param $folder
-     * @param $name
-     *
-     * @return bool
-     */
-    public static function load($folder = 'admin', $name = 'about')
-    {
-        if ($folder != '') {
-            if (!class_exists(ucfirst($folder).ucfirst($name))) {
-                if (file_exists($class = __DIR__.'/'.$folder.'/'.ucfirst($folder).ucfirst($name).'.php')) {
-                    include $class;
-                } else {
-                    trigger_error('Require Item : '.str_replace(TDMC_CLASSES_PATH, '', $folder).' In File '.__FILE__.' at Line '.__LINE__, E_USER_WARNING);
-
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * TDMCreateFile::getHandler().
-     *
-     * @param $folder
-     * @param $name     
-     *
-     * @return
-     */
-    public static function getHandler($folder = 'admin', $name = 'about')
-    {
-        $ret = null;
-        self::load($folder, $name);
-        $class = ucfirst($folder).ucfirst($name);
-        if (class_exists($class)) {
-            $ret = new $class();
-        } else {
-            trigger_error('Class '.$class.' not exist in File '.__FILE__.' at Line '.__LINE__, E_USER_WARNING);
-        }
-
-        return $ret;
     }
 
     /*
@@ -326,30 +293,6 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-    *  @private function setCreated
-    *  @param null
-    */
-    /**
-     * @return bool
-     */
-    private function setCreated($created)
-    {
-        $this->created = $created;
-    }
-
-    /*
-    *  @private function setNotCreated
-    *  @param $notCreated
-    */
-    /**
-     * @return bool
-     */
-    private function setNotCreated($notCreated)
-    {
-        $this->notCreated = $notCreated;
-    }
-	
-	/*
     *  @private function getCreated
     *  @param null
     */

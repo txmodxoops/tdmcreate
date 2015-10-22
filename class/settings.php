@@ -22,6 +22,7 @@
  *
  * @version         $Id: settings.php 13070 2015-05-19 12:24:20Z timgno $
  */
+defined('XOOPS_ROOT_PATH') or die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateSettings
@@ -137,7 +138,7 @@ class TDMCreateSettings extends XoopsObject
     }
 
     /*
-    *  @public function getFormSettings
+    *  @public function getForm
     *  @param mixed $action
     */
     /**
@@ -145,20 +146,21 @@ class TDMCreateSettings extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getFormSettings($action = false)
+    public function getForm($action = false)
     {
+        //
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-
+        //
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_SETTING_NEW) : sprintf(_AM_TDMCREATE_SETTING_EDIT);
-
+        //
         include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-
+        //
         $form = new XoopsThemeForm($title, 'settingform', $action, 'post');
         $form->setExtra('enctype="multipart/form-data"');
-
+        //
         $form->addElement(new XoopsFormHidden('set_id', $this->getVar('set_id')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_NAME, 'set_name', 50, 255, $this->getVar('set_name')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_DIRNAME, 'set_dirname', 25, 255, $this->getVar('set_dirname')));
@@ -171,7 +173,6 @@ class TDMCreateSettings extends XoopsObject
         $form->addElement(new XoopsFormTextArea(_AM_TDMCREATE_SETTING_DESCRIPTION, 'set_description', $this->getVar('set_description'), 4, 25));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR, 'set_author', 50, 255, $this->getVar('set_author')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_LICENSE, 'set_license', 50, 255, $this->getVar('set_license')));
-
         // Check All Settings Options
         $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
         $checkAllOptions = new XoopsFormCheckBox('', 'settingbox', 1);
@@ -210,7 +211,7 @@ class TDMCreateSettings extends XoopsObject
         $fileseltray->addElement(new XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
-
+        //        
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_MAIL, 'set_author_mail', 50, 255, $this->getVar('set_author_mail')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_URL, 'set_author_website_url', 50, 255, $this->getVar('set_author_website_url')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_NAME, 'set_author_website_name', 50, 255, $this->getVar('set_author_website_name')));
@@ -234,16 +235,16 @@ class TDMCreateSettings extends XoopsObject
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $form->addElement($buttonTray);
-
+        
         return $form;
     }
 
     /**
-     * Get Settings Values.
+     * Get Values.
      */
-    public function getSettingsValues($keys = null, $format = null, $maxDepth = null)
+    public function getValues($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = $this->getValues($keys, $format, $maxDepth);
+        $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('set_id');
         $ret['name'] = $this->getVar('set_name');
@@ -257,7 +258,7 @@ class TDMCreateSettings extends XoopsObject
     }
 
     /**
-     * Get Settings Options.
+     * Get Options.
      */
     /**
      * @param $key
@@ -267,12 +268,12 @@ class TDMCreateSettings extends XoopsObject
     private function getSettingsOptions()
     {
         $retSet = array();
-        foreach ($this->options as $option) {
-            if ($this->getVar('set_'.$option) == 1) {
-                array_push($retSet, $option);
-            }
-        }
-
+		foreach ($this->options as $option) {
+			if ($this->getVar('set_'.$option) == 1) {
+				array_push($retSet, $option);
+			}
+		}
+		
         return $retSet;
     }
 
@@ -364,10 +365,13 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
-        $criteriaCountSettings = new CriteriaCompo();
-        $criteriaCountSettings = $this->getSettingsCriteria($criteriaCountSettings, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getCount($criteriaCountSettings);
+        return parent::getCount($criteria);
     }
 
     /**
@@ -375,22 +379,12 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
-        $criteriaAllSettings = new CriteriaCompo();
-        $criteriaAllSettings = $this->getSettingsCriteria($criteriaAllSettings, $start, $limit, $sort, $order);
+        $criteria = new CriteriaCompo();
+        $criteria->setSort($sort);
+        $criteria->setOrder($order);
+        $criteria->setStart($start);
+        $criteria->setLimit($limit);
 
-        return $this->getAll($criteriaAllSettings);
-    }
-
-    /**
-     * Get Settings Criteria.
-     */
-    private function getSettingsCriteria($criteriaSettings, $start, $limit, $sort, $order)
-    {
-        $criteriaSettings->setStart($start);
-        $criteriaSettings->setLimit($limit);
-        $criteriaSettings->setSort($sort);
-        $criteriaSettings->setOrder($order);
-
-        return $criteriaSettings;
+        return parent::getAll($criteria);
     }
 }

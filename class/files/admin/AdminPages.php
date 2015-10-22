@@ -28,14 +28,9 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 class AdminPages extends TDMCreateFile
 {
     /*
-    * @var mixed
+    * @var string
     */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
+    private $adminobjects;
 
     /*
     *  @public function constructor
@@ -47,8 +42,8 @@ class AdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->adminobjects = AdminObjects::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -73,29 +68,30 @@ class AdminPages extends TDMCreateFile
     *  @param string $module
     *  @param string $table
     */
-    public function write($module, $filename)
+    public function write($module, $table)
     {
         $this->setModule($module);
-        $this->setFileName($filename);
+        $this->setTable($table);
     }
 
     /*
     *  @private function getAdminPagesHeader
     *  @param string $moduleDirname
+    *  @param string $tableName
     *  @param $fieldId
     *  @return string
     */
-    private function getAdminPagesHeader($moduleDirname, $fieldId)
+    private function getAdminPagesHeader($moduleDirname, $tableName, $fieldId)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'list', 'String');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Request', $fieldId);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
-
-        $ret .= <<<EOT
+        $ucfTableName = ucfirst($tableName);
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = <<<EOT
+include  __DIR__ . '/header.php';
+//It recovered the value of argument op in URL$
+\$op = XoopsRequest::getString('op', 'list');
+// Request {$fieldId}
+\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
 // Switch options
 switch (\$op)
 {\n
@@ -110,22 +106,32 @@ EOT;
     *  @param $table
     *  @param $tableFieldname
     *  @param $language
+    *  @param $fields
+    *  @param $fieldId
     *  @param $fieldInForm
+    *  @param $fieldMain
     *  @return string
     */
-    private function getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fieldInForm)
+    private function getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
+        $tableFieldname = $table->getVar('table_fieldname');
         $ucfTableName = ucfirst($tableName);
         $stuTableName = strtoupper($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
+        $stuTableFieldname = strtoupper($tableFieldname);
+        $tableAutoincrement = $table->getVar('table_autoincrement');
         $ret = <<<EOT
-		\$start = XoopsRequest::getInt('start', 0);
+    case 'list':
+    default:
+        \$start = XoopsRequest::getInt('start', 0);
         \$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('adminpager'));
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));\n
 EOT;
-        if (in_array(1, $fieldInForm)) {
+        if (1 == $fieldInForm) {
             $ret .= <<<EOT
         \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());\n
@@ -142,7 +148,7 @@ EOT;
         {
             foreach (array_keys(\${$tableName}All) as \$i)
             {
-				\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
+				\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
                 \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
                 unset(\${$tableSoleName});
             }
@@ -154,9 +160,10 @@ EOT;
         } else {
             \$GLOBALS['xoopsTpl']->assign('error', {$language}THEREARENT_{$stuTableName});
         }
+    break;\n
 EOT;
 
-        return $this->phpcode->getPhpCodeCaseSwitch('list', $ret, true);
+        return $ret;
     }
 
     /*
@@ -169,19 +176,20 @@ EOT;
     private function getAdminPagesNew($moduleDirname, $tableName, $language)
     {
         $stuTableName = strtoupper($tableName);
-        $ucfTableName = ucfirst($tableName);
         $ret = <<<EOT
+    case 'new':
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
         \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
         // Get Form
         \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm{$ucfTableName}();
+        \$form = \${$tableName}Obj->getForm();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
+    break;\n
 EOT;
 
-        return $this->phpcode->getPhpCodeCaseSwitch('new', $ret);
+        return $ret;
     }
 
     /*
@@ -191,13 +199,14 @@ EOT;
     *  @param string $language
     *  @param string $fields
     *  @param string $fieldId
+    *  @param string $fieldMain
     *  @return string
     */
-    private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId)
+    private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
     {
-        $ucfTableName = ucfirst($tableName);
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
+    case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
 			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
         }
@@ -205,9 +214,42 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         } else {
            \${$tableName}Obj =& \${$tableName}Handler->create();
-        }\n
+        }
+        // Set Vars\n
 EOT;
-        $ret .= $this->xoopscode->getXoopsCodeSetVarsObjects($moduleDirname, $tableName, $fields);
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if ($f > 0) { // If we want to hide field id
+                switch ($fieldElement) {
+                    case 5:
+                    case 6:
+                        $ret .= $this->adminobjects->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        break;
+                    case 10:
+                        $ret .= $this->adminobjects->getImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        break;
+                    case 12:
+                        $ret .= $this->adminobjects->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        break;
+                    case 13:
+                        if (1 == $fields[$f]->getVar('field_main')) {
+                            $fieldMain = $fieldName;
+                        }
+                        $ret .= $this->adminobjects->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        break;
+                    case 14:
+                        $ret .= $this->adminobjects->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        break;
+                    case 15:
+                        $ret .= $this->adminobjects->getTextDateSelectSetVar($tableName, $fieldName);
+                        break;
+                    default:
+                        $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
+                        break;
+                }
+            }
+        }
         $ret .= <<<EOT
         // Insert Data
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
@@ -215,29 +257,34 @@ EOT;
         }
         // Get Form
         \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
-        \$form =& \${$tableName}Obj->getForm{$ucfTableName}();
+        \$form =& \${$tableName}Obj->getForm();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
+    break;\n
 EOT;
 
-        return $this->phpcode->getPhpCodeCaseSwitch('save', $ret);
+        return $ret;
     }
 
     /*
     *  @private function getAdminPagesEdit
     *  @param string $moduleDirname
     *  @param string $tableName
-    *  @param string $tableSoleName
+    *  @param string $tableFieldname
     *  @param string $language
     *  @param string $fieldId
     *  @return string
     */
-    private function getAdminPagesEdit($moduleDirname, $tableName, $tableSoleName, $language, $fieldId)
+    private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId)
     {
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
+        $tableFieldname = $table->getVar('table_fieldname');
         $stuTableName = strtoupper($tableName);
-        $ucfTableName = ucfirst($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $content = <<<EOT
+        $stuTableFieldname = strtoupper($tableFieldname);
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = <<<EOT
+    case 'edit':
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
         \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
         \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
@@ -245,11 +292,12 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
         // Get Form
         \${$tableName}Obj = \${$tableName}Handler->get(\${$ccFieldId});
-        \$form = \${$tableName}Obj->getForm{$ucfTableName}();
+        \$form = \${$tableName}Obj->getForm();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
+    break;\n
 EOT;
 
-        return $this->phpcode->getPhpCodeCaseSwitch('edit', $content);
+        return $ret;
     }
 
     /*
@@ -262,8 +310,9 @@ EOT;
     */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
     {
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $content = <<<EOT
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = <<<EOT
+    case 'delete':
         \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
             if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -277,34 +326,38 @@ EOT;
         } else {
             xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
         }
+    break;\n
 EOT;
 
-        return $this->phpcode->getPhpCodeCaseSwitch('delete', $content);
+        return $ret;
     }
 
     /*
     *  @private function getAdminPagesUpdate
-    *  @param string $language
+    *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldId
     *  @param string $fieldName
     *  @return string
     */
-    private function getAdminPagesUpdate($language, $tableName, $fieldId, $fieldName)
+    private function getAdminPagesUpdate($moduleDirname, $tableName, $fieldId, $fieldName)
     {
-        $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $content = <<<EOT
+        $stuModuleName = strtoupper($moduleDirname);
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ret = <<<EOT
+    case 'update':
         if (isset(\${$ccFieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         }
         \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('{$tableName}.php', 3, {$language}FORM_OK);
+            redirect_header('{$tableName}.php', 3, _AM_{$stuModuleName}_FORM_OK);
         }
 		\$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
+    break;\n
 EOT;
 
-        return $this->phpcode->getPhpCodeCaseSwitch('update', $content);
+        return $ret;
     }
 
     /*
@@ -317,10 +370,9 @@ EOT;
     private function getAdminPagesFooter()
     {
         $ret = <<<EOT
-}\n
+}
+include  __DIR__ . '/footer.php';
 EOT;
-
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
 
         return $ret;
     }
@@ -330,52 +382,45 @@ EOT;
     *  @param null
     */
     /**
-     * @param null
+     * @param $filename
      *
      * @return bool|string
      */
-    public function render()
+    public function renderFile($filename)
     {
         $module = $this->getModule();
-        $tables = $this->getTableTables($module->getVar('mod_id'));
-        $filename = $this->getFileName();
+        $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'AM');
-        $fieldInForm = array();
-		foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
-            $fields = $this->getTableFields($tableMid, $tableId);
-            foreach (array_keys($fields) as $f) {
-                $fieldName = $fields[$f]->getVar('field_name');
-                $fieldInForm[] = $fields[$f]->getVar('field_inform');
-                if (0 == $f) {
-                    $fieldId = $fieldName;
-                }
-                if (1 == $fields[$f]->getVar('field_main')) {
-                    $fieldMain = $fieldName;
-                }
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
+        $language = $this->tdmcfile->getLanguage($moduleDirname, 'AM');
+        $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldInForm = $fields[$f]->getVar('field_inform');
+            if (0 == $f) {
+                $fieldId = $fieldName;
+            }
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName;
             }
         }
-
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminPagesHeader($moduleDirname, $tableName, $fieldId);
-        $content .= $this->getAdminPagesList($moduleDirname, $tableName, $tableSoleName, $language, $fieldInForm);
-        if (in_array(1, $fieldInForm)) {
+        $content .= $this->getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain);
+        if (1 == $fieldInForm) {
             $content .= $this->getAdminPagesNew($moduleDirname, $tableName, $language);
-            $content .= $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId);
-            $content .= $this->getAdminPagesEdit($moduleDirname, $tableName, $tableSoleName, $language, $fieldId);
+            $content .= $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain);
+            $content .= $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId);
         }
         $content .= $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain);
         if (strstr($fieldName, 'update') || strstr($fieldName, 'online') || strstr($fieldName, 'display')) {
-            $content .= $this->getAdminPagesUpdate($language, $tableName, $fieldId, $fieldName);
+            $content .= $this->getAdminPagesUpdate($moduleDirname, $tableName, $fieldId, $fieldName);
         }
         $content .= $this->getAdminPagesFooter();
+        //
+        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
-
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

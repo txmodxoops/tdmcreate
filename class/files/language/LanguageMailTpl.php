@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class LanguageMailTpl.
  */
-class LanguageMailTpl extends TDMCreateFile
+class LanguageMailTpl extends LanguageDefines
 {
     /*
     *  @public function constructor
@@ -64,23 +64,23 @@ class LanguageMailTpl extends TDMCreateFile
     /**
      * @param $module
      */
-    public function write($module, $filename)
+    public function write($module)
     {
         $this->setModule($module);
-        $this->setFileName($filename);
     }
 
     /*
-     *  @public function renderFile
-     *
-     * @param null
+    *  @public function renderFile
+    *  @param string $filename
+    */
+    /**
+     * @param $filename
      *
      * @return bool|string
      */
-    public function render()
+    public function renderFile($filename)
     {
         $module = $this->getModule();
-        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = <<<EOT
 // ---------- Templates Mail Content Dummy ---------- //
@@ -106,8 +106,8 @@ Please do not reply to this message.
 webmaster
 {X_ADMINMAIL}
 EOT;
-        $this->create($moduleDirname, 'language/english/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'language/english/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

@@ -26,18 +26,8 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class UserPdf.
  */
-class UserPdf extends TDMCreateFile
+class UserPdf extends UserObjects
 {
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
-
     /*
     *  @public function constructor
     *  @param null
@@ -49,8 +39,7 @@ class UserPdf extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -102,7 +91,7 @@ class UserPdf extends TDMCreateFile
      */
     public function getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeGetFieldId($fields);
+        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';

@@ -105,10 +105,10 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
     private function getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSolename, $language)
     {
         $single = $this->htmlcode->getSmartySingleVar('table_type');
-        $table = $this->getTemplatesAdminCategoriesTableThead($tableName, $language);
-        $table .= $this->getTemplatesAdminCategoriesTableTBody($moduleDirname, $tableName, $tableSolename, $language);
+        $table = $this->getTemplatesAdminPagesTableThead($tableName, $language);
+        $table .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSolename, $language);
 
-        return $this->htmlcode->getHtmlTag('table', array('class' => 'table table-'.$single), $table).PHP_EOL;
+        return $this->htmlcode->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
     }
 
     /*
@@ -120,15 +120,15 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesTableThead($tableName, $language)
+    private function getTemplatesUserCategoriesThead($tableName, $language)
     {
         $stuTableName = strtoupper($tableName);
         $lang = $this->htmlcode->getSmartyConst($language, $stuTableName.'_TITLE');
         $single = $this->htmlcode->getSmartySingleVar('numb_col');
-        $th = $this->htmlcode->getHtmlTag('th', array('class' => $single), $lang).PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $th = $this->htmlcode->getHtmlTableHead($lang, '', $single).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTableRow($th, 'head').PHP_EOL;
 
-        return $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTableThead($tr).PHP_EOL;
     }
 
     /*
@@ -144,18 +144,18 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesTableTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSolename, $language)
     {
         $single = $this->htmlcode->getSmartySingleVar('panel_type');
         $include = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
-        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-'.$single), $include);
-        $cont = $this->htmlcode->getHtmlTag('td', array(), $div).PHP_EOL;
+        $div = $this->htmlcode->getHtmlDiv($include, 'panel panel-'.$single);
+        $cont = $this->htmlcode->getHtmlTableData($div).PHP_EOL;
         $html = $this->htmlcode->getHtmlEmpty('</tr><tr>').PHP_EOL;
         $cont   .= $this->htmlcode->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
         $foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTag('tr', array(), $foreach).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTableRow($foreach).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTag('tbody', array(), $tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTableTbody($tr).PHP_EOL;
     }
 
     /*
@@ -173,10 +173,10 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
      */
     private function getTemplatesUserCategoriesTfoot()
     {
-        $td = $this->htmlcode->getHtmlTag('td', array(), '&nbsp;').PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTag('tr', array(), $td).PHP_EOL;
+        $td = $this->htmlcode->getHtmlTableData('&nbsp;').PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTableRow($td).PHP_EOL;
 
-        return $this->htmlcode->getHtmlTag('tfoot', array(), $tr).PHP_EOL;
+        return $this->htmlcode->getHtmlTableTfoot($tr).PHP_EOL;
     }
 
     /*
@@ -191,7 +191,7 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
     private function getTemplatesUserCategories($moduleDirname, $tableName, $tableSolename, $language)
     {
         $tab = $this->getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
-        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'table-responsive'), $tab).PHP_EOL;
+        $div = $this->htmlcode->getHtmlDiv($tab, 'table-responsive').PHP_EOL;
 
         return $this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
     }
@@ -212,18 +212,30 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
     private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $stuTableName = strtoupper($tableName);
+        /*$ret = <<<EOT
+<div class="panel panel-<{\$panel_type}>">
+    <div class="panel-heading"><{\$smarty.const.{$language}{$stuTableName}_TITLE}></div>
+        <{foreach item={$tableSolename} from=\${$tableName}}>
+            <div class="panel panel-body">
+                <{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSolename}=\${$tableSolename}}>
+                <{if \${$tableSolename}.count is div by \$numb_col}>
+                    <br />
+                <{/if}>
+            </div>
+        <{/foreach}>
+</div>\n
+EOT;*/
 
         $incl = $this->htmlcode->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName).PHP_EOL;
         $html = $this->htmlcode->getHtmlEmpty('<br />').PHP_EOL;
-        $incl .= $this->htmlcode->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$numb_col', $html).PHP_EOL;
+        $incl     .= $this->htmlcode->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$numb_col', $html).PHP_EOL;
         $const = $this->htmlcode->getSmartyConst($language, $stuTableName.'_TITLE');
-        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'panel-heading'), $const).PHP_EOL;
-        $cont = $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-body'), $incl).PHP_EOL;
-        $div .= $this->htmlcode->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
-        $div .= $this->htmlcode->getHtmlTag('div', array('class' => 'panel-footer'), '&nbsp;').PHP_EOL;
+        $div = $this->htmlcode->getHtmlDiv($const, 'panel-heading').PHP_EOL;
+        $cont = $this->htmlcode->getHtmlDiv($incl, 'panel panel-body').PHP_EOL;
+        $div      .= $this->htmlcode->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
         $panelType = $this->htmlcode->getSmartySingleVar('panel_type');
 
-        return $this->htmlcode->getHtmlTag('div', array('class' => 'panel panel-'.$panelType), $div).PHP_EOL;
+        return $this->htmlcode->getHtmlDiv($div, 'panel panel-'.$panelType).PHP_EOL;
     }
 
     /*
@@ -260,8 +272,10 @@ class TemplatesUserCategories extends TDMCreateHtmlSmartyCodes
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserCategoriesHeader($moduleDirname);
         $content .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSolename, $language);
+        /*
+        $content .= $this->getTemplatesUserCategories($moduleDirname, $tableName, $tableSolename, $language);*/
         $content .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
-
+        //
         $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

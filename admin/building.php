@@ -69,8 +69,8 @@ switch ($op) {
         foreach ($files as $file) {
             if ($file) {
                 $build['list'] = $file;
-                $GLOBALS['xoopsTpl']->append('builds', $build);
             }
+            $GLOBALS['xoopsTpl']->append('builds', $build);
         }
         unset($build);
         // Directory to saved all files
@@ -93,7 +93,7 @@ switch ($op) {
         unset($nbModules);
         include_once TDMC_PATH.'/class/building.php';
         $handler = TDMCreateBuilding::getInstance();
-        $form = $handler->getFormBuilding();
+        $form = $handler->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }

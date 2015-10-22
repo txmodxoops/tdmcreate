@@ -280,7 +280,7 @@ EOT;
      *
      * @param mixed \$action
      */
-    public function getForm{$ucfTableName}(\$action = false)
+    public function getForm(\$action = false)
     {
         if(\$action === false) {
             \$action = \$_SERVER['REQUEST_URI'];
@@ -408,14 +408,13 @@ EOT;
     private function getValuesInForm($moduleDirname, $table, $fields)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = <<<EOT
 	/**
      * Get Values
      */
-	public function getValues{$ucfTableName}(\$keys = null, \$format = null, \$maxDepth = null)
+	public function getValues(\$keys = null, \$format = null, \$maxDepth = null)
     {
-		\$ret = \$this->getValues(\$keys, \$format, \$maxDepth);\n
+		\$ret = parent::getValues(\$keys, \$format, \$maxDepth);\n
 EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -591,7 +590,6 @@ class {$ucfModuleTable}Handler extends XoopsPersistableObjectHandler
     * @var mixed
     */
     private \${$moduleDirname} = null;
-
 	/*
      * Constructor
      *
@@ -749,7 +747,7 @@ EOT;
         \$criteria->setOrder(\$order);
         \$criteria->setStart(\$start);
         \$criteria->setLimit(\$limit);
-		return \$this->getCount(\$criteria);
+		return parent::getCount(\$criteria);
     }\n\n
 EOT;
 
@@ -779,7 +777,7 @@ EOT;
         \$criteria->setOrder(\$order);
         \$criteria->setStart(\$start);
         \$criteria->setLimit(\$limit);
-        return \$this->getAll(\$criteria);
+        return parent::getAll(\$criteria);
     }\n\n
 EOT;
 
@@ -829,7 +827,7 @@ EOT;
         \$criteria->setOrder(\$order);
         \$criteria->setStart(\$start);
         \$criteria->setLimit(\$limit);
-        return \$this->getAll(\$criteria);
+        return parent::getAll(\$criteria);
     }\n\n
 EOT;
 

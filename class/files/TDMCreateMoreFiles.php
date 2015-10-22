@@ -42,9 +42,6 @@ class TDMCreateMoreFiles extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -98,10 +95,10 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFilePhp($header)
     {
-        $ret = "<?php\n{$header}\n";
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert here your php code');
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
+        $ret = <<<EOT
+<?php
+{$header}\n
+EOT;
 
         return $ret;
     }
@@ -117,7 +114,13 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFileTpl()
     {
-        return $this->htmlcode->getHtmlTag('div', array('class', 'panel'), 'Pleace! put your template code here');
+        $ret = <<<EOT
+<div class="panel">
+	Pleace! put your template code here
+</div>\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -131,7 +134,13 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFileHtml()
     {
-        return $this->htmlcode->getHtmlTag('div', array('class', 'panel'), 'Pleace! put your Html code here');
+        $ret = <<<EOT
+<div class="panel">
+	Pleace! put your Html code here
+</div>\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -145,7 +154,11 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFileText()
     {
-        return "Pleace! put your text code here\n";
+        $ret = <<<EOT
+Pleace! put your text code here\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -159,7 +172,11 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFileSql()
     {
-        return "# Pleace! put your sql code here\n";
+        $ret = <<<EOT
+Pleace! put your sql code here\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -173,7 +190,12 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFileCss($header)
     {
-        return "@charset \"UTF-8\";\n{$header}\n\n/*Pleace! put your sql code here*/\n";
+        $ret = <<<EOT
+@charset "UTF-8";
+{$header}\n\nPleace! put your sql code here\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -187,7 +209,11 @@ class TDMCreateMoreFiles extends TDMCreateFile
      */
     private function getMoreFilesFileDefault()
     {
-        return "\n";
+        $ret = <<<EOT
+\n
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -229,6 +255,7 @@ class TDMCreateMoreFiles extends TDMCreateFile
                 break;
         }
 
+        //
         $this->tdmcfile->create($moduleDirname, $this->folder, $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

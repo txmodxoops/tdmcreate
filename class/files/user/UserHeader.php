@@ -128,8 +128,9 @@ if (is_object(\$xoopsUser)) {
     \$groups = XOOPS_GROUP_ANONYMOUS;
 }
 //
-\$myts =& MyTextSanitizer::getInstance();
-if(!file_exists(\$style = {$stuModuleDirname}_URL . '/assets/css/style.css')) { return false; }
+\$myts  =& MyTextSanitizer::getInstance();
+\$style = {$stuModuleDirname}_URL . '/assets/css/style.css';
+if(!file_exists(\$style)) { return false; }
 //
 \$sysPathIcon16   = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
 \$sysPathIcon32   = \$GLOBALS['xoopsModule']->getInfo('sysicons32');

@@ -19,25 +19,15 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: UserIndex.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: user_index.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
 /**
  * Class UserIndex.
  */
-class UserIndex extends TDMCreateFile
+class UserIndex extends UserObjects
 {
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xoopscode = null;
-
     /*
     *  @public function constructor
     *  @param null
@@ -48,8 +38,8 @@ class UserIndex extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->userobjects = UserObjects::getInstance();
     }
 
     /*
@@ -94,7 +84,11 @@ class UserIndex extends TDMCreateFile
      */
     private function getIncludeHeaderFile()
     {
-        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
+        $ret = <<<EOT
+include  __DIR__ . '/header.php';\n
+EOT;
+
+        return $ret;
     }
 
     /**
@@ -106,8 +100,9 @@ class UserIndex extends TDMCreateFile
      */
     private function getTemplateHeaderFile($moduleDirname)
     {
-        $ret = $this->xoopscode->getXoopsCodeUserHeader($moduleDirname, 'index');
-        $ret .= <<<EOT
+        $ret = <<<EOT
+\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
+include_once XOOPS_ROOT_PATH.'/header.php';
 // Define Stylesheet
 \$GLOBALS['xoTheme']->addStylesheet( \$style );\n
 EOT;
@@ -123,7 +118,7 @@ EOT;
      *
      * @return string
      */
-    private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName)
+    private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
     {
         $ucfTableName = ucfirst($tableName);
         // Fields
@@ -152,9 +147,9 @@ if (\${$tableName}Count > 0) {
 	\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}();
 	include_once XOOPS_ROOT_PATH . '/class/tree.php';
 	\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
-	foreach (array_keys(\${$tableName}All) as \$i)
+	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
 	{
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
+		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
 		\$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
@@ -177,7 +172,7 @@ EOT;
      *
      * @return string
      */
-    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
@@ -189,9 +184,9 @@ if (\${$tableName}Count > 0) {
 	\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
     \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
 	// Get All {$ucfTableName}
-	foreach(array_keys(\${$tableName}All) as \$i)
+	foreach(array_keys(\${$tableName}All) as \${$tableFieldname})
     {
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
+		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
         \$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
@@ -251,7 +246,11 @@ EOT;
      */
     private function getIncludeFooterFile()
     {
-        return $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'footer');
+        $ret = <<<EOT
+include  __DIR__ . '/footer.php';
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -278,19 +277,20 @@ EOT;
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableCategory = $tables[$t]->getVar('table_category');
+            $tableFieldname = $tables[$t]->getVar('table_fieldname');
             $tableIndex = $tables[$t]->getVar('table_index');
             if ((1 == $tableCategory) && (1 == $tableIndex)) {
-                $content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName);
+                $content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }
             if ((0 == $tableCategory) && (1 == $tableIndex)) {
-                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language);
+                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);
             }
         }
         $content .= $this->getDefaultFunctions($moduleDirname, $language);
         $content .= $this->getIncludeFooterFile();
         //
-        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }
