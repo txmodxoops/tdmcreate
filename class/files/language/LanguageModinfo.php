@@ -118,7 +118,7 @@ class LanguageModinfo extends LanguageDefines
         foreach (array_keys($tables) as $i) {
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
-			$ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
+            $ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
             $ret .= $this->defines->getDefine($language, "ADMENU{$menu}", "{$ucfTableName}");
         }
         if (in_array(1, $tablePermissions)) {

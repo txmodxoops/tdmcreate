@@ -148,7 +148,7 @@ EOT;
     private function getXoopsFormDhtmlTextArea($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-		$ret = <<<EOT
+        $ret = <<<EOT
         // Form Dhtml Text Area
         \$editor_configs = array();
         \$editor_configs['name'] = '{$fieldName}';
@@ -623,8 +623,8 @@ EOT;
     {
         $ucfTopicTableName = ucfirst($topicTableName);
         $stlTopicTableName = strtolower($topicTableName);
-        $ccFieldPid        = $this->tdmcfile->getCamelCase($fieldPid, false, true);
-		$ret = <<<EOT
+        $ccFieldPid = $this->tdmcfile->getCamelCase($fieldPid, false, true);
+        $ret = <<<EOT
         // Form Topic {$ucfTopicTableName}
         \${$stlTopicTableName}Handler = \$this->{$moduleDirname}->getHandler('{$stlTopicTableName}');
         \$criteria = new CriteriaCompo();

@@ -87,16 +87,16 @@ class AdminPermissions extends TDMCreateFile
      * @return string
      */
     private function getPermissionsHeader($module, $language)
-    {        
-		$moduleDirname = $module->getVar('mod_dirname');
-		$tables = $this->getTableTables($module->getVar('mod_id'));
-		foreach (array_keys($tables) as $t) {
+    {
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tables = $this->getTableTables($module->getVar('mod_id'));
+        foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
-		$ret = $this->getInclude('header');
-		$ret .= <<<PRM
+        $ret = $this->getInclude('header');
+        $ret .= <<<PRM
 include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
 
 \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
@@ -178,12 +178,12 @@ PRM;
      * @return string
      */
     private function getPermissionsBody($module, $language)
-    {		
-		$tables = $this->getTableTables($module->getVar('mod_id'));
-		foreach (array_keys($tables) as $t) {            
+    {
+        $tables = $this->getTableTables($module->getVar('mod_id'));
+        foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
-				$tableId = $tables[$t]->getVar('table_id');
-				$tableMid = $tables[$t]->getVar('table_mid');
+                $tableId = $tables[$t]->getVar('table_id');
+                $tableMid = $tables[$t]->getVar('table_mid');
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
@@ -227,7 +227,7 @@ PRM;
 
         return $ret;
     }
-    
+
     /*
     *  @public function render
     *  @param null
@@ -241,7 +241,7 @@ PRM;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
-        $content  = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getPermissionsHeader($module, $language);
         $content .= $this->getPermissionsSwitch($moduleDirname, $language);
         $content .= $this->getPermissionsBody($module, $language);

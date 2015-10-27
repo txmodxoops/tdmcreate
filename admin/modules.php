@@ -51,7 +51,7 @@ switch ($op) {
         // Display modules list
         if ($modulesCount > 0) {
             foreach (array_keys($modulesAll) as $i) {
-                $module = $modulesAll[$i]->getValues();
+                $module = $modulesAll[$i]->getValuesModules();
                 $GLOBALS['xoopsTpl']->append('modules_list', $module);
                 unset($module);
             }
@@ -74,7 +74,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $modulesObj = &$tdmcreate->getHandler('modules')->create();
-        $form = $modulesObj->getForm();
+        $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -156,7 +156,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        $form = &$modulesObj->getForm();
+        $form = &$modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -170,7 +170,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
-        $form = $modulesObj->getForm();
+        $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 

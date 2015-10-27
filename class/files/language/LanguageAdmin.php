@@ -259,10 +259,10 @@ class LanguageAdmin extends LanguageDefines
     public function render()
     {
         $module = $this->getModule();
-		$tables = $this->getTableTables($module->getVar('mod_id'));
+        $tables = $this->getTableTables($module->getVar('mod_id'));
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-		}
+        }
         $tables = $this->getTables();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');

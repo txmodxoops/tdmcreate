@@ -65,7 +65,7 @@ switch ($op) {
         // Display modules list
         if ($modulesCount > 0) {
             foreach (array_keys($modulesAll) as $i) {
-                $module = $modulesAll[$i]->getValues();
+                $module = $modulesAll[$i]->getValuesModules();
                 // Get the list of tables
                 $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
                 $tablesAll = $tdmcreate->getHandler('tables')->getAllTablesByModuleId($i);
@@ -74,7 +74,7 @@ switch ($op) {
                 $lid = 1;
                 if ($tablesCount > 0) {
                     foreach (array_keys($tablesAll) as $t) {
-                        $table = $tablesAll[$t]->getValues();
+                        $table = $tablesAll[$t]->getValuesTables();
                         $alid = array('lid' => $lid);
                         $tables[] = array_merge($table, $alid);
                         unset($table);
@@ -104,7 +104,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $tablesObj = &$tdmcreate->getHandler('tables')->create();
-        $form = $tablesObj->getForm();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -202,7 +202,7 @@ switch ($op) {
         }
         //
         $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
-        $form = $tablesObj->getForm();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -215,7 +215,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
-        $form = $tablesObj->getForm();
+        $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -250,11 +250,11 @@ switch ($op) {
                 // Delete items in table fieldelements - idea by goffy
                 $fieldelements = $tdmcreate->getHandler('fieldelements')->getAllFieldElementsByModuleAndTableId($tableMid, $tableId);
                 foreach (array_keys($fieldelements) as $fe) {
-                    $fieldelementsObj = &$tdmcreate->getHandler('fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
-                    if (!$tdmcreate->getHandler('fieldelements')->delete($fieldelementsObj)) {
-                        $GLOBALS['xoopsTpl']->assign('error', $fieldelementsObj->getHtmlErrors());
+                    $fieldElementsObj = &$tdmcreate->getHandler('fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
+                    if (!$tdmcreate->getHandler('fieldelements')->delete($fieldElementsObj)) {
+                        $GLOBALS['xoopsTpl']->assign('error', $fieldElementsObj->getHtmlErrors());
                     }
-                    unset($fieldelementsObj);
+                    unset($fieldElementsObj);
                 }
                 redirect_header('tables.php', 3, _AM_TDMCREATE_FORMDELOK);
             } else {

@@ -157,7 +157,7 @@ EOT;
      * @param $desc
      * @param $index
      * @param $right
-
+     
      * @return string
      */
     private function getModVersionArray($array = 1, $left, $desc = '', $index = null, $right = null, $arrayOptions)
@@ -650,8 +650,8 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if ($fieldElement == 4) {
-				$fieldName = $fields[$f]->getVar('field_name');
-				$rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                $fieldName = $fields[$f]->getVar('field_name');
+                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                 $ret .= <<<EOT
 // Editor
 xoops_load('xoopseditorhandler');

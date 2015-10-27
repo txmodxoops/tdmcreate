@@ -87,10 +87,10 @@ class TemplatesAdminAbout extends TDMCreateHtmlSmartyCodes
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content  = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
+        $content = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
         $content .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
         $content .= $this->htmlcode->getHtmlComment('About Page').PHP_EOL;
-        $single   = $this->htmlcode->getSmartySingleVar('about');
+        $single = $this->htmlcode->getSmartySingleVar('about');
         $content .= $this->htmlcode->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
         $content .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
         $content .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true, true);

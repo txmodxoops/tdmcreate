@@ -510,7 +510,7 @@ class TDMCreateFields extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesFields($keys = null, $format = null, $maxDepth = null)
     {
         $ret = parent::getValues($keys, $format, $maxDepth);
         $ret['id'] = $this->getVar('field_id');
@@ -539,45 +539,16 @@ class TDMCreateFields extends XoopsObject
      *
      * @return string
      */
-    public function getOptions()
+    public function getOptionsFields()
     {
-        $ret = array();
-        //
-        if ($this->getVar('field_parent') == 1) {
-            array_push($ret, 'parent');
-        }
-        if ($this->getVar('field_admin') == 1) {
-            array_push($ret, 'admin');
-        }
-        if ($this->getVar('field_inlist') == 1) {
-            array_push($ret, 'inlist');
-        }
-        if ($this->getVar('field_inform') == 1) {
-            array_push($ret, 'inform');
-        }
-        if ($this->getVar('field_user') == 1) {
-            array_push($ret, 'user');
-        }
-        if ($this->getVar('field_thead') == 1) {
-            array_push($ret, 'thead');
-        }
-        if ($this->getVar('field_tbody') == 1) {
-            array_push($ret, 'tbody');
-        }
-        if ($this->getVar('field_tfoot') == 1) {
-            array_push($ret, 'tfoot');
-        }
-        if ($this->getVar('field_block') == 1) {
-            array_push($ret, 'block');
-        }
-        if ($this->getVar('field_search') == 1) {
-            array_push($ret, 'search');
-        }
-        if ($this->getVar('field_required') == 1) {
-            array_push($ret, 'required');
+        $retFields = array();
+        foreach ($this->options as $option) {
+            if ($this->getVar('field_'.$option) == 1) {
+                array_push($retFields, $option);
+            }
         }
 
-        return $ret;
+        return $retFields;
     }
 
     /**
@@ -690,13 +661,10 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaCountFields = new CriteriaCompo();
+        $criteriaCountFields = $this->getFieldsCriteria($criteriaCountFields, $start, $limit, $sort, $order);
 
-        return parent::getCount($criteria);
+        return $this->getCount($criteriaCountFields);
     }
 
     /**
@@ -704,13 +672,10 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaAllFields = new CriteriaCompo();
+        $criteriaAllFields = $this->getFieldsCriteria($criteriaAllFields, $start, $limit, $sort, $order);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteriaAllFields);
     }
 
     /**
@@ -718,14 +683,24 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->add(new Criteria('field_mid', $modId));
-        $criteria->add(new Criteria('field_tid', $tabId));
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaAllFieldsByModule = new CriteriaCompo();
+        $criteriaAllFieldsByModule->add(new Criteria('field_mid', $modId));
+        $criteriaAllFieldsByModule->add(new Criteria('field_tid', $tabId));
+        $criteriaAllFieldsByModule = $this->getFieldsCriteria($criteriaAllFieldsByModule, $start, $limit, $sort, $order);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteriaAllFieldsByModule);
+    }
+
+    /**
+     * Get Fields Criteria.
+     */
+    private function getFieldsCriteria($criteriaFields, $start, $limit, $sort, $order)
+    {
+        $criteriaFields->setStart($start);
+        $criteriaFields->setLimit($limit);
+        $criteriaFields->setSort($sort);
+        $criteriaFields->setOrder($order);
+
+        return $criteriaFields;
     }
 }

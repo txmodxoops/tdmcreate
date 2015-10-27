@@ -147,7 +147,7 @@ class TDMCreateModules extends XoopsObject
     }
 
     /*
-    *  @public function getForm
+    *  @public function getFormModules
     *  @param mixed $action
     */
     /**
@@ -155,7 +155,7 @@ class TDMCreateModules extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormModules($action = false)
     {
         //
         if ($action === false) {
@@ -210,7 +210,7 @@ class TDMCreateModules extends XoopsObject
         include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
         //
         $form = new XoopsThemeForm($title, 'moduleform', $action, 'post', true);
-        $form->setExtra('enctype="multipart/form-data"');        
+        $form->setExtra('enctype="multipart/form-data"');
         //
         $modName = $isNew ? $set['name'] : $this->getVar('mod_name');
         $modName = new XoopsFormText(_AM_TDMCREATE_MODULE_NAME, 'mod_name', 50, 255, $modName);
@@ -253,7 +253,7 @@ class TDMCreateModules extends XoopsObject
         $modAuthor = $isNew ? $set['author'] : $this->getVar('mod_author');
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_AUTHOR, 'mod_author', 50, 255, $modAuthor), true);
         $modLicense = $isNew ? $set['license'] : $this->getVar('mod_license');
-        $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_LICENSE, 'mod_license', 50, 255, $modLicense), true);        
+        $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_LICENSE, 'mod_license', 50, 255, $modLicense), true);
         //
         $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
         // Check All Modules Options
@@ -263,14 +263,14 @@ class TDMCreateModules extends XoopsObject
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
-        $checkbox = new XoopsFormCheckbox(' ', 'module_option', $this->getModulesOptions(), '<br />');
+        $checkbox = new XoopsFormCheckbox(' ', 'module_option', $this->getOptionsModules(), '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_MODULE_'.strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
         //
-        $form->addElement($optionsTray);        
+        $form->addElement($optionsTray);
         //
         $modImage = $this->getVar('mod_image');
         $modImage = $modImage ? $modImage : $set['image'];
@@ -316,7 +316,7 @@ class TDMCreateModules extends XoopsObject
         $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"".TDMC_URL."\")' ");
         $createLogoTray->addElement($buttonLogoGenerator4);
         //
-        $form->addElement($createLogoTray);        
+        $form->addElement($createLogoTray);
         //------------ END LOGO GENERATOR --------------------
         //
         $modAuthorMail = $isNew ? $set['author_mail'] : $this->getVar('mod_author_mail');
@@ -429,7 +429,7 @@ class TDMCreateModules extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesModules($keys = null, $format = null, $maxDepth = null)
     {
         $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
@@ -458,14 +458,14 @@ class TDMCreateModules extends XoopsObject
      *
      * @return string
      */
-    private function getModulesOptions()
+    private function getOptionsModules()
     {
         $retModules = array();
-		foreach ($this->options as $option) {
-			if ($this->getVar('mod_'.$option) == 1) {
-				array_push($retModules, $option);
-			}
-		}
+        foreach ($this->options as $option) {
+            if ($this->getVar('mod_'.$option) == 1) {
+                array_push($retModules, $option);
+            }
+        }
 
         return $retModules;
     }
@@ -568,13 +568,10 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      */
     public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaCountModules = new CriteriaCompo();
+        $criteriaCountModules = $this->getModulesCriteria($criteriaCountModules, $start, $limit, $sort, $order);
 
-        return parent::getCount($criteria);
+        return $this->getCount($criteriaCountModules);
     }
 
     /**
@@ -582,12 +579,22 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaAllModules = new CriteriaCompo();
+        $criteriaAllModules = $this->getModulesCriteria($criteriaAllModules, $start, $limit, $sort, $order);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteriaAllModules);
+    }
+
+    /**
+     * Get Modules Criteria.
+     */
+    private function getModulesCriteria($criteriaModules, $start, $limit, $sort, $order)
+    {
+        $criteriaModules->setStart($start);
+        $criteriaModules->setLimit($limit);
+        $criteriaModules->setSort($sort);
+        $criteriaModules->setOrder($order);
+
+        return $criteriaModules;
     }
 }

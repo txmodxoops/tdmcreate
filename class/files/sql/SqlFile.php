@@ -165,7 +165,7 @@ SQL;
         $j = 0;
         $comma = array();
         $row = array();
-		$type = '';
+        $type = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table

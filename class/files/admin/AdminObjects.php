@@ -78,8 +78,8 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getSetVarNumb
     *  @param string $tableName
     *  @param string $fieldName

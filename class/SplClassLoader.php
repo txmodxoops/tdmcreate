@@ -36,7 +36,7 @@
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  * @author Fabien Potencier <fabien.potencier@symfony-project.org>
  */
-class splclassloader
+class SplClassLoader
 {
     private $_fileExtension = '.php';
     private $_namespace;

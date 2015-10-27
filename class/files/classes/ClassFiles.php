@@ -408,7 +408,7 @@ EOT;
     private function getValuesInForm($moduleDirname, $table, $fields)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-		$ucfTableName = ucfirst($table->getVar('table_name'));
+        $ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = <<<EOT
 	/**
      * Get Values
@@ -492,8 +492,8 @@ EOT;
     private function getToArrayInForm($table)
     {
         $tableName = $table->getVar('table_name');
-		$ucfTableName = ucfirst($tableName);
-		$ret = <<<EOT
+        $ucfTableName = ucfirst($tableName);
+        $ret = <<<EOT
     /**
      * Returns an array representation of the object
      *
@@ -524,8 +524,8 @@ EOT;
     private function getOptionsCheck($table)
     {
         $tableName = $table->getVar('table_name');
-		$ucfTableName = ucfirst($tableName);
-		$ret = <<<EOT
+        $ucfTableName = ucfirst($tableName);
+        $ret = <<<EOT
     /**
      * Get Options
      */
@@ -747,12 +747,9 @@ EOT;
      */
     public function getCount{$ucfTableName}(\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC')
     {
-        \$criteria = new CriteriaCompo();
-        \$criteria->setSort(\$sort);
-        \$criteria->setOrder(\$order);
-        \$criteria->setStart(\$start);
-        \$criteria->setLimit(\$limit);
-		return parent::getCount(\$criteria);
+        \$criteriaCount{$ucfTableName} = new CriteriaCompo();
+        \$criteriaCount{$ucfTableName} = \$this->get{$ucfTableName}Criteria(\$criteriaCount{$ucfTableName}, \$start, \$limit, \$sort, \$order);
+		return parent::getCount(\$criteriaCount{$ucfTableName});
     }\n\n
 EOT;
 
@@ -777,12 +774,9 @@ EOT;
      */
 	public function getAll{$ucfTableName}(\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC')
     {
-        \$criteria = new CriteriaCompo();
-        \$criteria->setSort(\$sort);
-        \$criteria->setOrder(\$order);
-        \$criteria->setStart(\$start);
-        \$criteria->setLimit(\$limit);
-        return parent::getAll(\$criteria);
+        \$criteriaAll{$ucfTableName} = new CriteriaCompo();
+        \$criteriaAll{$ucfTableName} = \$this->get{$ucfTableName}Criteria(\$criteriaAll{$ucfTableName}, \$start, \$limit, \$sort, \$order);
+        return parent::getAll(\$criteriaAll{$ucfTableName});
     }\n\n
 EOT;
 
@@ -818,21 +812,48 @@ EOT;
         \$gpermHandler =& xoops_gethandler('groupperm');
 		\${$lcfTopicTableName} = \$gpermHandler->getItemIds('{$moduleDirname}_view', \$GLOBALS['xoopsUser']->getGroups(), \$GLOBALS['xoopsModule']->getVar('mid') );
 
-		\$criteria = new CriteriaCompo();\n
+		\$criteriaAll{$ucfTableName} = new CriteriaCompo();\n
 EOT;
         if (strstr($fieldName, 'status')) {
             $ret .= <<<EOT
-		\$criteria->add(new Criteria('{$fieldName}', 0, '!='));\n
+		\$criteriaAll{$ucfTableName}->add(new Criteria('{$fieldName}', 0, '!='));\n
 EOT;
         }
         $ret .= <<<EOT
-		\$criteria->add(new Criteria('{$fieldParent}', \${$tableFieldName}Id));
-		\$criteria->add(new Criteria('{$fieldId}', '(' . implode(',', \${$lcfTopicTableName}) . ')','IN'));
-        \$criteria->setSort(\$sort);
-        \$criteria->setOrder(\$order);
-        \$criteria->setStart(\$start);
-        \$criteria->setLimit(\$limit);
-        return parent::getAll(\$criteria);
+		\$criteriaAll{$ucfTableName}->add(new Criteria('{$fieldParent}', \${$tableFieldName}Id));
+		\$criteriaAll{$ucfTableName}->add(new Criteria('{$fieldId}', '(' . implode(',', \${$lcfTopicTableName}) . ')','IN'));
+        \$criteriaAll{$ucfTableName} = \$this->get{$ucfTableName}Criteria(\$criteriaAll{$ucfTableName}, \$start, \$limit, \$sort, \$order);
+        return parent::getAll(\$criteriaAll{$ucfTableName});
+    }\n\n
+EOT;
+
+        return $ret;
+    }
+
+    /**
+     *  @public function getClassCriteria
+     *
+     *  @param $tableName
+     *  @param $fieldId
+     *  @param $fieldMain
+     *
+     *  @return string
+     */
+    private function getClassCriteria($tableName)
+    {
+        $ucfTableName = ucfirst($tableName);
+        $ret = <<<EOT
+	/**
+     * Get {$ucfTableName} Criteria.
+     */
+    private function get{$ucfTableName}Criteria(\$criteria{$ucfTableName}, \$start, \$limit, \$sort, \$order)
+    {
+        \$criteria{$ucfTableName}->setStart(\$start);
+        \$criteria{$ucfTableName}->setLimit(\$limit);
+        \$criteria{$ucfTableName}->setSort(\$sort);
+        \$criteria{$ucfTableName}->setOrder(\$order);
+
+        return \$criteria{$ucfTableName};
     }\n\n
 EOT;
 
@@ -949,6 +970,7 @@ EOT;
         $content .= $this->getClassInsert();
         $content .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
         $content .= $this->getClassAll($tableName, $fieldId, $fieldMain);
+        $content .= $this->getClassCriteria($tableName);
         if (in_array(1, $fieldParentId) && $fieldElement > 15) {
             $content .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement);
             $content .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);

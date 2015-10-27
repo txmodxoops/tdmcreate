@@ -52,7 +52,7 @@ class TDMCreateSettings extends XoopsObject
         'comments',
         'notifications',
         'permissions',
-        'inroot',
+        'inroot_copy',
     );
 
     /*
@@ -146,7 +146,7 @@ class TDMCreateSettings extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormSettings($action = false)
     {
         //
         if ($action === false) {
@@ -181,7 +181,7 @@ class TDMCreateSettings extends XoopsObject
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
-        $settingOption = $this->getSettingsOptions();
+        $settingOption = $this->getOptionsSettings();
         $checkbox = new XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
@@ -235,14 +235,14 @@ class TDMCreateSettings extends XoopsObject
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $form->addElement($buttonTray);
-        
+
         return $form;
     }
 
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesSettings($keys = null, $format = null, $maxDepth = null)
     {
         $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
@@ -265,15 +265,15 @@ class TDMCreateSettings extends XoopsObject
      *
      * @return string
      */
-    private function getSettingsOptions()
+    private function getOptionsSettings()
     {
         $retSet = array();
-		foreach ($this->options as $option) {
-			if ($this->getVar('set_'.$option) == 1) {
-				array_push($retSet, $option);
-			}
-		}
-		
+        foreach ($this->options as $option) {
+            if ($this->getVar('set_'.$option) == 1) {
+                array_push($retSet, $option);
+            }
+        }
+
         return $retSet;
     }
 
@@ -365,13 +365,10 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaCountSettings = new CriteriaCompo();
+        $criteriaCountSettings = $this->getSettingsCriteria($criteriaCountSettings, $start, $limit, $sort, $order);
 
-        return parent::getCount($criteria);
+        return $this->getCount($criteriaCountSettings);
     }
 
     /**
@@ -379,12 +376,22 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaAllSettings = new CriteriaCompo();
+        $criteriaAllSettings = $this->getSettingsCriteria($criteriaAllSettings, $start, $limit, $sort, $order);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteriaAllSettings);
+    }
+
+    /**
+     * Get Settings Criteria.
+     */
+    private function getSettingsCriteria($criteriaSettings, $start, $limit, $sort, $order)
+    {
+        $criteriaSettings->setStart($start);
+        $criteriaSettings->setLimit($limit);
+        $criteriaSettings->setSort($sort);
+        $criteriaSettings->setOrder($order);
+
+        return $criteriaSettings;
     }
 }

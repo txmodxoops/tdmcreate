@@ -93,7 +93,7 @@ class UserVisit extends UserObjects
     {
         $stuModuleName = strtoupper($moduleDirname);
         $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-		$fieldMain = $this->userobjects->getUserSaveFieldMain($fields);
+        $fieldMain = $this->userobjects->getUserSaveFieldMain($fields);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
@@ -128,7 +128,7 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-		$tableSoleName = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);

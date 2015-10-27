@@ -74,7 +74,7 @@ class UserIndex extends UserObjects
         $this->setTable($table);
         $this->setFileName($filename);
     }
-    
+
     /**
      * @private function getTemplateHeaderFile
      *
@@ -220,7 +220,7 @@ EOT;
 
         return $ret;
     }
-    
+
     /*
     *  @public function render
     *  @param null

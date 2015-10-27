@@ -32,8 +32,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
     * @var mixed
     */
     private $tdmcreate;
-	
-	/*
+
+    /*
     * @var mixed
     */
     private $tdmcfile;
@@ -93,7 +93,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $table = null;
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
-            $tableName[] = $tables[$t]->getVar('table_name');            
+            $tableName[] = $tables[$t]->getVar('table_name');
             $table = $this->tdmcreate->getHandler('tables')->get($tableId);
         }
         //
@@ -226,24 +226,24 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $ret = array();
         //
         $table = array();
-		$tableCategory = array();
-		$tableImage = array();
-		$tableAdmin = array();
-		$tableUser = array();
-		$tableBlocks = array();
-		$tableSearch = array();
-		$tableComments = array();
-		$tableNotifications = array();
-		$tablePermissions = array();
-		$tableBroken = array();
-		$tablePdf = array();
-		$tablePrint = array();
-		$tableRate = array();
-		$tableRss = array();
-		$tableSingle = array();
-		$tableSubmit = array();
-		$tableVisit = array();
-		$tableTag = array();
+        $tableCategory = array();
+        $tableImage = array();
+        $tableAdmin = array();
+        $tableUser = array();
+        $tableBlocks = array();
+        $tableSearch = array();
+        $tableComments = array();
+        $tableNotifications = array();
+        $tablePermissions = array();
+        $tableBroken = array();
+        $tablePdf = array();
+        $tablePrint = array();
+        $tableRate = array();
+        $tableRss = array();
+        $tableSingle = array();
+        $tableSubmit = array();
+        $tableVisit = array();
+        $tableTag = array();
         foreach (array_keys($tables) as $t) {
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableId = $tables[$t]->getVar('table_id');

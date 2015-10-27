@@ -62,8 +62,8 @@ class UserObjects extends TDMCreateFile
 
         return $instance;
     }
-    	
-	/*
+
+    /*
     *  @public function getUserHeaderTpl
     *  @param string $moduleDirname
     *  @param string $tableName
@@ -307,8 +307,8 @@ EOT;
 
         return $fieldId;
     }
-	
-	/**
+
+    /**
      *  @public function getUserSaveFieldMain
      *
      *  @param $fields

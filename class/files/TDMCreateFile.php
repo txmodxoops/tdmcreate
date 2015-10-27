@@ -486,8 +486,8 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         return strtolower($string);
     }
-	
-	/*
+
+    /*
     *  @public function getInclude
     *  @param $filename
     */
@@ -498,8 +498,8 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         return "include  __DIR__ . '/{$filename}.php';\n";
     }
-	
-	/*
+
+    /*
     *  @public function getIncludeOnce
     *  @param $filename
     */

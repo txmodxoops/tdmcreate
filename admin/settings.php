@@ -48,7 +48,7 @@ switch ($op) {
         // Display settings list
         if ($settingsCount > 0) {
             foreach (array_keys($settingsAll) as $i) {
-                $setting = $settingsAll[$i]->getValues();
+                $setting = $settingsAll[$i]->getValuesSettings();
                 $GLOBALS['xoopsTpl']->append('settings_list', $setting);
                 unset($setting);
             }
@@ -61,7 +61,6 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_SETTINGS);
         }
         break;
-
     case 'new':
         // Define main template
         $templateMain = 'tdmcreate_settings.tpl';
@@ -71,22 +70,9 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
         $settingsObj = &$tdmcreate->getHandler('settings')->create();
-        $form = $settingsObj->getForm();
+        $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
-    case 'edit':
-        // Define main template
-        $templateMain = 'tdmcreate_settings.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'settings.php?op=new', 'add');
-        $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
-        $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
-        $form = $settingsObj->getForm();
-        $GLOBALS['xoopsTpl']->assign('form', $form->render());
-        break;
-
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -148,9 +134,20 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
-        $form = &$settingsObj->getForm();
+        $form = &$settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
+        break;
+    case 'edit':
+        // Define main template
+        $templateMain = 'tdmcreate_settings.tpl';
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
+        $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
+        $form = $settingsObj->getFormSettings();
+        $GLOBALS['xoopsTpl']->assign('form', $form->render());
+        break;
     case 'delete':
         $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {

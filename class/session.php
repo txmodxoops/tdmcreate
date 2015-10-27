@@ -53,7 +53,7 @@ class TDMCreateSession
     {
         static $instance = false;
         if (!isset($instance)) {
-			$class = __CLASS__;
+            $class = __CLASS__;
             $instance = new $class();
         }
 

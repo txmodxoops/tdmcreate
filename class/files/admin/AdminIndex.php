@@ -116,15 +116,15 @@ EOT;
 \$adminMenu->addInfoBox({$language}STATISTICS);
 // Info elements\n
 EOT;
-            foreach (array_keys($tables) as $i) {
-                $tableName = $tables[$i]->getVar('table_name');
-                $tableInstall[] = $tables[$i]->getVar('table_install');
-                $stuTableName = $languageThereAre.strtoupper($tableName);
-				$ucfTableName = ucfirst($tableName);
-                $content .= <<<EOT
+        foreach (array_keys($tables) as $i) {
+            $tableName = $tables[$i]->getVar('table_name');
+            $tableInstall[] = $tables[$i]->getVar('table_install');
+            $stuTableName = $languageThereAre.strtoupper($tableName);
+            $ucfTableName = ucfirst($tableName);
+            $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count{$ucfTableName});\n
 EOT;
-            }
+        }
         //}
         if ($tableName == null) {
             $content .= <<<EOT

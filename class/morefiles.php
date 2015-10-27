@@ -97,7 +97,7 @@ class TDMCreateMoreFiles extends XoopsObject
     }
 
     /*
-    *  @public function getForm
+    *  @public function getFormMoreFiles
     *  @param mixed $action
     */
     /**
@@ -105,7 +105,7 @@ class TDMCreateMoreFiles extends XoopsObject
      *
      * @return XoopsThemeForm
      */
-    public function getForm($action = false)
+    public function getFormMoreFiles($action = false)
     {
         //
         if ($action === false) {
@@ -150,7 +150,7 @@ class TDMCreateMoreFiles extends XoopsObject
     /**
      * Get Values.
      */
-    public function getValues($keys = null, $format = null, $maxDepth = null)
+    public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
         $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
@@ -240,30 +240,49 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
     }
 
     /**
-     * Get Count Modules.
+     * Get Count MoreFiles.
      */
     public function getCountMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaMoreFilesCount = new CriteriaCompo();
+        $criteriaMoreFilesCount = $this->getMoreFilesCriteria($criteriaMoreFilesCount, $start, $limit, $sort, $order);
 
-        return parent::getCount($criteria);
+        return $this->getCount($criteriaMoreFilesCount);
     }
 
     /**
-     * Get All Modules.
+     * Get All MoreFiles.
      */
     public function getAllMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteria = new CriteriaCompo();
-        $criteria->setSort($sort);
-        $criteria->setOrder($order);
-        $criteria->setStart($start);
-        $criteria->setLimit($limit);
+        $criteriaMoreFilesAdd = new CriteriaCompo();
+        $criteriaMoreFilesAdd = $this->getMoreFilesCriteria($criteriaMoreFilesAdd, $start, $limit, $sort, $order);
 
-        return parent::getAll($criteria);
+        return $this->getAll($criteriaMoreFilesAdd);
+    }
+
+    /**
+     * Get All MoreFiles By Module Id.
+     */
+    public function getAllMoreFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
+    {
+        $criteriaMoreFilesByModuleId = new CriteriaCompo();
+        $criteriaMoreFilesByModuleId->add(new Criteria('file_mid', $modId));
+        $criteriaMoreFilesByModuleId = $this->getMoreFilesCriteria($criteriaMoreFilesByModuleId, $start, $limit, $sort, $order);
+
+        return $this->getAll($criteriaMoreFilesByModuleId);
+    }
+
+    /**
+     * Get MoreFiles Criteria.
+     */
+    private function getMoreFilesCriteria($criteriaMoreFiles, $start, $limit, $sort, $order)
+    {
+        $criteriaMoreFiles->setStart($start);
+        $criteriaMoreFiles->setLimit($limit);
+        $criteriaMoreFiles->setSort($sort);
+        $criteriaMoreFiles->setOrder($order);
+
+        return $criteriaMoreFiles;
     }
 }

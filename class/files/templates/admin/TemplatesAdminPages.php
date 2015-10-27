@@ -110,8 +110,8 @@ class TemplatesAdminPages extends TDMCreateHtmlSmartyCodes
 
         $lang = $this->htmlcode->getSmartyConst($language, 'FORM_ACTION');
         $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center width5'), $lang).PHP_EOL;
-        $tr   = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
-        $ret  = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
+        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $ret = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
 
         return $ret;
     }
@@ -160,7 +160,7 @@ EOT;*/
                     case 13:
                         $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img    = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
                         $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
