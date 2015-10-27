@@ -96,7 +96,7 @@ class AdminIndex extends AdminPhpCode
         $content .= $this->adminphpcode->getAdminIncludeHeader();
         $content .= $this->getCommentLine('Count elements');
         $tableName = null;
-        if (is_array($tables)) {
+        //if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 $ucfTableName = ucfirst($tableName);
@@ -105,12 +105,12 @@ class AdminIndex extends AdminPhpCode
 \$count{$ucfTableName} = \${$tableName}Handler->getCount();\n
 EOT;
             }
-        }
+        //}
         $content .= <<<EOT
 // Template Index
 \$templateMain = '{$moduleDirname}_admin_index.tpl';\n
 EOT;
-        if (is_array($tables)) {
+        //if (is_array($tables)) {
             $content .= <<<EOT
 // InfoBox Statistics
 \$adminMenu->addInfoBox({$language}STATISTICS);
@@ -120,11 +120,12 @@ EOT;
                 $tableName = $tables[$i]->getVar('table_name');
                 $tableInstall[] = $tables[$i]->getVar('table_install');
                 $stuTableName = $languageThereAre.strtoupper($tableName);
+				$ucfTableName = ucfirst($tableName);
                 $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count{$ucfTableName});\n
 EOT;
             }
-        }
+        //}
         if ($tableName == null) {
             $content .= <<<EOT
 \$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>No statistics</label>', 0);\n

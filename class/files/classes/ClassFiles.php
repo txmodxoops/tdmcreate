@@ -280,7 +280,7 @@ EOT;
      *
      * @param mixed \$action
      */
-    public function getForm(\$action = false)
+    public function getForm{$ucfTableName}(\$action = false)
     {
         if(\$action === false) {
             \$action = \$_SERVER['REQUEST_URI'];
@@ -408,11 +408,12 @@ EOT;
     private function getValuesInForm($moduleDirname, $table, $fields)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
+		$ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = <<<EOT
 	/**
      * Get Values
      */
-	public function getValues(\$keys = null, \$format = null, \$maxDepth = null)
+	public function getValues{$ucfTableName}(\$keys = null, \$format = null, \$maxDepth = null)
     {
 		\$ret = parent::getValues(\$keys, \$format, \$maxDepth);\n
 EOT;
@@ -483,20 +484,22 @@ EOT;
     }
     /*
     *  @private function getToArray
-    *  @param null
+    *  @param $table
     */
     /**
      * @return string
      */
-    private function getToArrayInForm()
+    private function getToArrayInForm($table)
     {
-        $ret = <<<EOT
+        $tableName = $table->getVar('table_name');
+		$ucfTableName = ucfirst($tableName);
+		$ret = <<<EOT
     /**
      * Returns an array representation of the object
      *
      * @return array
      **/
-    public function toArray()
+    public function toArray{$ucfTableName}()
     {
         \$ret = array();
         \$vars = \$this->getVars();
@@ -520,11 +523,13 @@ EOT;
      */
     private function getOptionsCheck($table)
     {
-        $ret = <<<EOT
+        $tableName = $table->getVar('table_name');
+		$ucfTableName = ucfirst($tableName);
+		$ret = <<<EOT
     /**
      * Get Options
      */
-	public function getOptions()
+	public function getOptions{$ucfTableName}()
     {
         \$ret = array();\n
 EOT;
@@ -932,7 +937,7 @@ EOT;
             $content .= $this->getFootInForm();
         }
         $content .= $this->getValuesInForm($moduleDirname, $table, $fields);
-        $content .= $this->getToArrayInForm();
+        $content .= $this->getToArrayInForm($table);
         if (in_array(5, $fieldElementId) > 1) {
             $content .= $this->getOptionsCheck($table);
         }

@@ -89,33 +89,24 @@ class UserVisit extends UserObjects
      *
      * @return string
      */
-    public function getUserVisit($moduleDirname, $tableName, $fields, $language)
+    public function getUserVisit($moduleDirname, $tableName, $tableSoleName, $fields, $language)
     {
         $stuModuleName = strtoupper($moduleDirname);
         $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+		$fieldMain = $this->userobjects->getUserSaveFieldMain($fields);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
+\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
 \${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
-\$agree = XoopsRequest::getInt('agree', 0, 'GET');
-\$sql = sprintf("UPDATE ".\$xoopsDB->prefix('partads_pards')." SET pards_hits = pards_hits+1 WHERE {$fieldId} =\${$ccFieldId}");
-\$xoopsDB->queryF(\$sql);
-\$result = \$xoopsDB->query("SELECT pards_url FROM ".\$xoopsDB->prefix('partads_pards')." WHERE {$fieldId}=\${$ccFieldId}");
-list(\$url) = \$xoopsDB->fetchRow(\$result);
-\$url = \$myts->htmlSpecialChars(preg_replace('/javascript:/si' , 'java script:', \$url), ENT_QUOTES);
-if (!empty(\$url)) {
-	header("Cache-Control: no-store, no-cache, must-revalidate");
-	header("Cache-Control: post-check=0, pre-check=0", false);
-	// HTTP/1.0
-	header("Pragma: no-cache");
-	// Date in the past
-	header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-	// always modified
-	header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-	header("Refresh: 0; url=\$url");
-} else {
-	reportBroken(\${$ccFieldId});
-}\n
+\$keywords = array();
+
+\$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', strip_tags(\$view_{$tableSoleName}->getVar('{$fieldMain}')  . ' - ' . \$GLOBALS['xoopsModule']->name()));
+// keywords
+{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
+unset(\$keywords);
+// description
+{$moduleDirname}MetaDescription(_MA_TEST1_TEST_DESC);\n
 EOT;
 
         return $ret;
@@ -137,10 +128,11 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
+		$tableSoleName = $table->getVar('table_solename');
         $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisit($moduleDirname, $tableName, $fields, $language);
+        $content .= $this->getUserVisit($moduleDirname, $tableName, $tableSoleName, $fields, $language);
 
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

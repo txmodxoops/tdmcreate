@@ -410,7 +410,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tablePermissions)) {
                 // Admin Permissions File
                 $adminPermissions = AdminPermissions::getInstance();
-                $adminPermissions->write($module, $table, $tables, 'permissions.php');
+                $adminPermissions->write($module, $tables, 'permissions.php');
                 $ret[] = $adminPermissions->render();
                 // Templates Admin Permissions File
                 $adminTemplatesPermissions = TemplatesAdminPermissions::getInstance();

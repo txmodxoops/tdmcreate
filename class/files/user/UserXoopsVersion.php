@@ -429,10 +429,10 @@ EOT;
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', false, true);
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
-            $tablePermissions = $tables[$t]->getVar('table_permissions');
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, false, true);
         }
-        if (is_object($table) && 1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', false, true);
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', false, true);
@@ -649,13 +649,15 @@ EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
-            if ($fieldElement == 3 || $fieldElement == 4) {
+            if ($fieldElement == 4) {
+				$fieldName = $fields[$f]->getVar('field_name');
+				$rpFieldName = $this->tdmcfile->getRightString($fieldName);
                 $ret .= <<<EOT
 // Editor
 xoops_load('xoopseditorhandler');
 \$editorHandler = XoopsEditorHandler::getInstance();
 \$modversion['config'][] = array(
-    'name' => '{$moduleDirname}_editor',
+    'name' => '{$moduleDirname}_editor_{$rpFieldName}',
     'title' => '{$language}EDITOR',
     'description' => '{$language}EDITOR_DESC',
     'formtype' => 'select',

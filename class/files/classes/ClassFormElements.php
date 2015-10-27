@@ -147,7 +147,8 @@ EOT;
      */
     private function getXoopsFormDhtmlTextArea($language, $moduleDirname, $fieldName, $required = 'false')
     {
-        $ret = <<<EOT
+        $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+		$ret = <<<EOT
         // Form Dhtml Text Area
         \$editor_configs = array();
         \$editor_configs['name'] = '{$fieldName}';
@@ -156,7 +157,7 @@ EOT;
         \$editor_configs['cols'] = 40;
         \$editor_configs['width'] = '100%';
         \$editor_configs['height'] = '400px';
-        \$editor_configs['editor'] = \$this->{$moduleDirname}->getConfig('{$moduleDirname}_editor');
+        \$editor_configs['editor'] = \$this->{$moduleDirname}->getConfig('{$moduleDirname}_editor_{$rpFieldName}');
         \$form->addElement( new XoopsFormEditor({$language}, '{$fieldName}', \$editor_configs){$required} );\n
 EOT;
 

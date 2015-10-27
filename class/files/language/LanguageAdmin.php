@@ -219,21 +219,18 @@ class LanguageAdmin extends LanguageDefines
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Permissions');
         $ret .= $this->defines->getAboveDefines('Permissions');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL', 'Permissions global');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_DESC', 'Permissions global');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_4', 'Permissions global');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_8', 'Permissions global');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_16', 'Permissions global');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_APPROVE', 'Permissions to approve');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_APPROVE_DESC', 'Permissions to approve');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_SUBMIT', 'Permissions to submit');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_SUBMIT_DESC', 'Permissions to submit');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_VIEW', 'Permissions to view');
-        $ret .= $this->defines->getDefine($language, 'GLOBAL', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'GLOBAL_DESC', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'GLOBAL_4', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'GLOBAL_8', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'GLOBAL_16', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'APPROVE', 'Permissions to approve');
-        $ret .= $this->defines->getDefine($language, 'APPROVE_DESC', 'Permissions to approve');
-        $ret .= $this->defines->getDefine($language, 'SUBMIT', 'Permissions to submit');
-        $ret .= $this->defines->getDefine($language, 'SUBMIT_DESC', 'Permissions to submit');
-        $ret .= $this->defines->getDefine($language, 'VIEW', 'Permissions to view');
-        $ret .= $this->defines->getDefine($language, 'VIEW_DESC', 'Permissions to view');
-        $ret .= $this->defines->getDefine($language, 'NOPERMSSET', 'No permission set');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_VIEW_DESC', 'Permissions to view');
+        $ret .= $this->defines->getDefine($language, 'NO_PERMISSIONS_SET', 'No permission set');
 
         return $ret;
     }
@@ -262,7 +259,10 @@ class LanguageAdmin extends LanguageDefines
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
+		$tables = $this->getTableTables($module->getVar('mod_id'));
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+		}
         $tables = $this->getTables();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -273,7 +273,7 @@ class LanguageAdmin extends LanguageDefines
             $content .= $this->getLanguageAdminPages($language, $tables);
             $content .= $this->getLanguageAdminClass($language, $tables);
         }
-        if (1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguageAdminPermissions($language);
         }
         $content .= $this->getLanguageAdminFoot($language);

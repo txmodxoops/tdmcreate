@@ -178,7 +178,7 @@ EOT;
         $content .= $this->getAdminMenuDashboard($language, $menu);
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         foreach (array_keys($tables) as $t) {
-            $tablePermissions = $tables[$t]->getVar('table_permissions');
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
                 $content .= <<<EOT
@@ -192,7 +192,7 @@ EOT;
 EOT;
             }
         }
-        if (1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             ++$menu;
             $content .= <<<EOT
 \$adminmenu[\$i]['title'] = {$language}{$menu};

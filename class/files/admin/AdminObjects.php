@@ -78,6 +78,22 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+    *  @public function getSetVarNumb
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getSetVarNumb($tableName, $fieldName)
+    {
+        $ret = <<<EOT
+        // Set Var {$fieldName}
+        \${$tableName}Obj->setVar('{$fieldName}', isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0);\n
+EOT;
+
+        return $ret;
+    }
 
     /*
     *  @public function getTextDateSelectSetVar

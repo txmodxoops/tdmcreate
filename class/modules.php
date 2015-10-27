@@ -59,7 +59,7 @@ class TDMCreateModules extends XoopsObject
         'comments',
         'notifications',
         'permissions',
-        'inroot',
+        'inroot_copy',
     );
 
     /*
@@ -263,8 +263,7 @@ class TDMCreateModules extends XoopsObject
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
-        $moduleOption = $this->getModulesOptions();
-        $checkbox = new XoopsFormCheckbox(' ', 'module_option', $moduleOption, '<br />');
+        $checkbox = new XoopsFormCheckbox(' ', 'module_option', $this->getModulesOptions(), '<br />');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_MODULE_'.strtoupper($option)));

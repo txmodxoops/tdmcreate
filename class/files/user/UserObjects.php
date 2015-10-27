@@ -62,14 +62,14 @@ class UserObjects extends TDMCreateFile
 
         return $instance;
     }
-
-    /*
-    *  @public function getUserHeader
+    	
+	/*
+    *  @public function getUserHeaderTpl
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @return string
     */
-    public function getUserHeader($moduleDirname, $tableName)
+    public function getUserHeaderTpl($moduleDirname, $tableName)
     {
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
@@ -291,7 +291,7 @@ EOT;
     }
 
     /**
-     *  @public function getUserSaveElements
+     *  @public function getUserSaveFieldId
      *
      *  @param $fields
      *
@@ -300,13 +300,30 @@ EOT;
     public function getUserSaveFieldId($fields)
     {
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
-                $fieldId = $fieldName;
+                $fieldId = $fields[$f]->getVar('field_name');
             }
         }
 
         return $fieldId;
+    }
+	
+	/**
+     *  @public function getUserSaveFieldMain
+     *
+     *  @param $fields
+     *
+     *  @return string
+     */
+    public function getUserSaveFieldMain($fields)
+    {
+        foreach (array_keys($fields) as $f) {
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fields[$f]->getVar('field_name');
+            }
+        }
+
+        return $fieldMain;
     }
 
     /**

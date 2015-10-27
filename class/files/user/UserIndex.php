@@ -74,23 +74,7 @@ class UserIndex extends UserObjects
         $this->setTable($table);
         $this->setFileName($filename);
     }
-
-    /**
-     * @private function getIncludeHeaderFile
-     *
-     * @param null
-     *
-     * @return string
-     */
-    private function getIncludeHeaderFile()
-    {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';\n
-EOT;
-
-        return $ret;
-    }
-
+    
     /**
      * @private function getTemplateHeaderFile
      *
@@ -236,23 +220,7 @@ EOT;
 
         return $ret;
     }
-
-    /**
-     * @private function getIncludeFooterFile
-     *
-     * @param null
-     *
-     * @return string
-     */
-    private function getIncludeFooterFile()
-    {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
-
-        return $ret;
-    }
-
+    
     /*
     *  @public function render
     *  @param null
@@ -269,7 +237,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getIncludeHeaderFile();
+        $content .= $this->getInclude();
         $content .= $this->getTemplateHeaderFile($moduleDirname);
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
@@ -287,7 +255,7 @@ EOT;
             }
         }
         $content .= $this->getDefaultFunctions($moduleDirname, $language);
-        $content .= $this->getIncludeFooterFile();
+        $content .= $this->getInclude('footer');
         //
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

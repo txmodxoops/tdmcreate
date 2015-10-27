@@ -148,7 +148,7 @@ EOT;
         {
             foreach (array_keys(\${$tableName}All) as \$i)
             {
-				\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
+				\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
                 \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
                 unset(\${$tableSoleName});
             }
@@ -176,6 +176,7 @@ EOT;
     private function getAdminPagesNew($moduleDirname, $tableName, $language)
     {
         $stuTableName = strtoupper($tableName);
+		$ucfTableName = ucfirst($tableName);
         $ret = <<<EOT
     case 'new':
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
@@ -184,7 +185,7 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
         // Get Form
         \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
+        \$form = \${$tableName}Obj->getForm{$ucfTableName}();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
@@ -205,6 +206,7 @@ EOT;
     private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
     {
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+		$ucfTableName = ucfirst($tableName);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -219,6 +221,7 @@ EOT;
 EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
+			$fieldType = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
@@ -245,7 +248,11 @@ EOT;
                         $ret .= $this->adminobjects->getTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
+						if($fieldType == 2 || $fieldType == 7 || $fieldType == 8) {
+							$ret .= $this->adminobjects->getSetVarNumb($tableName, $fieldName);
+						} else {
+							$ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
+						}
                         break;
                 }
             }
@@ -253,11 +260,11 @@ EOT;
         $ret .= <<<EOT
         // Insert Data
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-           redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
+			redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
         }
         // Get Form
         \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
-        \$form =& \${$tableName}Obj->getForm();
+        \$form =& \${$tableName}Obj->getForm{$ucfTableName}();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;
@@ -280,6 +287,7 @@ EOT;
         $tableSoleName = $table->getVar('table_solename');
         $tableFieldname = $table->getVar('table_fieldname');
         $stuTableName = strtoupper($tableName);
+		$ucfTableName = ucfirst($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
         $stuTableFieldname = strtoupper($tableFieldname);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
@@ -292,7 +300,7 @@ EOT;
         \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());
         // Get Form
         \${$tableName}Obj = \${$tableName}Handler->get(\${$ccFieldId});
-        \$form = \${$tableName}Obj->getForm();
+        \$form = \${$tableName}Obj->getForm{$ucfTableName}();
         \$GLOBALS['xoopsTpl']->assign('form', \$form->render());
     break;\n
 EOT;

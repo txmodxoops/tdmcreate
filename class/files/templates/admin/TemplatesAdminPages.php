@@ -174,13 +174,13 @@ EOT;*/
         }
         $lang = $this->htmlcode->getSmartyConst('', '_EDIT');
         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 edit.png');
+        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 edit.png');
         $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
         $anchor = $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=edit&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
         $lang = $this->htmlcode->getSmartyConst('', '_DELETE');
         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src.$double, 'alt' => $tableName), '', false);
+        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 delete.png');
+        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
         $anchor .= $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
         $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor).PHP_EOL;
         $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values="odd, even"');

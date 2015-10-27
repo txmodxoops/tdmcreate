@@ -486,6 +486,30 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         return strtolower($string);
     }
+	
+	/*
+    *  @public function getInclude
+    *  @param $filename
+    */
+    /**
+     * @return string
+     */
+    public function getInclude($filename = 'header')
+    {
+        return "include  __DIR__ . '/{$filename}.php';\n";
+    }
+	
+	/*
+    *  @public function getIncludeOnce
+    *  @param $filename
+    */
+    /**
+     * @return string
+     */
+    public function getIncludeOnce($filename = 'header')
+    {
+        return "include_once  __DIR__ . '/{$filename}.php';\n";
+    }
 
     /*
      *  @public function getCommentLine
@@ -530,7 +554,7 @@ EOT;
         $authorWebsiteUrl = $module->getVar('mod_author_website_url');
         $license = $module->getVar('mod_license');
         $subversion = $module->getVar('mod_subversion');
-        $date = date('D Y/m/d H:i:s');
+        $date = date('D Y-m-d H:i:s');
         if (is_null($noPhpFile)) {
             $ret = <<<EOT
 <?php

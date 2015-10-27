@@ -38,7 +38,6 @@ class AdminPermissions extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -69,60 +68,54 @@ class AdminPermissions extends TDMCreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
         $this->setTables($tables);
         $this->setFileName($filename);
     }
 
     /*
     *  @private function getPermissionsHeader
-    *  @param string $moduleDirname
+    *  @param string $module
     *  @param string $language
     */
     /**
-     * @param $moduleDirname
+     * @param $module
      * @param $language
      *
      * @return string
      */
-    private function getPermissionsHeader($moduleDirname, $language)
-    {
-        $table = $this->getTable();
-        $tableName = $table->getVar('table_name');
-        $ret = <<<PRM
-\ninclude  __DIR__ . '/header.php';
+    private function getPermissionsHeader($module, $language)
+    {        
+		$moduleDirname = $module->getVar('mod_dirname');
+		$tables = $this->getTableTables($module->getVar('mod_id'));
+		foreach (array_keys($tables) as $t) {
+            if (1 == $tables[$t]->getVar('table_permissions')) {
+                $tableName = $tables[$t]->getVar('table_name');
+            }
+        }
+		$ret = $this->getInclude('header');
+		$ret .= <<<PRM
 include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
-if( !empty(\$_POST['submit']) )
-{
-    redirect_header( XOOPS_URL.'/modules/'.\$xoopsModule->dirname().'/admin/permissions.php', 1, _MP_GPERMUPDATED );
-}
+
 \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
 // Check admin have access to this page
-/*\$xoopsGroups = \$GLOBALS['xoopsUser']->getGroups(); //xoops_getModuleOption ( 'groups', \$thisDirname );//\${$moduleDirname}->getConfig('groups');
-\$adminGroups = xoops_getModuleOption ( 'admin_groups', \$thisDirname );//\${$moduleDirname}->getConfig('admin_groups');
-if (count ( array_intersect ( \$xoopsGroups, \$adminGroups ) ) == 0) {
-    redirect_header ( 'index.php', 3, _NOPERM );
-}*/
-/*\$templateMain = '{$moduleDirname}_admin_permissions.tpl';
-\$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('permissions.php'));*/
-echo \$adminMenu->addNavigation('permissions.php');
+\$templateMain = '{$moduleDirname}_admin_permissions.tpl';
+\$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('permissions.php'));
+/*echo \$adminMenu->addNavigation('permissions.php');*/
 
-\$permission = XoopsRequest::getInt('permission', 1, 'POST');
-\$selected = array(1, 2, 3, 4);
-\$selected[\$permission-1] = ' selected';
+\$op = XoopsRequest::getString('op', 'global');
 xoops_load('XoopsFormLoader');
 \$permTableForm = new XoopsSimpleForm('', 'fselperm', 'permissions.php', 'post');
-\$formSelect = new XoopsFormSelect('', 'permission', \$permission);
+\$formSelect = new XoopsFormSelect('', 'op', \$op);
 \$formSelect->setExtra('onchange="document.fselperm.submit()"');
-\$formSelect->addOption('1'.\$selected[0], {$language}GLOBAL);
-\$formSelect->addOption('1'.\$selected[1], {$language}APPROVE);
-\$formSelect->addOption('1'.\$selected[2], {$language}SUBMIT);
-\$formSelect->addOption('1'.\$selected[3], {$language}VIEW);
+\$formSelect->addOption('global', {$language}PERMISSIONS_GLOBAL);
+\$formSelect->addOption('approve', {$language}PERMISSIONS_APPROVE);
+\$formSelect->addOption('submit', {$language}PERMISSIONS_SUBMIT);
+\$formSelect->addOption('view', {$language}PERMISSIONS_VIEW);
 \$permTableForm->addElement(\$formSelect);
-\$permTableForm->display();\n\n
+\$permTableForm->display();\n
 PRM;
 
         return $ret;
@@ -142,29 +135,30 @@ PRM;
     private function getPermissionsSwitch($moduleDirname, $language)
     {
         $ret = <<<PRM
-\$moduleId = \$xoopsModule->getVar('mid');
-switch(\$permission)
+// Switch op case global, approve, submit, view.
+switch(\$op)
 {
-    case 1:
-        \$formTitle = {$language}GLOBAL;
+    case 'global':
+	default:
+        \$formTitle = {$language}PERMISSIONS_GLOBAL;
         \$permName = '{$moduleDirname}_ac';
-        \$permDesc = {$language}GLOBAL_DESC;
-        \$globalPerms = array( '4' => {$language}GLOBAL_4, '8' => {$language}GLOBAL_8, '16' => {$language}GLOBAL_16 );
+        \$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;
+        \$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );
         break;
-    case 2:
-        \$formTitle = {$language}APPROVE;
+    case 'approve':
+        \$formTitle = {$language}PERMISSIONS_APPROVE;
         \$permName = '{$moduleDirname}_approve';
-        \$permDesc = {$language}APPROVE_DESC;
+        \$permDesc = {$language}PERMISSIONS_APPROVE_DESC;
         break;
-    case 3:
-        \$formTitle = {$language}SUBMIT;
+    case 'submit':
+        \$formTitle = {$language}PERMISSIONS_SUBMIT;
         \$permName = '{$moduleDirname}_submit';
-        \$permDesc = {$language}SUBMIT_DESC;
+        \$permDesc = {$language}PERMISSIONS_SUBMIT_DESC;
         break;
-    case 4:
-        \$formTitle = {$language}VIEW;
+    case 'view':
+        \$formTitle = {$language}PERMISSIONS_VIEW;
         \$permName = '{$moduleDirname}_view';
-        \$permDesc = {$language}VIEW_DESC;
+        \$permDesc = {$language}PERMISSIONS_VIEW_DESC;
         break;
 }\n
 PRM;
@@ -174,23 +168,22 @@ PRM;
 
     /*
     *  @private function getPermissionsBody
-    *  @param string $moduleDirname
-    *  @param string $tableName
+    *  @param string $module
     *  @param string $language
     */
     /**
-     * @param $moduleDirname
+     * @param $module
      * @param $language
      *
      * @return string
      */
-    private function getPermissionsBody($moduleDirname, $language)
-    {
-        $tables = $this->getTables();
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
+    private function getPermissionsBody($module, $language)
+    {		
+		$tables = $this->getTableTables($module->getVar('mod_id'));
+		foreach (array_keys($tables) as $t) {            
             if (1 == $tables[$t]->getVar('table_permissions')) {
+				$tableId = $tables[$t]->getVar('table_id');
+				$tableMid = $tables[$t]->getVar('table_mid');
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
@@ -208,13 +201,13 @@ PRM;
             }
         }
         $ret = <<<PRM
+\$moduleId = \$xoopsModule->getVar('mid');
 \$permform = new XoopsGroupPermForm(\$formTitle, \$moduleId, \$permName, \$permDesc, 'admin/permissions.php');
-if (1 == \$permission) {
+if (\$op == 'global') {
     foreach (\$globalPerms as \$gPermId => \$gPermName) {
         \$permform->addItem(\$gPermId, \$gPermName);
     }
-	echo \$permform->render();
-	//\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
+	\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
 } else {
     \${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
     \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(0, 0, '{$fieldMain}');
@@ -223,11 +216,10 @@ if (1 == \$permission) {
     }
     // Check if {$tableName} exist before rendering the form, and redirect if there aren't {$tableName}
     if (\${$tableName}Count > 0) {
-		echo \$permform->render();
-		//\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
+		\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
     } else {
-        redirect_header ( '{$tableName}.php?op=new', 3, {$language}NOPERMSSET );
-        exit ();
+        redirect_header ( '{$tableName}.php?op=new', 3, {$language}NO_PERMISSIONS_SET );
+        exit();
     }
 }
 unset(\$permform);\n
@@ -235,23 +227,7 @@ PRM;
 
         return $ret;
     }
-
-    /*
-    *  @private function getPermissionsFooter
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    private function getPermissionsFooter()
-    {
-        $ret = <<<PRM
-include  __DIR__ . '/footer.php';
-PRM;
-
-        return $ret;
-    }
-
+    
     /*
     *  @public function render
     *  @param null
@@ -265,14 +241,14 @@ PRM;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getPermissionsHeader($moduleDirname, $language);
+        $content  = $this->getHeaderFilesComments($module, $filename);
+        $content .= $this->getPermissionsHeader($module, $language);
         $content .= $this->getPermissionsSwitch($moduleDirname, $language);
-        $content .= $this->getPermissionsBody($moduleDirname, $language);
-        $content .= $this->getPermissionsFooter();
+        $content .= $this->getPermissionsBody($module, $language);
+        $content .= $this->getInclude('footer');
         //
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
