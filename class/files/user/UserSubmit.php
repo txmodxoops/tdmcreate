@@ -126,6 +126,7 @@ EOT;
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableSoleName = strtoupper($tableSoleName);
+		$ucfTableName = ucfirst($tableName);
         $ret = <<<EOT
     case 'form':
     default:
@@ -144,7 +145,7 @@ EOT;
 
         // Create
         \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
+        \$form = \${$tableName}Obj->getForm{$ucfTableName}();
         \$xoopsTpl->assign('form', \$form->render());
 		break;\n
 EOT;
@@ -166,7 +167,8 @@ EOT;
      */
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $language)
     {
-        $ret = <<<EOT
+        $ucfTableName = ucfirst($tableName);
+		$ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
 			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
@@ -180,7 +182,7 @@ EOT;
         }
 
         echo \${$tableName}Obj->getHtmlErrors();
-        \$form =& \${$tableName}Obj->getForm();
+        \$form =& \${$tableName}Obj->getForm{$ucfTableName}();
 		\$xoopsTpl->assign('form', \$form->display());
     break;\n
 EOT;
@@ -201,7 +203,7 @@ EOT;
         $ret = <<<EOT
 }
 // Breadcrumbs
-\$xoBreadcrumbs[] = array('title' => {$language}SUBMIT); //'link' => {$stuModuleDirname}_URL . '/submit.php';
+\$xoBreadcrumbs[] = array('title' => {$language}SUBMIT);
 include  __DIR__ . '/footer.php';
 EOT;
 

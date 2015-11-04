@@ -115,8 +115,8 @@ if (\${$lcfTableName}Count > 0) {
     // Get All {$ucfTableName}
 	foreach (array_keys(\${$lcfTableName}All) as \$i)
     {
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues();
-        \$GLOBALS['xoopsTpl']->append('{$tableName}_list', \${$tableSoleName});
+		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
+        \$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
         unset(\${$tableSoleName});\n
 EOT;
         // Fields

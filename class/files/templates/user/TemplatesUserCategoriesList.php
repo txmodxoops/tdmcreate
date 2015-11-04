@@ -270,19 +270,24 @@ EOT;
         $ret = '';
         $retElem = '';
         foreach (array_keys($fields) as $f) {
+			$fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
-                        case 2:
-                            $fieldName = $fields[$f]->getVar('field_name');
+                        case 2:                            
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-2').PHP_EOL;
                             break;
+						case 3:
+                        case 4:
+                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-3 justify').PHP_EOL;
+                            break;
                         case 10:
-                            $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
@@ -291,21 +296,13 @@ EOT;
                             unset($img);
                             break;
                         case 13:
-                            $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $singleVar = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img = $this->htmlcode->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
                             $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
                             unset($img);
-                            break;
-                        case 3:
-                        case 4:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-3 justify').PHP_EOL;
-                            break;
+                            break;                        
                     }
                 }
             }

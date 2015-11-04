@@ -133,7 +133,7 @@ if (\${$tableName}Count > 0) {
 	\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
 	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
 	{
-		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues{$ucfTableName}();
 		\$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
@@ -170,7 +170,7 @@ if (\${$tableName}Count > 0) {
 	// Get All {$ucfTableName}
 	foreach(array_keys(\${$tableName}All) as \${$tableFieldname})
     {
-		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues();
+		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues{$ucfTableName}();
         \$acount = array('count' => \$count);
 		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
 		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});

@@ -272,7 +272,7 @@ EOT;
         $table .= $this->htmlcode->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
         $div = $this->htmlcode->getHtmlDiv($table, 'table-responsive').PHP_EOL;
 
-        return $this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
+        return $ret/*$this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true)*/.PHP_EOL;
     }
 
     /*
@@ -337,17 +337,17 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplateUserIndexHeader($moduleDirname);
-        $content      .= $this->getTemplatesUserIndexBodyDefault($module, $table, $language);
+        $content .= $this->getTemplatesUserIndexBodyDefault($module, $table, $language);
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableCategory = $tables[$t]->getVar('table_category');
+            $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableFieldname = $tables[$t]->getVar('table_fieldname');
-            $tableIndex = $tables[$t]->getVar('table_index');
-            if ((1 == $tableCategory) && (1 == $tableIndex)) {
+            $tableIndex[] = $tables[$t]->getVar('table_index');
+            if (in_array(1, $tableCategory) && in_array(1, $tableIndex)) {
                 $content .= $this->getTemplateUserIndexCategories($moduleDirname, $tableName, $tableSoleName, $language);
             }
-            if ((0 == $tableCategory) && (1 == $tableIndex)) {
+            if (in_array(0, $tableCategory) && in_array(1, $tableIndex)) {
                 $content .= $this->getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language);
             }
         }

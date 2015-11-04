@@ -80,11 +80,11 @@ switch ($op) {
         if (isset($setId)) {
             $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
         }
-        $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
+        $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save
         $settingsObj->setVars(array(
                                  'set_name' => $_POST['set_name'],
-                                 'set_dirname' => $moduleDirname,
+                                 'set_dirname' => $setModuleDirname,
                                  'set_version' => $_POST['set_version'],
                                  'set_since' => $_POST['set_since'],
                                  'set_min_php' => $_POST['set_min_php'],

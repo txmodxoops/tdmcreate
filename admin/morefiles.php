@@ -63,7 +63,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
-            $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MODULES);
+            $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MORE_FILES);
         }
         break;
 
