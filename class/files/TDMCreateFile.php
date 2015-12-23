@@ -496,7 +496,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     public function getInclude($filename = 'header')
     {
-        return "include  __DIR__ . '/{$filename}.php';\n";
+        return "include __DIR__ . '/{$filename}.php';\n";
     }
 
     /*
@@ -508,7 +508,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     public function getIncludeOnce($filename = 'header')
     {
-        return "include_once  __DIR__ . '/{$filename}.php';\n";
+        return "include_once __DIR__ . '/{$filename}.php';\n";
     }
 
     /*

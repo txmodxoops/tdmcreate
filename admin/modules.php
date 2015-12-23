@@ -145,7 +145,7 @@ switch ($op) {
         $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption));
         $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption));
         $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption));
-        $modulesObj->setVar('mod_inroot_copy', in_array('inroot', $moduleOption));
+        $modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
 
         if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {

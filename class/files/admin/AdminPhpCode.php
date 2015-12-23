@@ -69,11 +69,7 @@ class AdminPhpCode extends AdminObjects
     */
     public function getAdminIncludeHeader()
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';\n
-EOT;
-
-        return $ret;
+        return "include __DIR__ . '/header.php';\n";
     }
 
     /**
@@ -495,10 +491,6 @@ EOT;
      */
     public function getAdminIncludeFooter()
     {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
-
-        return $ret;
+        return "include __DIR__ . '/footer.php';";
     }
 }
