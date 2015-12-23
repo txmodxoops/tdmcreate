@@ -563,6 +563,18 @@ EOT;
     {
         return "\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', {$phpRender});\n";
     }
+	
+	/**
+     *  @public function getXoopsCodeTplDisplay
+     *
+     *  @param null
+     *
+     *  @return string
+     */
+    public function getXoopsCodeTplDisplay()
+    {
+        return "\$GLOBALS['xoopsTpl']->display(\"db:{\$templateMain}\");\n";
+    }
 
     /*
     *  @public function getXoopsCodeItemButton
