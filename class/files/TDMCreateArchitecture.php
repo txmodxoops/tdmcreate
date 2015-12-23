@@ -316,8 +316,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                     $ret[] = $userTemplatesPages->renderFile($moduleDirname.'_'.$tableName.'.tpl');
                     // User List Templates File
                     $userTemplatesPagesList = TemplatesUserPagesList::getInstance();
-                    $userTemplatesPagesList->write($module, $table);
-                    $ret[] = $userTemplatesPagesList->renderFile($moduleDirname.'_'.$tableName.'_list'.'.tpl');
+                    $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname.'_'.$tableName.'_list'.'.tpl');
+                    $ret[] = $userTemplatesPagesList->renderFile();
                 }
                 if (in_array(1, $tableCategory)) {
                     // User List Templates File
@@ -478,7 +478,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         if (1 == $module->getVar('mod_admin')) {
             // Templates Index File
             $userTemplatesIndex = TemplatesUserIndex::getInstance();
-            $userTemplatesIndex->write($module, $table, $moduleDirname.'_index.tpl');
+            $userTemplatesIndex->write($module, $table, $tables, $moduleDirname.'_index.tpl');
             $ret[] = $userTemplatesIndex->render();
             // Templates Footer File
             $userTemplatesFooter = TemplatesUserFooter::getInstance();

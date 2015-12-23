@@ -69,10 +69,12 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
      * @param $module
      * @param $table
      */
-    public function write($module, $table)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setTables($tables);
+		$this->setFileName($filename);
     }
 
     /*
@@ -293,6 +295,13 @@ EOT;
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
+						case 3:
+                        case 4:
+                            $fieldName = $fields[$f]->getVar('field_name');
+                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-9 justify').PHP_EOL;
+                            break;
                         case 10:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
@@ -310,14 +319,7 @@ EOT;
                             $img = $this->htmlcode->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
                             $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
                             unset($img);
-                            break;
-                        case 3:
-                        case 4:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-9 justify').PHP_EOL;
-                            break;
+                            break;                        
                     }
                 }
             }
@@ -350,13 +352,14 @@ EOT;
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function renderFile()
     {
         $module = $this->getModule();
         $table = $this->getTable();
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+		$tables = $this->getTables();
+        //$tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        //$tableFieldname = $table->getVar('table_fieldname');
+		$filename = $this->getFileName();
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = '';
         foreach (array_keys($tables) as $t) {
@@ -364,14 +367,13 @@ EOT;
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableCategory = $tables[$t]->getVar('table_category');
-            $tableFieldname = $tables[$t]->getVar('table_fieldname');
+            $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableIndex = $tables[$t]->getVar('table_index');
-            if (0 == $tableCategory) {
+            if (in_array(0, $tableCategory)) {
                 $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }
         }
-        /*$content        = $this->getTemplatesUserPagesListStartTable();
+        /*$content = $this->getTemplatesUserPagesListStartTable();
         $content .= $this->getTemplatesUserPagesListThead($table, $language);
         $content .= $this->getTemplatesUserPagesListTbody($moduleDirname, $table, $language);
         $content .= $this->getTemplatesUserPagesListTfoot($table, $language);

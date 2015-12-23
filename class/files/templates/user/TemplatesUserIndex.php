@@ -66,10 +66,11 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
      * @param $table
      * @param $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setTables($tables);
         $this->setFileName($filename);
     }
 

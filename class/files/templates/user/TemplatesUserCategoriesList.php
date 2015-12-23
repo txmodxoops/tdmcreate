@@ -335,10 +335,10 @@ EOT;
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableCategory = $tables[$t]->getVar('table_category');
+            $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableFieldname = $tables[$t]->getVar('table_fieldname');
             $tableIndex = $tables[$t]->getVar('table_index');
-            if (1 == $tableCategory) {
+            if (in_array(1, $tableCategory)) {
                 $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }
         }
