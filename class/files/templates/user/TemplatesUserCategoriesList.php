@@ -270,18 +270,18 @@ EOT;
         $ret = '';
         $retElem = '';
         foreach (array_keys($fields) as $f) {
-			$fieldName = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
-                        case 2:                            
+                        case 2:
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-2').PHP_EOL;
                             break;
-						case 3:
+                        case 3:
                         case 4:
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
                             $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
@@ -302,7 +302,7 @@ EOT;
                             $img = $this->htmlcode->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
                             $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
                             unset($img);
-                            break;                        
+                            break;
                     }
                 }
             }

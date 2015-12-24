@@ -482,6 +482,18 @@ EOT;
         return $ret;
     }
 
+    /**
+     *  @public function getAdminPhpCodeGetDisplayTpl
+     *
+     *  @param null
+     *
+     *  @return string
+     */
+    public function getAdminPhpCodeGetDisplayTpl()
+    {
+        return "\t\t\$GLOBALS['xoopsTpl']->display(\"db:{\$templateMain}\");\n";
+    }
+
     /*
     *  @public function getAdminIncludeFooter
     *  @param null

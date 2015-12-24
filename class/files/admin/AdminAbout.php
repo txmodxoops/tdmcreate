@@ -38,7 +38,8 @@ class AdminAbout extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+		$this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -87,12 +88,12 @@ class AdminAbout extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $moduleDonations = $module->getVar('mod_donations');
         $content = $this->getHeaderFilesComments($module, $filename);
-		$content .= $this->getInclude();
-		$content .= $this->getAdminTemplateMain($moduleDirname, 'about');
-		$content .= $this->getAdminAddNavigation('about');
-		$content .= $this->getAdminXoopsTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");		
-		$content .= $this->getInclude('footer');
-		
+        $content .= $this->getInclude();
+        $content .= $this->xoopscode->getXoopsCodeTemplateMain($moduleDirname, 'about');
+		$content .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('about.php')");
+        $content .= $this->xoopscode->getXoopsCodeTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");
+        $content .= $this->getInclude('footer');
+
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();

@@ -70,7 +70,7 @@ class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
     {
         $this->setModule($module);
         $this->setTable($table);
-		$this->setTables($tables);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 

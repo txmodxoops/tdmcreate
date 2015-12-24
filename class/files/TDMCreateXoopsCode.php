@@ -141,7 +141,7 @@ class TDMCreateXoopsCode
         $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
         $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
@@ -171,7 +171,7 @@ class TDMCreateXoopsCode
         $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
         $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
@@ -208,7 +208,7 @@ class TDMCreateXoopsCode
         $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElse);
 
         $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
 
@@ -563,8 +563,8 @@ EOT;
     {
         return "\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', {$phpRender});\n";
     }
-	
-	/**
+
+    /**
      *  @public function getXoopsCodeTplDisplay
      *
      *  @param null
