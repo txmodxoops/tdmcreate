@@ -126,7 +126,7 @@ EOT;
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableSoleName = strtoupper($tableSoleName);
-		$ucfTableName = ucfirst($tableName);
+        $ucfTableName = ucfirst($tableName);
         $ret = <<<EOT
     case 'form':
     default:
@@ -168,7 +168,7 @@ EOT;
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $language)
     {
         $ucfTableName = ucfirst($tableName);
-		$ret = <<<EOT
+        $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
 			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));

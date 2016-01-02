@@ -46,7 +46,7 @@ switch ($op) {
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
-            redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOT_MODULES);
+            redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         $morefilesCount = $tdmcreate->getHandler('morefiles')->getCountMoreFiles();
         $morefilesAll = $tdmcreate->getHandler('morefiles')->getAllMoreFiles($start, $limit);

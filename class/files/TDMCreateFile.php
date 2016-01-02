@@ -530,6 +530,21 @@ EOT;
     }
 
     /*
+     * @public function getSimpleString
+     * @param $string     
+     *
+     * @return string
+     */
+    public function getSimpleString($string)
+    {
+        $ret = <<<EOT
+{$string}\n
+EOT;
+
+        return $ret;
+    }
+
+    /*
     *  @public function getHeaderFilesComments
     *  @param string $module
     *  @param string $fileName

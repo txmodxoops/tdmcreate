@@ -73,8 +73,8 @@ class TemplatesUserPagesList extends TDMCreateHtmlSmartyCodes
     {
         $this->setModule($module);
         $this->setTable($table);
-		$this->setTables($tables);
-		$this->setFileName($filename);
+        $this->setTables($tables);
+        $this->setFileName($filename);
     }
 
     /*
@@ -295,7 +295,7 @@ EOT;
                 if (1 == $fields[$f]->getVar('field_tbody')) {
                     switch ($fieldElement) {
                         default:
-						case 3:
+                        case 3:
                         case 4:
                             $fieldName = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
@@ -319,7 +319,7 @@ EOT;
                             $img = $this->htmlcode->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
                             $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
                             unset($img);
-                            break;                        
+                            break;
                     }
                 }
             }
@@ -356,10 +356,10 @@ EOT;
     {
         $module = $this->getModule();
         $table = $this->getTable();
-		$tables = $this->getTables();
+        $tables = $this->getTables();
         //$tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-		$filename = $this->getFileName();
+        $filename = $this->getFileName();
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = '';
         foreach (array_keys($tables) as $t) {

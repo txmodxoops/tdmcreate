@@ -62,6 +62,56 @@ class TDMCreateXoopsCode
     }
 
     /*
+    *  @public function getXoopsCodeEqualsOperator
+    *  @param string $left
+    *  @param string $right
+    *  @param boolean $ref
+    *  @return string
+    */
+    public function getXoopsCodeEqualsOperator($left, $right, $ref = false)
+    {
+        if (false === $ref) {
+            $ret = "{$left} = {$right};\n";
+        } else {
+            $ret = "{$left} =& {$right};\n";
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeCPHeader
+    *  @param null
+    *  @return string
+    */
+    public function getXoopsCodeCPHeader()
+    {
+        return "xoops_cp_header();\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeCPFooter
+    *  @param null
+    *  @return string
+    */
+    public function getXoopsCodeCPFooter()
+    {
+        return "xoops_cp_footer();\n";
+    }
+
+    /**
+     *  @public function getXoopsCodeLoadLanguage
+     *
+     *  @param $lang
+     *
+     *  @return string
+     */
+    public function getXoopsCodeLoadLanguage($lang)
+    {
+        return "xoops_loadLanguage('{$lang}');\n";
+    }
+
+    /*
     *  @public function getXoopsCodeSetVar
     *  @param string $tableName
     *  @param string $fieldName
@@ -141,7 +191,7 @@ class TDMCreateXoopsCode
         $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
         $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
@@ -171,7 +221,7 @@ class TDMCreateXoopsCode
         $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElseInt);
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
         $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
 
         $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
@@ -208,7 +258,7 @@ class TDMCreateXoopsCode
         $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
         $contentIf = "\$errors = \$uploader->getErrors();\n";
         $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->phpcode->getPhpCodeConditions("!\$uploader->upload()", '', '', $contentIf, $contentElse);
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElse);
 
         $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
 
@@ -515,6 +565,44 @@ EOT;
     }
 
     /*
+    *  @public function getXoopsCodeAddInfoBox
+    *  @param $language
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddInfoBox($language)
+    {
+        return "\$adminMenu->addInfoBox({$language});\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeAddInfoBoxLine
+    *  @param $language
+    *  @param $label
+    *  @param $var
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddInfoBoxLine($language, $label = '', $var = '', $isLabel = false)
+    {
+        if ($var != '') {
+            if ($isLabel === false) {
+                $ret = "\$adminMenu->addInfoBoxLine({$language}, {$label}, {$var});\n";
+            } else {
+                $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>', {$var});\n";
+            }
+        } else {
+            if ($isLabel === false) {
+                $ret = "\$adminMenu->addInfoBoxLine({$language}, {$label});\n";
+            } else {
+                $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>');\n";
+            }
+        }
+
+        return $ret;
+    }
+
+    /*
     *  @public function getXoopsCodeTemplateMain
     *  @param $moduleDirname
     *  @param $filename
@@ -563,8 +651,28 @@ EOT;
     {
         return "\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', {$phpRender});\n";
     }
-	
-	/**
+
+    /**
+     *  @public function getXoopsCodePath
+     *
+     *  @param $directory
+     *  @param $filename
+     *  @param $condition
+     *
+     *  @return string
+     */
+    public function getXoopsCodePath($directory, $filename, $condition = false)
+    {
+        if ($condition === false) {
+            $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php');\n";
+        } else {
+            $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php')";
+        }
+
+        return $ret;
+    }
+
+    /**
      *  @public function getXoopsCodeTplDisplay
      *
      *  @param null
@@ -588,12 +696,32 @@ EOT;
         $stuTableName = strtoupper($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
         $stuType = strtoupper($type);
+        $aMIB = '$adminMenu->addItemButton(';
         if ($type = 'add') {
-            $ret = "\$adminMenu->addItemButton({$language}{$stuType}_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+            $ret = $aMIB."{$language}{$stuType}_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
         } elseif ($type = 'list') {
-            $ret = "\$adminMenu->addItemButton({$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+            $ret = $aMIB."{$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
         } else {
-            $ret = "\$adminMenu->addItemButton({$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+            $ret = $aMIB."{$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+        }
+
+        return $ret;
+    }
+
+    /**
+     *  @public function getXoopsCodeGetInfo
+     *
+     *  @param $string
+     *  @param $isParam
+     *
+     *  @return string
+     */
+    public function getXoopsCodeGetInfo($string, $isParam = false)
+    {
+        if ($isParam === false) {
+            $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
+        } else {
+            $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}')";
         }
 
         return $ret;
@@ -702,7 +830,7 @@ EOT;
     *  @param $var
     *  @return string
     */
-    public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = 2, $var)
+    public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = '2', $var)
     {
         return "redirect_header('{$tableName}.php{$options}', {$numb}, {$var});\n";
     }
