@@ -89,10 +89,10 @@ class AdminFooter extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $isset = $this->phpcode->getPhpCodeIsset('$templateMain');
+        $isset = $this->phpcode->getPhpCodeIsset('templateMain');
         $display = $this->xoopscode->getXoopsCodeTplDisplay();
         $content .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display);
-        $content .= 'xoops_cp_footer();';
+        $content .= $this->xoopscode->getXoopsCodeCPFooter();
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

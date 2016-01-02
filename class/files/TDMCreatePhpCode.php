@@ -57,10 +57,11 @@ class TDMCreatePhpCode
 
     /*
     *  @public function getPhpCodeCommentLine
+    *  @param $comment
     *  @param $var
     *  @return string
     */
-    public function getPhpCodeCommentLine($comment, $var = '')
+    public function getPhpCodeCommentLine($comment = '', $var = '')
     {
         return "// {$comment} {$var}\n";
     }
@@ -102,18 +103,39 @@ class TDMCreatePhpCode
     }
 
     /*
+    *  @public function getPhpCodeFileExists
+    *  @param $filename
+    *
+    *  @return string
+    */
+    public function getPhpCodeFileExists($filename)
+    {
+        return "file_exists({$filename})";
+    }
+
+    /*
     *  @public function getPhpCodeIncludeDir
     *  @param $directory
     *  @param $filename
     *  @param $once
+    *  @param $isPath
+    *
     *  @return string
     */
-    public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false)
+    public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false, $isPath = false)
     {
-        if (!$once) {
-            $ret = "include {$directory} .'/{$filename}.php';\n";
+        if ($once === false) {
+            if ($isPath === false) {
+                $ret = "include {$directory} .'/{$filename}.php';\n";
+            } else {
+                $ret = "include {$directory};\n";
+            }
         } else {
-            $ret = "include_once {$directory} .'/{$filename}.php';\n";
+            if ($isPath === false) {
+                $ret = "include_once {$directory} .'/{$filename}.php';\n";
+            } else {
+                $ret = "include_once {$directory};\n";
+            }
         }
 
         return $ret;
@@ -133,17 +155,17 @@ class TDMCreatePhpCode
     {
         if (false === $contentElse) {
             $ret = <<<EOT
-	if ({$condition}{$operator}{$type}) {
-		{$contentIf}
-	}\n
+if ({$condition}{$operator}{$type}) {
+	{$contentIf}
+}\n
 EOT;
         } else {
             $ret = <<<EOT
-	if ({$condition}{$operator}{$type}) {
-		{$contentIf}
-	} else {
-		{$contentElse}
-    }\n
+if ({$condition}{$operator}{$type}) {
+	{$contentIf}
+} else {
+	{$contentElse}
+}\n
 EOT;
         }
 
@@ -167,13 +189,13 @@ EOT;
         } elseif ((false === $arrayKey) && (false !== $key)) {
             $vars = "{$array} as {$key} => {$value}";
         } elseif ((false !== $arrayKey) && (false === $key)) {
-            $vars = "array_key({$array}) as {$value}";
+            $vars = "array_keys({$array}) as {$value}";
         }
 
         $ret = <<<EOT
-	foreach({$vars}) {
-		{$content}
-	}\n
+foreach({$vars}) {
+	{$content}
+}\n
 EOT;
 
         return $ret;
@@ -192,9 +214,9 @@ EOT;
     public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '')
     {
         $ret = <<<EOT
-	for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
-		{$content}
-	}\n
+for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
+	{$content}
+}\n
 EOT;
 
         return $ret;
@@ -212,9 +234,9 @@ EOT;
     public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '')
     {
         $ret = <<<EOT
-	while(\${$var} {$operator} {$value}) {
-		{$content}
-	}\n
+while(\${$var} {$operator} {$value}) {
+	{$content}
+}\n
 EOT;
 
         return $ret;

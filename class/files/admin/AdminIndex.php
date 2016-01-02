@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminIndex.
  */
-class AdminIndex extends AdminPhpCode
+class AdminIndex extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,8 @@ class AdminIndex extends AdminPhpCode
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->adminphpcode = AdminPhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -77,6 +78,68 @@ class AdminIndex extends AdminPhpCode
         $this->setFileName($filename);
     }
 
+    /**
+     * @private function render
+     *
+     * @param $module
+     *
+     * @return string
+     */
+    private function getAdminIndex($module)
+    {
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $language = $this->getLanguage($moduleDirname, 'AM');
+        $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
+        $ret = $this->getInclude();
+        $ret .= $this->getCommentLine('Count elements');
+        $tableName = null;
+        foreach (array_keys($tables) as $i) {
+            $tableName = $tables[$i]->getVar('table_name');
+            $ucfTableName = ucfirst($tableName);
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
+        }
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Template Index');
+        $ret .= $this->xoopscode->getXoopsCodeTemplateMain("{$moduleDirname}", 'index');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('InfoBox Statistics');
+        $ret .= $this->xoopscode->getXoopsCodeAddInfoBox($language.'STATISTICS');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Info elements');
+        foreach (array_keys($tables) as $i) {
+            $tableName = $tables[$i]->getVar('table_name');
+            $tableInstall[] = $tables[$i]->getVar('table_install');
+            $stuTableName = $languageThereAre.strtoupper($tableName);
+            $ucfTableName = ucfirst($tableName);
+            $ret .= $this->xoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}", true);
+        }
+
+        if ($tableName == null) {
+            $ret .= $this->xoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0', true);
+        }
+        if (is_array($tables) && in_array(1, $tableInstall)) {
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Upload Folders');
+            $ret .= $this->getSimpleString('$folder = array(');
+            $stuModuleDirname = strtoupper($moduleDirname);
+            foreach (array_keys($tables) as $i) {
+                $tableName = $tables[$i]->getVar('table_name');
+                if (1 == $tables[$i]->getVar('table_install')) {
+                    $ret .= $this->getSimpleString("\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',");
+                }
+            }
+            $ret .= $this->getSimpleString(');');
+            $ret .= $this->getCommentLine('Uploads Folders Created');
+            $boxLine = $this->xoopscode->getXoopsCodeAddInfoBoxLine('$folder[$i]', "'folder'");
+            $boxLine .= "\t".$this->xoopscode->getXoopsCodeAddInfoBoxLine("array(\$folder[\$i], '777')", "'chmod'");
+            $ret .= $this->phpcode->getPhpCodeForeach('$folder', $boxLine, '$i', true);
+        }
+        $ret .= $this->getCommentLine('Render Index');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('index', '$adminMenu->renderIndex()');
+
+        $ret .= $this->getInclude('footer');
+
+        return $ret;
+    }
+
     /*
     *  @public function render
     *  @param null
@@ -87,80 +150,11 @@ class AdminIndex extends AdminPhpCode
     public function render()
     {
         $module = $this->getModule();
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'AM');
-        $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
+        $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->adminphpcode->getAdminIncludeHeader();
-        $content .= $this->getCommentLine('Count elements');
-        $tableName = null;
-        //if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
-                $tableName = $tables[$i]->getVar('table_name');
-                $ucfTableName = ucfirst($tableName);
-                $content .= <<<EOT
-//\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
-\$count{$ucfTableName} = \${$tableName}Handler->getCount();\n
-EOT;
-            }
-        //}
-        $content .= <<<EOT
-// Template Index
-\$templateMain = '{$moduleDirname}_admin_index.tpl';\n
-EOT;
-        //if (is_array($tables)) {
-            $content .= <<<EOT
-// InfoBox Statistics
-\$adminMenu->addInfoBox({$language}STATISTICS);
-// Info elements\n
-EOT;
-        foreach (array_keys($tables) as $i) {
-            $tableName = $tables[$i]->getVar('table_name');
-            $tableInstall[] = $tables[$i]->getVar('table_install');
-            $stuTableName = $languageThereAre.strtoupper($tableName);
-            $ucfTableName = ucfirst($tableName);
-            $content .= <<<EOT
-\$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>'.{$stuTableName}.'</label>', \$count{$ucfTableName});\n
-EOT;
-        }
-        //}
-        if ($tableName == null) {
-            $content .= <<<EOT
-\$adminMenu->addInfoBoxLine({$language}STATISTICS, '<label>No statistics</label>', 0);\n
-EOT;
-        }
-        if (is_array($tables) && in_array(1, $tableInstall)) {
-            $content .= <<<EOT
-// Upload Folders
-\$folder = array(\n
-EOT;
-            $stuModuleDirname = strtoupper($moduleDirname);
-            foreach (array_keys($tables) as $i) {
-                $tableName = $tables[$i]->getVar('table_name');
-                if (1 == $tables[$i]->getVar('table_install')) {
-                    $content .= <<<EOT
-	\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',\n
-EOT;
-                }
-            }
-            $content .= <<<EOT
-);
+        $content .= $this->getAdminIndex($module);
 
-// Uploads Folders Created
-foreach (array_keys( \$folder) as \$i) {
-    \$adminMenu->addConfigBoxLine(\$folder[\$i], 'folder');
-    \$adminMenu->addConfigBoxLine(array(\$folder[\$i], '777'), 'chmod');
-}\n
-EOT;
-        }
-        $content .= <<<EOT
-// Render Index
-echo \$adminMenu->addNavigation('index.php');
-echo \$adminMenu->renderIndex();
-include  __DIR__ . '/footer.php';
-EOT;
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->tdmcfile->renderFile();
