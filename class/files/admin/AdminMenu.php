@@ -39,6 +39,7 @@ class AdminMenu extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -71,12 +72,37 @@ class AdminMenu extends TDMCreateFile
      * @param $tables
      * @param $filename
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
         $this->setTables($tables);
         $this->setFileName($filename);
+    }
+
+    /*
+     * @private function getAdminMenuArray
+     * @param $param
+     * @param $adminMenu
+     * @param $ref
+     *
+     * @return string
+     */
+    private function getAdminMenuArray($param = array(), $adminMenu = false, $ref = false)
+    {
+        $ret = '';
+        foreach ($param as $key => $value) {
+            if ($adminMenu) {
+                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
+            } else {
+                if ($ref) {
+                    $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}", true);
+                } else {
+                    $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}");
+                }
+            }
+        }
+
+        return $ret;
     }
 
     /*
@@ -88,13 +114,14 @@ class AdminMenu extends TDMCreateFile
      */
     private function getAdminMenuHeader()
     {
-        $ret = <<<EOT
-\$dirname = basename(dirname(__DIR__)) ;
-\$module_handler =& xoops_gethandler('module');
-\$xoopsModule =& XoopsModule::getByDirname(\$dirname);
-\$moduleInfo =& \$module_handler->get(\$xoopsModule->getVar('mid'));
-\$sysPathIcon32 = \$moduleInfo->getInfo('sysicons32');\n
-EOT;
+        $dirname = array('$dirname' => 'basename(dirname(__DIR__))');
+        $ret = $this->getAdminMenuArray($dirname);
+        $mod = array('$moduleHandler' => "xoops_gethandler('module')",
+                    '$xoopsModule' => 'XoopsModule::getByDirname($dirname)',
+                    '$moduleInfo' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))", );
+        $ret .= $this->getAdminMenuArray($mod, false, true);
+        $sys = array('$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')");
+        $ret .= $this->getAdminMenuArray($sys);
 
         return $ret;
     }
@@ -112,13 +139,10 @@ EOT;
      */
     private function getAdminMenuDashboard($language, $menu)
     {
-        $ret = <<<EOT
-\$i = 1;
-\$adminmenu[\$i]['title'] = {$language}{$menu};
-\$adminmenu[\$i]['link'] = 'admin/index.php';
-\$adminmenu[\$i]['icon'] = \$sysPathIcon32.'/dashboard.png';
-++\$i;\n
-EOT;
+        $param = array('title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'");
+        $ret = $this->xoopscode->getXoopsCodeEqualsOperator('$i', '1');
+        $ret .= $this->getAdminMenuArray($param, true);
+        $ret .= $this->getSimpleString('++$i;');
 
         return $ret;
     }
@@ -136,22 +160,55 @@ EOT;
      */
     private function getAdminMenuImagesPath($tables, $t)
     {
+        $ret = '';
         $fields = $this->getTableFields($tables[$t]->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             switch ($fieldElement) {
                 case 13:
-                    $ret = <<<EOT
-\$adminmenu[\$i]['icon'] = 'assets/icons/32/{$tables[$t]->getVar('table_image')}';\n
-EOT;
+                    $ret = $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['icon']", "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
                     break;
                 default:
-                    $ret = <<<EOT
-\$adminmenu[\$i]['icon'] = \$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}';\n
-EOT;
+                    $ret = $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['icon']", "\$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}'");
                     break;
             }
         }
+
+        return $ret;
+    }
+
+    /*
+     * @private function getAdminMenuList
+     * @param string $module
+     * @param string $language
+     * @param string $langAbout
+     * @param integer $menu    
+     *
+     * @return string
+     */
+    private function getAdminMenuList($module, $language, $langAbout, $menu)
+    {
+        $ret = '';
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            if (1 == $tables[$t]->getVar('table_admin')) {
+                ++$menu;
+                $param1 = array('title' => "{$language}{$menu}", 'link' => "'admin/{$tables[$t]->getVar('table_name')}.php'", 'icon' => "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
+                $ret .= $this->getAdminMenuArray($param1, true);
+                $ret .= $this->getSimpleString('++$i;');
+            }
+        }
+        if (in_array(1, $tablePermissions)) {
+            ++$menu;
+            $param2 = array('title' => "{$language}{$menu}", 'link' => "'admin/permissions.php'", 'icon' => "\$sysPathIcon32.'/permissions.png'");
+            $ret .= $this->getAdminMenuArray($param2, true);
+            $ret .= $this->getSimpleString('++$i;');
+        }
+        unset($menu);
+        $param3 = array('title' => "{$langAbout}", 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'");
+        $ret .= $this->getAdminMenuArray($param3, true);
+        $ret .= $this->getSimpleString('unset($i);');
 
         return $ret;
     }
@@ -166,8 +223,6 @@ EOT;
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
-        //$tables        = $this->getTables();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
@@ -176,38 +231,7 @@ EOT;
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminMenuHeader();
         $content .= $this->getAdminMenuDashboard($language, $menu);
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        foreach (array_keys($tables) as $t) {
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-            if (1 == $tables[$t]->getVar('table_admin')) {
-                ++$menu;
-                $content .= <<<EOT
-\$adminmenu[\$i]['title'] = {$language}{$menu};
-\$adminmenu[\$i]['link'] = 'admin/{$tables[$t]->getVar('table_name')}.php';
-\$adminmenu[\$i]['icon'] = 'assets/icons/32/{$tables[$t]->getVar('table_image')}';\n
-EOT;
-                //$content .= $this->getAdminMenuImagesPath($tables, $t);
-                $content .= <<<EOT
-++\$i;\n
-EOT;
-            }
-        }
-        if (in_array(1, $tablePermissions)) {
-            ++$menu;
-            $content .= <<<EOT
-\$adminmenu[\$i]['title'] = {$language}{$menu};
-\$adminmenu[\$i]['link'] = 'admin/permissions.php';
-\$adminmenu[\$i]['icon'] = \$sysPathIcon32.'/permissions.png';
-++\$i;\n
-EOT;
-        }
-        unset($menu);
-        $content .= <<<EOT
-\$adminmenu[\$i]['title'] = {$langAbout};
-\$adminmenu[\$i]['link']  = 'admin/about.php';
-\$adminmenu[\$i]['icon'] = \$sysPathIcon32.'/about.png';
-unset( \$i );
-EOT;
+        $content .= $this->getAdminMenuList($module, $language, $langAbout, $menu);
 
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

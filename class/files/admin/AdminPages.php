@@ -42,8 +42,8 @@ class AdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->adminobjects = AdminObjects::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -86,16 +86,14 @@ class AdminPages extends TDMCreateFile
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-//It recovered the value of argument op in URL$
-\$op = XoopsRequest::getString('op', 'list');
-// Request {$fieldId}
-\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
-// Switch options
-switch (\$op)
-{\n
-EOT;
+        $ret = $this->getInclude();
+        $ret .= $this->getCommentLine('It recovered the value of argument op in URL$');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$op', "XoopsRequest::getString('op', 'list')");
+        $ret .= $this->getCommentLine("Request {$fieldId}");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$ccFieldId}", "XoopsRequest::getInt('{$fieldId}')");
+        $ret .= $this->getCommentLine('Switch options');
+        $ret .= $this->getSimpleString('switch(\$op)');
+        $ret .= $this->getSimpleString('{');
 
         return $ret;
     }
@@ -177,6 +175,7 @@ EOT;
     {
         $stuTableName = strtoupper($tableName);
         $ucfTableName = ucfirst($tableName);
+
         $ret = <<<EOT
     case 'new':
         \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';
@@ -319,8 +318,8 @@ EOT;
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
     {
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-        $ret = <<<EOT
-    case 'delete':
+        $ret = $this->getSimpleString("case 'delete':");
+        $ret .= <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
             if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -352,8 +351,8 @@ EOT;
     {
         $stuModuleName = strtoupper($moduleDirname);
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-        $ret = <<<EOT
-    case 'update':
+        $ret = $this->getSimpleString("case 'update':");
+        $ret .= <<<EOT
         if (isset(\${$ccFieldId})) {
             \${$tableName}Obj =& \${$tableName}Handler->get(\${$ccFieldId});
         }

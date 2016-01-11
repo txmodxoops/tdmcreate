@@ -119,6 +119,7 @@ class AdminIndex extends TDMCreateFile
             $ret .= $this->phpcode->getPhpCodeCommentLine('Upload Folders');
             $ret .= $this->getSimpleString('$folder = array(');
             $stuModuleDirname = strtoupper($moduleDirname);
+            $ret .= $this->getSimpleString("\t{$stuModuleDirname}_UPLOAD_PATH,");
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 if (1 == $tables[$i]->getVar('table_install')) {
@@ -127,8 +128,8 @@ class AdminIndex extends TDMCreateFile
             }
             $ret .= $this->getSimpleString(');');
             $ret .= $this->getCommentLine('Uploads Folders Created');
-            $boxLine = $this->xoopscode->getXoopsCodeAddInfoBoxLine('$folder[$i]', "'folder'");
-            $boxLine .= "\t".$this->xoopscode->getXoopsCodeAddInfoBoxLine("array(\$folder[\$i], '777')", "'chmod'");
+            $boxLine = $this->xoopscode->getXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
+            $boxLine .= "\t".$this->xoopscode->getXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
             $ret .= $this->phpcode->getPhpCodeForeach('$folder', $boxLine, '$i', true);
         }
         $ret .= $this->getCommentLine('Render Index');
