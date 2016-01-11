@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateTables

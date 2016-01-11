@@ -22,7 +22,7 @@
  *
  * @version         $Id: building.php 12425 2014-02-23 22:40:09Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 include __DIR__.'/autoload.php';
 /**
  * Class TDMCreateBuilding.

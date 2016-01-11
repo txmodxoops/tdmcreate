@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateModules
