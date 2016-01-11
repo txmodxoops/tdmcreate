@@ -438,17 +438,13 @@ EOT;
      */
     public function getXoopsCodePermissionsHeader()
     {
-        $ret = <<<EOT
-// Permission
-include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
-\$gperm_handler =& xoops_gethandler('groupperm');
-if (is_object(\$xoopsUser)) {
-    \$groups = \$xoopsUser->getGroups();
-} else {
-    \$groups = XOOPS_GROUP_ANONYMOUS;
-}
-EOT;
-
+        $ret = $this->phpcode->getPhpCodeCommentLine('Permission');
+		$ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true)
+		$ret .= $this->getXoopsCodeEqualsOperator("\$gperm_handler", "xoops_gethandler('groupperm')", true);
+		$groups = $this->getXoopsCodeEqualsOperator("\$groups", "\$xoopsUser->getGroups()");
+		$elseGroups = $this->getXoopsCodeEqualsOperator("\$groups", "XOOPS_GROUP_ANONYMOUS");		
+		$ret .= $this->phpcode->getPhpCodeConditions("is_object(\$xoopsUser)", '', $type = '', $groups, $elseGroups)
+		
         return $ret;
     }
 
@@ -583,20 +579,31 @@ EOT;
     *  
     *  @return string
     */
-    public function getXoopsCodeAddInfoBoxLine($language, $label = '', $var = '', $isLabel = false)
+    public function getXoopsCodeAddInfoBoxLine($language, $label = '', $var = '')
     {
         if ($var != '') {
-            if ($isLabel === false) {
-                $ret = "\$adminMenu->addInfoBoxLine({$language}, {$label}, {$var});\n";
-            } else {
-                $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>', {$var});\n";
-            }
+            $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
-            if ($isLabel === false) {
-                $ret = "\$adminMenu->addInfoBoxLine({$language}, {$label});\n";
-            } else {
-                $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>');\n";
-            }
+            $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>');\n";
+        }
+
+        return $ret;
+    }
+	
+	/*
+    *  @public function getXoopsCodeAddConfigBoxLine
+    *  @param $language
+    *  @param $label
+    *  @param $var
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddConfigBoxLine($language, $label = '', $var = '')
+    {
+        if ($var != '') {
+            $ret = "\$adminMenu->addConfigBoxLine({$language}, '{$label}', {$var});\n";
+        } else {
+            $ret = "\$adminMenu->addConfigBoxLine({$language}, '{$label}');\n";
         }
 
         return $ret;
@@ -925,7 +932,7 @@ EOT;
     */
     public function getXoopsCodeCaseDelete($language, $tableName, $fieldId, $fieldMain)
     {
-        $content = <<<EOT
+        $ret = <<<EOT
         \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
         if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
             if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -944,16 +951,16 @@ EOT;
         $if1 = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
         $get = $this->getXoopsCodeHandler($tableName, $fieldId, true);
         $if2 = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
-        $content = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
-        //$content .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+        $ret = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
+        //$ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
         $handlerInsert = $this->$this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
         $redirect = $this->getXoopsCodeRedirectHeader($tableName, '', 2, "{$language}FORM_DELETE_OK");
 
         $else = $this->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
 
-        $content .= $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $redirect, $else);*/
+        $ret .= $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $redirect, $else);*/
 
-        return $this->phpcode->getPhpCodeCaseSwitch('delete', $content);
+        return $this->phpcode->getPhpCodeCaseSwitch('delete', $ret);
     }
 
     /*
