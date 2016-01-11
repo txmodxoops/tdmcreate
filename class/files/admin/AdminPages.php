@@ -25,7 +25,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
 /**
  * Class AdminPages.
  */
-class AdminPages extends TDMCreateFile
+class AdminPages extends AdminObjects
 {
     /*
     * @var string
@@ -44,6 +44,7 @@ class AdminPages extends TDMCreateFile
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
+		$this->adminobjects = AdminObjects::getInstance();
     }
 
     /*

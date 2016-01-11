@@ -439,11 +439,11 @@ EOT;
     public function getXoopsCodePermissionsHeader()
     {
         $ret = $this->phpcode->getPhpCodeCommentLine('Permission');
-		$ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true)
+		$ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
 		$ret .= $this->getXoopsCodeEqualsOperator("\$gperm_handler", "xoops_gethandler('groupperm')", true);
 		$groups = $this->getXoopsCodeEqualsOperator("\$groups", "\$xoopsUser->getGroups()");
 		$elseGroups = $this->getXoopsCodeEqualsOperator("\$groups", "XOOPS_GROUP_ANONYMOUS");		
-		$ret .= $this->phpcode->getPhpCodeConditions("is_object(\$xoopsUser)", '', $type = '', $groups, $elseGroups)
+		$ret .= $this->phpcode->getPhpCodeConditions("is_object(\$xoopsUser)", '', $type = '', $groups, $elseGroups);
 		
         return $ret;
     }
