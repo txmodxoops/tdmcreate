@@ -21,7 +21,7 @@
  *
  * @version         $Id: xoopsversion_file.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class UserXoopsVersion.
@@ -247,7 +247,7 @@ EOT;
         //$dateString = preg_replace('/[^0-9]/', '/', _DBDATESTRING);
         $date = date(_DBDATESTRING); // _DBDATESTRING
         $ret = <<<EOT
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 //
 //\$dirname = basename(__DIR__);
 // ------------------- Informations ------------------- //

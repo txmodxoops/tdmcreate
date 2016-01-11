@@ -19,7 +19,7 @@
  *
  * @version         $Id: simplelabel.php 12562 2014-04-03 10:57:12Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * A text label.
