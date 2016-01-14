@@ -272,11 +272,11 @@ EOT;
      */
     public function getPhpCodeCaseSwitch($case = 'list', $content, $defaultAfterCase = false, $default = false)
     {
-        if (is_string($case)) {
-            $ret = "\tcase '{$case}':\n";
-        } else {
-            $ret = "\tcase {$case}:\n";
-        }
+        $case = is_string($case) ? "'{$case}'" : $case;
+		$ret = '';
+		if (!empty($case)) {
+            $ret .= "\tcase {$case}:\n";
+        } 
         if ($defaultAfterCase) {
             $ret .= <<<EOT
     default:
@@ -290,7 +290,7 @@ EOT;
 EOT;
         }
         if ($default !== false) {
-            $ret = <<<EOT
+            $ret .= <<<EOT
     default:
 		{$default}
 	break;\n

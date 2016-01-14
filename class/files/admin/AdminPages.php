@@ -93,7 +93,7 @@ class AdminPages extends AdminObjects
         $ret .= $this->getCommentLine("Request {$fieldId}");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$ccFieldId}", "XoopsRequest::getInt('{$fieldId}')");
         $ret .= $this->getCommentLine('Switch options');
-        $ret .= $this->getSimpleString('switch(\$op)');
+        $ret .= $this->getSimpleString('switch($op)');
         $ret .= $this->getSimpleString('{');
 
         return $ret;

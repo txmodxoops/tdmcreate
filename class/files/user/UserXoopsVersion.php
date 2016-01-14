@@ -131,106 +131,41 @@ EOT;
 
         return $ret;
     }
-
-    /**
-     * @private function getModVersionComment
+    	
+	/**
+     * @private function getModVersionArrayElements
      *
-     * @param $comment
+     * @param $element
+	 * @param $left
+	 * @param $index
+	 * @param $right
+	 * @param $desc
+	 * @param $arrayOptions
      *
      * @return string
      */
-    private function getModVersionComment($comment)
+    private function getModVersionArrayElements($element = 1, $left, $index = '', $right = '', $desc = '', $arrayOptions = '')
     {
-        $ret = <<<EOT
-// {$comment}
-EOT;
+		$index = (is_string($index) && !empty($index)) ? "'{$index}'": $index;
+		$right = (is_string($right) && !empty($right)) ? "'{$right}'": $right;
+		$desc = is_string($desc) ? "'{$desc}'": $desc;
+		if ($element == 1) {
+			$ret = "\$modversion['{$left}'] = {$desc};\n";
+		}
+		if ($element == 2) {
+			$ret = "\$modversion['{$left}'][{$index}] = {$desc};\n";
+		}
+		if ($element == 3) {
+			$ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n";
+		}
+		if (($element == 3) && !empty($arrayOptions)) {
+			$ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};";
+			$ret .= "\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n";
+		}
 
         return $ret;
     }
-
-    /**
-     * @private function getModVersionArray
-     *
-     * @param $array
-     * @param $type
-     * @param $left
-     * @param $desc
-     * @param $index
-     * @param $right
-     
-     * @return string
-     */
-    private function getModVersionArray($array = 1, $left, $desc = '', $index = null, $right = null, $arrayOptions)
-    {
-        if (!is_string($desc)) {
-            if ($array == 1) {
-                $ret = <<<EOT
-\$modversion['{$left}'] = {$desc};\n
-EOT;
-            }
-            if ($array == 2 && $index == 'empty') {
-                $ret = <<<EOT
-\$modversion['{$left}'][] = {$desc};\n
-EOT;
-            }
-            if ($array == 2 && !is_string($index)) {
-                $ret = <<<EOT
-\$modversion['{$left}'][{$index}] = {$desc};\n
-EOT;
-            }
-            if ($array == 2 && is_string($index)) {
-                $ret = <<<EOT
-\$modversion['{$left}']['{$index}'] = {$desc};\n
-EOT;
-            }
-            if ($array == 3) {
-                $ret = <<<EOT
-\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n
-EOT;
-            }
-            if (($array == 4) && !empty($arrayOptions)) {
-                $ret = <<<EOT
-\$modversion['{$left}'][{$index}][{$right}] = {$desc};
-\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n
-EOT;
-            }
-        } else {
-            if ($array == 1) {
-                $ret = <<<EOT
-\$modversion['{$left}'] = "{$desc}";\n
-EOT;
-            }
-            if ($array == 2 && $index == 'empty') {
-                $ret = <<<EOT
-\$modversion['{$left}'][] = "{$desc}";\n
-EOT;
-            }
-            if ($array == 2 && !is_string($index)) {
-                $ret = <<<EOT
-\$modversion['{$left}'][{$index}] = "{$desc}";\n
-EOT;
-            }
-            if ($array == 2 && is_string($index)) {
-                $ret = <<<EOT
-\$modversion['{$left}']['{$index}'] = "{$desc}";\n
-EOT;
-            }
-            if ($array == 3) {
-                $ret = <<<EOT
-\$modversion['{$left}'][{$index}][{$right}] = "{$desc}";\n
-EOT;
-            }
-            if (($array == 4) && !empty($arrayOptions)) {
-                $ret = <<<EOT
-\$modversion['{$left}'][{$index}][{$right}] = "{$desc}";
-\$modversion['{$left}'][{$index}][{$right}] = "{$arrayOptions}";\n
-EOT;
-            }
-        }
-
-        return $ret;
-    }
-
+    
     /*
     *  @private function getXoopsVersionHeader
     *  @param $language
@@ -844,7 +779,15 @@ EOT;
     'description' => '{$language}DISQUS_COMMENTS_DESC',
     'formtype' => 'yesno',
     'valuetype' => 'int',
-    'default' => 0);\n
+    'default' => 0);
+	
+\$modversion['config'][] = array(
+    'name' => 'maintainedby',
+    'title' => '{$language}MAINTAINEDBY',
+    'description' => '{$language}MAINTAINEDBY_DESC',
+    'formtype' => 'textbox',
+    'valuetype' => 'text',
+    'default' => '{$module->getVar('mod_support_url')}');\n\n
 EOT;
 
         return $ret;
