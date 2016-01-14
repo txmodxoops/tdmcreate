@@ -89,16 +89,15 @@ class TemplatesAdminFooter extends TDMCreateHtmlSmartyCodes
         $moduleName = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName = $module->getVar('mod_support_name');
-        $supportUrl = $module->getVar('mod_support_url');
         $language = $this->getLanguage($moduleDirname, 'AM');
 
         $singleNoVar = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
         $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleNoVar, 'alt' => 'XOOPS'), '', false).PHP_EOL;
-        $anchor = $this->htmlcode->getHtmlTag('a', array('href' => 'http://www.xoops.org', 'title' => 'Visit XOOPS', 'target' => '_blank'), $img).PHP_EOL;
+        $anchor = $this->htmlcode->getHtmlTag('a', array('href' => 'http://www.xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'), $img).PHP_EOL;
         $content = $this->htmlcode->getHtmlTag('div', array('class' => 'center'), $anchor).PHP_EOL;
         $tree = $this->htmlcode->getHtmlTag('strong', array(), $moduleName);
         $tree    .= $this->htmlcode->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
-        $tree    .= $this->htmlcode->getHtmlTag('a', array('href' => $supportUrl, 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
+        $tree    .= $this->htmlcode->getHtmlTag('a', array('href' => '<{$maintainedby}>', 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
         $content .= $this->htmlcode->getHtmlTag('div', array('class' => 'center smallsmall italic pad5'), $tree);
 
         $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

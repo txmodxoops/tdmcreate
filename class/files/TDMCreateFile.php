@@ -543,6 +543,17 @@ EOT;
 
         return $ret;
     }
+	
+	/*
+     * @public function getRemoveCarriageReturn
+     * @param $string     
+     *
+     * @return string
+     */
+    public function getRemoveCarriageReturn($string)
+    {
+        return str_replace(array("\n", "\r"), '', $string);
+    }	
 
     /*
     *  @public function getHeaderFilesComments

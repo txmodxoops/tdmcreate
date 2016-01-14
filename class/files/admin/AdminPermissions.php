@@ -103,8 +103,6 @@ include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
 // Check admin have access to this page
 \$templateMain = '{$moduleDirname}_admin_permissions.tpl';
 \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('permissions.php'));
-/*echo \$adminMenu->addNavigation('permissions.php');*/
-
 \$op = XoopsRequest::getString('op', 'global');
 xoops_load('XoopsFormLoader');
 \$permTableForm = new XoopsSimpleForm('', 'fselperm', 'permissions.php', 'post');
