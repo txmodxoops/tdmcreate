@@ -78,20 +78,20 @@ class TDMCreateXoopsCode
 
         return $ret;
     }
-	
-	/*
+
+    /*
      *  @private function getXoopsCodeSwitch
      *  @param $op
      *  @param $listCases
-	 *  @param $defaultList
+     *  @param $defaultList
      *
      * @return string
      */
     private function getXoopsCodeSwitch($op = 'op', $listCases = array(), $defaultList = false)
-    {        		
-		$switch = $this->phpcode->getPhpCodeCaseSwitch(array($listCases), $defaultList);
-        
-		return $this->phpcode->getPhpCodeSwitch($op, $switch);
+    {
+        $switch = $this->phpcode->getPhpCodeCaseSwitch(array($listCases), $defaultList);
+
+        return $this->phpcode->getPhpCodeSwitch($op, $switch);
     }
 
     /*
@@ -125,8 +125,8 @@ class TDMCreateXoopsCode
     {
         return "xoops_load('{$var}');\n";
     }
-	
-	/**
+
+    /**
      *  @public function getXoopsCodeLoadLanguage
      *
      *  @param $lang
@@ -149,55 +149,55 @@ class TDMCreateXoopsCode
     {
         return "\${$tableName}Obj->setVar('{$fieldName}', {$var});\n";
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsCodeGetVar
     *  @param string $varLeft
-	*  @param string $handle
-	*  @param string $var
-	*  @param string $isParam
-	*
+    *  @param string $handle
+    *  @param string $var
+    *  @param string $isParam
+    *
     *  @return string
     */
     public function getXoopsCodeGetVar($varLeft = '', $handle = '', $var = '', $isParam = false)
     {
-        if($isParam === false) {
-			$ret = "\${$varLeft} = \${$handle}->getVar('{$var}');\n";
-		} else {	
-			$ret = "\${$handle}->getVar('{$var}')";
-		}
-		
-		return $ret; 
+        if ($isParam === false) {
+            $ret = "\${$varLeft} = \${$handle}->getVar('{$var}');\n";
+        } else {
+            $ret = "\${$handle}->getVar('{$var}')";
+        }
+
+        return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsCodeGroupPermForm
     *  @param string $varLeft
-	*  @param string $formTitle
-	*  @param string $moduleId
-	*  @param string $permName
-	*  @param string $permDesc
-	*  @param string $filename
-	*
+    *  @param string $formTitle
+    *  @param string $moduleId
+    *  @param string $permName
+    *  @param string $permDesc
+    *  @param string $filename
+    *
     *  @return string
     */
     public function getXoopsCodeGroupPermForm($varLeft = '', $formTitle = '', $moduleId = '', $permName = '', $permDesc = '', $filename = '')
-    {        
-		return "\${$varLeft} = new XoopsGroupPermForm({$formTitle}, {$moduleId}, {$permName}, {$permDesc}, {$filename});\n";
+    {
+        return "\${$varLeft} = new XoopsGroupPermForm({$formTitle}, {$moduleId}, {$permName}, {$permDesc}, {$filename});\n";
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsCodeAddItem
     *  @param string $varLeft
-	*  @param string $paramLeft
-	*  @param string $paramRight
-	*
+    *  @param string $paramLeft
+    *  @param string $paramRight
+    *
     *  @return string
     */
     public function getXoopsCodeAddItem($varLeft = '', $paramLeft = '', $paramRight = '')
-    {		
-		return "\${$varLeft}->addItem({$paramLeft}, {$paramRight});\n";
-    }	
+    {
+        return "\${$varLeft}->addItem({$paramLeft}, {$paramRight});\n";
+    }
 
     /*
     *  @public function getXoopsCodeTextDateSelectSetVar
@@ -256,8 +256,8 @@ class TDMCreateXoopsCode
     {
         return "\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n";
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsHandlerLine
     *  @param $moduleDirname
     *  @param $tableName
@@ -267,54 +267,54 @@ class TDMCreateXoopsCode
     {
         return "\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');\n";
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsSimpleForm
     *  @param $left
-	*  @param $element
-	*  @param $elementsContent
-	*  @param $caption
-	*  @param $var
-	*  @param $filename
-	*  @param $type
+    *  @param $element
+    *  @param $elementsContent
+    *  @param $caption
+    *  @param $var
+    *  @param $filename
+    *  @param $type
     *  
     *  @return string
     */
     public function getXoopsSimpleForm($left = '', $element = '', $elementsContent = '', $caption = '', $var = '', $filename = '', $type = 'post')
     {
         $ret = "\${$left} = new XoopsSimpleForm({$caption}, '{$var}', '{$filename}.php', '{$type}');\n";
-		if(!empty($elementsContent)) {
-			$ret .= "{$elementsContent}";
-		}
-		$ret .= "\${$left}->addElement(\${$element})\n";
-		$ret .= "\${$left}->display();\n";
+        if (!empty($elementsContent)) {
+            $ret .= "{$elementsContent}";
+        }
+        $ret .= "\${$left}->addElement(\${$element});\n";
+        $ret .= "\${$left}->display();\n";
 
-		return $ret;
+        return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsFormSelect
     *  @param $varSelect
-	*  @param $caption
-	*  @param $var
-	*  @param $options
-	*  @param $setExtra
+    *  @param $caption
+    *  @param $var
+    *  @param $options
+    *  @param $setExtra
     *  
     *  @return string
     */
-	public function getXoopsFormSelect($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true)
+    public function getXoopsFormSelect($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true)
     {
         $ret = "\${$varSelect} = new XoopsFormSelect({$caption}, '{$var}', \${$var});\n";
-		if(false !== $setExtra) {
-			$ret .= "\${$varSelect}->setExtra('{$setExtra}');\n";
-		}
-		foreach($options as $key => $value) {
-			$ret .= "\${$varSelect}->addOption('{$key}', {$value});\n";
-		}
-		
-		return $ret;
-    }	
-	
+        if (false !== $setExtra) {
+            $ret .= "\${$varSelect}->setExtra('{$setExtra}');\n";
+        }
+        foreach ($options as $key => $value) {
+            $ret .= "\${$varSelect}->addOption('{$key}', {$value});\n";
+        }
+
+        return $ret;
+    }
+
     /*
     *  @public function getXoopsCodeTopicGetVar
     *  @param string $lpFieldName
@@ -690,8 +690,8 @@ EOT;
 
         return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getXoopsCodeObjHandlerCount
      *
      *  @param string $tableName
@@ -701,23 +701,23 @@ EOT;
     public function getXoopsCodeObjHandlerCount($tableName)
     {
         $ucfTableName = ucfirst($tableName);
-		$ret = "\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();\n";
+        $ret = "\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();\n";
 
         return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getXoopsCodeObjHandlerAll
      *
      *  @param string $tableName
-	 *  @param string $fieldMain
+     *  @param string $fieldMain
      *
      *  @return string
      */
     public function getXoopsCodeObjHandlerAll($tableName, $fieldMain)
     {
         $ucfTableName = ucfirst($tableName);
-		$ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(0, 0, '{$fieldMain}');\n";
+        $ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(0, 0, '{$fieldMain}');\n";
 
         return $ret;
     }
