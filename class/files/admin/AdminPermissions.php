@@ -38,6 +38,9 @@ class AdminPermissions extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->adminxoopscode = AdminXoopsCode::getInstance();
     }
 
     /*
@@ -76,11 +79,7 @@ class AdminPermissions extends TDMCreateFile
     }
 
     /*
-    *  @private function getPermissionsHeader
-    *  @param string $module
-    *  @param string $language
-    */
-    /**
+     * @private function getPermissionsHeader    
      * @param $module
      * @param $language
      *
@@ -95,73 +94,48 @@ class AdminPermissions extends TDMCreateFile
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
-        $ret = $this->getInclude('header');
-        $ret .= <<<PRM
-include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
-
-\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
-// Check admin have access to this page
-\$templateMain = '{$moduleDirname}_admin_permissions.tpl';
-\$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('permissions.php'));
-\$op = XoopsRequest::getString('op', 'global');
-xoops_load('XoopsFormLoader');
-\$permTableForm = new XoopsSimpleForm('', 'fselperm', 'permissions.php', 'post');
-\$formSelect = new XoopsFormSelect('', 'op', \$op);
-\$formSelect->setExtra('onchange="document.fselperm.submit()"');
-\$formSelect->addOption('global', {$language}PERMISSIONS_GLOBAL);
-\$formSelect->addOption('approve', {$language}PERMISSIONS_APPROVE);
-\$formSelect->addOption('submit', {$language}PERMISSIONS_SUBMIT);
-\$formSelect->addOption('view', {$language}PERMISSIONS_VIEW);
-\$permTableForm->addElement(\$formSelect);
-\$permTableForm->display();\n
-PRM;
+        $ret = $this->getInclude('header');		
+		$ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);		
+        $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
+		$ret .= $this->getCommentLine('Check admin have access to this page');
+		$ret .= $this->adminxoopscode->getAdminTemplateMain($moduleDirname, 'permissions');		
+		$ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('permissions.php')");
+		$ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'global');
+		$ret .= $this->xoopscode->getXoopsCodeLoad('XoopsFormLoader');
+		$optionsSelect = array('global' => "{$language}PERMISSIONS_GLOBAL", 'approve' => "{$language}PERMISSIONS_GLOBAL", 
+								'submit' => "{$language}PERMISSIONS_GLOBAL", 'view' => "{$language}PERMISSIONS_GLOBAL");
+		$formSelect = $this->xoopscode->getXoopsFormSelect('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
+		$ret .= $this->xoopscode->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
 
         return $ret;
     }
 
     /*
-    *  @private function getPermissionsSwitch
-    *  @param string $moduleDirname
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $language
+     *  @private function getPermissionsSwitch
+     *  @param $moduleDirname
+     *  @param $language
      *
      * @return string
      */
     private function getPermissionsSwitch($moduleDirname, $language)
-    {
-        $ret = <<<PRM
-// Switch op case global, approve, submit, view.
-switch(\$op)
-{
-    case 'global':
-	default:
-        \$formTitle = {$language}PERMISSIONS_GLOBAL;
-        \$permName = '{$moduleDirname}_ac';
-        \$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;
-        \$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );
-        break;
-    case 'approve':
-        \$formTitle = {$language}PERMISSIONS_APPROVE;
-        \$permName = '{$moduleDirname}_approve';
-        \$permDesc = {$language}PERMISSIONS_APPROVE_DESC;
-        break;
-    case 'submit':
-        \$formTitle = {$language}PERMISSIONS_SUBMIT;
-        \$permName = '{$moduleDirname}_submit';
-        \$permDesc = {$language}PERMISSIONS_SUBMIT_DESC;
-        break;
-    case 'view':
-        \$formTitle = {$language}PERMISSIONS_VIEW;
-        \$permName = '{$moduleDirname}_view';
-        \$permDesc = {$language}PERMISSIONS_VIEW_DESC;
-        break;
-}\n
-PRM;
-
-        return $ret;
+    {        		
+		$cases = array('global' => array("\$formTitle = {$language}PERMISSIONS_GLOBAL;",
+										"\$permName = '{$moduleDirname}_ac';",
+										"\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;",
+										"\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );"), 
+						'approve' => array("\$formTitle = {$language}PERMISSIONS_APPROVE;",
+										"\$permName = '{$moduleDirname}_approve';",
+										"\$permDesc = {$language}PERMISSIONS_APPROVE_DESC;"),
+						'submit' => array("\$formTitle = {$language}PERMISSIONS_SUBMIT;",
+										"\$permName = '{$moduleDirname}_submit';",
+										"\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC;"),
+						'view' => array("\$formTitle = {$language}PERMISSIONS_VIEW;", 
+										"\$permName = '{$moduleDirname}_view';", 
+										"\$permDesc = {$language}PERMISSIONS_VIEW_DESC;"));
+		
+		$contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, true);
+        
+		return $this->phpcode->getPhpCodeSwitch('op', $contentSwitch);
     }
 
     /*
@@ -197,33 +171,28 @@ PRM;
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }
-        }
-        $ret = <<<PRM
-\$moduleId = \$xoopsModule->getVar('mid');
-\$permform = new XoopsGroupPermForm(\$formTitle, \$moduleId, \$permName, \$permDesc, 'admin/permissions.php');
-if (\$op == 'global') {
-    foreach (\$globalPerms as \$gPermId => \$gPermName) {
-        \$permform->addItem(\$gPermId, \$gPermName);
-    }
-	\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
-} else {
-    \${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
-    \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(0, 0, '{$fieldMain}');
-    foreach (array_keys(\${$tableName}All) as \$i) {
-        \$permform->addItem(\${$tableName}All[\$i]->getVar('{$fieldId}'), \${$tableName}All[\$i]->getVar('{$fieldMain}'));
-    }
-    // Check if {$tableName} exist before rendering the form, and redirect if there aren't {$tableName}
-    if (\${$tableName}Count > 0) {
-		\$GLOBALS['xoopsTpl']->assign('form', \$permform->render());
-    } else {
-        redirect_header ( '{$tableName}.php?op=new', 3, {$language}NO_PERMISSIONS_SET );
-        exit();
-    }
-}
-unset(\$permform);\n
-PRM;
-
-        return $ret;
+        }		
+        
+		$ret = $this->xoopscode->getXoopsCodeGetVar('moduleId', 'xoopsModule', 'mid');
+		$ret .= $this->xoopscode->getXoopsCodeGroupPermForm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
+		$foreach1 = "\t".$this->xoopscode->getXoopsCodeAddItem('permform', '$gPermId', '$gPermName');
+        $if1 = $this->phpcode->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1);
+		$if1 .= "\t".$this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
+		$else = $this->xoopscode->getXoopsCodeObjHandlerCount($tableName);
+		$else .= $this->xoopscode->getXoopsCodeObjHandlerAll($tableName, $fieldMain);
+		$getVar1 = $this->xoopscode->getXoopsCodeGetVar('', "{$tableName}All[\$i]", $fieldId, true);
+		$getVar2 = $this->xoopscode->getXoopsCodeGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
+		$foreach2 = $this->xoopscode->getXoopsCodeAddItem('permform', $getVar1, $getVar2);
+		$else .=  $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach2);
+		$if2 = $this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
+		$elseInter = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '?op=new', '3', "{$language}NO_PERMISSIONS_SET");
+		$elseInter .= $this->getSimpleString("\texit();");
+		$else .= "\t".$this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter);
+		
+		$ret .= "\t".$this->phpcode->getPhpCodeConditions('$op', ' == ', "'global'", $if1, $else);
+		$ret .= $this->phpcode->getPhpCodeUnset('permform');
+		
+		return $ret;
     }
 
     /*

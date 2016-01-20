@@ -36,18 +36,18 @@ class TDMCreateFile extends TDMCreateTableFields
     private $xoopsFile;
 
     /**
-     * "filename" attribute of the files.
+     * "fileName" attribute of the files.
      *
      * @var mixed
      */
     private $fileName;
 
     /**
-     * "path" attribute of the files.
+     * "subdir" attribute of the directories.
      *
      * @var string
      */
-    private $path;
+    private $subdir;
 
     /**
      * "uploadPath" attribute of the files.
@@ -55,13 +55,6 @@ class TDMCreateFile extends TDMCreateTableFields
      * @var string
      */
     private $uploadPath;
-
-    /**
-     * "folder_name" attribute of the files.
-     *
-     * @var string
-     */
-    private $folderName;
 
     /*
     * @var string
@@ -169,7 +162,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     private function setRepositoryPath($moduleDirname)
     {
-        $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH.DIRECTORY_SEPARATOR.$moduleDirname;
+        $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH.'/'.$moduleDirname;
     }
 
     /*
@@ -214,7 +207,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     public function setFileName($fileName)
     {
-        $this->filename = $fileName;
+        $this->fileName = $fileName;
     }
 
     /*
@@ -226,7 +219,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     public function getFileName()
     {
-        return $this->filename;
+        return $this->fileName;
     }
 
     /*
@@ -284,7 +277,7 @@ class TDMCreateFile extends TDMCreateTableFields
     private function getUploadPath()
     {
         if ($this->getSubDir() != null) {
-            $ret = $this->getRepositoryPath().DIRECTORY_SEPARATOR.$this->getSubDir();
+            $ret = $this->getRepositoryPath().'/'.$this->getSubDir();
         } else {
             $ret = $this->getRepositoryPath();
         }
@@ -512,19 +505,35 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-     *  @public function getCommentLine
-     *  @param $string
-     */
-    /**
-     * @param $string
+     * @public function getCommentLine
+     * @param $string     
+     * @param $var
      *
      * @return string
      */
-    public function getCommentLine($string)
+    public function getCommentLine($string, $var = '')
     {
-        $ret = <<<EOT
-// {$string}\n
-EOT;
+        $value = !empty($var) ? ' '.$var : '';
+        $ret = "// {$string}{$value}\n";
+
+        return $ret;
+    }
+
+    /*
+     * @public function getMultiLineComment
+     * @param $strings     
+     * @param $vars     
+     *
+     * @return string
+     */
+    public function getMultiLineComment($strings = array(), $vars = array())
+    {
+        $values = !empty($vars) ? ' '.$vars : '';
+        $ret = '/* ';
+        foreach ($values as $value) {
+            $ret .= " * {$strings}{$value}\n";
+        }
+        $ret .= " */\n";
 
         return $ret;
     }
@@ -537,14 +546,10 @@ EOT;
      */
     public function getSimpleString($string)
     {
-        $ret = <<<EOT
-{$string}\n
-EOT;
-
-        return $ret;
+        return "{$string}\n";
     }
-	
-	/*
+
+    /*
      * @public function getRemoveCarriageReturn
      * @param $string     
      *
@@ -553,7 +558,7 @@ EOT;
     public function getRemoveCarriageReturn($string)
     {
         return str_replace(array("\n", "\r"), '', $string);
-    }	
+    }
 
     /*
     *  @public function getHeaderFilesComments
@@ -631,7 +636,7 @@ EOT;
     public function renderFile()
     {
         $fileName = $this->getFileName();
-        $path = $this->getUploadPath().DIRECTORY_SEPARATOR.$fileName;
+        $path = $this->getUploadPath().'/'.$fileName;
         $created = $this->getCreated();
         $notCreated = $this->getNotCreated();
         $folderName = $this->getFolderName();

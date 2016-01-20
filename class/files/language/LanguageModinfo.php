@@ -275,7 +275,7 @@ class LanguageModinfo extends LanguageDefines
         $ret .= $this->defines->getDefine($language, 'IDPAYPAL_DESC', 'Insert here your PayPal ID for donactions.');
         $ret .= $this->defines->getDefine($language, 'ADVERTISE', 'Advertisement Code');
         $ret .= $this->defines->getDefine($language, 'ADVERTISE_DESC', 'Insert here the advertisement code');
-		$ret .= $this->defines->getDefine($language, 'MAINTAINEDBY', 'Maintained By');
+        $ret .= $this->defines->getDefine($language, 'MAINTAINEDBY', 'Maintained By');
         $ret .= $this->defines->getDefine($language, 'MAINTAINEDBY_DESC', 'Allow url of support site or community');
         $ret .= $this->defines->getDefine($language, 'BOOKMARKS', 'Social Bookmarks');
         $ret .= $this->defines->getDefine($language, 'BOOKMARKS_DESC', 'Show Social Bookmarks in the single page');
@@ -283,7 +283,6 @@ class LanguageModinfo extends LanguageDefines
         $ret .= $this->defines->getDefine($language, 'FACEBOOK_COMMENTS_DESC', 'Allow Facebook comments in the single page');
         $ret .= $this->defines->getDefine($language, 'DISQUS_COMMENTS', 'Disqus comments');
         $ret .= $this->defines->getDefine($language, 'DISQUS_COMMENTS_DESC', 'Allow Disqus comments in the single page');
-		
 
         return $ret;
     }

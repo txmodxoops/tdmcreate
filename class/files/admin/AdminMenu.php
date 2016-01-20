@@ -38,7 +38,6 @@ class AdminMenu extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
@@ -233,8 +232,8 @@ class AdminMenu extends TDMCreateFile
         $content .= $this->getAdminMenuDashboard($language, $menu);
         $content .= $this->getAdminMenuList($module, $language, $langAbout, $menu);
 
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

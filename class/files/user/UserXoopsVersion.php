@@ -131,41 +131,41 @@ EOT;
 
         return $ret;
     }
-    	
-	/**
+
+    /**
      * @private function getModVersionArrayElements
      *
      * @param $element
-	 * @param $left
-	 * @param $index
-	 * @param $right
-	 * @param $desc
-	 * @param $arrayOptions
+     * @param $left
+     * @param $index
+     * @param $right
+     * @param $desc
+     * @param $arrayOptions
      *
      * @return string
      */
     private function getModVersionArrayElements($element = 1, $left, $index = '', $right = '', $desc = '', $arrayOptions = '')
     {
-		$index = (is_string($index) && !empty($index)) ? "'{$index}'": $index;
-		$right = (is_string($right) && !empty($right)) ? "'{$right}'": $right;
-		$desc = is_string($desc) ? "'{$desc}'": $desc;
-		if ($element == 1) {
-			$ret = "\$modversion['{$left}'] = {$desc};\n";
-		}
-		if ($element == 2) {
-			$ret = "\$modversion['{$left}'][{$index}] = {$desc};\n";
-		}
-		if ($element == 3) {
-			$ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n";
-		}
-		if (($element == 3) && !empty($arrayOptions)) {
-			$ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};";
-			$ret .= "\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n";
-		}
+        $index = (is_string($index) && !empty($index)) ? "'{$index}'" : $index;
+        $right = (is_string($right) && !empty($right)) ? "'{$right}'" : $right;
+        $desc = is_string($desc) ? "'{$desc}'" : $desc;
+        if ($element == 1) {
+            $ret = "\$modversion['{$left}'] = {$desc};\n";
+        }
+        if ($element == 2) {
+            $ret = "\$modversion['{$left}'][{$index}] = {$desc};\n";
+        }
+        if ($element == 3) {
+            $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n";
+        }
+        if (($element == 3) && !empty($arrayOptions)) {
+            $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};";
+            $ret .= "\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n";
+        }
 
         return $ret;
     }
-    
+
     /*
     *  @private function getXoopsVersionHeader
     *  @param $language

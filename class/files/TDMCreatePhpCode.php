@@ -175,21 +175,22 @@ EOT;
     /*
      * @public function getPhpCodeForeach
      * @param string $array
-     * @param string $content
-     * @param string $value
-     * @param string $arrayKey
+	 * @param string $arrayKey     
      * @param string $key
+     * @param string $value     
+	 * @param string $content
      *
      * @return string
      */
-    public function getPhpCodeForeach($array = '', $content = '', $value = false, $arrayKey = false, $key = false)
+    public function getPhpCodeForeach($array = '', $arrayKey = false, $key = false, $value = false, $content = '')
     {
-        if ((false === $arrayKey) && (false === $key)) {
-            $vars = "{$array} as {$value}";
+        $vars = '';
+		if ((false === $arrayKey) && (false === $key)) {
+            $vars = "\${$array} as \${$value}";
         } elseif ((false === $arrayKey) && (false !== $key)) {
-            $vars = "{$array} as {$key} => {$value}";
+            $vars = "\${$array} as \${$key} => \${$value}";
         } elseif ((false !== $arrayKey) && (false === $key)) {
-            $vars = "array_keys({$array}) as {$value}";
+            $vars = "array_keys(\${$array}) as \${$value}";
         }
 
         $ret = <<<EOT
@@ -255,7 +256,7 @@ EOT;
         $ret = <<<EOT
 // Switch options
 switch (\${$op}){
-	{$content}
+{$content}
 }\n
 EOT;
 
@@ -263,38 +264,37 @@ EOT;
     }
 
     /**
-     *  @public function getPhpCodeCaseSwitch
-     *
-     *  @param $case
-     *  @param $content
+     *  @public function getPhpCodeCaseSwitch     
+     *  @param $cases
+	 *  @param $defaultAfterCase
+	 *  @param $default
      *
      *  @return string
      */
-    public function getPhpCodeCaseSwitch($case = 'list', $content, $defaultAfterCase = false, $default = false)
-    {
-        $case = is_string($case) ? "'{$case}'" : $case;
-		$ret = '';
-		if (!empty($case)) {
-            $ret .= "\tcase {$case}:\n";
-        } 
-        if ($defaultAfterCase) {
-            $ret .= <<<EOT
-    default:
-		{$content}
-	break;\n
-EOT;
-        } else {
-            $ret .= <<<EOT
-		{$content}
-	break;\n
-EOT;
-        }
+    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false)
+    {        
+        $ret = '';
+		$def = "\tdefault:\n";
+        foreach($cases as $case => $value) {
+			$case = is_string($case) ? "'{$case}'" : $case;
+			if (!empty($case)) {
+				$ret .= "\tcase {$case}:\n";
+				if($defaultAfterCase != false){
+					$ret .= $def;
+				}
+				if (is_array($value)) {
+					foreach($value as $content) {
+						$ret .= "\t\t{$content}\n";
+					}
+				}
+				$ret .= "\tbreak;\n";
+			}	
+			$defaultAfterCase = false;
+		}		
         if ($default !== false) {
-            $ret .= <<<EOT
-    default:
-		{$default}
-	break;\n
-EOT;
+            $ret .= $def;
+			$ret .= "\t\t{$default}\n";
+			$ret .= "\tbreak;\n";			
         }
 
         return $ret;
@@ -308,6 +308,16 @@ EOT;
     public function getPhpCodeIsset($var)
     {
         return "isset(\${$var})";
+    }
+	
+	/*
+    *  @public function getPhpCodeUnset
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeUnset($var = '')
+    {
+        return "unset(\${$var});\n";
     }
 
     /*
@@ -360,6 +370,64 @@ EOT;
     public function getPhpCodeRawurlencode($var)
     {
         return "rawurlencode({$var})";
+    }
+	
+	/*
+    *  @public function getPhpCodePregReplace
+    *  @param $return
+	*  @param $exp
+	*  @param $str
+	*  @param $val
+	*  @param $isParam
+    *
+    *  @return string
+    */
+    public function getPhpCodePregReplace($return, $exp, $str, $val, $isParam = false)
+    {
+		if ($isParam === false) {	
+			$ret = "\${$return} = preg_replace( '{$exp}' , '{$str}' , {$val});\n";
+		} else {
+			$ret = "preg_replace( '{$exp}' , '{$str}' , {$val})";
+		}
+		return $ret;
+    }
+	
+	/*
+    *  @public function getPhpCodeStrReplace
+    *  @param $left
+	*  @param $var
+	*  @param $str
+	*  @param $value
+	*  @param $isParam
+    *
+    *  @return string
+    */
+    public function getPhpCodeStrReplace($left, $var, $str, $value, $isParam = false)
+    {
+        if ($isParam === false) {	
+			$ret = "\${$left} = str_replace( '{$var}' , '{$str}' , {$value});\n";
+		} else {
+			$ret = "str_replace( '{$var}' , '{$str}' , {$value})";
+		}
+		return $ret;
+    }
+	
+	/*
+    *  @public function getPhpCodeStripTags
+    *  @param $left
+	*  @param $value
+	*  @param $isParam
+    *
+    *  @return string
+    */
+    public function getPhpCodeStripTags($left, $value, $isParam = false)
+    {
+        if ($isParam === false) {	
+			$ret = "\${$left} = strip_tags({$value});\n";
+		} else {
+			$ret = "strip_tags({$value})";
+		}
+		return $ret;
     }
 
     /*

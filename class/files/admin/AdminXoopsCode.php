@@ -25,8 +25,8 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class AdminXoopsCode.
  */
-class AdminXoopsCode
-{    
+class AdminXoopsCode extends AdminObjects
+{
     /*
     *  @public function constructor
     *  @param null
@@ -37,7 +37,7 @@ class AdminXoopsCode
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();
-		$this->adminobjects = TDMCreateAdminObjects::getInstance();
+        $this->adminobjects = AdminObjects::getInstance();
     }
 
     /*
@@ -55,7 +55,7 @@ class AdminXoopsCode
         }
 
         return $instance;
-    }     
+    }
 
     /*
     *  @public function getAdminTemplateMain
@@ -65,47 +65,9 @@ class AdminXoopsCode
     */
     public function getAdminTemplateMain($moduleDirname, $tableName)
     {
-        $ret = <<<EOT
-        \$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n
-EOT;
-
-        return $ret;
+        return "\$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n";
     }
 
-    /**
-     *  @public function getAdminXoopsTplAssign
-     *
-     *  @param string $tplString
-     *  @param string $phpRender
-     *
-     *  @return string
-     */
-    public function getAdminXoopsTplAssign($tplString, $phpRender)
-    {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->assign('{$tplString}', \${$phpRender});\n
-EOT;
-
-        return $ret;
-    }
-
-    /**
-     *  @public function getAdminXoopsTplAppend
-     *
-     *  @param string $tplString
-     *  @param string $phpRender
-     *
-     *  @return string
-     */
-    public function getAdminXoopsTplAppend($tplString, $phpRender)
-    {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->append('{$tplString}', \${$phpRender});\n
-EOT;
-
-        return $ret;
-    }
-    
     /*
     *  @public function getAdminTemplateMain
     *  @param $moduleDirname
@@ -157,6 +119,186 @@ EOT;
         return $ret;
     }
 
+    /*
+    *  @public function getXoopsCodeAddInfoBox
+    *  @param $language
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddInfoBox($language)
+    {
+        return "\$adminMenu->addInfoBox({$language});\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeAddInfoBoxLine
+    *  @param $language
+    *  @param $label
+    *  @param $var
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddInfoBoxLine($language, $label = '', $var = '')
+    {
+        if ($var != '') {
+            $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>', {$var});\n";
+        } else {
+            $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>');\n";
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeAddConfigBoxLine
+    *  @param $language
+    *  @param $label
+    *  @param $var
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddConfigBoxLine($language, $label = '', $var = '')
+    {
+        if ($var != '') {
+            $ret = "\$adminMenu->addConfigBoxLine({$language}, '{$label}', {$var});\n";
+        } else {
+            $ret = "\$adminMenu->addConfigBoxLine({$language}, '{$label}');\n";
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeItemButton
+    *  @param $language
+    *  @param $tableName
+    *  @param $admin
+    *  @return string
+    */
+    public function getXoopsCodeItemButton($language, $tableName, $tableSoleName, $op = '?op=new', $type = 'add')
+    {
+        $stuTableName = strtoupper($tableName);
+        $stuTableSoleName = strtoupper($tableSoleName);
+        $stuType = strtoupper($type);
+        $aMIB = '$adminMenu->addItemButton(';
+        if ($type = 'add') {
+            $ret = $aMIB."{$language}{$stuType}_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+        } elseif ($type = 'list') {
+            $ret = $aMIB."{$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+        } else {
+            $ret = $aMIB."{$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeGetConfig
+    *  @param $var
+    *  @param $dirPath
+    *  @param $tableName
+    *  @param $moduleDirname
+    *  @return string
+    */
+    public function getXoopsCodeMediaUploader($var = '', $dirPath, $tableName, $moduleDirname)
+    {
+        return "\${$var} = new XoopsMediaUploader({$dirPath} . '/{$tableName}',
+														\${$moduleDirname}->getConfig('mimetypes'),
+                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeImageListSetVar
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
+    {
+        $ret = $this->phpcode->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
+        $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+        $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
+        $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
+
+        $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeUploadImageSetVar
+    *  @param string $moduleDirname
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_IMAGE_PATH", $tableName, $moduleDirname);
+
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        $ifelse = "\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);\n";
+        $ifelse .= "\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;\n";
+        $ifelse .= "\$uploader->setPrefix(\$imgName);\n";
+        $ifelse .= "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);\n";
+        $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
+        $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
+
+        $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeFileSetVar
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $fieldName
+    *  @param $formatUrl
+    *  @return string
+    */
+    public function getXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+        if ($formatUrl) {
+            $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        } else {
+            $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        }
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
+        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
+        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
+        if ($formatUrl) {
+            $ifelse = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+        } else {
+            $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
+            $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
+        }
+        $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
+        $contentIf = "\$errors = \$uploader->getErrors();\n";
+        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
+        $ifelse .= $this->phpcode->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElse);
+
+        $ret .= $this->phpcode->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
+
+        return $ret;
+    }
+
     /**
      *  @public function getAdminXoopsCodeSetVarsObjects
      *
@@ -168,9 +310,7 @@ EOT;
      */
     public function getAdminXoopsCodeSetVarsObjects($moduleDirname, $tableName, $fields)
     {
-        $ret = <<<EOT
-        // Set Vars\n
-EOT;
+        $ret = $this->phpcode->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -358,5 +498,5 @@ EOT;
 EOT;
 
         return $ret;
-    }    
+    }
 }
