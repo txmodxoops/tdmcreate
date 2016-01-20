@@ -19,7 +19,7 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: admin_index.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: AdminIndex.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -38,9 +38,9 @@ class AdminIndex extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->adminxoopscode = AdminXoopsCode::getInstance();
     }
 
     /*
@@ -100,20 +100,20 @@ class AdminIndex extends TDMCreateFile
             $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Template Index');
-        $ret .= $this->xoopscode->getXoopsCodeTemplateMain("{$moduleDirname}", 'index');
+        $ret .= $this->adminxoopscode->getAdminTemplateMain("{$moduleDirname}", 'index');
         $ret .= $this->phpcode->getPhpCodeCommentLine('InfoBox Statistics');
-        $ret .= $this->xoopscode->getXoopsCodeAddInfoBox($language.'STATISTICS');
+        $ret .= $this->adminxoopscode->getXoopsCodeAddInfoBox($language.'STATISTICS');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Info elements');
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
             $stuTableName = $languageThereAre.strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->xoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}", true);
+            $ret .= $this->adminxoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}", true);
         }
 
         if ($tableName == null) {
-            $ret .= $this->xoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0', true);
+            $ret .= $this->adminxoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0', true);
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Upload Folders');
@@ -128,9 +128,9 @@ class AdminIndex extends TDMCreateFile
             }
             $ret .= $this->getSimpleString(');');
             $ret .= $this->getCommentLine('Uploads Folders Created');
-            $boxLine = $this->xoopscode->getXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
-            $boxLine .= "\t".$this->xoopscode->getXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
-            $ret .= $this->phpcode->getPhpCodeForeach('$folder', $boxLine, '$i', true);
+            $boxLine = $this->adminxoopscode->getXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
+            $boxLine .= "\t".$this->adminxoopscode->getXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
+            $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine);
         }
         $ret .= $this->getCommentLine('Render Index');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");
@@ -156,8 +156,8 @@ class AdminIndex extends TDMCreateFile
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminIndex($module);
 
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

@@ -38,7 +38,6 @@ class AdminFooter extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
@@ -89,14 +88,14 @@ class AdminFooter extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $isset = $this->phpcode->getPhpCodeIsset('templateMain');        
-		$display = $this->xoopscode->getXoopsCodeTplAssign('maintainedby', '$'.$moduleDirname."->getConfig('maintainedby')");
-		$display .= "\t".$this->getRemoveCarriageReturn($this->xoopscode->getXoopsCodeTplDisplay());
+        $isset = $this->phpcode->getPhpCodeIsset('templateMain');
+        $display = $this->xoopscode->getXoopsCodeTplAssign('maintainedby', '$'.$moduleDirname."->getConfig('maintainedby')");
+        $display .= "\t".$this->getRemoveCarriageReturn($this->xoopscode->getXoopsCodeTplDisplay());
         $content .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display);
         $content .= $this->xoopscode->getXoopsCodeCPFooter();
 
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

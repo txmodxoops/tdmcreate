@@ -27,7 +27,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  * Class AdminObjects.
  */
 class AdminObjects extends TDMCreateFile
-{    
+{
     /*
     *  @public function constructor
     *  @param null

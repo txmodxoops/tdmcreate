@@ -44,7 +44,7 @@ class AdminPages extends AdminObjects
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
-		$this->adminobjects = AdminObjects::getInstance();
+        $this->adminobjects = AdminObjects::getInstance();
     }
 
     /*
@@ -92,11 +92,30 @@ class AdminPages extends AdminObjects
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$op', "XoopsRequest::getString('op', 'list')");
         $ret .= $this->getCommentLine("Request {$fieldId}");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$ccFieldId}", "XoopsRequest::getInt('{$fieldId}')");
-        $ret .= $this->getCommentLine('Switch options');
-        $ret .= $this->getSimpleString('switch($op)');
+        
+        
+		// This must be removed
+		$ret .= $this->getCommentLine('Switch options');
+		$ret .= $this->getSimpleString('switch($op)');
         $ret .= $this->getSimpleString('{');
 
         return $ret;
+    }
+	
+	/*
+     *  @private function getAdminPagesSwitch
+     *  @param $moduleDirname
+     *  @param $language
+     *
+     * @return string
+     */
+    private function getAdminPagesSwitch($moduleDirname, $language)
+    {        		
+		$cases = array('list' => array(), 'new' => array(),	'save' => array(), 'edit' => array(), 'update' => array());
+		
+		$contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, true);
+        
+		return $this->phpcode->getPhpCodeSwitch('op', $contentSwitch);
     }
 
     /*
@@ -367,24 +386,7 @@ EOT;
 
         return $ret;
     }
-
-    /*
-    *  @private function getAdminPagesFooter
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    private function getAdminPagesFooter()
-    {
-        $ret = <<<EOT
-}
-include  __DIR__ . '/footer.php';
-EOT;
-
-        return $ret;
-    }
-
+    
     /*
     *  @public function render
     *  @param null
@@ -425,7 +427,7 @@ EOT;
         if (strstr($fieldName, 'update') || strstr($fieldName, 'online') || strstr($fieldName, 'display')) {
             $content .= $this->getAdminPagesUpdate($moduleDirname, $tableName, $fieldId, $fieldName);
         }
-        $content .= $this->getAdminPagesFooter();
+        $content .= $this->tdmcfile->getInclude('footer');
         //
         $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
