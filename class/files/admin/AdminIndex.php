@@ -128,9 +128,9 @@ class AdminIndex extends TDMCreateFile
             }
             $ret .= $this->getSimpleString(');');
             $ret .= $this->getCommentLine('Uploads Folders Created');
-            $boxLine = $this->adminxoopscode->getXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
+            $boxLine = "\t".$this->adminxoopscode->getXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
             $boxLine .= "\t".$this->adminxoopscode->getXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
-            $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine);
+            $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
         $ret .= $this->getCommentLine('Render Index');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");

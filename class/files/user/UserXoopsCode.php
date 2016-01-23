@@ -19,19 +19,19 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: LanguageDefines.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserXoopsCode.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class LanguageDefines.
+ * Class UserXoopsCode.
  */
-class LanguageDefines extends TDMCreateFile
+class UserXoopsCode extends TDMCreateFile
 {
     /*
-    * @var mixed
+    * @var string
     */
-    protected $defines;
+    protected $userxoopscode;
 
     /*
     *  @public function constructor
@@ -51,7 +51,7 @@ class LanguageDefines extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return LanguageDefines
+     * @return UserObjects
      */
     public static function &getInstance()
     {
@@ -64,51 +64,13 @@ class LanguageDefines extends TDMCreateFile
     }
 
     /*
-    *  @public function getAboveHeadDefines
-    *  @param string $string
+    *  @public function getUserHeaderTpl
+    *  @param string $moduleDirname
+    *  @param string $tableName
     *  @return string
     */
-    public function getAboveHeadDefines($string)
+    public function getUserHeaderTpl($moduleDirname, $tableName = 'index')
     {
-        return "// ---------------- {$string} ----------------\n";
-    }
-
-    /*
-    *  @public function getAboveDefines
-    *  @param string $string
-    *  @return string
-    */
-    public function getAboveDefines($string)
-    {
-        return "// {$string}\n";
-    }
-
-    /*
-    *  @public function getDefine
-    *  @param string $language
-    *  @param string $defined
-    *  @param string $description
-    *  @return string
-    */
-    public function getDefine($language, $defined, $description)
-    {
-        $defined = strtoupper($defined);
-        $ret = "define('{$language}{$defined}', \"{$description}\");\n";
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getBelowDefines
-    *  @param string $string
-    */
-    /**
-     * @param $string
-     *
-     * @return string
-     */
-    public function getBelowDefines($string)
-    {
-        return "// ---------------- {$string} ----------------";
-    }
+		return "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl'\n;";
+    }    
 }

@@ -218,9 +218,23 @@ class TDMCreateXoopsCode
     */
     public function getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName)
     {
-        $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0')");
-
-        return $ret;
+        return $this->getXoopsCodeSetVar($tableName, $fieldName, "((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0')");
+    }
+	
+	/*
+    *  @public function getXoopsCodeXoopsMediaUploader
+    *  @param $var
+    *  @param $dirPath
+    *  @param $tableName
+    *  @param $moduleDirname
+    *  @return string
+    */
+    public function getXoopsCodeXoopsMediaUploader($var = '', $dirPath, $tableName, $moduleDirname)
+    {
+        $mimetypes = $this->getXoopsCodeGetConfig($moduleDirname, 'mimetypes');
+		$maxsize = $this->getXoopsCodeGetConfig($moduleDirname, 'maxsize');
+		
+		return "\${$var} = new XoopsMediaUploader({$dirPath} . '/{$tableName}', {$mimetypes}, {$maxsize}, null, null);\n";
     }
 
     /*
@@ -576,12 +590,14 @@ EOT;
     */
     public function getXoopsCodeXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $metod = false)
     {
-        if ($type == 'String') {
-            $ret = "\${$left} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
-        } elseif ($type == 'Int') {
-            $ret = "\${$left} = XoopsRequest::getInt('{$var1}', {$var2});\n";
+        $ret = '';
+		$intVars = ($var2 != '') ? "'{$var1}', {$var2}" : "'{$var1}'";
+		if ($type == 'String') {
+            $ret .= "\${$left} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
+        } elseif ($type == 'Int') {            
+			$ret .= "\${$left} = XoopsRequest::getInt({$intVars});\n";
         } elseif ($type == 'Int' && $metod !== false) {
-            $ret = "\${$left} = XoopsRequest::getInt('{$var1}', {$var2}, '{$metod}');\n";
+            $ret .= "\${$left} = XoopsRequest::getInt({$intVars}, '{$metod}');\n";
         }
 
         return $ret;
@@ -711,13 +727,16 @@ EOT;
      *
      *  @param string $tableName
      *  @param string $fieldMain
+	 *  @param string $start
+	 *  @param string $limit
      *
      *  @return string
      */
-    public function getXoopsCodeObjHandlerAll($tableName, $fieldMain)
+    public function getXoopsCodeObjHandlerAll($tableName, $fieldMain, $start = '0', $limit = '0')
     {
         $ucfTableName = ucfirst($tableName);
-        $ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(0, 0, '{$fieldMain}');\n";
+		$param = ($fieldMain != '') ? "{$start}, {$limit}, '{$fieldMain}'" : "{$start}, {$limit}";
+        $ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$param});\n";
 
         return $ret;
     }
@@ -734,7 +753,6 @@ EOT;
     public function getXoopsCodeSetVarsObjects($moduleDirname, $tableName, $fields)
     {
         $ret = '';
-
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -770,8 +788,8 @@ EOT;
         }
 
         return $ret;
-    }
-
+    }	
+	
     /**
      *  @public function getXoopsCodeSecurity
      *
@@ -819,14 +837,14 @@ EOT;
     /*
     *  @public function getXoopsCodeXoopsConfirm
     *  @param $tableName
-    *  @param $options
-    *  @param $fieldId
-    *  @param $fieldMain
     *  @param $language
+    *  @param $fieldId
+    *  @param $fieldMain    
+	*  @param $options
     *
     *  @return string
     */
-    public function getXoopsCodeXoopsConfirm($tableName, $options = 'delete', $fieldId, $fieldMain, $language)
+    public function getXoopsCodeXoopsConfirm($tableName, $language, $fieldId, $fieldMain, $options = 'delete')
     {
         $stuOptions = strtoupper($options);
         $ret = "xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => {$options}), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_{$stuOptions}, \${$tableName}Obj->getVar('{$fieldMain}')));\n";
@@ -853,47 +871,121 @@ EOT;
     {
         return "\$GLOBALS['xoopsSecurity']->getErrors()";
     }
-
-    /**
-     *  @public function getXoopsCodeGetFormError
+	
+	/**
+     *  @public function getXoopsCodeGetHtmlErrors
      *
      *  @param $tableName
+	 *  @param $isParam
+	 *  @param $obj
      *
      *  @return string
      */
-    public function getXoopsCodeGetFormError($tableName)
+    public function getXoopsCodeGetHtmlErrors($tableName, $isParam = false, $obj = 'Obj')
     {
-        $ret = <<<EOT
-        // Get Form
-        \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
-        \$form =& \${$tableName}Obj->getForm();
-        \$GLOBALS['xoopsTpl']->assign('form', \$form->render());\n
-EOT;
+        $ret = '';
+		if ($isParam) {            
+			$ret = "\${$tableName}{$obj}->getHtmlErrors()";
+		} else {
+			$ret = "\${$tableName}{$obj} =& \${$tableName}->getHtmlErrors();";
+		} 
 
-        return $ret;
+        return $ret;		
     }
-
+	
+	/**
+     *  @public function getXoopsCodeObjHandlerCount
+     *
+     *  @param $left
+	 *  @param $tableName
+	 *  @param $obj
+     *
+     *  @return string
+     */
+    public function getXoopsCodeGetForm($left, $tableName, $obj = '')
+    {
+        return "\${$left} =& \${$tableName}{$obj}->getForm();\n";
+    }    
+    
     /**
-     *  @public function getXoopsCodeGetFormId
+     *  @public function getXoopsCodeGet
      *
      *  @param string $tableName
-     *  @param string $fieldId
+     *  @param string $var
+	 *  @param string $obj
+	 *  @param string $isHandler
+     *  @param string $isParam
      *
      *  @return string
      */
-    public function getXoopsCodeGetFormId($tableName, $fieldId)
+    public function getXoopsCodeGet($tableName, $var, $obj = '', $isHandler = false, $isParam = false)
     {
-        $ret = <<<EOT
-        // Get Form
-        \${$tableName}Obj = \${$tableName}Handler->get(\${$fieldId});
-        \$form = \${$tableName}Obj->getForm();
-        \$GLOBALS['xoopsTpl']->assign('form', \$form->render());\n
-EOT;
+        if ($isParam) {
+            if ($isHandler) {
+				$ret = "\${$tableName}Handler->get(\${$var});";
+			} else {
+				$ret = "\${$tableName}->get(\${$var});";
+			}
+		} else {
+            if ($isHandler) {
+				$ret = "\${$tableName}{$obj} =& \${$tableName}Handler->get(\${$var});";
+			} else {
+				$ret = "\${$tableName}{$obj} =& \${$tableName}->get(\${$var});";
+			}
+		} 
 
         return $ret;
     }
+	
+	/**
+     *  @public function getXoopsCodeHandler
+     *
+     *  @param string $tableName
+     *  @param string $var
+	 *  @param string $obj
+     *
+     *  @return string
+     */
+    public function getXoopsCodeInsert($tableName, $var, $obj = '')
+    {
+        if ($obj != '') {
+            $ret = "\${$tableName}Handler->insert(\${$var}{$obj});";
+        } else {
+            $ret = "\${$tableName}Handler->insert(\${$var});";
+        }
 
-    /**
+        return $ret;
+    }
+	
+	/**
+     *  @public function getXoopsCodeDelete
+     *
+     *  @param string $tableName
+     *  @param string $var
+	 *  @param string $obj
+	 *  @param string $isHandler
+     *
+     *  @return string
+     */
+    public function getXoopsCodeDelete($tableName, $var, $obj = '', $isHandler = false)
+    {
+        if ($isHandler) {
+			if ($obj != '') {
+				$ret = "\${$tableName}Handler->delete(\${$var}{$obj});";
+			} else {
+				$ret = "\${$tableName}Handler->delete(\${$var});";
+			}
+		} else {
+			if ($obj != '') {
+				$ret = "\${$tableName}->delete(\${$var}{$obj});";
+			} else {
+				$ret = "\${$tableName}->delete(\${$var});";
+			}
+		}
+        return $ret;
+    }
+	
+	/**
      *  @public function getXoopsCodeHandler
      *
      *  @param string $tableName
@@ -924,37 +1016,70 @@ EOT;
     */
     public function getXoopsCodeCaseDelete($language, $tableName, $fieldId, $fieldMain)
     {
-        $ret = <<<EOT
-        \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
-        if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
-            if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-                redirect_header('{$tableName}.php', 3, implode(', ', \$GLOBALS['xoopsSecurity']->getErrors()));
-            }
-            if (\${$tableName}Handler->delete(\${$tableName}Obj)) {
-                redirect_header('{$tableName}.php', 3, {$language}FORM_DELETE_OK);
-            } else {
-                echo \${$tableName}Obj->getHtmlErrors();
-            }
-        } else {
-            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_DELETE, \${$tableName}Obj->getVar('{$fieldMain}')));
-        }\n
-EOT;
-        /*$isset = $this->phpcode->getPhpCodeIsset($fieldId);
-        $if1 = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
-        $get = $this->getXoopsCodeHandler($tableName, $fieldId, true);
-        $if2 = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
-        $ret = $this->phpcode->getPhpCodeConditions($isset, '', '', "\${$tableName}Obj =& ".$get);
-        //$ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
-        $handlerInsert = $this->$this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
-        $redirect = $this->getXoopsCodeRedirectHeader($tableName, '', 2, "{$language}FORM_DELETE_OK");
+        $ret = $this->getXoopsCodeGet($tableName, $fieldId, 'Obj', true);
+		        
+		$reqOk = "\$_REQUEST['ok']";
+		$isset = $this->phpcode->getPhpCodeIsset($reqOk);
+		$xoopsSecurityCheck = $this->getXoopsCodeSecurityCheck();
+        $xoopsSecurityErrors = $this->getXoopsCodeSecurityErrors();
+		$implode = $this->phpcode->getPhpCodeImplode(', ', $xoopsSecurityErrors);
+		$redirectHeaderErrors = $this->getXoopsCodeRedirectHeader($tableName, '', '3', $implode);
+		
+		$delete = $this->getXoopsCodeDelete($tableName, $tableName, 'Obj', true);		
+        $condition = $this->phpcode->getPhpCodeConditions('!'.$xoopsSecurityCheck, '', '', $redirectHeaderErrors);
+        
+		$redirectHeaderLanguage = $this->getXoopsCodeRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK");
+		$htmlErrors = $this->getXoopsCodeGetHtmlErrors($tableName, true);
+		$internalElse = $this->getXoopsCodeTplAssign('error', $htmlErrors);
+		$condition .= $this->phpcode->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse);        
 
-        $else = $this->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+		$mainElse = $this->getXoopsCodeXoopsConfirm($tableName, $language, $fieldId, $fieldMain);
+		$ret .= $this->phpcode->getPhpCodeConditions($isset, ' && ', "1 == {$reqOk}", $condition, $mainElse);
 
-        $ret .= $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $redirect, $else);*/
-
-        return $this->phpcode->getPhpCodeCaseSwitch('delete', $ret);
+        return $ret;
     }
+	
+	/*
+    *  @public function getTopicGetVar
+    *  @param string $lpFieldName
+    *  @param string $rpFieldName
+    *  @param string $tableName
+    *  @param string $tableNameTopic
+    *  @param string $fieldNameParent
+    *  @param string $fieldNameTopic
+    *  @return string
+    */
+    public function getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic)
+    {
+        $ret = <<<EOT
+\t\t// Get Var {$fieldNameParent}
+\t\t\${$rpFieldName} =& \${$tableNameTopic}Handler->get(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));
+\t\t\${$lpFieldName}['{$rpFieldName}'] = \${$rpFieldName}->getVar('{$fieldNameTopic}');\n
+EOT;
 
+        return $ret;
+    }
+	
+	/*
+    *  @public function getUploadImageGetVar
+    *  @param string $lpFieldName
+    *  @param string $rpFieldName
+    *  @param string $tableName
+    *  @param string $fieldName
+    *  @return string
+    */
+    public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    {
+        $ret = <<<EOT
+\t\t// Get Var {$fieldName}
+\t\t\${$fieldName} = \${$tableName}All[\$i]->getVar('{$fieldName}');
+\t\t\$upload_image = \${$fieldName} ? \${$fieldName} : 'blank.gif';
+\t\t\${$lpFieldName}['{$rpFieldName}'] = \$upload_image;\n
+EOT;
+
+        return $ret;
+    }	        
+    
     /*
     *  @public function getXoopsCodeUpdate
     *  @param $language
@@ -977,4 +1102,74 @@ EOT;
 
         return $this->phpcode->getPhpCodeCaseSwitch('update', $content);
     }
+	
+	/**
+     *  @public function getXoopsCodeSaveFieldId
+     *
+     *  @param $fields
+     *
+     *  @return string
+     */
+    public function getXoopsCodeSaveFieldId($fields)
+    {
+        foreach (array_keys($fields) as $f) {
+            if (0 == $f) {
+                $fieldId = $fields[$f]->getVar('field_name');
+            }
+        }
+
+        return $fieldId;
+    }
+
+    /**
+     *  @public function getXoopsCodeSaveFieldMain
+     *
+     *  @param $fields
+     *
+     *  @return string
+     */
+    public function getXoopsCodeSaveFieldMain($fields)
+    {
+        foreach (array_keys($fields) as $f) {
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fields[$f]->getVar('field_name');
+            }
+        }
+
+        return $fieldMain;
+    }
+
+    /**
+     *  @public function getXoopsCodeSaveElements
+     *
+     *  @param $moduleDirname
+     *  @param $tableName
+     *  @param $fields
+     *
+     *  @return string
+     */
+    public function getXoopsCodeSaveElements($moduleDirname, $tableName, $fields)
+    {
+        $ret = '';
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldElement = $fields[$f]->getVar('field_element');
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName;
+            }
+            if ((5 == $fieldElement) || (6 == $fieldElement)) {
+                $ret .= $this->getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+            } elseif (13 == $fieldElement) {
+                $ret .= $this->getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+            } elseif (14 == $fieldElement) {
+                $ret .= $this->getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+            } elseif (15 == $fieldElement) {
+                $ret .= $this->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
+            } else {
+                $ret .= $this->getXoopsCodeSimpleSetVar($tableName, $fieldName);
+            }
+        }
+
+        return $ret;
+    }    
 }

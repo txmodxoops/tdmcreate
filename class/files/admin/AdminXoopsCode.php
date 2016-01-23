@@ -25,9 +25,14 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class AdminXoopsCode.
  */
-class AdminXoopsCode extends AdminObjects
-{
-    /*
+class AdminXoopsCode
+{    	
+	/*
+    * @var string
+    */
+    private $xoopscode;
+	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -37,7 +42,7 @@ class AdminXoopsCode extends AdminObjects
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->adminobjects = AdminObjects::getInstance();
+		$this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -58,31 +63,35 @@ class AdminXoopsCode extends AdminObjects
     }
 
     /*
-    *  @public function getAdminTemplateMain
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @return string
-    */
+     *  @public function getAdminTemplateMain
+     *  @param $moduleDirname
+     *  @param $tableName
+	 *
+     *  @return string
+     */
     public function getAdminTemplateMain($moduleDirname, $tableName)
     {
         return "\$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n";
     }
 
     /*
-    *  @public function getAdminTemplateMain
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $admin
-    *  @return string
-    */
-    public function getAdminItemButton($moduleDirname, $tableName, $admin = false)
+     *  @public function getAdminTemplateMain
+     *  @param $language
+     *  @param $tableName
+	 *  @param $stuTableSoleName
+     *  @param $type
+	 *
+     *  @return string
+     */
+    public function getAdminItemButton($language, $tableName, $stuTableSoleName, $op = '?op=new', $type = 'add')
     {
-        $ret = <<<EOT
-        \$adminMenu->addItemButton({$language}ADD_{$stuTableSoleName}, '{$tableName}.php?op=new', 'add');
-        \$adminMenu->addItemButton({$language}{$stuTableName}_LIST, '{$tableName}.php', 'list');
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));
-        \$GLOBALS['xoopsTpl']->assign('buttons', \$adminMenu->renderButton());\n
-EOT;
+        $stuType = strtoupper($type);
+		$adminMenu = '$adminMenu->addItemButton(';
+		if($type === 'add') {
+			$ret = $adminMenu."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+		} else {
+			$ret = $adminMenu."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
+		}
 
         return $ret;
     }
@@ -95,12 +104,8 @@ EOT;
      *  @return string
      */
     public function getAdminAddNavigation($tableName)
-    {
-        $ret = <<<EOT
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$adminMenu->addNavigation('{$tableName}.php'));\n
-EOT;
-
-        return $ret;
+    {        
+        return "\$adminMenu->addNavigation('{$tableName}.php')";
     }
 
     /**
@@ -140,10 +145,11 @@ EOT;
     */
     public function getXoopsCodeAddInfoBoxLine($language, $label = '', $var = '')
     {
-        if ($var != '') {
-            $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>', {$var});\n";
+        $aMenu = '$adminMenu->addInfoBoxLine(';
+		if ($var != '') {
+            $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
-            $ret = "\$adminMenu->addInfoBoxLine({$language}, '<label>'.{$label}.'</label>');\n";
+            $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>');\n";
         }
 
         return $ret;
@@ -159,54 +165,16 @@ EOT;
     */
     public function getXoopsCodeAddConfigBoxLine($language, $label = '', $var = '')
     {
-        if ($var != '') {
-            $ret = "\$adminMenu->addConfigBoxLine({$language}, '{$label}', {$var});\n";
+        $aMenu = '$adminMenu->addConfigBoxLine(';
+		if ($var != '') {
+            $ret = $aMenu."{$language}, '{$label}', {$var});\n";
         } else {
-            $ret = "\$adminMenu->addConfigBoxLine({$language}, '{$label}');\n";
+            $ret = $aMenu."{$language}, '{$label}');\n";
         }
 
         return $ret;
-    }
-
-    /*
-    *  @public function getXoopsCodeItemButton
-    *  @param $language
-    *  @param $tableName
-    *  @param $admin
-    *  @return string
-    */
-    public function getXoopsCodeItemButton($language, $tableName, $tableSoleName, $op = '?op=new', $type = 'add')
-    {
-        $stuTableName = strtoupper($tableName);
-        $stuTableSoleName = strtoupper($tableSoleName);
-        $stuType = strtoupper($type);
-        $aMIB = '$adminMenu->addItemButton(';
-        if ($type = 'add') {
-            $ret = $aMIB."{$language}{$stuType}_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
-        } elseif ($type = 'list') {
-            $ret = $aMIB."{$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
-        } else {
-            $ret = $aMIB."{$language}{$stuTableName}_{$stuType}, '{$tableName}.php', '{$type}');\n";
-        }
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getXoopsCodeGetConfig
-    *  @param $var
-    *  @param $dirPath
-    *  @param $tableName
-    *  @param $moduleDirname
-    *  @return string
-    */
-    public function getXoopsCodeMediaUploader($var = '', $dirPath, $tableName, $moduleDirname)
-    {
-        return "\${$var} = new XoopsMediaUploader({$dirPath} . '/{$tableName}',
-														\${$moduleDirname}->getConfig('mimetypes'),
-                                                        \${$moduleDirname}->getConfig('maxsize'), null, null);\n";
-    }
-
+    }    
+    
     /*
     *  @public function getXoopsCodeImageListSetVar
     *  @param string $moduleDirname
@@ -216,9 +184,9 @@ EOT;
     */
     public function getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
     {
-        $ret = $this->phpcode->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->getXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
+        $ret .= $this->xoopscode->getXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
         $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
         $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
@@ -318,28 +286,28 @@ EOT;
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->adminobjects->getCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $this->adminobjects->getImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->adminobjects->getUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
                         if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
-                        $ret .= $this->adminobjects->getUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= $this->xoopscode->getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
-                        $ret .= $this->adminobjects->getUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $this->adminobjects->getTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->adminobjects->getSimpleSetVar($tableName, $fieldName);
+                        $ret .= $this->xoopscode->getXoopsCodeSimpleSetVar($tableName, $fieldName);
                         break;
                 }
             }
