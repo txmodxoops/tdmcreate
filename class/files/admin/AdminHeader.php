@@ -117,7 +117,7 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeCommentLine();
         $template = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true);
         $template .= "\t".$this->xoopscode->getXoopsCodeEqualsOperator('$xoopsTpl', 'new XoopsTpl()');
-        $ret .= $this->phpcode->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template);
+        $ret .= $this->phpcode->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template, false);
         $ret .= $this->phpcode->getPhpCodeCommentLine('System icons path');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('sysPathIcon16', '$sysPathIcon16');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('sysPathIcon32', '$sysPathIcon32');

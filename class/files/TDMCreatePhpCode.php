@@ -67,12 +67,13 @@ class TDMCreatePhpCode
     }
 
     /*
-    *  @public function getPhpCodeVariables
+    *  @public function getPhpCodeGlobalsVariables
     *  @param $type
     *  @param $var
+	*
     *  @return string
     */
-    public function getPhpCodeVariables($type = 'REQUEST', $var = '')
+    public function getPhpCodeGlobalsVariables($type = 'REQUEST', $var = '')
     {
         $type = strtoupper($type);
         switch ($type) {
@@ -100,6 +101,17 @@ class TDMCreatePhpCode
         }
 
         return $ret;
+    }
+	
+	/*
+     * @public function getPhpCodeRemoveCarriageReturn
+     * @param $string     
+     *
+     * @return string
+     */
+    public function getPhpCodeRemoveCarriageReturn($string)
+    {
+        return str_replace(array("\n", "\r"), '', $string);
     }
 
     /*
@@ -151,21 +163,21 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false)
+    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $t = '')
     {
         if (false === $contentElse) {
             $ret = <<<EOT
-if ({$condition}{$operator}{$type}) {
-	{$contentIf}
-}\n
+{$t}if ({$condition}{$operator}{$type}) {
+{$t}{$t}{$contentIf}
+{$t}}\n
 EOT;
         } else {
             $ret = <<<EOT
-if ({$condition}{$operator}{$type}) {
-	{$contentIf}
-} else {
-	{$contentElse}
-}\n
+{$t}if ({$condition}{$operator}{$type}) {
+{$t}{$t}{$contentIf}
+{$t}} else {
+{$t}{$t}{$contentElse}
+{$t}}\n
 EOT;
         }
 
@@ -182,7 +194,7 @@ EOT;
      *
      * @return string
      */
-    public function getPhpCodeForeach($array = '', $arrayKey = false, $key = false, $value = false, $content = '')
+    public function getPhpCodeForeach($array = '', $arrayKey = false, $key = false, $value = false, $content = '', $t = '')
     {
         $vars = '';
         if ((false === $arrayKey) && (false === $key)) {
@@ -194,9 +206,9 @@ EOT;
         }
 
         $ret = <<<EOT
-foreach({$vars}) {
-	{$content}
-}\n
+{$t}foreach({$vars}) {
+{$t}{$t}{$content}
+{$t}}\n
 EOT;
 
         return $ret;
@@ -212,12 +224,12 @@ EOT;
      *
      * @return string
      */
-    public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '')
+    public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '', $t = '')
     {
         $ret = <<<EOT
-for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
-	{$content}
-}\n
+{$t}for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
+{$t}{$t}{$content}
+{$t}}\n
 EOT;
 
         return $ret;
@@ -229,15 +241,16 @@ EOT;
      * @param $content
      * @param $value
      * @param $operator
+	 *  @param $t
      *
      * @return string
      */
-    public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '')
+    public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '', $t = '')
     {
         $ret = <<<EOT
-while(\${$var} {$operator} {$value}) {
-	{$content}
-}\n
+{$t}while(\${$var} {$operator} {$value}) {
+{$t}{$t}{$content}
+{$t}}\n
 EOT;
 
         return $ret;
@@ -248,16 +261,17 @@ EOT;
      *
      *  @param $op
      *  @param $content
+	 *  @param $t
      *
      *  @return string
      */
-    public function getPhpCodeSwitch($op = '', $content = '')
+    public function getPhpCodeSwitch($op = '', $content = '', $t = '')
     {
         $ret = <<<EOT
 // Switch options
-switch (\${$op}){
-{$content}
-}\n
+{$t}switch (\${$op}){
+{$t}{$t}{$content}
+{$t}}\n
 EOT;
 
         return $ret;
@@ -269,33 +283,34 @@ EOT;
      *  @param $cases
      *  @param $defaultAfterCase
      *  @param $default
+	 *  @param $t
      *
      *  @return string
      */
-    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false)
+    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false, $t = "\t")
     {
         $ret = '';
-        $def = "\tdefault:\n";
+        $def = "{$t}default:\n";
         foreach ($cases as $case => $value) {
             $case = is_string($case) ? "'{$case}'" : $case;
             if (!empty($case)) {
-                $ret .= "\tcase {$case}:\n";
+                $ret .= "{$t}case {$case}:\n";
                 if ($defaultAfterCase != false) {
                     $ret .= $def;
                 }
                 if (is_array($value)) {
                     foreach ($value as $content) {
-                        $ret .= "\t\t{$content}\n";
+                        $ret .= "{$t}{$t}{$content}\n";
                     }
                 }
-                $ret .= "\tbreak;\n";
+                $ret .= "{$t}break;\n";
             }
             $defaultAfterCase = false;
         }
         if ($default !== false) {
             $ret .= $def;
-            $ret .= "\t\t{$default}\n";
-            $ret .= "\tbreak;\n";
+            $ret .= "{$t}{$default}\n";
+            $ret .= "{$t}break;\n";
         }
 
         return $ret;
@@ -442,7 +457,7 @@ EOT;
     */
     public function getPhpCodeHtmlentities($entitiesVar, $entitiesQuote = false)
     {
-        $entitiesVar = $entitiesQuote !== false ? $entitiesVar.', '.$entitiesQuote : $entitiesVar;
+        $entitiesVar = ($entitiesQuote !== false) ? $entitiesVar.', '.$entitiesQuote : $entitiesVar;
         $entities = "htmlentities({$entitiesVar})";
 
         return $entities;
@@ -456,7 +471,7 @@ EOT;
     */
     public function getPhpCodeHtmlspecialchars($specialVar, $specialQuote = false)
     {
-        $specialVar = $specialQuote !== false ? $specialVar.', '.$specialQuote : $specialVar;
+        $specialVar = ($specialQuote !== false) ? $specialVar.', '.$specialQuote : $specialVar;
         $specialchars = "htmlspecialchars({$specialVar})";
 
         return $specialchars;

@@ -29,6 +29,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class AdminObjects extends TDMCreateFile
 {
     /*
+    * @var string
+    */
+    protected $phpcode;
+	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -39,6 +44,7 @@ class AdminObjects extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
+		$this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*

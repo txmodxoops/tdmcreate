@@ -133,7 +133,7 @@ class AdminPermissions extends TDMCreateFile
                                         "\$permName = '{$moduleDirname}_view';",
                                         "\$permDesc = {$language}PERMISSIONS_VIEW_DESC;", ), );
 
-        $contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, true);
+        $contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, true, false, "\t");
 
         return $this->phpcode->getPhpCodeSwitch('op', $contentSwitch);
     }
@@ -175,21 +175,21 @@ class AdminPermissions extends TDMCreateFile
 
         $ret = $this->xoopscode->getXoopsCodeGetVar('moduleId', 'xoopsModule', 'mid');
         $ret .= $this->xoopscode->getXoopsCodeGroupPermForm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
-        $foreach1 = "\t".$this->xoopscode->getXoopsCodeAddItem('permform', '$gPermId', '$gPermName');
-        $if1 = $this->phpcode->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1);
-        $if1 .= "\t".$this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
+        $foreach1 = $this->xoopscode->getXoopsCodeAddItem('permform', '$gPermId', '$gPermName');
+        $if1 = $this->phpcode->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
+        $if1 .= $this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
         $else = $this->xoopscode->getXoopsCodeObjHandlerCount($tableName);
         $else .= $this->xoopscode->getXoopsCodeObjHandlerAll($tableName, $fieldMain);
         $getVar1 = $this->xoopscode->getXoopsCodeGetVar('', "{$tableName}All[\$i]", $fieldId, true);
         $getVar2 = $this->xoopscode->getXoopsCodeGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
-        $foreach2 = $this->xoopscode->getXoopsCodeAddItem('permform', $getVar1, $getVar2);
-        $else .=  $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach2);
+        $foreach2 = $this->xoopscode->getXoopsCodeAddItem('permform', $getVar1, $getVar2)."\r";
+        $else .=  $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach2, "\t");
         $if2 = $this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
         $elseInter = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '?op=new', '3', "{$language}NO_PERMISSIONS_SET");
         $elseInter .= $this->getSimpleString("\texit();");
-        $else .= "\t".$this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter);
+        $else .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter);
 
-        $ret .= "\t".$this->phpcode->getPhpCodeConditions('$op', ' == ', "'global'", $if1, $else);
+        $ret .= $this->phpcode->getPhpCodeConditions('$op', ' == ', "'global'", $if1, $else);
         $ret .= $this->phpcode->getPhpCodeUnset('permform');
 
         return $ret;

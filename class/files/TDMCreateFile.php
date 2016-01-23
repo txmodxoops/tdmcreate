@@ -550,17 +550,6 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-     * @public function getRemoveCarriageReturn
-     * @param $string     
-     *
-     * @return string
-     */
-    public function getRemoveCarriageReturn($string)
-    {
-        return str_replace(array("\n", "\r"), '', $string);
-    }
-
-    /*
     *  @public function getHeaderFilesComments
     *  @param string $module
     *  @param string $fileName
