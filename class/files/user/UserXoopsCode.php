@@ -71,6 +71,6 @@ class UserXoopsCode extends TDMCreateFile
     */
     public function getUserHeaderTpl($moduleDirname, $tableName = 'index')
     {
-		return "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl'\n;";
-    }    
+        return "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl'\n;";
+    }
 }

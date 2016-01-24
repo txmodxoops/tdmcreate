@@ -32,8 +32,8 @@ class AdminObjects extends TDMCreateFile
     * @var string
     */
     protected $phpcode;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -43,8 +43,7 @@ class AdminObjects extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-		$this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -62,40 +61,8 @@ class AdminObjects extends TDMCreateFile
         }
 
         return $instance;
-    }
-
-    /*
-    *  @public function getSimpleSetVar
-    *  @param string $tableName
-    *  @param string $fieldName
-    *  @return string
-    */
-    public function getSimpleSetVar($tableName, $fieldName)
-    {
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        \${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getSetVarNumb
-    *  @param string $tableName
-    *  @param string $fieldName
-    *  @return string
-    */
-    public function getSetVarNumb($tableName, $fieldName)
-    {
-        $ret = <<<EOT
-        // Set Var {$fieldName}
-        \${$tableName}Obj->setVar('{$fieldName}', isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0);\n
-EOT;
-
-        return $ret;
-    }
-
+    }    
+    
     /*
     *  @public function getTextDateSelectSetVar
     *  @param string $tableName
