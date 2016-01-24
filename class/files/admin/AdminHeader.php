@@ -38,7 +38,6 @@ class AdminHeader extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
@@ -154,8 +153,8 @@ class AdminHeader extends TDMCreateFile
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getAdminHeader($moduleDirname);
 
-        $this->tdmcfile->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

@@ -70,7 +70,7 @@ class TDMCreatePhpCode
     *  @public function getPhpCodeGlobalsVariables
     *  @param $type
     *  @param $var
-	*
+    *
     *  @return string
     */
     public function getPhpCodeGlobalsVariables($type = 'REQUEST', $var = '')
@@ -102,8 +102,8 @@ class TDMCreatePhpCode
 
         return $ret;
     }
-	
-	/*
+
+    /*
      * @public function getPhpCodeRemoveCarriageReturn
      * @param $string     
      *
@@ -241,7 +241,7 @@ EOT;
      * @param $content
      * @param $value
      * @param $operator
-	 *  @param $t
+     *  @param $t
      *
      * @return string
      */
@@ -261,7 +261,7 @@ EOT;
      *
      *  @param $op
      *  @param $content
-	 *  @param $t
+     *  @param $t
      *
      *  @return string
      */
@@ -283,7 +283,7 @@ EOT;
      *  @param $cases
      *  @param $defaultAfterCase
      *  @param $default
-	 *  @param $t
+     *  @param $t
      *
      *  @return string
      */

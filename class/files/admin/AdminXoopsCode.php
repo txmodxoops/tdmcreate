@@ -26,13 +26,13 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  * Class AdminXoopsCode.
  */
 class AdminXoopsCode
-{    	
-	/*
+{
+    /*
     * @var string
     */
     private $xoopscode;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,7 +42,7 @@ class AdminXoopsCode
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();
-		$this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -66,7 +66,7 @@ class AdminXoopsCode
      *  @public function getAdminTemplateMain
      *  @param $moduleDirname
      *  @param $tableName
-	 *
+     *
      *  @return string
      */
     public function getAdminTemplateMain($moduleDirname, $tableName)
@@ -78,20 +78,20 @@ class AdminXoopsCode
      *  @public function getAdminTemplateMain
      *  @param $language
      *  @param $tableName
-	 *  @param $stuTableSoleName
+     *  @param $stuTableSoleName
      *  @param $type
-	 *
+     *
      *  @return string
      */
     public function getAdminItemButton($language, $tableName, $stuTableSoleName, $op = '?op=new', $type = 'add')
     {
         $stuType = strtoupper($type);
-		$adminMenu = '$adminMenu->addItemButton(';
-		if($type === 'add') {
-			$ret = $adminMenu."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
-		} else {
-			$ret = $adminMenu."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
-		}
+        $adminMenu = '$adminMenu->addItemButton(';
+        if ($type === 'add') {
+            $ret = $adminMenu."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+        } else {
+            $ret = $adminMenu."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
+        }
 
         return $ret;
     }
@@ -104,49 +104,33 @@ class AdminXoopsCode
      *  @return string
      */
     public function getAdminAddNavigation($tableName)
-    {        
+    {
         return "\$adminMenu->addNavigation('{$tableName}.php')";
     }
-
-    /**
-     *  @public function getAdminObjHandlerCreate
-     *
-     *  @param string $tableName
-     *
-     *  @return string
-     */
-    public function getAdminObjHandlerCreate($tableName)
-    {
-        $ret = <<<EOT
-        \${$tableName}Obj =& \${$tableName}Handler->create();\n
-EOT;
-
-        return $ret;
-    }
-
+    
     /*
-    *  @public function getXoopsCodeAddInfoBox
+    *  @public function getAdminXoopsCodeAddInfoBox
     *  @param $language
     *  
     *  @return string
     */
-    public function getXoopsCodeAddInfoBox($language)
+    public function getAdminXoopsCodeAddInfoBox($language)
     {
         return "\$adminMenu->addInfoBox({$language});\n";
     }
 
     /*
-    *  @public function getXoopsCodeAddInfoBoxLine
+    *  @public function getAdminXoopsCodeAddInfoBoxLine
     *  @param $language
     *  @param $label
     *  @param $var
     *  
     *  @return string
     */
-    public function getXoopsCodeAddInfoBoxLine($language, $label = '', $var = '')
+    public function getAdminXoopsCodeAddInfoBoxLine($language, $label = '', $var = '')
     {
         $aMenu = '$adminMenu->addInfoBoxLine(';
-		if ($var != '') {
+        if ($var != '') {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>');\n";
@@ -156,37 +140,37 @@ EOT;
     }
 
     /*
-    *  @public function getXoopsCodeAddConfigBoxLine
+    *  @public function getAdminXoopsCodeAddConfigBoxLine
     *  @param $language
     *  @param $label
     *  @param $var
     *  
     *  @return string
     */
-    public function getXoopsCodeAddConfigBoxLine($language, $label = '', $var = '')
+    public function getAdminXoopsCodeAddConfigBoxLine($language, $label = '', $var = '')
     {
         $aMenu = '$adminMenu->addConfigBoxLine(';
-		if ($var != '') {
+        if ($var != '') {
             $ret = $aMenu."{$language}, '{$label}', {$var});\n";
         } else {
             $ret = $aMenu."{$language}, '{$label}');\n";
         }
 
         return $ret;
-    }    
-    
+    }
+
     /*
-    *  @public function getXoopsCodeImageListSetVar
+    *  @public function getAdminXoopsCodeImageListSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
+    public function getAdminXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
     {
         $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->xoopscode->getXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
+        $ret .= $this->xoopscode->getAdminXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
         $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
         $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
@@ -202,18 +186,18 @@ EOT;
     }
 
     /*
-    *  @public function getXoopsCodeUploadImageSetVar
+    *  @public function getAdminXoopsCodeUploadImageSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
+    public function getAdminXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_IMAGE_PATH", $tableName, $moduleDirname);
+        $ret .= $this->getAdminXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_IMAGE_PATH", $tableName, $moduleDirname);
 
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
         $ifelse = "\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);\n";
@@ -232,24 +216,24 @@ EOT;
     }
 
     /*
-    *  @public function getXoopsCodeFileSetVar
+    *  @public function getAdminXoopsCodeFileSetVar
     *  @param $moduleDirname
     *  @param $tableName
     *  @param $fieldName
     *  @param $formatUrl
     *  @return string
     */
-    public function getXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false)
+    public function getAdminXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         if ($formatUrl) {
-            $ret = $this->getXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
+            $ret = $this->getAdminXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
             $ret .= $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         } else {
             $ret = $this->phpcode->getPhpCodeCommentLine('Set Var', $fieldName);
         }
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->getXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
+        $ret .= $this->getAdminXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
         $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
         if ($formatUrl) {
             $ifelse = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
@@ -314,83 +298,8 @@ EOT;
         }
 
         return $ret;
-    }
-
-    /**
-     *  @public function getAdminXoopsCodeXoopsSecurity
-     *
-     *  @param $tableName
-     *
-     *  @return string
-     */
-    public function getAdminXoopsCodeXoopsSecurity($tableName)
-    {
-        $ret = <<<EOT
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getAdminXoopsCodeInsertData
-    *  @param $tableName
-    *  @param $language
-    *  @return string
-    */
-    public function getAdminXoopsCodeInsertData($tableName, $language)
-    {
-        $ret = <<<EOT
-        // Insert Data
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-			redirect_header('{$tableName}.php?op=list', 2, {$language}FORM_OK);
-        }\n
-EOT;
-
-        return $ret;
-    }
-
-    /**
-     *  @public function getAdminXoopsCodeGetFormError
-     *
-     *  @param $tableName
-     *
-     *  @return string
-     */
-    public function getAdminXoopsCodeGetFormError($tableName)
-    {
-        $ret = <<<EOT
-        // Get Form
-        \$GLOBALS['xoopsTpl']->assign('error', \${$tableName}Obj->getHtmlErrors());
-        \$form =& \${$tableName}Obj->getForm();
-        \$GLOBALS['xoopsTpl']->assign('form', \$form->render());\n
-EOT;
-
-        return $ret;
-    }
-
-    /**
-     *  @public function getAdminXoopsCodeGetFormId
-     *
-     *  @param string $tableName
-     *  @param string $fieldId
-     *
-     *  @return string
-     */
-    public function getAdminXoopsCodeGetFormId($tableName, $fieldId)
-    {
-        $ret = <<<EOT
-        // Get Form
-        \${$tableName}Obj = \${$tableName}Handler->get(\${$fieldId});
-        \$form = \${$tableName}Obj->getForm();
-        \$GLOBALS['xoopsTpl']->assign('form', \$form->render());\n
-EOT;
-
-        return $ret;
-    }
-
+    }    
+    
     /**
      *  @public function getAdminXoopsCodeGetObjHandlerId
      *
@@ -406,65 +315,5 @@ EOT;
 EOT;
 
         return $ret;
-    }
-
-    /*
-    *  @public function getAdminXoopsCodeDelete
-    *  @param string $tableName
-    *  @param string $language
-    *  @param string $fieldId
-    *  @param string $fieldMain
-    *  @return string
-    */
-    public function getAdminXoopsCodeDelete($tableName, $language, $fieldId, $fieldMain)
-    {
-        $ret = <<<EOT
-    case 'delete':
-        \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
-        if (isset(\$_REQUEST['ok']) && 1 == \$_REQUEST['ok']) {
-            if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-                redirect_header('{$tableName}.php', 3, implode(', ', \$GLOBALS['xoopsSecurity']->getErrors()));
-            }
-            if (\${$tableName}Handler->delete(\${$tableName}Obj)) {
-                redirect_header('{$tableName}.php', 3, {$language}FORMDELOK);
-            } else {
-                echo \${$tableName}Obj->getHtmlErrors();
-            }
-        } else {
-            xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$fieldId}, 'op' => 'delete'), \$_SERVER['REQUEST_URI'], sprintf({$language}FORMSUREDEL, \${$tableName}Obj->getVar('{$fieldMain}')));
-        }
-    break;\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getAdminXoopsCodeUpdate
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $language
-    *  @param string $fieldId
-    *  @param string $fieldMain
-    *  @return string
-    */
-    public function getAdminXoopsCodeUpdate($moduleDirname, $tableName, $language, $fieldId, $fieldMain)
-    {
-        $upModuleName = strtoupper($moduleDirname);
-        $ret = <<<EOT
-    case 'update':
-        if (isset(\${$fieldId})) {
-            \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});
-        }
-        \${$tableName}Obj->setVar("\${$tableName}_display", \$_POST["\${$tableName}_display"]);
-
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header("\${$tableName}.php", 3, _AM_{$upModuleName}_FORMOK);
-        }
-        echo \${$tableName}Obj->getHtmlErrors();
-    break;\n
-EOT;
-
-        return $ret;
-    }
+    }    
 }
