@@ -107,7 +107,7 @@ class AdminXoopsCode
     {
         return "\$adminMenu->addNavigation('{$tableName}.php')";
     }
-    
+
     /*
     *  @public function getAdminXoopsCodeAddInfoBox
     *  @param $language
@@ -298,8 +298,8 @@ class AdminXoopsCode
         }
 
         return $ret;
-    }    
-    
+    }
+
     /**
      *  @public function getAdminXoopsCodeGetObjHandlerId
      *
@@ -315,5 +315,5 @@ class AdminXoopsCode
 EOT;
 
         return $ret;
-    }    
+    }
 }

@@ -61,8 +61,8 @@ class AdminObjects extends TDMCreateFile
         }
 
         return $instance;
-    }    
-    
+    }
+
     /*
     *  @public function getTextDateSelectSetVar
     *  @param string $tableName
