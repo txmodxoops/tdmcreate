@@ -102,18 +102,18 @@ class AdminIndex extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeCommentLine('Template Index');
         $ret .= $this->adminxoopscode->getAdminTemplateMain("{$moduleDirname}", 'index');
         $ret .= $this->phpcode->getPhpCodeCommentLine('InfoBox Statistics');
-        $ret .= $this->adminxoopscode->getXoopsCodeAddInfoBox($language.'STATISTICS');
+        $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBox($language.'STATISTICS');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Info elements');
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
             $stuTableName = $languageThereAre.strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->adminxoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}", true);
+            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}", true);
         }
 
         if ($tableName == null) {
-            $ret .= $this->adminxoopscode->getXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0', true);
+            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0', true);
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Upload Folders');
@@ -128,8 +128,8 @@ class AdminIndex extends TDMCreateFile
             }
             $ret .= $this->getSimpleString(');');
             $ret .= $this->getCommentLine('Uploads Folders Created');
-            $boxLine = "\t".$this->adminxoopscode->getXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
-            $boxLine .= "\t".$this->adminxoopscode->getXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
+            $boxLine = "\t".$this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
+            $boxLine .= "\t".$this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
             $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
         $ret .= $this->getCommentLine('Render Index');

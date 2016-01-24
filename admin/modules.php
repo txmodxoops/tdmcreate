@@ -71,8 +71,8 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());		
-		
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+
         $modulesObj = &$tdmcreate->getHandler('modules')->create();
         $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());

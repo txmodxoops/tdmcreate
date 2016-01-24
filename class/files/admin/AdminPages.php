@@ -28,20 +28,18 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class AdminPages extends TDMCreateFile
 {
     /*
-    * @var string
-    */
+     * @var string
+     */
     private $adminxoopscode;
 
     /*
-    * @var string
-    */
+     * @var string
+     */
     private $t2 = "\t\t";
 
     /*
-    *  @public function constructor
-    *  @param null
-    */
-    /**
+     * @public function constructor
+     * @param null    
      *
      */
     public function __construct()
@@ -54,10 +52,9 @@ class AdminPages extends TDMCreateFile
     }
 
     /*
-    *  @static function &getInstance
-    *  @param null
-    */
-    /**
+     * @static function &getInstance
+     * @param null 
+     *
      * @return AdminPages
      */
     public static function &getInstance()
@@ -72,8 +69,8 @@ class AdminPages extends TDMCreateFile
 
     /*
     *  @public function write
-    *  @param string $module
-    *  @param string $table
+    *  @param $module
+    *  @param $table
     */
     public function write($module, $table)
     {
@@ -83,8 +80,8 @@ class AdminPages extends TDMCreateFile
 
     /*
     *  @private function getAdminPagesHeader
-    *  @param string $moduleDirname
-    *  @param string $tableName
+    *  @param $moduleDirname
+    *  @param $tableName
     *  @param $fieldId
     *  @return string
     */
@@ -158,23 +155,23 @@ class AdminPages extends TDMCreateFile
         $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
 
         $ret .= $this->t2.$this->getCommentLine('Table view');
-		$contentForeach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName);
-		$contentForeach .= $this->xoopscode->getXoopsCodeXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}");
-		$contentForeach .= $this->phpcode->getPhpCodeUnset($tableSoleName);
-		$condIf = $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach);
-		$condIf .= $this->xoopscode->getXoopsCodePageNav($tableName);
-		$condElse = $this->xoopscode->getXoopsCodeTplAssign('error', "{$language}THEREARENT_{$stuTableName}");
-		$ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, $condElse, "\t\t");
-		
+        $contentForeach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName);
+        $contentForeach .= $this->xoopscode->getXoopsCodeXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}");
+        $contentForeach .= $this->phpcode->getPhpCodeUnset($tableSoleName);
+        $condIf = $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach);
+        $condIf .= $this->xoopscode->getXoopsCodePageNav($tableName);
+        $condElse = $this->xoopscode->getXoopsCodeTplAssign('error', "{$language}THEREARENT_{$stuTableName}");
+        $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, $condElse, "\t\t");
+
         return $ret;
     }
 
     /*
     *  @private function getAdminPagesNew
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldInForm
-    *  @param string $language
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $fieldInForm
+    *  @param $language
     *  @return string
     */
     private function getAdminPagesNew($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $language)
@@ -191,22 +188,22 @@ class AdminPages extends TDMCreateFile
             $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableSoleName, '', 'list');
             $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()');
         }
-		$ret .= $this->t2.$this->getCommentLine('Get Form');
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
-        
+        $ret .= $this->t2.$this->getCommentLine('Get Form');
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
+
         return $ret;
     }
 
     /*
     *  @private function getAdminPagesSave
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $language
-    *  @param string $fields
-    *  @param string $fieldId
-    *  @param string $fieldMain
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $language
+    *  @param $fields
+    *  @param $fieldId
+    *  @param $fieldMain
     *  @return string
     */
     private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
@@ -214,7 +211,7 @@ class AdminPages extends TDMCreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ucfTableName = ucfirst($tableName);
 
-        $ret = $this->phpcode->getPhpCodeCommentLine('Set Vars');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
         $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
         $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
@@ -225,7 +222,7 @@ class AdminPages extends TDMCreateFile
         $contentIf = $this->xoopscode->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
         $contentElse = $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
         $ret .= $this->phpcode->getPhpCodeConditions($isset, '', '', $contentIf, $contentElse, "\t");
-
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set Vars');
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldType = $fields[$f]->getVar('field_type');
@@ -256,7 +253,6 @@ class AdminPages extends TDMCreateFile
                         break;
                     default:
                         if ($fieldType == 2 || $fieldType == 7 || $fieldType == 8) {
-							
                             $ret .= $this->xoopscode->getXoopsCodeSetVar($tableName, $fieldName, "isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0");
                         } else {
                             $ret .= $this->xoopscode->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
@@ -265,26 +261,26 @@ class AdminPages extends TDMCreateFile
                 }
             }
         }
-		$ret .= $this->t2.$this->getCommentLine('Insert Data');
-		$insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName);
+        $ret .= $this->t2.$this->getCommentLine('Insert Data');
+        $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
         $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK");
         $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
-		$ret .= $this->t2.$this->getCommentLine('Get Form');
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
-		
+        $ret .= $this->t2.$this->getCommentLine('Get Form');
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
+
         return $ret;
     }
 
     /*
     *  @private function getAdminPagesEdit
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $tableFieldname
-    *  @param string $language
-    *  @param string $fieldId
-    *  @param string $fieldInForm
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $tableFieldname
+    *  @param $language
+    *  @param $fieldId
+    *  @param $fieldInForm
     *  @return string
     */
     private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm)
@@ -307,20 +303,20 @@ class AdminPages extends TDMCreateFile
             $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableSoleName, '', 'list');
             $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()');
         }
-		$ret .= $this->t2.$this->getCommentLine('Get Form');
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
-		$ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
-        
+        $ret .= $this->t2.$this->getCommentLine('Get Form');
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
+
         return $ret;
     }
 
     /*
     *  @private function getAdminPagesDelete
-    *  @param string $tableName
-    *  @param string $language
-    *  @param string $fieldId
-    *  @param string $fieldMain
+    *  @param $tableName
+    *  @param $language
+    *  @param $fieldId
+    *  @param $fieldMain
     *  @return string
     */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain)
@@ -330,22 +326,19 @@ class AdminPages extends TDMCreateFile
 
     /*
     *  @private function getAdminPagesUpdate
-    *  @param string $language
-    *  @param string $tableName
-    *  @param string $fieldId
-    *  @param string $fieldName
+    *  @param $language
+    *  @param $tableName
+    *  @param $fieldId
+    *  @param $fieldName
     *  @return string
     */
     private function getAdminPagesUpdate($language, $tableName, $fieldId, $fieldName)
     {
-		return $this->xoopscode->getXoopsCodeUpdate($language, $tableName, $fieldId, $fieldName);
+        return $this->xoopscode->getXoopsCodeUpdate($language, $tableName, $fieldId, $fieldName);
     }
 
     /*
-    *  @public function render
-    *  @param null
-    */
-    /**
+     * @public function render    
      * @param $filename
      *
      * @return bool|string
@@ -383,7 +376,7 @@ class AdminPages extends TDMCreateFile
                         'new' => array($new),
                         'save' => array($save),
                         'edit' => array($edit),
-                        'delete' => array($delete) );
+                        'delete' => array($delete), );
         $content .= $this->getAdminPagesSwitch($cases);
         $content .= $this->getInclude('footer');
         //

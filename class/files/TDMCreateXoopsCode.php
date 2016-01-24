@@ -31,8 +31,8 @@ class TDMCreateXoopsCode
     * @var mixed
     */
     private $tdmcfile = null;
-	
-	/*
+
+    /*
     * @var mixed
     */
     private $phpcode = null;
@@ -47,7 +47,7 @@ class TDMCreateXoopsCode
     public function __construct()
     {
         $this->tdmcfile = TDMCreateFile::getInstance();
-		$this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -744,12 +744,12 @@ EOT;
 
         return $ret;
     }
-	
-	/**
+
+    /**
      *  @public function getXoopsCodeGetValues
      *
      *  @param $tableName
-	 *  @param $tableSoleName
+     *  @param $tableSoleName
      *
      *  @return string
      */
@@ -867,7 +867,7 @@ EOT;
     public function getXoopsCodeXoopsConfirm($tableName, $language, $fieldId, $fieldMain, $options = 'delete')
     {
         $stuOptions = strtoupper($options);
-		$ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
         $ret = "xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => {$options}), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_{$stuOptions}, \${$tableName}Obj->getVar('{$fieldMain}')));\n";
 
         return $ret;
@@ -926,8 +926,8 @@ EOT;
     public function getXoopsCodeGetForm($left, $tableName, $obj = '')
     {
         $ucfTableName = ucfirst($tableName);
-		
-		return "\${$left} =& \${$tableName}{$obj}->getForm{$ucfTableName}();\n";
+
+        return "\${$left} =& \${$tableName}{$obj}->getForm{$ucfTableName}();\n";
     }
 
     /**
@@ -944,10 +944,10 @@ EOT;
     public function getXoopsCodeGet($tableName, $var, $obj = '', $isHandler = false, $isParam = false)
     {
         $handler = $isHandler === false ? '' : 'Handler';
-		if ($isParam) {
-            $ret = "\${$tableName}{$handler}->get(\${$var})";           
+        if ($isParam) {
+            $ret = "\${$tableName}{$handler}->get(\${$var})";
         } else {
-            $ret = "\${$tableName}{$obj} =& \${$tableName}{$handler}->get(\${$var});\n";            
+            $ret = "\${$tableName}{$obj} =& \${$tableName}{$handler}->get(\${$var});\n";
         }
 
         return $ret;
@@ -959,14 +959,14 @@ EOT;
      *  @param $tableName
      *  @param $var
      *  @param $obj
-	 *  @param $isHandler
+     *  @param $isHandler
      *
      *  @return string
      */
     public function getXoopsCodeInsert($tableName, $var, $obj = '', $isHandler = false)
     {
         $handler = $isHandler === false ? '' : 'Handler';
-		if ($obj != '') {
+        if ($obj != '') {
             $ret = "\${$tableName}{$handler}->insert(\${$var}{$obj})";
         } else {
             $ret = "\${$tableName}{$handler}->insert(\${$var})";
@@ -988,11 +988,11 @@ EOT;
     public function getXoopsCodeDelete($tableName, $var, $obj = '', $isHandler = false)
     {
         $handler = $isHandler === false ? '' : 'Handler';
-		if ($obj != '') {
-			$ret = "\${$tableName}{$handler}->delete(\${$var}{$obj})";
-		} else {
-			$ret = "\${$tableName}{$handler}->delete(\${$var})";
-		}
+        if ($obj != '') {
+            $ret = "\${$tableName}{$handler}->delete(\${$var}{$obj})";
+        } else {
+            $ret = "\${$tableName}{$handler}->delete(\${$var})";
+        }
 
         return $ret;
     }
@@ -1029,7 +1029,7 @@ EOT;
     public function getXoopsCodeCaseDelete($language, $tableName, $fieldId, $fieldMain)
     {
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-		$ret = $this->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
+        $ret = $this->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
 
         $reqOk = "\$_REQUEST['ok']";
         $isset = $this->phpcode->getPhpCodeIsset($reqOk);
@@ -1104,8 +1104,8 @@ EOT;
     public function getXoopsCodeUpdate($language, $tableName, $fieldId, $fieldName)
     {
         $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-		$get = $this->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
-		$isset = $this->phpcode->getPhpCodeIsset($ccFieldId);
+        $get = $this->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
+        $isset = $this->phpcode->getPhpCodeIsset($ccFieldId);
         $get = $this->getXoopsCodeHandler($tableName, $fieldId, true);
         $ret = $this->phpcode->getPhpCodeConditions($isset, '', '', $get);
         $ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
@@ -1187,19 +1187,19 @@ EOT;
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsCodePageNav
     *  @param $tableName
-	*
+    *
     *  @return string
     */
     public function getXoopsCodePageNav($tableName)
     {
         $condition = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
         $condition .= "\$pagenav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start', 'op=list&limit=' . \$limit);\n";
-		$condition .= $this->getXoopsCodeTplAssign('pagenav', "\$pagenav->renderNav(4)");
-		$ret = $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', "\$limit", $condition, false, "\t\t");
+        $condition .= $this->getXoopsCodeTplAssign('pagenav', '$pagenav->renderNav(4)');
+        $ret = $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, "\t\t");
 
         return $ret;
     }
