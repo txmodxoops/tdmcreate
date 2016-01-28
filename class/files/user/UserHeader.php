@@ -29,6 +29,21 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserHeader extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $usercode = null;
+
+    /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
+    * @var string
+    */
+    private $xoopscode;
+
+    /*
     *  @public function constructor
     *  @param null
     */

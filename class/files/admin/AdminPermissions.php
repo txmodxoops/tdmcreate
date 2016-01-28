@@ -29,6 +29,21 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class AdminPermissions extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
+    * @var mixed
+    */
+    private $xoopscode = null;
+
+    /*
+    * @var mixed
+    */
+    private $adminxoopscode = null;
+
+    /*
     *  @public function constructor
     *  @param null
     */

@@ -29,6 +29,21 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserPrint extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $usercode = null;
+
+    /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
+    * @var string
+    */
+    private $xoopscode;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -37,7 +52,10 @@ class UserPrint extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -188,8 +206,8 @@ EOT;
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserPrint($moduleDirname, $language);
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

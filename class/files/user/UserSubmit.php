@@ -29,6 +29,21 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserSubmit extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $usercode = null;
+
+    /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
+    * @var string
+    */
+    private $xoopscode;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -105,23 +120,14 @@ class UserSubmit extends TDMCreateFile
     }
 
     /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
+     * @public function getAdminPagesList
      * @param $tableName
      * @param $language
      *
      * @return string
      */
-    public function getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language)
+    public function getUserSubmitForm($tableName, $language)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableSoleName = strtoupper($tableSoleName);
-        $ucfTableName = ucfirst($tableName);
-
         $ret = $this->getCommentLine('Mavigation');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
@@ -197,19 +203,18 @@ class UserSubmit extends TDMCreateFile
     /*
      *  @private function getUserSubmitSwitch
      *  @param $moduleDirname
+     *  @param $tableId
+     *  @param $tableMid
      *  @param $tableName
      *  @param $tableSoleName
      *  @param $language
      *
      * @return string
      */
-    private function getUserSubmitSwitch($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
-        $table = $this->getTable();
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = array('form' => array($this->getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language)),
+        $cases = array('form' => array($this->getUserSubmitForm($tableName, $language)),
                     'save' => array($this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language)), );
 
         return $this->xoopscode->getXoopsCodeSwitch('op', $cases, true);
@@ -228,13 +233,15 @@ class UserSubmit extends TDMCreateFile
         $table = $this->getTable();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
         $tableCategory = $table->getVar('table_category');
         $tableSoleName = $table->getVar('table_solename');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitSwitch($moduleDirname, $tableName, $tableSoleName, $language);
+        $content .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         $content .= $this->getUserSubmitFooter($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

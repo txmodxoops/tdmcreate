@@ -29,6 +29,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserViewTag extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
     *  @public function constructor
     *  @param null
     */

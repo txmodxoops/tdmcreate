@@ -43,7 +43,6 @@ class UserXoopsVersion extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -125,45 +124,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getModVersionHeaderComment($comment)
     {
-        $ret = <<<EOT
-// ------------------- {$comment} ------------------- //
-EOT;
-
-        return $ret;
-    }
-
-    /**
-     * @private function getModVersionArrayElements
-     *
-     * @param $element
-     * @param $left
-     * @param $index
-     * @param $right
-     * @param $desc
-     * @param $arrayOptions
-     *
-     * @return string
-     */
-    private function getModVersionArrayElements($element = 1, $left, $index = '', $right = '', $desc = '', $arrayOptions = '')
-    {
-        $index = (is_string($index) && !empty($index)) ? "'{$index}'" : $index;
-        $right = (is_string($right) && !empty($right)) ? "'{$right}'" : $right;
-        $desc = is_string($desc) ? "'{$desc}'" : $desc;
-        if ($element == 1) {
-            $ret = "\$modversion['{$left}'] = {$desc};\n";
-        }
-        if ($element == 2) {
-            $ret = "\$modversion['{$left}'][{$index}] = {$desc};\n";
-        }
-        if ($element == 3) {
-            $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n";
-        }
-        if (($element == 3) && !empty($arrayOptions)) {
-            $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};";
-            $ret .= "\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n";
-        }
-
-        return $ret;
+        return "// ------------------- {$comment} ------------------- //";
     }
 
     /*
@@ -586,7 +547,7 @@ EOT;
             $fieldElement = $fields[$f]->getVar('field_element');
             if ($fieldElement == 4) {
                 $fieldName = $fields[$f]->getVar('field_name');
-                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                $rpFieldName = $this->getRightString($fieldName);
                 $ret .= <<<EOT
 // Editor
 xoops_load('xoopseditorhandler');
@@ -887,7 +848,7 @@ EOT;
                 $single = $tableName;
             }
         }
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $fieldParent = null;
         foreach (array_keys($fields) as $f) {
             $fieldMid = $fields[$f]->getVar('field_mid');
@@ -1083,8 +1044,8 @@ EOT;
         if (1 == $table->getVar('table_notifications')) {
             $content .= $this->getXoopsVersionNotifications($module, $language, $filename);
         }
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

@@ -141,14 +141,14 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false, $isPath = false)
     {
-        if ($once === false) {
-            if ($isPath === false) {
+        if ($once == false) {
+            if ($isPath == false) {
                 $ret = "include {$directory} .'/{$filename}.php';\n";
             } else {
                 $ret = "include {$directory};\n";
             }
         } else {
-            if ($isPath === false) {
+            if ($isPath == false) {
                 $ret = "include_once {$directory} .'/{$filename}.php';\n";
             } else {
                 $ret = "include_once {$directory};\n";
@@ -375,7 +375,7 @@ EOT;
     public function getPhpCodeArray($return, $left, $right = '', $isParam = false)
     {
         $array = ($right !== '') ? "{$left}, {$right}" : (($right !== '') && is_string($left) ? "{$left} => {$right}" : "{$left}");
-        if ($isParam === false) {
+        if ($isParam == false) {
             $ret = "\${$return} = array({$array});\n";
         } else {
             $ret = "array({$array})";
@@ -395,7 +395,7 @@ EOT;
     */
     public function getPhpCodeArrayMerge($return, $left, $right, $isParam = false)
     {
-        if ($isParam === false) {
+        if ($isParam == false) {
             $ret = "\${$return} = array_merge({$left}, {$right});\n";
         } else {
             $ret = "array_merge({$left}, {$right})";
@@ -457,7 +457,7 @@ EOT;
     */
     public function getPhpCodePregReplace($return, $exp, $str, $val, $isParam = false)
     {
-        if ($isParam === false) {
+        if ($isParam == false) {
             $ret = "\${$return} = preg_replace( '{$exp}', '{$str}', {$val});\n";
         } else {
             $ret = "preg_replace( '{$exp}', '{$str}', {$val})";
@@ -478,7 +478,7 @@ EOT;
     */
     public function getPhpCodePregMatch($return, $exp, $str, $val, $isParam = false)
     {
-        if ($isParam === false) {
+        if ($isParam == false) {
             $ret = "\${$return} = preg_match( '{$exp}', '{$str}', {$val});\n";
         } else {
             $ret = "preg_match( '{$exp}', '{$str}', {$val})";
@@ -499,7 +499,7 @@ EOT;
     */
     public function getPhpCodeStrReplace($left, $var, $str, $value, $isParam = false)
     {
-        if ($isParam === false) {
+        if ($isParam == false) {
             $ret = "\${$left} = str_replace( '{$var}', '{$str}', {$value});\n";
         } else {
             $ret = "str_replace( '{$var}', '{$str}', {$value})";
@@ -518,7 +518,7 @@ EOT;
     */
     public function getPhpCodeStripTags($left, $value, $isParam = false)
     {
-        if ($isParam === false) {
+        if ($isParam == false) {
             $ret = "\${$left} = strip_tags({$value});\n";
         } else {
             $ret = "strip_tags({$value})";
