@@ -29,6 +29,26 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserPages extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $usercode = null;
+
+    /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
+    * @var string
+    */
+    private $xoopscode;
+
+    /*
+    * @var string
+    */
+    private $tdmcfile;
+
+    /*
     *  @public function constructor
     *  @param null
     */

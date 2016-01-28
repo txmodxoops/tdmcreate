@@ -79,7 +79,7 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    protected $tdmcfile;
+    private $tdmcreate;
 
     /*
     *  @public function constructor

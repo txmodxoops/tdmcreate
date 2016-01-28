@@ -28,9 +28,14 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class AdminXoopsCode
 {
     /*
-    * @var string
+    * @var mixed
     */
-    private $xoopscode;
+    private $phpcode = null;
+
+    /*
+    * @var mixed
+    */
+    private $xoopscode = null;
 
     /*
     *  @public function constructor
@@ -310,10 +315,6 @@ class AdminXoopsCode
      */
     public function getAdminXoopsCodeGetObjHandlerId($tableName, $fieldId)
     {
-        $ret = <<<EOT
-        \${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n
-EOT;
-
-        return $ret;
+        return "\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
     }
 }

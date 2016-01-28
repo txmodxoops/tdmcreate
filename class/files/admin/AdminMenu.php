@@ -29,6 +29,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class AdminMenu extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $xoopscode = null;
+
+    /*
     *  @public function constructor
     *  @param null
     */

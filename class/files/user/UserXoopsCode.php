@@ -39,11 +39,6 @@ class UserXoopsCode
     private $xoopscode = null;
 
     /*
-    * @var string
-    */
-    protected $usercode;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -165,6 +160,36 @@ class UserXoopsCode
     {
         $cond = $this->xoopscode->getXoopsCodeTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
         $ret .= $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getUserModVersion
+    *  @param $array
+    *  
+    *  @return string
+    */
+    public function getUserModVersion($array = array(), $element = 1, $left = '', $index = '', $right = '', $desc = '', $arrayOptions = '')
+    {
+        $index = (is_string($index) && !empty($index)) ? "'{$index}'" : $index;
+        $right = (is_string($right) && !empty($right)) ? "'{$right}'" : $right;
+        $desc = is_string($desc) ? "'{$desc}'" : $desc;
+        foreach ($array as $key => $value) {
+            if ($element == 1) {
+                $ret = "\$modversion['{$left}'] = {$desc};\n";
+            }
+            if ($element == 2) {
+                $ret = "\$modversion['{$left}'][{$index}] = {$desc};\n";
+            }
+            if ($element == 3) {
+                $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n";
+            }
+            if (($element == 3) && !empty($arrayOptions)) {
+                $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};";
+                $ret .= "\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n";
+            }
+        }
 
         return $ret;
     }
