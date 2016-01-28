@@ -26,26 +26,27 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserBroken.
  */
-class UserBroken extends UserObjects
+class UserBroken extends TDMCreateFile
 {
     /*
-    *  @public function constructor
-    *  @param null
-    */
+     *  @public function constructor
+     *  @param null
+     */
     /**
      *
      */
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
-    *  @static function &getInstance
-    *  @param null
-    */
+     *  @static function &getInstance
+     *  @param null
+     */
     /**
      * @return UserBroken
      */
@@ -60,11 +61,11 @@ class UserBroken extends UserObjects
     }
 
     /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param $module
+     *  @param mixed $table
+     *  @param $filename
+     */
     /**
      * @param $module
      * @param $table
@@ -78,149 +79,133 @@ class UserBroken extends UserObjects
     }
 
     /*
-    *  @public function getUserBrokenHeader
-    *  @param null
-    */
+     *  @public function getUserBrokenHeader
+     *  @param null
+     */
     /**
      * @param $moduleDirname
      *
-     * @return string
+     * @return
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-\$op = XoopsRequest::getString('op', 'list');
-\${$fieldId} = XoopsRequest::getInt('{$fieldId}');
-// Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_broken.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';
-\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-
-// redirection if not permissions
-if (\$permSubmit == false) {
-    redirect_header('index.php', 2, _NOPERM);
-    exit();
-}
-//
-switch (\$op)
-{\n
-EOT;
+        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $ret = $this->getInclude();
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'list');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
+        $ret .= $this->getCommentLine('Template');
+        $ret .= $this->usercode->getUserTplMain($moduleDirname, 'broken');
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
+        $ret .= $this->getCommentLine('Redirection if not permissions');
+        $condIf = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', '_NOPERM');
+        $condIf .= $this->getSimpleString('exit();');
+        $ret .= $this->phpcode->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf, false);
 
         return $ret;
     }
 
     /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
-    /**
-     * @param $module
-     * @param $tableName
-     * @param $language
-     *
-     * @return string
-     */
-    public function getUserBrokenForm($module, $tableName, $language)
+     *  @public function getAdminPagesList
+      *  @param $tableName
+      *  @param $language     
+      *
+      *  @return
+      */
+    public function getUserBrokenForm($tableName, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
-        $ret = <<<EOT
-    case 'list':
-    default:
-        //navigation
-        \$navigation = {$language}SUBMIT_PROPOSER;
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
-        // reference
-        // title of page
-        \$title = {$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
-        \$title .= \$GLOBALS['xoopsModule']->name();
-        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
-        //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT_PROPOSER));
-        // Description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
-
-        // Create
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
-EOT;
+        $ret = $this->getCommentLine('Mavigation');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
+        $ret .= $this->getCommentLine('Title of page');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
+        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->usercode->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
+        $ret .= $this->getCommentLine('Form Create');
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
+        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
 
         return $ret;
     }
 
     /*
-    *  @public function getUserBrokenSave
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
+     *  @public function getUserBrokenSave
+     *  @param $moduleDirname
+     *  @param $tableName
+     */
     /**
      * @param $moduleDirname
      * @param $table_id
      * @param $tableName
      *
-     * @return string
+     * @return
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-        $ret = <<<EOT
-    case 'save':
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-		\$error = false;
-        \$errorMessage = '';
-        // Test first the validation
-        xoops_load("captcha");
-        \$xoopsCaptcha = XoopsCaptcha::getInstance();
-        if ( !\$xoopsCaptcha->verify() ) {
-            \$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';
-            \$error = true;
-        }\n
-EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
-        $ret .= <<<EOT
+        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
+        $ucfTableName = ucfirst($tableName);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
+        $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
+        $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
+        $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
+        $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '', '3', $implode);
+        $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
 
-        if (\$error == true){
-            \$xoopsTpl->assign('error_message', \$errorMessage);
-        } else {
-			if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-				redirect_header('index.php', 2, {$language}FORM_OK);
-			}
-		}
-        echo \${$tableName}Obj->getHtmlErrors();
-        \$form =& \${$tableName}Obj->getForm();
-        \$form->display();
-    break;\n
-EOT;
+        $ret .= $this->getSimpleString('$error = false;');
+        $ret .= $this->getSimpleString("\$errorMessage = '';");
+        $ret .= $this->getCommentLine('Test first the validation');
+        $ret .= $this->xoopscode->getXoopsCodeLoad('captcha');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsCaptcha();
+
+        $ret .= $this->phpcode->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', "\$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';\n\$error = true;\n", false, "\t");
+
+        $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
+
+        $condElse = $this->getCommentLine('Insert Data');
+        $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
+        $redirctHeader = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
+        $condElse .= $this->phpcode->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t");
+        $assigne = $this->xoopscode->getXoopsCodeTplAssign('error_message', '$errorMessage');
+        $ret .= $this->phpcode->getPhpCodeConditions('$error', ' == ', 'true', $assigne, $condElse, "\t");
+
+        $ret .= $this->getCommentLine('Get Form Error');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');
 
         return $ret;
     }
 
     /*
-    *  @public function getUserBrokenFooter
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    public function getUserBrokenFooter()
+      *  @private function getUserSubmitSwitch
+      *  @param $moduleDirname
+     *  @param $tableName
+     *  @param $tableSoleName
+     *  @param $language
+      *
+      * @return
+      */
+    private function getUserBrokenSwitch($moduleDirname, $tableName, $language)
     {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
+        $table = $this->getTable();
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $fields = $this->getTableFields($tableMid, $tableId);
+        $cases = array('form' => array($this->getUserBrokenForm($tableName, $language)),
+                    'save' => array($this->getUserBrokenSave($moduleDirname, $fields, $tableName, $language)), );
 
-        return $ret;
+        return $this->xoopscode->getXoopsCodeSwitch('op', $cases, true);
     }
 
     /*
-    *  @public function render
-    *  @param null
-    */
+     *  @public function render
+     *  @param null
+     */
     /**
      * @return bool|string
      */
@@ -233,15 +218,15 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserBrokenHeader($moduleDirname, $fields);
-        $content .= $this->getUserBrokenForm($module, $tableName, $language);
-        $content .= $this->getUserBrokenSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserBrokenFooter();
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $language);
+        $content .= $this->getInclude('footer');
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

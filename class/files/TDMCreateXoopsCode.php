@@ -38,6 +38,11 @@ class TDMCreateXoopsCode
     private $phpcode = null;
 
     /*
+    * @var string
+    */
+    protected $xoopscode;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -68,6 +73,23 @@ class TDMCreateXoopsCode
     }
 
     /*
+     *  @public function getXoopsCodeSwitch
+     *  @param $op
+     *  @param $cases
+     *  @param $defaultAfterCase
+     *  @param $default
+     *  @param $tabulation
+     *
+     * @return string
+     */
+    public function getXoopsCodeSwitch($op = '', $cases = array(), $defaultAfterCase = false, $default = false, $t = '')
+    {
+        $contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
+
+        return $this->phpcode->getPhpCodeSwitch($op, $contentSwitch, $t);
+    }
+
+    /*
     *  @public function getXoopsCodeEqualsOperator
     *  @param $left
     *  @param $right
@@ -77,27 +99,12 @@ class TDMCreateXoopsCode
     public function getXoopsCodeEqualsOperator($left, $right, $ref = false)
     {
         if (false === $ref) {
-            $ret = "{$left} = {$right};\n";
+            $ret = "{$left}= {$right};\n";
         } else {
-            $ret = "{$left} =& {$right};\n";
+            $ret = "{$left}=& {$right};\n";
         }
 
         return $ret;
-    }
-
-    /*
-     *  @private function getXoopsCodeSwitch
-     *  @param $op
-     *  @param $listCases
-     *  @param $defaultList
-     *
-     * @return string
-     */
-    private function getXoopsCodeSwitch($op = 'op', $listCases = array(), $defaultList = false)
-    {
-        $switch = $this->phpcode->getPhpCodeCaseSwitch(array($listCases), $defaultList);
-
-        return $this->phpcode->getPhpCodeSwitch($op, $switch);
     }
 
     /*
@@ -244,6 +251,16 @@ class TDMCreateXoopsCode
     }
 
     /*
+    *  @public function getXoopsCodeXoopsCaptcha
+    *  @param null
+    *  @return string
+    */
+    public function getXoopsCodeXoopsCaptcha()
+    {
+        return "\$xoopsCaptcha = XoopsCaptcha::getInstance();\n";
+    }
+
+    /*
     *  @public function getXoopsCodeGetConfig
     *  @param $moduleDirname
     *  @param $name
@@ -275,6 +292,21 @@ class TDMCreateXoopsCode
     public function getXoopsCodeGetVarAll($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         return "\${$lpFieldName}['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n";
+    }
+
+    /*
+    *  @public function getXoopsHandlerInstance
+    *  @param $moduleDirname
+    *  
+    *  @return string
+    */
+    public function getXoopsHandlerInstance($moduleDirname)
+    {
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ret = "// Get instance of module\n";
+        $ret .= "\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n";
+
+        return $ret;
     }
 
     /*
@@ -653,13 +685,13 @@ EOT;
      *
      *  @param $directory
      *  @param $filename
-     *  @param $condition
+     *  @param $isParam
      *
      *  @return string
      */
-    public function getXoopsCodePath($directory, $filename, $condition = false)
+    public function getXoopsCodePath($directory, $filename, $isParam = false)
     {
-        if ($condition === false) {
+        if ($isParam === false) {
             $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php');\n";
         } else {
             $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php')";
@@ -683,15 +715,16 @@ EOT;
     /**
      *  @public function getXoopsCodeGetInfo
      *
+     *  @param $left
      *  @param $string
      *  @param $isParam
      *
      *  @return string
      */
-    public function getXoopsCodeGetInfo($string, $isParam = false)
+    public function getXoopsCodeGetInfo($left = '', $string, $isParam = false)
     {
         if ($isParam === false) {
-            $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
+            $ret = "\${$left} = \$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
         } else {
             $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}')";
         }
@@ -753,10 +786,26 @@ EOT;
      *
      *  @return string
      */
-    public function getXoopsCodeGetValues($tableName, $tableSoleName)
+    public function getXoopsCodeGetValues($tableName, $tableSoleName, $index = 'i')
     {
         $ucfTableName = ucfirst($tableName);
-        $ret = "\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();\n";
+        $ret = "\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
+
+        return $ret;
+    }
+
+    /**
+     *  @public function getXoopsCodeObjectTree
+     *
+     *  @param $tableName
+     *  @param $fieldId
+     *  @param $fieldParent
+     *
+     *  @return string
+     */
+    public function getXoopsCodeObjectTree($tableName, $fieldId, $fieldParent)
+    {
+        $ret = "\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');\n";
 
         return $ret;
     }
@@ -871,6 +920,17 @@ EOT;
         $ret = "xoops_confirm(array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => {$options}), \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_{$stuOptions}, \${$tableName}Obj->getVar('{$fieldMain}')));\n";
 
         return $ret;
+    }
+
+    /*
+    *  @public function getXoopsCodeAddStylesheet
+    *  @param $style
+    *  
+    *  @return string
+    */
+    public function getXoopsCodeAddStylesheet($style = 'style')
+    {
+        return "\$GLOBALS['xoTheme']->addStylesheet( \${$style}, null );\n";
     }
 
     /*
@@ -1181,7 +1241,7 @@ EOT;
             } elseif (15 == $fieldElement) {
                 $ret .= $this->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
             } else {
-                $ret .= $this->getXoopsCodeSimpleSetVar($tableName, $fieldName);
+                $ret .= $this->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
             }
         }
 
@@ -1196,7 +1256,8 @@ EOT;
     */
     public function getXoopsCodePageNav($tableName)
     {
-        $condition = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
+        $condition = $this->phpcode->getPhpCodeCommentLine('Display Navigation');
+        $condition .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
         $condition .= "\$pagenav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start', 'op=list&limit=' . \$limit);\n";
         $condition .= $this->getXoopsCodeTplAssign('pagenav', '$pagenav->renderNav(4)');
         $ret = $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, "\t\t");

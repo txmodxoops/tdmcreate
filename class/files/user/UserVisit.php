@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserVisit.
  */
-class UserVisit extends UserObjects
+class UserVisit extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,8 +38,9 @@ class UserVisit extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -77,37 +78,73 @@ class UserVisit extends UserObjects
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
     /**
-     * @param $module
-     * @param $tableName
-     * @param $language
+     * @private function getUserVisitHeader
+     *
+     * @param $table
      *
      * @return string
      */
-    public function getUserVisit($moduleDirname, $tableName, $tableSoleName, $fields, $language)
+    private function getUserVisitHeader($table, $fields)
     {
-        $stuModuleName = strtoupper($moduleDirname);
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-        $fieldMain = $this->userobjects->getUserSaveFieldMain($fields);
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
-\${$ccFieldId} = XoopsRequest::getInt('{$fieldId}');
-\$keywords = array();
+        $ret = $this->getInclude();
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId = $fieldName;
+            }
+            if (1 == $fields[$f]->getVar('field_parent')) {
+                $fieldPid = $fieldName;
+            }
+        }
+        if ($table->getVar('table_category') == 1) {
+            $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
+            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
+        }
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '0', 'Int');
 
-\$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', strip_tags(\$view_{$tableSoleName}->getVar('{$fieldMain}')  . ' - ' . \$GLOBALS['xoopsModule']->name()));
-// keywords
-{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
-unset(\$keywords);
-// description
-{$moduleDirname}MetaDescription(_MA_TEST1_TEST_DESC);\n
-EOT;
+        return $ret;
+    }
+
+    /**
+     * @private function getUserVisitCheckPermissions
+     *
+     * @param null
+     *
+     * @return string
+     */
+    private function getUserVisitCheckPermissions()
+    {
+        $ret = '';
+
+        return $ret;
+    }
+
+    /**
+     * @private function getUserVisitCheckLimit
+     *
+     * @param null
+     *
+     * @return string
+     */
+    private function getUserVisitCheckLimit()
+    {
+        $ret = '';
+
+        return $ret;
+    }
+
+    /**
+     * @private function getUserVisitCheckHost
+     *
+     * @param null
+     *
+     * @return string
+     */
+    private function getUserVisitCheckHost()
+    {
+        $ret = '';
 
         return $ret;
     }
@@ -129,13 +166,16 @@ EOT;
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisit($moduleDirname, $tableName, $tableSoleName, $fields, $language);
+        $content .= $this->getUserVisitHeader($table, $fields);
+        $content .= $this->getUserVisitCheckPermissions();
+        $content .= $this->getUserVisitCheckLimit();
+        $content .= $this->getUserVisitCheckHost();
 
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

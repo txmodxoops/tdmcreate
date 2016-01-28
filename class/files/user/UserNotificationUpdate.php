@@ -37,7 +37,8 @@ class UserNotificationUpdate extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -85,12 +86,11 @@ class UserNotificationUpdate extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-include_once '../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/include/{$filename}';
-EOT;
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $content .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/notification_update');
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

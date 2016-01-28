@@ -21,32 +21,7 @@
  * @version         $Id: functions.php 11084 2013-02-23 15:44:20Z timgno $
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
-/**
- * Get Requests.
- *
- * @param array  $global
- * @param string $key
- * @param string $default
- * @param mixed  $type
- *
- * @return mixed Returns string, integer or array
- */
-function TDMCreate_CleanVars(&$global, $key, $default = '', $type = 'int')
-{
-    switch ($type) {
-        case 'string':
-            $ret = (isset($global[$key])) ? filter_var($global[$key], FILTER_SANITIZE_MAGIC_QUOTES) : $default;
-            break;
-        case 'int': default:
-            $ret = (isset($global[$key])) ? filter_var($global[$key], FILTER_SANITIZE_NUMBER_INT) : $default;
-            break;
-    }
-    if ($ret === false) {
-        return $default;
-    }
 
-    return $ret;
-}
 /**
  * Clear directory and its contents.
  *
@@ -130,7 +105,7 @@ function TDMCreate_copyr($source, $dest)
 
     return true;
 }
-//
+// Pleace! don't remove
 function TDMCreate_MakeDonationForm($about)
 {
     $donationform = array(0 => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
