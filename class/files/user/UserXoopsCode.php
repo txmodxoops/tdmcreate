@@ -166,28 +166,38 @@ class UserXoopsCode
 
     /*
     *  @public function getUserModVersion
-    *  @param $array
+    *  @param $element
+    *  @param $descriptions
+    *  @param $left
+    *  @param $index
+    *  @param $right	
+    *  @param $arrayOptions
     *  
     *  @return string
     */
-    public function getUserModVersion($array = array(), $element = 1, $left = '', $index = '', $right = '', $desc = '', $arrayOptions = '')
+    public function getUserModVersion($element = 1, $descriptions = array(), $left = '', $index = '', $right = '', $arrayOptions = '')
     {
-        $index = (is_string($index) && !empty($index)) ? "'{$index}'" : $index;
-        $right = (is_string($right) && !empty($right)) ? "'{$right}'" : $right;
-        $desc = is_string($desc) ? "'{$desc}'" : $desc;
-        foreach ($array as $key => $value) {
-            if ($element == 1) {
-                $ret = "\$modversion['{$left}'] = {$desc};\n";
-            }
-            if ($element == 2) {
-                $ret = "\$modversion['{$left}'][{$index}] = {$desc};\n";
-            }
-            if ($element == 3) {
-                $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};\n";
-            }
-            if (($element == 3) && !empty($arrayOptions)) {
-                $ret = "\$modversion['{$left}'][{$index}][{$right}] = {$desc};";
-                $ret .= "\$modversion['{$left}'][{$index}][{$right}] = {$arrayOptions};\n";
+        $i = (is_string($index) && !empty($index)) ? "'{$index}'" : $index;
+        $r = (is_string($right) && !empty($right)) ? "'{$right}'" : $right;
+        $mv = '$modversion';
+        $ret = '';
+        foreach ($descriptions as $key => $desc) {
+            switch ($element) {
+                case 1:
+                default:
+                    $ret .= $mv."['{$left}'] = {$desc};\n";
+                    break;
+                case 2:
+                    $ret .= $mv."['{$left}'][{$i}] = {$desc};\n";
+                    break;
+                case 3:
+                    if (empty($arrayOptions)) {
+                        $ret .= $mv."['{$left}'][{$i}][{$r}] = {$desc};\n";
+                    } else {
+                        $ret .= $mv."['{$left}'][{$i}][{$r}] = {$desc};";
+                        $ret .= $mv."['{$left}'][{$i}][{$r}] = {$arrayOptions};\n";
+                    }
+                break;
             }
         }
 
