@@ -37,7 +37,8 @@ class UserListTag extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -84,10 +85,8 @@ class UserListTag extends TDMCreateFile
      */
     public function getUserListTag()
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-include XOOPS_ROOT_PATH . '/modules/tag/list.tag.php';
-EOT;
+        $ret = $this->getInclude();
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/list.tag');
 
         return $ret;
     }
@@ -106,8 +105,9 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserListTag();
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

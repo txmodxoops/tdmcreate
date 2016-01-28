@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserRate.
  */
-class UserRate extends UserObjects
+class UserRate extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,8 +38,9 @@ class UserRate extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -165,7 +166,7 @@ EOT;
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
         $ret = <<<EOT
     case 'save':
         if ( !\$GLOBALS['xoopsSecurity']->check() ) {
@@ -177,7 +178,7 @@ EOT;
            \${$tableName}Obj =& \${$tableName}Handler->create();
         }
 EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
         $ret .= <<<EOT
         if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
             redirect_header('index.php', 2, {$language}FORMOK);
@@ -224,15 +225,15 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserRateHeader($moduleDirname);
         $content .= $this->getUserRateForm($module, $tableName, $language);
         $content .= $this->getUserRateSave($moduleDirname, $fields, $tableName, $language);
         $content .= $this->getUserRateFooter();
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

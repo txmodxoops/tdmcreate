@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserIndex.
  */
-class UserIndex extends UserObjects
+class UserIndex extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,8 +38,9 @@ class UserIndex extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -84,12 +85,11 @@ class UserIndex extends UserObjects
      */
     private function getTemplateHeaderFile($moduleDirname)
     {
-        $ret = <<<EOT
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_index.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';
-// Define Stylesheet
-\$GLOBALS['xoTheme']->addStylesheet( \$style );\n
-EOT;
+        $ret = $this->getInclude();
+        $ret .= $this->usercode->getUserTplMain($moduleDirname);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
     }
@@ -123,26 +123,24 @@ EOT;
         }
         $ret = '';
         if (in_array(1, $fieldParentId)) {
-            $ret .= <<<EOT
-\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
-// If there are {$tableName}
-\$count = 1;
-if (\${$tableName}Count > 0) {
-	\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}();
-	include_once XOOPS_ROOT_PATH . '/class/tree.php';
-	\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');
-	foreach (array_keys(\${$tableName}All) as \${$tableFieldname})
-	{
-		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues{$ucfTableName}();
-		\$acount = array('count' => \$count);
-		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
-		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
-		unset(\${$tableSoleName});
-	}
-	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
-}
-unset(\$count);\n
-EOT;
+            $ret .= $this->xoopscode->getXoopsCodeObjHandlerCount($tableName);
+            $ret .= $this->getCommentLine('If there are ', $tableName);
+            $ret .= $this->getSimpleString('$count = 1;');
+
+            $contentIf = $this->xoopscode->getXoopsCodeObjHandlerAll($tableName);
+            $contentIf .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true);
+            $contentIf .= $this->xoopscode->getXoopsCodeObjectTree($tableName, $fieldId, $fieldParent);
+
+            $foreach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName, $tableFieldname);
+            $foreach .= $this->phpcode->getPhpCodeArray('acount', 'count', '$count');
+            $foreach .= $this->phpcode->getPhpCodeArrayMerge($tableSoleName, "\${$tableSoleName}", '$acount');
+            $foreach .= $this->xoopscode->getXoopsCodeXoopsTplAppend($tableName, "\${$tableSoleName}");
+            $foreach .= $this->phpcode->getPhpCodeUnset($tableSoleName);
+            $contentIf .= $this->phpcode->getPhpCodeForeach("\${$tableName}All", true, false, $tableFieldname, $foreach, "\t");
+            $getConfig = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'numb_col');
+            $contentIf .= $this->xoopscode->getXoopsCodeTplAssign('numb_col', $getConfig);
+            $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf, false);
+            $ret .= $this->phpcode->getPhpCodeUnset('count');
         }
 
         return $ret;
@@ -160,63 +158,72 @@ EOT;
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
-        $ret = <<<EOT
-\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();
-\$count = 1;
-if (\${$tableName}Count > 0) {
-	\$start = XoopsRequest::getInt('start', 0);
-	\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
-    \${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
-	// Get All {$ucfTableName}
-	foreach(array_keys(\${$tableName}All) as \${$tableFieldname})
-    {
-		\${$tableSoleName} = \${$tableName}All[\${$tableFieldname}]->getValues{$ucfTableName}();
-        \$acount = array('count' => \$count);
-		\${$tableSoleName} = array_merge(\${$tableSoleName}, \$acount);
-		\$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
-        unset(\${$tableSoleName});
-		++\$count;
-    }
-    // Display Navigation
-    if (\${$tableName}Count > \$limit) {
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        \$nav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start');
-        \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
-    }
-	\$GLOBALS['xoopsTpl']->assign('divideby', \${$moduleDirname}->getConfig('divideby'));
-	\$GLOBALS['xoopsTpl']->assign('lang_thereare', sprintf({$language}INDEX_THEREARE, \${$tableName}Count));
-}
-unset(\$count);
-// Breadcrumbs
-\$xoBreadcrumbs[] = array('title' => {$language}INDEX); //'link' => {$stuModuleDirname}_URL . '/index.php';
-\$GLOBALS['xoopsTpl']->assign('panel_type', \${$moduleDirname}->getConfig('panel_type'));
-\$GLOBALS['xoopsTpl']->assign('table_type', \${$moduleDirname}->getConfig('table_type'));\n
-EOT;
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ucfTableName = ucfirst($tableName);
+        $ret = $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCount($tableName);
+        $ret .= $this->getSimpleString('$count = 1;');
+        $condIf = $this->xoopscode->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
+        $userpager = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'userpager');
+        $condIf .= $this->xoopscode->getXoopsCodeXoopsRequest('limit', 'limit', $userpager, 'Int');
+        $condIf .= $this->xoopscode->getXoopsCodeObjHandlerAll($tableName, '', '$start', '$limit');
+        $condIf .= $this->getCommentLine('Get All', $ucfTableName);
+        $foreach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableFieldname);
+        $foreach .= $this->phpcode->getPhpCodeArray('acount', "'count'", '$count');
+        $foreach .= $this->phpcode->getPhpCodeArrayMerge('acount', "\${$tableSoleName}", '$acount');
+        $foreach .= $this->xoopscode->getXoopsCodeXoopsTplAppend($tableName, "\${$tableSoleName}");
+        $table = $this->getTable();
+        // Fields
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName; // fieldMain = fields parameters main field
+            }
+        }
+        $foreach .= $this->xoopscode->getXoopsCodeGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain);
+        $foreach .= $this->phpcode->getPhpCodeUnset($tableSoleName);
+        $foreach .= $this->getSimpleString('++$count;');
+        $condIf .= $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
+        $condIf .= $this->xoopscode->getXoopsCodePageNav($tableName);
+        $thereare = $this->phpcode->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
+        $condIf .= $this->xoopscode->getXoopsCodeTplAssign('lang_thereare', $thereare);
+        $divideby = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'divideby');
+        $condIf .= $this->xoopscode->getXoopsCodeTplAssign('divideby', $divideby);
+
+        $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
+        $ret .= $this->phpcode->getPhpCodeUnset('count');
 
         return $ret;
     }
 
     /**
-     * @private function getDefaultFunctions
+     * @private function getUserPagesFooter
      *
      * @param $moduleDirname
+     * @param $tableName
      * @param $language
      *
      * @return string
      */
-    private function getDefaultFunctions($moduleDirname, $language)
+    private function getUserIndexFooter($moduleDirname, $tableName, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = <<<EOT
-// keywords
-{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords'));
-// description
-{$moduleDirname}MetaDescription({$language}DESC);
-//
-\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/index.php');
-\$GLOBALS['xoopsTpl']->assign('xoops_icons32_url', XOOPS_ICONS32_URL);
-\$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);\n
-EOT;
+        $stuTableName = strtoupper($tableName);
+        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret .= $this->usercode->getUserBreadcrumbs("{$stuTableName}", $language);
+        $ret .= $this->getCommentLine('Keywords');
+        $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
+        $ret .= $this->phpcode->getPhpCodeUnset('keywords');
+        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -237,7 +244,6 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getInclude();
         $content .= $this->getTemplateHeaderFile($moduleDirname);
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
@@ -254,11 +260,10 @@ EOT;
                 $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);
             }
         }
-        $content .= $this->getDefaultFunctions($moduleDirname, $language);
-        $content .= $this->getInclude('footer');
+        $content .= $this->getUserIndexFooter($moduleDirname, $tableName, $language);
         //
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

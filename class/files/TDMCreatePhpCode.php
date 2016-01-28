@@ -28,6 +28,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class TDMCreatePhpCode
 {
     /*
+    * @var string
+    */
+    protected $phpcode;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -168,15 +173,15 @@ class TDMCreatePhpCode
         if (false === $contentElse) {
             $ret = <<<EOT
 {$t}if ({$condition}{$operator}{$type}) {
-{$t}{$t}{$contentIf}
+{$t}\t{$contentIf}
 {$t}}\n
 EOT;
         } else {
             $ret = <<<EOT
 {$t}if ({$condition}{$operator}{$type}) {
-{$t}{$t}{$contentIf}
+{$t}\t{$contentIf}
 {$t}} else {
-{$t}{$t}{$contentElse}
+{$t}\t{$contentElse}
 {$t}}\n
 EOT;
         }
@@ -207,7 +212,7 @@ EOT;
 
         $ret = <<<EOT
 {$t}foreach({$vars}) {
-{$t}{$t}{$content}
+{$t}\t{$content}
 {$t}}\n
 EOT;
 
@@ -228,7 +233,7 @@ EOT;
     {
         $ret = <<<EOT
 {$t}for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
-{$t}{$t}{$content}
+{$t}\t{$content}
 {$t}}\n
 EOT;
 
@@ -249,7 +254,7 @@ EOT;
     {
         $ret = <<<EOT
 {$t}while(\${$var} {$operator} {$value}) {
-{$t}{$t}{$content}
+{$t}\t{$content}
 {$t}}\n
 EOT;
 
@@ -270,7 +275,7 @@ EOT;
         $ret = <<<EOT
 // Switch options
 {$t}switch (\${$op}){
-{$t}{$t}{$content}
+{$t}\t{$content}
 {$t}}\n
 EOT;
 
@@ -344,7 +349,59 @@ EOT;
     */
     public function getPhpCodeImplode($left, $right)
     {
-        return "implode('{$left} ', {$right})";
+        return "implode('{$left}', {$right})";
+    }
+
+    /*
+    *  @public function getPhpCodeExplode
+    *  @param $left
+    *  @param $right
+    *  @return string
+    */
+    public function getPhpCodeExplode($left, $right)
+    {
+        return "explode('{$left}', {$right})";
+    }
+
+    /*
+    *  @public function getPhpCodeArray
+    *  @param $return
+    *  @param $left
+    *  @param $right
+    *  @param $isParam
+    *
+    *  @return string
+    */
+    public function getPhpCodeArray($return, $left, $right = '', $isParam = false)
+    {
+        $array = ($right !== '') ? "{$left}, {$right}" : (($right !== '') && is_string($left) ? "{$left} => {$right}" : "{$left}");
+        if ($isParam === false) {
+            $ret = "\${$return} = array({$array});\n";
+        } else {
+            $ret = "array({$array})";
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodeArrayMerge
+    *  @param $return
+    *  @param $left
+    *  @param $right
+    *  @param $isParam
+    *
+    *  @return string
+    */
+    public function getPhpCodeArrayMerge($return, $left, $right, $isParam = false)
+    {
+        if ($isParam === false) {
+            $ret = "\${$return} = array_merge({$left}, {$right});\n";
+        } else {
+            $ret = "array_merge({$left}, {$right})";
+        }
+
+        return $ret;
     }
 
     /*
@@ -401,9 +458,30 @@ EOT;
     public function getPhpCodePregReplace($return, $exp, $str, $val, $isParam = false)
     {
         if ($isParam === false) {
-            $ret = "\${$return} = preg_replace( '{$exp}' , '{$str}' , {$val});\n";
+            $ret = "\${$return} = preg_replace( '{$exp}', '{$str}', {$val});\n";
         } else {
-            $ret = "preg_replace( '{$exp}' , '{$str}' , {$val})";
+            $ret = "preg_replace( '{$exp}', '{$str}', {$val})";
+        }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodePregMatch
+    *  @param $return
+    *  @param $exp
+    *  @param $str
+    *  @param $val
+    *  @param $isParam
+    *
+    *  @return string
+    */
+    public function getPhpCodePregMatch($return, $exp, $str, $val, $isParam = false)
+    {
+        if ($isParam === false) {
+            $ret = "\${$return} = preg_match( '{$exp}', '{$str}', {$val});\n";
+        } else {
+            $ret = "preg_match( '{$exp}', '{$str}', {$val})";
         }
 
         return $ret;
@@ -422,9 +500,9 @@ EOT;
     public function getPhpCodeStrReplace($left, $var, $str, $value, $isParam = false)
     {
         if ($isParam === false) {
-            $ret = "\${$left} = str_replace( '{$var}' , '{$str}' , {$value});\n";
+            $ret = "\${$left} = str_replace( '{$var}', '{$str}', {$value});\n";
         } else {
-            $ret = "str_replace( '{$var}' , '{$str}' , {$value})";
+            $ret = "str_replace( '{$var}', '{$str}', {$value})";
         }
 
         return $ret;

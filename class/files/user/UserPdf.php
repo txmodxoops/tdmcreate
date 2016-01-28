@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserPdf.
  */
-class UserPdf extends UserObjects
+class UserPdf extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,8 +38,9 @@ class UserPdf extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -91,7 +92,7 @@ class UserPdf extends UserObjects
      */
     public function getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
+        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = <<<EOT
 include  __DIR__ . '/header.php';
@@ -222,12 +223,13 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $fields, $language);
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

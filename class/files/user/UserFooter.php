@@ -37,7 +37,9 @@ class UserFooter extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -73,6 +75,32 @@ class UserFooter extends TDMCreateFile
     }
 
     /*
+    *  @private function getUserFooter
+    *  @param $moduleDirname
+    *
+    *  @return string
+    */
+    private function getUserFooter($moduleDirname)
+    {
+        $xoBreadcrumbs = $this->xoopscode->getXoopsCodeTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
+        $language = $this->getLanguage($moduleDirname, 'MA');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('sysPathIcon32', '$sysPathIcon32');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_url", "{$language}URL");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
+        $ret .= $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
+        $ret .= $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('admin', "{$language}ADMIN");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('copyright', '$copyright');
+        $ret .= $this->getCommentLine();
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
+
+        return $ret;
+    }
+
+    /*
     *  @public function render
     *  @param null
     */
@@ -83,29 +111,12 @@ class UserFooter extends TDMCreateFile
     {
         $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $stu_mod_name = strtoupper($moduleDirname);
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-if (count(\$xoBreadcrumbs) > 1) {
-    \$GLOBALS['xoopsTpl']->assign('xoBreadcrumbs', \$xoBreadcrumbs);
-}
-\$sysPathIcon16 = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
-\$sysPathIcon32 = \$GLOBALS['xoopsModule']->getInfo('sysicons32');
-\$GLOBALS['xoopsTpl']->assign('sysPathIcon32', \$sysPathIcon32);
-\$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_url', {$stu_mod_name}_URL);
-\$GLOBALS['xoopsTpl']->assign('adv', xoops_getModuleOption('advertise', \$dirname));
-//
-\$GLOBALS['xoopsTpl']->assign('bookmarks', xoops_getModuleOption('bookmarks', \$dirname));
-\$GLOBALS['xoopsTpl']->assign('fbcomments', xoops_getModuleOption('fbcomments', \$dirname));
-//
-\$GLOBALS['xoopsTpl']->assign('admin', {$stu_mod_name}_ADMIN);
-\$GLOBALS['xoopsTpl']->assign('copyright', \$copyright);
-// User footer
-include_once XOOPS_ROOT_PATH.'/footer.php';
-EOT;
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->getUserFooter($moduleDirname);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

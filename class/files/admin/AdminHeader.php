@@ -92,24 +92,24 @@ class AdminHeader extends TDMCreateFile
         $tables = $this->getTables();
         $ret = $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(dirname(__DIR__)))', 'include/cp_header');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('dirname(__DIR__)', 'include/common', true);
-        $sysicons16 = $this->xoopscode->getXoopsCodeGetInfo('sysicons16', true);
-        $sysicons32 = $this->xoopscode->getXoopsCodeGetInfo('sysicons32', true);
-        $dirmoduleadmin = $this->xoopscode->getXoopsCodeGetInfo('dirmoduleadmin', true);
-        $modicons16 = $this->xoopscode->getXoopsCodeGetInfo('modicons16', true);
-        $modicons32 = $this->xoopscode->getXoopsCodeGetInfo('modicons32', true);
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$sysPathIcon16', "'../' . {$sysicons16}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$sysPathIcon32', "'../' . {$sysicons32}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$pathModuleAdmin', "{$dirmoduleadmin}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon16', "{$modicons16}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon32', "{$modicons32}");
+        $sysicons16 = $this->xoopscode->getXoopsCodeGetInfo('', 'sysicons16', true);
+        $sysicons32 = $this->xoopscode->getXoopsCodeGetInfo('', 'sysicons32', true);
+        $dirmoduleadmin = $this->xoopscode->getXoopsCodeGetInfo('', 'dirmoduleadmin', true);
+        $modicons16 = $this->xoopscode->getXoopsCodeGetInfo('', 'modicons16', true);
+        $modicons32 = $this->xoopscode->getXoopsCodeGetInfo('', 'modicons32', true);
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$sysPathIcon16 ', "'../' . {$sysicons16}");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$sysPathIcon32 ', "'../' . {$sysicons32}");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$pathModuleAdmin ', "{$dirmoduleadmin}");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon16 ', "{$modicons16}");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon32 ', "{$modicons32}");
         if (is_object($table) && $table->getVar('table_name') != '') {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$moduleDirname} ", "{$ucfModuleDirname}Helper::getInstance()");
         }
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$tableName}Handler", "\${$moduleDirname}->getHandler('{$tableName}')", true);
+                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$tableName}Handler ", "\${$moduleDirname}->getHandler('{$tableName}')", true);
             }
         }
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', true);

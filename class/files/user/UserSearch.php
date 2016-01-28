@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserSearch.
  */
-class UserSearch extends UserObjects
+class UserSearch extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,8 +38,9 @@ class UserSearch extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -77,36 +78,35 @@ class UserSearch extends UserObjects
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function getUserSearchHeader
-    *  @param null
-    */
     /**
+     * @private function getUserSearchHeader
+     *
      * @param $moduleDirname
      *
      * @return string
      */
-    public function getUserSearchHeader($moduleDirname)
+    private function getUserSearchHeader($moduleDirname, $table, $fields)
     {
-        $ret = <<<EOT
-// Local Header
-include  __DIR__ . '/header.php';
-\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'form', 'string');
-// Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_single.tpl';
-// Root Header
-include_once XOOPS_ROOT_PATH.'/header.php';
-// Added Style
-\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-// redirection if not permissions
-if (\$perm_submit == false) {
-    redirect_header('index.php', 2, _NOPERM);
-    exit();
-}
-//
-switch (\$op)
-{\n
-EOT;
+        $ret = $this->getInclude();
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId = $fieldName;
+            }
+            if (1 == $fields[$f]->getVar('field_parent')) {
+                $fieldPid = $fieldName;
+            }
+        }
+        if ($table->getVar('table_category') == 1) {
+            $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
+            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
+        }
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '0', 'Int');
+        $ret .= $this->usercode->getUserTplMain($moduleDirname);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
     }
@@ -123,87 +123,40 @@ EOT;
      *
      * @return string
      */
-    public function getUserSearchForm($module, $tableName, $language)
+    public function getUserSearch($moduleDirname, $tableName, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
         $ret = <<<EOT
-    case 'form':
-    default:
-        //navigation
-        \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
-        // reference
-        // title of page
-        \$title = _MD_{$stuModuleName}_SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
-        \$title .= \$GLOBALS['xoopsModule']->name();
-        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
-        //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags(_MD_{$stuModuleName}_SUBMIT_PROPOSER));
-        // Description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
 
-        // Create
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
 EOT;
+        $ret .= $this->getSimpleString('$keywords = array();');
 
         return $ret;
     }
 
-    /*
-    *  @public function getUserSearchSave
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
     /**
+     * @private function getUserSearchFooter
+     *
      * @param $moduleDirname
-     * @param $table_id
      * @param $tableName
+     * @param $language
      *
      * @return string
      */
-    public function getUserSearchSave($moduleDirname, $fields, $tableName, $language)
+    private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
-        $fieldId = $this->userobjects->getUserSaveFieldId($fields);
-        $ret = <<<EOT
-    case 'save':
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }
-        if (isset(\$_REQUEST['{$fieldId}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
-        } else {
-           \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
-EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
-        $ret .= <<<EOT
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('index.php', 2, {$language}FORMOK);
-        }
-
-        echo \${$tableName}Obj->getHtmlErrors();
-        \$form =& \${$tableName}Obj->getForm();
-        \$form->display();
-    break;\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @public function getUserSearchFooter
-    *  @param null
-    */
-    /**
-     * @return string
-     */
-    public function getUserSearchFooter()
-    {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuTableName = strtoupper($tableName);
+        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret .= $this->usercode->getUserBreadcrumbs("{$stuTableName}", $language);
+        $ret .= $this->getCommentLine('Keywords');
+        $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
+        $ret .= $this->phpcode->getPhpCodeUnset('keywords');
+        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -224,15 +177,15 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserSearchHeader($moduleDirname);
-        $content .= $this->getUserSearchForm($module, $tableName, $language);
-        $content .= $this->getUserSearchSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserSearchFooter();
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->getUserSearchHeader($moduleDirname, $table, $fields);
+        $content .= $this->getUserSearch($moduleDirname, $tableName, $language);
+        $content .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

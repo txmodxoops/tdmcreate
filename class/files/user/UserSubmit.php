@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserSubmit.
  */
-class UserSubmit extends UserObjects
+class UserSubmit extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,8 +38,9 @@ class UserSubmit extends UserObjects
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -78,34 +79,27 @@ class UserSubmit extends UserObjects
     }
 
     /*
-    *  @public function getUserSubmitHeader
-    *  @param null
-    */
-    /**
+     * @public function getUserSubmitHeader    
      * @param $moduleDirname
      *
      * @return string
      */
     public function getUserSubmitHeader($moduleDirname)
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-xoops_loadLanguage('admin', \$dirname);
-\$op = XoopsRequest::getString('op', 'form');
-// Template
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_submit.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';
-\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$GLOBALS['xoopsModule']->getVar('dirname', 'n') . '/assets/css/style.css', null );
-\$permSubmit = (\$gperm_handler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid'))) ? true : false;
-// Redirection if not permissions
-if (\$permSubmit == false) {
-    redirect_header('index.php', 2, _NOPERM);
-    exit();
-}
-//
-switch(\$op)
-{\n
-EOT;
+        $ret = $this->getInclude();
+        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('admin');
+        $ret .= $this->getCommentLine('It recovered the value of argument op in URL$');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'form');
+        $ret .= $this->getCommentLine('Template');
+        $ret .= $this->usercode->getUserTplMain($moduleDirname, 'submit');
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
+        $ret .= "\$permSubmit = (\$gpermHandler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid'))) ? true : false;\n";
+        $ret .= $this->getCommentLine('Redirection if not permissions');
+        $condIf = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', '_NOPERM');
+        $condIf .= $this->getSimpleString('exit();');
+
+        $ret .= $this->phpcode->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf, false);
 
         return $ret;
     }
@@ -127,28 +121,20 @@ EOT;
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableSoleName = strtoupper($tableSoleName);
         $ucfTableName = ucfirst($tableName);
-        $ret = <<<EOT
-    case 'form':
-    default:
-        //navigation
-        \$navigation = {$language}SUBMIT_PROPOSER;
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
-        // reference
-        // title of page
-        \$title = {$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
-        \$title .= \$GLOBALS['xoopsModule']->name();
-        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
-        //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT_PROPOSER));
-        // Description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
 
-        // Create
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm{$ucfTableName}();
-        \$xoopsTpl->assign('form', \$form->render());
-		break;\n
-EOT;
+        $ret = $this->getCommentLine('Mavigation');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
+        $ret .= $this->getCommentLine('Title of page');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
+        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->usercode->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
+        $ret .= $this->getCommentLine('Form Create');
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
+        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
 
         return $ret;
     }
@@ -168,24 +154,25 @@ EOT;
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $language)
     {
         $ucfTableName = ucfirst($tableName);
-        $ret = <<<EOT
-    case 'save':
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-			redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }
-        \${$tableName}Obj =& \${$tableName}Handler->create();\n
-EOT;
-        $ret .= $this->userobjects->getUserSaveElements($moduleDirname, $tableName, $fields);
-        $ret .= <<<EOT
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('index.php', 2, {$language}FORM_OK);
-        }
+        $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
+        $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
+        $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
+        $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
+        $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '', '3', $implode);
+        $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
 
-        echo \${$tableName}Obj->getHtmlErrors();
-        \$form =& \${$tableName}Obj->getForm{$ucfTableName}();
-		\$xoopsTpl->assign('form', \$form->display());
-    break;\n
-EOT;
+        $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
+
+        $ret .= $this->getCommentLine('Insert Data');
+        $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
+        $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
+        $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
+
+        $ret .= $this->getCommentLine('Get Form Error');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');
 
         return $ret;
     }
@@ -200,14 +187,32 @@ EOT;
     public function getUserSubmitFooter($moduleDirname, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = <<<EOT
-}
-// Breadcrumbs
-\$xoBreadcrumbs[] = array('title' => {$language}SUBMIT);
-include  __DIR__ . '/footer.php';
-EOT;
+        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret .= $this->usercode->getUserBreadcrumbs('SUBMIT', $language);
+        $ret .= $this->getInclude('footer');
 
         return $ret;
+    }
+
+    /*
+     *  @private function getUserSubmitSwitch
+     *  @param $moduleDirname
+     *  @param $tableName
+     *  @param $tableSoleName
+     *  @param $language
+     *
+     * @return string
+     */
+    private function getUserSubmitSwitch($moduleDirname, $tableName, $tableSoleName, $language)
+    {
+        $table = $this->getTable();
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $fields = $this->getTableFields($tableMid, $tableId);
+        $cases = array('form' => array($this->getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language)),
+                    'save' => array($this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language)), );
+
+        return $this->xoopscode->getXoopsCodeSwitch('op', $cases, true);
     }
 
     /*
@@ -223,20 +228,17 @@ EOT;
         $table = $this->getTable();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
         $tableCategory = $table->getVar('table_category');
         $tableSoleName = $table->getVar('table_solename');
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitForm($moduleDirname, $tableName, $tableSoleName, $language);
-        $content .= $this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language);
+        $content .= $this->getUserSubmitSwitch($moduleDirname, $tableName, $tableSoleName, $language);
         $content .= $this->getUserSubmitFooter($moduleDirname, $language);
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

@@ -38,7 +38,9 @@ class UserHeader extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -80,6 +82,59 @@ class UserHeader extends TDMCreateFile
     }
 
     /*
+    *  @private function getUserHeader
+    *  @param $moduleDirname
+    *
+    *  @return string
+    */
+    private function getUserHeader($moduleDirname)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ucfModuleDirname = ucfirst($moduleDirname);
+
+        $ret = $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'include/common');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
+        $ret .= $this->usercode->getUserBreadcrumbsHeaderFile($moduleDirname);
+
+        $table = $this->getTable();
+        $tables = $this->getTables();
+        if (is_object($table) && $table->getVar('table_name') != '') {
+            $ret .= $this->xoopscode->getXoopsHandlerInstance($moduleDirname);
+        }
+        if (is_array($tables)) {
+            foreach (array_keys($tables) as $i) {
+                $tableName = $tables[$i]->getVar('table_name');
+                $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
+            }
+        }
+        $ret .= $this->getCommentLine('Permission');
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", true);
+
+        $condIf = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', '$xoopsUser->getGroups()');
+        $condElse = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS');
+
+        $ret .= $this->phpcode->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
+        $ret .= $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', true);
+        $ret .= $this->getCommentLine('Default Css Style');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
+        $ret .= $this->phpcode->getPhpCodeConditions('!file_exists($style)', '', '', 'return false;');
+        $ret .= $this->getCommentLine('Smarty Default');
+        $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon16', 'sysicons16');
+        $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon32', 'sysicons32');
+        $ret .= $this->xoopscode->getXoopsCodeGetInfo('pathModuleAdmin', 'dirmoduleadmin');
+        $ret .= $this->xoopscode->getXoopsCodeGetInfo('modPathIcon16', 'modicons16');
+        $ret .= $this->xoopscode->getXoopsCodeGetInfo('modPathIcon32', 'modicons16');
+        $ret .= $this->getCommentLine('Load Languages');
+        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('main');
+        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('modinfo');
+
+        return $ret;
+    }
+
+    /*
     *  @public function render
     *  @param null
     */
@@ -89,61 +144,13 @@ class UserHeader extends TDMCreateFile
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
-        $tables = $this->getTables();
         $moduleDirname = $module->getVar('mod_dirname');
         $filename = $this->getFileName();
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $ucfModuleDirname = ucfirst($moduleDirname);
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
-include dirname(dirname(__DIR__)) . '/mainfile.php';
-include __DIR__ . '/include/common.php';
-\$dirname = basename(__DIR__);
-// Breadcrumbs
-\$xoBreadcrumbs   = array();
-\$xoBreadcrumbs[] = array('title' => \$GLOBALS['xoopsModule']->getVar('name'), 'link' => {$stuModuleDirname}_URL . '/');\n
-EOT;
-        if (is_object($table) && $table->getVar('table_name') != '') {
-            $content .= <<<EOT
-// Get instance of module
-\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n
-EOT;
-        }
-        if (is_array($tables)) {
-            foreach (array_keys($tables) as $i) {
-                $tableName = $tables[$i]->getVar('table_name');
-                $content .= <<<EOT
-\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');\n
-EOT;
-            }
-        }
-        $content .= <<<EOT
-// Permission
-include_once XOOPS_ROOT_PATH.'/class/xoopsform/grouppermform.php';
-\$gperm_handler =& xoops_gethandler('groupperm');
-if (is_object(\$xoopsUser)) {
-    \$groups = \$xoopsUser->getGroups();
-} else {
-    \$groups = XOOPS_GROUP_ANONYMOUS;
-}
-//
-\$myts  =& MyTextSanitizer::getInstance();
-\$style = {$stuModuleDirname}_URL . '/assets/css/style.css';
-if(!file_exists(\$style)) { return false; }
-//
-\$sysPathIcon16   = \$GLOBALS['xoopsModule']->getInfo('sysicons16');
-\$sysPathIcon32   = \$GLOBALS['xoopsModule']->getInfo('sysicons32');
-\$pathModuleAdmin = \$GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
-//
-\$modPathIcon16 = \$xoopsModule->getInfo('modicons16');
-\$modPathIcon32 = \$xoopsModule->getInfo('modicons32');
-//
-xoops_loadLanguage('modinfo', \$dirname);
-xoops_loadLanguage('main', \$dirname);
-EOT;
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $content .= $this->getUserHeader($moduleDirname);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

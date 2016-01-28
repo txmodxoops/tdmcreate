@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserPages.
  */
-class UserPages extends UserObjects
+class UserPages extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -39,7 +39,9 @@ class UserPages extends UserObjects
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->userobjects = UserObjects::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -73,52 +75,51 @@ class UserPages extends UserObjects
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getUserPages
-    *  @param string $moduleDirname
-    *  @param string $language
-    */
     /**
+     * @private function getUserPagesHeader
+     *
      * @param $moduleDirname
-     * @param $language
+     * @param $tableName
      *
      * @return string
      */
-    private function getUserPages($moduleDirname, $language)
+    private function getUserPagesHeader($moduleDirname, $tableName)
     {
-        $table = $this->getTable();
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
-        $tableFieldname = $table->getVar('table_fieldname');
+        $ret = $this->getInclude();
+        $ret .= $this->usercode->getUserTplMain($moduleDirname, $tableName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
+        $userpager = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'userpager');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('limit', 'limit', $userpager, 'Int');
+        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
+
+        return $ret;
+    }
+
+    /**
+     * @private function getUserPages
+     *
+     * @param $moduleDirname
+     * @param $tableName
+     *
+     * @return string
+     */
+    private function getUserPages($moduleDirname, $tableName, $tableSoleName)
+    {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableName = strtoupper($tableName);
-        $stuTableSoleName = strtoupper($tableSoleName);
-        $lcfTableName = lcfirst($tableName);
         $ucfTableName = ucfirst($tableName);
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-//
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-\$start = XoopsRequest::getInt('start', 0);
-\$limit = XoopsRequest::getInt('limit', \${$moduleDirname}->getConfig('userpager'));
-// Define Stylesheet
-\$xoTheme->addStylesheet( \$style );
-//
-\$GLOBALS['xoopsTpl']->assign('xoops_icons32_url', XOOPS_ICONS32_URL);
-\$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
-//
-\${$lcfTableName}Count = \${$lcfTableName}Handler->getCount{$ucfTableName}();
-\${$lcfTableName}All = \${$lcfTableName}Handler->getAll{$ucfTableName}(\$start, \$limit);
-\$keywords = array();
-if (\${$lcfTableName}Count > 0) {
-    // Get All {$ucfTableName}
-	foreach (array_keys(\${$lcfTableName}All) as \$i)
-    {
-		\${$tableSoleName} = \${$tableName}All[\$i]->getValues{$ucfTableName}();
-        \$GLOBALS['xoopsTpl']->append('{$tableName}', \${$tableSoleName});
-        unset(\${$tableSoleName});\n
-EOT;
+        $ret = $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCount($tableName);
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerAll($tableName, '', '$start', '$limit');
+        $ret .= $this->getSimpleString('$keywords = array();');
+        $condIf = $this->getCommentLine('Get All', $ucfTableName);
+        $foreach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName);
+        $foreach .= $this->xoopscode->getXoopsCodeXoopsTplAppend($tableName, "\${$tableSoleName}");
+        $table = $this->getTable();
         // Fields
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -127,31 +128,45 @@ EOT;
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $ret .= <<<EOT
-        \$keywords[] = \${$lcfTableName}All[\$i]->getVar('{$fieldMain}');
+        $foreach .= $this->xoopscode->getXoopsCodeGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain);
+        $condIf .= $this->phpcode->getPhpCodeForeach("\${$tableName}All", true, false, 'i', $foreach, "\t");
+        $condIf .= $this->xoopscode->getXoopsCodePageNav($tableName);
+        $tableType = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'table_type');
+        $condIf .= $this->xoopscode->getXoopsCodeTplAssign('type', $tableType);
+        $divideby = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'divideby');
+        $condIf .= $this->xoopscode->getXoopsCodeTplAssign('divideby', $divideby);
+        $numbCol = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'numb_col');
+        $condIf .= $this->xoopscode->getXoopsCodeTplAssign('numb_col', $numbCol);
+
+        $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
+
+        return $ret;
     }
-    // Display Navigation
-    if (\${$lcfTableName}Count > \$limit) {
-        include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-        \$nav = new XoopsPageNav(\${$lcfTableName}Count, \$limit, \$start, 'start');
-        \$GLOBALS['xoopsTpl']->assign('pagenav', \$nav->renderNav(4));
-    }
-	\$GLOBALS['xoopsTpl']->assign('type', \${$moduleDirname}->getConfig('table_type'));
-	\$GLOBALS['xoopsTpl']->assign('divideby', \${$moduleDirname}->getConfig('divideby'));
-	\$GLOBALS['xoopsTpl']->assign('numb_col', \${$moduleDirname}->getConfig('numb_col'));
-}
-// Breadcrumbs
-\$xoBreadcrumbs[] = array('title' => {$language}{$stuTableName}); //'link' => {$stuModuleDirname}_URL . '/{$tableName}.php',
-// keywords
-{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));
-unset(\$keywords);
-// description
-{$moduleDirname}MetaDescription({$language}{$stuTableSoleName}_DESC);
-//
-\$GLOBALS['xoopsTpl']->assign('xoops_mpageurl', {$stuModuleDirname}_URL.'/{$tableName}.php');
-//
-include  __DIR__ . '/footer.php';
-EOT;
+
+    /**
+     * @private function getUserPagesFooter
+     *
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $language
+     *
+     * @return string
+     */
+    private function getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language)
+    {
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuTableName = strtoupper($tableName);
+        $stuTableSoleName = strtoupper($tableSoleName);
+        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret .= $this->usercode->getUserBreadcrumbs("{$stuTableName}", $language);
+        $ret .= $this->getCommentLine('Keywords');
+        $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
+        $ret .= $this->phpcode->getPhpCodeUnset('keywords');
+        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->usercode->getUserMetaDesc($moduleDirname, $stuTableSoleName, $language);
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -168,11 +183,16 @@ EOT;
     public function renderFile()
     {
         $module = $this->getModule();
+        $table = $this->getTable();
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserPages($moduleDirname, $language);
+        $content .= $this->getUserPagesHeader($moduleDirname, $tableName);
+        $content .= $this->getUserPages($moduleDirname, $tableName, $tableSoleName);
+        $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language);
         //
         $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

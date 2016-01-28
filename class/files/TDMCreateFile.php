@@ -511,7 +511,7 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @return string
      */
-    public function getCommentLine($string, $var = '')
+    public function getCommentLine($string = '', $var = '')
     {
         $value = !empty($var) ? ' '.$var : '';
         $ret = "// {$string}{$value}\n";

@@ -37,7 +37,8 @@ class UserViewTag extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -85,10 +86,8 @@ class UserViewTag extends TDMCreateFile
      */
     public function getUserViewTag()
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tag/view.tag.php';
-EOT;
+        $ret = $this->getInclude();
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/view.tag');
 
         return $ret;
     }
@@ -108,8 +107,9 @@ EOT;
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserViewTag();
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }
