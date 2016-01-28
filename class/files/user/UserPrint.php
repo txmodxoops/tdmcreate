@@ -111,7 +111,7 @@ class UserPrint extends TDMCreateFile
         $tableName = $table->getVar('table_name');
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
-        $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $rpFieldName = $fieldName;
