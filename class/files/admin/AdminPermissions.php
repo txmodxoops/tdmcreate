@@ -200,7 +200,7 @@ class AdminPermissions extends TDMCreateFile
         $foreach2 = $this->xoopscode->getXoopsCodeAddItem('permform', $getVar1, $getVar2)."\r";
         $else .=  $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach2, "\t");
         $if2 = $this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
-        $elseInter = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '?op=new', '3', "{$language}NO_PERMISSIONS_SET");
+        $elseInter = $this->xoopscode->getXoopsCodeRedirectHeader($tableName.'.php', '?op=new', '3', "{$language}NO_PERMISSIONS_SET");
         $elseInter .= $this->getSimpleString("\texit();");
         $else .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter);
 

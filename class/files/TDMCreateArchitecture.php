@@ -52,10 +52,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
      */
     public function __construct()
     {
+        parent::__construct();
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->structure = TDMCreateStructure::getInstance();
-        $this->structure->setUploadPath(TDMC_UPLOAD_REPOSITORY_PATH);
+        $this->setUploadPath(TDMC_UPLOAD_REPOSITORY_PATH);
     }
 
     /*
@@ -76,13 +76,13 @@ class TDMCreateArchitecture extends TDMCreateStructure
     }
 
     /*
-    *  @public function createBaseFoldersFiles
+    *  @public function setBaseFoldersFiles
     *  @param string $module
     */
     /**
      * @param $module
      */
-    public function createBaseFoldersFiles($module)
+    public function setBaseFoldersFiles($module)
     {
         // Module
         $modId = $module->getVar('mod_id');
@@ -99,41 +99,41 @@ class TDMCreateArchitecture extends TDMCreateStructure
         //
         $indexFile = XOOPS_UPLOAD_PATH.'/index.html';
         $stlModuleAuthor = str_replace(' ', '', strtolower($module->getVar('mod_author')));
-        $this->structure->setModuleName($module->getVar('mod_dirname'));
-        $uploadPath = $this->structure->getUploadPath();
+        $this->setModuleName($module->getVar('mod_dirname'));
+        $uploadPath = $this->getUploadPath();
         // Creation of "module" folder in the Directory repository
-        $this->structure->makeDir($uploadPath.'/'.$this->structure->getModuleName());
+        $this->makeDir($uploadPath.'/'.$this->getModuleName());
         if (1 != $module->getVar('mod_user')) {
             // Copied of index.html file in "root module" folder
-            $this->structure->copyFile('', $indexFile, 'index.html');
+            $this->copyFile('', $indexFile, 'index.html');
         }
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "admin" folder and index.html file
-            $this->structure->makeDirAndCopyFile('admin', $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('admin', $indexFile, 'index.html');
         }
         if (1 == $module->getVar('mod_blocks')) {
             // Creation of "blocks" folder and index.html file
-            $this->structure->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
         // Creation of "class" folder and index.html file
-        $this->structure->makeDirAndCopyFile('class', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('class', $indexFile, 'index.html');
         // Creation of "assets" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets', $indexFile, 'index.html');
         // Creation of "assets/css" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets/css', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets/css', $indexFile, 'index.html');
         // Creation of "assets/icons" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets/icons', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets/icons', $indexFile, 'index.html');
         // Creation of "assets/icons/16" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets/icons/16', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets/icons/16', $indexFile, 'index.html');
         // Creation of "assets/icons/32" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets/icons/32', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets/icons/32', $indexFile, 'index.html');
         // Creation of "assets/images" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets/images', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets/images', $indexFile, 'index.html');
         // Creation of "assets/js" folder and index.html file
-        $this->structure->makeDirAndCopyFile('assets/js', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('assets/js', $indexFile, 'index.html');
         //Copy the logo of the module
         $modImage = str_replace(' ', '', strtolower($module->getVar('mod_image')));
-        $this->structure->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH.'/'.$modImage, $modImage);
+        $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH.'/'.$modImage, $modImage);
         // Copy of 'module_author_logo.gif' file in uploads dir
         $logoGifFrom = TDMC_UPLOAD_IMGMOD_PATH.'/'.$stlModuleAuthor.'_logo.gif';
         // If file exists
@@ -149,65 +149,65 @@ class TDMCreateArchitecture extends TDMCreateStructure
             copy($copyFile, $copyNewFile);
         }
         // Creation of 'module_author_logo.gif' file
-        $this->structure->copyFile('assets/images', $copyNewFile, $stlModuleAuthor.'_logo.gif');
+        $this->copyFile('assets/images', $copyNewFile, $stlModuleAuthor.'_logo.gif');
         // Creation of 'docs' folder and index.html file
-        $this->structure->makeDirAndCopyFile('docs', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('docs', $indexFile, 'index.html');
         // Creation of 'credits.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/credits.txt', 'credits.txt');
+        $this->copyFile('docs', TDMC_DOCS_PATH.'/credits.txt', 'credits.txt');
         // Creation of 'install.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/install.txt', 'install.txt');
+        $this->copyFile('docs', TDMC_DOCS_PATH.'/install.txt', 'install.txt');
         // Creation of 'lang_diff.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/lang_diff.txt', 'lang_diff.txt');
+        $this->copyFile('docs', TDMC_DOCS_PATH.'/lang_diff.txt', 'lang_diff.txt');
         // Creation of 'license.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/license.txt', 'license.txt');
+        $this->copyFile('docs', TDMC_DOCS_PATH.'/license.txt', 'license.txt');
         // Creation of 'readme.txt' file
-        $this->structure->copyFile('docs', TDMC_DOCS_PATH.'/readme.txt', 'readme.txt');
+        $this->copyFile('docs', TDMC_DOCS_PATH.'/readme.txt', 'readme.txt');
         // Creation of "include" folder and index.html file
-        $this->structure->makeDirAndCopyFile('include', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('include', $indexFile, 'index.html');
         // Creation of "language" folder and index.html file
-        $this->structure->makeDirAndCopyFile('language', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('language', $indexFile, 'index.html');
         // Creation of 'default english' folder
         if ($language != 'english') {
             // Creation of "language/local_language" folder and index.html file
-            $this->structure->makeDirAndCopyFile('language/'.$language, $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('language/'.$language, $indexFile, 'index.html');
             // Creation of "language/local_language/help" folder and index.html file
-            $this->structure->makeDirAndCopyFile('language/'.$language.'/help', $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('language/'.$language.'/help', $indexFile, 'index.html');
         }
         // Creation of "english" folder and index.html file
-        $this->structure->makeDirAndCopyFile('language/english', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('language/english', $indexFile, 'index.html');
         // Creation of "language/english/help" folder and index.html file
-        $this->structure->makeDirAndCopyFile('language/english/help', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('language/english/help', $indexFile, 'index.html');
         // Creation of "preloads" folder and index.html file
-        $this->structure->makeDirAndCopyFile('preloads', $indexFile, 'index.html');
+        $this->makeDirAndCopyFile('preloads', $indexFile, 'index.html');
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "templates" folder and index.html file
-            $this->structure->makeDirAndCopyFile('templates', $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('templates', $indexFile, 'index.html');
         }
         if (1 == $module->getVar('mod_admin')) {
             // Creation of "templates/admin" folder and index.html file
-            $this->structure->makeDirAndCopyFile('templates/admin', $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('templates/admin', $indexFile, 'index.html');
         }
         if (!empty($tableName)) {
             if ((1 == $module->getVar('mod_blocks')) && (1 == $table->getVar('table_blocks'))) {
                 // Creation of "templates/blocks" folder and index.html file
-                $this->structure->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.html');
+                $this->makeDirAndCopyFile('templates/blocks', $indexFile, 'index.html');
             }
             // Creation of "sql" folder and index.html file
-            $this->structure->makeDirAndCopyFile('sql', $indexFile, 'index.html');
+            $this->makeDirAndCopyFile('sql', $indexFile, 'index.html');
             if ((1 == $module->getVar('mod_notifications')) && (1 == $table->getVar('table_notifications'))) {
                 if ($language != 'english') {
                     // Creation of "language/local_language/mail_template" folder and index.html file
-                    $this->structure->makeDirAndCopyFile('language/'.$language.'/mail_template', $indexFile, 'index.html');
+                    $this->makeDirAndCopyFile('language/'.$language.'/mail_template', $indexFile, 'index.html');
                 } else {
                     // Creation of "language/english/mail_template" folder and index.html file
-                    $this->structure->makeDirAndCopyFile('language/english/mail_template', $indexFile, 'index.html');
+                    $this->makeDirAndCopyFile('language/english/mail_template', $indexFile, 'index.html');
                 }
             }
         }
     }
 
     /*
-    *  @public function createFilesToBuilding
+    *  @public function setFilesToBuilding
     *  @param string $module
     */
     /**
@@ -215,7 +215,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
      *
      * @return array
      */
-    public function createFilesToBuilding($module)
+    public function setFilesToBuilding($module)
     {
         // Module
         $modId = $module->getVar('mod_id');
@@ -270,9 +270,9 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $table = $this->tdmcreate->getHandler('tables')->get($tableId);
             // Copy of tables images file
             if (file_exists($uploadTableImage = TDMC_UPLOAD_IMGTAB_PATH.'/'.$tableImage)) {
-                $this->structure->copyFile($icon32, $uploadTableImage, $tableImage);
+                $this->copyFile($icon32, $uploadTableImage, $tableImage);
             } elseif (file_exists($uploadTableImage = XOOPS_ICONS32_PATH.'/'.$tableImage)) {
-                $this->structure->copyFile($icon32, $uploadTableImage, $tableImage);
+                $this->copyFile($icon32, $uploadTableImage, $tableImage);
             }
             // Creation of admin files
             if (in_array(1, $tableAdmin)) {
@@ -606,6 +606,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $cssStyles = CssStyles::getInstance();
         $cssStyles->write($module, 'style.css');
         $ret[] = $cssStyles->render();
+        // Include Jquery File
+        $JavascriptJQuery = JavascriptJQuery::getInstance();
+        $JavascriptJQuery->write($module, 'functions.js');
+        $ret[] = $JavascriptJQuery->render();
         // Include Common File
         $includeCommon = IncludeCommon::getInstance();
         $includeCommon->write($module, $table, 'common.php');
@@ -618,10 +622,6 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $languageHelp = LanguageHelp::getInstance();
         $languageHelp->write($module, 'help.html');
         $ret[] = $languageHelp->render();
-        // Include Jquery File
-        $includeJquery = IncludeJquery::getInstance();
-        $includeJquery->write($module, 'functions.js');
-        $ret[] = $includeJquery->render();
         // User Xoops Version File
         $userXoopsVersion = UserXoopsVersion::getInstance();
         $userXoopsVersion->write($module, $table, $tables, 'xoops_version.php');

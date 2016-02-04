@@ -87,11 +87,12 @@ class UserXoopsCode
      *  
      * @return string
      */
-    public function getUserAddMeta($type = '', $language, $tableName = '')
+    public function getUserAddMeta($type = '', $language, $tableName)
     {
         $stuTableName = strtoupper($tableName);
+        $stripTags = $this->phpcode->getPhpCodeStripTags('', $language.$stuTableName, true);
 
-        return "\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', strip_tags({$language}{$stuTableName}));\n";
+        return "\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
 
     /*
@@ -102,7 +103,9 @@ class UserXoopsCode
     */
     public function getUserMetaKeywords($moduleDirname)
     {
-        return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. implode(', ', \$keywords));\n";
+        $implode = $this->phpcode->getPhpCodeImplode(',', '$keywords');
+
+        return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. {$implode});\n";
     }
 
     /*
@@ -166,38 +169,34 @@ class UserXoopsCode
 
     /*
     *  @public function getUserModVersion
-    *  @param $element
-    *  @param $descriptions
-    *  @param $left
-    *  @param $index
-    *  @param $right	
-    *  @param $arrayOptions
+    *  @param $eleArray
+    *  @param $descriptions    
+    *  @param $name
+    *  @param $index	
+    *  @param $num	
     *  
     *  @return string
     */
-    public function getUserModVersion($element = 1, $descriptions = array(), $left = '', $index = '', $right = '', $arrayOptions = '')
+    public function getUserModVersion($eleArray = 1, $descriptions, $name = false, $index = false, $num = false)
     {
-        $i = (is_string($index) && !empty($index)) ? "'{$index}'" : $index;
-        $r = (is_string($right) && !empty($right)) ? "'{$right}'" : $right;
-        $mv = '$modversion';
         $ret = '';
-        foreach ($descriptions as $key => $desc) {
-            switch ($element) {
-                case 1:
-                default:
-                    $ret .= $mv."['{$left}'] = {$desc};\n";
-                    break;
-                case 2:
-                    $ret .= $mv."['{$left}'][{$i}] = {$desc};\n";
-                    break;
-                case 3:
-                    if (empty($arrayOptions)) {
-                        $ret .= $mv."['{$left}'][{$i}][{$r}] = {$desc};\n";
-                    } else {
-                        $ret .= $mv."['{$left}'][{$i}][{$r}] = {$desc};";
-                        $ret .= $mv."['{$left}'][{$i}][{$r}] = {$arrayOptions};\n";
-                    }
-                break;
+        $mv = '$modversion';
+        if (!is_array($descriptions)) {
+            $descs = array($descriptions);
+        } else {
+            $descs = $descriptions;
+        }
+        foreach ($descs as $key => $desc) {
+            $one = (false === $name) ? $key : $name;
+            $two = (false === $index) ? $key : $index;
+            if ($eleArray === 1) {
+                $ret .= $mv."['{$one}'] = {$desc};\n";
+            } elseif ($eleArray === 2) {
+                $ret .= $mv."['{$one}'][{$two}] = {$desc};\n";
+            } elseif ($eleArray === 3) {
+                $ret .= $mv."['{$one}'][{$two}]['{$key}'] = {$desc};\n";
+            } elseif ($eleArray === 4) {
+                $ret .= $mv."['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
             }
         }
 

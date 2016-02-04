@@ -109,6 +109,7 @@ class UserPrint extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -121,7 +122,6 @@ class UserPrint extends TDMCreateFile
                     $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
             }
-            $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
             } else {
@@ -131,62 +131,49 @@ class UserPrint extends TDMCreateFile
             }
             $ucfFieldName = ucfirst($fieldName);
         }
-        $stuLpFieldName = strtoupper($lpFieldName);
-        $ret = <<<EOT
-\ninclude  __DIR__ . '/header.php';
-\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_print.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';
-\${$lpFieldName} = XoopsRequest::getInt('{$fieldId}', 0, 'GET');
-if ( empty({$fieldId}) ) {
-    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
-}
-EOT;
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
+        $stuLpFieldName = strtoupper($ccFieldId);
+        $ret = $this->getInclude();
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
+        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
+        $redirectHeader = $this->xoopscode->getXoopsCodeRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false);
+        $ret .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
+        $ret .= $this->getCommentLine('Verify that the article is published');
         if (strstr($fieldName, 'published')) {
-            $ret .= <<<EOT
-// Verify that the article is published
-\${$lpFieldName} = new {$ucfModuleDirname}{$ucfTableName}({$fieldId});
-// Not yet {$fieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') == 0 || \${$lpFieldName}->getVar('{$fieldName}') > time() ) {
-    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
-    exit();
-}
-EOT;
+            $ret .= $this->getCommentLine('Not yet', $fieldName);
+            $redirectHeader .= $this->getSimpleString('exit();');
+            $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') == 0 || \${$ccFieldId}->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
         }
         if (strstr($fieldName, 'expired')) {
-            $ret .= <<<EOT
-// {$ucfFieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') != 0 && \${$lpFieldName}->getVar('{$fieldName}') < time() ) {
-    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
-    exit();
-}
-EOT;
+            $ret .= $this->getCommentLine('Expired', $ucfFieldName);
+            $redirectHeader .= $this->getSimpleString('exit();');
+            $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (strstr($fieldName, 'date')) {
-            $ret .= <<<EOT
-// {$ucfFieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') != 0 && \${$lpFieldName}->getVar('{$fieldName}') < time() ) {
-    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
-    exit();
-}
-EOT;
+            $ret .= $this->getCommentLine('Date', $ucfFieldName);
+            $redirectHeader .= $this->getSimpleString('exit();');
+            $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (strstr($fieldName, 'time')) {
-            $ret .= <<<EOT
-// {$ucfFieldName}
-if ( \${$lpFieldName}->getVar('{$fieldName}') != 0 && \${$lpFieldName}->getVar('{$fieldName}') < time() ) {
-    redirect_header({$stuModuleDirname}_URL . '/index.php', 2, {$language}NO{$stuLpFieldName});
-    exit();
-}
-EOT;
+            $ret .= $this->getCommentLine('Time', $ucfFieldName);
+            $redirectHeader .= $this->getSimpleString('exit();');
+            $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        $ret .= <<<EOT
-
-// Verify permissions
-if (!\$gperm_handler->checkRight('{$moduleDirname}_view', {$lpFieldName}->getVat('{$fieldId}'), \$groups, \$xoopsModule->getVar('mid'))) {
-    redirect_header({$stuModuleDirname}_URL . '/index.php', 3, _NOPERM);
-    exit();
-}
-EOT;
+        $ret .= $this->xoopscode->getXoopsCodeGet($tableName, "{$ccFieldId}", '', true);
+        $gperm = $this->xoopscode->getXoopsCodeCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVat('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+        $ret .= $this->getCommentLine('Verify permissions');
+        $noPerm = $this->xoopscode->getXoopsCodeRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM');
+        $noPerm .= $this->getSimpleString('exit();');
+        $ret .= $this->phpcode->getPhpCodeConditions($gperm, '', '', $noPerm);
+        $ret .= $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName, '', true);
+        $contentForeach = $this->xoopscode->getXoopsCodeTplAssign('"{$k}"', '$v', false);
+        $ret .= $this->phpcode->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
+        $getVar = $this->xoopscode->getXoopsCodeGetVar('', $tableSoleName, $fieldMain, true);
+        $stripTags = $this->phpcode->getPhpCodeStripTags('', $getVar.' - '."{$language}PRINT".' - '."\$GLOBALS['xoopsModule']->name()", true);
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', $stripTags);
+        $ret .= $this->xoopscode->getXoopsCodeTplDisplay($tableName.'_print.tpl');
 
         return $ret;
     }
@@ -206,6 +193,7 @@ EOT;
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserPrint($moduleDirname, $language);
+
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

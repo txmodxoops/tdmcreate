@@ -93,7 +93,8 @@ class TDMCreateXoopsCode
     *  @public function getXoopsCodeEqualsOperator
     *  @param $left
     *  @param $right
-    *  @param boolean $ref
+    *  @param $ref
+    *
     *  @return string
     */
     public function getXoopsCodeEqualsOperator($left, $right, $ref = false)
@@ -149,6 +150,19 @@ class TDMCreateXoopsCode
     public function getXoopsCodeLoadLanguage($lang)
     {
         return "xoops_loadLanguage('{$lang}');\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeAnchorFunction
+    *  @param $anchor
+    *  @param $name
+    *  @param $vars
+    *
+    *  @return string
+    */
+    public function getXoopsCodeAnchorFunction($anchor, $name, $vars)
+    {
+        return "\${$anchor}->{$name}({$vars})";
     }
 
     /*
@@ -365,6 +379,31 @@ class TDMCreateXoopsCode
         }
 
         return $ret;
+    }
+
+    /*
+     *  @public function getXoopsCodeUnameFromId
+     *  @param $left
+     *  @param $tableName
+     *
+     * @return string
+     */
+    public function getXoopsCodeUnameFromId($left, $value)
+    {
+        return "\${$left} = XoopsUser::getUnameFromId({$value});\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeFormatTimeStamp
+    *  @param $lpFieldName
+    *  @param $rpFieldName
+    *  @param $tableName
+    *  @param $fieldName
+    *  @return string
+    */
+    public function getXoopsCodeFormatTimeStamp($left, $value, $format = 's')
+    {
+        return "\${$left} = formatTimeStamp({$value}, '{$format}');\n";
     }
 
     /*
@@ -642,16 +681,24 @@ EOT;
     }
 
     /**
-     *  @public function getXoopsCodeTplAssign
+     *  @public function getXoopsCodeTplAssign     
      *
      *  @param $tplString
      *  @param $phpRender
+     *  @param $leftIsString 
      *
      *  @return string
      */
-    public function getXoopsCodeTplAssign($tplString, $phpRender)
+    public function getXoopsCodeTplAssign($tplString, $phpRender, $leftIsString = true)
     {
-        return "\$GLOBALS['xoopsTpl']->assign('{$tplString}', {$phpRender});\n";
+        $assign = "\$GLOBALS['xoopsTpl']->assign(";
+        if ($leftIsString === false) {
+            $ret = $assign."{$tplString}, {$phpRender});\n";
+        } else {
+            $ret = $assign."'{$tplString}', {$phpRender});\n";
+        }
+
+        return $ret;
     }
 
     /**
@@ -703,13 +750,13 @@ EOT;
     /**
      *  @public function getXoopsCodeTplDisplay
      *
-     *  @param null
+     *  @param $displayTpl
      *
      *  @return string
      */
-    public function getXoopsCodeTplDisplay()
+    public function getXoopsCodeTplDisplay($displayTpl = '{$templateMain}')
     {
-        return "\$GLOBALS['xoopsTpl']->display(\"db:{\$templateMain}\");\n";
+        return "\$GLOBALS['xoopsTpl']->display(\"db:{$displayTpl}\");\n";
     }
 
     /**
@@ -727,6 +774,29 @@ EOT;
             $ret = "\${$left} = \$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
         } else {
             $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}')";
+        }
+
+        return $ret;
+    }
+
+    /**
+     *  @public function getXoopsCodeCheckRight
+     *
+     *  @param $anchor
+     *  @param $permString
+     *  @param $var
+     *  @param $groups
+     *  @param $mid
+     *  @param $isParam
+     *
+     *  @return string
+     */
+    public function getXoopsCodeCheckRight($anchor, $permString = '', $var = '', $groups = '', $mid = '', $isParam = false)
+    {
+        if ($isParam === false) {
+            $ret = "{$anchor}->checkRight('{$permString}', {$var}, {$groups}, {$mid});\n";
+        } else {
+            $ret = "{$anchor}->checkRight('{$permString}', {$var}, {$groups}, {$mid})";
         }
 
         return $ret;
@@ -786,10 +856,14 @@ EOT;
      *
      *  @return string
      */
-    public function getXoopsCodeGetValues($tableName, $tableSoleName, $index = 'i')
+    public function getXoopsCodeGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false)
     {
         $ucfTableName = ucfirst($tableName);
-        $ret = "\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
+        if ($noArray == false) {
+            $ret = "\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
+        } else {
+            $ret = "\${$tableSoleName} = \${$tableName}->getValues{$ucfTableName}();\n";
+        }
 
         return $ret;
     }
@@ -870,7 +944,7 @@ EOT;
     {
         $securityError = $this->getXoopsCodeSecurityGetError();
         $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
-        $content = $this->getXoopsCodeRedirectHeader($tableName, '', 3, $implode);
+        $content = $this->getXoopsCodeRedirectHeader($tableName.'.php', '', 3, $implode);
         $securityCheck = $this->getXoopsCodeSecurityCheck();
 
         return $this->phpcode->getPhpCodeConditions('!'.$securityCheck, '', '', $content);
@@ -884,7 +958,7 @@ EOT;
     */
     public function getXoopsCodeInsertData($tableName, $language)
     {
-        $content = $this->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
+        $content = $this->getXoopsCodeRedirectHeader($tableName.'.php', '?op=list', 2, "{$language}FORM_OK");
         $handlerInsert = $this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
 
         return $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $content);
@@ -896,11 +970,19 @@ EOT;
     *  @param $options
     *  @param $numb
     *  @param $var
+    *  @param $isString
+    *
     *  @return string
     */
-    public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = '2', $var)
+    public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = '2', $var, $isString = true)
     {
-        return "redirect_header('{$tableName}.php{$options}', {$numb}, {$var});\n";
+        if ($isString === false) {
+            $ret = "redirect_header({$tableName}, {$numb}, {$var});\n";
+        } else {
+            $ret = "redirect_header('{$tableName}{$options}', {$numb}, {$var});\n";
+        }
+
+        return $ret;
     }
 
     /*
@@ -1025,7 +1107,7 @@ EOT;
      */
     public function getXoopsCodeInsert($tableName, $var, $obj = '', $isHandler = false)
     {
-        $handler = $isHandler === false ? '' : 'Handler';
+        $handler = ($isHandler === false) ? '' : 'Handler';
         if ($obj != '') {
             $ret = "\${$tableName}{$handler}->insert(\${$var}{$obj})";
         } else {

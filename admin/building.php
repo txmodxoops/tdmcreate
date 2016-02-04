@@ -57,7 +57,7 @@ switch ($op) {
         include_once TDMC_CLASSES_PATH.'/files/TDMCreateArchitecture.php';
         $handler = TDMCreateArchitecture::getInstance();
         // Creation of the structure of folders and files
-        $baseArchitecture = $handler->createBaseFoldersFiles($moduleObj);
+        $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);
         if (false !== $baseArchitecture) {
             $GLOBALS['xoopsTpl']->assign('base_architecture', true);
         } else {
@@ -65,7 +65,7 @@ switch ($op) {
         }
         // Get files
         $build = array();
-        $files = $handler->createFilesToBuilding($moduleObj);
+        $files = $handler->setFilesToBuilding($moduleObj);
         foreach ($files as $file) {
             if ($file) {
                 $build['list'] = $file;

@@ -51,10 +51,10 @@ $modversion['modicons32'] = 'assets/icons/32';
 
 $modversion['targetdir'] = XOOPS_ROOT_PATH."/modules/{$dirname}/modules/";
 
-$modversion['release_date'] = '2015/06/01';
+$modversion['release_date'] = '2016/01/28';
 $modversion['module_website_url'] = 'http://www.xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['module_status'] = 'Alpha 3';
+$modversion['module_status'] = 'Alpha 3.3.4';
 
 $modversion['min_php'] = '5.3';
 $modversion['min_xoops'] = '2.5.7';
@@ -88,16 +88,16 @@ $modversion['templates'][] = array('file' => 'tdmcreate_morefiles.tpl', 'descrip
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 // Tables
 $t = 1;
-$modversion['tables'][$t] = 'tdmcreate_settings';
-$modversion['tables'][$t] = 'tdmcreate_modules';
-$modversion['tables'][$t] = 'tdmcreate_tables';
-$modversion['tables'][$t] = 'tdmcreate_fields';
-$modversion['tables'][$t] = 'tdmcreate_languages';
-$modversion['tables'][$t] = 'tdmcreate_fieldtype';
-$modversion['tables'][$t] = 'tdmcreate_fieldattributes';
-$modversion['tables'][$t] = 'tdmcreate_fieldnull';
-$modversion['tables'][$t] = 'tdmcreate_fieldkey';
-$modversion['tables'][$t] = 'tdmcreate_fieldelements';
+$modversion['tables'][$t] = 'tdmcreate_settings'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_modules'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_tables'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_fields'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_languages'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_fieldtype'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_fieldattributes'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_fieldnull'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_fieldkey'; ++$t;
+$modversion['tables'][$t] = 'tdmcreate_fieldelements'; ++$t;
 $modversion['tables'][$t] = 'tdmcreate_morefiles';
 unset($t);
 // Scripts to run upon installation or update
@@ -121,8 +121,8 @@ $modversion['config'][$c]['formtype'] = 'select';
 $modversion['config'][$c]['valuetype'] = 'text';
 $modversion['config'][$c]['default'] = 'dhtml';
 xoops_load('xoopseditorhandler');
-$editor_handler = XoopsEditorHandler::getInstance();
-$modversion['config'][$c]['options'] = array_flip($editor_handler->getList());
+$editorHandler = XoopsEditorHandler::getInstance();
+$modversion['config'][$c]['options'] = array_flip($editorHandler->getList());
 ++$c;
 //Uploads : mimetypes
 $modversion['config'][$c]['name'] = 'mimetypes';
