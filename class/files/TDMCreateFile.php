@@ -40,14 +40,14 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @var mixed
      */
-    private $fileName;
+    private $fileName = null;
 
     /**
      * "subdir" attribute of the directories.
      *
      * @var string
      */
-    private $subdir;
+    private $subdir = null;
 
     /**
      * "uploadPath" attribute of the files.
@@ -59,22 +59,22 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    private $content;
+    private $content = null;
 
     /*
     * @var mixed
     */
-    private $created = false;
+    private $created = null;
 
     /*
     * @var mixed
     */
-    private $notCreated = false;
+    private $notCreated = null;
 
     /*
     * @var string
     */
-    private $mode;
+    private $mode = null;
 
     /*
     * @var string
@@ -123,7 +123,7 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param $notCreated
      * @param $mode
      */
-    public function create($moduleDirname, $subdir = null, $fileName, $content = '', $created = false, $notCreated = false, $mode = 'w+')
+    public function create($moduleDirname, $subdir = null, $fileName = null, $content = '', $created = null, $notCreated = null, $mode = 'w+')
     {
         $this->setFileName($fileName);
         $this->created = $created;

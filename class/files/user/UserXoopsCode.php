@@ -118,8 +118,6 @@ class UserXoopsCode
     */
     public function getUserMetaDesc($moduleDirname, $stuTableSoleName, $language)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
-
         return "{$moduleDirname}MetaDescription({$language}{$stuTableSoleName}_DESC);\n";
     }
 
@@ -162,7 +160,7 @@ class UserXoopsCode
     public function getUserBreadcrumbsFooterFile()
     {
         $cond = $this->xoopscode->getXoopsCodeTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret .= $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }
