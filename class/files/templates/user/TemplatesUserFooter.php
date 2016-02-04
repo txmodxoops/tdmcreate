@@ -77,33 +77,25 @@ class TemplatesUserFooter extends TDMCreateFile
     }
 
     /*
-     *  @public function getTemplateUserFooterFacebbokLikeButton
+     *  @public function getTemplateUserFooterFacebookLikeButton
      *  @param null
      *
      * @return bool|string
      */
-    public function getTemplateUserFooterFacebbokLikeButton()
+    public function getTemplateUserFooterFacebookLikeButton()
     {
-        $ret = <<<EOT
-	<li class="fb-like" data-href="<{\$xoops_mpageurl}>" data-layout="standard" data-action="like" data-show-faces="true"></li>
-EOT;
-
-        return $ret;
+        return "<li class='fb-like' data-href='<{\$xoops_mpageurl}>' data-layout='standard' data-action='like' data-show-faces='true'></li>";
     }
 
     /*
-     *  @public function getTemplateUserFooterFacebbokShareButton
+     *  @public function getTemplateUserFooterFacebookShareButton
      *  @param null
      *
      * @return bool|string
      */
-    public function getTemplateUserFooterFacebbokShareButton()
+    public function getTemplateUserFooterFacebookShareButton()
     {
-        $ret = <<<EOT
-	<li class="fb-share-button" data-href="<{\$xoops_mpageurl}>" data-layout="button_count"></li>
-EOT;
-
-        return $ret;
+        return "<li class='fb-share-button' data-href='<{\$xoops_mpageurl}>' data-layout='button_count'></li>";
     }
 
     /*
