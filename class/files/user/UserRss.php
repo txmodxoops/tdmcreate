@@ -131,9 +131,10 @@ class UserRss extends TDMCreateFile
                 $fieldParent = 'cid';
             }
         }
+        $ret = $this->getInclude();
 
         $ret = <<<EOT
-include  __DIR__ . '/header.php';
+
 \${$fieldParent} = {$moduleDirname}_CleanVars(\$_GET, '{$fieldParent}', 0);
 include_once XOOPS_ROOT_PATH.'/class/template.php';
 if (function_exists('mb_http_output')) {

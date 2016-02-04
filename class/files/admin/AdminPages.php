@@ -215,7 +215,7 @@ class AdminPages extends TDMCreateFile
         $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
         $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
         $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
-        $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '', '3', $implode);
+        $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName.'.php', '', '3', $implode);
         $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
 
         $isset = $this->phpcode->getPhpCodeIsset($ccFieldId);
@@ -263,7 +263,7 @@ class AdminPages extends TDMCreateFile
         }
         $ret .= $this->t2.$this->getCommentLine('Insert Data');
         $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
-        $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK");
+        $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader($tableName.'.php', '?op=list', '2', "{$language}FORM_OK");
         $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
         $ret .= $this->t2.$this->getCommentLine('Get Form');
         $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");

@@ -19,7 +19,7 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: xoopsversion_file.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: UserXoopsVersion.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -43,6 +43,9 @@ class UserXoopsVersion extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->usercode = UserXoopsCode::getInstance();
     }
 
     /*
@@ -115,18 +118,6 @@ class UserXoopsVersion extends TDMCreateFile
         return $this->keywords;
     }
 
-    /**
-     * @private function getModVersionHeaderComment
-     *
-     * @param $comment
-     *
-     * @return string
-     */
-    private function getModVersionHeaderComment($comment)
-    {
-        return "// ------------------- {$comment} ------------------- //";
-    }
-
     /*
     *  @private function getXoopsVersionHeader
     *  @param $language
@@ -140,84 +131,30 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionHeader($module, $table, $language)
     {
-        //$dateString = preg_replace('/[^0-9]/', '/', _DBDATESTRING);
-        $date = date(_DBDATESTRING); // _DBDATESTRING
-        $ret = <<<EOT
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-//
-//\$dirname = basename(__DIR__);
-// ------------------- Informations ------------------- //
-\$modversion = array(
-    'name' => {$language}NAME,
-    'version' => {$module->getVar('mod_version')},
-    'description' => {$language}DESC,
-    'author' => '{$module->getVar('mod_author')}',
-    'author_mail' => '{$module->getVar('mod_author_mail')}',
-    'author_website_url' => '{$module->getVar('mod_author_website_url')}',
-    'author_website_name' => '{$module->getVar('mod_author_website_name')}',
-    'credits' => '{$module->getVar('mod_credits')}',
-    'license' => '{$module->getVar('mod_license')}',
-    'license_url' => 'www.gnu.org/licenses/gpl-2.0.html/',
-	'help' => 'page=help',
-    //
-    'release_info' => '{$module->getVar('mod_release_info')}',
-    'release_file' => XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}',
-    'release_date' => '{$date}',
-    //
-    'manual' => '{$module->getVar('mod_manual')}',
-    'manual_file' => XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}',
-    'min_php' => '{$module->getVar('mod_min_php')}',
-    'min_xoops' => '{$module->getVar('mod_min_xoops')}',
-    'min_admin' => '{$module->getVar('mod_min_admin')}',
-    'min_db' => array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}'),
-    'image' => 'assets/images/{$module->getVar('mod_image')}',
-    'dirname' => '{$module->getVar('mod_dirname')}',
-    // Frameworks
-    'dirmoduleadmin' => 'Frameworks/moduleclasses/moduleadmin',
-    'sysicons16' => '../../Frameworks/moduleclasses/icons/16',
-    'sysicons32' => '../../Frameworks/moduleclasses/icons/32',
-    // Local path icons
-    'modicons16' => 'assets/icons/16',
-    'modicons32' => 'assets/icons/32',
-    //About
-    'demo_site_url' => '{$module->getVar('mod_demo_site_url')}',
-    'demo_site_name' => '{$module->getVar('mod_demo_site_name')}',
-    'support_url' => '{$module->getVar('mod_support_url')}',
-    'support_name' => '{$module->getVar('mod_support_name')}',
-    'module_website_url' => '{$module->getVar('mod_website_url')}',
-    'module_website_name' => '{$module->getVar('mod_website_name')}',
-    'release' => '{$module->getVar('mod_release')}',
-    'module_status' => '{$module->getVar('mod_status')}',
-    // Admin system menu
-    'system_menu' => 1,
-    // Admin things
-    'hasAdmin' => 1,
-    'adminindex' => 'admin/index.php',
-    'adminmenu' => 'admin/menu.php',\n
-EOT;
-        if (1 == $module->getVar('mod_user')) {
-            $ret .= <<<EOT
-    // Main things
-    'hasMain' => 1,\n
-EOT;
-        } else {
-            $ret .= <<<EOT
-    // Main things
-    'hasMain' => 0,\n
-EOT;
-        }
-        $ret .= <<<EOT
-    // Install/Update
-    'onInstall' => 'include/install.php',\n
-EOT;
-        if (is_object($table) && $table->getVar('table_name') != null) {
-            $ret .= <<<EOT
-    'onUpdate' => 'include/update.php'\n
-EOT;
-        }
-        $ret .= <<<EOT
-);\n
-EOT;
+        $date = date(_DBDATESTRING);
+        $ret = $this->getSimpleString("defined('XOOPS_ROOT_PATH') || die('Restricted access');");
+        $ret .= $this->getCommentLine();
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
+        $ret .= $this->getHeaderComment('Informations');
+        $ha = (1 == $module->getVar('mod_admin')) ? 1 : 0;
+        $hm = (1 == $module->getVar('mod_user')) ? 1 : 0;
+
+        $descriptions = array('name' => "{$language}NAME", 'version' => "{$module->getVar('mod_version')}", 'description' => "{$language}DESC",
+                            'author' => "'{$module->getVar('mod_author')}'", 'author_mail' => "'{$module->getVar('mod_author_mail')}'", 'author_website_url' => "'{$module->getVar('mod_author_website_url')}'",
+                            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'",'credits' => "'{$module->getVar('mod_credits')}'",'license' => "'{$module->getVar('mod_license')}'",
+                            'license_url' => "'www.gnu.org/licenses/gpl-2.0.html/'", 'help' => "'page=help'", 'release_info' => "'{$module->getVar('mod_release_info')}'",
+                            'release_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'", 'release_date' => "'{$date}'",
+                            'manual' => "'{$module->getVar('mod_manual')}'", 'manual_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
+                            'min_php' => "'{$module->getVar('mod_min_php')}'", 'min_xoops' => "'{$module->getVar('mod_min_xoops')}'", 'min_admin' => "'{$module->getVar('mod_min_admin')}'",
+                            'min_db' => "array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}')", 'image' => "'assets/images/{$module->getVar('mod_image')}'",
+                            'dirname' => 'basename(__DIR__)', 'dirmoduleadmin' => "'Frameworks/moduleclasses/moduleadmin'", 'sysicons16' => "'../../Frameworks/moduleclasses/icons/16'",
+                            'sysicons32' => "'../../Frameworks/moduleclasses/icons/32'", 'modicons16' => "'assets/icons/16'", 'modicons32' => "'assets/icons/32'",
+                            'demo_site_url' => "'{$module->getVar('mod_demo_site_url')}'", 'demo_site_name' => "'{$module->getVar('mod_demo_site_name')}'", 'support_url' => "'{$module->getVar('mod_support_url')}'",
+                            'support_name' => "'{$module->getVar('mod_support_name')}'", 'module_website_url' => "'{$module->getVar('mod_website_url')}'", 'module_website_name' => "'{$module->getVar('mod_website_name')}'", 'release' => "'{$module->getVar('mod_release')}'", 'module_status' => "'{$module->getVar('mod_status')}'",
+                            'system_menu' => '1', 'hasAdmin' => $ha, 'hasMain' => $hm, 'adminindex' => "'admin/index.php'", 'adminmenu' => "'admin/menu.php'",
+                            'onInstall' => "'include/install.php'", 'onUpdate' => "'include/update.php'", );
+
+        $ret .= $this->usercode->getUserModVersion(1, $descriptions);
 
         return $ret;
     }
@@ -239,22 +176,16 @@ EOT;
         $n = 1;
         $ret = '';
         if (!empty($tableName)) {
-            $ret .= <<<EOT
-// ------------------- Mysql ------------------- //
-\$modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
-// Tables\n
-EOT;
+            $ret .= $this->getHeaderComment('Mysql');
+            $ret .= $this->usercode->getUserModVersion(2, "'sql/mysql.sql'", 'sqlfile', "'mysql'");
+            $ret .= $this->getCommentLine('Tables');
+
             foreach (array_keys($tables) as $t) {
-                $ret .= <<<EOT
-\$modversion['tables'][{$n}] = '{$moduleDirname}_{$tables[$t]->getVar('table_name')}';\n
-EOT;
+                $ret .= $this->usercode->getUserModVersion(2, "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'", 'tables', $n);
                 ++$n;
             }
             unset($n);
         }
-        $ret .= <<<EOT
-\n
-EOT;
 
         return $ret;
     }
@@ -270,12 +201,10 @@ EOT;
      */
     private function getXoopsVersionSearch($moduleDirname)
     {
-        $ret = <<<EOT
-// ------------------- Search ------------------- //
-\$modversion['hasSearch'] = 1;
-\$modversion['search']['file'] = 'include/search.inc.php';
-\$modversion['search']['func'] = '{$moduleDirname}_search';\n\n
-EOT;
+        $ret = $this->getHeaderComment('Search');
+        $ret .= $this->usercode->getUserModVersion(1, 1, 'hasSearch');
+        $ret .= $this->usercode->getUserModVersion(2, "'include/search.inc.php'", 'search', "'file'");
+        $ret .= $this->usercode->getUserModVersion(2, "'{$moduleDirname}_search'", 'search', "'func'");
 
         return $ret;
     }
@@ -291,15 +220,13 @@ EOT;
      */
     private function getXoopsVersionComments($moduleDirname)
     {
-        $ret = <<<EOT
-// ------------------- Comments ------------------- //
-\$modversion['comments']['pageName'] = 'comments.php';
-\$modversion['comments']['itemName'] = 'com_id';
-// Comment callback functions
-\$modversion['comments']['callbackFile'] = 'include/comment_functions.php';
-\$modversion['comments']['callback']['approve'] = '{$moduleDirname}CommentsApprove';
-\$modversion['comments']['callback']['update'] = '{$moduleDirname}CommentsUpdate';\n\n
-EOT;
+        $ret = $this->getHeaderComment('Comments');
+        $ret .= $this->usercode->getUserModVersion(2, "'comments.php'", 'comments', "'pageName'");
+        $ret .= $this->usercode->getUserModVersion(2, "'com_id'", 'comments', "'itemName'");
+        $ret .= $this->getCommentLine('Comment callback functions');
+        $ret .= $this->usercode->getUserModVersion(2, "'include/comment_functions.php'", 'comments', "'callbackFile'");
+        $descriptions = array('approve' => "'{$moduleDirname}CommentsApprove'", 'update' => "'{$moduleDirname}CommentsUpdate'");
+        $ret .= $this->usercode->getUserModVersion(3, $descriptions, 'comments', "'callback'");
 
         return $ret;
     }
@@ -316,10 +243,9 @@ EOT;
      */
     private function getXoopsVersionTemplatesAdmin($moduleDirname, $table, $tables)
     {
-        $ret = <<<EOT
-// ------------------- Templates ------------------- //
-// Admin\n
-EOT;
+        $ret = $this->getHeaderComment('Templates');
+        $ret .= $this->getCommentLine('Admin');
+
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', false, true);
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', false, true);
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', false, true);
@@ -347,19 +273,16 @@ EOT;
      */
     private function getXoopsVersionTemplatesLine($moduleDirname, $type, $extra = false, $isAdmin = false)
     {
+        $ret = '';
+        $desc = "'description' => ''";
+        $arrayFile = "array('file' =>";
         if ($isAdmin) {
-            $ret = <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_admin_{$type}.tpl', 'description' => '', 'type' => 'admin');\n
-EOT;
+            $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin')", 'templates', '');
         } else {
             if (!$extra) {
-                $ret = <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_{$type}.tpl', 'description' => '');\n
-EOT;
+                $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');
             } else {
-                $ret = <<<EOT
-\$modversion['templates'][] = array('file' => '{$moduleDirname}_{$type}_{$extra}.tpl', 'description' => '');\n
-EOT;
+                $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc})", 'templates', '');
             }
         }
 
@@ -378,9 +301,8 @@ EOT;
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
         $table = $this->getTable();
-        $ret = <<<EOT
-// User\n
-EOT;
+        $ret = $this->getCommentLine('User');
+
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header');
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index');
         foreach (array_keys($tables) as $t) {
@@ -429,33 +351,24 @@ EOT;
      */
     private function getXoopsVersionSubmenu($language, $tables)
     {
-        $ret = <<<EOT
-// ------------------- Submenu ------------------- //\n
-EOT;
+        $ret = $this->getHeaderComment('Submenu');
         $i = 1;
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= <<<EOT
-// Sub {$tableName}
-\$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};
-\$modversion['sub'][{$i}]['url'] = '{$tableName}.php';\n
-EOT;
+                $ret .= $this->getCommentLine('Sub', $tableName);
+                $tname = array('name' => "{$language}SMNAME{$i}", 'url' => "'{$tableName}.php'");
+                $ret .= $this->usercode->getUserModVersion(3, $tname, 'sub', $i);
             }
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
-            $ret .= <<<EOT
-// Sub Submit
-\$modversion['sub'][{$i}]['name'] = {$language}SMNAME{$i};
-\$modversion['sub'][{$i}]['url'] = 'submit.php';\n
-EOT;
+            $ret .= $this->getCommentLine('Sub', 'Submit');
+            $submit = array('name' => "{$language}SMNAME{$i}", 'url' => "'submit.php'");
+            $ret .= $this->usercode->getUserModVersion(3, $submit, 'sub', $i);
         }
         unset($i);
-        $ret .= <<<EOT
-\n
-EOT;
 
         return $ret;
     }
@@ -473,25 +386,22 @@ EOT;
      */
     private function getXoopsVersionBlocks($moduleDirname, $table, $tables, $language)
     {
-        $ret = <<<EOT
-// ------------------- Blocks ------------------- //\n
-EOT;
-
+        $ret = $this->getHeaderComment('Blocks');
+        $ret .= $this->getSimpleString('$b = 1;');
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableFieldName = $tables[$i]->getVar('table_fieldname');
-            if (1 == $tables[$i]->getVar('table_blocks')) {
-                if (1 == $tables[$i]->getVar('table_category')) {
-                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $tableFieldName);
-                } else {
-                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'last');
-                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'new');
-                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'hits');
-                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'top');
-                    $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'random');
-                }
+            if (1 == $tables[$i]->getVar('table_category')) {
+                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $tableFieldName);
+            } else {
+                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'last');
+                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'new');
+                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'hits');
+                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'top');
+                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, 'random');
             }
         }
+        $ret .= $this->getSimpleString('unset($b);');
 
         return $ret;
     }
@@ -507,19 +417,17 @@ EOT;
      *
      * @return string
      */
-    private function getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $type)
+    private function getXoopsVersionTypeBlocks($moduleDirname, $tableName, $language, $type, $numb)
     {
         $stuTableName = strtoupper($tableName);
-        $ret = <<<EOT
-\$modversion['blocks'][] = array(
-    'file' => '{$tableName}.php',
-    'name' => {$language}{$stuTableName}_BLOCK,
-    'description' => {$language}{$stuTableName}_BLOCK_DESC,
-    'show_func' => 'b_{$moduleDirname}_{$tableName}_show',
-    'edit_func' => 'b_{$moduleDirname}_{$tableName}_edit',
-    'options' => '{$type}|5|25|0',
-    'template' => '{$moduleDirname}_block_{$tableName}.tpl');\n\n
-EOT;
+        $stuType = strtoupper($type);
+        $ucfType = ucfirst($type);
+        $ret = $this->getCommentLine("{$ucfType}");
+        $blocks = array('file' => "'{$tableName}.php'", 'name' => "{$language}{$stuTableName}_BLOCK_{$stuType}", 'description' => "{$language}{$stuTableName}_BLOCK_{$stuType}_DESC",
+                        'show_func' => "'b_{$moduleDirname}_{$tableName}_show'", 'edit_func' => "'b_{$moduleDirname}_{$tableName}_edit'",
+                        'template' => "'{$moduleDirname}_block_{$tableName}.tpl'", 'options' => "'{$type}|5|25|0'", );
+        $ret .= $this->usercode->getUserModVersion(3, $blocks, 'blocks', '$b');
+        $ret .= $this->getSimpleString('++$b;');
 
         return $ret;
     }
@@ -539,223 +447,141 @@ EOT;
     private function getXoopsVersionConfig($module, $table, $language)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret = <<<EOT
-// ------------------- Config ------------------- //\n
-EOT;
+        $ret = $this->getHeaderComment('Config');
+        $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if ($fieldElement == 4) {
-                $fieldName = $fields[$f]->getVar('field_name');
-                $rpFieldName = $this->getRightString($fieldName);
-                $ret .= <<<EOT
-// Editor
-xoops_load('xoopseditorhandler');
-\$editorHandler = XoopsEditorHandler::getInstance();
-\$modversion['config'][] = array(
-    'name' => '{$moduleDirname}_editor_{$rpFieldName}',
-    'title' => '{$language}EDITOR',
-    'description' => '{$language}EDITOR_DESC',
-    'formtype' => 'select',
-    'valuetype' => 'text',
-    'options' => array_flip(\$editorHandler->getList()),
-    'default' => 'dhtml');\n\n
-EOT;
-            }
+            $fieldElement[] = $fields[$f]->getVar('field_element');
+        }
+        if (in_array(4, $fieldElement)) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            $rpFieldName = $this->getRightString($fieldName);
+            $ucfFieldName = ucfirst($rpFieldName);
+            $ret .= $this->getCommentLine('Editor', $rpFieldName);
+            $ret .= $this->xoopscode->getXoopsCodeLoad('xoopseditorhandler');
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('editorHandler ', 'XoopsEditorHandler::getInstance()');
+            $editor = array('name' => "'{$moduleDirname}_editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$ucfFieldName}'", 'description' => "'{$language}EDITOR_{$ucfFieldName}_DESC'",
+                    'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler->getList())', );
+            $ret .= $this->usercode->getUserModVersion(3, $editor, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
         }
         if (1 == $table->getVar('table_permissions')) {
-            $ret .= <<<EOT
-// Get groups
-\$memberHandler =& xoops_gethandler('member');
-\$xoopsgroups = \$memberHandler->getGroupList();
-foreach (\$xoopsgroups as \$key => \$group) {
-    \$groups[\$group] = \$key;
-}
-\$modversion['config'][] = array(
-    'name' => 'groups',
-    'title' => '{$language}GROUPS',
-    'description' => '{$language}GROUPS_DESC',
-    'formtype' => 'select_multi',
-    'valuetype' => 'array',
-    'options' => \$groups,
-    'default' => \$groups);
-
-// Get Admin groups
-\$criteria = new CriteriaCompo();
-\$criteria->add( new Criteria( 'group_type', 'Admin' ) );
-\$memberHandler =& xoops_gethandler('member');
-\$admin_xoopsgroups = \$memberHandler->getGroupList(\$criteria);
-foreach (\$admin_xoopsgroups as \$key => \$admin_group) {
-    \$admin_groups[\$admin_group] = \$key;
-}
-\$modversion['config'][] = array(
-    'name' => 'admin_groups',
-    'title' => '{$language}ADMIN_GROUPS',
-    'description' => '{$language}ADMIN_GROUPS_DESC',
-    'formtype' => 'select_multi',
-    'valuetype' => 'array',
-    'options' => \$admin_groups,
-    'default' => \$admin_groups);\n\n
-EOT;
+            $ret .= $this->getCommentLine('Get groups');
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
+            $group = $this->xoopscode->getXoopsCodeEqualsOperator('$groups[$group] ', '$key');
+            $ret .= $this->phpcode->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
+            $groups = array('name' => "'groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
+                        'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$groups', 'options' => '$groups', );
+            $ret .= $this->usercode->getUserModVersion(3, $groups, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
+            $ret .= $this->getCommentLine('Get Admin groups');
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$criteria ', 'new CriteriaCompo()');
+            $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
+            $adminGroup = $this->xoopscode->getXoopsCodeEqualsOperator('$adminGroups[$adminGroup] ', '$key');
+            $ret .= $this->phpcode->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
+            $adminGroups = array('name' => "'admin_groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
+                        'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$adminGroups', 'options' => '$adminGroups', );
+            $ret .= $this->usercode->getUserModVersion(3, $adminGroups, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
         }
         $keyword = implode(', ', $this->getKeywords());
-        $ret .= <<<EOT
-\$modversion['config'][] = array(
-    'name' => 'keywords',
-    'title' => '{$language}KEYWORDS',
-    'description' => '{$language}KEYWORDS_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'text',
-    'default' => '{$moduleDirname}, {$keyword}');\n\n
-EOT;
+        $ret .= $this->getCommentLine('Keywords');
+        $arrayKeyword = array('name' => "'keywords'", 'title' => "'{$language}KEYWORDS'", 'description' => "'{$language}KEYWORDS_DESC'",
+                        'formtype' => "'textbox'", 'valuetype' => "'text'", 'default' => "'{$moduleDirname}, {$keyword}'", );
+        $ret .= $this->usercode->getUserModVersion(3, $arrayKeyword, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
         unset($this->keywords);
         if (is_object($table)) {
-            foreach (array_keys($fields) as $f) {
-                $fieldElement = $fields[$f]->getVar('field_element');
-                if ((10 == $fieldElement) || (11 == $fieldElement) ||
-                    (12 == $fieldElement) || (13 == $fieldElement) || (14 == $fieldElement)
-                ) {
-                    $ret .= <<<EOT
-//Uploads : maxsize of image
-\$modversion['config'][] = array(
-    'name' => 'maxsize',
-    'title' => '{$language}MAXSIZE',
-    'description' => '{$language}MAXSIZE_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'int',
-    'default' => 5000000);
-
-//Uploads : mimetypes of image
-\$modversion['config'][] = array(
-    'name' => 'mimetypes',
-    'title' => '{$language}MIMETYPES',
-    'description' => '{$language}MIMETYPES_DESC',
-    'formtype' => 'select_multi',
-    'valuetype' => 'array',
-    'default' => array('image/gif', 'image/jpeg', 'image/png'),
-    'options' => array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg',
-                       'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe',
-                       'png' => 'image/png'));\n\n
-EOT;
-                }
+            if (in_array(array(10, 11, 12, 13, 14), $fieldElement)) {
+                $ret .= $this->getCommentLine('Uploads : maxsize of image');
+                $maxsize = array('name' => "'maxsize'", 'title' => "'{$language}MAXSIZE'", 'description' => "'{$language}MAXSIZE_DESC'",
+                    'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '5000000', );
+                $ret .= $this->usercode->getUserModVersion(3, $maxsize, 'config', '$c');
+                $ret .= $this->getCommentLine('Uploads : mimetypes of image');
+                $ret .= $this->getSimpleString('++$c;');
+                $mimetypes = array('name' => "'mimetypes'", 'title' => "'{$language}MIMETYPES'", 'description' => "'{$language}MIMETYPES_DESC'",
+                    'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')", 'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg',
+				   'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe',
+				   'png' => 'image/png')", );
+                $ret .= $this->usercode->getUserModVersion(3, $mimetypes, 'config', '$c');
+                $ret .= $this->getSimpleString('++$c;');
             }
             if (1 == $table->getVar('table_admin')) {
-                $ret .= <<<EOT
-\$modversion['config'][] = array(
-    'name' => 'adminpager',
-    'title' => '{$language}ADMIN_PAGER',
-    'description' => '{$language}ADMIN_PAGER_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'int',
-    'default' => 10);\n\n
-EOT;
+                $ret .= $this->getCommentLine('Admin pager');
+                $adminPager = array('name' => "'adminpager'", 'title' => "'{$language}ADMIN_PAGER'", 'description' => "'{$language}ADMIN_PAGER_DESC'",
+                        'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
+                $ret .= $this->usercode->getUserModVersion(3, $adminPager, 'config', '$c');
+                $ret .= $this->getSimpleString('++$c;');
             }
             if (1 == $table->getVar('table_user')) {
-                $ret .= <<<EOT
-\$modversion['config'][] = array(
-    'name' => 'userpager',
-    'title' => '{$language}USER_PAGER',
-    'description' => '{$language}USER_PAGER_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'int',
-    'default' => 10);\n\n
-EOT;
+                $ret .= $this->getCommentLine('User pager');
+                $userPager = array('name' => "'userpager'", 'title' => "'{$language}USER_PAGER'", 'description' => "'{$language}USER_PAGER_DESC'",
+                        'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
+                $ret .= $this->usercode->getUserModVersion(3, $userPager, 'config', '$c');
+                $ret .= $this->getSimpleString('++$c;');
+            }
+            if (1 == $table->getVar('table_tag')) {
+                $ret .= $this->getCommentLine('Use tag');
+                $useTag = array('name' => "'usetag'", 'title' => "'{$language}USE_TAG'", 'description' => "'{$language}USE_TAG_DESC'",
+                        'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
+                $ret .= $this->usercode->getUserModVersion(3, $useTag, 'config', '$c');
+                $ret .= $this->getSimpleString('++$c;');
             }
         }
-        if (1 == $table->getVar('table_tag')) {
-            $ret .= <<<EOT
-\$modversion['config'][] = array(
-    'name' => 'usetag',
-    'title' => '{$language}USE_TAG',
-    'description' => '{$language}USE_TAG_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => 0);\n\n
-EOT;
-        }
-        $ret .= <<<EOT
-\$modversion['config'][] = array(
-    'name' => 'numb_col',
-    'title' => '{$language}NUMB_COL',
-    'description' => '{$language}NUMB_COL_DESC',
-    'formtype' => 'select',
-    'valuetype' => 'int',
-    'default' => 1,
-	'options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4'));
-
-\$modversion['config'][] = array(
-    'name' => 'divideby',
-    'title' => '{$language}DIVIDEBY',
-    'description' => '{$language}DIVIDEBY_DESC',
-    'formtype' => 'select',
-    'valuetype' => 'int',
-    'default' => 1,
-	'options' => array(1 => '1', 2 => '2', 3 => '3', 4 => '4'));
-
-\$modversion['config'][] = array(
-    'name' => 'table_type',
-    'title' => '{$language}TABLE_TYPE',
-    'description' => '{$language}TABLE_TYPE_DESC',
-    'formtype' => 'select',
-    'valuetype' => 'text',
-    'default' => 'bordered',
-    'options' => array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed'));
-
-\$modversion['config'][] = array(
-    'name' => 'panel_type',
-    'title' => '{$language}PANEL_TYPE',
-    'description' => '{$language}PANEL_TYPE_DESC',
-    'formtype' => 'select',
-    'valuetype' => 'text',
-    'default' => 'default',
-    'options' => array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger'));
-
-\$modversion['config'][] = array(
-    'name' => 'advertise',
-    'title' => '{$language}ADVERTISE',
-    'description' => '{$language}ADVERTISE_DESC',
-    'formtype' => 'textarea',
-    'valuetype' => 'text',
-    'default' => '');
-
-\$modversion['config'][] = array(
-    'name' => 'bookmarks',
-    'title' => '{$language}BOOKMARKS',
-    'description' => '{$language}BOOKMARKS_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => 0);
-
-\$modversion['config'][] = array(
-    'name' => 'facebook_comments',
-    'title' => '{$language}FACEBOOK_COMMENTS',
-    'description' => '{$language}FACEBOOK_COMMENTS_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => 0);
-
-\$modversion['config'][] = array(
-    'name' => 'disqus_comments',
-    'title' => '{$language}DISQUS_COMMENTS',
-    'description' => '{$language}DISQUS_COMMENTS_DESC',
-    'formtype' => 'yesno',
-    'valuetype' => 'int',
-    'default' => 0);
-	
-\$modversion['config'][] = array(
-    'name' => 'maintainedby',
-    'title' => '{$language}MAINTAINEDBY',
-    'description' => '{$language}MAINTAINEDBY_DESC',
-    'formtype' => 'textbox',
-    'valuetype' => 'text',
-    'default' => '{$module->getVar('mod_support_url')}');\n\n
-EOT;
+        $ret .= $this->getCommentLine('Number column');
+        $numbCol = array('name' => "'numb_col'", 'title' => "'{$language}NUMB_COL'", 'description' => "'{$language}NUMB_COL_DESC'",
+                        'formtype' => "'select'", 'valuetype' => "'int'", 'default' => '1', 'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')", );
+        $ret .= $this->usercode->getUserModVersion(3, $numbCol, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Divide by');
+        $divideby = array('name' => "'divideby'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
+                        'formtype' => "'select'", 'valuetype' => "'int'", 'default' => '1', 'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')", );
+        $ret .= $this->usercode->getUserModVersion(3, $divideby, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Table type');
+        $tableType = array('name' => "'table_type'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
+                        'formtype' => "'select'", 'valuetype' => "'int'", 'default' => "'bordered'", 'options' => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')", );
+        $ret .= $this->usercode->getUserModVersion(3, $tableType, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Panel by');
+        $panelType = array('name' => "'panel_type'", 'title' => "'{$language}PANEL_TYPE'", 'description' => "'{$language}PANEL_TYPE_DESC'",
+                        'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'default'", 'options' => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')", );
+        $ret .= $this->usercode->getUserModVersion(3, $panelType, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Panel by');
+        $advertise = array('name' => "'advertise'", 'title' => "'{$language}ADVERTISE'", 'description' => "'{$language}ADVERTISE_DESC'",
+                        'formtype' => "'textarea'", 'valuetype' => "'text'", 'default' => "''", );
+        $ret .= $this->usercode->getUserModVersion(3, $advertise, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Panel by');
+        $bookmarks = array('name' => "'bookmarks'", 'title' => "'{$language}BOOKMARKS'", 'description' => "'{$language}BOOKMARKS_DESC'",
+                        'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
+        $ret .= $this->usercode->getUserModVersion(3, $bookmarks, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Facebook Comments');
+        $facebookComments = array('name' => "'facebook_comments'", 'title' => "'{$language}FACEBOOK_COMMENTS'", 'description' => "'{$language}FACEBOOK_COMMENTS_DESC'",
+                        'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
+        $ret .= $this->usercode->getUserModVersion(3, $facebookComments, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Disqus Comments');
+        $disqusComments = array('name' => "'disqus_comments'", 'title' => "'{$language}DISQUS_COMMENTS'", 'description' => "'{$language}DISQUS_COMMENTS_DESC'",
+                        'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
+        $ret .= $this->usercode->getUserModVersion(3, $disqusComments, 'config', '$c');
+        $ret .= $this->getSimpleString('++$c;');
+        $ret .= $this->getCommentLine('Maintained by');
+        $maintainedby = array('name' => "'maintainedby'", 'title' => "'{$language}MAINTAINEDBY'", 'description' => "'{$language}MAINTAINEDBY_DESC'",
+                        'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => "'{$module->getVar('mod_support_url')}'", );
+        $ret .= $this->usercode->getUserModVersion(3, $maintainedby, 'config', '$c');
+        $ret .= $this->getSimpleString('unset($c);');
 
         return $ret;
     }
 
     /*
-    *  @private function getTypeNotifications
+    *  @private function getNotificationsType
     *  @param $language
     *  @param $type
     *  @param $tableName
@@ -772,7 +598,7 @@ EOT;
      *
      * @return string
      */
-    private function getTypeNotifications($language, $type = 'category', $tableName, $notifyFile, $item, $typeOfNotify)
+    private function getNotificationsType($language, $type = 'category', $tableName, $notifyFile, $item, $typeOfNotify)
     {
         $stuTableName = strtoupper($tableName);
         $stuTypeOfNotify = strtoupper($typeOfNotify);
@@ -780,28 +606,17 @@ EOT;
         $notifyFile = implode(', ', $notifyFile);
         switch ($type) {
             case 'category':
-                $ret = <<<EOT
-\$modversion['notification']['{$type}'][] = array(
-    'name' => 'category',
-    'title' => {$language}{$stuTableName}_NOTIFY,
-    'description' => {$language}{$stuTableName}_NOTIFY_DESC,
-    'subscribe_from' => array('index.php',{$notifyFile}),
-    'item_name' => '{$item}',
-    'allow_bookmark' => 1);\n
-EOT;
+                $ret .= $this->getCommentLine('Category Notify');
+                $category = array('name' => "'category'", 'title' => "'{$language}{$stuTableName}_NOTIFY'", 'description' => "'{$language}{$stuTableName}_NOTIFY_DESC'",
+                                    'subscribe_from' => "array('index.php',{$notifyFile})", 'item_name' => "'{$item}'", "'allow_bookmark'" => '1', );
+                $ret .= $this->usercode->getUserModVersion(3, $category, 'notification', "'{$type}'");
                 break;
             case 'event':
-                $ret = <<<EOT
-\$modversion['notification']['{$type}'][] = array(
-    'name' => '{$typeOfNotify}',
-    'category' => '{$tableName}',
-    'admin_only' => 1,
-    'title' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY,
-    'caption' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION,
-    'description' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_DESC,
-    'mail_template' => '{$tableName}_{$typeOfNotify}_notify',
-    'mail_subject' => {$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT);\n
-EOT;
+                $ret .= $this->getCommentLine('Event Notify');
+                $event = array('name' => "'{$typeOfNotify}'", 'category' => "'{$tableName}'", 'admin_only' => '1', "'title'" => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY'",
+                                'caption' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION'", 'description' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_DESC'",
+                                'mail_template' => "'{$tableName}_{$typeOfNotify}_notify'", 'mail_subject' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT'", );
+                $ret .= $this->usercode->getUserModVersion(3, $event, 'notification', "'{$type}'");
                 break;
         }
 
@@ -823,12 +638,11 @@ EOT;
     private function getXoopsVersionNotifications($module, $language, $filename)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret = <<<EOT
-// ------------------- Notifications ------------------- //
-\$modversion['hasNotification'] = 1;
-\$modversion['notification']['lookup_file'] = 'include/notification.inc.php';
-\$modversion['notification']['lookup_func'] = '{$moduleDirname}_notify_iteminfo';\n\n
-EOT;
+        $ret = $this->getHeaderComment('Notifications');
+        $ret .= $this->usercode->getUserModVersion(1, 1, 'hasNotification');
+        $notifications = array("'lookup_file'" => "'include/notification.inc.php'", "'lookup_func'" => "'{$moduleDirname}_notify_iteminfo'");
+        $ret .= $this->usercode->getUserModVersion(2, $notifications, 'notification');
+
         $notifyFiles = array();
         $single = 'single';
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
@@ -863,25 +677,38 @@ EOT;
             }
         }
 
-        $ret .= $this->getXoopsVersionNotificationGlobal($language, 'category', 'global', 'global', $notifyFiles);
-        $ret .= $this->getXoopsVersionNotificationCategory($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1');
-        $ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1);
+        $num = 1;
+        $ret .= $this->getXoopsVersionNotificationGlobal($language, 'category', 'global', 'global', $notifyFiles, $num);
+        ++$num;
+        $ret .= $this->getXoopsVersionNotificationCategory($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1', $num);
+        ++$num;
+        $ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1, $num);
+        unset($num);
+        $num = 1;
         if (1 == $tableCategory) {
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify');
+            ++$num;
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify', $num);
         }
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_modify', 'global', 1, 'global', 'filemodify', 'global_filemodify_notify');
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_modify', 'global', 1, 'global', 'filemodify', 'global_filemodify_notify', $num);
         if (1 == $tableBroken) {
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_broken', 'global', 1, 'global', 'filebroken', 'global_filebroken_notify');
+            ++$num;
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_broken', 'global', 1, 'global', 'filebroken', 'global_filebroken_notify', $num);
         }
         if (1 == $tableSubmit) {
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'global', 1, 'global', 'filesubmit', 'global_filesubmit_notify');
+            ++$num;
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'global', 1, 'global', 'filesubmit', 'global_filesubmit_notify', $num);
         }
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'global', 0, 'global', 'newfile', 'global_newfile_notify');
+        ++$num;
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'global', 0, 'global', 'newfile', 'global_newfile_notify', $num);
         if (1 == $tableCategory) {
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'category', 1, 'category', 'filesubmit', 'category_filesubmit_notify');
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'category', 0, 'category', 'newfile', 'category_newfile_notify');
+            ++$num;
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'category', 1, 'category', 'filesubmit', 'category_filesubmit_notify', $num);
+            ++$num;
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'category', 0, 'category', 'newfile', 'category_newfile_notify', $num);
         }
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', 'file', 1, 'file', 'approve', 'file_approve_notify');
+        ++$num;
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', 'file', 1, 'file', 'approve', 'file_approve_notify', $num);
+        unset($num);
 
         return $ret;
     }
@@ -898,16 +725,14 @@ EOT;
      *
      * @return string
      */
-    private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from)
+    private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from, $num)
     {
         $title = strtoupper($title);
-        $ret = "
-\$modversion['notification']['{$type}'][] = array(
-    'name' => '{$name}',
-    'title' => {$language}{$title}_NOTIFY,
-    'description' => {$language}{$title}_NOTIFY_DESC,
-    'subscribe_from' => array('index.php', '".implode(".php', '", $from).".php'));\n
-";
+        $implodeFrom = implode(".php', '", $from);
+        $ret = $this->getCommentLine('Global Notify');
+        $global = array('name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
+                        'subscribe_from' => "array('index.php', '{$implodeFrom}.php')", );
+        $ret .= $this->usercode->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -924,18 +749,14 @@ EOT;
      *
      * @return string
      */
-    private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $from, $item, $allow)
+    private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $from, $item, $allow, $num)
     {
         $title = strtoupper($title);//{$from}
-        $ret = "
-\$modversion['notification']['{$type}'][] = array(
-    'name' => '{$name}',
-    'title' => {$language}{$title}_NOTIFY,
-    'description' => {$language}{$title}_NOTIFY_DESC,
-    'subscribe_from' => array('".implode(".php', '", $from).".php'),
-	'item_name' => '{$item}',
-    'allow_bookmark' => {$allow});\n
-";
+        $implodeFrom = implode(".php', '", $from);
+        $ret = $this->getCommentLine('Category Notify');
+        $global = array('name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
+                        'subscribe_from' => "array('{$implodeFrom}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => "{$allow}", );
+        $ret .= $this->usercode->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -954,18 +775,14 @@ EOT;
      *
      * @return string
      */
-    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $from, $item = 'cid', $allow = 1)
+    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $from, $item = 'cid', $allow = 1, $num)
     {
-        $title = strtoupper($title);
-        $ret = <<<EOT
-\$modversion['notification']['{$type}'][] = array(
-    'name' => '{$name}',
-    'title' => {$language}{$title}_NOTIFY,
-    'description' => {$language}{$title}_NOTIFY_DESC,
-    'subscribe_from' => '{$from}.php',
-    'item_name' => '{$item}',
-    'allow_bookmark' => {$allow});\n\n
-EOT;
+        $stuTitle = strtoupper($title);
+        $ucfTitle = ucfirst($title);
+        $ret = $this->getCommentLine($ucfTitle.' Notify');
+        $global = array('name' => "'{$name}'", 'title' => "{$language}{$stuTitle}_NOTIFY", 'description' => "{$language}{$stuTitle}_NOTIFY_DESC",
+                        'subscribe_from' => "'{$from}.php'", 'item_name' => "'{$item}'", 'allow_bookmark' => "{$allow}", );
+        $ret .= $this->usercode->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -984,21 +801,16 @@ EOT;
      *
      * @return string
      */
-    private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin = 1, $title, $table, $mail)
+    private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin = 1, $title, $table, $mail, $num)
     {
         $title = strtoupper($title);
         $table = strtoupper($table);
-        $ret = <<<EOT
-\$modversion['notification']['{$type}'][] = array(
-    'name' => '{$name}',
-    'category' => '{$category}',
-    'admin_only' => {$admin},
-    'title' => {$language}{$title}_{$table}_NOTIFY,
-    'caption' => {$language}{$title}_{$table}_NOTIFY_CAPTION,
-    'description' => {$language}{$title}_{$table}_NOTIFY_DESC,
-    'mail_template' => '{$mail}',
-    'mail_subject' => {$language}{$title}_{$table}_NOTIFY_SUBJECT);\n\n
-EOT;
+        $ucfTitle = ucfirst($title);
+        $ret = $this->getCommentLine($ucfTitle.' Notify');
+        $event = array('name' => "'{$name}'", 'category' => "'{$category}'", 'admin_only' => "{$admin}", 'title' => "{$language}{$title}_{$table}_NOTIFY",
+                        'caption' => "{$language}{$title}_{$table}_NOTIFY_CAPTION", 'description' => "{$language}{$title}_{$table}_NOTIFY_DESC",
+                        'mail_template' => "'{$mail}'", 'mail_subject' => "{$language}{$title}_{$table}_NOTIFY_SUBJECT", );
+        $ret .= $this->usercode->getUserModVersion(4, $event, 'notification', "'{$type}'", $num);
 
         return $ret;
     }

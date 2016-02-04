@@ -26,7 +26,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class TemplatesUserFooter.
  */
-class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
+class TemplatesUserFooter extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -38,7 +38,6 @@ class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
@@ -75,6 +74,36 @@ class TemplatesUserFooter extends TDMCreateHtmlSmartyCodes
         $this->setModule($module);
         $this->setTable($table);
         $this->setFileName($filename);
+    }
+
+    /*
+     *  @public function getTemplateUserFooterFacebbokLikeButton
+     *  @param null
+     *
+     * @return bool|string
+     */
+    public function getTemplateUserFooterFacebbokLikeButton()
+    {
+        $ret = <<<EOT
+	<li class="fb-like" data-href="<{\$xoops_mpageurl}>" data-layout="standard" data-action="like" data-show-faces="true"></li>
+EOT;
+
+        return $ret;
+    }
+
+    /*
+     *  @public function getTemplateUserFooterFacebbokShareButton
+     *  @param null
+     *
+     * @return bool|string
+     */
+    public function getTemplateUserFooterFacebbokShareButton()
+    {
+        $ret = <<<EOT
+	<li class="fb-share-button" data-href="<{\$xoops_mpageurl}>" data-layout="button_count"></li>
+EOT;
+
+        return $ret;
     }
 
     /*
@@ -134,8 +163,8 @@ EOT;
 EOT;
             }
         }
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

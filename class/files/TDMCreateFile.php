@@ -519,23 +519,16 @@ class TDMCreateFile extends TDMCreateTableFields
         return $ret;
     }
 
-    /*
-     * @public function getMultiLineComment
-     * @param $strings     
-     * @param $vars     
+    /**
+     * @private function getHeaderComment
+     *
+     * @param $comment
      *
      * @return string
      */
-    public function getMultiLineComment($strings = array(), $vars = array())
+    public function getHeaderComment($comment)
     {
-        $values = !empty($vars) ? ' '.$vars : '';
-        $ret = '/* ';
-        foreach ($values as $value) {
-            $ret .= " * {$strings}{$value}\n";
-        }
-        $ret .= " */\n";
-
-        return $ret;
+        return "// ------------------- {$comment} ------------------- //\n";
     }
 
     /*
@@ -590,6 +583,7 @@ EOT;
 /*\n
 EOT;
         }
+        // $ret .= file_get_contents('./docs/top_license_file.txt');
         $ret .= <<<EOT
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code

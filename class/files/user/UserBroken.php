@@ -116,7 +116,7 @@ class UserBroken extends TDMCreateFile
         $ret .= $this->getCommentLine('Redirection if not permissions');
         $condIf = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', '_NOPERM');
         $condIf .= $this->getSimpleString('exit();');
-        $ret .= $this->phpcode->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf, false);
+        $ret .= $this->phpcode->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf);
 
         return $ret;
     }

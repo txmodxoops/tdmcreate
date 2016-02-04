@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.91 CssStyles.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class CssStyles.
@@ -38,7 +38,6 @@ class CssStyles extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -86,7 +85,7 @@ class CssStyles extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
-        $content      .= <<<EOT
+        $content .= <<<EOT
 table > .{$moduleDirname} {
    margin: 0;
    padding: 2px;
@@ -143,9 +142,12 @@ span.block-pie:last-child {
 	padding: 2px 0 2px 8px;
 	border:none;
 }
+.printOnly {
+  display: none;
+}
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'assets/css', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'assets/css', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

@@ -93,75 +93,69 @@ class UserRate extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function getUserRateHeader
-    *  @param null
-    */
     /**
+     * @private function getUserRateHeader
+     *
      * @param $moduleDirname
+     * @param $tableName
      *
      * @return string
      */
-    public function getUserRateHeader($moduleDirname)
+    public function getUserRateHeader($moduleDirname, $tableName)
     {
-        $ret = <<<EOT
-include  __DIR__ . '/header.php';
-\$op = {$moduleDirname}_CleanVars(\$_REQUEST, 'op', 'list', 'string');
-// Template
-\$xoopsOption['template_main'] = '{$moduleDirname}_rate.tpl';
-include_once XOOPS_ROOT_PATH.'/header.php';
-\$xoTheme->addStylesheet( XOOPS_URL . '/modules/' . \$xoopsModule->getVar('dirname', 'n') . '/assets/css/style.css', null );
-//On recupere la valeur de l'argument op dans l'URL$
-// redirection if not permissions
-if (\$perm_submit == false) {
-    redirect_header('index.php', 2, _NOPERM);
-    exit();
-}
-
-//
-switch (\$op)
-{\n
-EOT;
+        $ret = $this->getInclude();
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'form');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('lid', 'lid', '', 'Int');
+        $ret .= $this->usercode->getUserTplMain($moduleDirname, $tableName);
+        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
     }
 
     /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
-    /**
-     * @param $module
+     *  @private function getUserRateSwitch
+     *  @param $moduleDirname
+     *  @param $tableId
+     *  @param $tableMid
+     *  @param $tableName
+     *  @param $tableSoleName
+     *  @param $language
+     *
+     * @return string
+     */
+    private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    {
+        $fields = $this->getTableFields($tableMid, $tableId);
+        $cases = array('form' => array($this->getUserRateForm($tableName, $language)),
+                    'save' => array($this->getUserRateSave($moduleDirname, $fields, $tableName, $language)), );
+
+        return $this->xoopscode->getXoopsCodeSwitch('op', $cases, true);
+    }
+
+    /*
+     * @public function getAdminPagesList
      * @param $tableName
      * @param $language
      *
      * @return string
      */
-    public function getUserRateForm($module, $tableName, $language)
+    public function getUserRateForm($tableName, $language)
     {
-        $stuModuleName = strtoupper($module->getVar('mod_name'));
-        $ret = <<<EOT
-    case 'list':
-    default:
-        //navigation
-        \$navigation = _MD_{$stuModuleName}_SUBMIT_PROPOSER;
-        \$GLOBALS['xoopsTpl']->assign('navigation', \$navigation);
-        // reference
-        // title of page
-        \$title = _MD_{$stuModuleName}_SUBMIT_PROPOSER . '&nbsp;-&nbsp;';
-        \$title .= \$GLOBALS['xoopsModule']->name();
-        \$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', \$title);
-        //description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags(_MD_{$stuModuleName}_SUBMIT_PROPOSER));
-        // Description
-        \$GLOBALS['xoTheme']->addMeta( 'meta', 'description', strip_tags({$language}SUBMIT));
-
-        // Create
-        \${$tableName}Obj =& \${$tableName}Handler->create();
-        \$form = \${$tableName}Obj->getForm();
-        \$xoopsTpl->assign('form', \$form->render());\n
-EOT;
+        $ret = $this->getCommentLine('Mavigation');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}RATE");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
+        $ret .= $this->getCommentLine('Title of page');
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
+        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->usercode->getUserAddMeta('description', $language, 'RATE');
+        $ret .= $this->getCommentLine('Form Create');
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
+        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
 
         return $ret;
     }
@@ -173,37 +167,33 @@ EOT;
     */
     /**
      * @param $moduleDirname
-     * @param $fields
+     * @param $table_id
      * @param $tableName
-     * @param $language
      *
      * @return string
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $language)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
-        $ret = <<<EOT
-    case 'save':
-        if ( !\$GLOBALS['xoopsSecurity']->check() ) {
-           redirect_header('{$tableName}.php', 3, implode(',', \$GLOBALS['xoopsSecurity']->getErrors()));
-        }
-        if (isset(\$_REQUEST['{$fieldId}'])) {
-           \${$tableName}Obj =& \${$tableName}Handler->get(\$_REQUEST['{$fieldId}']);
-        } else {
-           \${$tableName}Obj =& \${$tableName}Handler->create();
-        }
-EOT;
-        $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
-        $ret .= <<<EOT
-        if (\${$tableName}Handler->insert(\${$tableName}Obj)) {
-            redirect_header('index.php', 2, {$language}FORMOK);
-        }
+        $ucfTableName = ucfirst($tableName);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
+        $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
+        $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
+        $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
+        $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '', '3', $implode);
+        $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
+        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
 
-        echo \${$tableName}Obj->getHtmlErrors();
-        \$form =& \${$tableName}Obj->getForm();
-        \$form->display();
-    break;\n
-EOT;
+        $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
+
+        $ret .= $this->getCommentLine('Insert Data');
+        $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
+        $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
+        $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
+
+        $ret .= $this->getCommentLine('Get Form Error');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');
 
         return $ret;
     }
@@ -215,11 +205,12 @@ EOT;
     /**
      * @return string
      */
-    public function getUserRateFooter()
+    public function getUserRateFooter($moduleDirname, $language)
     {
-        $ret = <<<EOT
-include  __DIR__ . '/footer.php';
-EOT;
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret .= $this->usercode->getUserBreadcrumbs('RATE', $language);
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -240,13 +231,14 @@ EOT;
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserRateHeader($moduleDirname);
-        $content .= $this->getUserRateForm($module, $tableName, $language);
-        $content .= $this->getUserRateSave($moduleDirname, $fields, $tableName, $language);
-        $content .= $this->getUserRateFooter();
+        $content .= $this->getUserRateHeader($moduleDirname, $tableName);
+        $content .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
+        $content .= $this->getUserRateFooter($moduleDirname, $language);
+
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

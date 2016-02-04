@@ -79,6 +79,8 @@ switch ($op) {
         }
         if (isset($setId)) {
             $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
+        } else {
+            $settingsObj = &$tdmcreate->getHandler('settings')->create();
         }
         $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save

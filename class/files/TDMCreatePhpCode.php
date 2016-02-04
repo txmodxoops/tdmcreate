@@ -68,7 +68,40 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeCommentLine($comment = '', $var = '')
     {
-        return "// {$comment} {$var}\n";
+        $value = !empty($var) ? ' '.$var : '';
+        $ret = "// {$comment}{$value}\n";
+
+        return $ret;
+    }
+
+    /*
+     * @public function getPhpCodeCommentMultiLine
+     * @param $multiLine     
+     *
+     * @return string
+     */
+    public function getPhpCodeCommentMultiLine($multiLine = array())
+    {
+        $values = !empty($multiLine) ? $multiLine : array();
+        $ret = '/**\n';
+        foreach ($values as $string => $value) {
+            $ret .= " * {$string}{$value}\n";
+        }
+        $ret .= " */\n";
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodeDefine
+    *  @param $left
+    *  @param $right
+    *
+    *  @return string
+    */
+    public function getPhpCodeDefine($left, $right)
+    {
+        return "define('{$left}', {$right});\n";
     }
 
     /*
@@ -139,21 +172,44 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false, $isPath = false)
+    public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false, $isPath = false, $type = 'include')
     {
         if ($once == false) {
             if ($isPath == false) {
-                $ret = "include {$directory} .'/{$filename}.php';\n";
+                $ret = "{$type} {$directory} .'/{$filename}.php';\n";
             } else {
-                $ret = "include {$directory};\n";
+                $ret = "{$type} {$directory};\n";
             }
         } else {
             if ($isPath == false) {
-                $ret = "include_once {$directory} .'/{$filename}.php';\n";
+                $ret = "{$type}_once {$directory} .'/{$filename}.php';\n";
             } else {
-                $ret = "include_once {$directory};\n";
+                $ret = "{$type}_once {$directory};\n";
             }
         }
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodeFunction
+    *  @param $name
+    *  @param $param
+    *  @param $content
+    *  @param $type
+    *  @param $t
+    *
+    *  @return string
+    */
+    public function getPhpCodeFunction($name = '', $param = '', $content = '', $type = 'public ', $t = "\t")
+    {
+        $ptype = $type !== '' ? $type : '';
+        $ret = <<<EOF
+{$t}{$ptype}function {$name}({$param})
+{$t}{
+{$t}\t{$content}
+{$t}}\n
+EOF;
 
         return $ret;
     }
@@ -516,7 +572,7 @@ EOT;
     *
     *  @return string
     */
-    public function getPhpCodeStripTags($left, $value, $isParam = false)
+    public function getPhpCodeStripTags($left = '', $value, $isParam = false)
     {
         if ($isParam == false) {
             $ret = "\${$left} = strip_tags({$value});\n";
