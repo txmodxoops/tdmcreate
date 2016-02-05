@@ -80,14 +80,14 @@ class TDMCreateArchitecture extends TDMCreateStructure
     public function setBaseFoldersFiles($module)
     {
         global $xoopsConfig;
-		// Module
+        // Module
         $modId = $module->getVar('mod_id');
         $language = $xoopsConfig['language'];
         // Id of tables
         $tables = $this->tdmcfile->getTableTables($modId);
         //
         $table = null;
-		$tableName = array();
+        $tableName = array();
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName[] = $tables[$t]->getVar('table_name');
@@ -224,7 +224,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         //
         $table = array();
         $tableCategory = array();
-		$tableName = array();
+        $tableName = array();
         $tableImage = array();
         $tableAdmin = array();
         $tableUser = array();

@@ -37,13 +37,13 @@ class UserXoopsVersion extends TDMCreateFile
     * @var mixed
     */
     private $xoopscode = null;
-	
-	/*
+
+    /*
     * @var mixed
     */
     private $usercode = null;
-	
-	/*
+
+    /*
     * @var array
     */
     private $keywords = array();
@@ -260,7 +260,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', false, true);
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', false, true);
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', false, true);
-		$tablePermissions = array();
+        $tablePermissions = array();
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
@@ -317,34 +317,50 @@ class UserXoopsVersion extends TDMCreateFile
 
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header');
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index');
+        $tableBroken = array();
+        $tablePdf = array();
+        $tablePrint = array();
+        $tableRate = array();
+        $tableRss = array();
+        $tableSearch = array();
+        $tableSingle = array();
+        $tableSubmit = array();
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
+            $tableBroken[] = $tables[$t]->getVar('table_broken');
+            $tablePdf[] = $tables[$t]->getVar('table_pdf');
+            $tablePrint[] = $tables[$t]->getVar('table_print');
+            $tableRate[] = $tables[$t]->getVar('table_rate');
+            $tableRss[] = $tables[$t]->getVar('table_rss');
+            $tableSearch[] = $tables[$t]->getVar('table_search');
+            $tableSingle[] = $tables[$t]->getVar('table_single');
+            $tableSubmit[] = $tables[$t]->getVar('table_submit');
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName);
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs');
-        if (1 == $table->getVar('table_broken')) {
+        if (in_array(1, $tableBroken)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken');
         }
-        if (1 == $table->getVar('table_pdf')) {
+        if (in_array(1, $tablePdf)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf');
         }
-        if (1 == $table->getVar('table_print')) {
+        if (in_array(1, $tablePrint)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'print');
         }
-        if (1 == $table->getVar('table_rate')) {
+        if (in_array(1, $tableRate)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate');
         }
-        if (1 == $table->getVar('table_rss')) {
+        if (in_array(1, $tableRss)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss');
         }
-        if (1 == $table->getVar('table_search')) {
+        if (in_array(1, $tableSearch)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'search');
         }
-        if (1 == $table->getVar('table_single')) {
+        if (in_array(1, $tableSingle)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'single');
         }
-        if (1 == $table->getVar('table_submit')) {
+        if (in_array(1, $tableSubmit)) {
             $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit');
         }
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer');
@@ -366,7 +382,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->getHeaderComment('Submenu');
         $i = 1;
         $tableSubmit = array();
-		foreach (array_keys($tables) as $t) {
+        foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
@@ -464,12 +480,12 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldName = array();
-		$fieldElement = array();
-		foreach (array_keys($fields) as $f) {
-			$fieldName[] = $fields[$f]->getVar('field_name');
+        $fieldElement = array();
+        foreach (array_keys($fields) as $f) {
+            $fieldName[] = $fields[$f]->getVar('field_name');
             $fieldElement[] = $fields[$f]->getVar('field_element');
         }
-        if (in_array(4, $fieldElement)) {            
+        if (in_array(4, $fieldElement)) {
             $rpFieldName = $this->getRightString($fieldName);
             $ucfFieldName = ucfirst($rpFieldName);
             $ret .= $this->getCommentLine('Editor', $rpFieldName);
@@ -619,7 +635,7 @@ class UserXoopsVersion extends TDMCreateFile
         $stuTypeOfNotify = strtoupper($typeOfNotify);
         $notifyFile = explode(', ', $notifyFile);
         $notifyFile = implode(', ', $notifyFile);
-		$ret = '';
+        $ret = '';
         switch ($type) {
             case 'category':
                 $ret .= $this->getCommentLine('Category Notify');
@@ -661,9 +677,9 @@ class UserXoopsVersion extends TDMCreateFile
         $notifyFiles = array();
         $single = 'single';
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-		$tableCategory = array();
-		$tableBroken = array();
-		$tableSubmit = array();
+        $tableCategory = array();
+        $tableBroken = array();
+        $tableSubmit = array();
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
@@ -849,32 +865,32 @@ class UserXoopsVersion extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MI');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getXoopsVersionHeader($module, $language);        
-		if (1 == $module->getVar('mod_admin')) {
+        $content .= $this->getXoopsVersionHeader($module, $language);
+        if (1 == $module->getVar('mod_admin')) {
             $content .= $this->getXoopsVersionTemplatesAdmin($moduleDirname, $tables);
         }
         if (1 == $module->getVar('mod_user')) {
             $content .= $this->getXoopsVersionTemplatesUser($moduleDirname, $tables);
         }
         $content .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
-		$tableSearch = array();
-		$tableComments = array();
-		$tableSubmenu = array();
-		$tableBlocks = array();
-		$tableNotifications = array();
-		foreach (array_keys($tables) as $t) {
+        $tableSearch = array();
+        $tableComments = array();
+        $tableSubmenu = array();
+        $tableBlocks = array();
+        $tableNotifications = array();
+        foreach (array_keys($tables) as $t) {
             $tableSearch[] = $tables[$t]->getVar('table_search');
             $tableComments[] = $tables[$t]->getVar('table_comments');
             $tableSubmenu[] = $tables[$t]->getVar('table_submenu');
             $tableBlocks[] = $tables[$t]->getVar('table_blocks');
-            $tableNotifications[] = $tables[$t]->getVar('table_notifications');                   
+            $tableNotifications[] = $tables[$t]->getVar('table_notifications');
         }
         if (in_array(1, $tableSearch)) {
             $content .= $this->getXoopsVersionSearch($moduleDirname);
         }
         if (in_array(1, $tableComments)) {
             $content .= $this->getXoopsVersionComments($moduleDirname);
-        }		
+        }
         if (in_array(1, $tableSubmenu)) {
             $content .= $this->getXoopsVersionSubmenu($language, $tables);
         }
