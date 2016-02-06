@@ -26,9 +26,19 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class ClassFormElements.
  */
-class ClassFormElements extends TDMCreateFile
+class ClassFormElements
 {
     /*
+    * @var mixed
+    */
+    private $tdmcreate = null;
+
+    /*
+    * @var mixed
+    */
+    private $tdmcfile = null;
+    	
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -246,7 +256,6 @@ EOT;
     private function getXoopsFormImageList($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
     {
         $stuTableName = strtoupper($tableName);
-        $stuFieldName = strtoupper($fieldName);
         $rpFieldName = $this->tdmcfile->getRightString($fieldName);
         $stuSoleName = strtoupper($tableSoleName.'_'.$rpFieldName);
         $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
@@ -289,12 +298,11 @@ EOT;
      * @param        $language
      * @param        $moduleDirname
      * @param        $fieldName
-     * @param        $fieldElement
      * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $fieldElement, $required = 'false')
+    private function getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
         $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
@@ -377,7 +385,6 @@ EOT;
      */
     private function getXoopsFormUploadImage($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
         $stuSoleName = strtoupper($tableSoleName);
         $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
@@ -549,13 +556,12 @@ EOT;
     */
     /**
      * @param        $language
-     * @param        $moduleDirname
      * @param        $fieldName
      * @param string $required
      *
      * @return string
      */
-    private function getXoopsFormTextDateSelect($language, $moduleDirname, $fieldName, $required = 'false')
+    private function getXoopsFormTextDateSelect($language, $fieldName, $required = 'false')
     {
         $ret = <<<EOT
         // Form Text Date Select
@@ -588,16 +594,16 @@ EOT;
         $ucfTableName = ucfirst($tableName);
         if ($fieldElement > 15) {
             $fElement = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
-            $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
-        }
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
-        $ret = <<<EOT
-        // Form Table {$ucfTableName}
-        \${$rpFieldelementName}Handler =& \$this->{$moduleDirname}->getHandler('{$rpFieldelementName}');
-        \${$ccFieldName}Select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
-        \${$ccFieldName}Select->addOptionArray(\${$rpFieldelementName}Handler->getList());
-        \$form->addElement( \${$ccFieldName}Select{$required} );\n
+            $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));        
+			$ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+			$ret = <<<EOT
+			// Form Table {$ucfTableName}
+			\${$rpFieldelementName}Handler =& \$this->{$moduleDirname}->getHandler('{$rpFieldelementName}');
+			\${$ccFieldName}Select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
+			\${$ccFieldName}Select->addOptionArray(\${$rpFieldelementName}Handler->getList());
+			\$form->addElement( \${$ccFieldName}Select{$required} );\n		
 EOT;
+		}
 
         return $ret;
     }
@@ -688,6 +694,10 @@ EOT;
         //$language_table = $languageFunct . strtoupper($tableName);
         $ret = '';
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
+		$fieldId = '';
+		$fieldIdTopic = '';
+		$fieldPidTopic = '';
+		$fieldMainTopic = '';
         $fieldElementId = array();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -697,13 +707,7 @@ EOT;
             $fieldInForm = $fields[$f]->getVar('field_inform');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
-            }
-            /*if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldPid = $fieldName;
-            }*/
-            /*if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
-            }*/
+            }            
             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
@@ -744,7 +748,7 @@ EOT;
                         $ret .= $this->getXoopsFormImageList($languageFunct, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required);
                         break;
                     case 11:
-                        $ret .= $this->getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $fieldElement, $required);
+                        $ret .= $this->getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $required);
                         break;
                     case 12:
                         $ret .= $this->getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $fieldElement, $required);
@@ -768,10 +772,7 @@ EOT;
                             $ret .= $this->getXoopsFormHidden($fieldName);
                         }
                         break;
-                }
-                /*if (($fieldElement <= 15)) {
-                    $ret .= $this->getXoopsFormTopic($language, $moduleDirname, $tableName, $fieldId, $fieldPid, $fieldMain, $required);
-                }*/
+                }                
                 if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
                         $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);

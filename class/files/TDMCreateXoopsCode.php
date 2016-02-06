@@ -1017,12 +1017,12 @@ EOT;
 
     /*
     *  @public function getXoopsCodeSecurityCheck
-    *  @param null
+    *  @param $denial
     *  @return boolean
     */
-    public function getXoopsCodeSecurityCheck()
+    public function getXoopsCodeSecurityCheck($denial = '')
     {
-        return "\$GLOBALS['xoopsSecurity']->check()";
+        return "{$denial}\$GLOBALS['xoopsSecurity']->check()";
     }
 
     /*

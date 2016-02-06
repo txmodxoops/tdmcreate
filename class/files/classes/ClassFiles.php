@@ -26,12 +26,17 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class ClassFiles.
  */
-class ClassFiles extends ClassFormElements
+class ClassFiles extends TDMCreateFile
 {
     /*
     * @var string
     */
-    private $formelements;
+    private $tdmcreate = null;
+	
+	/*
+    * @var string
+    */
+    private $formelements = null;
 
     /*
     *  @public function constructor
@@ -43,7 +48,7 @@ class ClassFiles extends ClassFormElements
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
+		$this->tdmcreate = TDMCreateHelper::getInstance();
         $this->formelements = ClassFormElements::getInstance();
     }
 
@@ -207,7 +212,7 @@ EOT;
         //
         $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             if (in_array(5, $fieldElementId)) {
                 if (count($rpFieldName) % 5) {
                     $optionsFieldName[] = "'".$rpFieldName."'";
@@ -420,7 +425,7 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             switch ($fieldElement) {
                 case 3:
                 case 4:
@@ -540,7 +545,7 @@ EOT;
             //
             $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId = $fieldElements->getVar('fieldelement_id');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             if (5 == $fieldElementId) {
                 $ret .= <<<EOT
 		if(1 == \$this->getVar('{$fieldName}')) {
@@ -976,8 +981,8 @@ EOT;
             $content .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);
         }
         $content .= $this->getClassEnd();
-        $this->tdmcfile->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

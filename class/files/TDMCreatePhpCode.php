@@ -194,18 +194,17 @@ class TDMCreatePhpCode
     /*
     *  @public function getPhpCodeFunction
     *  @param $name
-    *  @param $param
+    *  @param $params
     *  @param $content
     *  @param $type
-    *  @param $t
+    *  @param $t - Indentation 
     *
     *  @return string
     */
-    public function getPhpCodeFunction($name = '', $param = '', $content = '', $type = 'public ', $t = "\t")
+    public function getPhpCodeFunction($name = '', $params = '', $content = '', $type = 'public ', $t = "\t")
     {
-        $ptype = $type !== '' ? $type : '';
         $ret = <<<EOF
-{$t}{$ptype}function {$name}({$param})
+{$t}{$type}function {$name}({$params})
 {$t}{
 {$t}\t{$content}
 {$t}}\n
@@ -221,6 +220,7 @@ EOF;
      * @param string $type
      * @param string $contentIf
      * @param mixed  $contentElse
+	 * @param $t - Indentation 
      *
      * @return string
      */
