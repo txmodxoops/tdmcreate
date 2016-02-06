@@ -212,7 +212,7 @@ class AdminPages extends TDMCreateFile
         $ucfTableName = ucfirst($tableName);
 
         $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
-        $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
+        $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck('!');
         $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
         $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
         $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName.'.php', '', '3', $implode);

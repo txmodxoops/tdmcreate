@@ -37,7 +37,7 @@ class ClassHelper extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
     }
 
     /*
@@ -241,8 +241,8 @@ class {$ucf_module_dirname}Helper
     }
 }
 EOT;
-        $this->tdmcfile->create($module_dirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($module_dirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
