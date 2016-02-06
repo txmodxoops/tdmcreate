@@ -66,7 +66,7 @@ class ClassXoopsCode
         }
 
         return $instance;
-    }    
+    }
 
     /*
      * @public function getClassAddElement
@@ -76,7 +76,7 @@ class ClassXoopsCode
      * @return string
      */
     public function getClassAddElement($var, $params)
-    {        
+    {
         return "\${$var}->addElement({$params});\n";
-    }    
+    }
 }

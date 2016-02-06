@@ -31,11 +31,6 @@ class ClassFiles extends TDMCreateFile
     /*
     * @var string
     */
-    private $tdmcreate = null;
-	
-	/*
-    * @var string
-    */
     private $formelements = null;
 
     /*
@@ -48,7 +43,8 @@ class ClassFiles extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->tdmcreate = TDMCreateHelper::getInstance();
         $this->formelements = ClassFormElements::getInstance();
     }
 
@@ -212,7 +208,7 @@ EOT;
         //
         $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             if (in_array(5, $fieldElementId)) {
                 if (count($rpFieldName) % 5) {
                     $optionsFieldName[] = "'".$rpFieldName."'";
@@ -344,9 +340,9 @@ EOT;
      */
     private function getPermissionsInForm($moduleDirname, $fieldId)
     {
-        $permissionApprove = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
-        $permissionSubmit = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
-        $permissionView = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
+        $permissionApprove = $this->tdmcfile->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
+        $permissionSubmit = $this->tdmcfile->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
+        $permissionView = $this->tdmcfile->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
         $ret = <<<EOT
         // Permissions
         \$memberHandler = & xoops_gethandler( 'member' );
@@ -425,7 +421,7 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             switch ($fieldElement) {
                 case 3:
                 case 4:
@@ -461,7 +457,7 @@ EOT;
                         $fieldElementName = $fieldElements->getVar('fieldelement_name');
                         $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', strtolower($fieldNameDesc));
-                        $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
+                        $fieldsTopics = $this->tdmcfile->getTableFields($fieldElementMid, $fieldElementTid);
                         foreach (array_keys($fieldsTopics) as $f) {
                             $fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
                             if (1 == $fieldsTopics[$f]->getVar('field_main')) {
@@ -538,14 +534,14 @@ EOT;
     {
         \$ret = array();\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             //
             $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId = $fieldElements->getVar('fieldelement_id');
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             if (5 == $fieldElementId) {
                 $ret .= <<<EOT
 		if(1 == \$this->getVar('{$fieldName}')) {
@@ -931,7 +927,7 @@ EOT;
         $tableFieldName = $table->getVar('table_fieldname');
         $tableCategory = $table->getVar('table_category');
         $moduleDirname = $module->getVar('mod_dirname');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldInForm = array();
         $fieldParentId = array();
         $fieldElementId = array();
@@ -981,8 +977,8 @@ EOT;
             $content .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);
         }
         $content .= $this->getClassEnd();
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

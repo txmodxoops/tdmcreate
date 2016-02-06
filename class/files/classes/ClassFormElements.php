@@ -26,19 +26,9 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class ClassFormElements.
  */
-class ClassFormElements
+class ClassFormElements extends TDMCreateFile
 {
     /*
-    * @var mixed
-    */
-    private $tdmcreate = null;
-
-    /*
-    * @var mixed
-    */
-    private $tdmcfile = null;
-    	
-	/*
     *  @public function constructor
     *  @param null
     */
@@ -49,7 +39,6 @@ class ClassFormElements
     {
         parent::__construct();
         $this->tdmcreate = TDMCreateHelper::getInstance();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -99,8 +88,8 @@ class ClassFormElements
      */
     private function getXoopsFormText($language, $fieldName, $fieldDefault, $required = 'false')
     {
-        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ucfFieldName = $this->getCamelCase($fieldName, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         if ($fieldDefault != '') {
             $ret = <<<EOT
         // Form Text {$ucfFieldName}
@@ -157,7 +146,7 @@ EOT;
      */
     private function getXoopsFormDhtmlTextArea($language, $moduleDirname, $fieldName, $required = 'false')
     {
-        $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+        $rpFieldName = $this->getRightString($fieldName);
         $ret = <<<EOT
         // Form Dhtml Text Area
         \$editor_configs = array();
@@ -190,8 +179,8 @@ EOT;
     private function getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, $required = 'false')
     {
         $stuTableSoleName = strtoupper($tableSoleName);
-        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ucfFieldName = $this->getCamelCase($fieldName, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         if (in_array(5, $fieldElementId) > 1) {
             $ret = <<<EOT
         // Form Check Box List Array
@@ -256,10 +245,10 @@ EOT;
     private function getXoopsFormImageList($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
     {
         $stuTableName = strtoupper($tableName);
-        $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+        $rpFieldName = $this->getRightString($fieldName);
         $stuSoleName = strtoupper($tableSoleName.'_'.$rpFieldName);
-        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ucfFieldName = $this->getCamelCase($fieldName, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         $ret = <<<EOT
         // Form Frameworks Image Files
         \$get{$ucfFieldName} = \$this->getVar('{$fieldName}');
@@ -304,8 +293,8 @@ EOT;
      */
     private function getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $required = 'false')
     {
-        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ucfFieldName = $this->getCamelCase($fieldName, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         $ret = <<<EOT
         // Image Select or Upload
         if ( \$this->{$moduleDirname}->getConfig('useshots') ) {
@@ -387,8 +376,8 @@ EOT;
     {
         $stuTableName = strtoupper($tableName);
         $stuSoleName = strtoupper($tableSoleName);
-        $ucfFieldName = $this->tdmcfile->getCamelCase($fieldName, true);
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ucfFieldName = $this->getCamelCase($fieldName, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         $ret = <<<EOT
         // Form Upload Image
         \$get{$ucfFieldName} = \$this->getVar('{$fieldName}');
@@ -486,7 +475,7 @@ EOT;
     private function getXoopsFormSelectBox($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
         $ucfTableName = ucfirst($tableName);
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         $ret = <<<EOT
         // {$ucfTableName} handler
 		\${$tableName}Handler =& \$this->{$moduleDirname}->getHandler('{$tableName}');
@@ -538,7 +527,7 @@ EOT;
      */
     private function getXoopsFormRadioYN($language, $fieldName, $required = 'false')
     {
-        $ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
+        $ccFieldName = $this->getCamelCase($fieldName, false, true);
         $ret = <<<EOT
         // Form Radio Yes/No
         \${$ccFieldName} = \$this->isNew() ? 0 : \$this->getVar('{$fieldName}');
@@ -594,16 +583,16 @@ EOT;
         $ucfTableName = ucfirst($tableName);
         if ($fieldElement > 15) {
             $fElement = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
-            $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));        
-			$ccFieldName = $this->tdmcfile->getCamelCase($fieldName, false, true);
-			$ret = <<<EOT
+            $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
+            $ccFieldName = $this->getCamelCase($fieldName, false, true);
+            $ret = <<<EOT
 			// Form Table {$ucfTableName}
 			\${$rpFieldelementName}Handler =& \$this->{$moduleDirname}->getHandler('{$rpFieldelementName}');
 			\${$ccFieldName}Select = new XoopsFormSelect({$language}, '{$fieldName}', \$this->getVar('{$fieldName}'));
 			\${$ccFieldName}Select->addOptionArray(\${$rpFieldelementName}Handler->getList());
 			\$form->addElement( \${$ccFieldName}Select{$required} );\n		
 EOT;
-		}
+        }
 
         return $ret;
     }
@@ -629,7 +618,7 @@ EOT;
     {
         $ucfTopicTableName = ucfirst($topicTableName);
         $stlTopicTableName = strtolower($topicTableName);
-        $ccFieldPid = $this->tdmcfile->getCamelCase($fieldPid, false, true);
+        $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
         $ret = <<<EOT
         // Form Topic {$ucfTopicTableName}
         \${$stlTopicTableName}Handler = \$this->{$moduleDirname}->getHandler('{$stlTopicTableName}');
@@ -694,10 +683,10 @@ EOT;
         //$language_table = $languageFunct . strtoupper($tableName);
         $ret = '';
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order ASC, field_id');
-		$fieldId = '';
-		$fieldIdTopic = '';
-		$fieldPidTopic = '';
-		$fieldMainTopic = '';
+        $fieldId = '';
+        $fieldIdTopic = '';
+        $fieldPidTopic = '';
+        $fieldMainTopic = '';
         $fieldElementId = array();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -707,8 +696,8 @@ EOT;
             $fieldInForm = $fields[$f]->getVar('field_inform');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
-            }            
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            }
+            $rpFieldName = $this->getRightString($fieldName);
             $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
             //
@@ -772,7 +761,7 @@ EOT;
                             $ret .= $this->getXoopsFormHidden($fieldName);
                         }
                         break;
-                }                
+                }
                 if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
                         $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
