@@ -48,11 +48,6 @@ class TDMCreateHelper
      * @var string
      */
     private $debug;
-    /**
-     * @var array
-     */
-    private $debugArray = array();
-
     /*
     *  @protected function constructor class
     *  @param mixed $debug
