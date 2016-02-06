@@ -489,7 +489,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ucfFieldName = ucfirst($rpFieldName);
             $ret .= $this->getCommentLine('Editor', $rpFieldName);
             $ret .= $this->xoopscode->getXoopsCodeLoad('xoopseditorhandler');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('editorHandler ', 'XoopsEditorHandler::getInstance()');
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$editorHandler ', 'XoopsEditorHandler::getInstance()');
             $editor = array('name' => "'{$moduleDirname}_editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$ucfFieldName}'", 'description' => "'{$language}EDITOR_{$ucfFieldName}_DESC'",
                     'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler->getList())', );
             $ret .= $this->usercode->getUserModVersion(3, $editor, 'config', '$c');

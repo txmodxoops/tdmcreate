@@ -502,47 +502,28 @@ EOT;
     }
 
     /*
-    *  @public function getPhpCodePregReplace
+    *  @public function getPhpCodePregFunzions
     *  @param $return
     *  @param $exp
     *  @param $str
     *  @param $val
+	*  @param $type
     *  @param $isParam
     *
     *  @return string
     */
-    public function getPhpCodePregReplace($return, $exp, $str, $val, $isParam = false)
+    public function getPhpCodePregFunzions($return, $exp = '', $str, $val, $type = 'match', $isParam = false)
     {
-        if ($isParam === false) {
-            $ret = "\${$return} = preg_replace( '{$exp}', '{$str}', {$val});\n";
+        $pregFunz = "preg_{$type}( '";
+		if ($isParam === false) {
+            $ret = "\${$return} = {$pregMatch}{$exp}', '{$str}', {$val});\n";
         } else {
-            $ret = "preg_replace( '{$exp}', '{$str}', {$val})";
+            $ret = "{$pregMatch}{$exp}', '{$str}', {$val})";
         }
 
         return $ret;
     }
-
-    /*
-    *  @public function getPhpCodePregMatch
-    *  @param $return
-    *  @param $exp
-    *  @param $str
-    *  @param $val
-    *  @param $isParam
-    *
-    *  @return string
-    */
-    public function getPhpCodePregMatch($return, $exp, $str, $val, $isParam = false)
-    {
-        if ($isParam === false) {
-            $ret = "\${$return} = preg_match( '{$exp}', '{$str}', {$val});\n";
-        } else {
-            $ret = "preg_match( '{$exp}', '{$str}', {$val})";
-        }
-
-        return $ret;
-    }
-
+    
     /*
     *  @public function getPhpCodeStrReplace
     *  @param $left
