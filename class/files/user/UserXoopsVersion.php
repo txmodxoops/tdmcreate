@@ -291,10 +291,10 @@ class UserXoopsVersion extends TDMCreateFile
         if ($isAdmin) {
             $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin')", 'templates', '');
         } else {
-            if ($extra === false) {
-                $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');
-            } else {
+            if ($extra !== false) {
                 $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc})", 'templates', '');
+            } else {
+				$ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');                
             }
         }
 
@@ -680,6 +680,8 @@ class UserXoopsVersion extends TDMCreateFile
         $tableCategory = array();
         $tableBroken = array();
         $tableSubmit = array();
+		$tableId = null;
+		$tableMid = null;
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
@@ -697,10 +699,9 @@ class UserXoopsVersion extends TDMCreateFile
             }
         }
         $fields = $this->getTableFields($tableMid, $tableId);
-        $fieldParent = null;
+        $fieldId = null;
+		$fieldParent = null;
         foreach (array_keys($fields) as $f) {
-            $fieldMid = $fields[$f]->getVar('field_mid');
-            $fieldTid = $fields[$f]->getVar('field_tid');
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (0 == $f) {
@@ -783,13 +784,13 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $from, $item, $allow, $num)
+    private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $file, $item, $allow, $num)
     {
-        $title = strtoupper($title);//{$from}
-        $implodeFrom = implode(".php', '", $from);
+        $title = strtoupper($title);
+        $impFile = implode(".php', '", $file);
         $ret = $this->getCommentLine('Category Notify');
         $global = array('name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
-                        'subscribe_from' => "array('{$implodeFrom}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => "{$allow}", );
+                        'subscribe_from' => "array('{$impFile}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => "{$allow}", );
         $ret .= $this->usercode->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
@@ -899,7 +900,7 @@ class UserXoopsVersion extends TDMCreateFile
         }
         $content .= $this->getXoopsVersionConfig($module, $table, $language);
         if (in_array(1, $tableNotifications)) {
-            $content .= $this->getXoopsVersionNotifications($module, $language, $filename);
+            $content .= $this->getXoopsVersionNotifications($module, $language);
         }
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
