@@ -87,10 +87,9 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $tables = $this->tdmcfile->getTableTables($modId);
         //
         $table = null;
-        $tableName = array();
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
-            $tableName[] = $tables[$t]->getVar('table_name');
+            $tableName = $tables[$t]->getVar('table_name');
             $table = $this->tdmcreate->getHandler('tables')->get($tableId);
         }
         //
@@ -225,7 +224,6 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $table = array();
         $tableCategory = array();
         $tableName = array();
-        $tableImage = array();
         $tableAdmin = array();
         $tableUser = array();
         $tableBlocks = array();
@@ -243,7 +241,6 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $tableVisit = array();
         $tableTag = array();
         foreach (array_keys($tables) as $t) {
-            $tableMid = $tables[$t]->getVar('table_mid');
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
             $tableCategory[] = $tables[$t]->getVar('table_category');

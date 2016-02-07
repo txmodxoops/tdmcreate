@@ -194,13 +194,30 @@ class LanguageModinfo extends LanguageDefines
     private function getLanguageBlocks($tables, $language)
     {
         $ret = $this->defines->getAboveDefines('Blocks');
-        foreach (array_keys($tables) as $i) {
+		foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $stuTableName = strtoupper($tableName);
+			$tableSoleName = $tables[$i]->getVar('table_solename');
+			$stuTableSoleName = strtoupper($tableSoleName);
             $ucfTableName = ucfirst($tableName);
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
+				if ($tables[$i]->getVar('table_category') == 1) {
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block description");
+				} else {	
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");					
+				}
             }
         }
 

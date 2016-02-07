@@ -174,10 +174,9 @@ class AdminPages extends TDMCreateFile
     *  @param $language
     *  @return string
     */
-    private function getAdminPagesNew($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $language)
+    private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language)
     {
         $stuTableName = strtoupper($tableName);
-        $stuTableSoleName = strtoupper($tableSoleName);
         $ucfTableName = ucfirst($tableName);
 
         $ret = $this->t2.$this->adminxoopscode->getAdminTemplateMain($moduleDirname, $tableName);
@@ -185,7 +184,7 @@ class AdminPages extends TDMCreateFile
         $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('navigation', $navigation);
 
         if (1 == $fieldInForm) {
-            $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableSoleName, '', 'list');
+            $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableName, '', 'list');
             $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()');
         }
         $ret .= $this->t2.$this->getCommentLine('Get Form');
@@ -300,7 +299,7 @@ class AdminPages extends TDMCreateFile
 
         if (1 == $fieldInForm) {
             $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add');
-            $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableSoleName, '', 'list');
+            $ret .= $this->t2.$this->adminxoopscode->getAdminItemButton($language, $tableName, $stuTableName, '', 'list');
             $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()');
         }
         $ret .= $this->t2.$this->getCommentLine('Get Form');
@@ -349,7 +348,6 @@ class AdminPages extends TDMCreateFile
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fields = $this->tdmcfile->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -366,7 +364,7 @@ class AdminPages extends TDMCreateFile
         $content .= $this->getAdminPagesHeader($moduleDirname, $tableName, $fieldId);
         $list = $this->getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain);
         if (1 == $fieldInForm) {
-            $new = $this->getAdminPagesNew($moduleDirname, $tableName, $tableSoleName, $fieldInForm, $language);
+            $new = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language);
             $save = $this->getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain);
             $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm);
         }
