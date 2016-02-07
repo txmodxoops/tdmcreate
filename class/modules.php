@@ -39,14 +39,14 @@ class TDMCreateModules extends XoopsObject
      *
      * @var mixed
      */
-    private $tdmcreate;
+    private $tdmcreate = null;
 
     /**
      * Settings.
      *
      * @var mixed
      */
-    private $settings;
+    private $settings = null;
 
     /**
      * Options.
@@ -431,7 +431,7 @@ class TDMCreateModules extends XoopsObject
      */
     public function getValuesModules($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('mod_id');
         $ret['name'] = $this->getVar('mod_name');

@@ -127,10 +127,9 @@ class LanguageAdmin extends LanguageDefines
         //
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
-            $tableFieldname = $tables[$t]->getVar('table_fieldname');
-            $stuTableSoleName = strtoupper($tableSoleName);
+            $stuTableName = strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->defines->getDefine($language, "{$stuTableSoleName}_LIST", "List of {$ucfTableName}");
+            $ret .= $this->defines->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
         }
 
         return $ret;

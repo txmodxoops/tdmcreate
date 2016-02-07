@@ -105,13 +105,13 @@ class TDMCreatePhpCode
     }
 
     /*
-    *  @public function getPhpCodeGlobalsVariables
-    *  @param $type
+    *  @public function getPhpCodeGlobalsVariables    
     *  @param $var
+	*  @param $type
     *
     *  @return string
     */
-    public function getPhpCodeGlobalsVariables($type = 'REQUEST', $var = '')
+    public function getPhpCodeGlobalsVariables($var = '', $type = 'REQUEST')
     {
         $type = strtoupper($type);
         switch ($type) {
@@ -192,6 +192,20 @@ class TDMCreatePhpCode
     }
 
     /*
+    *  @public function getPhpCodeTernaryOperator
+    *  @param $return
+    *  @param $condition
+    *  @param $one
+    *  @param $two
+    *
+    *  @return string
+    */
+    public function getPhpCodeTernaryOperator($return, $condition, $one, $two)
+    {
+        return "{$return} = {$condition} ? {$one} : {$two};";
+    }
+	
+	/*
     *  @public function getPhpCodeFunction
     *  @param $name
     *  @param $params
@@ -516,30 +530,32 @@ EOT;
     {
         $pregFunz = "preg_{$type}( '";
 		if ($isParam === false) {
-            $ret = "\${$return} = {$pregMatch}{$exp}', '{$str}', {$val});\n";
+            $ret = "\${$return} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
         } else {
-            $ret = "{$pregMatch}{$exp}', '{$str}', {$val})";
+            $ret = "{$pregFunz}{$exp}', '{$str}', {$val})";
         }
 
         return $ret;
     }
     
     /*
-    *  @public function getPhpCodeStrReplace
+    *  @public function getPhpCodeStrType
     *  @param $left
     *  @param $var
     *  @param $str
     *  @param $value
+	*  @param $type
     *  @param $isParam
     *
     *  @return string
     */
-    public function getPhpCodeStrReplace($left, $var, $str, $value, $isParam = false)
+    public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false)
     {
-        if ($isParam === false) {
-            $ret = "\${$left} = str_replace( '{$var}', '{$str}', {$value});\n";
+        $strType = "str_{$type}( '";
+		if ($isParam === false) {
+            $ret = "\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
         } else {
-            $ret = "str_replace( '{$var}', '{$str}', {$value})";
+            $ret = "{$strType}{$var}', '{$str}', {$value})";
         }
 
         return $ret;
