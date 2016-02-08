@@ -22,7 +22,8 @@
 		<td class='center'><img src="<{$tdmc_upload_imgmod_url}>/<{$set.image}>" height="35" /></td>
         <td class='center'><{$set.release}></td>
         <td class='center'><{$set.status}></td>
-        <td class='center'><img id="loading_img_type<{$set.id}>" src="<{$modPathIcon16}>/spinner.gif" style="display:none;" title="<{$smarty.const._AM_SYSTEM_LOADING}>" alt="<{$smarty.const._AM_SYSTEM_LOADING}>" /><img style="cursor:pointer;" class="tooltip" id="img_type<{$set.id}>" onclick="tdmcreate_setStatus( { op: 'display', set_id: <{$set.id}>, set_type: <{if $set.type}>0<{else}>1<{/if}> }, 'img_type<{$set.id}>', 'settings.php' )" src="<{xoModuleIcons16}><{$set.type}>.png" alt="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$set.name}>" title="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$set.name}>" /></td>
+        <td class='center'><input class="rSetting" type='radio' id='set_id<{$set.id}>' name='rNumber' value='<{$set.id}>' />
+        <img id="loading_img_type<{$set.id}>" src="<{$modPathIcon16}>/spinner.gif" style="display:none;" title="<{$smarty.const._AM_SYSTEM_LOADING}>" alt="<{$smarty.const._AM_SYSTEM_LOADING}>" /><img style="cursor:pointer;" class="tooltip" id="img_type<{$set.id}>" onclick="tdmcreate_setStatus( { op: 'display', set_id: <{$set.id}>, set_type: <{if $set.type}>0<{else}>1<{/if}> }, 'img_type<{$set.id}>', 'settings.php' )" src="<{xoModuleIcons16}><{$set.type}>.png" alt="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$set.name}>" title="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$set.name}>" /></td>
         <td class='xo-actions txtcenter width5'>
             <a href="settings.php?op=edit&amp;set_id=<{$set.id}>" title="<{$smarty.const._EDIT}>">
                 <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>" />

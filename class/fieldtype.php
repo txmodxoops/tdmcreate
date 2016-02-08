@@ -46,6 +46,37 @@ class TDMCreateFieldtype extends XoopsObject
         $this->initVar('fieldtype_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('fieldtype_value', XOBJ_DTYPE_TXTBOX);
     }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TDMCreateFieldElements
+     */
+    public static function &getInstance()
+    {
+        static $instance = false;
+        if (!$instance) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Get Values.
+     */
+    public function getValuesFieldtype($keys = null, $format = null, $maxDepth = null)
+    {
+        $ret = $this->getValues($keys, $format, $maxDepth);
+        // Values
+        $ret['id'] = $this->getVar('fieldtype_id');
+        $ret['name'] = $this->getVar('fieldtype_name');
+        $ret['value'] = $this->getVar('fieldtype_value');
+
+        return $ret;
+    }
 }
 
 /*

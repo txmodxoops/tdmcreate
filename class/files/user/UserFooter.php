@@ -95,8 +95,6 @@ class UserFooter extends TDMCreateFile
         $xoBreadcrumbs = $this->xoopscode->getXoopsCodeTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
         $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
         $language = $this->getLanguage($moduleDirname, 'MA');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('sysPathIcon32', '$sysPathIcon32');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_url", "{$language}URL");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
         $ret .= $this->getCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");

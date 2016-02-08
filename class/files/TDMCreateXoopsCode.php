@@ -839,10 +839,11 @@ EOT;
      *
      *  @return string
      */
-    public function getXoopsCodeObjHandlerAll($tableName, $fieldMain, $start = '0', $limit = '0')
+    public function getXoopsCodeObjHandlerAll($tableName, $fieldMain = '', $start = '0', $limit = '0')
     {
         $ucfTableName = ucfirst($tableName);
-        $param = ($fieldMain != '') ? "{$start}, {$limit}, '{$fieldMain}'" : "{$start}, {$limit}";
+        $startLimit = ($limit != '0') ? "{$start}, {$limit}" : '';
+        $param = ($fieldMain != '') ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
         $ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$param});\n";
 
         return $ret;

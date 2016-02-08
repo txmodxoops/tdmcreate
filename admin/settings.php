@@ -41,7 +41,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
         $settingsCount = $tdmcreate->getHandler('settings')->getCountSettings();
         $settingsAll = $tdmcreate->getHandler('settings')->getAllSettings($start, $limit);
@@ -162,10 +162,9 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'set_id' => $setId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $settingsObj->getVar('set_name')));
+            xoops_confirm(array('ok' => 1, 'set_id' => $setId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $settingsObj->getVar('set_name')));
         }
         break;
-
     case 'display':
         $id = XoopsRequest::getInt('set_id', 0, 'POST');
         if ($id > 0) {

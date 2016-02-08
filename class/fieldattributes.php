@@ -46,6 +46,37 @@ class TDMCreateFieldattributes extends XoopsObject
         $this->initVar('fieldattribute_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('fieldattribute_value', XOBJ_DTYPE_TXTBOX);
     }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TDMCreateFieldElements
+     */
+    public static function &getInstance()
+    {
+        static $instance = false;
+        if (!$instance) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Get Values.
+     */
+    public function getValuesFieldattributes($keys = null, $format = null, $maxDepth = null)
+    {
+        $ret = $this->getValues($keys, $format, $maxDepth);
+        // Values
+        $ret['id'] = $this->getVar('fieldattribute_id');
+        $ret['name'] = $this->getVar('fieldattribute_name');
+        $ret['value'] = $this->getVar('fieldattribute_value');
+
+        return $ret;
+    }
 }
 
 /*
