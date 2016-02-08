@@ -416,12 +416,12 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->getHeaderComment('Blocks');
         $ret .= $this->getSimpleString('$b = 1;');
         $tableCategory = array();
-		foreach (array_keys($tables) as $i) {
+        foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableFieldName = $tables[$i]->getVar('table_fieldname');
-			$tableSoleName = $tables[$i]->getVar('table_solename');
-			$stuTableSoleName = strtoupper($tableSoleName);
-			$tableCategory[] = $tables[$i]->getVar('table_category');
+            $tableSoleName = $tables[$i]->getVar('table_solename');
+            $stuTableSoleName = strtoupper($tableSoleName);
+            $tableCategory[] = $tables[$i]->getVar('table_category');
             if (in_array(1, $tableCategory)) {
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $tableFieldName);
             } else {
@@ -721,9 +721,9 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1, $num);
         unset($num);
         $num = 1;
-        if (in_array(1, $tableCategory)) {           
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify', $num); 
-			++$num;
+        if (in_array(1, $tableCategory)) {
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify', $num);
+            ++$num;
         }
         $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_modify', 'global', 1, 'global', 'filemodify', 'global_filemodify_notify', $num);
         if (in_array(1, $tableBroken)) {

@@ -70,12 +70,17 @@ $(document).ready(function() {
 	// Hide/Show Modules Tables
 	$('#modtab').hide();
 	$('td#modtabs').click(function(){
-	   $(this).next('#modtab').slideToggle('slow');});
+	   $(this).next('#modtab').slideToggle('slow');
+	});
+	$('.rSetting').click(function () {
+        var selValue = $('input[name=rNumber]:checked').val().split(",")[0];
+        var rpValue = $('input[name=rNumber]:checked').val().split(",")[1];
+	});
 });
 
 function tdmcreate_setStatus( data, img, file ) {
     // Post request
-    $.post( file, data , function( reponse, textStatus ) {
+    $.post( file, data, function( reponse, textStatus ) {
         if (textStatus == 'success') {
 			$('img#'+img).hide();
 			$('#loading_'+img).show();

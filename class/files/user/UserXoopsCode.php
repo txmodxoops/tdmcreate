@@ -110,29 +110,29 @@ class UserXoopsCode
 
     /*
     *  @public function getUserMetaDesc
-    *  @param string $moduleDirname
-    *  @param string $stuTableSoleName
+    *  @param string $moduleDirname    
     *  @param string $language
+    *  @param string $file
     *  
     *  @return string
     */
-    public function getUserMetaDesc($moduleDirname, $stuTableSoleName, $language)
+    public function getUserMetaDesc($moduleDirname, $language, $file = 'INDEX')
     {
-        return "{$moduleDirname}MetaDescription({$language}{$stuTableSoleName}_DESC);\n";
+        return "{$moduleDirname}MetaDescription({$language}{$file}_DESC);\n";
     }
 
     /*
     *  @public function getUserBreadcrumbs
-    *  @param string $moduleDirname
     *  @param string $language
+    *  @param string $moduleDirname    
     *  
     *  @return string
     */
-    public function getUserBreadcrumbs($tableName, $language)
+    public function getUserBreadcrumbs($language, $tableName = 'index')
     {
         $stuTableName = strtoupper($tableName);
 
-        return "\$xoBreadcrumbs[] = array('title' => {$language}{$stuTableName});\n";
+        return $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', 'title', $language.$stuTableName, true);
     }
 
     /*

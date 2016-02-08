@@ -46,6 +46,37 @@ class TDMCreateFieldnull extends XoopsObject
         $this->initVar('fieldnull_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('fieldnull_value', XOBJ_DTYPE_TXTBOX);
     }
+
+    /*
+    *  @static function &getInstance
+    *  @param null
+    */
+    /**
+     * @return TDMCreateFieldElements
+     */
+    public static function &getInstance()
+    {
+        static $instance = false;
+        if (!$instance) {
+            $instance = new self();
+        }
+
+        return $instance;
+    }
+
+    /**
+     * Get Values.
+     */
+    public function getValuesFieldnull($keys = null, $format = null, $maxDepth = null)
+    {
+        $ret = $this->getValues($keys, $format, $maxDepth);
+        // Values
+        $ret['id'] = $this->getVar('fieldnull_id');
+        $ret['name'] = $this->getVar('fieldnull_name');
+        $ret['value'] = $this->getVar('fieldnull_value');
+
+        return $ret;
+    }
 }
 
 /*

@@ -31,6 +31,11 @@ class ClassFiles extends TDMCreateFile
     /*
     * @var string
     */
+    private $phpcode = null;
+
+    /*
+    * @var string
+    */
     private $formelements = null;
 
     /*
@@ -43,6 +48,7 @@ class ClassFiles extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $this->formelements = ClassFormElements::getInstance();
@@ -188,11 +194,9 @@ EOT;
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
-        $ret = <<<EOT
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
-/*
- * Class Object {$ucfModuleDirname}{$ucfTableName}
- */
+        $ret = $this->phpcode->getPhpCodeDefined();
+        $ret .= $this->phpcode->getPhpCodeCommentMultiLine(array('Class Object ' => $ucfModuleDirname.$ucfTableName));
+        $ret .= <<<EOT
 class {$ucfModuleDirname}{$ucfTableName} extends XoopsObject
 {
     /*
@@ -205,8 +209,7 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-        //
-        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             $rpFieldName = $this->tdmcfile->getRightString($fieldName);
             if (in_array(5, $fieldElementId)) {

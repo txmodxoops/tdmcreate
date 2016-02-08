@@ -78,6 +78,22 @@ class TDMCreateFieldElements extends XoopsObject
 
         return $instance;
     }
+
+    /**
+     * Get Values.
+     */
+    public function getValuesFieldElements($keys = null, $format = null, $maxDepth = null)
+    {
+        $ret = $this->getValues($keys, $format, $maxDepth);
+        // Values
+        $ret['id'] = $this->getVar('fieldelement_id');
+        $ret['mid'] = $this->getVar('fieldelement_mid');
+        $ret['tid'] = $this->getVar('fieldelement_tid');
+        $ret['name'] = $this->getVar('fieldelement_name');
+        $ret['value'] = $this->getVar('fieldelement_value');
+
+        return $ret;
+    }
 }
 
 /*

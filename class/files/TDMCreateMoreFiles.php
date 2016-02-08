@@ -29,7 +29,7 @@ class TDMCreateMoreFiles extends TDMCreateFile
 {
     //
     private $folder;
-     //
+    //
     private $extension;
     /*
     *  @public function constructor
@@ -41,7 +41,6 @@ class TDMCreateMoreFiles extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -85,7 +84,7 @@ class TDMCreateMoreFiles extends TDMCreateFile
     }
 
     /*
-    *  @private function getMoreFilesFilePhp
+    *  @private function getMoreFilesPhp
     *  @param $header
     */
     /**
@@ -93,18 +92,20 @@ class TDMCreateMoreFiles extends TDMCreateFile
      *
      * @return string
      */
-    private function getMoreFilesFilePhp($header)
+    private function getMoreFilesPhp($header)
     {
         $ret = <<<EOT
 <?php
 {$header}\n
 EOT;
+        $ret .= $this->getInclude();
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
 
     /*
-    *  @private function getMoreFilesFileTpl
+    *  @private function getMoreFilesTpl
     *  @param $header
     */
     /**
@@ -112,7 +113,7 @@ EOT;
      *
      * @return string
      */
-    private function getMoreFilesFileTpl()
+    private function getMoreFilesTpl()
     {
         $ret = <<<EOT
 <div class="panel">
@@ -124,7 +125,7 @@ EOT;
     }
 
     /*
-    *  @private function getMoreFilesFileHtml
+    *  @private function getMoreFilesHtml
     *  @param $header
     */
     /**
@@ -132,7 +133,7 @@ EOT;
      *
      * @return string
      */
-    private function getMoreFilesFileHtml()
+    private function getMoreFilesHtml()
     {
         $ret = <<<EOT
 <div class="panel">
@@ -144,7 +145,7 @@ EOT;
     }
 
     /*
-    *  @private function getMoreFilesFileText
+    *  @private function getMoreFilesText
     *  @param null
     */
     /**
@@ -152,17 +153,17 @@ EOT;
      *
      * @return string
      */
-    private function getMoreFilesFileText()
+    private function getMoreFilesText()
     {
         $ret = <<<EOT
-Pleace! put your text code here\n
+# Pleace! put your text code here\n
 EOT;
 
         return $ret;
     }
 
     /*
-    *  @private function getMoreFilesFileSql
+    *  @private function getMoreFilesSql
     *  @param null
     */
     /**
@@ -170,17 +171,17 @@ EOT;
      *
      * @return string
      */
-    private function getMoreFilesFileSql()
+    private function getMoreFilesSql()
     {
         $ret = <<<EOT
-Pleace! put your sql code here\n
+# Pleace! put your sql code here\n
 EOT;
 
         return $ret;
     }
 
     /*
-    *  @private function getMoreFilesFileCss
+    *  @private function getMoreFilesCss
     *  @param $header
     */
     /**
@@ -188,7 +189,7 @@ EOT;
      *
      * @return string
      */
-    private function getMoreFilesFileCss($header)
+    private function getMoreFilesCss($header)
     {
         $ret = <<<EOT
 @charset "UTF-8";
@@ -199,7 +200,7 @@ EOT;
     }
 
     /*
-    *  @private function getMoreFilesFileDefault
+    *  @private function getMoreFilesDefault
     *  @param null
     */
     /**
@@ -207,7 +208,7 @@ EOT;
      *
      * @return string
      */
-    private function getMoreFilesFileDefault()
+    private function getMoreFilesDefault()
     {
         $ret = <<<EOT
 \n
@@ -233,31 +234,30 @@ EOT;
         $header = $this->getHeaderFilesComments($module, $filename, 0);
         switch ($this->extension) {
             case 'php':
-                $content = $this->getMoreFilesFilePhp($header);
+                $content = $this->getMoreFilesPhp($header);
                 break;
             case 'tpl':
-                $content = $this->getMoreFilesFileTpl();
+                $content = $this->getMoreFilesTpl();
                 break;
             case 'html':
-                $content = $this->getMoreFilesFileHtml();
+                $content = $this->getMoreFilesHtml();
                 break;
             case 'text':
-                $content = $this->getMoreFilesFileText();
+                $content = $this->getMoreFilesText();
                 break;
             case 'sql':
-                $content = $this->getMoreFilesFileSql();
+                $content = $this->getMoreFilesSql();
                 break;
             case 'css':
-                $content = $this->getMoreFilesFileCss($header);
+                $content = $this->getMoreFilesCss($header);
                 break;
             default:
-                $content = $this->getMoreFilesFileDefault();
+                $content = $this->getMoreFilesDefault();
                 break;
         }
 
-        //
-        $this->tdmcfile->create($moduleDirname, $this->folder, $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

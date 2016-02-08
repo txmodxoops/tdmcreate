@@ -80,14 +80,14 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeCommentMultiLine($multiLine = array())
+    public function getPhpCodeCommentMultiLine($multiLine = array(), $t = '')
     {
         $values = !empty($multiLine) ? $multiLine : array();
-        $ret = '/**\n';
+        $ret = "{$t}/**\n";
         foreach ($values as $string => $value) {
-            $ret .= " * {$string}{$value}\n";
+            $ret .= "{$t} * {$string} {$value}\n {$t}";
         }
-        $ret .= " */\n";
+        $ret .= "{$t}*/\n";
 
         return $ret;
     }
@@ -105,9 +105,21 @@ class TDMCreatePhpCode
     }
 
     /*
+    *  @public function getPhpCodeDefine
+    *  @param $left
+    *  @param $right
+    *
+    *  @return string
+    */
+    public function getPhpCodeDefined($left = 'XOOPS_ROOT_PATH', $right = 'Restricted access')
+    {
+        return "defined('{$left}') || die('{$right}');\n";
+    }
+
+    /*
     *  @public function getPhpCodeGlobalsVariables    
     *  @param $var
-	*  @param $type
+    *  @param $type
     *
     *  @return string
     */
@@ -204,25 +216,57 @@ class TDMCreatePhpCode
     {
         return "{$return} = {$condition} ? {$one} : {$two};";
     }
-	
-	/*
+
+    /*
+    *  @public function getPhpCodeClass
+    *  @param $name    
+    *  @param $content
+    *  @param $extends
+    *  @param $type
+    *
+    *  @return string
+    */
+    public function getPhpCodeClass($name = '', $content = '', $extends = null, $type = null)
+    {
+        $typ = ($type != null) ? "{$type} " : '';
+        $ext = ($extends != null) ? " extends {$extends}" : '';
+        $ret = "{$typ}class {$name}{$ext} {";
+        $ret .= "\t{$content}\n\t";
+        $ret .= "}\n";
+
+        return $ret;
+    }
+
+    /*
+    *  @public function getPhpCodeClass
+    *  @param $type    
+    *  @param $name
+    *  @param $assign
+    *
+    *  @return string
+    */
+    public function getPhpCodeVariableClass($type = 'private', $name = '', $assign = 'null')
+    {
+        return "{$type} \${$name} = {$assign}\n";
+    }
+
+    /*
     *  @public function getPhpCodeFunction
     *  @param $name
     *  @param $params
     *  @param $content
-    *  @param $type
+    *  @param $method
     *  @param $t - Indentation 
     *
     *  @return string
     */
-    public function getPhpCodeFunction($name = '', $params = '', $content = '', $type = 'public ', $t = "\t")
+    public function getPhpCodeFunction($name = '', $params = '', $content = '', $method = null, $t = '')
     {
-        $ret = <<<EOF
-{$t}{$type}function {$name}({$params})
-{$t}{
-{$t}\t{$content}
-{$t}}\n
-EOF;
+        $inClass = ($method != null) ? $method : '';
+        $ret = "{$t}{$inClass}function {$name}({$params})\n";
+        $ret .= "{$t}{\n";
+        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -241,19 +285,15 @@ EOF;
     public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $t = '')
     {
         if (false === $contentElse) {
-            $ret = <<<EOT
-{$t}if ({$condition}{$operator}{$type}) {
-{$t}\t{$contentIf}
-{$t}}\n
-EOT;
+            $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
+            $ret .= "{$t}\t{$contentIf}";
+            $ret .= "{$t}}\n";
         } else {
-            $ret = <<<EOT
-{$t}if ({$condition}{$operator}{$type}) {
-{$t}\t{$contentIf}
-{$t}} else {
-{$t}\t{$contentElse}
-{$t}}\n
-EOT;
+            $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
+            $ret .= "{$t}\t{$contentIf}";
+            $ret .= "{$t}} else {";
+            $ret .= "{$t}\t{$contentElse}";
+            $ret .= "{$t}}\n";
         }
 
         return $ret;
@@ -269,7 +309,7 @@ EOT;
      *
      * @return string
      */
-    public function getPhpCodeForeach($array = '', $arrayKey = false, $key = false, $value = false, $content = '', $t = '')
+    public function getPhpCodeForeach($array, $arrayKey = false, $key = false, $value = false, $content = '', $t = '')
     {
         $vars = '';
         if ((false === $arrayKey) && (false === $key)) {
@@ -280,11 +320,9 @@ EOT;
             $vars = "array_keys(\${$array}) as \${$value}";
         }
 
-        $ret = <<<EOT
-{$t}foreach({$vars}) {
-{$t}\t{$content}
-{$t}}\n
-EOT;
+        $ret = "{$t}foreach({$vars}) {\n";
+        $ret .= "{$t}\t{$content}";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -301,11 +339,9 @@ EOT;
      */
     public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '', $t = '')
     {
-        $ret = <<<EOT
-{$t}for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {
-{$t}\t{$content}
-{$t}}\n
-EOT;
+        $ret = "{$t}for(\${$var} = {$initVal}; {$var} {$operator} \${$value}; \${$var}++) {\n";
+        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -322,11 +358,9 @@ EOT;
      */
     public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '', $t = '')
     {
-        $ret = <<<EOT
-{$t}while(\${$var} {$operator} {$value}) {
-{$t}\t{$content}
-{$t}}\n
-EOT;
+        $ret = "{$t}while(\${$var} {$operator} {$value}) {\n";
+        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -342,12 +376,9 @@ EOT;
      */
     public function getPhpCodeSwitch($op = '', $content = '', $t = '')
     {
-        $ret = <<<EOT
-// Switch options
-{$t}switch (\${$op}){
-{$t}\t{$content}
-{$t}}\n
-EOT;
+        $ret = "{$t}switch(\${$op}) {\n";
+        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -435,18 +466,22 @@ EOT;
 
     /*
     *  @public function getPhpCodeArray
-    *  @param $return
+    *  @param $var
     *  @param $left
     *  @param $right
+    *  @param $key
     *  @param $isParam
     *
     *  @return string
     */
-    public function getPhpCodeArray($return, $left, $right = '', $isParam = false)
+    public function getPhpCodeArray($var, $left = null, $right = null, $key = false, $isParam = false)
     {
-        $array = ($right !== '') ? "{$left}, {$right}" : (($right !== '') && is_string($left) ? "{$left} => {$right}" : "{$left}");
+        $leftIs = preg_match('/^[a-zA-Z0-9]+/', $left) ? "'{$left}'" : $left;
+        $rightIs = preg_match('/^[a-zA-Z0-9]+/', $right) ? "'{$right}'" : $right;
+        $arrayKey = ($key !== false) ? "{$leftIs} => {$rightIs}" : "{$leftIs}, {$rightIs}";
+        $array = ($left !== null) ? (($right !== null) ? $arrayKey : $leftIs) : '';
         if ($isParam === false) {
-            $ret = "\${$return} = array({$array});\n";
+            $ret = "\${$var} = array({$array});\n";
         } else {
             $ret = "array({$array})";
         }
@@ -455,20 +490,21 @@ EOT;
     }
 
     /*
-    *  @public function getPhpCodeArrayMerge
-    *  @param $return
+    *  @public function getPhpCodeArrayType
+    *  @param $var
+    *  @param $type
     *  @param $left
     *  @param $right
     *  @param $isParam
     *
     *  @return string
     */
-    public function getPhpCodeArrayMerge($return, $left, $right, $isParam = false)
+    public function getPhpCodeArrayType($var, $type, $left, $right, $isParam = false)
     {
         if ($isParam === false) {
-            $ret = "\${$return} = array_merge({$left}, {$right});\n";
+            $ret = "\${$var}[] = array_{$type}(\${$left}, {$right});\n";
         } else {
-            $ret = "array_merge({$left}, {$right})";
+            $ret = "array_{$type}(\${$left}, {$right})";
         }
 
         return $ret;
@@ -521,7 +557,7 @@ EOT;
     *  @param $exp
     *  @param $str
     *  @param $val
-	*  @param $type
+    *  @param $type
     *  @param $isParam
     *
     *  @return string
@@ -529,7 +565,7 @@ EOT;
     public function getPhpCodePregFunzions($return, $exp = '', $str, $val, $type = 'match', $isParam = false)
     {
         $pregFunz = "preg_{$type}( '";
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$return} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
         } else {
             $ret = "{$pregFunz}{$exp}', '{$str}', {$val})";
@@ -537,14 +573,14 @@ EOT;
 
         return $ret;
     }
-    
+
     /*
     *  @public function getPhpCodeStrType
     *  @param $left
     *  @param $var
     *  @param $str
     *  @param $value
-	*  @param $type
+    *  @param $type
     *  @param $isParam
     *
     *  @return string
@@ -552,7 +588,7 @@ EOT;
     public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false)
     {
         $strType = "str_{$type}( '";
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
         } else {
             $ret = "{$strType}{$var}', '{$str}', {$value})";

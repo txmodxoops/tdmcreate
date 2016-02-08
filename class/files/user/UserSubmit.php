@@ -194,7 +194,7 @@ class UserSubmit extends TDMCreateFile
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->getCommentLine('Breadcrumbs');
-        $ret .= $this->usercode->getUserBreadcrumbs('SUBMIT', $language);
+        $ret .= $this->usercode->getUserBreadcrumbs($language, 'SUBMIT');
         $ret .= $this->getInclude('footer');
 
         return $ret;
