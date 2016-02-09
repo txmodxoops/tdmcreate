@@ -31,8 +31,8 @@ class TemplatesUserFacebookComments extends TDMCreateHtmlSmartyCodes
     * @var string
     */
     private $tdmcfile = null;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */

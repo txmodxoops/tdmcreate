@@ -31,8 +31,8 @@ class TemplatesUserPdf extends TDMCreateFile
     * @var string
     */
     private $tdmcfile = null;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
