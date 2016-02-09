@@ -12,3 +12,11 @@ checks:
     php:
         code_rating: true
         duplication: true
+        
+tools:
+    php_cs_fixer:
+        enabled: true
+        config:
+            level: all
+        filter:
+            paths: ["admin/*", "blocks/*", "class/*", "include/*", "language/*", "templates/*"]
