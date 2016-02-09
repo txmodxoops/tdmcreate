@@ -19,4 +19,4 @@ tools:
         config:
             level: all
         filter:
-            paths: ["admin/*", "blocks/*", "class/*", "include/*", "language/*", "templates/*"]
+            paths: ["admin/*", "class/*", "include/*", "language/*", "templates/*"]
