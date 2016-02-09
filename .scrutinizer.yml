@@ -20,16 +20,19 @@ tools:
             level: all
         filter:
             paths: ["admin/*", "class/*", "include/*", "language/*", "templates/*"]
-     php_loc:
+    php_cpd:
         enabled: true
-        excluded_dirs: ["assets", "docs", "sql"]
+        excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
+    php_loc:
+        enabled: true
+        excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
     php_mess_detector:
         enabled: true
         filter:
             paths: ["src/*"]
     php_pdepend:
         enabled: true
-        excluded_dirs: ["assets", "docs", "sql"]
+        excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
     php_analyzer: true
     php_analyzer:
         filter:
