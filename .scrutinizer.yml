@@ -20,3 +20,18 @@ tools:
             level: all
         filter:
             paths: ["admin/*", "class/*", "include/*", "language/*", "templates/*"]
+     php_loc:
+        enabled: true
+        excluded_dirs: ["assets", "docs", "sql"]
+    php_mess_detector:
+        enabled: true
+        filter:
+            paths: ["src/*"]
+    php_pdepend:
+        enabled: true
+        excluded_dirs: ["assets", "docs", "sql"]
+    php_analyzer: true
+    php_analyzer:
+        filter:
+            paths: ["admin/*", "class/*", "include/*", "language/*"]
+    sensiolabs_security_checker: true
