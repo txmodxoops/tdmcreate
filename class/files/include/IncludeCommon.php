@@ -21,7 +21,6 @@
  *
  * @version         $Id: IncludeCommon.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class IncludeCommon.
@@ -95,7 +94,7 @@ class IncludeCommon extends TDMCreateFile
         $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
         $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
         $ret = <<<EOT
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
     define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
 	define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');

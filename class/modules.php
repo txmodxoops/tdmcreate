@@ -22,7 +22,6 @@
  *
  * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateModules
@@ -431,7 +430,7 @@ class TDMCreateModules extends XoopsObject
      */
     public function getValuesModules($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = $this->getValues($keys, $format, $maxDepth);
+        $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('mod_id');
         $ret['name'] = $this->getVar('mod_name');

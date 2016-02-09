@@ -21,9 +21,8 @@
  *
  * @version         $Id: 1.91 fieldattributes.php 13027 2015-02-14 12:18:10Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-/*
+ /*
 *  @Class TDMCreateFieldattributes
 *  @extends XoopsObject
 */

@@ -21,7 +21,6 @@
  *
  * @version         $Id: TDMCreateHtmlSmartyCodes.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class TDMCreateHtmlSmartyCodes.
@@ -197,8 +196,8 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rDivClass = ($divClass != '') ? " class='{$divClass}'" : '';
         $ret = "<div{$rDivClass}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "</div>\n";
+        $ret .= "\t{$content}\n";
+        $ret .= "</div>\n";
 
         return $ret;
     }
@@ -218,8 +217,8 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rPreClass = ($preClass != '') ? " class='{$preClass}'" : '';
         $ret = "<pre{$rPreClass}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "</pre>\n";
+        $ret .= "\t{$content}\n";
+        $ret .= "</pre>\n";
 
         return $ret;
     }
@@ -239,7 +238,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rSpanClass = ($spanClass != '') ? " class='{$spanClass}'" : '';
         $ret = "<span{$rSpanClass}>{$content}</span>";
-		
+
         return $ret;
     }
 
@@ -258,9 +257,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rPClass = ($pClass != '') ? " class='{$pClass}'" : '';
         $ret = "<p{$rPClass}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "</p>\n";
-		
+        $ret .= "\t{$content}\n";
+        $ret .= "</p>\n";
+
         return $ret;
     }
 
@@ -298,8 +297,8 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rUlClass = ($ulClass != '') ? " class='{$ulClass}'" : '';
         $ret = "<ul{$rUlClass}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "</ul>\n";
+        $ret .= "\t{$content}\n";
+        $ret .= "</ul>\n";
 
         return $ret;
     }
@@ -319,9 +318,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rOlClass = ($olClass != '') ? " class='{$olClass}'" : '';
         $ret = "<ol{$rOlClass}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "</ol>\n";
-		
+        $ret .= "\t{$content}\n";
+        $ret .= "</ol>\n";
+
         return $ret;
     }
 
@@ -357,7 +356,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     public function getHtmlStrong($content = '', $strongClass = '')
     {
         $rStrongClass = ($strongClass != '') ? " class='{$strongClass}'" : '';
-		
+
         return "<strong{$rStrongClass}>{$content}</strong>";
     }
 
@@ -421,9 +420,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rTableClass = ($tableClass != '') ? " class='{$tableClass}'" : '';
         $ret = "<table{$rTableClass}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "</table>\n";
-		
+        $ret .= "\t{$content}\n";
+        $ret .= "</table>\n";
+
         return $ret;
     }
 
@@ -442,9 +441,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rTheadClass = ($theadClass != '') ? " class='{$theadClass}'" : '';
         $ret = "\t<thead{$rTheadClass}>\n";
-		$ret .= "\t\t{$content}\n";
-		$ret .= "\t</thead>\n";
-		
+        $ret .= "\t\t{$content}\n";
+        $ret .= "\t</thead>\n";
+
         return $ret;
     }
 
@@ -463,9 +462,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rTbodyClass = ($tbodyClass != '') ? " class='{$tbodyClass}'" : '';
         $ret = "\t<tbody{$rTbodyClass}>\n";
-		$ret .= "\t\t{$content}\n";
-		$ret .= "\t</tbody>\n";
-		
+        $ret .= "\t\t{$content}\n";
+        $ret .= "\t</tbody>\n";
+
         return $ret;
     }
 
@@ -484,9 +483,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rTfootClass = ($tfootClass != '') ? " class='{$tfootClass}'" : '';
         $ret = "\t<tfoot{$rTfootClass}>\n";
-		$ret .= "\t\t{$content}\n";
-		$ret .= "\t</tfoot>\n";
-		
+        $ret .= "\t\t{$content}\n";
+        $ret .= "\t</tfoot>\n";
+
         return $ret;
     }
 
@@ -505,9 +504,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rTrClass = ($trClass != '') ? " class='{$trClass}'" : '';
         $ret = "\t<tr{$rTrClass}>\n";
-		$ret .= "\t\t{$content}\n";
-		$ret .= "\t</tr>\n";
-		
+        $ret .= "\t\t{$content}\n";
+        $ret .= "\t</tr>\n";
+
         return $ret;
     }
 
@@ -527,7 +526,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rThClass = ($thClass != '') ? " class='{$thClass}'" : '';
         $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
-        
+
         return "<th{$colspan}{$rThClass}>{$content}</th>";
     }
 
@@ -547,7 +546,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $rTdClass = ($tdClass != '') ? " class='{$tdClass}'" : '';
         $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
-        
+
         return "<td{$colspan}{$rTdClass}>{$content}</td>";
     }
 
@@ -713,19 +712,19 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
                 $ret = "<{if count(\${$condition}){$operator}{$type}}>\n";
             }
             $ret .= "\t{$contentIf}\n";
-			$ret .= "<{/if}>\n";
+            $ret .= "<{/if}>\n";
         } else {
             if (!$count) {
-                $ret = "<{if \${$condition}{$operator}{$type}}>\n";				
+                $ret = "<{if \${$condition}{$operator}{$type}}>\n";
             } elseif (!$noSimbol) {
-                $ret = "<{if {$condition}{$operator}{$type}}>\n";				
+                $ret = "<{if {$condition}{$operator}{$type}}>\n";
             } else {
-                $ret = "<{if count(\${$condition}){$operator}{$type}}>\n";				
-            }  
-			$ret .= "\t{$contentIf}\n";
-			$ret .= "<{else}>\n";
-			$ret .= "\t{$contentElse}\n";
-			$ret .= "<{/if}>\n";
+                $ret = "<{if count(\${$condition}){$operator}{$type}}>\n";
+            }
+            $ret .= "\t{$contentIf}\n";
+            $ret .= "<{else}>\n";
+            $ret .= "\t{$contentElse}\n";
+            $ret .= "<{/if}>\n";
         }
 
         return $ret;
@@ -749,9 +748,9 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
         $name = $name != '' ? " name={$name}" : '';
         $key = $key != '' ? " key={$key}" : '';
         $ret = "<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "<{/foreach}>\n";
-		
+        $ret .= "\t{$content}\n";
+        $ret .= "<{/foreach}>\n";
+
         return $ret;
     }
 
@@ -772,10 +771,10 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $loop = $loop != '' ? " loop={$loop}" : '';
         $key = $key != '' ? " key={$key}" : '';
-		$ret = "<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "<{/foreachq}>\n";
-        
+        $ret = "<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
+        $ret .= "\t{$content}\n";
+        $ret .= "<{/foreachq}>\n";
+
         return $ret;
     }
 
@@ -796,10 +795,10 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
     {
         $start = $start != 0 ? " start={$start}" : '';
         $step = $step != 0 ? " step={$step}" : '';
-		$ret = "<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
-		$ret .= "\t{$content}\n";
-		$ret .= "<{/section}>\n";
-        
+        $ret = "<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
+        $ret .= "\t{$content}\n";
+        $ret .= "<{/section}>\n";
+
         return $ret;
     }
 }
