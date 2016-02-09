@@ -40,12 +40,12 @@ class UserPages extends TDMCreateFile
     /*
     * @var string
     */
-    private $xoopscode;
+    private $xoopscode = null;
 
     /*
     * @var string
     */
-    private $tdmcfile;
+    private $tdmcfile = null;
 
     /*
     *  @public function constructor

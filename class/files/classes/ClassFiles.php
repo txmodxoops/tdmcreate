@@ -31,6 +31,11 @@ class ClassFiles extends TDMCreateFile
     * @var string
     */
     private $phpcode = null;
+	
+	/*
+    * @var string
+    */
+    private $tdmcfile = null;
 
     /*
     * @var string

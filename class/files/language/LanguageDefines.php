@@ -25,9 +25,9 @@
 /**
  * Class LanguageDefines.
  */
-class LanguageDefines extends TDMCreateFile
-{
-    /*
+class LanguageDefines
+{    		
+	/*
     * @var mixed
     */
     protected $defines;
@@ -40,10 +40,9 @@ class LanguageDefines extends TDMCreateFile
      *
      */
     public function __construct()
-    {
-        parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-    }
+	{
+		$this->phpcode = TDMCreatePhpCode::getInstance();
+	}
 
     /*
     *  @static function &getInstance
@@ -92,9 +91,8 @@ class LanguageDefines extends TDMCreateFile
     public function getDefine($language, $defined, $description)
     {
         $defined = strtoupper($defined);
-        $ret = "define('{$language}{$defined}', \"{$description}\");\n";
 
-        return $ret;
+        return $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");
     }
 
     /*

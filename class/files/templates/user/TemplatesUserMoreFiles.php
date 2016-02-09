@@ -32,6 +32,11 @@ class TemplatesUserMoreFiles extends TDMCreateFile
     //
     private $extension;
     /*
+    * @var string
+    */
+    private $tdmcfile = null;
+	
+	/*
     *  @public function constructor
     *  @param null
     */

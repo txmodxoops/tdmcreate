@@ -25,7 +25,7 @@
 /**
  * Class LanguageAdmin.
  */
-class LanguageAdmin extends LanguageDefines
+class LanguageAdmin extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -168,7 +168,7 @@ class LanguageAdmin extends LanguageDefines
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $stuFieldName = strtoupper($fieldName);
                 //
-                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 15) {
                     $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
                     $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
@@ -277,8 +277,8 @@ class LanguageAdmin extends LanguageDefines
         }
         $content .= $this->getLanguageAdminFoot($language);
         //
-        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

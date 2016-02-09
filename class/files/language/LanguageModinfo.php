@@ -25,7 +25,7 @@
 /**
  * Class LanguageModinfo.
  */
-class LanguageModinfo extends LanguageDefines
+class LanguageModinfo extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -432,8 +432,8 @@ class LanguageModinfo extends LanguageDefines
         }
         $content .= $this->getLanguageFooter();
         //
-        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

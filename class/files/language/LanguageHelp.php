@@ -25,7 +25,7 @@
 /**
  * Class LanguageHelp.
  */
-class LanguageHelp extends LanguageDefines
+class LanguageHelp extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -116,10 +116,10 @@ Detailed instructions on installing modules are available in the <a href="http:/
 </div>
 EOT;
         if ($language != 'english') {
-            $this->tdmcfile->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+            $this->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
         }
-        $this->tdmcfile->create($moduleDirname, 'language/english/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
