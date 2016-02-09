@@ -21,9 +21,6 @@
  *
  * @version         $Id: DocsChangelog.php 12258 2014-01-02 09:33:29Z timgno $
  */
-if (!defined('XOOPS_ROOT_PATH')) {
-    die('XOOPS root path not defined');
-}
 
 /**
  * Class DocsChangelog.

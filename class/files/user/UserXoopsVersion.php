@@ -142,7 +142,7 @@ class UserXoopsVersion extends TDMCreateFile
     private function getXoopsVersionHeader($module, $language)
     {
         $date = date(_DBDATESTRING);
-        $ret = $this->getSimpleString("defined('XOOPS_ROOT_PATH') || die('Restricted access');");
+        $ret = $this->getSimpleString('');
         $ret .= $this->getCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
         $ret .= $this->getHeaderComment('Informations');

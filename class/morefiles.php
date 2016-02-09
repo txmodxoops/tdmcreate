@@ -22,7 +22,6 @@
  *
  * @version         $Id: morefiles.php 13080 2015-06-12 10:12:32Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 include __DIR__.'/autoload.php';
 /*
 *  @Class TDMCreateMoreFiles

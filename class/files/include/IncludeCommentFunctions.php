@@ -21,7 +21,6 @@
  *
  * @version         $Id: IncludeCommentFunctions.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class IncludeCommentFunctions.
@@ -93,7 +92,7 @@ class IncludeCommentFunctions extends TDMCreateFile
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {
     \$itemId = (int) (\$itemId);
     \$itemNumb = (int) (\$itemNumb);

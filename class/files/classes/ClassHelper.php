@@ -21,7 +21,6 @@
  *
  * @version         $Id: 1.91 ClassHelper.php 12258 2014-01-02 09:33:29Z timgno $
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class ClassHelper.
@@ -87,7 +86,7 @@ class ClassHelper extends TDMCreateFile
         $ucf_module_dirname = ucfirst($module_dirname);
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+
 
 class {$ucf_module_dirname}Helper
 {
