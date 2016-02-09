@@ -25,7 +25,7 @@
 /**
  * Class LanguageMailTpl.
  */
-class LanguageMailTpl extends LanguageDefines
+class LanguageMailTpl extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -57,16 +57,17 @@ class LanguageMailTpl extends LanguageDefines
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    */
     /**
+     * @public function write
+     * @param $module
+	 * @param $filename
+	 *
      * @param $module
      */
-    public function write($module)
+    public function write($module, $filename)
     {
         $this->setModule($module);
+		$this->setFileName($filename);
     }
 
     /*
@@ -78,9 +79,10 @@ class LanguageMailTpl extends LanguageDefines
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
+		$filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = <<<EOT
 // ---------- Templates Mail Content Dummy ---------- //
@@ -106,8 +108,8 @@ Please do not reply to this message.
 webmaster
 {X_ADMINMAIL}
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'language/english/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

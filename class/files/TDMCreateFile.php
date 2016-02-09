@@ -30,7 +30,7 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    private $xoopsFile;
+    private $xoopsFile = null;
 
     /**
      * "fileName" attribute of the files.
@@ -51,7 +51,7 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @var string
      */
-    private $uploadPath;
+    private $uploadPath = null;
 
     /*
     * @var string
@@ -76,7 +76,7 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    protected $tdmcreate;
+    protected $tdmcreate = null;
 
     /*
     *  @public function constructor

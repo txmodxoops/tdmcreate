@@ -30,12 +30,12 @@ class TDMCreateArchitecture extends TDMCreateStructure
     /*
     * @var mixed
     */
-    private $tdmcreate;
+    private $tdmcreate = null;
 
     /*
     * @var mixed
     */
-    private $tdmcfile;
+    private $tdmcfile = null;
 
     /*
     *  @public function constructor class
@@ -110,22 +110,13 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "blocks" folder and index.html file
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
-        // Creation of "class" folder and index.html file
-        $this->makeDirAndCopyFile('class', $indexFile, 'index.html');
-        // Creation of "assets" folder and index.html file
-        $this->makeDirAndCopyFile('assets', $indexFile, 'index.html');
-        // Creation of "assets/css" folder and index.html file
-        $this->makeDirAndCopyFile('assets/css', $indexFile, 'index.html');
-        // Creation of "assets/icons" folder and index.html file
-        $this->makeDirAndCopyFile('assets/icons', $indexFile, 'index.html');
-        // Creation of "assets/icons/16" folder and index.html file
-        $this->makeDirAndCopyFile('assets/icons/16', $indexFile, 'index.html');
-        // Creation of "assets/icons/32" folder and index.html file
-        $this->makeDirAndCopyFile('assets/icons/32', $indexFile, 'index.html');
-        // Creation of "assets/images" folder and index.html file
-        $this->makeDirAndCopyFile('assets/images', $indexFile, 'index.html');
-        // Creation of "assets/js" folder and index.html file
-        $this->makeDirAndCopyFile('assets/js', $indexFile, 'index.html');
+		$copyFiles = array('class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 
+						'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 
+						'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/english' => $indexFile, 'language/english/help' => $indexFile);
+		foreach($copyFiles as $k => $v){
+			// Creation of folders and index.html file
+			$this->makeDirAndCopyFile( $k, $v, 'index.html');
+		}
         //Copy the logo of the module
         $modImage = str_replace(' ', '', strtolower($module->getVar('mod_image')));
         $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH.'/'.$modImage, $modImage);
@@ -145,33 +136,19 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         // Creation of 'module_author_logo.gif' file
         $this->copyFile('assets/images', $copyNewFile, $stlModuleAuthor.'_logo.gif');
-        // Creation of 'docs' folder and index.html file
-        $this->makeDirAndCopyFile('docs', $indexFile, 'index.html');
-        // Creation of 'credits.txt' file
-        $this->copyFile('docs', TDMC_DOCS_PATH.'/credits.txt', 'credits.txt');
-        // Creation of 'install.txt' file
-        $this->copyFile('docs', TDMC_DOCS_PATH.'/install.txt', 'install.txt');
-        // Creation of 'lang_diff.txt' file
-        $this->copyFile('docs', TDMC_DOCS_PATH.'/lang_diff.txt', 'lang_diff.txt');
-        // Creation of 'license.txt' file
-        $this->copyFile('docs', TDMC_DOCS_PATH.'/license.txt', 'license.txt');
-        // Creation of 'readme.txt' file
-        $this->copyFile('docs', TDMC_DOCS_PATH.'/readme.txt', 'readme.txt');
-        // Creation of "include" folder and index.html file
-        $this->makeDirAndCopyFile('include', $indexFile, 'index.html');
-        // Creation of "language" folder and index.html file
-        $this->makeDirAndCopyFile('language', $indexFile, 'index.html');
+        $docs = array('/credits.txt' => 'credits.txt', '/install.txt' => 'install.txt', 
+					'/lang_diff.txt' => 'lang_diff.txt', '/license.txt' => 'license.txt', '/readme.txt' => 'readme.txt');
+		foreach($docs as $k => $v){
+			// Creation of folder docs and .txt files
+			$this->makeDirAndCopyFile('docs', TDMC_DOCS_PATH . $k, $v);
+		}        
         // Creation of 'default english' folder
         if ($language != 'english') {
             // Creation of "language/local_language" folder and index.html file
             $this->makeDirAndCopyFile('language/'.$language, $indexFile, 'index.html');
             // Creation of "language/local_language/help" folder and index.html file
             $this->makeDirAndCopyFile('language/'.$language.'/help', $indexFile, 'index.html');
-        }
-        // Creation of "english" folder and index.html file
-        $this->makeDirAndCopyFile('language/english', $indexFile, 'index.html');
-        // Creation of "language/english/help" folder and index.html file
-        $this->makeDirAndCopyFile('language/english/help', $indexFile, 'index.html');
+        }        
         // Creation of "preloads" folder and index.html file
         $this->makeDirAndCopyFile('preloads', $indexFile, 'index.html');
         if (1 == $module->getVar('mod_admin')) {
@@ -419,8 +396,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $includeNotifications->render();
                 // Language Mail Template Category File
                 $languageMailTpl = LanguageMailTpl::getInstance();
-                $languageMailTpl->write($module);
-                $ret[] = $languageMailTpl->renderFile('category_new_notify.tpl');
+                $languageMailTpl->write($module, 'category_new_notify.tpl');
+                $ret[] = $languageMailTpl->render();
             }
             // Creation of sql file
             if ($table->getVar('table_name') != null) {

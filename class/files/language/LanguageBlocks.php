@@ -25,7 +25,7 @@
 /**
  * Class LanguageBlocks.
  */
-class LanguageBlocks extends LanguageDefines
+class LanguageBlocks extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -103,7 +103,7 @@ class LanguageBlocks extends LanguageDefines
                 $fieldName = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);
                 //
-                $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                $rpFieldName = $this->getRightString($fieldName);
                 $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
                 //
                 $fieldNameDesc = ucfirst($rpFieldName);
@@ -146,8 +146,8 @@ class LanguageBlocks extends LanguageDefines
         $content .= $this->getLanguageBlock($module, $language);
         $content .= $this->getLanguageFooter();
         //
-        $this->tdmcfile->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/english', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

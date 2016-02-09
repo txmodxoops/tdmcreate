@@ -35,7 +35,7 @@ class UserFooter extends TDMCreateFile
     /*
     * @var string
     */
-    private $xoopscode;
+    private $xoopscode = null;
 
     /*
     *  @public function constructor
