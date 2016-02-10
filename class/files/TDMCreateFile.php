@@ -79,6 +79,11 @@ class TDMCreateFile extends TDMCreateTableFields
     protected $tdmcreate = null;
 
     /*
+    * @var string
+    */
+    private $phpcode = null;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -566,42 +571,24 @@ class TDMCreateFile extends TDMCreateTableFields
         $subversion = $module->getVar('mod_subversion');
         $date = date('D Y-m-d H:i:s');
         if (is_null($noPhpFile)) {
-            $ret = <<<EOT
-<?php
-/*\n
-EOT;
+            $ret = "<?php\n";
+            $ret .= "/*\n";
         } elseif (is_string($noPhpFile)) {
-            $ret = <<<EOT
-{$noPhpFile}
-/*\n
-EOT;
+            $ret = $noPhpFile;
+            $ret .= "/*\n";
         } else {
-            $ret = <<<EOT
-/*\n
-EOT;
+            $ret .= "/*\n";
         }
-        // $ret .= file_get_contents('./docs/top_license_file.txt');
-        $ret .= <<<EOT
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
-/**
- * {$name} module for xoops
- *
- * @copyright       The XOOPS Project (http://xoops.org)
- * @license         {$license}
- * @package         {$dirname}
- * @since           {$since}
- * @min_xoops       {$minXoops}
- * @author          {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>
- * @version         \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$
- */\n
-EOT;
+        $filename = TDMC_CLASSES_PATH.'/files/docs/license.txt';
+        $handle = fopen($filename, 'rb');
+        $data = fread($handle, filesize($filename));
+        fclose($handle);
+        $ret .= $data."\n";
+        $ret .= "*/\n";
+        $copyright = array($name => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
+                            '@since    ' => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
+                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$", );
+        $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;
     }

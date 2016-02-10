@@ -85,7 +85,11 @@ class TDMCreatePhpCode
         $values = !empty($multiLine) ? $multiLine : array();
         $ret = "{$t}/**\n";
         foreach ($values as $string => $value) {
-            $ret .= "{$t} * {$string} {$value}\n {$t}";
+            if ($string === '' && $value === '') {
+                $ret .= "{$t} *\n{$t}";
+            } else {
+                $ret .= "{$t} * {$string} {$value}\n{$t}";
+            }
         }
         $ret .= "{$t}*/\n";
 
@@ -214,7 +218,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeTernaryOperator($return, $condition, $one, $two)
     {
-        return "{$return} = {$condition} ? {$one} : {$two};";
+        return "\${$return} = {$condition} ? {$one} : {$two};";
     }
 
     /*
@@ -291,8 +295,8 @@ class TDMCreatePhpCode
         } else {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
             $ret .= "{$t}\t{$contentIf}";
-            $ret .= "{$t}} else {";
-            $ret .= "{$t}\t{$contentElse}";
+            $ret .= "{$t}} else {\n";
+            $ret .= "{$t}\t{$contentElse}\n";
             $ret .= "{$t}}\n";
         }
 

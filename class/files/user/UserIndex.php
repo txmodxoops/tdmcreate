@@ -143,7 +143,7 @@ class UserIndex extends TDMCreateFile
 
             $contentIf = $this->xoopscode->getXoopsCodeObjHandlerAll($tableName);
             $contentIf .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true);
-            $contentIf .= $this->xoopscode->getXoopsCodeObjectTree($tableName, $fieldId, $fieldParent);
+            $contentIf .= $this->xoopscode->getXoopsCodeObjectTree('mytree', $tableName, $fieldId, $fieldParent);
             $foreach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName, $tableFieldname);
             $foreach .= $this->phpcode->getPhpCodeArray($tableName);
             $foreach .= $this->phpcode->getPhpCodeArray('acount', 'count', '$count');

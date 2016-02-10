@@ -28,6 +28,16 @@
 class ClassFormElements extends TDMCreateFile
 {
     /*
+    * @var mixed
+    */
+    private $phpcode = null;
+
+    /*
+    * @var mixed
+    */
+    private $xoopscode = null;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -38,6 +48,9 @@ class ClassFormElements extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->classcode = ClassXoopsCode::getInstance();
     }
 
     /*
@@ -90,9 +103,11 @@ class ClassFormElements extends TDMCreateFile
         $ucfFieldName = $this->getCamelCase($fieldName, true);
         $ccFieldName = $this->getCamelCase($fieldName, false, true);
         if ($fieldDefault != '') {
+            $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName);
+            $ret .= $this->phpcode->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')");
+            $formText = $this->classcode->getClassXoopsFormText('', $param1, $param2, $param3 = 75, $param4 = 255, $param5);
+            $ret .= $this->classcode->getClassAddElement('form', $params);
             $ret = <<<EOT
-        // Form Text {$ucfFieldName}
-		\${$ccFieldName} = \$this->isNew() ? '{$fieldDefault}' : \$this->getVar('{$fieldName}');
         \$form->addElement( new XoopsFormText({$language}, '{$fieldName}', 20, 150, \${$ccFieldName}){$required} );\n
 EOT;
         } else {
