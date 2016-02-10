@@ -59,15 +59,15 @@ class LanguageMailTpl extends TDMCreateFile
 
     /**
      * @public function write
+     *
      * @param $module
-	 * @param $filename
-	 *
+     * @param $filename
      * @param $module
      */
     public function write($module, $filename)
     {
         $this->setModule($module);
-		$this->setFileName($filename);
+        $this->setFileName($filename);
     }
 
     /*
@@ -82,7 +82,7 @@ class LanguageMailTpl extends TDMCreateFile
     public function render()
     {
         $module = $this->getModule();
-		$filename = $this->getFileName();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = <<<EOT
 // ---------- Templates Mail Content Dummy ---------- //

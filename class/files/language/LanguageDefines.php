@@ -26,8 +26,8 @@
  * Class LanguageDefines.
  */
 class LanguageDefines
-{    		
-	/*
+{
+    /*
     * @var mixed
     */
     protected $defines;
@@ -40,9 +40,9 @@ class LanguageDefines
      *
      */
     public function __construct()
-	{
-		$this->phpcode = TDMCreatePhpCode::getInstance();
-	}
+    {
+        $this->phpcode = TDMCreatePhpCode::getInstance();
+    }
 
     /*
     *  @static function &getInstance

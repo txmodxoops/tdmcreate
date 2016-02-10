@@ -31,8 +31,8 @@ class TemplatesUserRate extends TDMCreateFile
     * @var string
     */
     private $tdmcfile = null;
-	
-	/*
+
+    /*
     *  @public function constructor
     *  @param null
     */
