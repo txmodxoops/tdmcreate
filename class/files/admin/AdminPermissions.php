@@ -166,6 +166,7 @@ class AdminPermissions extends TDMCreateFile
     private function getPermissionsBody($module, $language)
     {
         $tables = $this->getTableTables($module->getVar('mod_id'));
+        $tableName = '';
         foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
                 $tableId = $tables[$t]->getVar('table_id');
@@ -201,7 +202,7 @@ class AdminPermissions extends TDMCreateFile
         $if2 = $this->xoopscode->getXoopsCodeTplAssign('form', '$permform->render()');
         $elseInter = $this->xoopscode->getXoopsCodeRedirectHeader($tableName.'.php', '?op=new', '3', "{$language}NO_PERMISSIONS_SET");
         $elseInter .= $this->getSimpleString("\texit();");
-        $else .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter);
+        $else .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter, "\t");
 
         $ret .= $this->phpcode->getPhpCodeConditions('$op', ' == ', "'global'", $if1, $else);
         $ret .= $this->phpcode->getPhpCodeUnset('permform');

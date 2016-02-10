@@ -266,6 +266,18 @@ class TDMCreateXoopsCode
 
     /*
     *  @public function getXoopsCodeXoopsCaptcha
+    *  @param $var
+    *  @param $instance
+    *
+    *  @return string
+    */
+    public function getXoopsCodeGetInstance($var = '', $instance = '')
+    {
+        return "\${$var} = {$instance}::getInstance();\n";
+    }
+
+    /*
+    *  @public function getXoopsCodeXoopsCaptcha
     *  @param null
     *  @return string
     */
@@ -842,9 +854,9 @@ EOT;
     public function getXoopsCodeObjHandlerAll($tableName, $fieldMain = '', $start = '0', $limit = '0')
     {
         $ucfTableName = ucfirst($tableName);
-        $startLimit = ($limit != '0') ? "{$start}, {$limit}" : '';
-        $param = ($fieldMain != '') ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
-        $ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$param});\n";
+        $startLimit = ($limit != '0') ? "{$start}, {$limit}" : '0';
+        $params = ($fieldMain != '') ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
+        $ret = "\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$params});\n";
 
         return $ret;
     }
@@ -872,15 +884,16 @@ EOT;
     /**
      *  @public function getXoopsCodeObjectTree
      *
+     *  @param $var
      *  @param $tableName
      *  @param $fieldId
      *  @param $fieldParent
      *
      *  @return string
      */
-    public function getXoopsCodeObjectTree($tableName, $fieldId, $fieldParent)
+    public function getXoopsCodeObjectTree($var = 'mytree', $tableName, $fieldId, $fieldParent)
     {
-        $ret = "\$mytree = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');\n";
+        $ret = "\${$var} = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');\n";
 
         return $ret;
     }

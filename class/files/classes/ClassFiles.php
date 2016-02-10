@@ -106,11 +106,7 @@ class ClassFiles extends TDMCreateFile
      */
     private function getInitVar($fieldName, $type = 'INT')
     {
-        $ret = <<<EOT
-        \$this->initVar('{$fieldName}', XOBJ_DTYPE_{$type});\n
-EOT;
-
-        return $ret;
+        return "\t\t\$this->initVar('{$fieldName}', XOBJ_DTYPE_{$type});\n";
     }
 
     /*
