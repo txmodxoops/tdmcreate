@@ -27,7 +27,7 @@
  */
 class LanguageAdmin extends TDMCreateFile
 {
-    /*
+	/*
     *  @public function constructor
     *  @param null
     */
@@ -170,7 +170,7 @@ class LanguageAdmin extends TDMCreateFile
                 //
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 15) {
-                    $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+                    $fieldElements = TDMCreateHelper::getInstance()->getHandler('fieldelements')->get($fieldElement);
                     $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));

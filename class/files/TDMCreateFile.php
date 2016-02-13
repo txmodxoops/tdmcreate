@@ -72,16 +72,16 @@ class TDMCreateFile extends TDMCreateTableFields
     * @var string
     */
     private $mode = null;
-
-    /*
-    * @var string
-    */
-    protected $tdmcreate = null;
-
+    
     /*
     * @var string
     */
     private $phpcode = null;
+	
+	/*
+    * @var string
+    */
+    private $tdmcreate = null;
 
     /*
     *  @public function constructor
@@ -413,14 +413,10 @@ class TDMCreateFile extends TDMCreateTableFields
         $rightString = $this->getRightString($string);
         $leftString = $this->getLeftString($string);
         if ($ucfirst) {
-            $ret = $this->getUcfirst($leftString).$this->getUcfirst($rightString);
-
-            return $ret;
+            return $this->getUcfirst($leftString).$this->getUcfirst($rightString);
         }
         if ($lcfirst) {
-            $ret = $this->getlcfirst($leftString).$this->getUcfirst($rightString);
-
-            return $ret;
+            return $this->getlcfirst($leftString).$this->getUcfirst($rightString);
         }
 
         return $string;
@@ -587,7 +583,7 @@ class TDMCreateFile extends TDMCreateTableFields
         $ret .= "*/\n";
         $copyright = array($name => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
                             '@since    ' => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$", );
+                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$" );
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;
