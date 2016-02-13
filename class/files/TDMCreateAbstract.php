@@ -26,12 +26,7 @@
  * Abstract base class.
  */
 abstract class TDMCreateAbstract
-{
-    /*
-    * @var mixed
-    */
-    protected $tdmcreate;
-
+{    
     /**
      * "module" attribute fot files.
      *

@@ -30,6 +30,11 @@ class SqlFile extends TDMCreateFile
     /*
     * @var string
     */
+    private $tdmcreate = null;
+	
+	/*
+    * @var string
+    */
     private $tdmcfile = null;
 
     /*
@@ -46,6 +51,7 @@ class SqlFile extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
+		$this->tdmcreate = TDMCreateHelper::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
@@ -102,17 +108,15 @@ class SqlFile extends TDMCreateFile
         $server_version = mysql_get_server_info();
         $php_version = phpversion();
         // Header Sql Comments
-        $ret = <<<SQL
-# SQL Dump for {$moduleName} module
-# PhpMyAdmin Version: 4.0.4
-# http://www.phpmyadmin.net
-#
-# Host: {$server_name}
-# Generated on: {$date} to {$time}
-# Server version: {$server_version}
-# PHP Version: {$php_version}\n\n
-SQL;
-
+        $ret = $this->getSimpleString("# SQL Dump for {$moduleName} module");
+		$ret .= $this->getSimpleString('# PhpMyAdmin Version: 4.0.4');
+		$ret .= $this->getSimpleString('# http://www.phpmyadmin.net');
+		$ret .= $this->getSimpleString('#');		
+		$ret .= $this->getSimpleString("# Host: {$server_name}");
+		$ret .= $this->getSimpleString("# Generated on: {$date} to {$time}");
+		$ret .= $this->getSimpleString("# Server version: {$server_version}");
+		$ret .= $this->getSimpleString("# PHP Version: {$php_version}\n");
+		
         return $ret;
     }
 
@@ -127,14 +131,11 @@ SQL;
     */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
-        $ret = <<<SQL
-#
-# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}
-#
-
-CREATE TABLE `{$moduleDirname}_{$tableName}` (\n
-SQL;
-
+        $ret = $this->getSimpleString('#');
+		$ret .= $this->getSimpleString("# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}");
+		$ret .= $this->getSimpleString('#');
+		$ret .= $this->getSimpleString("\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
+		
         return $ret;
     }
 
@@ -325,7 +326,6 @@ SQL;
             }
         }
         // ================= COMMA CICLE ================= //
-        //$row[] = $this->getCommaCicle($comma, $j);
         $ret .= implode("\n", $row);
         unset($j);
         $ret .= $this->getFootDatabaseTable();
@@ -342,11 +342,7 @@ SQL;
      */
     private function getFootDatabaseTable()
     {
-        $ret = <<<SQL
-\n) ENGINE=InnoDB;\n\n
-SQL;
-
-        return $ret;
+        return "\n) ENGINE=InnoDB;\n\n";
     }
 
     /*
@@ -361,18 +357,11 @@ SQL;
     */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
     {
-        $retAutoincrement = <<<SQL
-  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},
-SQL;
-        $retFieldAttribute = <<<SQL
-  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},
-SQL;
-        $fieldDefault = <<<SQL
-  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},
-SQL;
-        $retShort = <<<SQL
-  `{$fieldName}` {$fieldTypeValue},
-SQL;
+        $retAutoincrement = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
+        $retFieldAttribute = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
+        $fieldDefault = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
+        $retShort = "  `{$fieldName}` {$fieldTypeValue},";
+
         $ret = $retShort;
         if ($autoincrement != null) {
             $ret = $retAutoincrement;
@@ -393,29 +382,19 @@ SQL;
     {
         switch ($key) {
             case 2: // PRIMARY KEY
-                $ret = <<<SQL
-  PRIMARY KEY (`{$fieldName}`)
-SQL;
+                $ret = "  PRIMARY KEY (`{$fieldName}`)";
                 break;
             case 3: // UNIQUE KEY
-                $ret = <<<SQL
-  UNIQUE KEY `{$fieldName}` (`{$fieldName}`)
-SQL;
+                $ret = "  UNIQUE KEY `{$fieldName}` (`{$fieldName}`)";
                 break;
             case 4: // KEY
-                $ret = <<<SQL
-  KEY `{$fieldName}` (`{$fieldName}`)
-SQL;
+                $ret = "  KEY `{$fieldName}` (`{$fieldName}`)";
                 break;
             case 5: // INDEX
-                $ret = <<<SQL
-  INDEX (`{$fieldName}`)
-SQL;
+                $ret = "  INDEX (`{$fieldName}`)";
                 break;
             case 6: // FULLTEXT KEY
-                $ret = <<<SQL
-  FULLTEXT KEY `{$fieldName}` (`{$fieldName}`)
-SQL;
+                $ret = "  FULLTEXT KEY `{$fieldName}` (`{$fieldName}`)";
                 break;
         }
 
@@ -430,11 +409,7 @@ SQL;
     */
     private function getComma($row, $comma = null)
     {
-        $ret = <<<SQL
-            {$row}{$comma}
-SQL;
-
-        return $ret;
+		return "\t\t\t{$row}{$comma}";
     }
 
     /*

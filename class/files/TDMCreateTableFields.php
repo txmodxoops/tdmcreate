@@ -26,16 +26,13 @@
  * Class TDMCreateTableFields.
  */
 class TDMCreateTableFields extends TDMCreateAbstract
-{
-    /**
+{    	
+	/**
      *  @public function constructor
      *
      *  @param mixed $table
      */
-    public function __construct()
-    {
-        $this->tdmcreate = TDMCreateHelper::getInstance();
-    }
+    public function __construct(){}
 
     /*
      * @static function &getInstance
@@ -65,7 +62,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
         $criteria->add(new Criteria('table_mid', $mId)); // $mId = module Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $tables = $this->tdmcreate->getHandler('tables')->getObjects($criteria);
+        $tables = TDMCreateHelper::getInstance()->getHandler('tables')->getObjects($criteria);
         unset($criteria);
 
         return $tables;
@@ -86,7 +83,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
         $criteria->add(new Criteria('field_tid', $tId)); // $tId = table Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $fields = $this->tdmcreate->getHandler('fields')->getObjects($criteria);
+        $fields = TDMCreateHelper::getInstance()->getHandler('fields')->getObjects($criteria);
         unset($criteria);
 
         return $fields;
@@ -113,7 +110,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
             $criteria->setSort($sort);
             $criteria->setOrder($order);
         }
-        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->getObjects($criteria);
+        $fieldElements = TDMCreateHelper::getInstance()->getHandler('fieldelements')->getObjects($criteria);
         unset($criteria);
 
         return $fieldElements;
@@ -132,7 +129,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
         $criteria->add(new Criteria('file_mid', $mId)); // $mId = module Id
         $criteria->setSort($sort);
         $criteria->setOrder($order);
-        $morefiles = $this->tdmcreate->getHandler('morefiles')->getObjects($criteria);
+        $morefiles = TDMCreateHelper::getInstance()->getHandler('morefiles')->getObjects($criteria);
         unset($criteria);
 
         return $morefiles;

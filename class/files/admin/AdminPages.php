@@ -87,8 +87,6 @@ class AdminPages extends TDMCreateFile
     */
     private function getAdminPagesHeader($moduleDirname, $tableName, $fieldId)
     {
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName = ucfirst($tableName);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret = $this->getInclude();
         $ret .= $this->getCommentLine('It recovered the value of argument op in URL$');
@@ -129,12 +127,8 @@ class AdminPages extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $tableName = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $ucfTableName = ucfirst($tableName);
         $stuTableName = strtoupper($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
-        $stuTableFieldname = strtoupper($tableFieldname);
-        $tableAutoincrement = $table->getVar('table_autoincrement');
 
         $ret = $this->xoopscode->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
         $adminpager = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'adminpager');
@@ -177,8 +171,6 @@ class AdminPages extends TDMCreateFile
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language)
     {
         $stuTableName = strtoupper($tableName);
-        $ucfTableName = ucfirst($tableName);
-
         $ret = $this->t2.$this->adminxoopscode->getAdminTemplateMain($moduleDirname, $tableName);
         $navigation = $this->adminxoopscode->getAdminAddNavigation($tableName);
         $ret .= $this->t2.$this->xoopscode->getXoopsCodeTplAssign('navigation', $navigation);
@@ -208,8 +200,6 @@ class AdminPages extends TDMCreateFile
     private function getAdminPagesSave($moduleDirname, $tableName, $language, $fields, $fieldId, $fieldMain)
     {
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ucfTableName = ucfirst($tableName);
-
         $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck('!');
         $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();

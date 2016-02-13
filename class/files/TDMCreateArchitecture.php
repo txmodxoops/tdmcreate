@@ -78,10 +78,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
      */
     public function setBaseFoldersFiles($module)
     {
-        global $xoopsConfig;
         // Module
         $modId = $module->getVar('mod_id');
-        $xLanguage = $xoopsConfig['language'];
         // Id of tables
         $tables = $this->tdmcfile->getTableTables($modId);
         //
@@ -110,7 +108,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "blocks" folder and index.html file
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
-        $language = ($xLanguage != 'english') ? $xLanguage : 'english';
+        $language = ($GLOBALS['xoopsConfig']['language'] != 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
         $copyFiles = array('class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile,
                         'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile,
                         'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/'.$language => $indexFile, 'language/'.$language.'/help' => $indexFile, 'preloads' => $indexFile, );
