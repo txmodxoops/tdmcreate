@@ -30,11 +30,6 @@ class AdminHeader extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
     private $xoopscode = null;
 
     /*

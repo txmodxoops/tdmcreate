@@ -33,11 +33,6 @@ class UserPages extends TDMCreateFile
     private $usercode = null;
 
     /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
     * @var string
     */
     private $xoopscode = null;
