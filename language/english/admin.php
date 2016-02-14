@@ -151,7 +151,7 @@ define('_AM_TDMCREATE_MODULE_USER', 'Visible User');
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_BLOCKS', 'Activate Blocks');
 define('_AM_TDMCREATE_MODULE_ALL', 'Check All');
-define('_AM_TDMCREATE_OPTIONS_DESC', 'Select one or all items to add specific addon in this new module');
+define('_AM_TDMCREATE_OPTIONS_DESC', '<b>Select one or all items to add specific addon in this new module</b><br /><i class="red maxi">Warning: If you have an older operating module with the same name in root/modules, it\'s good to make a copy in another safe folder, otherwise it will be deleted irreversibly.</i>');
 // ---------------------
 define('_AM_TDMCREATE_MODULE_SEARCH', 'Activate Search');
 define('_AM_TDMCREATE_MODULE_COMMENTS', 'Activate Comments');

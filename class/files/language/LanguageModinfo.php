@@ -200,13 +200,16 @@ class LanguageModinfo extends TDMCreateFile
             $tableSoleName = $tables[$i]->getVar('table_solename');
             $stuTableSoleName = strtoupper($tableSoleName);
             $ucfTableName = ucfirst($tableName);
+			$ucfTableSoleName = ucfirst($stuTableSoleName);
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
                 if ($tables[$i]->getVar('table_category') == 1) {
-                    $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block");
-                    $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block description");
+                    $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
+                    $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
                 } else {
+					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
+                    $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");

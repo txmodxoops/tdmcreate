@@ -30,12 +30,7 @@ class UserVisit extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $usercode = null;
-
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
+    private $usercode = null;    
 
     /*
     * @var string

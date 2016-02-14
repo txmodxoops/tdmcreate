@@ -31,11 +31,6 @@ class ClassFormElements extends TDMCreateFile
     * @var string
     */
     private $tdmcreate = null;
-	
-	/*
-    * @var mixed
-    */
-    private $phpcode = null;
 
     /*
     * @var mixed

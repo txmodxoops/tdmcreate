@@ -26,12 +26,7 @@
  * Class UserViewTag.
  */
 class UserViewTag extends TDMCreateFile
-{
-    /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
+{    
     /*
     *  @public function constructor
     *  @param null
