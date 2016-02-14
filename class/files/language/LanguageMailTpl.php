@@ -108,7 +108,7 @@ Please do not reply to this message.
 webmaster
 {X_ADMINMAIL}
 EOT;
-        $this->create($moduleDirname, 'language/english/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'].'/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

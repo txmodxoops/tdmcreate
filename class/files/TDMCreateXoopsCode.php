@@ -188,7 +188,7 @@ class TDMCreateXoopsCode
     */
     public function getXoopsCodeGetVar($varLeft = '', $handle = '', $var = '', $isParam = false)
     {
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$varLeft} = \${$handle}->getVar('{$var}');\n";
         } else {
             $ret = "\${$handle}->getVar('{$var}')";
@@ -750,7 +750,7 @@ EOT;
      */
     public function getXoopsCodePath($directory, $filename, $isParam = false)
     {
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php');\n";
         } else {
             $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php')";
@@ -782,7 +782,7 @@ EOT;
      */
     public function getXoopsCodeGetInfo($left = '', $string, $isParam = false)
     {
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$left} = \$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
         } else {
             $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}')";
@@ -805,7 +805,7 @@ EOT;
      */
     public function getXoopsCodeCheckRight($anchor, $permString = '', $var = '', $groups = '', $mid = '', $isParam = false)
     {
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "{$anchor}->checkRight('{$permString}', {$var}, {$groups}, {$mid});\n";
         } else {
             $ret = "{$anchor}->checkRight('{$permString}', {$var}, {$groups}, {$mid})";
@@ -872,7 +872,7 @@ EOT;
     public function getXoopsCodeGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false)
     {
         $ucfTableName = ucfirst($tableName);
-        if ($noArray == false) {
+        if (!$noArray) {
             $ret = "\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
         } else {
             $ret = "\${$tableSoleName} = \${$tableName}->getValues{$ucfTableName}();\n";
@@ -990,7 +990,7 @@ EOT;
     */
     public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = '2', $var, $isString = true)
     {
-        if ($isString === false) {
+        if (!$isString) {
             $ret = "redirect_header({$tableName}, {$numb}, {$var});\n";
         } else {
             $ret = "redirect_header('{$tableName}{$options}', {$numb}, {$var});\n";

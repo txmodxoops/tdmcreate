@@ -184,13 +184,13 @@ class TDMCreatePhpCode
     public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false, $isPath = false, $type = 'include')
     {
         if ($once == false) {
-            if ($isPath === false) {
+            if (!$isPath) {
                 $ret = "{$type} {$directory} .'/{$filename}.php';\n";
             } else {
                 $ret = "{$type} {$directory};\n";
             }
         } else {
-            if ($isPath === false) {
+            if (!$isPath) {
                 $ret = "{$type}_once {$directory} .'/{$filename}.php';\n";
             } else {
                 $ret = "{$type}_once {$directory};\n";
@@ -477,7 +477,7 @@ class TDMCreatePhpCode
         $rightIs = preg_match('/^[a-zA-Z0-9]+/', $right) ? "'{$right}'" : $right;
         $arrayKey = ($key !== false) ? "{$leftIs} => {$rightIs}" : "{$leftIs}, {$rightIs}";
         $array = ($left !== null) ? (($right !== null) ? $arrayKey : $leftIs) : '';
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$var} = array({$array});\n";
         } else {
             $ret = "array({$array})";
@@ -498,7 +498,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeArrayType($var, $type, $left, $right, $isParam = false)
     {
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$var}[] = array_{$type}(\${$left}, {$right});\n";
         } else {
             $ret = "array_{$type}(\${$left}, {$right})";
@@ -562,7 +562,7 @@ class TDMCreatePhpCode
     public function getPhpCodePregFunzions($return, $exp = '', $str, $val, $type = 'match', $isParam = false)
     {
         $pregFunz = "preg_{$type}( '";
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$return} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
         } else {
             $ret = "{$pregFunz}{$exp}', '{$str}', {$val})";
@@ -585,7 +585,7 @@ class TDMCreatePhpCode
     public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false)
     {
         $strType = "str_{$type}( '";
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
         } else {
             $ret = "{$strType}{$var}', '{$str}', {$value})";
@@ -604,7 +604,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeStripTags($left = '', $value, $isParam = false)
     {
-        if ($isParam === false) {
+        if (!$isParam) {
             $ret = "\${$left} = strip_tags({$value});\n";
         } else {
             $ret = "strip_tags({$value})";
