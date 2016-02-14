@@ -200,7 +200,7 @@ class LanguageModinfo extends TDMCreateFile
             $tableSoleName = $tables[$i]->getVar('table_solename');
             $stuTableSoleName = strtoupper($tableSoleName);
             $ucfTableName = ucfirst($tableName);
-			$ucfTableSoleName = ucfirst($stuTableSoleName);
+            $ucfTableSoleName = ucfirst($stuTableSoleName);
             if (1 == $tables[$i]->getVar('table_blocks')) {
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
                 $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
@@ -208,7 +208,7 @@ class LanguageModinfo extends TDMCreateFile
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
                 } else {
-					$ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
+                    $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
                     $ret .= $this->defines->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
@@ -283,11 +283,11 @@ class LanguageModinfo extends TDMCreateFile
                 $ret .= $this->defines->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
             }
         }
-		$getDefinesConf = array('NUMB_COL' => 'Number Columns', 'NUMB_COL_DESC' => 'Number Columns to View.', 'DIVIDEBY' => 'Divide By', 'DIVIDEBY_DESC' => 'Divide by columns number.', 
-								'TABLE_TYPE' => 'Table Type', 'TABLE_TYPE_DESC' => 'Table Type is the bootstrap html table.', 'PANEL_TYPE' => 'Panel Type', 'PANEL_TYPE_DESC' => 'Panel Type is the bootstrap html div.', 'IDPAYPAL' => 'Paypal ID', 'IDPAYPAL_DESC' => 'Insert here your PayPal ID for donactions.', 'ADVERTISE' => 'Advertisement Code', 'ADVERTISE_DESC' => 'Insert here the advertisement code', 'MAINTAINEDBY' => 'Maintained By', 'MAINTAINEDBY_DESC' => 'Allow url of support site or community', 'BOOKMARKS' => 'Social Bookmarks', 'BOOKMARKS_DESC' => 'Show Social Bookmarks in the single page', 'FACEBOOK_COMMENTS' => 'Facebook comments', 'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page', 'DISQUS_COMMENTS' => 'Disqus comments', 'DISQUS_COMMENTS_DESC' => 'Allow Disqus comments in the single page');
-		foreach($getDefinesConf as $defc => $descc ) {
-			$ret .= $this->defines->getDefine($language, $defc, $descc);
-		}        
+        $getDefinesConf = array('NUMB_COL' => 'Number Columns', 'NUMB_COL_DESC' => 'Number Columns to View.', 'DIVIDEBY' => 'Divide By', 'DIVIDEBY_DESC' => 'Divide by columns number.',
+                                'TABLE_TYPE' => 'Table Type', 'TABLE_TYPE_DESC' => 'Table Type is the bootstrap html table.', 'PANEL_TYPE' => 'Panel Type', 'PANEL_TYPE_DESC' => 'Panel Type is the bootstrap html div.', 'IDPAYPAL' => 'Paypal ID', 'IDPAYPAL_DESC' => 'Insert here your PayPal ID for donactions.', 'ADVERTISE' => 'Advertisement Code', 'ADVERTISE_DESC' => 'Insert here the advertisement code', 'MAINTAINEDBY' => 'Maintained By', 'MAINTAINEDBY_DESC' => 'Allow url of support site or community', 'BOOKMARKS' => 'Social Bookmarks', 'BOOKMARKS_DESC' => 'Show Social Bookmarks in the single page', 'FACEBOOK_COMMENTS' => 'Facebook comments', 'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page', 'DISQUS_COMMENTS' => 'Disqus comments', 'DISQUS_COMMENTS_DESC' => 'Allow Disqus comments in the single page', );
+        foreach ($getDefinesConf as $defc => $descc) {
+            $ret .= $this->defines->getDefine($language, $defc, $descc);
+        }
 
         return $ret;
     }
@@ -305,12 +305,12 @@ class LanguageModinfo extends TDMCreateFile
     private function getLanguageNotifications($language)
     {
         $ret = $this->defines->getAboveDefines('Notifications');
-		$getDefinesNotif = array('GLOBAL_NOTIFY' => 'Global notify', 'GLOBAL_NOTIFY_DESC' => 'Global notify desc', 'CATEGORY_NOTIFY' => 'Category notify', 
-								'CATEGORY_NOTIFY_DESC' => 'Category notify desc', 'FILE_NOTIFY' => 'File notify', 'FILE_NOTIFY_DESC' => 'File notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY' => 'Global newcategory notify', 'GLOBAL_NEWCATEGORY_NOTIFY_CAPTION' => 'Global newcategory notify caption', 'GLOBAL_NEWCATEGORY_NOTIFY_DESC' => 'Global newcategory notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY_SUBJECT' => 'Global newcategory notify subject', 'GLOBAL_FILEMODIFY_NOTIFY' => 'Global filemodify notify', 'GLOBAL_FILEMODIFY_NOTIFY_CAPTION' => 'Global filemodify notify caption', 'GLOBAL_FILEMODIFY_NOTIFY_DESC' => 'Global filemodify notify desc', 'GLOBAL_FILEMODIFY_NOTIFY_SUBJECT' => 'Global filemodify notify subject', 'GLOBAL_FILEBROKEN_NOTIFY' => 'Global filebroken notify', 'GLOBAL_FILEBROKEN_NOTIFY_CAPTION' => 'Global filebroken notify caption', 'GLOBAL_FILEBROKEN_NOTIFY_DESC' => 'Global filebroken notify desc', 'GLOBAL_FILEBROKEN_NOTIFY_SUBJECT' => 'Global filebroken notify subject', 'GLOBAL_FILESUBMIT_NOTIFY' => 'Global filesubmit notify', 'GLOBAL_FILESUBMIT_NOTIFY_CAPTION' => 'Global filesubmit notify caption', 'GLOBAL_FILESUBMIT_NOTIFY_DESC' => 'Global filesubmit notify desc', 'GLOBAL_FILESUBMIT_NOTIFY_SUBJECT' => 'Global filesubmit notify subject', 'GLOBAL_NEWFILE_NOTIFY' => 'Global newfile notify', 'GLOBAL_NEWFILE_NOTIFY_CAPTION' => 'Global newfile notify caption', 'GLOBAL_NEWFILE_NOTIFY_DESC' => 'Global newfile notify desc', 'GLOBAL_NEWFILE_NOTIFY_SUBJECT' => 'Global newfile notify subject', 'CATEGORY_FILESUBMIT_NOTIFY' => 'Category filesubmit notify', 'CATEGORY_FILESUBMIT_NOTIFY_CAPTION' => 'Category filesubmit notify caption', 'CATEGORY_FILESUBMIT_NOTIFY_DESC' => 'Category filesubmit notify desc', 'CATEGORY_FILESUBMIT_NOTIFY_SUBJECT' => 'Category filesubmit notify subject', 'CATEGORY_NEWFILE_NOTIFY' => 'Category newfile notify', 'CATEGORY_NEWFILE_NOTIFY_CAPTION' => 'Category newfile notify caption', 'CATEGORY_NEWFILE_NOTIFY_DESC' => 'Category newfile notify desc', 'CATEGORY_NEWFILE_NOTIFY_SUBJECT' => 'Category newfile notify subject', 'FILE_APPROVE_NOTIFY' => 'File approve notify', 'FILE_APPROVE_NOTIFY_CAPTION' => 'File approve notify caption', 'FILE_APPROVE_NOTIFY_DESC' => 'File approve notify desc', 'FILE_APPROVE_NOTIFY_SUBJECT' => 'File approve notify subject');
-		foreach($getDefinesNotif as $defn => $descn ) {
-			$ret .= $this->defines->getDefine($language, $defn, $descn);
-		} 
-       
+        $getDefinesNotif = array('GLOBAL_NOTIFY' => 'Global notify', 'GLOBAL_NOTIFY_DESC' => 'Global notify desc', 'CATEGORY_NOTIFY' => 'Category notify',
+                                'CATEGORY_NOTIFY_DESC' => 'Category notify desc', 'FILE_NOTIFY' => 'File notify', 'FILE_NOTIFY_DESC' => 'File notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY' => 'Global newcategory notify', 'GLOBAL_NEWCATEGORY_NOTIFY_CAPTION' => 'Global newcategory notify caption', 'GLOBAL_NEWCATEGORY_NOTIFY_DESC' => 'Global newcategory notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY_SUBJECT' => 'Global newcategory notify subject', 'GLOBAL_FILEMODIFY_NOTIFY' => 'Global filemodify notify', 'GLOBAL_FILEMODIFY_NOTIFY_CAPTION' => 'Global filemodify notify caption', 'GLOBAL_FILEMODIFY_NOTIFY_DESC' => 'Global filemodify notify desc', 'GLOBAL_FILEMODIFY_NOTIFY_SUBJECT' => 'Global filemodify notify subject', 'GLOBAL_FILEBROKEN_NOTIFY' => 'Global filebroken notify', 'GLOBAL_FILEBROKEN_NOTIFY_CAPTION' => 'Global filebroken notify caption', 'GLOBAL_FILEBROKEN_NOTIFY_DESC' => 'Global filebroken notify desc', 'GLOBAL_FILEBROKEN_NOTIFY_SUBJECT' => 'Global filebroken notify subject', 'GLOBAL_FILESUBMIT_NOTIFY' => 'Global filesubmit notify', 'GLOBAL_FILESUBMIT_NOTIFY_CAPTION' => 'Global filesubmit notify caption', 'GLOBAL_FILESUBMIT_NOTIFY_DESC' => 'Global filesubmit notify desc', 'GLOBAL_FILESUBMIT_NOTIFY_SUBJECT' => 'Global filesubmit notify subject', 'GLOBAL_NEWFILE_NOTIFY' => 'Global newfile notify', 'GLOBAL_NEWFILE_NOTIFY_CAPTION' => 'Global newfile notify caption', 'GLOBAL_NEWFILE_NOTIFY_DESC' => 'Global newfile notify desc', 'GLOBAL_NEWFILE_NOTIFY_SUBJECT' => 'Global newfile notify subject', 'CATEGORY_FILESUBMIT_NOTIFY' => 'Category filesubmit notify', 'CATEGORY_FILESUBMIT_NOTIFY_CAPTION' => 'Category filesubmit notify caption', 'CATEGORY_FILESUBMIT_NOTIFY_DESC' => 'Category filesubmit notify desc', 'CATEGORY_FILESUBMIT_NOTIFY_SUBJECT' => 'Category filesubmit notify subject', 'CATEGORY_NEWFILE_NOTIFY' => 'Category newfile notify', 'CATEGORY_NEWFILE_NOTIFY_CAPTION' => 'Category newfile notify caption', 'CATEGORY_NEWFILE_NOTIFY_DESC' => 'Category newfile notify desc', 'CATEGORY_NEWFILE_NOTIFY_SUBJECT' => 'Category newfile notify subject', 'FILE_APPROVE_NOTIFY' => 'File approve notify', 'FILE_APPROVE_NOTIFY_CAPTION' => 'File approve notify caption', 'FILE_APPROVE_NOTIFY_DESC' => 'File approve notify desc', 'FILE_APPROVE_NOTIFY_SUBJECT' => 'File approve notify subject', );
+        foreach ($getDefinesNotif as $defn => $descn) {
+            $ret .= $this->defines->getDefine($language, $defn, $descn);
+        }
+
         return $ret;
     }
 

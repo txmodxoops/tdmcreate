@@ -31,8 +31,8 @@ class SqlFile extends TDMCreateFile
     * @var string
     */
     private $tdmcreate = null;
-	
-	/*
+
+    /*
     * @var string
     */
     private $tdmcfile = null;
@@ -51,7 +51,7 @@ class SqlFile extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-		$this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tdmcreate = TDMCreateHelper::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
@@ -109,14 +109,14 @@ class SqlFile extends TDMCreateFile
         $php_version = phpversion();
         // Header Sql Comments
         $ret = $this->getSimpleString("# SQL Dump for {$moduleName} module");
-		$ret .= $this->getSimpleString('# PhpMyAdmin Version: 4.0.4');
-		$ret .= $this->getSimpleString('# http://www.phpmyadmin.net');
-		$ret .= $this->getSimpleString('#');		
-		$ret .= $this->getSimpleString("# Host: {$server_name}");
-		$ret .= $this->getSimpleString("# Generated on: {$date} to {$time}");
-		$ret .= $this->getSimpleString("# Server version: {$server_version}");
-		$ret .= $this->getSimpleString("# PHP Version: {$php_version}\n");
-		
+        $ret .= $this->getSimpleString('# PhpMyAdmin Version: 4.0.4');
+        $ret .= $this->getSimpleString('# http://www.phpmyadmin.net');
+        $ret .= $this->getSimpleString('#');
+        $ret .= $this->getSimpleString("# Host: {$server_name}");
+        $ret .= $this->getSimpleString("# Generated on: {$date} to {$time}");
+        $ret .= $this->getSimpleString("# Server version: {$server_version}");
+        $ret .= $this->getSimpleString("# PHP Version: {$php_version}\n");
+
         return $ret;
     }
 
@@ -132,10 +132,10 @@ class SqlFile extends TDMCreateFile
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
         $ret = $this->getSimpleString('#');
-		$ret .= $this->getSimpleString("# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}");
-		$ret .= $this->getSimpleString('#');
-		$ret .= $this->getSimpleString("\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
-		
+        $ret .= $this->getSimpleString("# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}");
+        $ret .= $this->getSimpleString('#');
+        $ret .= $this->getSimpleString("\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
+
         return $ret;
     }
 
@@ -409,7 +409,7 @@ class SqlFile extends TDMCreateFile
     */
     private function getComma($row, $comma = null)
     {
-		return "\t\t\t{$row}{$comma}";
+        return "\t\t\t{$row}{$comma}";
     }
 
     /*

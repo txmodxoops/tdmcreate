@@ -27,7 +27,7 @@
  */
 class ClassFiles extends TDMCreateFile
 {
-	/*
+    /*
     * @var string
     */
     private $classcode = null;
@@ -55,7 +55,7 @@ class ClassFiles extends TDMCreateFile
         $this->phpcode = TDMCreatePhpCode::getInstance();
         $this->tdmcfile = TDMCreateFile::getInstance();
         $this->tdmcreate = TDMCreateHelper::getInstance();
-		$this->classcode = ClassXoopsCode::getInstance();
+        $this->classcode = ClassXoopsCode::getInstance();
         $this->formelements = ClassFormElements::getInstance();
     }
 
@@ -106,8 +106,8 @@ class ClassFiles extends TDMCreateFile
      * @return string
      */
     private function getInitVar($fieldName, $type = 'INT')
-    {        
-		return $this->classcode->getClassInitVar($fieldName, $type);
+    {
+        return $this->classcode->getClassInitVar($fieldName, $type);
     }
 
     /*
@@ -198,8 +198,8 @@ class ClassFiles extends TDMCreateFile
         $ret = $this->phpcode->getPhpCodeDefined();
         $ret .= $this->phpcode->getPhpCodeCommentMultiLine(array('Class Object ' => $ucfModuleDirname.$ucfTableName));
         $contentClass = $this->phpcode->getPhpCodeCommentMultiLine(array('@var ' => 'mixed'));
-		$contentClass .= $this->phpcode->getPhpCodeVariableClass('private', $moduleDirname);
-		$ret .= <<<EOT
+        $contentClass .= $this->phpcode->getPhpCodeVariableClass('private', $moduleDirname);
+        $ret .= <<<EOT
 class {$ucfModuleDirname}{$ucfTableName} extends XoopsObject
 {
     /*

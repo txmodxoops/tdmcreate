@@ -530,8 +530,8 @@ class UserXoopsVersion extends TDMCreateFile
                 $ret .= $this->getCommentLine('Uploads : mimetypes of image');
                 $ret .= $this->getSimpleString('++$c;');
                 $mimetypes = array('name' => "'mimetypes'", 'title' => "'{$language}MIMETYPES'", 'description' => "'{$language}MIMETYPES_DESC'",
-                    'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')", 
-					'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')");
+                    'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')",
+                    'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')", );
                 $ret .= $this->usercode->getUserModVersion(3, $mimetypes, 'config', '$c');
                 $ret .= $this->getSimpleString('++$c;');
             }

@@ -106,20 +106,21 @@ class ClassXoopsCode
     {
         return "\${$var}->add( {$param} );\n";
     }
-	
-	/*
+
+    /*
      * @public function getClassAdd
      * @param $paramLeft
      * @param $paramRight
-	 * @param $var
-	 * @param $t = Indentation
+     * @param $var
+     * @param $t = Indentation
      *  
      * @return string
      */
     public function getClassInitVar($paramLeft = '', $paramRight = '', $var = 'this', $t = "\t\t")
     {
         $stuParamRight = strtoupper($paramRight);
-		return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
+
+        return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
     }
 
     /*
@@ -133,7 +134,7 @@ class ClassXoopsCode
     public function getClassXoopsFormElementTray($var, $param1, $param2 = '', $isParam = false)
     {
         $tray = 'new XoopsFormElementTray(';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$tray}{$param1}, '{$param2}' );\n";
         } else {
             $ret = "{$tray}{$param1}, '{$param2}' )";
@@ -153,7 +154,7 @@ class ClassXoopsCode
     public function getClassXoopsFormLabel($var, $param1 = '', $isParam = false)
     {
         $label = 'new XoopsFormLabel(';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$label}{$param1});\n";
         } else {
             $ret = "{$label}{$param1})";
@@ -174,7 +175,7 @@ class ClassXoopsCode
     public function getClassXoopsFormFile($var, $param1, $param2, $param3, $isParam = false)
     {
         $file = 'new XoopsFormFile( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$file}{$param1}, '{$param2}', {$param3} );\n";
         } else {
             $ret = "{$file}{$param1}, '{$param2}', {$param3} )";
@@ -194,15 +195,15 @@ class ClassXoopsCode
     public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false)
     {
         $hidden = 'new XoopsFormHidden( ';
-		$getVarHidden = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param2, true);
-		if ($isParam === false) {
+        $getVarHidden = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param2, true);
+        if ($isParam === false) {
             $ret = "\${$var} = {$hidden}{$param1}, {$getVarHidden} );\n";
         } else {
-			if ($isForm === false) {
-				$ret = "{$hidden}{$param1}, {$getVar} )";
-			} else {
-				$ret = "{$hidden}'{$param1}', '{$param2}' )";
-			}
+            if ($isForm === false) {
+                $ret = "{$hidden}{$param1}, {$getVar} )";
+            } else {
+                $ret = "{$hidden}'{$param1}', '{$param2}' )";
+            }
         }
 
         return $ret;
@@ -222,7 +223,7 @@ class ClassXoopsCode
     public function getClassXoopsFormText($var, $param1, $param2, $param3 = 75, $param4 = 255, $param5, $isParam = false)
     {
         $text = 'new XoopsFormText( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$text}{$param1}, '{$param2}', {$param3}, {$param4}, \${$param5} );\n";
         } else {
             $ret = "{$text}{$param1}, '{$param2}', {$param3}, {$param4}, \${$param5} )";
@@ -245,8 +246,8 @@ class ClassXoopsCode
     public function getClassXoopsFormTextArea($var, $param1, $param2, $param3, $param4, $isParam = false)
     {
         $area = 'new XoopsFormTextArea( ';
-		$getVarTextArea = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param2, true);
-		if ($isParam === false) {
+        $getVarTextArea = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param2, true);
+        if ($isParam === false) {
             $ret = "\${$var} = {$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4} );\n";
         } else {
             $ret = "{$area}{$param1}, '{$param2}', {$getVarTextArea}, {$param3}, {$param4} )";
@@ -267,7 +268,7 @@ class ClassXoopsCode
     public function getClassXoopsFormColorPicker($var, $param1, $param2, $param3, $isParam = false)
     {
         $picker = 'new XoopsFormColorPicker( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$picker}{$param1}, '{$param2}', {$param3} );\n";
         } else {
             $ret = "{$picker}{$param1}, '{$param2}', {$param3} )";
@@ -288,8 +289,8 @@ class ClassXoopsCode
     public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3 = 'false', $param4, $isParam = false)
     {
         $user = 'new XoopsFormSelectUser( ';
-		$getVarSelectUser = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param4, true);
-		if ($isParam === false) {
+        $getVarSelectUser = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param4, true);
+        if ($isParam === false) {
             $ret = "\${$var} = {$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser} );\n";
         } else {
             $ret = "{$user}{$param1}, '{$param2}', {$param3}, {$getVarSelectUser} )";
@@ -310,8 +311,8 @@ class ClassXoopsCode
     public function getClassXoopsFormTextDateSelect($var, $param1, $param2, $param3 = '', $param4, $isParam = false)
     {
         $tdate = 'new XoopsFormTextDateSelect( ';
-		$getVarTextDateSelect = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param4, true);
-		if ($isParam === false) {
+        $getVarTextDateSelect = $this->xoopscode->getXoopsCodeGetVar('', 'this', $param4, true);
+        if ($isParam === false) {
             $ret = "\${$var} = {$tdate}{$param1}, '{$param2}', {$param3}, {$getVarTextDateSelect} );\n";
         } else {
             $ret = "{$tdate}{$param1}, '{$param2}', {$param3}, {$getVarTextDateSelect} )";
@@ -332,7 +333,7 @@ class ClassXoopsCode
     public function getClassXoopsFormEditor($var, $param1, $param2, $param3, $isParam = false)
     {
         $editor = 'new XoopsFormEditor( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$editor}{$param1}, '{$param2}', \${$param3});\n";
         } else {
             $ret = "{$editor}{$param1}, '{$param2}', \${$param3})";
@@ -353,7 +354,7 @@ class ClassXoopsCode
     public function getClassXoopsFormCheckBox($var, $param1, $param2, $param3, $isParam = false)
     {
         $checkBox = 'new XoopsFormCheckBox( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$checkBox}{$param1}, '{$param2}', {$param3});\n";
         } else {
             $ret = "{$checkBox}{$param1}, '{$param2}', {$param3})";
@@ -374,7 +375,7 @@ class ClassXoopsCode
     public function getClassXoopsFormRadioYN($var, $param1, $param2, $param3, $isParam = false)
     {
         $radioYN = 'new XoopsFormRadioYN( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$radioYN}{$param1}, '{$param2}', \${$param3});\n";
         } else {
             $ret = "{$radioYN}{$param1}, '{$param2}', \${$param3})";
@@ -397,7 +398,7 @@ class ClassXoopsCode
     public function getClassXoopsFormSelect($var, $param1, $param2, $param3, $param4, $param5 = 5, $isParam = false)
     {
         $select = 'new XoopsFormSelect( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$select}{$param1}, \".{\${$param2}}/\", '{$param3}', \${$param4}, {$param5} );\n";
         } else {
             $ret = "{$select}{$param1}, \".{\${$param2}}/\", '{$param3}', \${$param4}, {$param5} )";
@@ -420,7 +421,7 @@ class ClassXoopsCode
     public function getClassXoopsFormTag($var, $param1, $param2, $param3, $param4, $param5 = 0, $isParam = false)
     {
         $tag = 'new XoopsFormTag( ';
-		if ($isParam === false) {
+        if ($isParam === false) {
             $ret = "\${$var} = {$tag}'{$param1}', {$param2}, {$param3}, \${$param4}, {$param5} );\n";
         } else {
             $ret = "{$tag}'{$param1}', {$param2}, {$param3}, \${$param4}, {$param5} )";

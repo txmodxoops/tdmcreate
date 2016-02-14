@@ -49,9 +49,9 @@ switch ($op) {
                 TDMCreate_clearDir($fromDir);
             }
             // Clear this module if it's in root/modules
-			// Warning: If you have an older operating module with the same name, 
-			// it's good to make a copy in another safe folder, 
-			// otherwise it will be deleted irreversibly.
+            // Warning: If you have an older operating module with the same name, 
+            // it's good to make a copy in another safe folder, 
+            // otherwise it will be deleted irreversibly.
             if (is_dir($toDir)) {
                 TDMCreate_clearDir($toDir);
             }

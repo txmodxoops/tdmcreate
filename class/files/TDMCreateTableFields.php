@@ -26,13 +26,15 @@
  * Class TDMCreateTableFields.
  */
 class TDMCreateTableFields extends TDMCreateAbstract
-{    	
-	/**
+{
+    /**
      *  @public function constructor
      *
      *  @param mixed $table
      */
-    public function __construct(){}
+    public function __construct()
+    {
+    }
 
     /*
      * @static function &getInstance
