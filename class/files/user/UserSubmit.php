@@ -31,7 +31,7 @@ class UserSubmit extends TDMCreateFile
     * @var mixed
     */
     private $usercode = null;
-    
+
     /*
     * @var string
     */

@@ -72,13 +72,13 @@ class TDMCreateFile extends TDMCreateTableFields
     * @var string
     */
     private $mode = null;
-    
+
     /*
     * @var string
     */
     protected $phpcode = null;
-	
-	/*
+
+    /*
     * @var string
     */
     private $tdmcreate = null;
@@ -583,7 +583,7 @@ class TDMCreateFile extends TDMCreateTableFields
         $ret .= "*/\n";
         $copyright = array($name => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
                             '@since    ' => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$" );
+                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$", );
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;

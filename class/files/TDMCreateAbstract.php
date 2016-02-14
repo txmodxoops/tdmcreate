@@ -26,7 +26,7 @@
  * Abstract base class.
  */
 abstract class TDMCreateAbstract
-{    
+{
     /**
      * "module" attribute fot files.
      *

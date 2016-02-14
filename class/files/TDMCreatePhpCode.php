@@ -26,7 +26,7 @@
  * Class TDMCreatePhpCode.
  */
 class TDMCreatePhpCode
-{   
+{
     /*
     *  @public function constructor
     *  @param null
@@ -34,8 +34,10 @@ class TDMCreatePhpCode
     /**
      *
      */
-    public function __construct() {}
-    
+    public function __construct()
+    {
+    }
+
     /*
     *  @static function &getInstance
     *  @param null

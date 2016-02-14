@@ -26,7 +26,7 @@
  * Class UserViewTag.
  */
 class UserViewTag extends TDMCreateFile
-{    
+{
     /*
     *  @public function constructor
     *  @param null
