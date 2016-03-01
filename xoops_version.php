@@ -59,7 +59,7 @@ $modversion['module_status'] = 'Alpha 3.4';
 $modversion['min_php'] = '5.3';
 $modversion['min_xoops'] = '2.5.7';
 $modversion['min_admin'] = '1.1';
-$modversion['min_db'] = array('mysql' => '5.0.7', 'mysqli' => '5.0.7');
+$modversion['min_db'] = array('mysql' => '5.5', 'mysqli' => '5.5');
 //about
 $modversion['demo_site_url'] = 'http://www.xoops.org/';
 $modversion['demo_site_name'] = 'Xoops TDM';

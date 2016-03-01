@@ -50,7 +50,7 @@ class ClassFiles extends TDMCreateFile
     /*
     * @var string
     */
-    private $formelements = null;
+    private $fe = null;
 
     /*
     *  @public function constructor
@@ -67,7 +67,7 @@ class ClassFiles extends TDMCreateFile
         $this->tdmcreate = TDMCreateHelper::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
         $this->cc = ClassXoopsCode::getInstance();
-        $this->formelements = ClassFormElements::getInstance();
+        $this->fe = ClassFormElements::getInstance();
     }
 
     /*
@@ -282,7 +282,7 @@ class ClassFiles extends TDMCreateFile
         $ucfTableName = ucfirst($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
         $language = $this->getLanguage($moduleDirname, 'AM');
-        $this->formelements->initForm($module, $table);
+        $this->fe->initForm($module, $table);
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('Get' => 'form', '' => '', '@param mixed' => '$action'), "\t");
         $action = $this->xc->getXoopsCodeEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $getForm = $this->pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
@@ -305,7 +305,7 @@ class ClassFiles extends TDMCreateFile
         $getForm .= $this->xc->getXoopsCodeLoad('XoopsFormLoader', "\t\t");
         $getForm .= $this->cc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
         $getForm .= $this->cc->getClassSetExtra('form', "'enctype=\"multipart/form-data\"'");
-        $getForm .= $this->formelements->renderElements();
+        $getForm .= $this->fe->renderElements();
 
         if (in_array(1, $fieldInForm)) {
             if (1 == $table->getVar('table_permissions')) {
@@ -529,6 +529,7 @@ class ClassFiles extends TDMCreateFile
         $cClh .= $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'string $db'), "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');\n";
         $constr .= $this->xc->getXoopsCodeGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $constr .= $this->xc->getXoopsCodeEqualsOperator('$this->db', '$db', null, false, "\t\t");
 
         $cClh .= $this->pc->getPhpCodeFunction('__construct', '$db', $constr, 'public ', false, "\t");
 
@@ -767,26 +768,20 @@ class ClassFiles extends TDMCreateFile
         $tableName = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
         $ucfTableSoleName = ucfirst($tableSoleName);
-        $ret = <<<EOT
-	/**
-     * Returns the {$ucfTableSoleName} from id
-     *
-     * @return string
-     **/
-    public function get{$ucfTableSoleName}FromId(\${$tableSoleName}Id)
-    {
-        \${$tableSoleName}Id = (int) ( \${$tableSoleName}Id );
-        \${$tableSoleName} = '';
-        if(\${$tableSoleName}Id > 0) {
-            \${$tableName}Handler = \$this->{$moduleDirname}->getHandler( '{$tableName}' );
-            \${$tableSoleName}Obj = & \${$tableName}Handler->get( \${$tableSoleName}Id );
-            if(is_object( \${$tableSoleName}Obj )) {
-                \${$tableSoleName} = \${$tableSoleName}Obj->getVar( '{$fieldMain}' );
-            }
-        }
-        return \${$tableSoleName};
-    }\n
-EOT;
+        $ccTableSoleName = $this->getCamelCase($tableSoleName, true);
+        $ret = $this->pc->getPhpCodeCommentMultiLine(array('Returns the' => $ucfTableSoleName.' from id', '' => '', '@return' => 'string'), "\t");
+        $soleName = $this->xc->getXoopsCodeEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
+        $soleName .= $this->xc->getXoopsCodeEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
+
+        $contentIf = $this->xc->getXoopsHandlerLine('this->'.$moduleDirname, $tableName, "\t\t\t");
+        $contentIf .= $this->xc->getXoopsCodeGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
+        $getVar = $this->xc->getXoopsCodeGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
+        $contentIf .= $this->pc->getPhpCodeConditions("is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
+
+        $soleName .= $this->pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf = null, false, "\t\t");
+        $soleName .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
+
+        $ret .= $this->pc->getPhpCodeFunction("get{$ucfTableSoleName}FromId", "\${$tableSoleName}Id", $soleName, 'public ', false, "\t");
 
         return $ret;
     }

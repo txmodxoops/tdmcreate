@@ -130,8 +130,9 @@ class UserXoopsCode
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
         $stuTableName = strtoupper($tableName);
+        $title = array("'title'" => "{$language}{$stuTableName}");
 
-        return $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', array("'title'" => "{$language}{$stuTableName}"), false, $t);
+        return $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
     }
 
     /*
@@ -145,7 +146,9 @@ class UserXoopsCode
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', array("'title'" => "\$GLOBALS['xoopsModule']->getVar('name')", "'link'" => "{$stuModuleDirname}_URL . '/'"), false, '');
+        $getVar = $this->xoopscode->getXoopsCodeGetVar('', "GLOBALS['xoopsModule']", 'name', true);
+        $titleLink = array("'title'" => $getVar, "'link'" => "{$stuModuleDirname}_URL . '/'");
+        $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
     }
