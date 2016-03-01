@@ -114,7 +114,7 @@ class UserSingle extends TDMCreateFile
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '0', 'Int');
         $ret .= $this->usercode->getUserTplMain($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
@@ -155,12 +155,12 @@ EOT;
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
-        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->usercode->getUserBreadcrumbs("{$stuTableName}", $language);
-        $ret .= $this->getCommentLine('Keywords');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Keywords');
         $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');

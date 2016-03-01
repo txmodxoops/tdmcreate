@@ -129,34 +129,34 @@ class UserPrint extends TDMCreateFile
         $stuLpFieldName = strtoupper($ccFieldId);
         $ret = $this->getInclude();
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
-        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
         $redirectHeader = $this->xoopscode->getXoopsCodeRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false);
         $ret .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
-        $ret .= $this->getCommentLine('Verify that the article is published');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
         if (strstr($fieldName, 'published')) {
-            $ret .= $this->getCommentLine('Not yet', $fieldName);
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') == 0 || \${$ccFieldId}->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
         }
         if (strstr($fieldName, 'expired')) {
-            $ret .= $this->getCommentLine('Expired', $ucfFieldName);
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Expired', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (strstr($fieldName, 'date')) {
-            $ret .= $this->getCommentLine('Date', $ucfFieldName);
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Date', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (strstr($fieldName, 'time')) {
-            $ret .= $this->getCommentLine('Time', $ucfFieldName);
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Time', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         $ret .= $this->xoopscode->getXoopsCodeGet($tableName, "{$ccFieldId}", '', true);
         $gperm = $this->xoopscode->getXoopsCodeCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVat('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
-        $ret .= $this->getCommentLine('Verify permissions');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
         $noPerm = $this->xoopscode->getXoopsCodeRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM');
         $noPerm .= $this->getSimpleString('exit();');
         $ret .= $this->phpcode->getPhpCodeConditions($gperm, '', '', $noPerm);

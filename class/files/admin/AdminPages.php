@@ -31,8 +31,8 @@ class AdminPages extends TDMCreateFile
      * @var string
      */
     private $tf = null;
-	
-	/*
+
+    /*
      * @var string
      */
     private $cc = null;
@@ -41,8 +41,8 @@ class AdminPages extends TDMCreateFile
      * @var string
      */
     private $xc = null;
-	
-	/*
+
+    /*
      * @var string
      */
     private $axc = null;
@@ -419,7 +419,7 @@ class AdminPages extends TDMCreateFile
                         'new' => array($new),
                         'save' => array($save),
                         'edit' => array($edit),
-                        'delete' => array($delete));
+                        'delete' => array($delete), );
         $content .= $this->getAdminPagesSwitch($cases);
         $content .= $this->getInclude('footer');
         //

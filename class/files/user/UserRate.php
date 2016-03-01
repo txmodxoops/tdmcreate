@@ -102,7 +102,7 @@ class UserRate extends TDMCreateFile
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('lid', 'lid', '', 'Int');
         $ret .= $this->usercode->getUserTplMain($moduleDirname, $tableName);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
@@ -137,16 +137,16 @@ class UserRate extends TDMCreateFile
      */
     public function getUserRateForm($tableName, $language)
     {
-        $ret = $this->getCommentLine('Mavigation');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Mavigation');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}RATE");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
-        $ret .= $this->getCommentLine('Title of page');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
-        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->usercode->getUserAddMeta('description', $language, 'RATE');
-        $ret .= $this->getCommentLine('Form Create');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create');
         $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
         $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
@@ -179,12 +179,12 @@ class UserRate extends TDMCreateFile
 
         $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
 
-        $ret .= $this->getCommentLine('Insert Data');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data');
         $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
         $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
         $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
 
-        $ret .= $this->getCommentLine('Get Form Error');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
         $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');
@@ -202,7 +202,7 @@ class UserRate extends TDMCreateFile
     public function getUserRateFooter($moduleDirname, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->usercode->getUserBreadcrumbs('RATE', $language);
         $ret .= $this->getInclude('footer');
 

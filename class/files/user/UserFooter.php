@@ -90,13 +90,13 @@ class UserFooter extends TDMCreateFile
         $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
-        $ret .= $this->getCommentLine();
+        $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
-        $ret .= $this->getCommentLine();
+        $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('admin', "{$language}ADMIN");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('copyright', '$copyright');
-        $ret .= $this->getCommentLine();
+        $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
 
         return $ret;

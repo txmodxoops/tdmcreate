@@ -101,7 +101,7 @@ class AdminIndex extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
         $ret = $this->getInclude();
-        $ret .= $this->getCommentLine('Count elements');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Count elements');
         $tableName = null;
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
@@ -136,12 +136,12 @@ class AdminIndex extends TDMCreateFile
                 }
             }
             $ret .= $this->getSimpleString(');');
-            $ret .= $this->getCommentLine('Uploads Folders Created');
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads Folders Created');
             $boxLine = "\t".$this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
             $boxLine .= "\t".$this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
             $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
-        $ret .= $this->getCommentLine('Render Index');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Render Index');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('index', '$adminMenu->renderIndex()');
 

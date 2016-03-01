@@ -135,7 +135,7 @@ class ClassFormElements extends TDMCreateFile
     private function getXoopsFormTextArea($language, $fieldName, $required = 'false')
     {
         $ucfFieldName = $this->getCamelCase($fieldName, true);
-        $ret = $this->phpcode->getPhpCodeCommentLine('Form Text Area', $ucfFieldName);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Form Text Area', $ucfFieldName, "\t\t");
         $formTextArea = $this->classcode->getClassXoopsFormTextArea('', $language, $fieldName, 4, 47, true);
         $ret .= $this->classcode->getClassAddElement('form', $formTextArea.$required);
 
@@ -160,11 +160,13 @@ class ClassFormElements extends TDMCreateFile
     private function getXoopsFormDhtmlTextArea($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $rpFieldName = $this->getRightString($fieldName);
-        $ret = $this->phpcode->getPhpCodeArray('editorConfigs');
+        $ucfFieldName = $this->getCamelCase($fieldName, true);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Form editor', $ucfFieldName, "\t\t");
+        $ret .= $this->phpcode->getPhpCodeArray('editorConfigs', null, false, "\t\t");
         $configs = array('name' => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
                         'width' => "'100%'", 'height' => "'400px'", 'editor' => "\$this->{$moduleDirname}->getConfig('{$moduleDirname}_editor_{$rpFieldName}')", );
         foreach ($configs as $c => $d) {
-            $ret .= "\$editorConfigs['{$c}'] = {$d};";
+            $ret .= "\t\t\$editorConfigs['{$c}'] = {$d};\n";
         }
         $formEditor = $this->classcode->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
         $ret .= $this->classcode->getClassAddElement('form', $formEditor.$required);
@@ -226,7 +228,7 @@ EOT;
     private function getXoopsFormHidden($fieldName)
     {
         $ucfFieldName = $this->getCamelCase($fieldName, true);
-        $ret = $this->phpcode->getPhpCodeCommentLine('Form Hidden', $ucfFieldName);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Form Hidden', $ucfFieldName, "\t\t");
         $formHidden = $this->classcode->getClassXoopsFormHidden('', $fieldName, $fieldName, true, true);
         $ret .= $this->classcode->getClassAddElement('form', $formHidden);
 

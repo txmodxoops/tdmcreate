@@ -234,8 +234,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tableAdmin)) {
                 // Admin Pages File
                 $adminPages = AdminPages::getInstance();
-                $adminPages->write($module, $table);
-                $ret[] = $adminPages->renderFile($tableName.'.php');
+                $adminPages->write($module, $table, $tableName.'.php');
+                $ret[] = $adminPages->render();
                 // Admin Templates File
                 $adminTemplatesPages = TemplatesAdminPages::getInstance();
                 $adminTemplatesPages->write($module, $table);
@@ -256,8 +256,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tableAdmin) || in_array(1, $tableUser)) {
                 // Class Files
                 $classFiles = ClassFiles::getInstance();
-                $classFiles->write($module, $table, $tables);
-                $ret[] = $classFiles->renderFile($tableName.'.php');
+                $classFiles->write($module, $table, $tables, $tableName.'.php');
+                $ret[] = $classFiles->render();
             }
             // Creation of user files
             if (in_array(1, $tableUser)) {
@@ -348,7 +348,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $ret[] = $classHelper->render();
         // Include Functions File
         $includeFunctions = IncludeFunctions::getInstance();
-        $includeFunctions->write($module, $table, 'functions.php');
+        $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
         // Creation of blocks language file
         if ($table->getVar('table_name') != null) {

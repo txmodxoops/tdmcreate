@@ -31,8 +31,8 @@ class AdminXoopsCode
     * @var mixed
     */
     private $tf = null;
-	
-	/*
+
+    /*
     * @var mixed
     */
     private $pc = null;
@@ -52,7 +52,7 @@ class AdminXoopsCode
     public function __construct()
     {
         $this->tf = TDMCreateFile::getInstance();
-		$this->pc = TDMCreatePhpCode::getInstance();
+        $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
     }
 
@@ -323,8 +323,8 @@ class AdminXoopsCode
     {
         return "\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
     }
-	
-	/*
+
+    /*
     *  @public function getAdminCodeCaseDelete
     *  @param $tableName
     *  @param $language
@@ -357,8 +357,8 @@ class AdminXoopsCode
 
         return $ret;
     }
-	
-	/*
+
+    /*
     *  @public function getAdminCodeCaseUpdate
     *  @param $language
     *  @param $tableName
@@ -381,5 +381,5 @@ class AdminXoopsCode
         $ret .= $this->xc->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
 
         return $this->pc->getPhpCodeCaseSwitch('update', $ret);
-    }	
+    }
 }

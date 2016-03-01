@@ -103,11 +103,11 @@ class UserBroken extends TDMCreateFile
         $ret = $this->getInclude();
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'list');
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
-        $ret .= $this->getCommentLine('Template');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Template');
         $ret .= $this->usercode->getUserTplMain($moduleDirname, 'broken');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
-        $ret .= $this->getCommentLine('Redirection if not permissions');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Redirection if not permissions');
         $condIf = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', '_NOPERM');
         $condIf .= $this->getSimpleString('exit();');
         $ret .= $this->phpcode->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf);
@@ -124,16 +124,16 @@ class UserBroken extends TDMCreateFile
       */
     public function getUserBrokenForm($tableName, $language)
     {
-        $ret = $this->getCommentLine('Mavigation');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Mavigation');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
-        $ret .= $this->getCommentLine('Title of page');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
-        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->usercode->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
-        $ret .= $this->getCommentLine('Form Create');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create');
         $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
         $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
@@ -167,7 +167,7 @@ class UserBroken extends TDMCreateFile
 
         $ret .= $this->getSimpleString('$error = false;');
         $ret .= $this->getSimpleString("\$errorMessage = '';");
-        $ret .= $this->getCommentLine('Test first the validation');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Test first the validation');
         $ret .= $this->xoopscode->getXoopsCodeLoad('captcha');
         $ret .= $this->xoopscode->getXoopsCodeXoopsCaptcha();
 
@@ -175,14 +175,14 @@ class UserBroken extends TDMCreateFile
 
         $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
 
-        $condElse = $this->getCommentLine('Insert Data');
+        $condElse = $this->phpcode->getPhpCodeCommentLine('Insert Data');
         $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
         $redirctHeader = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
         $condElse .= $this->phpcode->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t");
         $assigne = $this->xoopscode->getXoopsCodeTplAssign('error_message', '$errorMessage');
         $ret .= $this->phpcode->getPhpCodeConditions('$error', ' == ', 'true', $assigne, $condElse, "\t");
 
-        $ret .= $this->getCommentLine('Get Form Error');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
         $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');

@@ -376,7 +376,6 @@ class TDMCreateModules extends XoopsObject
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $form->addElement($buttonTray);
-        $form->addElement($tabTray);
 
         return $form;
     }

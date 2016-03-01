@@ -241,8 +241,8 @@ class TDMCreateXoopsCode
     {
         return "{$t}\${$var} = \${$anchor}->getGroupIds({$param1}, {$param2}, {$param2});\n";
     }
-	
-	/*
+
+    /*
     *  @public function getXoopsCodeGetItemIds
     *  @param $var
     *  @param $param1
@@ -1203,7 +1203,7 @@ EOT;
 
         return $ret;
     }
-    
+
     /*
     *  @public function getTopicGetVar
     *  @param $lpFieldName
@@ -1244,7 +1244,7 @@ EOT;
 
         return $ret;
     }
-    
+
     /**
      *  @public function getXoopsCodeSaveFieldId
      *

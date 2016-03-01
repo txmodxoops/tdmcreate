@@ -35,6 +35,11 @@ class AdminPermissions extends TDMCreateFile
     /*
     * @var mixed
     */
+    private $classcode = null;
+
+    /*
+    * @var mixed
+    */
     private $adminxoopscode = null;
 
     /*
@@ -49,6 +54,7 @@ class AdminPermissions extends TDMCreateFile
         parent::__construct();
         $this->phpcode = TDMCreatePhpCode::getInstance();
         $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->classcode = ClassXoopsCode::getInstance();
         $this->adminxoopscode = AdminXoopsCode::getInstance();
     }
 
@@ -106,7 +112,7 @@ class AdminPermissions extends TDMCreateFile
         $ret = $this->getInclude('header');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
-        $ret .= $this->getCommentLine('Check admin have access to this page');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Check admin have access to this page');
         $ret .= $this->adminxoopscode->getAdminTemplateMain($moduleDirname, 'permissions');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('permissions.php')");
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'global');
@@ -114,7 +120,7 @@ class AdminPermissions extends TDMCreateFile
         $optionsSelect = array('global' => "{$language}PERMISSIONS_GLOBAL", 'approve' => "{$language}PERMISSIONS_APPROVE",
                                 'submit' => "{$language}PERMISSIONS_SUBMIT", 'view' => "{$language}PERMISSIONS_VIEW", );
         $formSelect = $this->xoopscode->getXoopsFormSelect('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
-        $ret .= $this->xoopscode->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
+        $ret .= $this->classcode->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
 
         return $ret;
     }

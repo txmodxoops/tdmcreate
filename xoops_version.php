@@ -41,15 +41,15 @@ $modversion['manual'] = 'MANUAL';
 $modversion['manual_file'] = XOOPS_URL."/modules/{$dirname}/docs/manual.txt";
 $modversion['image'] = "assets/images/{$dirname}_logo.png";
 $modversion['dirname'] = "{$dirname}";
-
+// Frameworks icons
 $modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
 $modversion['sysicons16'] = '../../Frameworks/moduleclasses/icons/16';
 $modversion['sysicons32'] = '../../Frameworks/moduleclasses/icons/32';
-// Local icons
+// Module icons
 $modversion['modicons16'] = 'assets/icons/16';
 $modversion['modicons32'] = 'assets/icons/32';
 
-$modversion['targetdir'] = XOOPS_ROOT_PATH."/modules/{$dirname}/modules/";
+$modversion['targetdir'] = XOOPS_UPLOAD_PATH."/{$dirname}/repository/";
 
 $modversion['release_date'] = '2016/01/02';
 $modversion['module_website_url'] = 'http://www.xoops.org/';

@@ -36,7 +36,8 @@ class IncludeFunctions extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
+        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -60,13 +61,11 @@ class IncludeFunctions extends TDMCreateFile
      * @public function write
      *
      * @param $module
-     * @param $table
      * @param $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
         $this->setFileName($filename);
     }
 
@@ -102,37 +101,6 @@ EOT;
     }
 
     /*
-    *  @private function getFunctionCleanVars
-    *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
-     * @return string
-     */
-    private function getFunctionCleanVars($moduleDirname)
-    {
-        $ret = <<<EOT
-\nfunction {$moduleDirname}_CleanVars( &\$global, \$key, \$default = '', \$type = 'int' ) {
-    switch ( \$type ) {
-        case 'string':
-            \$ret = ( isset( \$global[\$key] ) ) ? filter_var( \$global[\$key], FILTER_SANITIZE_MAGIC_QUOTES ) : \$default;
-            break;
-        case 'int': default:
-            \$ret = ( isset( \$global[\$key] ) ) ? filter_var( \$global[\$key], FILTER_SANITIZE_NUMBER_INT ) : \$default;
-            break;
-    }
-    if ( \$ret === false ) {
-        return \$default;
-    }
-    return \$ret;
-}\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
     *  @private function getFunctionGetMyItemIds
     *  @param string $moduleDirname
     */
@@ -148,18 +116,18 @@ EOT;
 \n/**
  *  Get the permissions ids
  */
-function {$moduleDirname}GetMyItemIds(\$permtype,\$dirname)
+function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
 {
     global \$xoopsUser;
     static \$permissions = array();
     if(is_array(\$permissions) && array_key_exists(\$permtype, \$permissions)) {
         return \$permissions[\$permtype];
     }
-   \$moduleHandler =& xoops_gethandler('module');
-   \${$moduleDirname}Module =& \$moduleHandler->getByDirname(\$dirname);
-   \$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-   \$gpermHandler =& xoops_gethandler('groupperm');
-   \${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
+	\$moduleHandler =& xoops_gethandler('module');
+	\${$moduleDirname}Module =& \$moduleHandler->getByDirname(\$dirname);
+	\$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
+	\$gpermHandler =& xoops_gethandler('groupperm');
+	\${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
     return \${$tableName};
 }\n
 EOT;
@@ -181,7 +149,7 @@ EOT;
      */
     private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
     {
-        $fields = $this->tdmcfile->getTableFields($tableMid, $tableId);
+        $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -303,8 +271,8 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 
     if (\$lenght_id != 0) {
         \$id = \$array['content_id'];
-        while (strlen($id) < \$lenght_id)
-            \$id = "0" . $id;
+        while (strlen(\$id) < \$lenght_id)
+            \$id = "0" . \$id;
     } else {
         \$id = \$array['content_id'];
     }
@@ -407,9 +375,9 @@ function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname
     \$url = strip_tags(\$url);
     \$url = preg_replace("`\[.*\]`U", "", \$url);
     \$url = preg_replace('`&(amp;)?#?[a-z0-9]+;`i', '-', \$url);
-    \$url = htmlentities($url, ENT_COMPAT, 'utf-8');
+    \$url = htmlentities(\$url, ENT_COMPAT, 'utf-8');
     \$url = preg_replace("`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i", "\\1", \$url);
-    \$url = preg_replace(array($regular_expression, "`[-]+`"), "-", \$url);
+    \$url = preg_replace(array(\$regular_expression, "`[-]+`"), "-", \$url);
     \$url = (\$url == "") ? \$type : strtolower(trim(\$url, '-'));
     return \$url;
 }
@@ -428,28 +396,40 @@ EOT;
     public function render()
     {
         $module = $this->getModule();
-        $table = $this->getTable();
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $tableId = null;
+        $tableMid = null;
+        $tableName = null;
+        $tableBlocks = null;
+        $tablePermissions = null;
+        $tableCategory = null;
+        foreach (array_keys($tables) as $i) {
+            $tableId = $tables[$i]->getVar('table_id');
+            $tableMid = $tables[$i]->getVar('table_mid');
+            $tableName = $tables[$i]->getVar('table_name');
+            $tableBlocks[] = $tables[$i]->getVar('table_blocks');
+            $tablePermissions[] = $tables[$i]->getVar('table_permissions');
+            $tableCategory[] = $tables[$i]->getVar('table_category');
+        }
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
         $content = $this->getHeaderFilesComments($module, $filename);
-        if (1 == $table->getVar('table_blocks')) {
+        if (in_array(1, $tableBlocks)) {
             $content .= $this->getFunctionBlock($moduleDirname);
         }
-        $content .= $this->getFunctionCleanVars($moduleDirname);
-        if (1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             $content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
         }
-        if (1 == $table->getVar('table_category')) {
+        if (in_array(1, $tableCategory)) {
             $content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName);
         }
         $content .= $this->getFunctionMetaKeywords($moduleDirname);
         $content .= $this->getFunctionMetaDescription($moduleDirname);
+        $content .= $this->getRewriteUrl($moduleDirname, $tableName);
+        $content .= $this->getRewriteFilter($moduleDirname, $tableName);
         //
-        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
