@@ -21,7 +21,7 @@ It's under development currently. If you want to build with developers this vers
 
 Clear version
 
-Needed xoops 2.5.7.1, PHP 5.3 or high
+Require xoops 2.5.7.1 - 2.5.7.2 or 2.5.8, PHP 5.3 or high
 
 # Adding
  - Added: table_solename field in tables
