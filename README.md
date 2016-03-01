@@ -22,10 +22,10 @@ It's under development currently. If you want to build with developers this vers
 Clear version
 
 Require:
-Xoops 2.5.7.1, 2.5.7.2 or 2.5.8
-Xoops Admin 1.1
-PHP 5.3 or high
-MySQL 5.5
+Xoops 2.5.7.1, 2.5.7.2 or 2.5.8;
+Xoops Admin 1.1;
+PHP 5.3 or high;
+MySQL 5.5;
 
 # Adding
  - Added: table_solename field in tables
