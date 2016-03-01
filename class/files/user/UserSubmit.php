@@ -97,14 +97,14 @@ class UserSubmit extends TDMCreateFile
     {
         $ret = $this->getInclude();
         $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('admin');
-        $ret .= $this->getCommentLine('It recovered the value of argument op in URL$');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'form');
-        $ret .= $this->getCommentLine('Template');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Template');
         $ret .= $this->usercode->getUserTplMain($moduleDirname, 'submit');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
         $ret .= "\$permSubmit = (\$gpermHandler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid'))) ? true : false;\n";
-        $ret .= $this->getCommentLine('Redirection if not permissions');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Redirection if not permissions');
         $condIf = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', '_NOPERM');
         $condIf .= $this->getSimpleString('exit();');
 
@@ -122,16 +122,16 @@ class UserSubmit extends TDMCreateFile
      */
     public function getUserSubmitForm($tableName, $language)
     {
-        $ret = $this->getCommentLine('Mavigation');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Mavigation');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
-        $ret .= $this->getCommentLine('Title of page');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
-        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->usercode->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
-        $ret .= $this->getCommentLine('Form Create');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create');
         $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
         $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
@@ -164,12 +164,12 @@ class UserSubmit extends TDMCreateFile
 
         $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
 
-        $ret .= $this->getCommentLine('Insert Data');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data');
         $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
         $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
         $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
 
-        $ret .= $this->getCommentLine('Get Form Error');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
         $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');
@@ -187,7 +187,7 @@ class UserSubmit extends TDMCreateFile
     public function getUserSubmitFooter($moduleDirname, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->usercode->getUserBreadcrumbs($language, 'SUBMIT');
         $ret .= $this->getInclude('footer');
 

@@ -117,7 +117,7 @@ class UserHeader extends TDMCreateFile
                 $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
             }
         }
-        $ret .= $this->getCommentLine('Permission');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Permission');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", true);
 
@@ -125,18 +125,18 @@ class UserHeader extends TDMCreateFile
         $condElse = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS');
 
         $ret .= $this->phpcode->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
-        $ret .= $this->getCommentLine();
+        $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', true);
-        $ret .= $this->getCommentLine('Default Css Style');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Default Css Style');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
         $ret .= $this->phpcode->getPhpCodeConditions('!file_exists($style)', '', '', 'return false;');
-        $ret .= $this->getCommentLine('Smarty Default');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Smarty Default');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon16', 'sysicons16');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon32', 'sysicons32');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('pathModuleAdmin', 'dirmoduleadmin');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('modPathIcon16', 'modicons16');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('modPathIcon32', 'modicons16');
-        $ret .= $this->getCommentLine('Load Languages');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Load Languages');
         $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('main');
         $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('modinfo');
 

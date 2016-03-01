@@ -98,7 +98,7 @@ class AdminMenu extends TDMCreateFile
                 $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
             } else {
                 if ($ref) {
-                    $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}", true);
+                    $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}", null, true);
                 } else {
                     $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}");
                 }

@@ -61,10 +61,10 @@ class TDMCreatePhpCode
     *  @param $var
     *  @return string
     */
-    public function getPhpCodeCommentLine($comment = '', $var = '')
+    public function getPhpCodeCommentLine($comment = null, $var = null, $t = '')
     {
         $value = !empty($var) ? ' '.$var : '';
-        $ret = "// {$comment}{$value}\n";
+        $ret = "{$t}// {$comment}{$value}\n";
 
         return $ret;
     }
@@ -78,15 +78,15 @@ class TDMCreatePhpCode
     public function getPhpCodeCommentMultiLine($multiLine = array(), $t = '')
     {
         $values = !empty($multiLine) ? $multiLine : array();
-        $ret = "{$t}/**\n";
+        $ret = "\n{$t}/**\n";
         foreach ($values as $string => $value) {
             if ($string === '' && $value === '') {
-                $ret .= "{$t} *\n{$t}";
+                $ret .= "{$t} *\n";
             } else {
-                $ret .= "{$t} * {$string} {$value}\n{$t}";
+                $ret .= "{$t} * {$string} {$value}\n";
             }
         }
-        $ret .= "{$t}*/\n";
+        $ret .= "{$t} */\n";
 
         return $ret;
     }
@@ -116,13 +116,31 @@ class TDMCreatePhpCode
     }
 
     /*
+    *  @public function getPhpCodeGlobals
+    *  @param $var
+    *  @param $value
+    *
+    *  @return string
+    */
+    public function getPhpCodeGlobals($var, $value = '')
+    {
+        if ($value != '') {
+            $ret = "\$GLOBALS['{$var}'] = \${$value};\n";
+        } else {
+            $ret = "\$GLOBALS['{$var}']";
+        }
+
+        return $ret;
+    }
+
+    /*
     *  @public function getPhpCodeGlobalsVariables    
     *  @param $var
     *  @param $type
     *
     *  @return string
     */
-    public function getPhpCodeGlobalsVariables($var = '', $type = 'REQUEST')
+    public function getPhpCodeGlobalsVariables($var = null, $type = 'REQUEST')
     {
         $type = strtoupper($type);
         switch ($type) {
@@ -158,9 +176,9 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeRemoveCarriageReturn($string)
+    public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $t = "\r")
     {
-        return str_replace(array("\n", "\r"), '', $string);
+        return str_replace(array("{$n}", "{$t}"), '', $string);
     }
 
     /*
@@ -183,19 +201,19 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeIncludeDir($directory = '', $filename = '', $once = false, $isPath = false, $type = 'include')
+    public function getPhpCodeIncludeDir($directory = null, $filename = null, $once = false, $isPath = false, $type = 'include', $t = '')
     {
         if ($once == false) {
             if (!$isPath) {
-                $ret = "{$type} {$directory} .'/{$filename}.php';\n";
+                $ret = "{$t}{$type} {$directory} .'/{$filename}.php';\n";
             } else {
-                $ret = "{$type} {$directory};\n";
+                $ret = "{$t}{$type} {$directory};\n";
             }
         } else {
             if (!$isPath) {
-                $ret = "{$type}_once {$directory} .'/{$filename}.php';\n";
+                $ret = "{$t}{$type}_once {$directory} .'/{$filename}.php';\n";
             } else {
-                $ret = "{$type}_once {$directory};\n";
+                $ret = "{$t}{$type}_once {$directory};\n";
             }
         }
 
@@ -208,12 +226,13 @@ class TDMCreatePhpCode
     *  @param $condition
     *  @param $one
     *  @param $two
+    *  @param $t - Indentation 
     *
     *  @return string
     */
-    public function getPhpCodeTernaryOperator($return, $condition, $one, $two)
+    public function getPhpCodeTernaryOperator($return, $condition, $one, $two, $t = '')
     {
-        return "\${$return} = {$condition} ? {$one} : {$two};";
+        return "{$t}\${$return} = {$condition} ? {$one} : {$two};\n";
     }
 
     /*
@@ -225,12 +244,13 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeClass($name = '', $content = '', $extends = null, $type = null)
+    public function getPhpCodeClass($name = null, $content = null, $extends = null, $type = null)
     {
         $typ = ($type != null) ? "{$type} " : '';
         $ext = ($extends != null) ? " extends {$extends}" : '';
-        $ret = "{$typ}class {$name}{$ext} {";
-        $ret .= "\t{$content}\n\t";
+        $ret = "{$typ}class {$name}{$ext}\n";
+        $ret .= '{';
+        $ret .= "{$content}";
         $ret .= "}\n";
 
         return $ret;
@@ -241,12 +261,13 @@ class TDMCreatePhpCode
     *  @param $type    
     *  @param $name
     *  @param $assign
+    *  @param $t - Indentation 
     *
     *  @return string
     */
-    public function getPhpCodeVariableClass($type = 'private', $name = '', $assign = 'null')
+    public function getPhpCodeVariableClass($type = 'private', $name = null, $assign = 'null', $t = '')
     {
-        return "{$type} \${$name} = {$assign}\n";
+        return "{$t}{$type} \${$name} = {$assign};\n";
     }
 
     /*
@@ -259,12 +280,13 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeFunction($name = '', $params = '', $content = '', $method = null, $t = '')
+    public function getPhpCodeFunction($name = null, $params = null, $content = null, $method = null, $isRef = false, $t = '')
     {
         $inClass = ($method != null) ? $method : '';
-        $ret = "{$t}{$inClass}function {$name}({$params})\n";
+        $ref = ($isRef != false) ? '&' : '';
+        $ret = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
         $ret .= "{$t}{\n";
-        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -281,17 +303,17 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $t = '')
+    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '')
     {
         if (false === $contentElse) {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
-            $ret .= "{$t}\t{$contentIf}";
+            $ret .= "{$contentIf}";
             $ret .= "{$t}}\n";
         } else {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
-            $ret .= "{$t}\t{$contentIf}";
+            $ret .= "{$contentIf}";
             $ret .= "{$t}} else {\n";
-            $ret .= "{$t}\t{$contentElse}\n";
+            $ret .= "{$contentElse}";
             $ret .= "{$t}}\n";
         }
 
@@ -308,7 +330,7 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeForeach($array, $arrayKey = false, $key = false, $value = false, $content = '', $t = '')
+    public function getPhpCodeForeach($array, $arrayKey = false, $key = false, $value = false, $content = null, $t = '')
     {
         $vars = '';
         if ((false === $arrayKey) && (false === $key)) {
@@ -320,7 +342,7 @@ class TDMCreatePhpCode
         }
 
         $ret = "{$t}foreach({$vars}) {\n";
-        $ret .= "{$t}\t{$content}";
+        $ret .= "{$t}{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -336,10 +358,10 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeFor($var = '', $content = '', $value = '', $initVal = '', $operator = '', $t = '')
+    public function getPhpCodeFor($var = null, $content = null, $value = null, $initVal = null, $operator = null, $t = '')
     {
         $ret = "{$t}for(\${$var} = {$initVal}; {$var} {$operator} \${$value}; \${$var}++) {\n";
-        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -355,10 +377,10 @@ class TDMCreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeWhile($var = '', $content = '', $value = '', $operator = '', $t = '')
+    public function getPhpCodeWhile($var = null, $content = null, $value = null, $operator = null, $t = '')
     {
         $ret = "{$t}while(\${$var} {$operator} {$value}) {\n";
-        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -373,10 +395,10 @@ class TDMCreatePhpCode
      *
      *  @return string
      */
-    public function getPhpCodeSwitch($op = '', $content = '', $t = '')
+    public function getPhpCodeSwitch($op = null, $content = null, $t = '')
     {
         $ret = "{$t}switch(\${$op}) {\n";
-        $ret .= "{$t}\t{$content}\n\t{$t}";
+        $ret .= "{$t}{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -392,7 +414,7 @@ class TDMCreatePhpCode
      *
      *  @return string
      */
-    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false, $t = "\t")
+    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false, $t = '')
     {
         $ret = '';
         $def = "{$t}default:\n";
@@ -436,9 +458,9 @@ class TDMCreatePhpCode
     *  @param $var
     *  @return string
     */
-    public function getPhpCodeUnset($var = '')
+    public function getPhpCodeUnset($var = '', $t = '')
     {
-        return "unset(\${$var});\n";
+        return "{$t}unset(\${$var});\n";
     }
 
     /*
@@ -466,21 +488,30 @@ class TDMCreatePhpCode
     /*
     *  @public function getPhpCodeArray
     *  @param $var
-    *  @param $left
-    *  @param $right
-    *  @param $key
+    *  @param $array
     *  @param $isParam
     *
     *  @return string
     */
-    public function getPhpCodeArray($var, $left = null, $right = null, $key = false, $isParam = false)
+    public function getPhpCodeArray($var, $array = null, $isParam = false, $t = "\t\t")
     {
-        $leftIs = preg_match('/^[a-zA-Z0-9]+/', $left) ? "'{$left}'" : $left;
-        $rightIs = preg_match('/^[a-zA-Z0-9]+/', $right) ? "'{$right}'" : $right;
-        $arrayKey = ($key !== false) ? "{$leftIs} => {$rightIs}" : "{$leftIs}, {$rightIs}";
-        $array = ($left !== null) ? (($right !== null) ? $arrayKey : $leftIs) : '';
+        $retArray = array();
+        if (is_array($array) && !empty($array)) {
+            foreach ($array as $k => $v) {
+                if (is_numeric($k)) {
+                    $retArray[] = $v;
+                } else {
+                    $retArray[] = "{$k} => {$v}";
+                }
+            }
+            $arrayContent = implode(', ', $retArray);
+        } else {
+            $arrayContent = '';
+        }
+        unset($retArray);
+
         if (!$isParam) {
-            $ret = "\${$var} = array({$array});\n";
+            $ret = "{$t}\${$var} = array({$arrayContent});\n";
         } else {
             $ret = "array({$array})";
         }
@@ -498,12 +529,13 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeArrayType($var, $type, $left, $right, $isParam = false)
+    public function getPhpCodeArrayType($var, $type, $left, $right = null, $isParam = false, $t = "\t\t")
     {
+        $vars = ($right != null) ? "\${$left}, {$right}" : "\${$left}";
         if (!$isParam) {
-            $ret = "\${$var}[] = array_{$type}(\${$left}, {$right});\n";
+            $ret = "{$t}\${$var}[] = array_{$type}({$vars});\n";
         } else {
-            $ret = "array_{$type}(\${$left}, {$right})";
+            $ret = "array_{$type}({$vars})";
         }
 
         return $ret;
@@ -561,11 +593,11 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodePregFunzions($return, $exp = '', $str, $val, $type = 'match', $isParam = false)
+    public function getPhpCodePregFunzions($return, $exp = null, $str, $val, $type = 'match', $isParam = false, $t = "\t")
     {
         $pregFunz = "preg_{$type}( '";
         if (!$isParam) {
-            $ret = "\${$return} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
+            $ret = "{$t}\${$return} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
         } else {
             $ret = "{$pregFunz}{$exp}', '{$str}', {$val})";
         }
@@ -584,11 +616,11 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false)
+    public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false, $t = "\t")
     {
         $strType = "str_{$type}( '";
         if (!$isParam) {
-            $ret = "\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
+            $ret = "{$t}\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
         } else {
             $ret = "{$strType}{$var}', '{$str}', {$value})";
         }
@@ -604,10 +636,10 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeStripTags($left = '', $value, $isParam = false)
+    public function getPhpCodeStripTags($left = null, $value, $isParam = false, $t = "\t")
     {
         if (!$isParam) {
-            $ret = "\${$left} = strip_tags({$value});\n";
+            $ret = "{$t}\${$left} = strip_tags({$value});\n";
         } else {
             $ret = "strip_tags({$value})";
         }

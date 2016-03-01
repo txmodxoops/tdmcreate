@@ -105,7 +105,7 @@ class UserPages extends TDMCreateFile
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
         $userpager = $this->xoopscode->getXoopsCodeGetConfig($moduleDirname, 'userpager');
         $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('limit', 'limit', $userpager, 'Int');
-        $ret .= $this->getCommentLine('Define Stylesheet');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
@@ -123,14 +123,14 @@ class UserPages extends TDMCreateFile
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
-        $ret = $this->getCommentLine();
+        $ret = $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret .= $this->getCommentLine();
+        $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeObjHandlerCount($tableName);
         $ret .= $this->xoopscode->getXoopsCodeObjHandlerAll($tableName, '', '$start', '$limit');
-        $ret .= $this->phpcode->getPhpCodeArray('keywords');
-        $condIf = $this->getCommentLine('Get All', $ucfTableName);
+        $ret .= $this->phpcode->getPhpCodeArray('keywords', null, false, '');
+        $condIf = $this->phpcode->getPhpCodeCommentLine('Get All', $ucfTableName);
         $foreach = $this->xoopscode->getXoopsCodeGetValues($tableName, $tableSoleName);
         $foreach .= $this->xoopscode->getXoopsCodeXoopsTplAppend($tableName, "\${$tableSoleName}");
         $table = $this->getTable();
@@ -172,12 +172,12 @@ class UserPages extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
-        $ret = $this->getCommentLine('Breadcrumbs');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->usercode->getUserBreadcrumbs($language, $stuTableName);
-        $ret .= $this->getCommentLine('Keywords');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Keywords');
         $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret .= $this->getCommentLine('Description');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->usercode->getUserMetaDesc($moduleDirname, $language, $stuTableSoleName);
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
         $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");

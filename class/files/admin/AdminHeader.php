@@ -108,15 +108,15 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon32 ', "{$modicons32}");
         if (is_object($table) && $table->getVar('table_name') != '') {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$moduleDirname} ", "{$ucfModuleDirname}Helper::getInstance()");
+            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
         }
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$tableName}Handler ", "\${$moduleDirname}->getHandler('{$tableName}')", true);
+                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$tableName}Handler", "\${$moduleDirname}->getHandler('{$tableName}')", null, true);
             }
         }
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', true);
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
         $ret .= $this->phpcode->getPhpCodeCommentLine();
         $template = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true);
         $template .= "\t".$this->xoopscode->getXoopsCodeEqualsOperator('$xoopsTpl', 'new XoopsTpl()');

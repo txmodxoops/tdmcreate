@@ -103,7 +103,7 @@ class UserPdf extends TDMCreateFile
         $requireOnce = $this->phpcode->getPhpCodeIncludeDir('$tcpdf', '', true, true, 'require');
         $redirectHeader = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, "?{$fieldId}=\${$fieldId}", $numb = '2', "{$language}NO_PDF_LIBRARY");
         $ret .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader, $t = '');
-        $ret .= $this->getCommentLine('Get Instance of Handler');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
         $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
         $ret .= $this->xoopscode->getXoopsCodeGet($tableName, "\$this->getVar('{$fieldId}')", '', true);
 
@@ -150,11 +150,11 @@ class UserPdf extends TDMCreateFile
                 break;
             }
         }
-        $ret .= $this->getCommentLine('Get Config');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Config');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['creator'] ", "\$GLOBALS['xoopsConfig']['xoops_sitename']");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['subject'] ", "\$GLOBALS['xoopsConfig']['slogan']");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['keywords'] ", "\$GLOBALS['xoopsConfig']['keywords']");
-        $ret .= $this->getCommentLine('Defines');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Defines');
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_CREATOR", "\$pdfData['creator']");
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_AUTHOR", "\$pdfData['author']");
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_HEADER_TITLE", "\$pdfData['title']");
@@ -169,20 +169,20 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title ', "\$myts->undoHtmlSpecialChars(\$pdfData['title'])");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$keywords ', "\$myts->undoHtmlSpecialChars(\$pdfData['keywords'])");
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['fontsize'] ", '12');
-        $ret .= $this->getCommentLine('For schinese');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('For schinese');
         $ifLang = $this->getSimpleString("\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']);");
         $elseLang = $this->getSimpleString("\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']);");
         $ret .= $this->phpcode->getPhpCodeConditions('_LANGCODE', ' == ', "'cn'", $ifLang, $elseLang);
-        $ret .= $this->getCommentLine('Set document information');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set document information');
         $ret .= $this->getSimpleString("\$pdf->SetCreator(\$pdfData['creator']);");
         $ret .= $this->getSimpleString("\$pdf->SetAuthor(\$pdfData['author']);");
         $ret .= $this->getSimpleString('$pdf->SetTitle($title);');
         $ret .= $this->getSimpleString('$pdf->SetKeywords($keywords);');
-        $ret .= $this->getCommentLine('Set default header data');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set default header data');
         $ret .= $this->getSimpleString("\$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, {$stuModuleDirname}_HEADER_TITLE, {$stuModuleDirname}_HEADER_STRING);");
-        $ret .= $this->getCommentLine('Set margins');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set margins');
         $ret .= $this->getSimpleString('$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP + 10, PDF_MARGIN_RIGHT);');
-        $ret .= $this->getCommentLine('Set auto page breaks');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set auto page breaks');
         $ret .= $this->getSimpleString('$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);');
         $ret .= $this->getSimpleString('$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);');
         $ret .= $this->getSimpleString('$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);');
@@ -192,7 +192,7 @@ class UserPdf extends TDMCreateFile
         $elseLang = $this->getSimpleString("\$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));");
         $elseLang .= $this->getSimpleString("\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));");
         $ret .= $this->phpcode->getPhpCodeConditions('_LANGCODE', ' == ', "'cn'", $ifLang, $elseLang);
-        $ret .= $this->getCommentLine('Set some language-dependent strings (optional)');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set some language-dependent strings (optional)');
         $fileExist = $this->phpcode->getPhpCodeFileExists("\$lang = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php')");
         $contIf = $this->phpcode->getPhpCodeIncludeDir('$lang', '', true, false, 'require');
         $contIf .= $this->getSimpleString('$pdf->setLanguageArray($l);');
@@ -211,13 +211,13 @@ class UserPdf extends TDMCreateFile
      */
     private function getUserPdfFooter($moduleDirname, $tableName)
     {
-        $ret = $this->getCommentLine('Initialize document');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Initialize document');
         $ret .= $this->getSimpleString('$pdf->AliasNbPages();');
-        $ret .= $this->getCommentLine('Add Page document');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Add Page document');
         $ret .= $this->getSimpleString('$pdf->AddPage();');
         $ret .= $this->getSimpleString("\$pdf->writeHTMLCell(\$w=0, \$h=0, \$x='', \$y='', \$content, \$border=0, \$ln=1, \$fill=0, \$reseth=true, \$align='', \$autopadding=true);");
-        $ret .= $this->getCommentLine('Pdf Filename');
-        $ret .= $this->getCommentLine('Output');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Pdf Filename');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Output');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
         $ret .= $this->xoopscode->getXoopsCodeTplDisplay("{$moduleDirname}_pdf.tpl");
 

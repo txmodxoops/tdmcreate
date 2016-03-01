@@ -219,10 +219,10 @@ class LanguageAdmin extends TDMCreateFile
         $ret = $this->defines->getAboveHeadDefines('Admin Permissions');
         $ret .= $this->defines->getAboveDefines('Permissions');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_DESC', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_4', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_8', 'Permissions global');
-        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_16', 'Permissions global');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_DESC', 'Permissions global to check type of.');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_4', 'Permissions global to approve');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_8', 'Permissions global to submit');
+        $ret .= $this->defines->getDefine($language, 'PERMISSIONS_GLOBAL_16', 'Permissions global to view');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_APPROVE', 'Permissions to approve');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_APPROVE_DESC', 'Permissions to approve');
         $ret .= $this->defines->getDefine($language, 'PERMISSIONS_SUBMIT', 'Permissions to submit');

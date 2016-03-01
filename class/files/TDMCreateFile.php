@@ -30,7 +30,7 @@ class TDMCreateFile extends TDMCreateTableFields
     /*
     * @var string
     */
-    private $xoopsFile = null;
+    private $xf = null;
 
     /**
      * "fileName" attribute of the files.
@@ -93,7 +93,7 @@ class TDMCreateFile extends TDMCreateTableFields
     public function __construct()
     {
         parent::__construct();
-        $this->xoopsFile = XoopsFile::getHandler();
+        $this->xf = XoopsFile::getHandler();
         $this->tdmcreate = TDMCreateHelper::getInstance();
     }
 
@@ -587,12 +587,12 @@ class TDMCreateFile extends TDMCreateTableFields
         $folderName = $this->getFolderName();
         $mode = $this->getMode();
         $ret = '';
-        if (!$this->xoopsFile->__construct($path, true)) {
+        if (!$this->xf->__construct($path, true)) {
             // Force to create file if not exist
-            if ($this->xoopsFile->open($mode, true)) {
-                if ($this->xoopsFile->writable()) {
+            if ($this->xf->open($mode, true)) {
+                if ($this->xf->writable()) {
                     // Integration of the content in the file
-                    if (!$this->xoopsFile->write($this->getContent(), $mode, true)) {
+                    if (!$this->xf->write($this->getContent(), $mode, true)) {
                         $ret .= sprintf($notCreated, $fileName, $folderName);
                         $GLOBALS['xoopsTpl']->assign('created', false);
                         exit();
@@ -600,7 +600,7 @@ class TDMCreateFile extends TDMCreateTableFields
                     // Created
                     $ret .= sprintf($created, $fileName, $folderName);
                     $GLOBALS['xoopsTpl']->assign('created', true);
-                    $this->xoopsFile->close();
+                    $this->xf->close();
                 } else {
                     $ret .= sprintf($notCreated, $fileName, $folderName);
                     $GLOBALS['xoopsTpl']->assign('created', false);
