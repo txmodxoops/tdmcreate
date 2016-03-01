@@ -345,7 +345,7 @@ class AdminPages extends TDMCreateFile
             $ret .= $this->xc->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form');
-        $ret .= $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', false, false, $t);
+        $ret .= $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true, false, $t);
         $ret .= $this->xc->getXoopsCodeGetForm('form', $tableName, 'Obj', $t);
         $ret .= $this->xc->getXoopsCodeTplAssign('form', '$form->render()', true, $t);
 
