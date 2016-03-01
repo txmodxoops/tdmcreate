@@ -375,15 +375,12 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-    *  @public function getRightString
-    *  @param string $string
-    */
-    /**
-     * @param $string
+     *  @public function getRightString
+     *  @param $string
      *
      * @return string
      */
-    public function getRightString($string)
+    public function getRightString($string = null)
     {
         if (strpos($string, '_')) {
             $str = strpos($string, '_');
@@ -502,21 +499,6 @@ class TDMCreateFile extends TDMCreateTableFields
         return "include_once __DIR__ . '/{$filename}.php';\n";
     }
 
-    /*
-     * @public function getCommentLine
-     * @param $string     
-     * @param $var
-     *
-     * @return string
-     */
-    public function getCommentLine($string = '', $var = '')
-    {
-        $value = !empty($var) ? ' '.$var : '';
-        $ret = "// {$string}{$value}\n";
-
-        return $ret;
-    }
-
     /**
      * @private function getHeaderComment
      *
@@ -535,9 +517,9 @@ class TDMCreateFile extends TDMCreateTableFields
      *
      * @return string
      */
-    public function getSimpleString($string)
+    public function getSimpleString($string, $t = '')
     {
-        return "{$string}\n";
+        return "{$t}{$string}\n";
     }
 
     /*
