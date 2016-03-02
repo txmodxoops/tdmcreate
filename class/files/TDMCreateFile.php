@@ -79,11 +79,6 @@ class TDMCreateFile extends TDMCreateTableFields
     protected $phpcode = null;
 
     /*
-    * @var string
-    */
-    private $tdmcreate = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -94,7 +89,6 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         parent::__construct();
         $this->xf = XoopsFile::getHandler();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
     }
 
     /*
@@ -500,13 +494,13 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-     * @private function getHeaderComment
+     * @private function getDashComment
      *
      * @param $comment
      *
      * @return string
      */
-    public function getHeaderComment($comment)
+    public function getDashComment($comment)
     {
         return "// ------------------- {$comment} ------------------- //\n";
     }

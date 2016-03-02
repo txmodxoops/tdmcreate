@@ -118,11 +118,11 @@ class AdminIndex extends TDMCreateFile
             $tableInstall[] = $tables[$i]->getVar('table_install');
             $stuTableName = $languageThereAre.strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}", true);
+            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
         }
 
         if ($tableName == null) {
-            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0', true);
+            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0');
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Upload Folders');
@@ -137,8 +137,8 @@ class AdminIndex extends TDMCreateFile
             }
             $ret .= $this->getSimpleString(');');
             $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads Folders Created');
-            $boxLine = "\t".$this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder');
-            $boxLine .= "\t".$this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod');
+            $boxLine = $this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
+            $boxLine .= $this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
             $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Render Index');

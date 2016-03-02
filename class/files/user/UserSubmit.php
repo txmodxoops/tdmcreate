@@ -127,7 +127,7 @@ class UserSubmit extends TDMCreateFile
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.');
         $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->usercode->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');

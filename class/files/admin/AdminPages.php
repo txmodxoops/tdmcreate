@@ -117,7 +117,7 @@ class AdminPages extends TDMCreateFile
      */
     private function getAdminPagesSwitch($cases = array())
     {
-        $contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, true);
+        $contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, true, false, "\t");
 
         return $this->phpcode->getPhpCodeSwitch('op', $contentSwitch);
     }
@@ -144,29 +144,29 @@ class AdminPages extends TDMCreateFile
 
         $ret = $this->xc->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int');
         $adminpager = $this->xc->getXoopsCodeGetConfig($moduleDirname, 'adminpager');
-        $ret .= $this->xc->getXoopsCodeXoopsRequest('limit', 'limit', $adminpager, 'Int');
-        $ret .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName);
+        $ret .= $this->xc->getXoopsCodeXoopsRequest('limit', 'limit', $adminpager, 'Int', false, "\t\t");
+        $ret .= $this->axc->getAdminTemplateMain($moduleDirname, $tableName, "\t\t");
         $navigation = $this->axc->getAdminAddNavigation($tableName);
-        $ret .= $this->xc->getXoopsCodeTplAssign('navigation', $navigation);
+        $ret .= $this->xc->getXoopsCodeTplAssign('navigation', $navigation, true, "\t\t");
 
         if (in_array(1, $fieldInForm)) {
-            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add');
-            $ret .= $this->xc->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()');
+            $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', "\t\t");
+            $ret .= $this->xc->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()', true, "\t\t");
         }
 
-        $ret .= $this->xc->getXoopsCodeObjHandlerCount($tableName);
-        $ret .= $this->xc->getXoopsCodeObjHandlerAll($tableName, '', '$start', '$limit');
-        $ret .= $this->xc->getXoopsCodeTplAssign("{$tableName}_count", "\${$tableName}Count");
-        $ret .= $this->xc->getXoopsCodeTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret .= $this->xc->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->xc->getXoopsCodeObjHandlerCount($tableName, "\t\t");
+        $ret .= $this->xc->getXoopsCodeObjHandlerAll($tableName, '', '$start', '$limit', "\t\t");
+        $ret .= $this->xc->getXoopsCodeTplAssign("{$tableName}_count", "\${$tableName}Count", true, "\t\t");
+        $ret .= $this->xc->getXoopsCodeTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL", true, "\t\t");
+        $ret .= $this->xc->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL", true, "\t\t");
 
         $ret .= $this->phpcode->getPhpCodeCommentLine('Table view', $tableName, "\t\t");
-        $contentForeach = $this->xc->getXoopsCodeGetValues($tableName, $tableSoleName);
-        $contentForeach .= $this->xc->getXoopsCodeXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}");
-        $contentForeach .= $this->phpcode->getPhpCodeUnset($tableSoleName, "\t\t");
+        $contentForeach = $this->xc->getXoopsCodeGetValues($tableName, $tableSoleName, 'i', false, "\t");
+        $contentForeach .= $this->xc->getXoopsCodeXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}", "\t\t\t\t");
+        $contentForeach .= $this->phpcode->getPhpCodeUnset($tableSoleName, "\t\t\t\t");
         $condIf = $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t\t\t");
         $condIf .= $this->xc->getXoopsCodePageNav($tableName, "\t\t\t");
-        $condElse = $this->xc->getXoopsCodeTplAssign('error', "{$language}THEREARENT_{$stuTableName}");
+        $condElse = $this->xc->getXoopsCodeTplAssign('error', "{$language}THEREARENT_{$stuTableName}", true, "\t\t\t");
         $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf, $condElse, "\t\t");
 
         return $ret;
@@ -184,14 +184,14 @@ class AdminPages extends TDMCreateFile
     {
         $stuTableName = strtoupper($tableName);
         $ret = $this->axc->getAdminTemplateMain($moduleDirname, $tableName);
-        $navigation = $this->axc->getAdminAddNavigation($tableName, $t);
+        $navigation = $this->axc->getAdminAddNavigation($tableName);
         $ret .= $this->xc->getXoopsCodeTplAssign('navigation', $navigation, true, $t);
 
         if (in_array(1, $fieldInForm)) {
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
             $ret .= $this->xc->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
         }
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $this->xc->getXoopsCodeObjHandlerCreate($tableName, $t);
         $ret .= $this->xc->getXoopsCodeGetForm('form', $tableName, 'Obj', $t);
         $ret .= $this->xc->getXoopsCodeTplAssign('form', '$form->render()', true, $t);
@@ -253,7 +253,7 @@ class AdminPages extends TDMCreateFile
         $contentIf = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true, false, $t."\t");
         $contentElse = $this->xc->getXoopsCodeObjHandlerCreate($tableName, "\t\t\t");
         $ret .= $this->phpcode->getPhpCodeConditions($isset, '', '', $contentIf, $contentElse, $t);
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Set Vars');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Set Vars', null, "\t\t");
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldType = $fields[$f]->getVar('field_type');
@@ -292,11 +292,12 @@ class AdminPages extends TDMCreateFile
                 }
             }
         }
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
         $insert = $this->xc->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
         $contentInsert = '';
         if ($tableCategory == 1) {
-            $contentInsert = $this->xc->getXoopsCodeEqualsOperator('$newCatId', "\${$tableName}Obj->getInsertId()", null, false, $t."\t");
+            $ucfTableName = ucfirst($tableName);
+            $contentInsert = $this->xc->getXoopsCodeEqualsOperator('$newCatId', "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t."\t");
             $ucfFieldId = $this->getCamelCase($fieldId, true);
             $contentInsert .= $this->phpcode->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t."\t");
             $contentInsert .= $this->xc->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, $t."\t");
@@ -306,7 +307,7 @@ class AdminPages extends TDMCreateFile
         }
         $contentInsert .= $this->xc->getXoopsCodeRedirectHeader($tableName.'.php', '?op=list', '2', "{$language}FORM_OK", true, $t."\t");
         $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $this->xc->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
         $ret .= $this->xc->getXoopsCodeGetForm('form', $tableName, 'Obj', $t);
         $ret .= $this->xc->getXoopsCodeTplAssign('form', '$form->render()', true, $t);
@@ -335,8 +336,8 @@ class AdminPages extends TDMCreateFile
         $stuTableFieldname = strtoupper($tableFieldname);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
 
-        $ret = $this->axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
-        $navigation = $this->axc->getAdminAddNavigation($tableName, $t);
+        $ret = $this->axc->getAdminTemplateMain($moduleDirname, $tableName);
+        $navigation = $this->axc->getAdminAddNavigation($tableName);
         $ret .= $this->xc->getXoopsCodeTplAssign('navigation', $navigation, true, $t);
 
         if (in_array(1, $fieldInForm)) {
@@ -344,7 +345,7 @@ class AdminPages extends TDMCreateFile
             $ret .= $this->axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
             $ret .= $this->xc->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
         }
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true, false, $t);
         $ret .= $this->xc->getXoopsCodeGetForm('form', $tableName, 'Obj', $t);
         $ret .= $this->xc->getXoopsCodeTplAssign('form', '$form->render()', true, $t);

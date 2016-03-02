@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * tc module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -53,6 +53,11 @@ class ClassFiles extends TDMCreateFile
     private $fe = null;
 
     /*
+    * @var string
+    */
+    private $tc = null;
+
+    /*
     *  @public function constructor
     *  @param null
     */
@@ -64,7 +69,7 @@ class ClassFiles extends TDMCreateFile
         parent::__construct();
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->tf = TDMCreateFile::getInstance();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tc = TDMCreateHelper::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
         $this->cc = ClassXoopsCode::getInstance();
         $this->fe = ClassFormElements::getInstance();
@@ -139,7 +144,7 @@ class ClassFiles extends TDMCreateFile
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldType = $fields[$f]->getVar('field_type');
             if ($fieldType > 1) {
-                $fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldType);
+                $fType = $this->tc->getHandler('fieldtype')->get($fieldType);
                 $fieldTypeName = $fType->getVar('fieldtype_name');
             } else {
                 $fieldType = null;
@@ -217,7 +222,7 @@ class ClassFiles extends TDMCreateFile
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             $fieldInForm[] = $fields[$f]->getVar('field_inform');
-            $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             $rpFieldName = $this->getRightString($fieldName);
             if (in_array(5, $fieldElementId)) {
@@ -247,6 +252,7 @@ class ClassFiles extends TDMCreateFile
         $getInstance .= $this->pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
         $cCl .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', true, "\t");
 
+        $cCl .= $this->getNewInsertId($table);
         $cCl .= $this->getFunctionForm($module, $table, $fieldId, $fieldInForm);
         $cCl .= $this->getValuesInObject($moduleDirname, $table, $fields);
         $cCl .= $this->getToArrayInObject($table);
@@ -257,6 +263,25 @@ class ClassFiles extends TDMCreateFile
         unset($fieldElementId);
 
         $ret .= $this->pc->getPhpCodeClass($ucfModuleDirname.$ucfTableName, $cCl, 'XoopsObject');
+
+        return $ret;
+    }
+
+    /*
+     *  @private function getNewInsertId
+     *  @param $table
+     *
+     * @return string
+     */
+    private function getNewInsertId($table)
+    {
+        $tableName = $table->getVar('table_name');
+        $ucfTableName = ucfirst($tableName);
+        $ret = $this->pc->getPhpCodeCommentMultiLine(array('The new inserted' => '$Id'), "\t");
+        $getInsertedId = $this->xc->getXoopsCodeEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, false, "\t\t");
+        $getInsertedId .= $this->getSimpleString('return $newInsertedId;', "\t\t");
+
+        $ret .= $this->pc->getPhpCodeFunction('getNewInsertedId'.$ucfTableName, '', $getInsertedId, 'public ', false, "\t");
 
         return $ret;
     }
@@ -406,7 +431,7 @@ class ClassFiles extends TDMCreateFile
                 default:
 
                     if ($fieldElement > 15) {
-                        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+                        $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
                         $fieldElementName = $fieldElements->getVar('fieldelement_name');
@@ -477,7 +502,7 @@ class ClassFiles extends TDMCreateFile
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             //
-            $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId = $fieldElements->getVar('fieldelement_id');
             $rpFieldName = $this->tf->getRightString($fieldName);
             if (5 == $fieldElementId) {
@@ -696,7 +721,7 @@ class ClassFiles extends TDMCreateFile
     private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement)
     {
         $ucfTableName = ucfirst($tableName);
-        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+        $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
         $fieldElementName = $fieldElements->getVar('fieldelement_name');
@@ -821,7 +846,7 @@ class ClassFiles extends TDMCreateFile
             }
             $fieldElement = $fields[$f]->getVar('field_element');
             //
-            $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
         }
         $content = $this->getHeaderFilesComments($module, $filename);
