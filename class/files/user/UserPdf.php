@@ -30,12 +30,12 @@ class UserPdf extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $usercode = null;
+    private $uc = null;
 
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -47,9 +47,9 @@ class UserPdf extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->uc = UserXoopsCode::getInstance();
     }
 
     /*
@@ -97,15 +97,17 @@ class UserPdf extends TDMCreateFile
      */
     private function getUserPdfHeader($moduleDirname, $tableName, $fields, $language)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
+        $fieldId = $this->xc->getXoopsCodeSaveFieldId($fields);
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret = $this->getInclude();
         $fileExist = $this->phpcode->getPhpCodeFileExists("\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/tcpdf.php'");
-        $requireOnce = $this->phpcode->getPhpCodeIncludeDir('$tcpdf', '', true, true, 'require');
-        $redirectHeader = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, "?{$fieldId}=\${$fieldId}", $numb = '2', "{$language}NO_PDF_LIBRARY");
+        $requireOnce = $this->phpcode->getPhpCodeIncludeDir('$tcpdf', '', true, true, 'require', "\t");
+        $ret .= $this->xc->getXoopsCodeXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $redirectHeader = $this->xc->getXoopsCodeRedirectHeader($tableName, '.php', $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader, $t = '');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
-        $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
-        $ret .= $this->xoopscode->getXoopsCodeGet($tableName, "\$this->getVar('{$fieldId}')", '', true);
+        $ret .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
+        $ret .= $this->xc->getXoopsCodeGet($tableName, "\$this->getVar('{$fieldId}')", '', true);
 
         return $ret;
     }
@@ -124,14 +126,14 @@ class UserPdf extends TDMCreateFile
      */
     public function getUserPdfTcpdf($moduleDirname, $fields)
     {
-        $fieldId = $this->xoopscode->getXoopsCodeSaveFieldId($fields);
+        $fieldId = $this->xc->getXoopsCodeSaveFieldId($fields);
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $getVar = $this->xoopscode->getXoopsCodeGetVar('', 'pdfContent', $fieldName, true);
+            $getVar = $this->xc->getXoopsCodeGetVar('', 'pdfContent', $fieldName, true);
             switch ($fieldElement) {
                 case 2:
                     if (strstr($fieldName, 'title') || strstr($fieldName, 'name') && $fieldDefault == '') {
@@ -143,17 +145,17 @@ class UserPdf extends TDMCreateFile
                     $ret .= $this->phpcode->getPhpCodeStripTags("pdfData['content']", $getVar);
                 break;
                 case 8:
-                    $ret .= $this->xoopscode->getXoopsCodeUnameFromId("pdfData['author']", $getVar);
+                    $ret .= $this->xc->getXoopsCodeUnameFromId("pdfData['author']", $getVar);
                 break;
                 case 15:
-                    $ret .= $this->xoopscode->getXoopsCodeFormatTimeStamp("pdfData['date']", $getVar);
+                    $ret .= $this->xc->getXoopsCodeFormatTimeStamp("pdfData['date']", $getVar);
                 break;
             }
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Config');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['creator'] ", "\$GLOBALS['xoopsConfig']['xoops_sitename']");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['subject'] ", "\$GLOBALS['xoopsConfig']['slogan']");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['keywords'] ", "\$GLOBALS['xoopsConfig']['keywords']");
+        $ret .= $this->xc->getXoopsCodeEqualsOperator("\$pdfData['creator'] ", "\$GLOBALS['xoopsConfig']['xoops_sitename']");
+        $ret .= $this->xc->getXoopsCodeEqualsOperator("\$pdfData['subject'] ", "\$GLOBALS['xoopsConfig']['slogan']");
+        $ret .= $this->xc->getXoopsCodeEqualsOperator("\$pdfData['keywords'] ", "\$GLOBALS['xoopsConfig']['keywords']");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Defines');
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_CREATOR", "\$pdfData['creator']");
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_AUTHOR", "\$pdfData['author']");
@@ -161,17 +163,17 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_HEADER_STRING", "\$pdfData['subject']");
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_HEADER_LOGO", "'logo.gif'");
         $ret .= $this->phpcode->getPhpCodeDefine("{$stuModuleDirname}_IMAGES_PATH", "XOOPS_ROOT_PATH.'/images/'");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts ', 'MyTextSanitizer::getInstance()', true);
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$content ', "''");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$content .', "\$myts->undoHtmlSpecialChars(\$pdfData['content'])");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$content ', '$myts->displayTarea($content)');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$pdf ', 'new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false)');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title ', "\$myts->undoHtmlSpecialChars(\$pdfData['title'])");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$keywords ', "\$myts->undoHtmlSpecialChars(\$pdfData['keywords'])");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$pdfData['fontsize'] ", '12');
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$content', "''");
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$content', "\$myts->undoHtmlSpecialChars(\$pdfData['content'])", '.');
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$content', '$myts->displayTarea($content)');
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$pdf', 'new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, _CHARSET, false)');
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$title', "\$myts->undoHtmlSpecialChars(\$pdfData['title'])");
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$keywords', "\$myts->undoHtmlSpecialChars(\$pdfData['keywords'])");
+        $ret .= $this->xc->getXoopsCodeEqualsOperator("\$pdfData['fontsize']", '12');
         $ret .= $this->phpcode->getPhpCodeCommentLine('For schinese');
-        $ifLang = $this->getSimpleString("\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']);");
-        $elseLang = $this->getSimpleString("\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']);");
+        $ifLang = $this->getSimpleString("\$pdf->SetFont('gbsn00lp', '', \$pdfData['fontsize']);", "\t");
+        $elseLang = $this->getSimpleString("\$pdf->SetFont(\$pdfData['fontname'], '', \$pdfData['fontsize']);", "\t");
         $ret .= $this->phpcode->getPhpCodeConditions('_LANGCODE', ' == ', "'cn'", $ifLang, $elseLang);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Set document information');
         $ret .= $this->getSimpleString("\$pdf->SetCreator(\$pdfData['creator']);");
@@ -187,15 +189,15 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->getSimpleString('$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);');
         $ret .= $this->getSimpleString('$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);');
         $ret .= $this->getSimpleString('$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); //set image scale factor');
-        $ifLang = $this->getSimpleString("\$pdf->setHeaderFont(array('gbsn00lp', '', \$pdfData['fontsize']));");
-        $ifLang .= $this->getSimpleString("\$pdf->setFooterFont(array('gbsn00lp', '', \$pdfData['fontsize']));");
-        $elseLang = $this->getSimpleString("\$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));");
-        $elseLang .= $this->getSimpleString("\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));");
+        $ifLang = $this->getSimpleString("\$pdf->setHeaderFont(array('gbsn00lp', '', \$pdfData['fontsize']));", "\t");
+        $ifLang .= $this->getSimpleString("\$pdf->setFooterFont(array('gbsn00lp', '', \$pdfData['fontsize']));", "\t");
+        $elseLang = $this->getSimpleString("\$pdf->setHeaderFont(array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));", "\t");
+        $elseLang .= $this->getSimpleString("\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));", "\t");
         $ret .= $this->phpcode->getPhpCodeConditions('_LANGCODE', ' == ', "'cn'", $ifLang, $elseLang);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Set some language-dependent strings (optional)');
-        $fileExist = $this->phpcode->getPhpCodeFileExists("\$lang = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php')");
-        $contIf = $this->phpcode->getPhpCodeIncludeDir('$lang', '', true, false, 'require');
-        $contIf .= $this->getSimpleString('$pdf->setLanguageArray($l);');
+        $fileExist = $this->phpcode->getPhpCodeFileExists("\$lang = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php'");
+        $contIf = $this->phpcode->getPhpCodeIncludeDir('$lang', '', true, false, 'require', "\t");
+        $contIf .= $this->getSimpleString('$pdf->setLanguageArray($l);', "\t");
         $ret .= $this->phpcode->getPhpCodeConditions("@{$fileExist}", '', '', $contIf);
 
         return $ret;
@@ -218,8 +220,8 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->getSimpleString("\$pdf->writeHTMLCell(\$w=0, \$h=0, \$x='', \$y='', \$content, \$border=0, \$ln=1, \$fill=0, \$reseth=true, \$align='', \$autopadding=true);");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Pdf Filename');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Output');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
-        $ret .= $this->xoopscode->getXoopsCodeTplDisplay("{$moduleDirname}_pdf.tpl");
+        $ret .= $this->xc->getXoopsCodeTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
+        $ret .= $this->xc->getXoopsCodeTplDisplay("{$moduleDirname}_pdf.tpl");
 
         return $ret;
     }

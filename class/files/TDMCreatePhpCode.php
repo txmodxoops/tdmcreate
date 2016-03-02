@@ -486,6 +486,39 @@ class TDMCreatePhpCode
     }
 
     /*
+    *  @public function getPhpCodeChmod
+    *  @param $var
+    *  @param $perm
+    *  @return string
+    */
+    public function getPhpCodeChmod($var, $perm = '0777', $t = '')
+    {
+        return "{$t}chmod(\${$var}, {$perm});\n";
+    }
+
+    /*
+    *  @public function getPhpCodeMkdir
+    *  @param $var
+    *  @param $perm
+    *  @return string
+    */
+    public function getPhpCodeMkdir($var, $perm = '0777', $t = '')
+    {
+        return "{$t}mkdir(\${$var}, {$perm});\n";
+    }
+
+    /*
+    *  @public function getPhpCodeCopy
+    *  @param $file
+    *  @param $newfile
+    *  @return string
+    */
+    public function getPhpCodeCopy($file, $newfile = '', $t = '')
+    {
+        return "{$t}copy({$file}, {$newfile});\n";
+    }
+
+    /*
     *  @public function getPhpCodeArray
     *  @param $var
     *  @param $array
@@ -636,7 +669,7 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeStripTags($left = null, $value, $isParam = false, $t = "\t")
+    public function getPhpCodeStripTags($left = null, $value, $isParam = false, $t = '')
     {
         if (!$isParam) {
             $ret = "{$t}\${$left} = strip_tags({$value});\n";

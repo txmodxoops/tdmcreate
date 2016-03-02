@@ -80,9 +80,9 @@ class AdminXoopsCode
      *
      *  @return string
      */
-    public function getAdminTemplateMain($moduleDirname, $tableName)
+    public function getAdminTemplateMain($moduleDirname, $tableName, $t = '')
     {
-        return "\$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n";
+        return "{$t}\$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n";
     }
 
     /*
@@ -114,9 +114,9 @@ class AdminXoopsCode
      *
      *  @return string
      */
-    public function getAdminAddNavigation($tableName)
+    public function getAdminAddNavigation($tableName, $t = '')
     {
-        return "\$adminMenu->addNavigation('{$tableName}.php')";
+        return "{$t}\$adminMenu->addNavigation('{$tableName}.php')";
     }
 
     /*
@@ -125,9 +125,9 @@ class AdminXoopsCode
     *  
     *  @return string
     */
-    public function getAdminXoopsCodeAddInfoBox($language)
+    public function getAdminXoopsCodeAddInfoBox($language, $t = '')
     {
-        return "\$adminMenu->addInfoBox({$language});\n";
+        return "{$t}\$adminMenu->addInfoBox({$language});\n";
     }
 
     /*
@@ -138,9 +138,9 @@ class AdminXoopsCode
     *  
     *  @return string
     */
-    public function getAdminXoopsCodeAddInfoBoxLine($language, $label = '', $var = '')
+    public function getAdminXoopsCodeAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
-        $aMenu = '$adminMenu->addInfoBoxLine(';
+        $aMenu = $t.'$adminMenu->addInfoBoxLine(';
         if ($var != '') {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
@@ -158,9 +158,9 @@ class AdminXoopsCode
     *  
     *  @return string
     */
-    public function getAdminXoopsCodeAddConfigBoxLine($language, $label = '', $var = '')
+    public function getAdminXoopsCodeAddConfigBoxLine($language, $label = '', $var = '', $t = '')
     {
-        $aMenu = '$adminMenu->addConfigBoxLine(';
+        $aMenu = $t.'$adminMenu->addConfigBoxLine(';
         if ($var != '') {
             $ret = $aMenu."{$language}, '{$label}', {$var});\n";
         } else {
@@ -319,9 +319,9 @@ class AdminXoopsCode
      *
      *  @return string
      */
-    public function getAdminXoopsCodeGetObjHandlerId($tableName, $fieldId)
+    public function getAdminXoopsCodeGetObjHandlerId($tableName, $fieldId, $t = '')
     {
-        return "\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
+        return "{$t}\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
     }
 
     /*
@@ -378,7 +378,7 @@ class AdminXoopsCode
         $redirect = $this->xc->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_UPDATE_OK");
         $ret .= $this->pc->getPhpCodeConditions($handlerInsert, '', '', $redirect);
 
-        $ret .= $this->xc->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+        $ret .= $this->xc->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", false, $t."\t\t");
 
         return $this->pc->getPhpCodeCaseSwitch('update', $ret);
     }

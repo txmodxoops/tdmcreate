@@ -140,7 +140,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->getSimpleString('');
         $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
-        $ret .= $this->getHeaderComment('Informations');
+        $ret .= $this->getDashComment('Informations');
         $ha = (1 == $module->getVar('mod_admin')) ? 1 : 0;
         $hm = (1 == $module->getVar('mod_user')) ? 1 : 0;
 
@@ -181,7 +181,7 @@ class UserXoopsVersion extends TDMCreateFile
         $n = 1;
         $ret = '';
         if (!empty($tableName)) {
-            $ret .= $this->getHeaderComment('Mysql');
+            $ret .= $this->getDashComment('Mysql');
             $ret .= $this->usercode->getUserModVersion(2, "'sql/mysql.sql'", 'sqlfile', "'mysql'");
             $ret .= $this->phpcode->getPhpCodeCommentLine('Tables');
 
@@ -206,7 +206,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionSearch($moduleDirname)
     {
-        $ret = $this->getHeaderComment('Search');
+        $ret = $this->getDashComment('Search');
         $ret .= $this->usercode->getUserModVersion(1, 1, 'hasSearch');
         $ret .= $this->usercode->getUserModVersion(2, "'include/search.inc.php'", 'search', "'file'");
         $ret .= $this->usercode->getUserModVersion(2, "'{$moduleDirname}_search'", 'search', "'func'");
@@ -225,7 +225,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionComments($moduleDirname)
     {
-        $ret = $this->getHeaderComment('Comments');
+        $ret = $this->getDashComment('Comments');
         $ret .= $this->usercode->getUserModVersion(2, "'comments.php'", 'comments', "'pageName'");
         $ret .= $this->usercode->getUserModVersion(2, "'com_id'", 'comments', "'itemName'");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Comment callback functions');
@@ -248,7 +248,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionTemplatesAdmin($moduleDirname, $tables)
     {
-        $ret = $this->getHeaderComment('Templates');
+        $ret = $this->getDashComment('Templates');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Admin');
 
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
@@ -372,7 +372,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionSubmenu($language, $tables)
     {
-        $ret = $this->getHeaderComment('Submenu');
+        $ret = $this->getDashComment('Submenu');
         $i = 1;
         $tableSubmit = array();
         foreach (array_keys($tables) as $t) {
@@ -408,7 +408,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
     {
-        $ret = $this->getHeaderComment('Blocks');
+        $ret = $this->getDashComment('Blocks');
         $ret .= $this->getSimpleString('$b = 1;');
         $tableCategory = array();
         foreach (array_keys($tables) as $i) {
@@ -472,7 +472,7 @@ class UserXoopsVersion extends TDMCreateFile
     private function getXoopsVersionConfig($module, $table, $language)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret = $this->getHeaderComment('Config');
+        $ret = $this->getDashComment('Config');
         $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldName = array();
@@ -664,7 +664,7 @@ class UserXoopsVersion extends TDMCreateFile
     private function getXoopsVersionNotifications($module, $language)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $ret = $this->getHeaderComment('Notifications');
+        $ret = $this->getDashComment('Notifications');
         $ret .= $this->usercode->getUserModVersion(1, 1, 'hasNotification');
         $notifications = array("'lookup_file'" => "'include/notification.inc.php'", "'lookup_func'" => "'{$moduleDirname}_notify_iteminfo'");
         $ret .= $this->usercode->getUserModVersion(2, $notifications, 'notification');

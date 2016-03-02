@@ -159,12 +159,15 @@ class TDMCreateXoopsCode
     *  @param $anchor
     *  @param $name
     *  @param $vars
+    *  @param $close
     *
     *  @return string
     */
-    public function getXoopsCodeAnchorFunction($anchor, $name, $vars)
+    public function getXoopsCodeAnchorFunction($anchor, $name, $vars, $close = false)
     {
-        return "\${$anchor}->{$name}({$vars})";
+        $semicolon = $close !== false ? ';' : '';
+
+        return "\${$anchor}->{$name}({$vars}){$semicolon}";
     }
 
     /*
@@ -1009,7 +1012,7 @@ EOT;
 
     /*
     *  @public function getXoopsCodeRedirectHeader
-    *  @param $tableName
+    *  @param $directory
     *  @param $options
     *  @param $numb
     *  @param $var
@@ -1017,12 +1020,12 @@ EOT;
     *
     *  @return string
     */
-    public function getXoopsCodeRedirectHeader($tableName, $options = '', $numb = '2', $var, $isString = true, $t = '')
+    public function getXoopsCodeRedirectHeader($directory, $options = '', $numb = '2', $var, $isString = true, $t = '')
     {
         if (!$isString) {
-            $ret = "{$t}redirect_header({$tableName}, {$numb}, {$var});\n";
+            $ret = "{$t}redirect_header({$directory}, {$numb}, {$var});\n";
         } else {
-            $ret = "{$t}redirect_header('{$tableName}{$options}', {$numb}, {$var});\n";
+            $ret = "{$t}redirect_header('{$directory}{$options}', {$numb}, {$var});\n";
         }
 
         return $ret;
@@ -1323,11 +1326,11 @@ EOT;
     */
     public function getXoopsCodePageNav($tableName, $t = '')
     {
-        $condition = "{$t}\t".$this->phpcode->getPhpCodeCommentLine('Display Navigation');
-        $condition .= "{$t}\t".$this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
+        $ret = $this->phpcode->getPhpCodeCommentLine('Display Navigation', null, $t);
+        $condition = "{$t}\t".$this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
         $condition .= "{$t}\t\$pagenav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start', 'op=list&limit=' . \$limit);\n";
         $condition .= "{$t}\t".$this->getXoopsCodeTplAssign('pagenav', '$pagenav->renderNav(4)');
-        $ret = $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
+        $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
 
         return $ret;
     }

@@ -119,17 +119,17 @@ class UserHeader extends TDMCreateFile
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Permission');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", true);
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true);
 
-        $condIf = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', '$xoopsUser->getGroups()');
-        $condElse = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS');
+        $condIf = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
+        $condElse = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");
 
         $ret .= $this->phpcode->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', true);
+        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Default Css Style');
         $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
-        $ret .= $this->phpcode->getPhpCodeConditions('!file_exists($style)', '', '', 'return false;');
+        $ret .= $this->phpcode->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Smarty Default');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon16', 'sysicons16');
         $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon32', 'sysicons32');
