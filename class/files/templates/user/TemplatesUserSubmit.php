@@ -25,7 +25,7 @@
 /**
  * Class TemplatesUserSubmit.
  */
-class TemplatesUserSubmit extends TDMCreateHtmlSmartyCodes
+class TemplatesUserSubmit extends TDMCreateFile
 {
     /*
     * @var string

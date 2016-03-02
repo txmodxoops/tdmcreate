@@ -25,7 +25,7 @@
 /**
  * Class TemplatesUserDisqusComments.
  */
-class TemplatesUserDisqusComments extends TDMCreateHtmlSmartyCodes
+class TemplatesUserDisqusComments extends TDMCreateFile
 {
     /*
     * @var string

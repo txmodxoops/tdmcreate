@@ -25,7 +25,7 @@
 /**
  * Class TemplatesUserPages.
  */
-class TemplatesUserPages extends TDMCreateHtmlSmartyCodes
+class TemplatesUserPages extends TDMCreateFile
 {
     /*
     * @var string

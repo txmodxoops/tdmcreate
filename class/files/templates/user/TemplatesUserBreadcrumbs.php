@@ -25,7 +25,7 @@
 /**
  * Class TemplatesUserBreadcrumbs.
  */
-class TemplatesUserBreadcrumbs extends TDMCreateHtmlSmartyCodes
+class TemplatesUserBreadcrumbs extends TDMCreateFile
 {
     /*
     * @var string

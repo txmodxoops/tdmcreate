@@ -25,7 +25,7 @@
 /**
  * Class TemplatesUserFacebookComments.
  */
-class TemplatesUserFacebookComments extends TDMCreateHtmlSmartyCodes
+class TemplatesUserFacebookComments extends TDMCreateFile
 {
     /*
     * @var string
