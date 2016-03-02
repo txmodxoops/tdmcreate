@@ -28,9 +28,9 @@
 class TemplatesUserMoreFiles extends TDMCreateFile
 {
     //
-    private $folder;
+    private $folder = null;
     //
-    private $extension;
+    private $extension = null;
     /*
     * @var string
     */

@@ -25,7 +25,7 @@
 /**
  * Class TemplatesUserIndex.
  */
-class TemplatesUserIndex extends TDMCreateHtmlSmartyCodes
+class TemplatesUserIndex extends TDMCreateFile
 {
     /*
     * @var string

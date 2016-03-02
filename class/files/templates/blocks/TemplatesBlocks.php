@@ -25,7 +25,7 @@
 /**
  * Class TemplatesBlocks.
  */
-class TemplatesBlocks extends TDMCreateHtmlSmartyCodes
+class TemplatesBlocks extends TDMCreateFile
 {
     /*
     * @var string

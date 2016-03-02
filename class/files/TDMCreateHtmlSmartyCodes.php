@@ -39,10 +39,7 @@ class TDMCreateHtmlSmartyCodes
     /**
      *
      */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    public function __construct(){}
 
     /*
     *  @static function &getInstance

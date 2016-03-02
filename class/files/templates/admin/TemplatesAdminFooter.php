@@ -25,7 +25,7 @@
 /**
  * Class TemplatesAdminFooter.
  */
-class TemplatesAdminFooter extends TDMCreateHtmlSmartyCodes
+class TemplatesAdminFooter extends TDMCreateFile
 {
     /*
     * @var string
