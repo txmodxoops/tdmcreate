@@ -25,7 +25,7 @@
 /**
  * Class TDMCreateHtmlSmartyCodes.
  */
-class TDMCreateHtmlSmartyCodes extends TDMCreateFile
+class TDMCreateHtmlSmartyCodes
 {
     /*
     * @var string
@@ -561,7 +561,7 @@ class TDMCreateHtmlSmartyCodes extends TDMCreateFile
      */
     public function getSmartyComment($comment = '')
     {
-        return "<{* {$content} *}>";
+        return "<{* {$comment} *}>";
     }
 
     /*
