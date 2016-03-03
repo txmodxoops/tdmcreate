@@ -211,16 +211,7 @@ class AdminPages extends TDMCreateFile
     */
     private function getPermissionsSave($moduleDirname, $fieldId, $ccFieldId, $newFieldId, $perm = 'view')
     {
-        $ucfPerm = ucfirst($perm);
         $ret = $this->phpcode->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
-        $varCrit = "criteria{$ucfPerm}";
-        $ret .= $this->cc->getClassCriteriaCompo($varCrit, "\t\t\t");
-        $arrayCrit = array("'gperm_itemid'" => '$permId', "'gperm_modid'" => "\$GLOBALS['xoopsModule']->getVar('mid')", "'gperm_name'" => "'{$moduleDirname}_{$perm}'");
-        foreach ($arrayCrit as $k => $v) {
-            $ret .= $this->cc->getClassCriteria($varCrit, $k, $v, "'='", false, "\t\t\t");
-        }
-        $ret .= $this->getSimpleString("\$gpermHandler->deleteAll(\${$varCrit});", "\t\t\t");
-        $ret .= $this->phpcode->getPhpCodeUnset($varCrit, "\t\t\t");
         $content = $this->xc->getXoopsCodeAddRight('gpermHandler', "{$moduleDirname}_{$perm}", '$permId', '$onegroupId', "\$GLOBALS['xoopsModule']->getVar('mid')", false, "\t");
         $foreach = $this->phpcode->getPhpCodeForeach("_POST['groups_{$perm}']", false, false, 'onegroupId', $content, "\t\t\t\t");
         $ret .= $this->phpcode->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", null, null, $foreach, false, "\t\t\t");

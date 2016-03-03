@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * tdmcreate module.
+ * tc module.
  *
  * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
@@ -30,17 +30,17 @@ class ClassFormElements extends TDMCreateFile
     /*
     * @var string
     */
-    private $tdmcreate = null;
+    private $tc = null;
 
     /*
     * @var mixed
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     * @var mixed
     */
-    private $classcode = null;
+    private $cc = null;
 
     /**
      *  @public function constructor
@@ -50,10 +50,10 @@ class ClassFormElements extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tc = TDMCreateHelper::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
-        $this->classcode = ClassXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
+        $this->cc = ClassXoopsCode::getInstance();
     }
 
     /*
@@ -108,12 +108,12 @@ class ClassFormElements extends TDMCreateFile
         if ($fieldDefault != '') {
             $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $ret .= $this->phpcode->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')");
-            $formText = $this->classcode->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);
-            $ret .= $this->classcode->getClassAddElement('form', $formText.$required);
+            $formText = $this->cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);
+            $ret .= $this->cc->getClassAddElement('form', $formText.$required);
         } else {
             $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
-            $formText = $this->classcode->getClassXoopsFormText('', $language, $fieldName, 50, 255, "this->getVar('{$fieldName}')", true);
-            $ret .= $this->classcode->getClassAddElement('form', $formText.$required);
+            $formText = $this->cc->getClassXoopsFormText('', $language, $fieldName, 50, 255, "this->getVar('{$fieldName}')", true);
+            $ret .= $this->cc->getClassAddElement('form', $formText.$required);
         }
 
         return $ret;
@@ -136,8 +136,8 @@ class ClassFormElements extends TDMCreateFile
     {
         $ucfFieldName = $this->getCamelCase($fieldName, true);
         $ret = $this->phpcode->getPhpCodeCommentLine('Form Text Area', $ucfFieldName, "\t\t");
-        $formTextArea = $this->classcode->getClassXoopsFormTextArea('', $language, $fieldName, 4, 47, true);
-        $ret .= $this->classcode->getClassAddElement('form', $formTextArea.$required);
+        $formTextArea = $this->cc->getClassXoopsFormTextArea('', $language, $fieldName, 4, 47, true);
+        $ret .= $this->cc->getClassAddElement('form', $formTextArea.$required);
 
         return $ret;
     }
@@ -168,8 +168,8 @@ class ClassFormElements extends TDMCreateFile
         foreach ($configs as $c => $d) {
             $ret .= "\t\t\$editorConfigs['{$c}'] = {$d};\n";
         }
-        $formEditor = $this->classcode->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
-        $ret .= $this->classcode->getClassAddElement('form', $formEditor.$required);
+        $formEditor = $this->cc->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
+        $ret .= $this->cc->getClassAddElement('form', $formEditor.$required);
 
         return $ret;
     }
@@ -229,8 +229,8 @@ EOT;
     {
         $ucfFieldName = $this->getCamelCase($fieldName, true);
         $ret = $this->phpcode->getPhpCodeCommentLine('Form Hidden', $ucfFieldName, "\t\t");
-        $formHidden = $this->classcode->getClassXoopsFormHidden('', $fieldName, $fieldName, true, true);
-        $ret .= $this->classcode->getClassAddElement('form', $formHidden);
+        $formHidden = $this->cc->getClassXoopsFormHidden('', $fieldName, $fieldName, true, true);
+        $ret .= $this->cc->getClassAddElement('form', $formHidden);
 
         return $ret;
     }
@@ -592,7 +592,7 @@ EOT;
         $ucfTableName = ucfirst($tableName);
         $ret = '';
         if ($fieldElement > 15) {
-            $fElement = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+            $fElement = $this->tc->getHandler('fieldelements')->get($fieldElement);
             $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
             $ccFieldName = $this->getCamelCase($fieldName, false, true);
             $ret .= <<<EOT
@@ -711,7 +711,7 @@ EOT;
             $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
             //
-            $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+            $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             //
             if (1 == $fieldInForm) {
@@ -774,7 +774,7 @@ EOT;
                 }
                 if ($fieldElement > 15) {
                     if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
-                        $fieldElements = $this->tdmcreate->getHandler('fieldelements')->get($fieldElement);
+                        $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
                         $fieldElementName = $fieldElements->getVar('fieldelement_name');

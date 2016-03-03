@@ -22,16 +22,16 @@
  *
  * @version         $Id: building.php 12425 2014-02-23 22:40:09Z timgno $
  */
-include __DIR__.'/autoload.php';
+
 /**
  * Class TDMCreateBuilding.
  */
-class TDMCreateBuilding extends XoopsObject
+class TDMCreateBuilding
 {
     /**
      * @var mixed
      */
-    private $tdmcreate;
+    private $tc;
 
     /*
     *  @public function constructor class
@@ -42,8 +42,7 @@ class TDMCreateBuilding extends XoopsObject
      */
     public function __construct()
     {
-        $this->XoopsObject();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->tc = TDMCreateHelper::getInstance();
     }
 
     /*
@@ -76,7 +75,7 @@ class TDMCreateBuilding extends XoopsObject
         xoops_load('XoopsFormLoader');
         $form = new XoopsThemeForm(_AM_TDMCREATE_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        $moduleObj = &$this->tdmcreate->getHandler('modules')->getObjects(null);
+        $moduleObj = &$this->tc->getHandler('modules')->getObjects(null);
         $mod_select = new XoopsFormSelect(_AM_TDMCREATE_CONST_MODULES, 'mod_id', 'mod_id');
         $mod_select->addOption('', _AM_TDMCREATE_BUILD_MODSELOPT);
         foreach ($moduleObj as $mod) {

@@ -263,6 +263,7 @@ class TDMCreateSmartyCode
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
     {
+        $ret = '';
         if (!$contentElse) {
             if (!$count) {
                 $ret = "<{if \${$condition}{$operator}{$type}}>\n";
