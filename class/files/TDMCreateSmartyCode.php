@@ -43,7 +43,7 @@ class TDMCreateSmartyCode
     *  @param null
     */
     /**
-     * @return TDMCreateSmartySmartyCodes
+     * @return TDMCreateSmartyCode
      */
     public static function &getInstance()
     {
