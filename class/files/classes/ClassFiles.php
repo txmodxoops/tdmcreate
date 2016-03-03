@@ -372,14 +372,15 @@ class ClassFiles extends TDMCreateFile
         $ret .= $this->xc->getXoopsCodeEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, false, "\t\t");
         $ret .= $this->xc->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
         $ret .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
-
-        $ifGroups = $this->xc->getXoopsCodeGetGroupIds('groupsIdsApprove', 'gpermHandler', "'{$moduleDirname}_approve'", "\$this->getVar( '{$fieldId}' )", "\$GLOBALS['xoopsModule']->getVar( 'mid' )", "\t\t\t");
-        $ifGroups .= $this->xc->getXoopsCodeGetGroupIds('groupsIdsSubmit', 'gpermHandler', "'{$moduleDirname}_submit'", "\$this->getVar( '{$fieldId}' )", "\$GLOBALS['xoopsModule']->getVar( 'mid' )", "\t\t\t");
-        $ifGroups .= $this->xc->getXoopsCodeGetGroupIds('groupsIdsView', 'gpermHandler', "'{$moduleDirname}_view'", "\$this->getVar( '{$fieldId}' )", "\$GLOBALS['xoopsModule']->getVar( 'mid' )", "\t\t\t");
+        $fId = $this->xc->getXoopsCodeGetVar('', 'this', $fieldId, true);
+        $mId = $this->xc->getXoopsCodeGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
+        $ifGroups = $this->xc->getXoopsCodeGetGroupIds('groupsIdsApprove', 'gpermHandler', "'{$moduleDirname}_approve'", $fId, $mId, "\t\t\t");
         $ifGroups .= $this->pc->getPhpCodeArrayType('groupsIdsApprove', 'values', 'groupsIdsApprove', null, false, "\t\t\t");
         $ifGroups .= $this->cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', "{$permissionApprove}", 'groups_approve[]', '$groupsIdsApprove', false, "\t\t\t");
+        $ifGroups .= $this->xc->getXoopsCodeGetGroupIds('groupsIdsSubmit', 'gpermHandler', "'{$moduleDirname}_submit'", $fId, $mId, "\t\t\t");
         $ifGroups .= $this->pc->getPhpCodeArrayType('groupsIdsSubmit', 'values', 'groupsIdsSubmit', null, false, "\t\t\t");
         $ifGroups .= $this->cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', "{$permissionSubmit}", 'groups_submit[]', '$groupsIdsSubmit', false, "\t\t\t");
+        $ifGroups .= $this->xc->getXoopsCodeGetGroupIds('groupsIdsView', 'gpermHandler', "'{$moduleDirname}_view'", $fId, $mId, "\t\t\t");
         $ifGroups .= $this->pc->getPhpCodeArrayType('groupsIdsView', 'values', 'groupsIdsView', null, false, "\t\t\t");
         $ifGroups .= $this->cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', "{$permissionView}", 'groups_view[]', '$groupsIdsView', false, "\t\t\t");
 
