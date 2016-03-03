@@ -242,7 +242,7 @@ class TDMCreateXoopsCode
     */
     public function getXoopsCodeGetGroupIds($var = '', $anchor = '', $param1 = null, $param2 = null, $param3 = null, $t = '')
     {
-        return "{$t}\${$var} = \${$anchor}->getGroupIds({$param1}, {$param2}, {$param2});\n";
+        return "{$t}\${$var} = \${$anchor}->getGroupIds({$param1}, {$param2}, {$param3});\n";
     }
 
     /*

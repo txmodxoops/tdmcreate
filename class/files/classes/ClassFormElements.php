@@ -106,12 +106,12 @@ class ClassFormElements extends TDMCreateFile
         $ucfFieldName = $this->getCamelCase($fieldName, true);
         $ccFieldName = $this->getCamelCase($fieldName, false, true);
         if ($fieldDefault != '') {
-            $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName);
+            $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $ret .= $this->phpcode->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')");
             $formText = $this->classcode->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);
             $ret .= $this->classcode->getClassAddElement('form', $formText.$required);
         } else {
-            $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName);
+            $ret = $this->phpcode->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $formText = $this->classcode->getClassXoopsFormText('', $language, $fieldName, 50, 255, "this->getVar('{$fieldName}')", true);
             $ret .= $this->classcode->getClassAddElement('form', $formText.$required);
         }
