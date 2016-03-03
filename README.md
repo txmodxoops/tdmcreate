@@ -38,9 +38,9 @@ Clear version
 # Info
 TDMCreate is a module that create other basic modules for XOOPS CMS.
 
-Tested with xoops 2.5.7 and 2.5.7.1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
+Tested with xoops 2.5.7(.1,.2) and 2.5.8 beta 1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
-That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7.1 and use with this latest version.
+That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7.2 and use with this latest version.
 
 Therefore recommended not to use TDMCreate 1.91, with previous versions of xoops 2.5.7
 
