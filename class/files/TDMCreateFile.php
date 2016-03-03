@@ -77,8 +77,8 @@ class TDMCreateFile extends TDMCreateTableFields
     * @var string
     */
     protected $phpcode = null;
-	
-	/*
+
+    /*
     * @var string
     */
     protected $htmlcode;
