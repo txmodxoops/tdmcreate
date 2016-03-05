@@ -260,8 +260,18 @@ class LanguageModinfo extends TDMCreateFile
     {
         $ret = $this->defines->getAboveDefines('Config');
         if (is_object($table) && $table->getVar('table_image') != '') {
-            $ret .= $this->defines->getDefine($language, 'EDITOR', 'Editor');
-            $ret .= $this->defines->getDefine($language, 'EDITOR_DESC', 'Select the Editor to use');
+            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+            foreach (array_keys($fields) as $f) {
+                $fieldElement[] = $fields[$f]->getVar('field_element');
+                if (in_array(4, $fieldElement)) {
+                    $fieldName = $fields[$f]->getVar('field_name');
+                    $rpFieldName = $this->getRightString($fieldName);
+                    $ucfFieldName = ucfirst($rpFieldName);
+                    $stuFieldName = strtoupper($rpFieldName);
+                    $ret .= $this->defines->getDefine($language, 'EDITOR_'.$stuFieldName, 'Editor');
+                    $ret .= $this->defines->getDefine($language, 'EDITOR_'.$stuFieldName.'_DESC', 'Select the Editor '.$ucfFieldName.' to use');
+                }
+            }
         }
         $ret .= $this->defines->getDefine($language, 'KEYWORDS', 'Keywords');
         $ret .= $this->defines->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');

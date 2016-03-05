@@ -477,7 +477,7 @@ class ClassFiles extends TDMCreateFile
 
         $getToArray = $this->pc->getPhpCodeArray('ret', array(), false, "\t\t");
         $getToArray .= $this->xc->getXoopsCodeEqualsOperator('$vars', '$this->getVars()', null, false, "\t\t");
-        $foreach = $this->xc->getXoopsCodeGetVar('ret[$var]', 'this', '$var', false, "\t");
+        $foreach = $this->xc->getXoopsCodeGetVar('ret[$var]', 'this', '{$var}', false, "\t");
         $getToArray .= $this->pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");
         $getToArray .= $this->getSimpleString('return $ret;', "\t\t");
 
