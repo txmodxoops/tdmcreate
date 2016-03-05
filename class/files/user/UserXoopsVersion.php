@@ -30,17 +30,17 @@ class UserXoopsVersion extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     * @var mixed
     */
-    private $usercode = null;
+    private $uc = null;
 
     /*
     * @var array
     */
-    private $keywords = array();
+    private $kw = array();
 
     /*
     *  @public function constructor
@@ -53,8 +53,8 @@ class UserXoopsVersion extends TDMCreateFile
     {
         parent::__construct();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
+        $this->uc = UserXoopsCode::getInstance();
     }
 
     /*
@@ -109,9 +109,9 @@ class UserXoopsVersion extends TDMCreateFile
     public function setKeywords($keywords)
     {
         if (is_array($keywords)) {
-            $this->keywords = $keywords;
+            $this->kw = $keywords;
         } else {
-            $this->keywords[] = $keywords;
+            $this->kw[] = $keywords;
         }
     }
 
@@ -124,7 +124,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     public function getKeywords()
     {
-        return $this->keywords;
+        return $this->kw;
     }
 
     /*
@@ -139,7 +139,7 @@ class UserXoopsVersion extends TDMCreateFile
         $date = date(_DBDATESTRING);
         $ret = $this->getSimpleString('');
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
+        $ret .= $this->xc->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
         $ret .= $this->getDashComment('Informations');
         $ha = (1 == $module->getVar('mod_admin')) ? 1 : 0;
         $hm = (1 == $module->getVar('mod_user')) ? 1 : 0;
@@ -159,7 +159,7 @@ class UserXoopsVersion extends TDMCreateFile
                             'system_menu' => '1', 'hasAdmin' => $ha, 'hasMain' => $hm, 'adminindex' => "'admin/index.php'", 'adminmenu' => "'admin/menu.php'",
                             'onInstall' => "'include/install.php'", 'onUpdate' => "'include/update.php'", );
 
-        $ret .= $this->usercode->getUserModVersion(1, $descriptions);
+        $ret .= $this->uc->getUserModVersion(1, $descriptions);
 
         return $ret;
     }
@@ -182,11 +182,11 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = '';
         if (!empty($tableName)) {
             $ret .= $this->getDashComment('Mysql');
-            $ret .= $this->usercode->getUserModVersion(2, "'sql/mysql.sql'", 'sqlfile', "'mysql'");
+            $ret .= $this->uc->getUserModVersion(2, "'sql/mysql.sql'", 'sqlfile', "'mysql'");
             $ret .= $this->phpcode->getPhpCodeCommentLine('Tables');
 
             foreach (array_keys($tables) as $t) {
-                $ret .= $this->usercode->getUserModVersion(2, "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'", 'tables', $n);
+                $ret .= $this->uc->getUserModVersion(2, "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'", 'tables', $n);
                 ++$n;
             }
             unset($n);
@@ -207,9 +207,9 @@ class UserXoopsVersion extends TDMCreateFile
     private function getXoopsVersionSearch($moduleDirname)
     {
         $ret = $this->getDashComment('Search');
-        $ret .= $this->usercode->getUserModVersion(1, 1, 'hasSearch');
-        $ret .= $this->usercode->getUserModVersion(2, "'include/search.inc.php'", 'search', "'file'");
-        $ret .= $this->usercode->getUserModVersion(2, "'{$moduleDirname}_search'", 'search', "'func'");
+        $ret .= $this->uc->getUserModVersion(1, 1, 'hasSearch');
+        $ret .= $this->uc->getUserModVersion(2, "'include/search.inc.php'", 'search', "'file'");
+        $ret .= $this->uc->getUserModVersion(2, "'{$moduleDirname}_search'", 'search', "'func'");
 
         return $ret;
     }
@@ -226,12 +226,12 @@ class UserXoopsVersion extends TDMCreateFile
     private function getXoopsVersionComments($moduleDirname)
     {
         $ret = $this->getDashComment('Comments');
-        $ret .= $this->usercode->getUserModVersion(2, "'comments.php'", 'comments', "'pageName'");
-        $ret .= $this->usercode->getUserModVersion(2, "'com_id'", 'comments', "'itemName'");
+        $ret .= $this->uc->getUserModVersion(2, "'comments.php'", 'comments', "'pageName'");
+        $ret .= $this->uc->getUserModVersion(2, "'com_id'", 'comments', "'itemName'");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Comment callback functions');
-        $ret .= $this->usercode->getUserModVersion(2, "'include/comment_functions.php'", 'comments', "'callbackFile'");
+        $ret .= $this->uc->getUserModVersion(2, "'include/comment_functions.php'", 'comments', "'callbackFile'");
         $descriptions = array('approve' => "'{$moduleDirname}CommentsApprove'", 'update' => "'{$moduleDirname}CommentsUpdate'");
-        $ret .= $this->usercode->getUserModVersion(3, $descriptions, 'comments', "'callback'");
+        $ret .= $this->uc->getUserModVersion(3, $descriptions, 'comments', "'callback'");
 
         return $ret;
     }
@@ -283,12 +283,12 @@ class UserXoopsVersion extends TDMCreateFile
         $desc = "'description' => ''";
         $arrayFile = "array('file' =>";
         if ($isAdmin) {
-            $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin')", 'templates', '');
+            $ret .= $this->uc->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin')", 'templates', '');
         } else {
             if ($extra !== '') {
-                $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc})", 'templates', '');
+                $ret .= $this->uc->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc})", 'templates', '');
             } else {
-                $ret .= $this->usercode->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');
+                $ret .= $this->uc->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');
             }
         }
 
@@ -381,14 +381,14 @@ class UserXoopsVersion extends TDMCreateFile
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Sub', $tableName);
                 $tname = array('name' => "{$language}SMNAME{$i}", 'url' => "'{$tableName}.php'");
-                $ret .= $this->usercode->getUserModVersion(3, $tname, 'sub', $i);
+                $ret .= $this->uc->getUserModVersion(3, $tname, 'sub', $i);
             }
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Sub', 'Submit');
             $submit = array('name' => "{$language}SMNAME{$i}", 'url' => "'submit.php'");
-            $ret .= $this->usercode->getUserModVersion(3, $submit, 'sub', $i);
+            $ret .= $this->uc->getUserModVersion(3, $submit, 'sub', $i);
         }
         unset($i);
 
@@ -451,7 +451,7 @@ class UserXoopsVersion extends TDMCreateFile
         $blocks = array('file' => "'{$tableName}.php'", 'name' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}", 'description' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC",
                         'show_func' => "'b_{$moduleDirname}_{$tableName}_show'", 'edit_func' => "'b_{$moduleDirname}_{$tableName}_edit'",
                         'template' => "'{$moduleDirname}_block_{$tableName}.tpl'", 'options' => "'{$type}|5|25|0'", );
-        $ret .= $this->usercode->getUserModVersion(3, $blocks, 'blocks', '$b');
+        $ret .= $this->uc->getUserModVersion(3, $blocks, 'blocks', '$b');
         $ret .= $this->getSimpleString('++$b;');
 
         return $ret;
@@ -475,50 +475,50 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->getDashComment('Config');
         $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldName = array();
         $fieldElement = array();
         foreach (array_keys($fields) as $f) {
-            $fieldName[] = $fields[$f]->getVar('field_name');
             $fieldElement[] = $fields[$f]->getVar('field_element');
-        }
-        if (in_array(4, $fieldElement)) {
-            $rpFieldName = $this->getRightString($fieldName);
-            $ucfFieldName = ucfirst($rpFieldName);
-            $ret .= $this->phpcode->getPhpCodeCommentLine('Editor', $rpFieldName);
-            $ret .= $this->xoopscode->getXoopsCodeLoad('xoopseditorhandler');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$editorHandler ', 'XoopsEditorHandler::getInstance()');
-            $editor = array('name' => "'{$moduleDirname}_editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$ucfFieldName}'", 'description' => "'{$language}EDITOR_{$ucfFieldName}_DESC'",
-                    'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler->getList())', );
-            $ret .= $this->usercode->getUserModVersion(3, $editor, 'config', '$c');
-            $ret .= $this->getSimpleString('++$c;');
+            if (in_array(4, $fieldElement)) {
+                $fieldName = $fields[$f]->getVar('field_name');
+                $rpFieldName = $this->getRightString($fieldName);
+                $ucfFieldName = ucfirst($rpFieldName);
+                $stuFieldName = strtoupper($rpFieldName);
+                $ret .= $this->phpcode->getPhpCodeCommentLine('Editor', $rpFieldName);
+                $ret .= $this->xc->getXoopsCodeLoad('xoopseditorhandler');
+                $ret .= $this->xc->getXoopsCodeEqualsOperator('$editorHandler'.$ucfFieldName, 'XoopsEditorHandler::getInstance()');
+                $editor = array('name' => "'{$moduleDirname}_editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$stuFieldName}'", 'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
+                        'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler'.$ucfFieldName.'->getList())', );
+                $ret .= $this->uc->getUserModVersion(3, $editor, 'config', '$c');
+                $ret .= $this->getSimpleString('++$c;');
+            }
         }
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get groups');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
-            $group = $this->xoopscode->getXoopsCodeEqualsOperator('$groups[$group] ', '$key');
+            $ret .= $this->xc->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $this->xc->getXoopsCodeEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
+            $group = $this->xc->getXoopsCodeEqualsOperator('$groups[$group] ', '$key');
             $ret .= $this->phpcode->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
             $groups = array('name' => "'groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
                         'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$groups', 'options' => '$groups', );
-            $ret .= $this->usercode->getUserModVersion(3, $groups, 'config', '$c');
+            $ret .= $this->uc->getUserModVersion(3, $groups, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get Admin groups');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$criteria ', 'new CriteriaCompo()');
+            $ret .= $this->xc->getXoopsCodeEqualsOperator('$criteria ', 'new CriteriaCompo()');
             $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
-            $adminGroup = $this->xoopscode->getXoopsCodeEqualsOperator('$adminGroups[$adminGroup] ', '$key');
+            $ret .= $this->xc->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $this->xc->getXoopsCodeEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
+            $adminGroup = $this->xc->getXoopsCodeEqualsOperator('$adminGroups[$adminGroup] ', '$key');
             $ret .= $this->phpcode->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
             $adminGroups = array('name' => "'admin_groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
                         'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$adminGroups', 'options' => '$adminGroups', );
-            $ret .= $this->usercode->getUserModVersion(3, $adminGroups, 'config', '$c');
+            $ret .= $this->uc->getUserModVersion(3, $adminGroups, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
         }
         $keyword = implode(', ', $this->getKeywords());
         $ret .= $this->phpcode->getPhpCodeCommentLine('Keywords');
         $arrayKeyword = array('name' => "'keywords'", 'title' => "'{$language}KEYWORDS'", 'description' => "'{$language}KEYWORDS_DESC'",
                         'formtype' => "'textbox'", 'valuetype' => "'text'", 'default' => "'{$moduleDirname}, {$keyword}'", );
-        $ret .= $this->usercode->getUserModVersion(3, $arrayKeyword, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $arrayKeyword, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         unset($this->keywords);
         if (is_object($table)) {
@@ -526,81 +526,81 @@ class UserXoopsVersion extends TDMCreateFile
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads : maxsize of image');
                 $maxsize = array('name' => "'maxsize'", 'title' => "'{$language}MAXSIZE'", 'description' => "'{$language}MAXSIZE_DESC'",
                     'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '5000000', );
-                $ret .= $this->usercode->getUserModVersion(3, $maxsize, 'config', '$c');
+                $ret .= $this->uc->getUserModVersion(3, $maxsize, 'config', '$c');
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads : mimetypes of image');
                 $ret .= $this->getSimpleString('++$c;');
                 $mimetypes = array('name' => "'mimetypes'", 'title' => "'{$language}MIMETYPES'", 'description' => "'{$language}MIMETYPES_DESC'",
                     'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')",
                     'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')", );
-                $ret .= $this->usercode->getUserModVersion(3, $mimetypes, 'config', '$c');
+                $ret .= $this->uc->getUserModVersion(3, $mimetypes, 'config', '$c');
                 $ret .= $this->getSimpleString('++$c;');
             }
             if (1 == $table->getVar('table_admin')) {
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Admin pager');
                 $adminPager = array('name' => "'adminpager'", 'title' => "'{$language}ADMIN_PAGER'", 'description' => "'{$language}ADMIN_PAGER_DESC'",
                         'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
-                $ret .= $this->usercode->getUserModVersion(3, $adminPager, 'config', '$c');
+                $ret .= $this->uc->getUserModVersion(3, $adminPager, 'config', '$c');
                 $ret .= $this->getSimpleString('++$c;');
             }
             if (1 == $table->getVar('table_user')) {
                 $ret .= $this->phpcode->getPhpCodeCommentLine('User pager');
                 $userPager = array('name' => "'userpager'", 'title' => "'{$language}USER_PAGER'", 'description' => "'{$language}USER_PAGER_DESC'",
                         'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
-                $ret .= $this->usercode->getUserModVersion(3, $userPager, 'config', '$c');
+                $ret .= $this->uc->getUserModVersion(3, $userPager, 'config', '$c');
                 $ret .= $this->getSimpleString('++$c;');
             }
             if (1 == $table->getVar('table_tag')) {
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Use tag');
                 $useTag = array('name' => "'usetag'", 'title' => "'{$language}USE_TAG'", 'description' => "'{$language}USE_TAG_DESC'",
                         'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
-                $ret .= $this->usercode->getUserModVersion(3, $useTag, 'config', '$c');
+                $ret .= $this->uc->getUserModVersion(3, $useTag, 'config', '$c');
                 $ret .= $this->getSimpleString('++$c;');
             }
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Number column');
         $numbCol = array('name' => "'numb_col'", 'title' => "'{$language}NUMB_COL'", 'description' => "'{$language}NUMB_COL_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'int'", 'default' => '1', 'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')", );
-        $ret .= $this->usercode->getUserModVersion(3, $numbCol, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $numbCol, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Divide by');
         $divideby = array('name' => "'divideby'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'int'", 'default' => '1', 'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')", );
-        $ret .= $this->usercode->getUserModVersion(3, $divideby, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $divideby, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Table type');
         $tableType = array('name' => "'table_type'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'int'", 'default' => "'bordered'", 'options' => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')", );
-        $ret .= $this->usercode->getUserModVersion(3, $tableType, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $tableType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Panel by');
         $panelType = array('name' => "'panel_type'", 'title' => "'{$language}PANEL_TYPE'", 'description' => "'{$language}PANEL_TYPE_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'default'", 'options' => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')", );
-        $ret .= $this->usercode->getUserModVersion(3, $panelType, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $panelType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Panel by');
         $advertise = array('name' => "'advertise'", 'title' => "'{$language}ADVERTISE'", 'description' => "'{$language}ADVERTISE_DESC'",
                         'formtype' => "'textarea'", 'valuetype' => "'text'", 'default' => "''", );
-        $ret .= $this->usercode->getUserModVersion(3, $advertise, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $advertise, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Panel by');
         $bookmarks = array('name' => "'bookmarks'", 'title' => "'{$language}BOOKMARKS'", 'description' => "'{$language}BOOKMARKS_DESC'",
                         'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
-        $ret .= $this->usercode->getUserModVersion(3, $bookmarks, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $bookmarks, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Facebook Comments');
         $facebookComments = array('name' => "'facebook_comments'", 'title' => "'{$language}FACEBOOK_COMMENTS'", 'description' => "'{$language}FACEBOOK_COMMENTS_DESC'",
                         'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
-        $ret .= $this->usercode->getUserModVersion(3, $facebookComments, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $facebookComments, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Disqus Comments');
         $disqusComments = array('name' => "'disqus_comments'", 'title' => "'{$language}DISQUS_COMMENTS'", 'description' => "'{$language}DISQUS_COMMENTS_DESC'",
                         'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
-        $ret .= $this->usercode->getUserModVersion(3, $disqusComments, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $disqusComments, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Maintained by');
         $maintainedby = array('name' => "'maintainedby'", 'title' => "'{$language}MAINTAINEDBY'", 'description' => "'{$language}MAINTAINEDBY_DESC'",
                         'formtype' => "'textbox'", 'valuetype' => "'text'", 'default' => "'{$module->getVar('mod_support_url')}'", );
-        $ret .= $this->usercode->getUserModVersion(3, $maintainedby, 'config', '$c');
+        $ret .= $this->uc->getUserModVersion(3, $maintainedby, 'config', '$c');
         $ret .= $this->getSimpleString('unset($c);');
 
         return $ret;
@@ -636,14 +636,14 @@ class UserXoopsVersion extends TDMCreateFile
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Category Notify');
                 $category = array('name' => "'category'", 'title' => "'{$language}{$stuTableName}_NOTIFY'", 'description' => "'{$language}{$stuTableName}_NOTIFY_DESC'",
                                     'subscribe_from' => "array('index.php',{$notifyFile})", 'item_name' => "'{$item}'", "'allow_bookmark'" => '1', );
-                $ret .= $this->usercode->getUserModVersion(3, $category, 'notification', "'{$type}'");
+                $ret .= $this->uc->getUserModVersion(3, $category, 'notification', "'{$type}'");
                 break;
             case 'event':
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Event Notify');
                 $event = array('name' => "'{$typeOfNotify}'", 'category' => "'{$tableName}'", 'admin_only' => '1', "'title'" => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY'",
                                 'caption' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION'", 'description' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_DESC'",
                                 'mail_template' => "'{$tableName}_{$typeOfNotify}_notify'", 'mail_subject' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT'", );
-                $ret .= $this->usercode->getUserModVersion(3, $event, 'notification', "'{$type}'");
+                $ret .= $this->uc->getUserModVersion(3, $event, 'notification', "'{$type}'");
                 break;
         }
 
@@ -665,9 +665,9 @@ class UserXoopsVersion extends TDMCreateFile
     {
         $moduleDirname = $module->getVar('mod_dirname');
         $ret = $this->getDashComment('Notifications');
-        $ret .= $this->usercode->getUserModVersion(1, 1, 'hasNotification');
+        $ret .= $this->uc->getUserModVersion(1, 1, 'hasNotification');
         $notifications = array("'lookup_file'" => "'include/notification.inc.php'", "'lookup_func'" => "'{$moduleDirname}_notify_iteminfo'");
-        $ret .= $this->usercode->getUserModVersion(2, $notifications, 'notification');
+        $ret .= $this->uc->getUserModVersion(2, $notifications, 'notification');
 
         $notifyFiles = array();
         $single = 'single';
@@ -762,7 +762,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->phpcode->getPhpCodeCommentLine('Global Notify');
         $global = array('name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
                         'subscribe_from' => "array('index.php', '{$implodeFrom}.php')", );
-        $ret .= $this->usercode->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
+        $ret .= $this->uc->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -786,7 +786,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->phpcode->getPhpCodeCommentLine('Category Notify');
         $global = array('name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
                         'subscribe_from' => "array('{$impFile}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => "{$allow}", );
-        $ret .= $this->usercode->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
+        $ret .= $this->uc->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -812,7 +812,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->phpcode->getPhpCodeCommentLine($ucfTitle.' Notify');
         $table = array('name' => "'{$name}'", 'title' => "{$language}{$stuTitle}_NOTIFY", 'description' => "{$language}{$stuTitle}_NOTIFY_DESC",
                         'subscribe_from' => "'{$file}.php'", 'item_name' => "'{$item}'", 'allow_bookmark' => "{$allow}", );
-        $ret .= $this->usercode->getUserModVersion(4, $table, 'notification', "'{$type}'", $num);
+        $ret .= $this->uc->getUserModVersion(4, $table, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -840,7 +840,7 @@ class UserXoopsVersion extends TDMCreateFile
         $event = array('name' => "'{$name}'", 'category' => "'{$category}'", 'admin_only' => "{$admin}", 'title' => "{$language}{$title}_{$table}_NOTIFY",
                         'caption' => "{$language}{$title}_{$table}_NOTIFY_CAPTION", 'description' => "{$language}{$title}_{$table}_NOTIFY_DESC",
                         'mail_template' => "'{$mail}'", 'mail_subject' => "{$language}{$title}_{$table}_NOTIFY_SUBJECT", );
-        $ret .= $this->usercode->getUserModVersion(4, $event, 'notification', "'{$type}'", $num);
+        $ret .= $this->uc->getUserModVersion(4, $event, 'notification', "'{$type}'", $num);
 
         return $ret;
     }

@@ -464,6 +464,16 @@ class TDMCreatePhpCode
     }
 
     /*
+    *  @public function getPhpCodeIsDir
+    *  @param $var
+    *  @return string
+    */
+    public function getPhpCodeIsDir($var)
+    {
+        return "is_dir({$var})";
+    }
+
+    /*
     *  @public function getPhpCodeImplode
     *  @param $left
     *  @param $right
