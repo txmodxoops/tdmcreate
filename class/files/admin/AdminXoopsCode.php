@@ -335,7 +335,7 @@ class AdminXoopsCode
     public function getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t = '')
     {
         $ccFieldId = $this->tf->getCamelCase($fieldId, false, true);
-        $ret = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
+        $ret = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler');
 
         $reqOk = "\$_REQUEST['ok']";
         $isset = $this->pc->getPhpCodeIsset($reqOk);
@@ -369,7 +369,7 @@ class AdminXoopsCode
     public function getAdminCodeCaseUpdate($language, $tableName, $fieldId, $fieldName, $t = '')
     {
         $ccFieldId = $this->tf->getCamelCase($fieldId, false, true);
-        $get = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true);
+        $get = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler');
         $isset = $this->pc->getPhpCodeIsset($ccFieldId);
         $get = $this->xc->getXoopsCodeHandler($tableName, $fieldId, true);
         $ret = $this->pc->getPhpCodeConditions($isset, '', '', $get);
