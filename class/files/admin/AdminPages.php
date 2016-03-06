@@ -241,7 +241,7 @@ class AdminPages extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, $t);
 
         $isset = $this->phpcode->getPhpCodeIsset($ccFieldId);
-        $contentIf = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true, false, $t."\t");
+        $contentIf = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler', false, $t."\t");
         $contentElse = $this->xc->getXoopsCodeObjHandlerCreate($tableName, "\t\t\t");
         $ret .= $this->phpcode->getPhpCodeConditions($isset, '', '', $contentIf, $contentElse, $t);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Set Vars', null, "\t\t");
@@ -337,7 +337,7 @@ class AdminPages extends TDMCreateFile
             $ret .= $this->xc->getXoopsCodeTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form', null, "\t\t");
-        $ret .= $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', true, false, $t);
+        $ret .= $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler', false, $t);
         $ret .= $this->xc->getXoopsCodeGetForm('form', $tableName, 'Obj', $t);
         $ret .= $this->xc->getXoopsCodeTplAssign('form', '$form->render()', true, $t);
 

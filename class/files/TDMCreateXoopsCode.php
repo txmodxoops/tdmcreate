@@ -320,6 +320,19 @@ class TDMCreateXoopsCode
     }
 
     /*
+    *  @public function getXoopsCodeXoopsImgListArray
+    *  @param $return
+    *  @param $var
+    *  @param $t
+    *
+    *  @return string
+    */
+    public function getXoopsCodeXoopsImgListArray($return, $var, $t = '')
+    {
+        return "{$t}\${$return} = XoopsLists::getImgListAsArray( {$var} );\n";
+    }
+
+    /*
     *  @public function getXoopsCodeGetConfig
     *  @param $moduleDirname
     *  @param $name
@@ -377,6 +390,20 @@ class TDMCreateXoopsCode
     public function getXoopsHandlerLine($moduleDirname, $tableName, $t = '')
     {
         return "{$t}\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');\n";
+    }
+
+    /*
+    *  @public function getXoopsClearHandler
+    *  @param $left
+    *  @param $ref
+    *  @param $anchor
+    *  @param $var
+    *
+    *  @return string
+    */
+    public function getXoopsClearHandler($left, $ref = '&', $anchor, $var, $t = '')
+    {
+        return "{$t}\${$left}Handler ={$ref} \${$anchor}->getHandler('{$var}');\n";
     }
 
     /*
@@ -874,6 +901,20 @@ EOT;
     }
 
     /**
+     *  @public function getXoopsCodeClearCount
+     *
+     *  @param $tableName
+     *
+     *  @return string
+     */
+    public function getXoopsCodeClearHandlerCount($left, $anchor = '', $params = '', $t = '')
+    {
+        $ret = "{$t}\${$left} = \${$anchor}Handler->getCount({$params});\n";
+
+        return $ret;
+    }
+
+    /**
      *  @public function getXoopsCodeObjHandlerAll
      *
      *  @param $tableName
@@ -894,6 +935,23 @@ EOT;
     }
 
     /**
+     *  @public function getXoopsCodeClearHandlerAll
+     *
+     *  @param $tableName
+     *  @param $fieldMain
+     *  @param $start
+     *  @param $limit
+     *
+     *  @return string
+     */
+    public function getXoopsCodeClearHandlerAll($left, $anchor = '', $params = '', $t = '')
+    {
+        $ret = "{$t}\${$left} = \${$anchor}Handler->getAll({$params});\n";
+
+        return $ret;
+    }
+
+    /**
      *  @public function getXoopsCodeGetValues
      *
      *  @param $tableName
@@ -909,23 +967,6 @@ EOT;
         } else {
             $ret = "{$t}\${$tableSoleName} = \${$tableName}->getValues{$ucfTableName}();\n";
         }
-
-        return $ret;
-    }
-
-    /**
-     *  @public function getXoopsCodeObjectTree
-     *
-     *  @param $var
-     *  @param $tableName
-     *  @param $fieldId
-     *  @param $fieldParent
-     *
-     *  @return string
-     */
-    public function getXoopsCodeObjectTree($var = 'mytree', $tableName, $fieldId, $fieldParent, $t = '')
-    {
-        $ret = "{$t}\${$var} = new XoopsObjectTree(\${$tableName}All, '{$fieldId}', '{$fieldParent}');\n";
 
         return $ret;
     }
@@ -1122,21 +1163,20 @@ EOT;
     /**
      *  @public function getXoopsCodeGet
      *
-     *  @param $tableName
+     *  @param $left
      *  @param $var
      *  @param $obj
-     *  @param $isHandler
+     *  @param $handler
      *  @param $isParam
      *
      *  @return string
      */
-    public function getXoopsCodeGet($tableName, $var, $obj = '', $isHandler = false, $isParam = false, $t = '')
+    public function getXoopsCodeGet($left, $var, $obj = '', $handler = 'Handler', $isParam = false, $t = '')
     {
-        $handler = $isHandler === false ? '' : 'Handler';
         if ($isParam) {
-            $ret = "\${$tableName}{$handler}->get(\${$var})";
+            $ret = "\${$left}{$handler}->get(\${$var})";
         } else {
-            $ret = "{$t}\${$tableName}{$obj} =& \${$tableName}{$handler}->get(\${$var});\n";
+            $ret = "{$t}\${$left}{$obj} =& \${$handler}->get(\${$var});\n";
         }
 
         return $ret;
@@ -1145,20 +1185,20 @@ EOT;
     /**
      *  @public function getXoopsCodeHandler
      *
-     *  @param $tableName
+     *  @param $left
      *  @param $var
      *  @param $obj
      *  @param $isHandler
      *
      *  @return string
      */
-    public function getXoopsCodeInsert($tableName, $var, $obj = '', $isHandler = false)
+    public function getXoopsCodeInsert($left, $var, $obj = '', $isHandler = false)
     {
         $handler = ($isHandler === false) ? '' : 'Handler';
         if ($obj != '') {
-            $ret = "\${$tableName}{$handler}->insert(\${$var}{$obj})";
+            $ret = "\${$left}{$handler}->insert(\${$var}{$obj})";
         } else {
-            $ret = "\${$tableName}{$handler}->insert(\${$var})";
+            $ret = "\${$left}{$handler}->insert(\${$var})";
         }
 
         return $ret;
@@ -1174,13 +1214,13 @@ EOT;
      *
      *  @return string
      */
-    public function getXoopsCodeDelete($tableName, $var, $obj = '', $isHandler = false)
+    public function getXoopsCodeDelete($left, $var, $obj = '', $isHandler = false)
     {
         $handler = $isHandler === false ? '' : 'Handler';
         if ($obj != '') {
-            $ret = "\${$tableName}{$handler}->delete(\${$var}{$obj})";
+            $ret = "\${$left}{$handler}->delete(\${$var}{$obj})";
         } else {
-            $ret = "\${$tableName}{$handler}->delete(\${$var})";
+            $ret = "\${$left}{$handler}->delete(\${$var})";
         }
 
         return $ret;
@@ -1189,19 +1229,19 @@ EOT;
     /**
      *  @public function getXoopsCodeHandler
      *
-     *  @param $tableName
+     *  @param $left
      *  @param $var
      *
      *  @return string
      */
-    public function getXoopsCodeHandler($tableName, $var, $get = false, $insert = false, $delete = false, $obj = '', $t = '')
+    public function getXoopsCodeHandler($left, $var, $get = false, $insert = false, $delete = false, $obj = '', $t = '')
     {
         if ($get) {
-            $ret = "{$t}\${$tableName}Handler->get(\${$var});";
+            $ret = "{$t}\${$left}Handler->get(\${$var});";
         } elseif ($insert && ($obj != '')) {
-            $ret = "{$t}\${$tableName}Handler->insert(\${$var}{$obj});";
+            $ret = "{$t}\${$left}Handler->insert(\${$var}{$obj});";
         } elseif ($delete && ($obj != '')) {
-            $ret = "{$t}\${$tableName}Handler->delete(\${$var}{$obj});";
+            $ret = "{$t}\${$left}Handler->delete(\${$var}{$obj});";
         }
 
         return $ret;
@@ -1219,6 +1259,10 @@ EOT;
     */
     public function getTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic, $t = '')
     {
+        $t = "\t\t";
+        $ret = $this->pc->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
+        $paramGet = $this->getXoopsCodeGetVar('', "\${$tableName}All[\$i]", $fieldNameParent = '', true, '');
+        $ret = $this->getXoopsCodeGet($rpFieldName, $tableNameTopic, '', true, false, $t);
         $ret = <<<EOT
 \t\t// Get Var {$fieldNameParent}
 \t\t\${$rpFieldName} =& \${$tableNameTopic}Handler->get(\${$tableName}All[\$i]->getVar('{$fieldNameParent}'));
@@ -1238,6 +1282,8 @@ EOT;
     */
     public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
+        $t = "\t\t";
+        $ret = $this->pc->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
         $ret = <<<EOT
 \t\t// Get Var {$fieldName}
 \t\t\${$fieldName} = \${$tableName}All[\$i]->getVar('{$fieldName}');
