@@ -5,6 +5,7 @@ If you liked the module TDMCreate and thanks to the long process for giving the 
 
 # TDMCreate version 1.91
 
+[![Build status](https://ci.appveyor.com/api/projects/status/7oddtbo794sqiu4g/branch/master?svg=true)](https://ci.appveyor.com/project/txmodxoops/tdmcreate-1-91/branch/master)
 [![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91)
