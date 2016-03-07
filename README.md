@@ -12,6 +12,7 @@ If you liked the module TDMCreate and thanks to the long process for giving the 
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases/latest)
 
 <p>
+[![Gem](https://img.shields.io/gem/dv/rails/stable.svg)](https://github.com/txmodxoops/tdmcreate-1.91)
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/pr?style=flat"></a>
 <a href="http://issuestats.com/github/txmodxoops/TDMCreate-1.91"><img alt="Issue Stats" src="http://issuestats.com/github/txmodxoops/TDMCreate-1.91/badge/issue?style=flat"></a>
 <!--[![Github Releases (by Release)](https://img.shields.io/badge/TDMCreate%201.91-alpha%203.2-green.svg)](https://github.com/txmodxoops/TDMCreate-1.91/tree/alpha-3-2)-->
