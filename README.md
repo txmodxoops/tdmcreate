@@ -8,8 +8,6 @@ If you liked the module TDMCreate and thanks to the long process for giving the 
 [![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91)
-.. image:: https://img.shields.io/github/downloads/atom/atom/latest/total.svg   
-         :target: txmodxoops/tdmcreate-1.91
 [![Github Releases](https://img.shields.io/github/downloads/atom/atom/latest/total.svg)](txmodxoops/tdmcreate-1.91)
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases/latest)
 
