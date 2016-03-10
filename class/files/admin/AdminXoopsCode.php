@@ -97,11 +97,11 @@ class AdminXoopsCode
     public function getAdminItemButton($language, $tableName, $stuTableSoleName, $op = '?op=new', $type = 'add', $t = '')
     {
         $stuType = strtoupper($type);
-        $adminMenu = $t.'$adminMenu->addItemButton(';
+        $aM = $t.'$adminMenu->addItemButton(';
         if ($type === 'add') {
-            $ret = $adminMenu."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+            $ret = $aM."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
         } else {
-            $ret = $adminMenu."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
+            $ret = $aM."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
         }
 
         return $ret;
@@ -337,49 +337,24 @@ class AdminXoopsCode
         $ccFieldId = $this->tf->getCamelCase($fieldId, false, true);
         $ret = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler');
 
-        $reqOk = "\$_REQUEST['ok']";
+        $reqOk = "_REQUEST['ok']";
         $isset = $this->pc->getPhpCodeIsset($reqOk);
         $xoopsSecurityCheck = $this->xc->getXoopsCodeSecurityCheck();
         $xoopsSecurityErrors = $this->xc->getXoopsCodeSecurityErrors();
         $implode = $this->pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
-        $redirectHeaderErrors = $this->xc->getXoopsCodeRedirectHeader($tableName, '', '3', $implode, true, $t."\t\t");
+        $redirectHeaderErrors = $this->xc->getXoopsCodeRedirectHeader($tableName, '.php', '3', $implode, true, $t."\t\t");
 
         $delete = $this->xc->getXoopsCodeDelete($tableName, $tableName, 'Obj', true);
         $condition = $this->pc->getPhpCodeConditions('!'.$xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t."\t");
 
-        $redirectHeaderLanguage = $this->xc->getXoopsCodeRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
+        $redirectHeaderLanguage = $this->xc->getXoopsCodeRedirectHeader($tableName, '.php', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
         $htmlErrors = $this->xc->getXoopsCodeHtmlErrors($tableName, true);
         $internalElse = $this->xc->getXoopsCodeTplAssign('error', $htmlErrors, false, $t."\t\t");
         $condition .= $this->pc->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t."\t");
 
         $mainElse = $this->xc->getXoopsCodeXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t."\t");
-        $ret .= $this->pc->getPhpCodeConditions($isset, ' && ', "1 == {$reqOk}", $condition, $mainElse, $t);
+        $ret .= $this->pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
 
         return $ret;
-    }
-
-    /*
-    *  @public function getAdminCodeCaseUpdate
-    *  @param $language
-    *  @param $tableName
-    *  @param $fieldId
-    *  @param $fieldName
-    *  @return string
-    */
-    public function getAdminCodeCaseUpdate($language, $tableName, $fieldId, $fieldName, $t = '')
-    {
-        $ccFieldId = $this->tf->getCamelCase($fieldId, false, true);
-        $get = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler');
-        $isset = $this->pc->getPhpCodeIsset($ccFieldId);
-        $get = $this->xc->getXoopsCodeHandler($tableName, $fieldId, true);
-        $ret = $this->pc->getPhpCodeConditions($isset, '', '', $get);
-        $ret .= $this->xc->getXoopsCodeSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
-        $handlerInsert = $this->$this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
-        $redirect = $this->xc->getXoopsCodeRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_UPDATE_OK");
-        $ret .= $this->pc->getPhpCodeConditions($handlerInsert, '', '', $redirect);
-
-        $ret .= $this->xc->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", false, $t."\t\t");
-
-        return $this->pc->getPhpCodeCaseSwitch('update', $ret);
     }
 }

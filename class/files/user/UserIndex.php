@@ -122,7 +122,7 @@ class UserIndex extends TDMCreateFile
         $ucfTableName = ucfirst($tableName);
         // Fields
         $fields = $this->getTableFields($tableMid, $tableId);
-
+        $fieldParentId = array();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -157,6 +157,7 @@ class UserIndex extends TDMCreateFile
             $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf, false);
             $ret .= $this->phpcode->getPhpCodeUnset('count');
         }
+        unset($fieldParentId);
 
         return $ret;
     }
