@@ -30,12 +30,12 @@ class TDMCreateXoopsCode
     /*
     * @var mixed
     */
-    private $tdmcfile = null;
+    private $tf = null;
 
     /*
     * @var mixed
     */
-    private $phpcode = null;
+    private $pc = null;
 
     /*
     * @var string
@@ -51,8 +51,8 @@ class TDMCreateXoopsCode
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
+        $this->tf = TDMCreateFile::getInstance();
+        $this->pc = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -84,9 +84,9 @@ class TDMCreateXoopsCode
      */
     public function getXoopsCodeSwitch($op = '', $cases = array(), $defaultAfterCase = false, $default = false, $t = '')
     {
-        $contentSwitch = $this->phpcode->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
+        $contentSwitch = $this->pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
 
-        return $this->phpcode->getPhpCodeSwitch($op, $contentSwitch, $t);
+        return $this->pc->getPhpCodeSwitch($op, $contentSwitch, $t);
     }
 
     /*
@@ -407,7 +407,7 @@ class TDMCreateXoopsCode
     }
 
     /*
-    *  @public function getXoopsFormSelect
+    *  @public function getXoopsFormSelectExtraOptions
     *  @param $varSelect
     *  @param $caption
     *  @param $var
@@ -416,7 +416,7 @@ class TDMCreateXoopsCode
     *  
     *  @return string
     */
-    public function getXoopsFormSelect($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true, $t = '')
+    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true, $t = '')
     {
         $ret = "{$t}\${$varSelect} = new XoopsFormSelect({$caption}, '{$var}', \${$var});\n";
         if (false !== $setExtra) {
@@ -588,9 +588,9 @@ EOT;
     */
     public function getXoopsCodeUserHeader($moduleDirname, $tableName)
     {
-        $ret = $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'header');
+        $ret = $this->pc->getPhpCodeIncludeDir('__DIR__', 'header');
         $ret .= $this->getXoopsCodeXoopsOptionTemplateMain($moduleDirname, $tableName);
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
 
         return $ret;
     }
@@ -604,12 +604,12 @@ EOT;
      */
     public function getXoopsCodePermissionsHeader()
     {
-        $ret = $this->phpcode->getPhpCodeCommentLine('Permission');
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret = $this->pc->getPhpCodeCommentLine('Permission');
+        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret .= $this->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", true);
         $groups = $this->getXoopsCodeEqualsOperator('$groups', '$xoopsUser->getGroups()');
         $elseGroups = $this->getXoopsCodeEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
-        $ret .= $this->phpcode->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
+        $ret .= $this->pc->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
 
         return $ret;
     }
@@ -1030,11 +1030,11 @@ EOT;
     public function getXoopsCodeSecurity($tableName, $t = '')
     {
         $securityError = $this->getXoopsCodeSecurityGetError();
-        $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
+        $implode = $this->pc->getPhpCodeImplode(',', $securityError);
         $content = "{$t}\t".$this->getXoopsCodeRedirectHeader($tableName.'.php', '', 3, $implode, $t);
         $securityCheck = $this->getXoopsCodeSecurityCheck();
 
-        return $this->phpcode->getPhpCodeConditions('!'.$securityCheck, '', '', $content, $t);
+        return $this->pc->getPhpCodeConditions('!'.$securityCheck, '', '', $content, $t);
     }
 
     /*
@@ -1048,7 +1048,7 @@ EOT;
         $content = "{$t}\t".$this->getXoopsCodeRedirectHeader($tableName.'.php', '?op=list', 2, "{$language}FORM_OK");
         $handlerInsert = $this->getXoopsCodeHandler($tableName, $tableName, false, true, false, 'Obj');
 
-        return $this->phpcode->getPhpCodeConditions($handlerInsert, '', '', $content, $t);
+        return $this->pc->getPhpCodeConditions($handlerInsert, '', '', $content, $t);
     }
 
     /*
@@ -1085,7 +1085,7 @@ EOT;
     public function getXoopsCodeXoopsConfirm($tableName, $language, $fieldId, $fieldMain, $options = 'delete', $t = '')
     {
         $stuOptions = strtoupper($options);
-        $ccFieldId = $this->tdmcfile->getCamelCase($fieldId, false, true);
+        $ccFieldId = $this->tf->getCamelCase($fieldId, false, true);
         $array = "array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}')";
         $ret = "{$t}xoops_confirm({$array}, \$_SERVER['REQUEST_URI'], sprintf({$language}FORM_SURE_{$stuOptions}, \${$tableName}Obj->getVar('{$fieldMain}')));\n";
 
@@ -1372,11 +1372,11 @@ EOT;
     */
     public function getXoopsCodePageNav($tableName, $t = '')
     {
-        $ret = $this->phpcode->getPhpCodeCommentLine('Display Navigation', null, $t);
-        $condition = "{$t}\t".$this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
+        $ret = $this->pc->getPhpCodeCommentLine('Display Navigation', null, $t);
+        $condition = "{$t}\t".$this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true);
         $condition .= "{$t}\t\$pagenav = new XoopsPageNav(\${$tableName}Count, \$limit, \$start, 'start', 'op=list&limit=' . \$limit);\n";
         $condition .= "{$t}\t".$this->getXoopsCodeTplAssign('pagenav', '$pagenav->renderNav(4)');
-        $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
+        $ret .= $this->pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
 
         return $ret;
     }

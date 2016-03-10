@@ -358,19 +358,6 @@ class AdminPages extends TDMCreateFile
     }
 
     /*
-    *  @private function getAdminPagesUpdate
-    *  @param $language
-    *  @param $tableName
-    *  @param $fieldId
-    *  @param $fieldName
-    *  @return string
-    */
-    private function getAdminPagesUpdate($language, $tableName, $fieldId, $fieldName, $t = '')
-    {
-        return $this->axc->getAdminCodeCaseUpdate($language, $tableName, $fieldId, $fieldName, $t);
-    }
-
-    /*
      * @public function render    
      * @param null
      *
