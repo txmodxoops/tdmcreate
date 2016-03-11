@@ -164,7 +164,6 @@ class TDMCreateTables extends XoopsObject
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
-            //$modulesSelect->addOptionArray();
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
@@ -176,19 +175,12 @@ class TDMCreateTables extends XoopsObject
         $tableSoleNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
         $tableSoleNameText->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
         $form->addElement($tableSoleNameText, true);
-        //
-        $tablesHandler = &$this->tdmcreate->getHandler('tables');
-        $criteria = new CriteriaCompo(new Criteria('table_category', 0), 'AND');
-        $criteria->add(new Criteria('table_mid', $tableMid), 'AND');
-        $criteria->add(new Criteria('table_name', $tableName));
-        $tableCategory = $tablesHandler->getCount($criteria);
-        unset($criteria);
-        //if ( ($tableCategory == 0) || $isNew ) {
+        
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
         $category = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
         $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);
         $form->addElement($category);
-        //}
+
         //
         $tableFieldname = new XoopsFormText(_AM_TDMCREATE_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
         $tableFieldname->setDescription(_AM_TDMCREATE_TABLE_FIELDNAME_DESC);

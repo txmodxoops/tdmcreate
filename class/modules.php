@@ -32,21 +32,7 @@ include __DIR__.'/autoload.php';
  * Class TDMCreateModules.
  */
 class TDMCreateModules extends XoopsObject
-{
-    /**
-     * Tdmcreate.
-     *
-     * @var mixed
-     */
-    private $tdmcreate = null;
-
-    /**
-     * Settings.
-     *
-     * @var mixed
-     */
-    private $settings = null;
-
+{    
     /**
      * Options.
      */
@@ -70,49 +56,49 @@ class TDMCreateModules extends XoopsObject
      */
     public function __construct()
     {
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $tdmcreate = TDMCreateHelper::getInstance();
         $setId = XoopsRequest::getInt('set_id');
-        $this->settings = $this->tdmcreate->getHandler('settings')->get($setId);
+        $settings = $tdmcreate->getHandler('settings')->get($setId);
         //
         $this->initVar('mod_id', XOBJ_DTYPE_INT);
-        $this->initVar('mod_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_name'));
-        $this->initVar('mod_dirname', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_dirname'));
-        $this->initVar('mod_version', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_version'));
-        $this->initVar('mod_since', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_since'));
-        $this->initVar('mod_min_php', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_php'));
-        $this->initVar('mod_min_xoops', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_xoops'));
-        $this->initVar('mod_min_admin', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_admin'));
-        $this->initVar('mod_min_mysql', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_min_mysql'));
-        $this->initVar('mod_description', XOBJ_DTYPE_TXTAREA, $this->settings->getVar('set_description'));
-        $this->initVar('mod_author', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author'));
-        $this->initVar('mod_author_mail', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author_mail'));
-        $this->initVar('mod_author_website_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author_website_url'));
-        $this->initVar('mod_author_website_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_author_website_name'));
-        $this->initVar('mod_credits', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_credits'));
-        $this->initVar('mod_license', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_license'));
-        $this->initVar('mod_release_info', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_release_info'));
-        $this->initVar('mod_release_file', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_release_file'));
-        $this->initVar('mod_manual', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_manual'));
-        $this->initVar('mod_manual_file', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_manual_file'));
-        $this->initVar('mod_image', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_image'));
-        $this->initVar('mod_demo_site_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_demo_site_url'));
-        $this->initVar('mod_demo_site_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_demo_site_name'));
-        $this->initVar('mod_support_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_support_url'));
-        $this->initVar('mod_support_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_support_name'));
-        $this->initVar('mod_website_url', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_website_url'));
-        $this->initVar('mod_website_name', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_website_name'));
-        $this->initVar('mod_release', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_release'));
-        $this->initVar('mod_status', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_status'));
-        $this->initVar('mod_admin', XOBJ_DTYPE_INT, $this->settings->getVar('set_admin'));
-        $this->initVar('mod_user', XOBJ_DTYPE_INT, $this->settings->getVar('set_user'));
-        $this->initVar('mod_blocks', XOBJ_DTYPE_INT, $this->settings->getVar('set_blocks'));
-        $this->initVar('mod_search', XOBJ_DTYPE_INT, $this->settings->getVar('set_search'));
-        $this->initVar('mod_comments', XOBJ_DTYPE_INT, $this->settings->getVar('set_comments'));
-        $this->initVar('mod_notifications', XOBJ_DTYPE_INT, $this->settings->getVar('set_notifications'));
-        $this->initVar('mod_permissions', XOBJ_DTYPE_INT, $this->settings->getVar('set_permissions'));
-        $this->initVar('mod_inroot_copy', XOBJ_DTYPE_INT, $this->settings->getVar('set_inroot_copy'));
-        $this->initVar('mod_donations', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_donations'));
-        $this->initVar('mod_subversion', XOBJ_DTYPE_TXTBOX, $this->settings->getVar('set_subversion'));
+        $this->initVar('mod_name', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_name'));
+        $this->initVar('mod_dirname', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_dirname'));
+        $this->initVar('mod_version', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_version'));
+        $this->initVar('mod_since', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_since'));
+        $this->initVar('mod_min_php', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_min_php'));
+        $this->initVar('mod_min_xoops', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_min_xoops'));
+        $this->initVar('mod_min_admin', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_min_admin'));
+        $this->initVar('mod_min_mysql', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_min_mysql'));
+        $this->initVar('mod_description', XOBJ_DTYPE_TXTAREA, $settings->getVar('set_description'));
+        $this->initVar('mod_author', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_author'));
+        $this->initVar('mod_author_mail', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_author_mail'));
+        $this->initVar('mod_author_website_url', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_author_website_url'));
+        $this->initVar('mod_author_website_name', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_author_website_name'));
+        $this->initVar('mod_credits', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_credits'));
+        $this->initVar('mod_license', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_license'));
+        $this->initVar('mod_release_info', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_release_info'));
+        $this->initVar('mod_release_file', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_release_file'));
+        $this->initVar('mod_manual', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_manual'));
+        $this->initVar('mod_manual_file', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_manual_file'));
+        $this->initVar('mod_image', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_image'));
+        $this->initVar('mod_demo_site_url', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_demo_site_url'));
+        $this->initVar('mod_demo_site_name', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_demo_site_name'));
+        $this->initVar('mod_support_url', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_support_url'));
+        $this->initVar('mod_support_name', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_support_name'));
+        $this->initVar('mod_website_url', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_website_url'));
+        $this->initVar('mod_website_name', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_website_name'));
+        $this->initVar('mod_release', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_release'));
+        $this->initVar('mod_status', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_status'));
+        $this->initVar('mod_admin', XOBJ_DTYPE_INT, $settings->getVar('set_admin'));
+        $this->initVar('mod_user', XOBJ_DTYPE_INT, $settings->getVar('set_user'));
+        $this->initVar('mod_blocks', XOBJ_DTYPE_INT, $settings->getVar('set_blocks'));
+        $this->initVar('mod_search', XOBJ_DTYPE_INT, $settings->getVar('set_search'));
+        $this->initVar('mod_comments', XOBJ_DTYPE_INT, $settings->getVar('set_comments'));
+        $this->initVar('mod_notifications', XOBJ_DTYPE_INT, $settings->getVar('set_notifications'));
+        $this->initVar('mod_permissions', XOBJ_DTYPE_INT, $settings->getVar('set_permissions'));
+        $this->initVar('mod_inroot_copy', XOBJ_DTYPE_INT, $settings->getVar('set_inroot_copy'));
+        $this->initVar('mod_donations', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_donations'));
+        $this->initVar('mod_subversion', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_subversion'));
     }
 
     /**
@@ -156,12 +142,12 @@ class TDMCreateModules extends XoopsObject
      */
     public function getFormModules($action = false)
     {
-        //
+        $tdmcreate = TDMCreateHelper::getInstance();
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $set = array();
-        $settings = $this->tdmcreate->getHandler('settings')->getAllSettings(0, 0, 'set_type');
+        $settings = $tdmcreate->getHandler('settings')->getAllSettings(0, 0, 'set_type');
         foreach ($settings as $setting) {
             $set['name'] = $setting->getVar('set_name');
             $set['dirname'] = $setting->getVar('set_dirname');
@@ -246,7 +232,7 @@ class TDMCreateModules extends XoopsObject
         $editorConfigs['cols'] = 100;
         $editorConfigs['width'] = '50%';
         $editorConfigs['height'] = '100px';
-        $editorConfigs['editor'] = $this->tdmcreate->getConfig('tdmcreate_editor');
+        $editorConfigs['editor'] = $tdmcreate->getConfig('tdmcreate_editor');
         $form->addElement(new XoopsFormEditor(_AM_TDMCREATE_MODULE_DESCRIPTION, 'mod_description', $editorConfigs), true);
         // Author
         $modAuthor = $isNew ? $set['author'] : $this->getVar('mod_author');
@@ -287,7 +273,7 @@ class TDMCreateModules extends XoopsObject
         $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br />"));
         //
         $fileseltray = new XoopsFormElementTray('', '<br />');
-        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $this->tdmcreate->getConfig('maxsize')));
+        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray->addElement(new XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
@@ -379,57 +365,13 @@ class TDMCreateModules extends XoopsObject
 
         return $form;
     }
-
-    /*
-    *  @private static function createLogo
-    *  @param mixed $logoIcon
-    *  @param string $moduleDirname
-    */
-    /**
-     * @param $logoIcon
-     * @param $moduleDirname
-     *
-     * @return bool|string
-     */
-    private static function createLogo($logoIcon, $moduleDirname)
-    {
-        if (!extension_loaded('gd')) {
-            return false;
-        } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
-            foreach ($requiredFunctions as $func) {
-                if (!function_exists($func)) {
-                    return false;
-                }
-            }
-        }
-        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH.'/empty.png') ||
-            !file_exists($font = TDMC_FONTS_PATH.'/VeraBd.ttf') ||
-            !file_exists($iconFile = XOOPS_ICONS32_PATH.'/'.basename($logoIcon))
-        ) {
-            return false;
-        }
-        $imageModule = imagecreatefrompng($imageBase);
-        $imageIcon = imagecreatefrompng($iconFile);
-        // Write text
-        $textColor = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
-        $logoImg = '/'.$moduleDirname.'_logo.png';
-        imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH.$logoImg);
-        imagedestroy($imageModule);
-        imagedestroy($imageIcon);
-
-        return TDMC_UPLOAD_IMGMOD_URL.$logoImg;
-    }
-
+    
     /**
      * Get Values.
      */
     public function getValuesModules($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('mod_id');
         $ret['name'] = $this->getVar('mod_name');
