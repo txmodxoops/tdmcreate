@@ -37,24 +37,7 @@ class TDMCreateFields extends XoopsObject
      * @var mixed
      */
     private $tdmcreate;
-
-    /**
-     * Options.
-     */
-    public $options = array(
-        'parent',
-        'admin',
-        'inlist',
-        'inform',
-        'user',
-        'thead',
-        'tbody',
-        'tfoot',
-        'block',
-        'search',
-        'required',
-    );
-
+    
     /*
     *  @public function constructor class
     *  @param null
@@ -359,9 +342,7 @@ class TDMCreateFields extends XoopsObject
             } else {
                 // show field with settings
                 $form->addElement(new XoopsFormHidden('field_id['.$id.']', $fieldId));
-                //$form->addElement(new XoopsFormHidden('field_mid', $fieldMid));
-                //$form->addElement(new XoopsFormHidden('field_tid', $fieldTid));
-
+                
                 $form->addElement(new TDMCreateFormLabel('<tr class="'.$class.'">'));
                 // Index ID
                 $form->addElement(new TDMCreateFormLabel('<td class="center">'.$id.'</td>'));
@@ -406,16 +387,7 @@ class TDMCreateFields extends XoopsObject
                     $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaTable));
                     unset($criteriaElement, $criteriaTable);
                     $parametersTray->addElement($fieldElementsSelect);
-
-                    // Options
-                    /*$moduleOption = $this->getOptions();
-                    $checkbox     = new XoopsFormCheckbox(' ', 'fields_option[' . $id . ']', $moduleOption, '<br />');
-                    $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
-                    foreach ($this->options as $option) {
-                        $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_FIELD_' . strtoupper($option)));
-                    }
-                    $parametersTray->addElement($checkbox);*/
-
+                    
                     $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent['.$id.']', $field->getVar('field_parent'));
                     $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
                     $parametersTray->addElement($checkFieldParent);
@@ -528,44 +500,7 @@ class TDMCreateFields extends XoopsObject
         $ret['required'] = $this->getVar('field_required');
 
         return $ret;
-    }
-
-    /**
-     * Get Options.
-     */
-    /**
-     * @param $key
-     *
-     * @return string
-     */
-    public function getOptionsFields()
-    {
-        $retFields = array();
-        foreach ($this->options as $option) {
-            if ($this->getVar('field_'.$option) == 1) {
-                array_push($retFields, $option);
-            }
-        }
-
-        return $retFields;
-    }
-
-    /**
-     * Get Defined Language.
-     */
-    /**
-     * @param $lang
-     *
-     * @return string
-     */
-    private static function getDefinedLanguage($lang)
-    {
-        if (defined($lang)) {
-            return constant($lang);
-        }
-
-        return $lang;
-    }
+    }    
 }
 
 /*
