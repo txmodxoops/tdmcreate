@@ -275,6 +275,7 @@ class AdminXoopsCode
     {
         $xCodeSetVars = TDMCreateXoopsCode::getInstance();
         $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
+		$fieldMain = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -290,8 +291,8 @@ class AdminXoopsCode
                     case 12:
                         $ret .= $xCodeSetVars->getXcUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
-                    case 13:
-                        if (1 == $fields[$f]->getVar('field_main')) {
+                    case 13:                        
+						if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
                         $ret .= self::getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
@@ -303,7 +304,7 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $xCodeSetVars->getXcSimpleSetVar($tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcSetVar($tableName, $fieldName);
                         break;
                 }
             }
