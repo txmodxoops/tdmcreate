@@ -284,7 +284,7 @@ class AdminPages extends TDMCreateFile
             }
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
-        $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
+        $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
         if ($tableCategory == 1) {
             $ucfTableName = ucfirst($tableName);

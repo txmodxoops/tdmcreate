@@ -464,7 +464,7 @@ class TDMCreateXoopsCode
         $pParentTopic = TDMCreatePhpCode::getInstance();
         $parentTopic = $pParentTopic->getPhpCodeCommentLine('Get', $tableNameTopic.' Handler', $t."\t");
         $parentTopic .= self::getXoopsHandlerLine($moduleDirname, $tableNameTopic, $t."\t");
-		$elseGroups = self::getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
+        $elseGroups = self::getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
         $ret = $pParentTopic->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
         $ret .= self::getXcGetVarFromID("\${$lpFieldName}['{$rpFieldName}']", $tableNameTopic, $tableSoleNameTopic, $tableName, $fieldNameParent, $t);
 
@@ -639,7 +639,7 @@ class TDMCreateXoopsCode
     public function getXcGetFieldName($fields)
     {
         $fieldName = '';
-		foreach (array_keys($fields) as $f) {
+        foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
         }
 
@@ -679,6 +679,7 @@ class TDMCreateXoopsCode
     {
         $axCodeUserSave = AdminXoopsCode::getInstance();
         $ret = '';
+        $fieldMain = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -981,10 +982,10 @@ class TDMCreateXoopsCode
     {
         $axCode = AdminXoopsCode::getInstance();
         $ret = '';
+        $fieldMain = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $fieldMain = '';
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }
@@ -998,7 +999,7 @@ class TDMCreateXoopsCode
                         $ret .= $axCode->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $axCode->getAxcFileSetVar($moduleDirname, $tableName, $fieldName, true);
+                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true);
                         break;
                     case 13:
                         $ret .= $axCode->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
@@ -1065,7 +1066,7 @@ class TDMCreateXoopsCode
     public function getXcRedirectHeader($directory, $options = '', $numb = '2', $var, $isString = true, $t = '')
     {
         $ret = '';
-		if (!$isString) {
+        if (!$isString) {
             $ret = "{$t}redirect_header({$directory}, {$numb}, {$var});\n";
         } else {
             $ret = "{$t}redirect_header('{$directory}{$options}', {$numb}, {$var});\n";
@@ -1180,7 +1181,7 @@ class TDMCreateXoopsCode
     public function getXcGet($left, $var, $obj = '', $handler = 'Handler', $isParam = false, $t = '')
     {
         $ret = '';
-		if ($isParam) {
+        if ($isParam) {
             $ret = "\${$left}{$handler}->get(\${$var})";
         } else {
             $ret = "{$t}\${$left}{$obj} =& \${$handler}->get(\${$var});\n";
@@ -1199,17 +1200,9 @@ class TDMCreateXoopsCode
      *
      *  @return string
      */
-    public function getXcInsert($left, $var, $obj = '', $isHandler = false)
+    public function getXcInsert($left, $var, $obj = '', $handler = 'Handler')
     {
-        $handler = ($isHandler === false) ? '' : 'Handler';
-        $ret = '';
-		if ($obj != '') {
-            $ret = "\${$left}{$handler}->insert(\${$var}{$obj})";
-        } else {
-            $ret = "\${$left}{$handler}->insert(\${$var})";
-        }
-
-        return $ret;
+        return "\${$left}{$handler}->insert(\${$var}{$obj})";
     }
 
     /**
@@ -1222,17 +1215,9 @@ class TDMCreateXoopsCode
      *
      *  @return string
      */
-    public function getXcDelete($left, $var, $obj = '', $isHandler = false)
+    public function getXcDelete($left, $var, $obj = '', $handler = 'Handler')
     {
-        $handler = $isHandler === false ? '' : 'Handler';
-        $ret = '';
-		if ($obj != '') {
-            $ret = "\${$left}{$handler}->delete(\${$var}{$obj})";
-        } else {
-            $ret = "\${$left}{$handler}->delete(\${$var})";
-        }
-
-        return $ret;
+        return "\${$left}{$handler}->delete(\${$var}{$obj})";
     }
 
     /**
@@ -1246,7 +1231,7 @@ class TDMCreateXoopsCode
     public function getXcHandler($left, $var, $get = false, $insert = false, $delete = false, $obj = '', $t = '')
     {
         $ret = '';
-		if ($get) {
+        if ($get) {
             $ret = "{$t}\${$left}Handler->get(\${$var});";
         } elseif ($insert && ($obj != '')) {
             $ret = "{$t}\${$left}Handler->insert(\${$var}{$obj});";
@@ -1347,10 +1332,10 @@ class TDMCreateXoopsCode
     {
         $axCodeSaveElements = AdminXoopsCode::getInstance();
         $ret = '';
+        $fieldMain = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $fieldMain = '';
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }

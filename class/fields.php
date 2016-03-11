@@ -37,7 +37,7 @@ class TDMCreateFields extends XoopsObject
      * @var mixed
      */
     private $tdmcreate;
-    
+
     /*
     *  @public function constructor class
     *  @param null
@@ -342,7 +342,7 @@ class TDMCreateFields extends XoopsObject
             } else {
                 // show field with settings
                 $form->addElement(new XoopsFormHidden('field_id['.$id.']', $fieldId));
-                
+
                 $form->addElement(new TDMCreateFormLabel('<tr class="'.$class.'">'));
                 // Index ID
                 $form->addElement(new TDMCreateFormLabel('<td class="center">'.$id.'</td>'));
@@ -387,7 +387,7 @@ class TDMCreateFields extends XoopsObject
                     $fieldElementsSelect->addOptionArray($this->tdmcreate->getHandler('fieldelements')->getList($criteriaTable));
                     unset($criteriaElement, $criteriaTable);
                     $parametersTray->addElement($fieldElementsSelect);
-                    
+
                     $checkFieldParent = new XoopsFormCheckBox(' ', 'field_parent['.$id.']', $field->getVar('field_parent'));
                     $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);
                     $parametersTray->addElement($checkFieldParent);
@@ -500,7 +500,7 @@ class TDMCreateFields extends XoopsObject
         $ret['required'] = $this->getVar('field_required');
 
         return $ret;
-    }    
+    }
 }
 
 /*
