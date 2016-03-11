@@ -203,6 +203,9 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeIncludeDir($directory = null, $filename = null, $once = false, $isPath = false, $type = 'include', $t = '')
     {
+        if ($type === '') {
+            $type = 'include';
+        }
         if ($once == false) {
             if (!$isPath) {
                 $ret = "{$t}{$type} {$directory} .'/{$filename}.php';\n";
@@ -627,7 +630,7 @@ class TDMCreatePhpCode
 
     /*
     *  @public function getPhpCodePregFunzions
-    *  @param $return
+    *  @param $var
     *  @param $exp
     *  @param $str
     *  @param $val
@@ -636,11 +639,11 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodePregFunzions($return, $exp = null, $str, $val, $type = 'match', $isParam = false, $t = "\t")
+    public function getPhpCodePregFunzions($var, $exp = null, $str, $val, $type = 'match', $isParam = false, $t = "\t")
     {
-        $pregFunz = "preg_{$type}( '";
+        $pregFunz = "preg_{$type}('";
         if (!$isParam) {
-            $ret = "{$t}\${$return} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
+            $ret = "{$t}\${$var} = {$pregFunz}{$exp}', '{$str}', {$val});\n";
         } else {
             $ret = "{$pregFunz}{$exp}', '{$str}', {$val})";
         }
@@ -661,7 +664,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeStrType($left, $var, $str, $value, $type = 'replace', $isParam = false, $t = "\t")
     {
-        $strType = "str_{$type}( '";
+        $strType = "str_{$type}('";
         if (!$isParam) {
             $ret = "{$t}\${$left} = {$strType}{$var}', '{$str}', {$value});\n";
         } else {

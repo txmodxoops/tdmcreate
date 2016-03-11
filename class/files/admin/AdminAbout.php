@@ -30,12 +30,12 @@ class AdminAbout extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $adminxoopscode = null;
+    private $axc = null;
 
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -47,8 +47,8 @@ class AdminAbout extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
-        $this->adminxoopscode = AdminXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
+        $this->axc = AdminXoopsCode::getInstance();
     }
 
     /*
@@ -98,9 +98,9 @@ class AdminAbout extends TDMCreateFile
         $moduleDonations = $module->getVar('mod_donations');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInclude();
-        $content .= $this->adminxoopscode->getAdminTemplateMain($moduleDirname, 'about');
-        $content .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('about.php')");
-        $content .= $this->xoopscode->getXoopsCodeTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");
+        $content .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
+        $content .= $this->xc->getXcTplAssign('navigation', "\$adminMenu->addNavigation('about.php')");
+        $content .= $this->xc->getXcTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");
         $content .= $this->getInclude('footer');
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

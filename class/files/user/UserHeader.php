@@ -30,12 +30,12 @@ class UserHeader extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $usercode = null;
+    private $uc = null;
 
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -47,9 +47,9 @@ class UserHeader extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->uc = UserXoopsCode::getInstance();
     }
 
     /*
@@ -103,42 +103,42 @@ class UserHeader extends TDMCreateFile
 
         $ret = $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
-        $ret .= $this->usercode->getUserBreadcrumbsHeaderFile($moduleDirname);
+        $ret .= $this->xc->getXcEqualsOperator('$dirname ', 'basename(__DIR__)');
+        $ret .= $this->uc->getUserBreadcrumbsHeaderFile($moduleDirname);
 
         $table = $this->getTable();
         $tables = $this->getTables();
         if (is_object($table) && $table->getVar('table_name') != '') {
-            $ret .= $this->xoopscode->getXoopsHandlerInstance($moduleDirname);
+            $ret .= $this->xc->getXoopsHandlerInstance($moduleDirname);
         }
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret .= $this->xoopscode->getXoopsHandlerLine($moduleDirname, $tableName);
+                $ret .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
             }
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Permission');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true);
+        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true);
 
-        $condIf = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
-        $condElse = $this->xoopscode->getXoopsCodeEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");
+        $condIf = $this->xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
+        $condElse = $this->xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");
 
         $ret .= $this->phpcode->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Default Css Style');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
+        $ret .= $this->xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
         $ret .= $this->phpcode->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Smarty Default');
-        $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon16', 'sysicons16');
-        $ret .= $this->xoopscode->getXoopsCodeGetInfo('sysPathIcon32', 'sysicons32');
-        $ret .= $this->xoopscode->getXoopsCodeGetInfo('pathModuleAdmin', 'dirmoduleadmin');
-        $ret .= $this->xoopscode->getXoopsCodeGetInfo('modPathIcon16', 'modicons16');
-        $ret .= $this->xoopscode->getXoopsCodeGetInfo('modPathIcon32', 'modicons16');
+        $ret .= $this->xc->getXcGetInfo('sysPathIcon16', 'sysicons16');
+        $ret .= $this->xc->getXcGetInfo('sysPathIcon32', 'sysicons32');
+        $ret .= $this->xc->getXcGetInfo('pathModuleAdmin', 'dirmoduleadmin');
+        $ret .= $this->xc->getXcGetInfo('modPathIcon16', 'modicons16');
+        $ret .= $this->xc->getXcGetInfo('modPathIcon32', 'modicons16');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Load Languages');
-        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('main');
-        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('modinfo');
+        $ret .= $this->xc->getXcLoadLanguage('main');
+        $ret .= $this->xc->getXcLoadLanguage('modinfo');
 
         return $ret;
     }

@@ -115,10 +115,10 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallModuleFolder($moduleDirname)
     {
         $ret = $this->pc->getPhpCodeCommentLine('Copy base file');
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$indexFile', "XOOPS_UPLOAD_PATH.'/index.html'");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$blankFile', "XOOPS_UPLOAD_PATH.'/blank.gif'");
+        $ret .= $this->xc->getXcEqualsOperator('$indexFile', "XOOPS_UPLOAD_PATH.'/index.html'");
+        $ret .= $this->xc->getXcEqualsOperator('$blankFile', "XOOPS_UPLOAD_PATH.'/blank.gif'");
         $ret .= $this->pc->getPhpCodeCommentLine("Making of uploads/{$moduleDirname} folder");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator("\${$moduleDirname}", "XOOPS_UPLOAD_PATH.'/{$moduleDirname}'");
+        $ret .= $this->xc->getXcEqualsOperator("\${$moduleDirname}", "XOOPS_UPLOAD_PATH.'/{$moduleDirname}'");
         $ret .= $this->getInstallDirectory($moduleDirname);
 
         return $ret;
@@ -135,7 +135,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallTableFolder($moduleDirname, $tableName)
     {
         $ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} uploads folder");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator("\${$tableName}", "\${$moduleDirname}.'/{$tableName}'");
+        $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\${$moduleDirname}.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
 
         return $ret;
@@ -153,7 +153,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallImagesFolder($moduleDirname)
     {
         $ret = $this->pc->getPhpCodeCommentLine('Making of images folder');
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$images', "\${$moduleDirname}.'/images'");
+        $ret .= $this->xc->getXcEqualsOperator('$images', "\${$moduleDirname}.'/images'");
         $ret .= $this->getInstallDirectory('images');
         $ret .= $this->pc->getPhpCodeCopy('$blankFile', "\$images.'/blank.gif'");
 
@@ -170,7 +170,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallImagesShotsFolder($moduleDirname)
     {
         $ret = $this->pc->getPhpCodeCommentLine('Making of shots folder');
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$shots', "\${$moduleDirname}.'/shots'");
+        $ret .= $this->xc->getXcEqualsOperator('$shots', "\${$moduleDirname}.'/shots'");
         $ret .= $this->getInstallDirectory('shots');
         $ret .= $this->pc->getPhpCodeCopy('$blankFile', "\$shots.'/blank.gif'");
 
@@ -187,7 +187,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallTableImagesFolder($tableName)
     {
         $ret = $this->pc->getPhpCodeCommentLine("Making of images/{$tableName} folder");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator("\${$tableName}", "\$images.'/{$tableName}'");
+        $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\$images.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
         $ret .= $this->pc->getPhpCodeCopy('$blankFile', "\${$tableName}.'/blank.gif'");
 
@@ -204,7 +204,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallFilesFolder($moduleDirname)
     {
         $ret = $this->pc->getPhpCodeCommentLine('Making of files folder');
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$files', "\${$moduleDirname}.'/files'");
+        $ret .= $this->xc->getXcEqualsOperator('$files', "\${$moduleDirname}.'/files'");
         $ret .= $this->getInstallDirectory('files');
 
         return $ret;
@@ -222,7 +222,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallTableFilesFolder($tableName)
     {
         $ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} files folder");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator("\${$tableName}", "\$files.'/{$tableName}'");
+        $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\$files.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
 
         return $ret;
@@ -277,7 +277,7 @@ class IncludeInstall extends TDMCreateFile
                         }
                         break;
                     case 11:
-                        $content .= $this->getInstallImagesShotsFolder();
+                        $content .= $this->getInstallImagesShotsFolder($moduleDirname);
                         break;
                     case 12:
                     case 14:

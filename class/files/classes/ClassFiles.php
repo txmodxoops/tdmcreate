@@ -244,13 +244,13 @@ class ClassFiles extends TDMCreateFile
         unset($optionsFieldName);
 
         $cCl .= $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null'), "\t");
-        $constr = $this->xc->getXoopsCodeGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $constr = $this->xc->getXcGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
         $constr .= $this->getInitVars($fields);
         $cCl .= $this->pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
         $arrayGetInstance = array('@static function' => '&getInstance', '' => '', '@param' => 'null');
         $cCl .= $this->pc->getPhpCodeCommentMultiLine($arrayGetInstance, "\t");
         $getInstance = $this->pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
-        $instance = $this->xc->getXoopsCodeEqualsOperator('$instance', 'new self()', null, false, "\t\t\t");
+        $instance = $this->xc->getXcEqualsOperator('$instance', 'new self()', null, false, "\t\t\t");
         $getInstance .= $this->pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
         $cCl .= $this->pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', true, "\t");
 
@@ -280,7 +280,7 @@ class ClassFiles extends TDMCreateFile
         $tableName = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('The new inserted' => '$Id'), "\t");
-        $getInsertedId = $this->xc->getXoopsCodeEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, false, "\t\t");
+        $getInsertedId = $this->xc->getXcEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, false, "\t\t");
         $getInsertedId .= $this->getSimpleString('return $newInsertedId;', "\t\t");
 
         $ret .= $this->pc->getPhpCodeFunction('getNewInsertedId'.$ucfTableName, '', $getInsertedId, 'public ', false, "\t");
@@ -311,17 +311,17 @@ class ClassFiles extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'AM');
         $this->fe->initForm($module, $table);
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('Get' => 'form', '' => '', '@param mixed' => '$action'), "\t");
-        $action = $this->xc->getXoopsCodeEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
+        $action = $this->xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $getForm = $this->pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
         $xUser = $this->pc->getPhpCodeGlobals('xoopsUser');
         $xModule = $this->pc->getPhpCodeGlobals('xoopsModule');
         if ((1 != $tableCategory)/* && (1 == $tablePermissions)*/) {
             $getForm .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
-            $getForm .= $this->xc->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
+            $getForm .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
             $getForm .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object('.$xUser.')', $xUser.'->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
-            $checkRight = $this->xc->getXoopsCodeCheckRight('$gpermHandler', $permString = '', 32, '$groups', $xModule.'->getVar(\'mid\')', true);
+            $checkRight = $this->xc->getXcCheckRight('$gpermHandler', $permString = '', 32, '$groups', $xModule.'->getVar(\'mid\')', true);
             $ternaryOperator = $this->pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t\t");
-            $permissionUpload = $this->xc->getXoopsCodeEqualsOperator('$permissionUpload', 'true', null, false, "\t\t\t\t");
+            $permissionUpload = $this->xc->getXcEqualsOperator('$permissionUpload', 'true', null, false, "\t\t\t\t");
             $ternOperator = $this->pc->getPhpCodeRemoveCarriageReturn($ternaryOperator, '', "\r");
             $if = $this->pc->getPhpCodeConditions('!'.$xUser.'->isAdmin('.$xModule.'->mid())', '', '', $ternaryOperator, $permissionUpload, "\t\t\t");
             $getForm .= $this->pc->getPhpCodeConditions($xUser, '', '', $if, $ternOperator, "\t\t");
@@ -329,7 +329,7 @@ class ClassFiles extends TDMCreateFile
         $getForm .= $this->pc->getPhpCodeCommentLine('Title', '', "\t\t");
         $getForm .= $this->pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "sprintf({$language}{$stuTableSoleName}_ADD)", "sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");
         $getForm .= $this->pc->getPhpCodeCommentLine('Get Theme', 'Form', "\t\t");
-        $getForm .= $this->xc->getXoopsCodeLoad('XoopsFormLoader', "\t\t");
+        $getForm .= $this->xc->getXcLoad('XoopsFormLoader', "\t\t");
         $getForm .= $this->cc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
         $getForm .= $this->cc->getClassSetExtra('form', "'enctype=\"multipart/form-data\"'");
         $getForm .= $this->fe->renderElements();
@@ -368,19 +368,19 @@ class ClassFiles extends TDMCreateFile
         $permissionSubmit = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
         $permissionView = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
         $ret = $this->pc->getPhpCodeCommentLine('Permissions', '', "\t\t");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$memberHandler', "xoops_gethandler('member')", null, true, "\t\t");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, false, "\t\t");
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$memberHandler', "xoops_gethandler('member')", null, true, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
         $ret .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
-        $fId = $this->xc->getXoopsCodeGetVar('', 'this', $fieldId, true);
-        $mId = $this->xc->getXoopsCodeGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
-        $ifGroups = $this->xc->getXoopsCodeGetGroupIds('groupsIdsApprove', 'gpermHandler', "'{$moduleDirname}_approve'", $fId, $mId, "\t\t\t");
+        $fId = $this->xc->getXcGetVar('', 'this', $fieldId, true);
+        $mId = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
+        $ifGroups = $this->xc->getXcGetGroupIds('groupsIdsApprove', 'gpermHandler', "'{$moduleDirname}_approve'", $fId, $mId, "\t\t\t");
         $ifGroups .= $this->pc->getPhpCodeArrayType('groupsIdsApprove', 'values', 'groupsIdsApprove', null, false, "\t\t\t");
         $ifGroups .= $this->cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', "{$permissionApprove}", 'groups_approve[]', '$groupsIdsApprove', false, "\t\t\t");
-        $ifGroups .= $this->xc->getXoopsCodeGetGroupIds('groupsIdsSubmit', 'gpermHandler', "'{$moduleDirname}_submit'", $fId, $mId, "\t\t\t");
+        $ifGroups .= $this->xc->getXcGetGroupIds('groupsIdsSubmit', 'gpermHandler', "'{$moduleDirname}_submit'", $fId, $mId, "\t\t\t");
         $ifGroups .= $this->pc->getPhpCodeArrayType('groupsIdsSubmit', 'values', 'groupsIdsSubmit', null, false, "\t\t\t");
         $ifGroups .= $this->cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', "{$permissionSubmit}", 'groups_submit[]', '$groupsIdsSubmit', false, "\t\t\t");
-        $ifGroups .= $this->xc->getXoopsCodeGetGroupIds('groupsIdsView', 'gpermHandler', "'{$moduleDirname}_view'", $fId, $mId, "\t\t\t");
+        $ifGroups .= $this->xc->getXcGetGroupIds('groupsIdsView', 'gpermHandler', "'{$moduleDirname}_view'", $fId, $mId, "\t\t\t");
         $ifGroups .= $this->pc->getPhpCodeArrayType('groupsIdsView', 'values', 'groupsIdsView', null, false, "\t\t\t");
         $ifGroups .= $this->cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', "{$permissionView}", 'groups_view[]', '$groupsIdsView', false, "\t\t\t");
 
@@ -414,7 +414,7 @@ class ClassFiles extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('Get' => 'Values'), "\t");
-        $getValues = $this->xc->getXoopsCodeEqualsOperator('$ret', 'parent::getValues($keys, $format, $maxDepth)', null, true, "\t\t");
+        $getValues = $this->xc->getXcEqualsOperator('$ret', 'parent::getValues($keys, $format, $maxDepth)', null, true, "\t\t");
 
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -426,10 +426,10 @@ class ClassFiles extends TDMCreateFile
                     $getValues .= $this->pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", false, "\t\t");
                 break;
                 case 8:
-                    $getValues .= $this->xc->getXoopsCodeUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
+                    $getValues .= $this->xc->getXcUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
                 break;
                 case 15:
-                    $getValues .= $this->xc->getXoopsCodeFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");
+                    $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                 break;
                 default:
 
@@ -448,9 +448,9 @@ class ClassFiles extends TDMCreateFile
                             }
                         }
                         $getHandlerVar = "\$this->{$moduleDirname}->getHandler('{$topicTableName}')->get(\$this->getVar('{$fieldName}'))->getVar('{$fieldMainTopic}')";
-                        $getValues .= $this->xc->getXoopsCodeEqualsOperator("\$ret['{$rpFieldName}']", $getHandlerVar, null, false, "\t\t");
+                        $getValues .= $this->xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", $getHandlerVar, null, false, "\t\t");
                     } else {
-                        $getValues .= $this->xc->getXoopsCodeGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
+                        $getValues .= $this->xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
                     }
                 break;
             }
@@ -476,8 +476,8 @@ class ClassFiles extends TDMCreateFile
         $ret = $this->pc->getPhpCodeCommentMultiLine($multiLineCom, "\t");
 
         $getToArray = $this->pc->getPhpCodeArray('ret', array(), false, "\t\t");
-        $getToArray .= $this->xc->getXoopsCodeEqualsOperator('$vars', '$this->getVars()', null, false, "\t\t");
-        $foreach = $this->xc->getXoopsCodeGetVar('ret[$var]', 'this', '{$var}', false, "\t");
+        $getToArray .= $this->xc->getXcEqualsOperator('$vars', '$this->getVars()', null, false, "\t\t");
+        $foreach = $this->xc->getXcGetVar('ret[$var]', 'this', '{$var}', false, "\t");
         $getToArray .= $this->pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");
         $getToArray .= $this->getSimpleString('return $ret;', "\t\t");
 
@@ -556,8 +556,8 @@ class ClassFiles extends TDMCreateFile
 
         $cClh .= $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'string $db'), "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');\n";
-        $constr .= $this->xc->getXoopsCodeGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
-        $constr .= $this->xc->getXoopsCodeEqualsOperator('$this->db', '$db', null, false, "\t\t");
+        $constr .= $this->xc->getXcGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $constr .= $this->xc->getXcEqualsOperator('$this->db', '$db', null, false, "\t\t");
 
         $cClh .= $this->pc->getPhpCodeFunction('__construct', '$db', $constr, 'public ', false, "\t");
 
@@ -677,7 +677,7 @@ class ClassFiles extends TDMCreateFile
 
         $critCount = $this->cc->getClassCriteriaCompo('criteriaCount'.$ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$criteriaCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
-        $critCount .= $this->xc->getXoopsCodeEqualsOperator('$criteriaCount'.$ucfTableName, $paramsCrit, null, false, "\t\t");
+        $critCount .= $this->xc->getXcEqualsOperator('$criteriaCount'.$ucfTableName, $paramsCrit, null, false, "\t\t");
         $critCount .= $this->getSimpleString("return parent::getCount(\$criteriaCount{$ucfTableName});", "\t\t");
         $params = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
@@ -702,7 +702,7 @@ class ClassFiles extends TDMCreateFile
 
         $critAll = $this->cc->getClassCriteriaCompo('criteriaAll'.$ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$criteriaAll{$ucfTableName}, \$start, \$limit, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC')";
-        $critAll .= $this->xc->getXoopsCodeEqualsOperator('$criteriaAll'.$ucfTableName, $paramsCrit, null, false, "\t\t");
+        $critAll .= $this->xc->getXcEqualsOperator('$criteriaAll'.$ucfTableName, $paramsCrit, null, false, "\t\t");
         $critAll .= $this->getSimpleString("return parent::getAll(\$criteriaAll{$ucfTableName});", "\t\t");
         $params = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
@@ -734,11 +734,11 @@ class ClassFiles extends TDMCreateFile
 
         $ret = $this->pc->getPhpCodeCommentMultiLine(array("Get All {$ucfTableName} By" => "{$fieldNameDesc} Id"), "\t");
 
-        $critAll = $this->xc->getXoopsCodeEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
+        $critAll = $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
         $param1 = "'{$moduleDirname}_view'";
         $param2 = "\$GLOBALS['xoopsUser']->getGroups()";
         $param3 = "\$GLOBALS['xoopsModule']->getVar('mid')";
-        $critAll .= $this->xc->getXoopsCodeGetItemIds($lcfTopicTableName, 'gpermHandler', $param1, $param2, $param3, "\t\t");
+        $critAll .= $this->xc->getXcGetItemIds($lcfTopicTableName, 'gpermHandler', $param1, $param2, $param3, "\t\t");
         $critAll .= $this->cc->getClassCriteriaCompo('criteriaAll'.$ucfTableName, "\t\t");
 
         if (strstr($fieldName, 'status')) {
@@ -746,7 +746,7 @@ class ClassFiles extends TDMCreateFile
             $critAll .= $this->cc->getClassAdd('criteriaAll'.$ucfTableName, $crit, "\t\t");
         }
         $paramsCritAll = "\$this->get{$ucfTableName}Criteria(\$criteriaAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
-        $critAll .= $this->xc->getXoopsCodeEqualsOperator('$criteriaAll'.$ucfTableName, $paramsCritAll, null, false, "\t\t");
+        $critAll .= $this->xc->getXcEqualsOperator('$criteriaAll'.$ucfTableName, $paramsCritAll, null, false, "\t\t");
 
         $critAll .= $this->getSimpleString("return parent::getAll(\$criteriaAll{$ucfTableName});", "\t\t");
         $params = "\${$tableFieldName}Id, \$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
@@ -798,12 +798,12 @@ class ClassFiles extends TDMCreateFile
         $ucfTableSoleName = ucfirst($tableSoleName);
         $ccTableSoleName = $this->getCamelCase($tableSoleName, true);
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('Returns the' => $ucfTableSoleName.' from id', '' => '', '@return' => 'string'), "\t");
-        $soleName = $this->xc->getXoopsCodeEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
-        $soleName .= $this->xc->getXoopsCodeEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
+        $soleName = $this->xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
+        $soleName .= $this->xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
 
         $contentIf = $this->xc->getXoopsHandlerLine('this->'.$moduleDirname, $tableName, "\t\t\t");
-        $contentIf .= $this->xc->getXoopsCodeGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
-        $getVar = $this->xc->getXoopsCodeGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
+        $contentIf .= $this->xc->getXcGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
+        $getVar = $this->xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
         $contentIf .= $this->pc->getPhpCodeConditions("is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
 
         $soleName .= $this->pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf = null, false, "\t\t");

@@ -35,7 +35,7 @@ class UserXoopsCode
     /*
     * @var mixed
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -47,7 +47,7 @@ class UserXoopsCode
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -146,7 +146,7 @@ class UserXoopsCode
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $getVar = $this->xoopscode->getXoopsCodeGetVar('', "GLOBALS['xoopsModule']", 'name', true);
+        $getVar = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'name', true);
         $titleLink = array("'title'" => $getVar, "'link'" => "{$stuModuleDirname}_URL . '/'");
         $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
@@ -161,7 +161,7 @@ class UserXoopsCode
     */
     public function getUserBreadcrumbsFooterFile()
     {
-        $cond = $this->xoopscode->getXoopsCodeTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $cond = $this->xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
         $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;

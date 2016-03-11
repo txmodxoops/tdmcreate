@@ -163,11 +163,11 @@ class ClassFormElements extends TDMCreateAbstract
 
         $ret = $this->pc->getPhpCodeCommentLine('Form editor', $ucfFieldName, "\t\t");
         $ret .= $this->pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, $moduleDirname.'_editor_'.$rpFieldName);
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, $moduleDirname.'_editor_'.$rpFieldName);
         $configs = array('name' => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
                         'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig, );
         foreach ($configs as $c => $d) {
-            $ret .= $this->xc->getXoopsCodeEqualsOperator("\$editorConfigs['{$c}']", $d,  null, false, "\t\t");
+            $ret .= $this->xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d,  null, false, "\t\t");
         }
         $formEditor = $this->cc->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
         $ret .= $this->cc->getClassAddElement('form', $formEditor.$required);
@@ -192,10 +192,10 @@ class ClassFormElements extends TDMCreateAbstract
         $t = "\t\t";
         if (in_array(5, $fieldElementId) > 1) {
             $ret = $this->pc->getPhpCodeCommentLine('Form Check Box', 'List Options '.$ucfFieldName, $t);
-            $ret .= $this->xc->getXoopsCodeEqualsOperator('$checkOption', '$this->getOptions()');
-            $ret .= $this->cc->getClassXoopsFormCheckBox('check'.$ucfFieldName, '<hr />', $tableSoleName.'_option', '$checkOption', false, $t);
-            $ret .= $this->cc->getClassSetDescription('check'.$ucfFieldName, "{$language}{$stuTableSoleName}_OPTIONS_DESC", $t);
-            $contForeach = $this->cc->getClassAddOption('check'.$ucfFieldName, "\$option, {$language}{$stuTableSoleName}_ . strtoupper(\$option)", $t."\t");
+            $ret .= $this->xc->getXcEqualsOperator('$checkOption', '$this->getOptions()');
+            $foreach = $this->cc->getClassXoopsFormCheckBox('check'.$ucfFieldName, '<hr />', $tableSoleName.'_option', '$checkOption', false, $t);
+            $foreach .= $this->cc->getClassSetDescription('check'.$ucfFieldName, "{$language}{$stuTableSoleName}_OPTIONS_DESC", $t);
+            $foreach .= $this->cc->getClassAddOption('check'.$ucfFieldName, "\$option, {$language}{$stuTableSoleName}_ . strtoupper(\$option)", $t."\t");
             $ret .= $this->pc->getPhpCodeForeach("{$tableName}All", false, false, 'option', $foreach, $t);
             $intElem = "\$check{$ucfFieldName}{$required}";
             $ret .= $this->cc->getClassAddElement('form', $intElem, $t);
@@ -203,7 +203,8 @@ class ClassFormElements extends TDMCreateAbstract
             $ret = $this->pc->getPhpCodeCommentLine('Form Check Box', $ucfFieldName, $t);
             $ret .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
             $ret .= $this->cc->getClassXoopsFormCheckBox('check'.$ucfFieldName, "{$language}", $fieldName, "\${$ccFieldName}", false, $t);
-            $contForeach = $this->cc->getClassAddOption('check'.$ucfFieldName, "\$option, {$language}{$stuTableSoleName}_ . strtoupper(\$option)", $t);
+            $option = "1, {$language}";
+            $ret .= $this->cc->getClassAddOption('check'.$ucfFieldName, $option, $t);
             $intElem = "\$check{$ucfFieldName}{$required}";
             $ret .= $this->cc->getClassAddElement('form', $intElem, $t);
         }
@@ -249,16 +250,16 @@ class ClassFormElements extends TDMCreateAbstract
         $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form Frameworks', 'Image Files', $t);
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
+        $ret .= $this->xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $ret .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$imageDirectory', "'/Frameworks/moduleclasses/icons/32'", null, false, $t);
+        $ret .= $this->xc->getXcEqualsOperator('$imageDirectory', "'/Frameworks/moduleclasses/icons/32'", null, false, $t);
         $ret .= $this->cc->getClassXoopsFormElementTray('imageTray', $language.$stuSoleName, '<br />', $t);
-        $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{\$imageDirectory}/\"');
+        $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $this->cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
-        $ret .= $this->xc->getXoopsCodeXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
+        $ret .= $this->xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
         $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t."\t");
         $ret .= $this->pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
-        $setExtraParam = "onchange='showImgSelected(\"image1\", \"{$fieldName}\", \\\"\".\$imageDirectory.\"\\\", \"\", \\\"\".XOOPS_URL.\"\\\")'";
+        $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
         $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name=\'image1\' id=\'image1\' alt=\'\' />\\\"";
@@ -266,10 +267,10 @@ class ClassFormElements extends TDMCreateAbstract
         $ret .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
         $ret .= $this->cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxsize');
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxsize');
         $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'FORM_IMAGE_LIST_'.$stuTableName, 'attachedfile', $getConfig, true, '');
         $ret .= $this->cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);
-        $xoopsFormLabel1 = $this->cc->getClassXoopsFormLabel('fileSelectTray', "''", null, false, $t);
+        $xoopsFormLabel1 = $this->cc->getClassXoopsFormLabel('', "''", null, true, $t);
         $ret .= $this->cc->getClassAddElement('fileSelectTray', $xoopsFormLabel1, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$fileSelectTray', $t);
         $ret .= $this->cc->getClassAddElement('form', "\$imageTray{$required}", $t);
@@ -290,18 +291,19 @@ class ClassFormElements extends TDMCreateAbstract
     private function getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
+        $ucfFieldName = $this->tf->getCamelCase($fieldName, true);
         $t = "\t\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form Frameworks', 'Image Files', $t);
-        $contentIf = $this->xc->getXoopsCodeEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
+        $contentIf = $this->xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $contentIf .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
-        $contentIf .= $this->xc->getXoopsCodeEqualsOperator('$uploadDirectory', "'/uploads/{$moduleDirname}/images/shots'", null, false, $t);
+        $contentIf .= $this->xc->getXcEqualsOperator('$uploadDirectory', "'/uploads/{$moduleDirname}/images/shots'", null, false, $t);
         $contentIf .= $this->cc->getClassXoopsFormElementTray('imageTray', $language.'FORM_IMAGE', '<br />', $t);
-        $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_PATH', '".{\$uploadDirectory}/\"');
+        $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_PATH', '".{$uploadDirectory}/"');
         $contentIf .= $this->cc->getClassXoopsFormSelect('imageSelect', $sprintf, 'selected_image', "\${$moduleDirname}ShotImage", 5, 'false', false, $t);
-        $contentIf .= $this->xc->getXoopsCodeXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $uploadDirectory', $t);
+        $contentIf .= $this->xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $uploadDirectory', $t);
         $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t."\t");
         $contentIf .= $this->pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
-        $setExtraParam = "onchange='showImgSelected(\"image3\", \\\"selected_image\\\", \\\"\".\$uploadDirectory.\"\\\", \"\", \\\"\".XOOPS_URL.\"\\\")'";
+        $setExtraParam = "\"onchange='showImgSelected(\\\"image3\\\", \\\"selected_image\\\", \\\"\".\$uploadDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $contentIf .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $contentIf .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
         $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name=\'image3\' id=\'image3\' alt=\'\' />\\\"";
@@ -309,7 +311,7 @@ class ClassFormElements extends TDMCreateAbstract
         $contentIf .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $contentIf .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
         $contentIf .= $this->cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
-        $getConfigFile = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxuploadsize');
+        $getConfigFile = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxuploadsize');
         $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'_FORM_UPLOAD', 'attachedimage', $getConfigFile, true, '');
         $contentIf1 = $this->cc->getClassAddElement('fileSelectTray', $xoopsFormFile.$required, $t);
 
@@ -317,7 +319,7 @@ class ClassFormElements extends TDMCreateAbstract
         $contentIf .= $this->cc->getClassAddElement('form', "\$imageTray{$required}", $t);
 
         $contentIf = $this->pc->getPhpCodeConditions('$permissionUpload', ' == ', 'true', $contentIf1, false, $t."\t");
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'useshots');
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'useshots');
         $ret .= $this->pc->getPhpCodeConditions($getConfig, null, null, $contentIf, false, "\t\t");
 
         return $ret;
@@ -338,12 +340,12 @@ class ClassFormElements extends TDMCreateAbstract
     {
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form Url', 'Text File', $t);
-        $ret .= $this->cc->getClassXoopsFormElementTray('formUrlFile', $language.'FORM_FILE', '<br /><br />', $t);
+        $ret .= $this->cc->getClassXoopsFormElementTray('formUrlFile', '_OPTIONS', '<br /><br />', $t);
         $ret .= $this->pc->getPhpCodeTernaryOperator('formUrl', '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", $t);
-        $ret .= $this->cc->getClassXoopsFormText('formText', $language.'FORM_TEXT', $fieldName, 75, 255, 'formUrl', false, $t);
+        $ret .= $this->cc->getClassXoopsFormText('formText', $language, $fieldName, 75, 255, 'formUrl', false, $t);
         $ret .= $this->cc->getClassAddElement('formUrlFile', '$formText'.$required, $t);
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxsize');
-        $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'FORM_UPLOAD', 'attachedfile', $getConfig, true, '');
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxsize');
+        $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'UPLOAD', 'attachedfile', $getConfig, true, '');
         $ret .= $this->cc->getClassAddElement('formUrlFile', $xoopsFormFile.$required, $t);
         $ret .= $this->cc->getClassAddElement('form', '$formUrlFile', $t);
 
@@ -368,27 +370,27 @@ class ClassFormElements extends TDMCreateAbstract
         $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form Upload', 'Image', $t);
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
+        $ret .= $this->xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $ret .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$imageDirectory', "'/uploads/{$moduleDirname}/images/{$tableName}'", null, false, $t);
-        $ret .= $this->cc->getClassXoopsFormElementTray('imageTray', $language.$stuSoleName.'_IMAGE', '<br />', $t);
-        $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{\$imageDirectory}/\"');
+        $ret .= $this->xc->getXcEqualsOperator('$imageDirectory', "'/uploads/{$moduleDirname}/images/{$tableName}'", null, false, $t);
+        $ret .= $this->cc->getClassXoopsFormElementTray('imageTray', '_OPTIONS', '<br />', $t);
+        $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $this->cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
-        $ret .= $this->xc->getXoopsCodeXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
+        $ret .= $this->xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
         $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t."\t");
         $ret .= $this->pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
-        $setExtraParam = "onchange='showImgSelected(\"image1\", \"{$fieldName}\", \\\"\".\$imageDirectory.\"\\\", \"\", \\\"\".XOOPS_URL.\"\\\")'";
+        $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name=\'image1\' id=\'image1\' alt=\'\' />\\\"";
+        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\${$ccFieldName}.\"' name=\'image1\' id=\'image1\' alt=\'\' />\"";
         $xoopsFormLabel = $this->cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $ret .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
         $ret .= $this->cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxsize');
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxsize');
         $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'FORM_UPLOAD_IMAGE_'.$stuTableName, 'attachedfile', $getConfig, true, '');
         $ret .= $this->cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);
-        $xoopsFormLabel1 = $this->cc->getClassXoopsFormLabel('fileSelectTray', "''", null, false, $t);
+        $xoopsFormLabel1 = $this->cc->getClassXoopsFormLabel('', "''", null, true);
         $ret .= $this->cc->getClassAddElement('fileSelectTray', $xoopsFormLabel1, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$fileSelectTray', $t);
         $ret .= $this->cc->getClassAddElement('form', "\$imageTray{$required}", $t);
@@ -412,8 +414,8 @@ class ClassFormElements extends TDMCreateAbstract
         $stuTableName = strtoupper($tableName);
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxsize');
-        $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'FORM_UPLOAD_FILE_'.$stuTableName, "'{$fieldName}'", $getConfig, true, '');
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxsize');
+        $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'_'.$stuTableName, $fieldName, $getConfig, true, '');
         $ret .= $this->cc->getClassAddElement('form', $xoopsFormFile, $t);
 
         return $ret;
@@ -433,8 +435,8 @@ class ClassFormElements extends TDMCreateAbstract
     {
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form Color', 'Picker', $t);
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxsize');
-        $xoopsFormFile = $this->cc->getClassXoopsFormColorPicker('', $language, "'{$fieldName}'", $getConfig, true, '');
+        $getVar = $this->xc->getXcGetVar('', 'this', $fieldName, true);
+        $xoopsFormFile = $this->cc->getClassXoopsFormColorPicker('', $language, $fieldName, $getVar, true, '');
         $ret .= $this->cc->getClassAddElement('form', $xoopsFormFile, $t);
 
         return $ret;
@@ -457,9 +459,9 @@ class ClassFormElements extends TDMCreateAbstract
         $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
-        $ret .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName, $t);
+        $ret .= $this->xc->getXoopsHandlerLine('this->'.$moduleDirname, $tableName, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Form', 'Select', $t);
-        $ret .= $this->cc->getClassXoopsFormSelect($ccFieldName.'Select', $language, $fieldName, "\$this->getVar('{$fieldName}')", null, '', false, $t);
+        $ret .= $this->cc->getClassXoopsFormSelect($ccFieldName.'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
         $ret .= $this->cc->getClassAddOption($ccFieldName.'Select', "'Empty'", $t);
         $ret .= $this->cc->getClassAddOptionArray($ccFieldName.'Select', "\${$tableName}Handler->getList()", $t);
         $ret .= $this->cc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
@@ -476,11 +478,11 @@ class ClassFormElements extends TDMCreateAbstract
      *
      * @return string
      */
-    private function getXoopsFormSelectUser($language, $fieldName, $required = 'false')
+    private function getXoopsFormSelectUser($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $t = "\t\t";
         $ret = $this->pc->getPhpCodeCommentLine('Form Select', 'User', $t);
-        $getConfig = $this->xc->getXoopsCodeGetConfig('this->'.$moduleDirname, 'maxsize');
+        $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxsize');
         $xoopsSelectUser = $this->cc->getClassXoopsFormSelectUser('', $language, $fieldName, 'false', $fieldName, true, $t);
         $ret .= $this->cc->getClassAddElement('form', $xoopsSelectUser.$required, $t);
 
@@ -520,9 +522,10 @@ class ClassFormElements extends TDMCreateAbstract
     private function getXoopsFormTextDateSelect($language, $fieldName, $required = 'false')
     {
         $t = "\t\t";
+        $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
         $ret = $this->pc->getPhpCodeCommentLine('Form Text', 'Date Select', $t);
         $ret .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
-        $xoopsTextDateSelect = $this->cc->getClassXoopsFormTextDateSelect('', $language, $fieldName, '', $fieldName, true, $t);
+        $xoopsTextDateSelect = $this->cc->getClassXoopsFormTextDateSelect('', $language, $fieldName, "''", $fieldName, true, $t);
         $ret .= $this->cc->getClassAddElement('form', $xoopsTextDateSelect.$required, $t);
 
         return $ret;
@@ -578,9 +581,9 @@ class ClassFormElements extends TDMCreateAbstract
         $ret = $this->pc->getPhpCodeCommentLine('Form Table', $ucfTopicTableName, $t);
         $ret .= $this->xc->getXoopsClearHandler($stlTopicTableName, '', 'this->'.$moduleDirname, $stlTopicTableName, $t);
         $ret .= $this->cc->getClassCriteriaCompo('criteria', $t);
-        $ret .= $this->xc->getXoopsCodeClearHandlerCount($stlTopicTableName.'Count', $stlTopicTableName, '$criteria', $t);
+        $ret .= $this->xc->getXcClearHandlerCount($stlTopicTableName.'Count', $stlTopicTableName, '$criteria', $t);
         $contIf = $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', $t."\t");
-        $contIf .= $this->xc->getXoopsCodeClearHandlerAll($stlTopicTableName.'All', $stlTopicTableName, '$criteria', $t."\t");
+        $contIf .= $this->xc->getXcClearHandlerAll($stlTopicTableName.'All', $stlTopicTableName, '$criteria', $t."\t");
         $contIf .= $this->cc->getClassXoopsObjectTree($stlTopicTableName.'Tree', $stlTopicTableName.'All', $fieldId, $fieldPid, $t."\t");
         $contIf .= $this->cc->getClassXoopsMakeSelBox($ccFieldPid, $stlTopicTableName.'Tree', $fieldPid, $fieldMain, '--', $fieldPid, $t."\t");
         $formLabel = $this->cc->getClassXoopsFormLabel('', $language, "\${$ccFieldPid}", true, '');
@@ -606,7 +609,7 @@ class ClassFormElements extends TDMCreateAbstract
         $ret = $this->pc->getPhpCodeCommentLine('Use tag', 'module', $t);
         $isDir = $this->pc->getPhpCodeIsDir("XOOPS_ROOT_PATH . '/modules/tag'");
         $ret .= $this->pc->getPhpCodeTernaryOperator('dirTag', $isDir, 'true', 'false', $t);
-        $paramIf = '('.$this->xc->getXoopsCodeGetConfig("this->{$moduleDirname}", 'usetag').' == 1)';
+        $paramIf = '('.$this->xc->getXcGetConfig("this->{$moduleDirname}", 'usetag').' == 1)';
         $condIf = $this->pc->getPhpCodeTernaryOperator('tagId', '$this->isNew()', '0', "\$this->getVar('{$fieldId}')", $t."\t");
         $condIf .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/include/formtag', true, false, $type = 'include', $t."\t");
         $paramElem = $this->cc->getClassXoopsFormTag('', 'tag', 60, 255, 'tagId', 0, true, '');
@@ -678,7 +681,7 @@ class ClassFormElements extends TDMCreateAbstract
                         $ret .= $this->getXoopsFormSelectBox($language, $moduleDirname, $tableName, $fieldName, $required);
                         break;
                     case 8:
-                        $ret .= $this->getXoopsFormSelectUser($language, $fieldName, $required);
+                        $ret .= $this->getXoopsFormSelectUser($language, $moduleDirname, $fieldName, $required);
                         break;
                     case 9:
                         $ret .= $this->getXoopsFormColorPicker($language, $moduleDirname, $fieldName, $required);
@@ -690,7 +693,7 @@ class ClassFormElements extends TDMCreateAbstract
                         $ret .= $this->getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $required);
                         break;
                     case 12:
-                        $ret .= $this->getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $fieldElement, $required);
+                        $ret .= $this->getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required);
                         break;
                     case 13:
                         $ret .= $this->getXoopsFormUploadImage($languageFunct, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required);
@@ -699,7 +702,7 @@ class ClassFormElements extends TDMCreateAbstract
                         $ret .= $this->getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required);
                         break;
                     case 15:
-                        $ret .= $this->getXoopsFormTextDateSelect($language, $moduleDirname, $fieldName, $required);
+                        $ret .= $this->getXoopsFormTextDateSelect($language, $fieldName, $required);
                         break;
                     default:
                         // If we use tag module

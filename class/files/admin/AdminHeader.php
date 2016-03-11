@@ -30,7 +30,7 @@ class AdminHeader extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -42,7 +42,7 @@ class AdminHeader extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
@@ -96,48 +96,48 @@ class AdminHeader extends TDMCreateFile
         $tables = $this->getTables();
         $ret = $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(dirname(__DIR__)))', 'include/cp_header');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('dirname(__DIR__)', 'include/common', true);
-        $sysicons16 = $this->xoopscode->getXoopsCodeGetInfo('', 'sysicons16', true);
-        $sysicons32 = $this->xoopscode->getXoopsCodeGetInfo('', 'sysicons32', true);
-        $dirmoduleadmin = $this->xoopscode->getXoopsCodeGetInfo('', 'dirmoduleadmin', true);
-        $modicons16 = $this->xoopscode->getXoopsCodeGetInfo('', 'modicons16', true);
-        $modicons32 = $this->xoopscode->getXoopsCodeGetInfo('', 'modicons32', true);
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$sysPathIcon16 ', "'../' . {$sysicons16}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$sysPathIcon32 ', "'../' . {$sysicons32}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$pathModuleAdmin ', "{$dirmoduleadmin}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon16 ', "{$modicons16}");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$modPathIcon32 ', "{$modicons32}");
+        $sysicons16 = $this->xc->getXcGetInfo('', 'sysicons16', true);
+        $sysicons32 = $this->xc->getXcGetInfo('', 'sysicons32', true);
+        $dirmoduleadmin = $this->xc->getXcGetInfo('', 'dirmoduleadmin', true);
+        $modicons16 = $this->xc->getXcGetInfo('', 'modicons16', true);
+        $modicons32 = $this->xc->getXcGetInfo('', 'modicons32', true);
+        $ret .= $this->xc->getXcEqualsOperator('$sysPathIcon16 ', "'../' . {$sysicons16}");
+        $ret .= $this->xc->getXcEqualsOperator('$sysPathIcon32 ', "'../' . {$sysicons32}");
+        $ret .= $this->xc->getXcEqualsOperator('$pathModuleAdmin ', "{$dirmoduleadmin}");
+        $ret .= $this->xc->getXcEqualsOperator('$modPathIcon16 ', "{$modicons16}");
+        $ret .= $this->xc->getXcEqualsOperator('$modPathIcon32 ', "{$modicons32}");
         if (is_object($table) && $table->getVar('table_name') != '') {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
+            $ret .= $this->xc->getXcEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
         }
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\${$tableName}Handler", "\${$moduleDirname}->getHandler('{$tableName}')", null, true);
+                $ret .= $this->xc->getXcEqualsOperator("\${$tableName}Handler", "\${$moduleDirname}->getHandler('{$tableName}')", null, true);
             }
         }
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
         $ret .= $this->phpcode->getPhpCodeCommentLine();
         $template = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true);
-        $template .= "\t".$this->xoopscode->getXoopsCodeEqualsOperator('$xoopsTpl', 'new XoopsTpl()');
+        $template .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new XoopsTpl()', null, false, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template, false);
         $ret .= $this->phpcode->getPhpCodeCommentLine('System icons path');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('sysPathIcon16', '$sysPathIcon16');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('sysPathIcon32', '$sysPathIcon32');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('modPathIcon16', '$modPathIcon16');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('modPathIcon32', '$modPathIcon32');
+        $ret .= $this->xc->getXcTplAssign('sysPathIcon16', '$sysPathIcon16');
+        $ret .= $this->xc->getXcTplAssign('sysPathIcon32', '$sysPathIcon32');
+        $ret .= $this->xc->getXcTplAssign('modPathIcon16', '$modPathIcon16');
+        $ret .= $this->xc->getXcTplAssign('modPathIcon32', '$modPathIcon32');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Load languages');
-        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('admin');
-        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('modinfo');
+        $ret .= $this->xc->getXcLoadLanguage('admin');
+        $ret .= $this->xc->getXcLoadLanguage('modinfo');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Local admin menu class');
-        $xoopsPathCond = $this->xoopscode->getXoopsCodePath('$pathModuleAdmin', 'moduleadmin', true);
+        $xoopsPathCond = $this->xc->getXcPath('$pathModuleAdmin', 'moduleadmin', true);
         $fileExists = $this->phpcode->getPhpCodeFileExists("{$xoopsPathCond}");
         $moduleadmin = $this->phpcode->getPhpCodeIncludeDir("{$xoopsPathCond}", '', true, true);
-        $redirectHeader = $this->xoopscode->getXoopsCodeRedirectHeader('../../../admin.php', '', '5', '_AM_MODULEADMIN_MISSING');
+        $redirectHeader = $this->xc->getXcRedirectHeader('../../../admin.php', '', '5', '_AM_MODULEADMIN_MISSING');
 
         $ret .= $this->phpcode->getPhpCodeConditions("{$fileExists}", '', '', $moduleadmin, $redirectHeader);
-        $ret .= $this->xoopscode->getXoopsCodeCPHeader();
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$adminMenu', 'new ModuleAdmin()');
+        $ret .= $this->xc->getXcCPHeader();
+        $ret .= $this->xc->getXcEqualsOperator('$adminMenu', 'new ModuleAdmin()');
 
         return $ret;
     }

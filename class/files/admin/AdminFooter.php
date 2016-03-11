@@ -30,7 +30,7 @@ class AdminFooter extends TDMCreateFile
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -42,7 +42,7 @@ class AdminFooter extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
@@ -93,10 +93,10 @@ class AdminFooter extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
         $isset = $this->phpcode->getPhpCodeIsset('templateMain');
-        $display = "\t".$this->xoopscode->getXoopsCodeTplAssign('maintainedby', '$'.$moduleDirname."->getConfig('maintainedby')");
-        $display .= "\t".$this->phpcode->getPhpCodeRemoveCarriageReturn($this->xoopscode->getXoopsCodeTplDisplay());
+        $display = "\t".$this->xc->getXcTplAssign('maintainedby', '$'.$moduleDirname."->getConfig('maintainedby')");
+        $display .= "\t".$this->phpcode->getPhpCodeRemoveCarriageReturn($this->xc->getXcTplDisplay());
         $content .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display, false, '').PHP_EOL;
-        $content .= $this->xoopscode->getXoopsCodeCPFooter();
+        $content .= $this->xc->getXcCPFooter();
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

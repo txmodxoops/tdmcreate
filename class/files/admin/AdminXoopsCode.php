@@ -19,49 +19,20 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: AdminXoopsCode.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: Axc.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 /**
- * Class AdminXoopsCode.
+ * Class Axc.
  */
 class AdminXoopsCode
 {
-    /*
-    * @var mixed
-    */
-    private $tf = null;
-
-    /*
-    * @var mixed
-    */
-    private $pc = null;
-
-    /*
-    * @var mixed
-    */
-    private $xc = null;
-
-    /*
-    *  @public function constructor
-    *  @param null
-    */
-    /**
-     *
-     */
-    public function __construct()
-    {
-        $this->tf = TDMCreateFile::getInstance();
-        $this->pc = TDMCreatePhpCode::getInstance();
-        $this->xc = TDMCreateXoopsCode::getInstance();
-    }
-
     /*
     *  @static function &getInstance
     *  @param null
     */
     /**
-     * @return AdminXoopsCode
+     * @return Axc
      */
     public static function &getInstance()
     {
@@ -120,25 +91,25 @@ class AdminXoopsCode
     }
 
     /*
-    *  @public function getAdminXoopsCodeAddInfoBox
+    *  @public function getAxcAddInfoBox
     *  @param $language
     *  
     *  @return string
     */
-    public function getAdminXoopsCodeAddInfoBox($language, $t = '')
+    public function getAxcAddInfoBox($language, $t = '')
     {
         return "{$t}\$adminMenu->addInfoBox({$language});\n";
     }
 
     /*
-    *  @public function getAdminXoopsCodeAddInfoBoxLine
+    *  @public function getAxcAddInfoBoxLine
     *  @param $language
     *  @param $label
     *  @param $var
     *  
     *  @return string
     */
-    public function getAdminXoopsCodeAddInfoBoxLine($language, $label = '', $var = '', $t = '')
+    public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addInfoBoxLine(';
         if ($var != '') {
@@ -151,14 +122,14 @@ class AdminXoopsCode
     }
 
     /*
-    *  @public function getAdminXoopsCodeAddConfigBoxLine
+    *  @public function getAxcAddConfigBoxLine
     *  @param $language
     *  @param $label
     *  @param $var
     *  
     *  @return string
     */
-    public function getAdminXoopsCodeAddConfigBoxLine($language, $label = '', $var = '', $t = '')
+    public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addConfigBoxLine(';
         if ($var != '') {
@@ -171,99 +142,128 @@ class AdminXoopsCode
     }
 
     /*
-    *  @public function getAdminXoopsCodeImageListSetVar
+    *  @public function getAxcImageListSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getAdminXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName)
+    public function getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t = '')
     {
-        $ret = $this->pc->getPhpCodeCommentLine('Set Var', $fieldName);
-        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->xc->getAdminXoopsCodeMediaUploader('uploader', "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'", $tableName, $moduleDirname);
-        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
-        $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
-        $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
-        $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
-        $contentIf = "\$errors = \$uploader->getErrors();\n";
-        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
-        $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
+        $pCodeImageList = TDMCreatePhpCode::getInstance();
+        $xCodeImageList = TDMCreateXoopsCode::getInstance();
+        $ret = $pCodeImageList->getPhpCodeCommentLine('Set Var', $fieldName, $t);
+        $ret .= $pCodeImageList->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $xRootPath = "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
+        $ret .= $xCodeImageList->getXcMediaUploader('uploader', $xRootPath, $tableName, $moduleDirname, $t);
+        $post = $pCodeImageList->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST').'[0]';
+        $fetchMedia = self::getAxcFetchMedia('uploader', $post);
+        $ifelse = $t."\t//".self::getAxcSetPrefix('uploader', "{$fieldName}_").";\n";
+        $ifelse .= $t."\t//{$fetchMedia};\n";
+        $contentElseInt = $xCodeImageList->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t."\t\t");
+        $contentIf = $xCodeImageList->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t."\t\t");
+        $contentIf .= $xCodeImageList->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t."\t\t");
+        $ifelse .= $pCodeImageList->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t."\t");
+        $contentElseExt = $xCodeImageList->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t);
 
-        $ret .= $this->pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+        $ret .= $pCodeImageList->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt, $t);
 
         return $ret;
     }
 
     /*
-    *  @public function getAdminXoopsCodeUploadImageSetVar
+    *  @public function getAxcUploadImageSetVar
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldName
     *  @return string
     */
-    public function getAdminXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain)
+    public function getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '')
     {
+        $pCodeUploadImage = TDMCreatePhpCode::getInstance();
+        $xCodeUploadImage = TDMCreateXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->pc->getPhpCodeCommentLine('Set Var', $fieldName);
-        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->getAdminXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_IMAGE_PATH", $tableName, $moduleDirname);
+        $ret = $pCodeUploadImage->getPhpCodeCommentLine('Set Var', $fieldName, $t);
+        $ret .= $pCodeUploadImage->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $xUploadImage = "{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
+        $ret .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage, $tableName, $moduleDirname, $t);
 
-        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
-        $ifelse = "\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);\n";
-        $ifelse .= "\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;\n";
-        $ifelse .= "\$uploader->setPrefix(\$imgName);\n";
-        $ifelse .= "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0]);\n";
-        $contentElseInt = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
-        $contentIf = "\$errors = \$uploader->getErrors();\n";
-        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt);
-        $contentElseExt = "\${$tableName}Obj->setVar('{$fieldName}', \$_POST['{$fieldName}']);\n";
+        $post = $pCodeUploadImage->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST').'[0]';
+        $fetchMedia = self::getAxcFetchMedia('uploader', $post);
+        $file = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES')."['name']";
+        $expr = '/^.+\.([^.]+)$/sU';
+        $ifelse = $pCodeUploadImage->getPhpCodePregFunzions('extension', $expr, '', $file, 'replace', false, $t."\t");
 
-        $ret .= $this->pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt);
+        $ifelse .= $t."\t\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;\n";
+        $ifelse .= self::getAxcSetPrefix('uploader', '$imgName', $t."\t").";\n";
+        $ifelse .= $t."\t{$fetchMedia};\n";
+        $contentElseInt = $xCodeUploadImage->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t."\t\t");
+        $contentIf = $xCodeUploadImage->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t."\t\t");
+        $contentIf .= $xCodeUploadImage->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t."\t\t");
+        $ifelse .= $pCodeUploadImage->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t."\t");
+        $contentElseExt = $xCodeUploadImage->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t."\t\t");
+
+        $ret .= $pCodeUploadImage->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt, $t);
 
         return $ret;
     }
 
     /*
-    *  @public function getAdminXoopsCodeFileSetVar
+    *  @public function getAxcFileSetVar
     *  @param $moduleDirname
     *  @param $tableName
     *  @param $fieldName
     *  @param $formatUrl
     *  @return string
     */
-    public function getAdminXoopsCodeFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false)
+    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '')
     {
         $stuModuleDirname = strtoupper($moduleDirname);
-        if ($formatUrl) {
-            $ret = $this->getAdminXoopsCodeSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])");
-            $ret .= $this->pc->getPhpCodeCommentLine('Set Var', $fieldName);
-        } else {
-            $ret = $this->pc->getPhpCodeCommentLine('Set Var', $fieldName);
-        }
-        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true);
-        $ret .= $this->getAdminXoopsCodeMediaUploader('uploader', "{$stuModuleDirname}_UPLOAD_FILES_PATH", $tableName, $moduleDirname);
-        $fetchMedia = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])";
-        if ($formatUrl) {
-            $ifelse = "\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
-        } else {
-            $ifelse = "//\$uploader->setPrefix('{$fieldName}_');\n";
-            $ifelse .= "//\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])\n";
-        }
-        $contentElse = "\${$tableName}Obj->setVar('{$fieldName}', \$uploader->getSavedFileName());";
-        $contentIf = "\$errors = \$uploader->getErrors();\n";
-        $contentIf .= "redirect_header('javascript:history.go(-1)', 3, \$errors);\n";
-        $ifelse .= $this->pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElse);
+        $ret = self::getAxcImageFileSetVar($moduleDirname, $stuModuleDirname.'_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t);
 
-        $ret .= $this->pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse);
+        return $ret;
+    }
+
+    /*
+    *  @private function getAxcImageFileSetVar
+    *  @param $moduleDirname
+    *  @param $tableName
+    *  @param $fieldName
+    *  @param $formatUrl
+    *  @return string
+    */
+    private function getAxcImageFileSetVar($moduleDirname, $dirname = '', $tableName, $fieldName, $formatUrl = false, $t = '')
+    {
+        $pCodeFileSetVar = TDMCreatePhpCode::getInstance();
+        $xCodeFileSetVar = TDMCreateXoopsCode::getInstance();
+        if ($formatUrl) {
+            $ret = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])", $t);
+            $ret .= $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
+        } else {
+            $ret = $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
+        }
+        $ret .= $pCodeFileSetVar->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $ret .= $xCodeFileSetVar->getXcMediaUploader('uploader', $dirname.'/'.$tableName, $tableName, $moduleDirname, $t);
+        $post = $pCodeFileSetVar->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST').'[0]';
+        $fetchMedia = self::getAxcFetchMedia('uploader', $post);
+        if ($formatUrl) {
+            $ifelse = $t."\t\t{$fetchMedia};\n";
+        } else {
+            $ifelse = $t."\t//".self::getAxcFetchMedia('uploader', "'{$fieldName}_'").";\n";
+            $ifelse .= $t."\t//{$fetchMedia};\n";
+        }
+        $contentElse = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t."\t\t");
+        $contentIf = $xCodeFileSetVar->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t."\t\t");
+        $contentIf .= $xCodeFileSetVar->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t."\t\t");
+        $ifelse .= $pCodeFileSetVar->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElse, $t."\t");
+
+        $ret .= $pCodeFileSetVar->getPhpCodeConditions($fetchMedia, '', '', $t."\t".$fetchMedia.";\n", $ifelse, $t);
 
         return $ret;
     }
 
     /**
-     *  @public function getAdminXoopsCodeSetVarsObjects
+     *  @public function getAxcSetVarsObjects
      *
      *  @param $moduleDirname
      *  @param $tableName
@@ -271,9 +271,10 @@ class AdminXoopsCode
      *
      *  @return string
      */
-    public function getAdminXoopsCodeSetVarsObjects($moduleDirname, $tableName, $fields)
+    public function getAxcSetVarsObjects($moduleDirname, $tableName, $fields)
     {
-        $ret = $this->pc->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
+        $xCodeSetVars = TDMCreateXoopsCode::getInstance();
+        $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -281,28 +282,28 @@ class AdminXoopsCode
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->xc->getXoopsCodeCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $this->xc->getXoopsCodeImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= self::getAxcImageListSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 12:
-                        $ret .= $this->xc->getXoopsCodeUrlFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:
                         if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
-                        $ret .= $this->xc->getXoopsCodeUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= self::getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
                         break;
                     case 14:
-                        $ret .= $this->xc->getXoopsCodeUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $this->xc->getXoopsCodeTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->xc->getXoopsCodeSimpleSetVar($tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcSimpleSetVar($tableName, $fieldName);
                         break;
                 }
             }
@@ -312,14 +313,40 @@ class AdminXoopsCode
     }
 
     /**
-     *  @public function getAdminXoopsCodeGetObjHandlerId
+     *  @public function getAxcFetchMedia
+     *
+     *  @param $anchor
+     *  @param $var
+     *
+     *  @return string
+     */
+    public function getAxcFetchMedia($anchor, $var, $t = '')
+    {
+        return "{$t}\${$anchor}->fetchMedia({$var})";
+    }
+
+    /**
+     *  @public function getAxcSetPrefix
+     *
+     *  @param $anchor
+     *  @param $var
+     *
+     *  @return string
+     */
+    public function getAxcSetPrefix($anchor, $var, $t = '')
+    {
+        return "{$t}\${$anchor}->setPrefix({$var})";
+    }
+
+    /**
+     *  @public function getAxcGetObjHandlerId
      *
      *  @param string $tableName
      *  @param string $fieldId
      *
      *  @return string
      */
-    public function getAdminXoopsCodeGetObjHandlerId($tableName, $fieldId, $t = '')
+    public function getAxcGetObjHandlerId($tableName, $fieldId, $t = '')
     {
         return "{$t}\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
     }
@@ -334,26 +361,28 @@ class AdminXoopsCode
     */
     public function getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t = '')
     {
-        $ccFieldId = $this->tf->getCamelCase($fieldId, false, true);
-        $ret = $this->xc->getXoopsCodeGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler');
+        $phpCodeCaseDelete = TDMCreatePhpCode::getInstance();
+        $xCodeCaseDelete = TDMCreateXoopsCode::getInstance();
+        $ccFieldId = TDMCreateFile::getInstance()->getCamelCase($fieldId, false, true);
+        $ret = $xCodeCaseDelete->getXcGet($tableName, $ccFieldId, 'Obj', $tableName.'Handler');
 
         $reqOk = "_REQUEST['ok']";
-        $isset = $this->pc->getPhpCodeIsset($reqOk);
-        $xoopsSecurityCheck = $this->xc->getXoopsCodeSecurityCheck();
-        $xoopsSecurityErrors = $this->xc->getXoopsCodeSecurityErrors();
-        $implode = $this->pc->getPhpCodeImplode(', ', $xoopsSecurityErrors);
-        $redirectHeaderErrors = $this->xc->getXoopsCodeRedirectHeader($tableName, '.php', '3', $implode, true, $t."\t\t");
+        $isset = $phpCodeCaseDelete->getPhpCodeIsset($reqOk);
+        $xoopsSecurityCheck = $xCodeCaseDelete->getXcSecurityCheck();
+        $xoopsSecurityErrors = $xCodeCaseDelete->getXcSecurityErrors();
+        $implode = $phpCodeCaseDelete->getPhpCodeImplode(', ', $xoopsSecurityErrors);
+        $redirectHeaderErrors = $xCodeCaseDelete->getXcRedirectHeader($tableName, '.php', '3', $implode, true, $t."\t\t");
 
-        $delete = $this->xc->getXoopsCodeDelete($tableName, $tableName, 'Obj', true);
-        $condition = $this->pc->getPhpCodeConditions('!'.$xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t."\t");
+        $delete = $xCodeCaseDelete->getXcDelete($tableName, $tableName, 'Obj', true);
+        $condition = $phpCodeCaseDelete->getPhpCodeConditions('!'.$xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t."\t");
 
-        $redirectHeaderLanguage = $this->xc->getXoopsCodeRedirectHeader($tableName, '.php', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
-        $htmlErrors = $this->xc->getXoopsCodeHtmlErrors($tableName, true);
-        $internalElse = $this->xc->getXoopsCodeTplAssign('error', $htmlErrors, false, $t."\t\t");
-        $condition .= $this->pc->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t."\t");
+        $redirectHeaderLanguage = $xCodeCaseDelete->getXcRedirectHeader($tableName, '.php', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
+        $htmlErrors = $xCodeCaseDelete->getXcHtmlErrors($tableName, true);
+        $internalElse = $xCodeCaseDelete->getXcTplAssign('error', $htmlErrors, false, $t."\t\t");
+        $condition .= $phpCodeCaseDelete->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t."\t");
 
-        $mainElse = $this->xc->getXoopsCodeXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t."\t");
-        $ret .= $this->pc->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
+        $mainElse = $xCodeCaseDelete->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t."\t");
+        $ret .= $phpCodeCaseDelete->getPhpCodeConditions($isset, ' && ', "1 == \${$reqOk}", $condition, $mainElse, $t);
 
         return $ret;
     }

@@ -139,7 +139,7 @@ class UserXoopsVersion extends TDMCreateFile
         $date = date(_DBDATESTRING);
         $ret = $this->getSimpleString('');
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXoopsCodeEqualsOperator('$dirname ', 'basename(__DIR__)');
+        $ret .= $this->xc->getXcEqualsOperator('$dirname ', 'basename(__DIR__)');
         $ret .= $this->getDashComment('Informations');
         $ha = (1 == $module->getVar('mod_admin')) ? 1 : 0;
         $hm = (1 == $module->getVar('mod_user')) ? 1 : 0;
@@ -484,8 +484,8 @@ class UserXoopsVersion extends TDMCreateFile
                 $ucfFieldName = ucfirst($rpFieldName);
                 $stuFieldName = strtoupper($rpFieldName);
                 $ret .= $this->phpcode->getPhpCodeCommentLine('Editor', $rpFieldName);
-                $ret .= $this->xc->getXoopsCodeLoad('xoopseditorhandler');
-                $ret .= $this->xc->getXoopsCodeEqualsOperator('$editorHandler'.$ucfFieldName, 'XoopsEditorHandler::getInstance()');
+                $ret .= $this->xc->getXcLoad('xoopseditorhandler');
+                $ret .= $this->xc->getXcEqualsOperator('$editorHandler'.$ucfFieldName, 'XoopsEditorHandler::getInstance()');
                 $editor = array('name' => "'{$moduleDirname}_editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$stuFieldName}'", 'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler'.$ucfFieldName.'->getList())', );
                 $ret .= $this->uc->getUserModVersion(3, $editor, 'config', '$c');
@@ -494,20 +494,20 @@ class UserXoopsVersion extends TDMCreateFile
         }
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get groups');
-            $ret .= $this->xc->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
-            $ret .= $this->xc->getXoopsCodeEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
-            $group = $this->xc->getXoopsCodeEqualsOperator('$groups[$group] ', '$key');
+            $ret .= $this->xc->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $this->xc->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
+            $group = $this->xc->getXcEqualsOperator('$groups[$group] ', '$key');
             $ret .= $this->phpcode->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
             $groups = array('name' => "'groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
                         'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$groups', 'options' => '$groups', );
             $ret .= $this->uc->getUserModVersion(3, $groups, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get Admin groups');
-            $ret .= $this->xc->getXoopsCodeEqualsOperator('$criteria ', 'new CriteriaCompo()');
+            $ret .= $this->xc->getXcEqualsOperator('$criteria ', 'new CriteriaCompo()');
             $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
-            $ret .= $this->xc->getXoopsCodeEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
-            $ret .= $this->xc->getXoopsCodeEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
-            $adminGroup = $this->xc->getXoopsCodeEqualsOperator('$adminGroups[$adminGroup] ', '$key');
+            $ret .= $this->xc->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $this->xc->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
+            $adminGroup = $this->xc->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key');
             $ret .= $this->phpcode->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
             $adminGroups = array('name' => "'admin_groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
                         'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$adminGroups', 'options' => '$adminGroups', );

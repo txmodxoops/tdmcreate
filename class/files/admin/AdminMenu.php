@@ -30,7 +30,7 @@ class AdminMenu extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -42,7 +42,7 @@ class AdminMenu extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -95,12 +95,12 @@ class AdminMenu extends TDMCreateFile
         $ret = '';
         foreach ($param as $key => $value) {
             if ($adminMenu) {
-                $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
+                $ret .= $this->xc->getXcEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
             } else {
                 if ($ref) {
-                    $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}", null, true);
+                    $ret .= $this->xc->getXcEqualsOperator("{$key}", "{$value}", null, true);
                 } else {
-                    $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("{$key}", "{$value}");
+                    $ret .= $this->xc->getXcEqualsOperator("{$key}", "{$value}");
                 }
             }
         }
@@ -143,7 +143,7 @@ class AdminMenu extends TDMCreateFile
     private function getAdminMenuDashboard($language, $menu)
     {
         $param = array('title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'");
-        $ret = $this->xoopscode->getXoopsCodeEqualsOperator('$i', '1');
+        $ret = $this->xc->getXcEqualsOperator('$i', '1');
         $ret .= $this->getAdminMenuArray($param, true);
         $ret .= $this->getSimpleString('++$i;');
 
@@ -169,10 +169,10 @@ class AdminMenu extends TDMCreateFile
             $fieldElement = $fields[$f]->getVar('field_element');
             switch ($fieldElement) {
                 case 13:
-                    $ret = $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['icon']", "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
+                    $ret = $this->xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
                     break;
                 default:
-                    $ret = $this->xoopscode->getXoopsCodeEqualsOperator("\$adminmenu[\$i]['icon']", "\$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}'");
+                    $ret = $this->xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "\$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}'");
                     break;
             }
         }
