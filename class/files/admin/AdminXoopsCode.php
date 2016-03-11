@@ -275,7 +275,7 @@ class AdminXoopsCode
     {
         $xCodeSetVars = TDMCreateXoopsCode::getInstance();
         $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
-		$fieldMain = '';
+        $fieldMain = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -292,7 +292,7 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcUrlFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 13:                        
-						if (1 == $fields[$f]->getVar('field_main')) {
+                        if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
                         $ret .= self::getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
