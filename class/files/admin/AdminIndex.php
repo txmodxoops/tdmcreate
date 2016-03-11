@@ -30,12 +30,12 @@ class AdminIndex extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     * @var mixed
     */
-    private $adminxoopscode = null;
+    private $adminxc = null;
 
     /*
     *  @public function constructor
@@ -48,8 +48,8 @@ class AdminIndex extends TDMCreateFile
     {
         parent::__construct();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
-        $this->adminxoopscode = AdminXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
+        $this->adminxc = AdminXoopsCode::getInstance();
     }
 
     /*
@@ -106,23 +106,23 @@ class AdminIndex extends TDMCreateFile
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->xoopscode->getXoopsCodeEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
+            $ret .= $this->xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Template Index');
-        $ret .= $this->adminxoopscode->getAdminTemplateMain("{$moduleDirname}", 'index');
+        $ret .= $this->adminxc->getAdminTemplateMain("{$moduleDirname}", 'index');
         $ret .= $this->phpcode->getPhpCodeCommentLine('InfoBox Statistics');
-        $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBox($language.'STATISTICS');
+        $ret .= $this->adminxc->getAxcAddInfoBox($language.'STATISTICS');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Info elements');
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
             $stuTableName = $languageThereAre.strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
+            $ret .= $this->adminxc->getAxcAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
         }
 
         if ($tableName == null) {
-            $ret .= $this->adminxoopscode->getAdminXoopsCodeAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0');
+            $ret .= $this->adminxc->getAxcAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0');
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Upload Folders');
@@ -137,13 +137,13 @@ class AdminIndex extends TDMCreateFile
             }
             $ret .= $this->getSimpleString(');');
             $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads Folders Created');
-            $boxLine = $this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
-            $boxLine .= $this->adminxoopscode->getAdminXoopsCodeAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
+            $boxLine = $this->adminxc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
+            $boxLine .= $this->adminxc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
             $ret .= $this->phpcode->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Render Index');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('index', '$adminMenu->renderIndex()');
+        $ret .= $this->xc->getXcTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");
+        $ret .= $this->xc->getXcTplAssign('index', '$adminMenu->renderIndex()');
 
         $ret .= $this->getInclude('footer');
 

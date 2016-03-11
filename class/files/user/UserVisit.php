@@ -30,12 +30,12 @@ class UserVisit extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $usercode = null;
+    private $uc = null;
 
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -47,9 +47,9 @@ class UserVisit extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->uc = UserXoopsCode::getInstance();
     }
 
     /*
@@ -108,10 +108,10 @@ class UserVisit extends TDMCreateFile
         }
         if ($table->getVar('table_category') == 1) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
+            $ret .= $this->xc->getXcXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '0', 'Int');
+        $ret .= $this->xc->getXcXoopsRequest("{$ccFieldId}", "{$fieldId}", '0', 'Int');
 
         return $ret;
     }

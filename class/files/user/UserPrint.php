@@ -128,10 +128,10 @@ class UserPrint extends TDMCreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $stuLpFieldName = strtoupper($ccFieldId);
         $ret = $this->getInclude();
-        $ret .= $this->xc->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
+        $ret .= $this->xc->getXcXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
-        $ret .= $this->xc->getXoopsCodeAddStylesheet();
-        $redirectHeader = $this->xc->getXoopsCodeRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
+        $ret .= $this->xc->getXcAddStylesheet();
+        $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
         if (strstr($fieldName, 'published')) {
@@ -154,20 +154,20 @@ class UserPrint extends TDMCreateFile
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        $ret .= $this->xc->getXoopsCodeGet($tableName, "{$ccFieldId}", '', true);
-        $gperm = $this->xc->getXoopsCodeCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVat('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+        $ret .= $this->xc->getXcGet($tableName, "{$ccFieldId}", '', true);
+        $gperm = $this->xc->getXcCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVat('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
-        $noPerm = $this->xc->getXoopsCodeRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
+        $noPerm = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
         $noPerm .= $this->getSimpleString('exit();', "\t");
         $ret .= $this->phpcode->getPhpCodeConditions($gperm, '', '', $noPerm);
-        $ret .= $this->xc->getXoopsCodeGetValues($tableName, $tableSoleName, '', true);
-        $contentForeach = $this->xc->getXoopsCodeXoopsTplAppend('"{$k}"', '$v', "\t");
+        $ret .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
+        $contentForeach = $this->xc->getXcXoopsTplAppend('"{$k}"', '$v', "\t");
         $ret .= $this->phpcode->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
-        $ret .= $this->xc->getXoopsCodeTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
-        $getVar = $this->xc->getXoopsCodeGetVar('', $tableSoleName, $fieldMain, true);
+        $ret .= $this->xc->getXcTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
+        $getVar = $this->xc->getXcGetVar('', $tableSoleName, $fieldMain, true);
         $stripTags = $this->phpcode->getPhpCodeStripTags('', $getVar.' - '."{$language}PRINT".' - '."\$GLOBALS['xoopsModule']->name()", true);
-        $ret .= $this->xc->getXoopsCodeTplAssign('xoops_pagetitle', $stripTags);
-        $ret .= $this->xc->getXoopsCodeTplDisplay($tableName.'_print.tpl');
+        $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', $stripTags);
+        $ret .= $this->xc->getXcTplDisplay($tableName.'_print.tpl');
 
         return $ret;
     }

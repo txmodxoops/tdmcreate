@@ -104,7 +104,7 @@ class UserIndex extends TDMCreateFile
         $ret .= $this->uc->getUserTplMain($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
-        $ret .= $this->xc->getXoopsCodeAddStylesheet();
+        $ret .= $this->xc->getXcAddStylesheet();
 
         return $ret;
     }
@@ -138,22 +138,22 @@ class UserIndex extends TDMCreateFile
         }
         $ret = '';
         if (in_array(1, $fieldParentId)) {
-            $ret .= $this->xc->getXoopsCodeObjHandlerCount($tableName);
+            $ret .= $this->xc->getXcObjHandlerCount($tableName);
             $ret .= $this->phpcode->getPhpCodeCommentLine('If there are ', $tableName);
             $ret .= $this->getSimpleString('$count = 1;');
 
-            $contentIf = $this->xc->getXoopsCodeObjHandlerAll($tableName, '', 0, 0, "\t");
+            $contentIf = $this->xc->getXcObjHandlerAll($tableName, '', 0, 0, "\t");
             $contentIf .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', "\t");
             $contentIf .= $this->cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
-            $foreach = $this->xc->getXoopsCodeGetValues($tableName, $tableSoleName, $tableFieldname, false, "\t");
+            $foreach = $this->xc->getXcGetValues($tableName, $tableSoleName, $tableFieldname, false, "\t");
             $foreach .= $this->phpcode->getPhpCodeArray($tableName);
             $foreach .= $this->phpcode->getPhpCodeArray('acount', array("'count'", '$count'));
             $foreach .= $this->phpcode->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
-            $foreach .= $this->xc->getXoopsCodeXoopsTplAppend($tableName, "\${$tableName}", "\t\t");
+            $foreach .= $this->xc->getXcXoopsTplAppend($tableName, "\${$tableName}", "\t\t");
             $foreach .= $this->phpcode->getPhpCodeUnset($tableName, "\t\t");
             $contentIf .= $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, $tableFieldname, $foreach, "\t");
-            $getConfig = $this->xc->getXoopsCodeGetConfig($moduleDirname, 'numb_col');
-            $contentIf .= $this->xc->getXoopsCodeTplAssign('numb_col', $getConfig, true, "\t");
+            $getConfig = $this->xc->getXcGetConfig($moduleDirname, 'numb_col');
+            $contentIf .= $this->xc->getXcTplAssign('numb_col', $getConfig, true, "\t");
             $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf, false);
             $ret .= $this->phpcode->getPhpCodeUnset('count');
         }
@@ -177,21 +177,21 @@ class UserIndex extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $ret = $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXoopsCodeTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret .= $this->xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXoopsCodeObjHandlerCount($tableName);
+        $ret .= $this->xc->getXcObjHandlerCount($tableName);
         $ret .= $this->getSimpleString('$count = 1;');
-        $condIf = $this->xc->getXoopsCodeXoopsRequest('start', 'start', '0', 'Int', false, "\t");
-        $userpager = $this->xc->getXoopsCodeGetConfig($moduleDirname, 'userpager');
-        $condIf .= $this->xc->getXoopsCodeXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
-        $condIf .= $this->xc->getXoopsCodeObjHandlerAll($tableName, '', '$start', '$limit', "\t");
+        $condIf = $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, "\t");
+        $userpager = $this->xc->getXcGetConfig($moduleDirname, 'userpager');
+        $condIf .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
+        $condIf .= $this->xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
         $condIf .= $this->phpcode->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
-        $foreach = $this->xc->getXoopsCodeGetValues($tableName, $tableFieldname, 'i', false, "\t");
+        $foreach = $this->xc->getXcGetValues($tableName, $tableFieldname, 'i', false, "\t");
         $foreach .= $this->phpcode->getPhpCodeArray($tableName);
         $foreach .= $this->phpcode->getPhpCodeArray('acount', array("'count'", '$count'));
         $foreach .= $this->phpcode->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
-        $foreach .= $this->xc->getXoopsCodeXoopsTplAppend($tableName, "\${$tableName}", "\t\t");
+        $foreach .= $this->xc->getXcXoopsTplAppend($tableName, "\${$tableName}", "\t\t");
         $table = $this->getTable();
         // Fields
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -201,15 +201,15 @@ class UserIndex extends TDMCreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $foreach .= $this->xc->getXoopsCodeGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
+        $foreach .= $this->xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
         $foreach .= $this->phpcode->getPhpCodeUnset($tableName, "\t\t");
         $foreach .= $this->getSimpleString('++$count;', "\t\t");
         $condIf .= $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
-        $condIf .= $this->xc->getXoopsCodePageNav($tableName, "\t");
+        $condIf .= $this->xc->getXcPageNav($tableName, "\t");
         $thereare = $this->phpcode->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
-        $condIf .= $this->xc->getXoopsCodeTplAssign('lang_thereare', $thereare, true, "\t");
-        $divideby = $this->xc->getXoopsCodeGetConfig($moduleDirname, 'divideby');
-        $condIf .= $this->xc->getXoopsCodeTplAssign('divideby', $divideby, true, "\t");
+        $condIf .= $this->xc->getXcTplAssign('lang_thereare', $thereare, true, "\t");
+        $divideby = $this->xc->getXcGetConfig($moduleDirname, 'divideby');
+        $condIf .= $this->xc->getXcTplAssign('divideby', $divideby, true, "\t");
 
         $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret .= $this->phpcode->getPhpCodeUnset('count');
@@ -236,9 +236,9 @@ class UserIndex extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeUnset('keywords');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
         $ret .= $this->uc->getUserMetaDesc($moduleDirname, $language);
-        $ret .= $this->xc->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret .= $this->xc->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret .= $this->xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret .= $this->xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $this->xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret .= $this->getInclude('footer');
 
         return $ret;

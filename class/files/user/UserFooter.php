@@ -30,7 +30,7 @@ class UserFooter extends TDMCreateFile
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -42,7 +42,7 @@ class UserFooter extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
@@ -86,16 +86,16 @@ class UserFooter extends TDMCreateFile
     */
     private function getUserFooter($moduleDirname)
     {
-        $xoBreadcrumbs = $this->xoopscode->getXoopsCodeTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
+        $xoBreadcrumbs = $this->xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
         $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
         $language = $this->getLanguage($moduleDirname, 'MA');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
+        $ret .= $this->xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
+        $ret .= $this->xc->getXcTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
+        $ret .= $this->xc->getXcTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('admin', "{$language}ADMIN");
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('copyright', '$copyright');
+        $ret .= $this->xc->getXcTplAssign('admin', "{$language}ADMIN");
+        $ret .= $this->xc->getXcTplAssign('copyright', '$copyright');
         $ret .= $this->phpcode->getPhpCodeCommentLine();
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
 

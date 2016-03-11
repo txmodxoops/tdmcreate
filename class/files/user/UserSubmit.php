@@ -30,12 +30,12 @@ class UserSubmit extends TDMCreateFile
     /*
     * @var mixed
     */
-    private $usercode = null;
+    private $uc = null;
 
     /*
     * @var string
     */
-    private $xoopscode = null;
+    private $xc = null;
 
     /*
     *  @public function constructor
@@ -47,9 +47,9 @@ class UserSubmit extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = TDMCreateXoopsCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->uc = UserXoopsCode::getInstance();
     }
 
     /*
@@ -96,16 +96,16 @@ class UserSubmit extends TDMCreateFile
     public function getUserSubmitHeader($moduleDirname)
     {
         $ret = $this->getInclude();
-        $ret .= $this->xoopscode->getXoopsCodeLoadLanguage('admin');
+        $ret .= $this->xc->getXcLoadLanguage('admin');
         $ret .= $this->phpcode->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest('op', 'op', 'form');
+        $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'form');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Template');
-        $ret .= $this->usercode->getUserTplMain($moduleDirname, 'submit');
+        $ret .= $this->uc->getUserTplMain($moduleDirname, 'submit');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
+        $ret .= $this->xc->getXcAddStylesheet();
         $ret .= "\$permSubmit = (\$gpermHandler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid'))) ? true : false;\n";
         $ret .= $this->phpcode->getPhpCodeCommentLine('Redirection if not permissions');
-        $condIf = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', '_NOPERM');
+        $condIf = $this->xc->getXcRedirectHeader('index', '', '2', '_NOPERM');
         $condIf .= $this->getSimpleString('exit();');
 
         $ret .= $this->phpcode->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf, false);
@@ -123,18 +123,18 @@ class UserSubmit extends TDMCreateFile
     public function getUserSubmitForm($tableName, $language)
     {
         $ret = $this->phpcode->getPhpCodeCommentLine('Mavigation');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('navigation', '$navigation');
+        $ret .= $this->xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
+        $ret .= $this->xc->getXcTplAssign('navigation', '$navigation');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page');
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
-        $ret .= $this->xoopscode->getXoopsCodeEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_pagetitle', '$title');
+        $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
+        $ret .= $this->xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.');
+        $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', '$title');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
-        $ret .= $this->usercode->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
+        $ret .= $this->uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create');
-        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
-        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->render()');
+        $ret .= $this->xc->getXcObjHandlerCreate($tableName);
+        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xc->getXcTplAssign('form', '$form->render()');
 
         return $ret;
     }
@@ -155,24 +155,24 @@ class UserSubmit extends TDMCreateFile
     {
         $ucfTableName = ucfirst($tableName);
         $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
-        $xoopsSecurityCheck = $this->xoopscode->getXoopsCodeSecurityCheck();
-        $securityError = $this->xoopscode->getXoopsCodeSecurityErrors();
+        $xoopsSecurityCheck = $this->xc->getXcSecurityCheck();
+        $securityError = $this->xc->getXcSecurityErrors();
         $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
-        $redirectError = $this->xoopscode->getXoopsCodeRedirectHeader($tableName, '', '3', $implode);
+        $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode);
         $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
-        $ret .= $this->xoopscode->getXoopsCodeObjHandlerCreate($tableName);
+        $ret .= $this->xc->getXcObjHandlerCreate($tableName);
 
-        $ret .= $this->xoopscode->getXoopsCodeSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $fields);
 
         $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data');
-        $insert = $this->xoopscode->getXoopsCodeInsert($tableName, $tableName, 'Obj', true);
-        $confirmOk = $this->xoopscode->getXoopsCodeRedirectHeader('index', '', '2', "{$language}FORM_OK");
+        $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
+        $confirmOk = $this->xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK");
         $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
 
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
-        $ret .= $this->xoopscode->getXoopsCodeGetForm('form', $tableName, 'Obj');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('form', '$form->display()');
+        $ret .= $this->xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
+        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj');
+        $ret .= $this->xc->getXcTplAssign('form', '$form->display()');
 
         return $ret;
     }
@@ -188,7 +188,7 @@ class UserSubmit extends TDMCreateFile
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $this->usercode->getUserBreadcrumbs($language, 'SUBMIT');
+        $ret .= $this->uc->getUserBreadcrumbs($language, 'SUBMIT');
         $ret .= $this->getInclude('footer');
 
         return $ret;
@@ -211,7 +211,7 @@ class UserSubmit extends TDMCreateFile
         $cases = array('form' => array($this->getUserSubmitForm($tableName, $language)),
                     'save' => array($this->getUserSubmitSave($moduleDirname, $fields, $tableName, $language)), );
 
-        return $this->xoopscode->getXoopsCodeSwitch('op', $cases, true);
+        return $this->xc->getXcSwitch('op', $cases, true);
     }
 
     /*
