@@ -28,29 +28,6 @@
 class UserXoopsCode
 {
     /*
-    * @var mixed
-    */
-    private $phpcode = null;
-
-    /*
-    * @var mixed
-    */
-    private $xc = null;
-
-    /*
-    *  @public function constructor
-    *  @param null
-    */
-    /**
-     *
-     */
-    public function __construct()
-    {
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xc = TDMCreateXoopsCode::getInstance();
-    }
-
-    /*
     *  @static function &getInstance
     *  @param null
     */
@@ -88,8 +65,9 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type = '', $language, $tableName)
     {
+        $pCodeAddMeta = TDMCreatePhpCode::getInstance();
         $stuTableName = strtoupper($tableName);
-        $stripTags = $this->phpcode->getPhpCodeStripTags('', $language.$stuTableName, true);
+        $stripTags = $pCodeAddMeta->getPhpCodeStripTags('', $language.$stuTableName, true);
 
         return "\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
@@ -102,7 +80,8 @@ class UserXoopsCode
     */
     public function getUserMetaKeywords($moduleDirname)
     {
-        $implode = $this->phpcode->getPhpCodeImplode(',', '$keywords');
+        $pCodeMetaKeywords = TDMCreatePhpCode::getInstance();
+        $implode = $pCodeMetaKeywords->getPhpCodeImplode(',', '$keywords');
 
         return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. {$implode});\n";
     }
@@ -131,8 +110,9 @@ class UserXoopsCode
     {
         $stuTableName = strtoupper($tableName);
         $title = array("'title'" => "{$language}{$stuTableName}");
+        $pCodeBreadcrumbs = TDMCreatePhpCode::getInstance();
 
-        return $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
+        return $pCodeBreadcrumbs->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
     }
 
     /*
@@ -143,12 +123,14 @@ class UserXoopsCode
     */
     public function getUserBreadcrumbsHeaderFile($moduleDirname)
     {
+        $pCodeHeaderFile = TDMCreatePhpCode::getInstance();
+        $xCodeHeaderFile = TDMCreateXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
-        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $getVar = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'name', true);
+        $ret = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
+        $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
+        $getVar = $xCodeHeaderFile->getXcGetVar('', "GLOBALS['xoopsModule']", 'name', true);
         $titleLink = array("'title'" => $getVar, "'link'" => "{$stuModuleDirname}_URL . '/'");
-        $ret .= $this->phpcode->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
+        $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
     }
@@ -161,8 +143,10 @@ class UserXoopsCode
     */
     public function getUserBreadcrumbsFooterFile()
     {
-        $cond = $this->xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $pCodeFooterFile = TDMCreatePhpCode::getInstance();
+        $xCodeFooterFile = TDMCreateXoopsCode::getInstance();
+        $cond = $xCodeFooterFile->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $ret = $pCodeFooterFile->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }
@@ -177,18 +161,18 @@ class UserXoopsCode
     *  
     *  @return string
     */
-    public function getUserModVersion($eleArray = 1, $descriptions, $name = false, $index = false, $num = false)
+    public function getUserModVersion($eleArray = 1, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
         $ret = '';
-        $mv = '$modversion';
+        $mv = $t.'$modversion';
         if (!is_array($descriptions)) {
             $descs = array($descriptions);
         } else {
             $descs = $descriptions;
         }
         foreach ($descs as $key => $desc) {
-            $one = (false === $name) ? $key : $name;
-            $two = (false === $index) ? $key : $index;
+            $one = ($name === null) ? $key : $name;
+            $two = ($index === null) ? $key : $index;
             if ($eleArray === 1) {
                 $ret .= $mv."['{$one}'] = {$desc};\n";
             } elseif ($eleArray === 2) {

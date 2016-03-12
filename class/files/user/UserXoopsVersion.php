@@ -124,7 +124,7 @@ class UserXoopsVersion extends TDMCreateFile
     private function getXoopsVersionHeader($module, $language)
     {
         $xCodeVHeader = TDMCreateXoopsCode::getInstance();
-		$uCodeVHeader = UserXoopsCode::getInstance();
+        $uCodeVHeader = UserXoopsCode::getInstance();
         $date = date(_DBDATESTRING);
         $ret = $this->getSimpleString('');
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine();
@@ -240,7 +240,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionTemplatesAdmin($moduleDirname, $tables)
     {
-		$ret = $this->getDashComment('Templates');
+        $ret = $this->getDashComment('Templates');
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine('Admin');
 
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
@@ -299,7 +299,7 @@ class UserXoopsVersion extends TDMCreateFile
      */
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
-		$ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine('User');
+        $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine('User');
 
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '');
         $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '');
