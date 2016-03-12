@@ -6,8 +6,10 @@ If you liked the module TDMCreate and thanks to the long process for giving the 
 # TDMCreate version 1.91
 
 [![Build Status](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91/badges/build.png?b=master)](https://travis-ci.org/txmodxoops/TDMCreate-1.91)
+[![Jenkins coverage](https://img.shields.io/jenkins/c/https/jenkins.qa.ubuntu.com/address-book-service-utopic-i386-ci.svg)](https://github.com/txmodxoops/tdmcreate-1.91)
 [![Software License](https://img.shields.io/badge/license-GPL-brightgreen.svg?style=flat)](docs/license.txt)
 [![Quality Score](https://img.shields.io/scrutinizer/g/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://scrutinizer-ci.com/g/txmodxoops/TDMCreate-1.91)
+[![Gem](https://img.shields.io/gem/dt/rails.svg)](txmodxoops/tdmcreate-1.91)
 [![Latest Version](https://img.shields.io/github/release/txmodxoops/TDMCreate-1.91.svg?style=flat)](https://github.com/txmodxoops/TDMCreate-1.91/releases/latest)
 
 <p>
@@ -21,7 +23,11 @@ It's under development currently. If you want to build with developers this vers
 
 Clear version
 
-Needed xoops 2.5.7.1, PHP 5.3 or high
+# Require:
+- Xoops 2.5.7.1, 2.5.7.2 or 2.5.8;
+- Xoops Admin 1.1;
+- PHP 5.3 or high;
+- MySQL 5.5;
 
 # Adding
  - Added: table_solename field in tables
@@ -34,9 +40,9 @@ Needed xoops 2.5.7.1, PHP 5.3 or high
 # Info
 TDMCreate is a module that create other basic modules for XOOPS CMS.
 
-Tested with xoops 2.5.7 and 2.5.7.1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
+Tested with xoops 2.5.7.(1,2) and 2.5.8 beta 1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
-That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7.1 and use with this latest version.
+That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7.2 and use with this latest version.
 
 Therefore recommended not to use TDMCreate 1.91, with previous versions of xoops 2.5.7
 
