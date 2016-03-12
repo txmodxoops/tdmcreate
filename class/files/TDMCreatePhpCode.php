@@ -26,7 +26,7 @@
  * Class TDMCreatePhpCode.
  */
 class TDMCreatePhpCode
-{    
+{
     /*
     *  @static function &getInstance
     *  @param null
