@@ -249,7 +249,7 @@ class AdminXoopsCode
         if ($formatUrl) {
             $ifelse = $t."\t\t{$fetchMedia};\n";
         } else {
-            $ifelse = $t."\t//".self::getAxcFetchMedia('uploader', "'{$fieldName}_'").";\n";
+            $ifelse = $t."\t//".self::getAxcSetPrefix('uploader', "'{$fieldName}_'").";\n";
             $ifelse .= $t."\t//{$fetchMedia};\n";
         }
         $contentElse = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t."\t\t");

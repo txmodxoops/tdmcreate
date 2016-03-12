@@ -121,18 +121,14 @@ class UserSingle extends TDMCreateFile
     }
 
     /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
-    /**
-     * @param $module
+     * @public function getUserSingleBody     
+     * @param $moduleDirname
      * @param $tableName
      * @param $language
      *
      * @return string
      */
-    public function getUserSingle($moduleDirname, $tableName, $language)
+    public function getUserSingleBody($moduleDirname, $tableName, $language)
     {
         $ret = <<<EOT
 
@@ -156,12 +152,12 @@ EOT;
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
         $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $this->uc->getUserBreadcrumbs("{$stuTableName}", $language);
+        $ret .= $this->uc->getUserBreadcrumbs($language, $stuTableName);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Keywords');
         $ret .= $this->uc->getUserMetaKeywords($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeUnset('keywords');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
-        $ret .= $this->uc->getUserMetaDesc($moduleDirname, 'DESC', $language);
+        $ret .= $this->uc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
         $ret .= $this->xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
         $ret .= $this->xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
         $ret .= $this->xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
@@ -190,7 +186,7 @@ EOT;
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSingleHeader($moduleDirname, $table, $fields);
-        $content .= $this->getUserSingle($module, $tableName, $language);
+        $content .= $this->getUserSingleBody($module, $tableName, $language);
         $content .= $this->getUserSingleFooter($moduleDirname, $tableName, $language);
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
