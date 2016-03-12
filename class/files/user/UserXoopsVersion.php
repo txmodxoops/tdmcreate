@@ -475,10 +475,8 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->getDashComment('Config');
         $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldElement = array();
         foreach (array_keys($fields) as $f) {
-            $fieldElement[] = $fields[$f]->getVar('field_element');
-            if (in_array(4, $fieldElement)) {
+            if ($fields[$f]->getVar('field_element') == 4) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 $rpFieldName = $this->getRightString($fieldName);
                 $ucfFieldName = ucfirst($rpFieldName);
@@ -492,6 +490,7 @@ class UserXoopsVersion extends TDMCreateFile
                 $ret .= $this->getSimpleString('++$c;');
             }
         }
+
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get groups');
             $ret .= $this->xc->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
@@ -521,41 +520,43 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $this->uc->getUserModVersion(3, $arrayKeyword, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         unset($this->keywords);
-        if (is_object($table)) {
-            if (in_array(array(10, 11, 12, 13, 14), $fieldElement)) {
-                $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads : maxsize of image');
-                $maxsize = array('name' => "'maxsize'", 'title' => "'{$language}MAXSIZE'", 'description' => "'{$language}MAXSIZE_DESC'",
-                    'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '5000000', );
-                $ret .= $this->uc->getUserModVersion(3, $maxsize, 'config', '$c');
-                $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads : mimetypes of image');
-                $ret .= $this->getSimpleString('++$c;');
-                $mimetypes = array('name' => "'mimetypes'", 'title' => "'{$language}MIMETYPES'", 'description' => "'{$language}MIMETYPES_DESC'",
-                    'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')",
-                    'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')", );
-                $ret .= $this->uc->getUserModVersion(3, $mimetypes, 'config', '$c');
-                $ret .= $this->getSimpleString('++$c;');
-            }
-            if (1 == $table->getVar('table_admin')) {
-                $ret .= $this->phpcode->getPhpCodeCommentLine('Admin pager');
-                $adminPager = array('name' => "'adminpager'", 'title' => "'{$language}ADMIN_PAGER'", 'description' => "'{$language}ADMIN_PAGER_DESC'",
-                        'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
-                $ret .= $this->uc->getUserModVersion(3, $adminPager, 'config', '$c');
-                $ret .= $this->getSimpleString('++$c;');
-            }
-            if (1 == $table->getVar('table_user')) {
-                $ret .= $this->phpcode->getPhpCodeCommentLine('User pager');
-                $userPager = array('name' => "'userpager'", 'title' => "'{$language}USER_PAGER'", 'description' => "'{$language}USER_PAGER_DESC'",
-                        'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
-                $ret .= $this->uc->getUserModVersion(3, $userPager, 'config', '$c');
-                $ret .= $this->getSimpleString('++$c;');
-            }
-            if (1 == $table->getVar('table_tag')) {
-                $ret .= $this->phpcode->getPhpCodeCommentLine('Use tag');
-                $useTag = array('name' => "'usetag'", 'title' => "'{$language}USE_TAG'", 'description' => "'{$language}USE_TAG_DESC'",
-                        'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
-                $ret .= $this->uc->getUserModVersion(3, $useTag, 'config', '$c');
-                $ret .= $this->getSimpleString('++$c;');
-            }
+        $fieldElement = array();
+        foreach (array_keys($fields) as $f) {
+            $fieldElement[] = $fields[$f]->getVar('field_element');
+        }
+        if (in_array(10, $fieldElement) || in_array(11, $fieldElement) || in_array(12, $fieldElement) || in_array(13, $fieldElement) || in_array(14, $fieldElement)) {
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads : maxsize of image');
+            $maxsize = array('name' => "'maxsize'", 'title' => "'{$language}MAXSIZE'", 'description' => "'{$language}MAXSIZE_DESC'",
+                'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '5000000', );
+            $ret .= $this->uc->getUserModVersion(3, $maxsize, 'config', '$c');
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Uploads : mimetypes of image');
+            $ret .= $this->getSimpleString('++$c;');
+            $mimetypes = array('name' => "'mimetypes'", 'title' => "'{$language}MIMETYPES'", 'description' => "'{$language}MIMETYPES_DESC'",
+                'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')",
+                'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')", );
+            $ret .= $this->uc->getUserModVersion(3, $mimetypes, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
+        }
+        if (1 == $table->getVar('table_admin')) {
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Admin pager');
+            $adminPager = array('name' => "'adminpager'", 'title' => "'{$language}ADMIN_PAGER'", 'description' => "'{$language}ADMIN_PAGER_DESC'",
+                    'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
+            $ret .= $this->uc->getUserModVersion(3, $adminPager, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
+        }
+        if (1 == $table->getVar('table_user')) {
+            $ret .= $this->phpcode->getPhpCodeCommentLine('User pager');
+            $userPager = array('name' => "'userpager'", 'title' => "'{$language}USER_PAGER'", 'description' => "'{$language}USER_PAGER_DESC'",
+                    'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10', );
+            $ret .= $this->uc->getUserModVersion(3, $userPager, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
+        }
+        if (1 == $table->getVar('table_tag')) {
+            $ret .= $this->phpcode->getPhpCodeCommentLine('Use tag');
+            $useTag = array('name' => "'usetag'", 'title' => "'{$language}USE_TAG'", 'description' => "'{$language}USE_TAG_DESC'",
+                    'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
+            $ret .= $this->uc->getUserModVersion(3, $useTag, 'config', '$c');
+            $ret .= $this->getSimpleString('++$c;');
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Number column');
         $numbCol = array('name' => "'numb_col'", 'title' => "'{$language}NUMB_COL'", 'description' => "'{$language}NUMB_COL_DESC'",

@@ -32,7 +32,7 @@ include __DIR__.'/autoload.php';
  * Class TDMCreateModules.
  */
 class TDMCreateModules extends XoopsObject
-{    
+{
     /**
      * Options.
      */
@@ -365,7 +365,7 @@ class TDMCreateModules extends XoopsObject
 
         return $form;
     }
-    
+
     /**
      * Get Values.
      */
