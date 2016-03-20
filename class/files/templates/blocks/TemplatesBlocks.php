@@ -97,7 +97,7 @@ class TemplatesBlocks extends TDMCreateFile
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
-            $stuFieldName = $language.strtoupper($fieldName);
+            $stuFieldName = strtoupper($fieldName);
             $lang = $this->htmlcode->getSmartyConst($language, $stuFieldName);
             $th    .= $this->htmlcode->getHtmlTableHead($lang, 'center').PHP_EOL;
         }
