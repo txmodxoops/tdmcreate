@@ -267,7 +267,7 @@ class TDMCreateXoopsCode
         $mimetypes = self::getXcGetConfig($moduleDirname, 'mimetypes');
         $maxsize = self::getXcGetConfig($moduleDirname, 'maxsize');
 
-        return "{$t}\${$var} = new XoopsMediaUploader({$dirPath}, {$mimetypes}, {$maxsize}, null, null);\n";
+        return "{$t}\${$var} = new XoopsMediaUploader({$dirPath} . \"/{$tableName}/\", {$mimetypes}, {$maxsize}, null, null);\n";
     }
 
     /*

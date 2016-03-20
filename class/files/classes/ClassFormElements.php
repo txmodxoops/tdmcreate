@@ -262,7 +262,7 @@ class ClassFormElements extends TDMCreateAbstract
         $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name=\'image1\' id=\'image1\' alt=\'\' />\\\"";
+        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name='image1' id='image1' alt='' />\\\"";
         $xoopsFormLabel = $this->cc->getClassXoopsFormLabel('', "''", "''", true, '');
         $ret .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
@@ -306,7 +306,7 @@ class ClassFormElements extends TDMCreateAbstract
         $setExtraParam = "\"onchange='showImgSelected(\\\"image3\\\", \\\"selected_image\\\", \\\"\".\$uploadDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $contentIf .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $contentIf .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name=\'image3\' id=\'image3\' alt=\'\' />\\\"";
+        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name='image3' id='image3' alt='' />\\\"";
         $xoopsFormLabel = $this->cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $contentIf .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $contentIf .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
@@ -382,7 +382,7 @@ class ClassFormElements extends TDMCreateAbstract
         $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\${$ccFieldName}.\"' name=\'image1\' id=\'image1\' alt=\'\' />\"";
+        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\${$ccFieldName}.\"' name='image1' id='image1' alt='' style='max-width:100px' />\"";
         $xoopsFormLabel = $this->cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $ret .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
