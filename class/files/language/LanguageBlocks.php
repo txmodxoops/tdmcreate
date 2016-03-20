@@ -91,14 +91,17 @@ class LanguageBlocks extends TDMCreateFile
         $tables = $this->getTables();
         $ret = $this->defines->getAboveDefines('Admin Edit');
         $ret .= $this->defines->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
-        $ret .= $this->defines->getDefine($language, 'TITLELENGTH', 'Title Length');
+        $ret .= $this->defines->getDefine($language, 'TITLE_LENGTH', 'Title Length');
         $ret .= $this->defines->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
         $ret .= $this->defines->getDefine($language, 'ALLCAT', 'All Categories');
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
+			$stuTableName = strtoupper($ucfTableName);
             $ret .= $this->defines->getAboveDefines($ucfTableName);
             $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+			$ret .= $this->defines->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
+			$ret .= $this->defines->getDefine($language, $stuTableName . "_TO_DISPLAY", $ucfTableName . ' to display');
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);

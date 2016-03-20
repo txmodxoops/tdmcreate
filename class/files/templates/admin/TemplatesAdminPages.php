@@ -165,7 +165,7 @@ EOT;*/
                     case 13:
                         $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
+                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName, 'style' => 'max-width:100px'), '', false);
                         $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
