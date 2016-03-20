@@ -119,7 +119,7 @@ class ClassFormElements extends TDMCreateAbstract
             $formText = $this->cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);
             $ret .= $this->cc->getClassAddElement('form', $formText.$required);
         } else {
-            $ret = $this->pc->getPhpCodeCommentLine('Form Text', $ucfFieldName);
+            $ret = $this->pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $formText = $this->cc->getClassXoopsFormText('', $language, $fieldName, 50, 255, "this->getVar('{$fieldName}')", true);
             $ret .= $this->cc->getClassAddElement('form', $formText.$required);
         }
@@ -257,12 +257,12 @@ class ClassFormElements extends TDMCreateAbstract
         $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $this->cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
         $ret .= $this->xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
-        $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t."\t");
+        $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', "\t");
         $ret .= $this->pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
         $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name='image1' id='image1' alt='' />\\\"";
+        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name='image1' id='image1' alt='' style='max-width:100px' />\\\"";
         $xoopsFormLabel = $this->cc->getClassXoopsFormLabel('', "''", "''", true, '');
         $ret .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
@@ -293,7 +293,7 @@ class ClassFormElements extends TDMCreateAbstract
         $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
         $ucfFieldName = $this->tf->getCamelCase($fieldName, true);
         $t = "\t\t\t";
-        $ret = $this->pc->getPhpCodeCommentLine('Form Frameworks', 'Image Files', $t);
+        $ret = $this->pc->getPhpCodeCommentLine('Form Frameworks', 'Image Files', "\t\t");
         $contentIf = $this->xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $contentIf .= $this->pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
         $contentIf .= $this->xc->getXcEqualsOperator('$uploadDirectory', "'/uploads/{$moduleDirname}/images/shots'", null, false, $t);
@@ -301,24 +301,24 @@ class ClassFormElements extends TDMCreateAbstract
         $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_PATH', '".{$uploadDirectory}/"');
         $contentIf .= $this->cc->getClassXoopsFormSelect('imageSelect', $sprintf, 'selected_image', "\${$moduleDirname}ShotImage", 5, 'false', false, $t);
         $contentIf .= $this->xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $uploadDirectory', $t);
-        $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t."\t");
+        $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', "\t");
         $contentIf .= $this->pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
         $setExtraParam = "\"onchange='showImgSelected(\\\"image3\\\", \\\"selected_image\\\", \\\"\".\$uploadDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $contentIf .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $contentIf .= $this->cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name='image3' id='image3' alt='' />\\\"";
+        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name='image3' id='image3' alt='' style='max-width:100px' />\\\"";
         $xoopsFormLabel = $this->cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $contentIf .= $this->cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
-        $contentIf .= $this->pc->getPhpCodeCommentLine('Form', 'File', $t);
+        $contentIf .= $this->pc->getPhpCodeCommentLine('Form', 'File', "\t\t");
         $contentIf .= $this->cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
         $getConfigFile = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'maxuploadsize');
         $xoopsFormFile = $this->cc->getClassXoopsFormFile('', $language.'_FORM_UPLOAD', 'attachedimage', $getConfigFile, true, '');
-        $contentIf1 = $this->cc->getClassAddElement('fileSelectTray', $xoopsFormFile.$required, $t);
+        $contentIf1 = $this->cc->getClassAddElement('fileSelectTray', $xoopsFormFile.$required, $t."\t");
 
         $contentIf .= $this->cc->getClassAddElement('imageTray', '$fileSelectTray', $t);
         $contentIf .= $this->cc->getClassAddElement('form', "\$imageTray{$required}", $t);
 
-        $contentIf = $this->pc->getPhpCodeConditions('$permissionUpload', ' == ', 'true', $contentIf1, false, $t."\t");
+        $contentIf = $this->pc->getPhpCodeConditions('$permissionUpload', ' == ', 'true', $contentIf1, false, $t);
         $getConfig = $this->xc->getXcGetConfig('this->'.$moduleDirname, 'useshots');
         $ret .= $this->pc->getPhpCodeConditions($getConfig, null, null, $contentIf, false, "\t\t");
 
@@ -377,7 +377,7 @@ class ClassFormElements extends TDMCreateAbstract
         $sprintf = $this->pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $this->cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
         $ret .= $this->xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
-        $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t."\t");
+        $contForeach = $this->cc->getClassAddOption('imageSelect', '"{$image1}", $image1', "\t");
         $ret .= $this->pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
         $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $this->cc->getClassSetExtra('imageSelect', $setExtraParam, $t);

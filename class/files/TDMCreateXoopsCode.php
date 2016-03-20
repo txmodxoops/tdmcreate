@@ -258,16 +258,17 @@ class TDMCreateXoopsCode
     *  @public function getXcMediaUploader
     *  @param $var
     *  @param $dirPath
-    *  @param $tableName
     *  @param $moduleDirname
     *  @return string
     */
-    public function getXcMediaUploader($var = '', $dirPath, $tableName, $moduleDirname, $t = '')
+    public function getXcMediaUploader($var = '', $dirPath, $moduleDirname, $t = '')
     {
         $mimetypes = self::getXcGetConfig($moduleDirname, 'mimetypes');
         $maxsize = self::getXcGetConfig($moduleDirname, 'maxsize');
 
-        return "{$t}\${$var} = new XoopsMediaUploader({$dirPath} . \"/{$tableName}/\", {$mimetypes}, {$maxsize}, null, null);\n";
+        return "{$t}\${$var} = new XoopsMediaUploader({$dirPath}, 
+													{$mimetypes}, 
+													{$maxsize}, null, null);\n";
     }
 
     /*
