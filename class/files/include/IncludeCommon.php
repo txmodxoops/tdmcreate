@@ -95,9 +95,8 @@ class IncludeCommon extends TDMCreateFile
         $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
         $ret = <<<EOT
 
-if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
-    define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
-	define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+    if (!defined('XOOPS_ICONS32_PATH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'); 
+	if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
 	define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
     define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
     define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
@@ -134,7 +133,7 @@ EOT;
         $ret .= <<<EOT
 	define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
     \$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';
-}
+
 // module information
 \$copyright = "<a href='{$moduleAuthorWebsiteUrl}' title='{$moduleAuthorWebsiteName}' target='_blank'>
                      <img src='".\$local_logo."' alt='{$moduleAuthorWebsiteName}' /></a>";
