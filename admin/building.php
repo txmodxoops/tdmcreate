@@ -47,14 +47,7 @@ switch ($op) {
             // Clear this module if it's in repository
             if (is_dir($fromDir)) {
                 TDMCreate_clearDir($fromDir);
-            }
-            // Clear this module if it's in root/modules
-            // Warning: If you have an older operating module with the same name, 
-            // it's good to make a copy in another safe folder, 
-            // otherwise it will be deleted irreversibly.
-            if (is_dir($toDir)) {
-                TDMCreate_clearDir($toDir);
-            }
+            }            
         }
         // Structure
         include_once TDMC_CLASS_PATH.'/files/TDMCreateArchitecture.php';
@@ -80,7 +73,16 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('building_directory', sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname));
         // Copy this module in root modules
         if (1 == $moduleObj->getVar('mod_inroot_copy')) {
-            TDMCreate_copyr($fromDir, $toDir);
+			if (isset($moduleDirname)) {
+				// Clear this module if it's in root/modules
+				// Warning: If you have an older operating module with the same name, 
+				// it's good to make a copy in another safe folder, 
+				// otherwise it will be deleted irreversibly.
+				if (is_dir($toDir)) {
+					TDMCreate_clearDir($toDir);
+				}
+			}
+			TDMCreate_copyr($fromDir, $toDir);
         }
         break;
 

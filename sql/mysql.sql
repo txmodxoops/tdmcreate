@@ -156,7 +156,7 @@ CREATE TABLE `tdmcreate_fields` (
   `field_order`     INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `field_name`      VARCHAR(150)          NOT NULL DEFAULT '',
   `field_type`      VARCHAR(15)           NOT NULL DEFAULT '',
-  `field_value`     VARCHAR(4)            NOT NULL DEFAULT '',
+  `field_value`     VARCHAR(255)          NOT NULL DEFAULT '',
   `field_attribute` VARCHAR(20)           NOT NULL DEFAULT '',
   `field_null`      VARCHAR(10)           NOT NULL DEFAULT '',
   `field_default`   VARCHAR(100)          NOT NULL DEFAULT '',
