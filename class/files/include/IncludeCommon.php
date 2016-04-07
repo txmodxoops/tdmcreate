@@ -36,8 +36,7 @@ class IncludeCommon extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();        
     }
 
     /*
@@ -94,19 +93,17 @@ class IncludeCommon extends TDMCreateFile
         $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
         $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
         $ret = <<<EOT
-
-if (!defined('{$stuModuleDirname}_MODULE_PATH')) {
-    define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
-	define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
-	define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
-    define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
-    define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
-	define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');
-    define('{$stuModuleDirname}_ICONS_URL', {$stuModuleDirname}_URL.'/assets/icons');
-	define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
-    define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images');
-    define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
-    define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
+if (!defined('XOOPS_ICONS32_PATHH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
+if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
+define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
+define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
+define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');
+define('{$stuModuleDirname}_ICONS_URL', {$stuModuleDirname}_URL.'/assets/icons');
+define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
+define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images');
+define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
+define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
 EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldElement = array();
@@ -115,26 +112,26 @@ EOT;
         }
         if (in_array(10, $fieldElement)) {
             $ret .= <<<EOT
-	define('{$stuModuleDirname}_UPLOAD_SHOTS_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');
-    define('{$stuModuleDirname}_UPLOAD_SHOTS_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');\n
+define('{$stuModuleDirname}_UPLOAD_SHOTS_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');
+define('{$stuModuleDirname}_UPLOAD_SHOTS_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');\n
 EOT;
         }
         if (in_array(array(11, 12), $fieldElement)) {
             $ret .= <<<EOT
-	define('{$stuModuleDirname}_UPLOAD_FILES_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/files');
-    define('{$stuModuleDirname}_UPLOAD_FILES_URL', {$stuModuleDirname}_UPLOAD_PATH.'/files');\n
+define('{$stuModuleDirname}_UPLOAD_FILES_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/files');
+define('{$stuModuleDirname}_UPLOAD_FILES_URL', {$stuModuleDirname}_UPLOAD_PATH.'/files');\n
 EOT;
         }
         if (in_array(13, $fieldElement)) {
             $ret .= <<<EOT
-	define('{$stuModuleDirname}_UPLOAD_IMAGE_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images');
-    define('{$stuModuleDirname}_UPLOAD_IMAGE_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images');\n
+define('{$stuModuleDirname}_UPLOAD_IMAGE_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images');
+define('{$stuModuleDirname}_UPLOAD_IMAGE_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images');\n
 EOT;
         }
         $ret .= <<<EOT
-	define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
-    \$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';
-}
+define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
+\$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';
+
 // module information
 \$copyright = "<a href='{$moduleAuthorWebsiteUrl}' title='{$moduleAuthorWebsiteName}' target='_blank'>
                      <img src='".\$local_logo."' alt='{$moduleAuthorWebsiteName}' /></a>";
@@ -161,8 +158,8 @@ EOT;
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getCommonCode($module);
-        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

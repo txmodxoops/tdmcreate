@@ -229,7 +229,7 @@ class SqlFile extends TDMCreateFile
                         break;
                     case 9:
                     case 10:
-                        $type = $fieldTypeName;
+                        $type = $fieldTypeName.'('.$fieldValue.')'; // Used with comma separator
                         break;
                     case 11:
                         $type = $fieldTypeName.'('.$fieldValue.')';

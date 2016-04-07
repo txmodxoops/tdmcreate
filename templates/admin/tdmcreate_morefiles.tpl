@@ -13,12 +13,12 @@
      </tr>
      <{foreach item=file from=$files_list key=file_id}>
      <tr id="file<{$file.id}>" class="files">
-        <td class='center bold width5'><{$file.id}></td>
+		<td class='center bold width5'><{$file.id}></td>
 		<td class='center bold'><{$file.mid}></td>
 		<td class='center bold blue'><{$file.infolder}></td>
-        <td class='center bold green'><{$file.name}></td>
-        <td class='center bold red'><{$file.extension}></td>        
-        <td class='xo-actions txtcenter width5'>
+		<td class='center bold green'><{$file.name}></td>
+		<td class='center bold red'><{$file.extension}></td>        
+		<td class='xo-actions txtcenter width5'>
             <a href="morefiles.php?op=edit&amp;file_id=<{$file.id}>" title="<{$smarty.const._EDIT}>">
                 <img src="<{xoModuleIcons16 edit.png}>" alt="<{$smarty.const._EDIT}>" />
             </a>

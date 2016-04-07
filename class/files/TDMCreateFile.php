@@ -556,7 +556,7 @@ class TDMCreateFile extends TDMCreateTableFields
         } else {
             $ret .= "/*\n";
         }
-        $filename = TDMC_CLASSES_PATH.'/files/docs/license.txt';
+        $filename = TDMC_CLASS_PATH.'/files/docs/license.txt';
         $handle = fopen($filename, 'rb');
         $data = fread($handle, filesize($filename));
         fclose($handle);
