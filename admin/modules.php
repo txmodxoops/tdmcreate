@@ -206,7 +206,7 @@ switch ($op) {
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
-        break;
+        break;	
 }
 
 include __DIR__.'/footer.php';

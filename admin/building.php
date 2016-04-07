@@ -57,7 +57,7 @@ switch ($op) {
             }
         }
         // Structure
-        include_once TDMC_CLASSES_PATH.'/files/TDMCreateArchitecture.php';
+        include_once TDMC_CLASS_PATH.'/files/TDMCreateArchitecture.php';
         $handler = TDMCreateArchitecture::getInstance();
         // Creation of the structure of folders and files
         $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);
@@ -94,7 +94,7 @@ switch ($op) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         unset($nbModules);
-        include_once TDMC_PATH.'/class/building.php';
+        include_once TDMC_CLASS_PATH.'/building.php';
         $handler = TDMCreateBuilding::getInstance();
         $form = $handler->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
