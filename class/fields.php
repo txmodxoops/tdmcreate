@@ -202,7 +202,7 @@ class TDMCreateFields extends XoopsObject
         $form->addElement(new TDMCreateFormLabel('<td class="center">'.$fieldTypeSelect->render().'</td>'));
         // Field Value
         $value = (1 == $i) && (1 == $tableAutoincrement) ? '8' : '';
-        $fieldValue = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value['.$i.']', 5, 20, $value);
+        $fieldValue = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value['.$i.']', 10, 200, $value);
         $form->addElement(new TDMCreateFormLabel('<td class="center">'.$fieldValue->render().'</td>'));
         // Field Attributes
         $value = (1 == $i) && (1 == $tableAutoincrement) ? '3' : '';
@@ -354,7 +354,7 @@ class TDMCreateFields extends XoopsObject
                 $fieldTypeSelect->addOptionArray($this->tdmcreate->getHandler('fieldtype')->getList());
                 $form->addElement(new TDMCreateFormLabel('<td class="center">'.$fieldTypeSelect->render().'</td>'));
                 // Field Value
-                $fieldValue = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value['.$id.']', 5, 20, $field->getVar('field_value'));
+                $fieldValue = new XoopsFormText(_AM_TDMCREATE_FIELD_VALUE, 'field_value['.$id.']', 10, 200, $field->getVar('field_value'));
                 $form->addElement(new TDMCreateFormLabel('<td class="center">'.$fieldValue->render().'</td>'));
                 // Field Attributes
                 $fieldAttributesSelect = new XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_attribute['.$id.']', $field->getVar('field_attribute'));

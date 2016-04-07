@@ -93,17 +93,17 @@ class IncludeCommon extends TDMCreateFile
         $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
         $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
         $ret = <<<EOT
-    if (!defined('XOOPS_ICONS32_PATH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'); 
-	if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
-	define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
-    define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
-    define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
-	define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');
-    define('{$stuModuleDirname}_ICONS_URL', {$stuModuleDirname}_URL.'/assets/icons');
-	define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
-    define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images');
-    define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
-    define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
+if (!defined('XOOPS_ICONS32_PATH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
+if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
+define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
+define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
+define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');
+define('{$stuModuleDirname}_ICONS_URL', {$stuModuleDirname}_URL.'/assets/icons');
+define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
+define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images');
+define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
+define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
 EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldElement = array();

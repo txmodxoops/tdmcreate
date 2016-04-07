@@ -229,7 +229,8 @@ class SqlFile extends TDMCreateFile
                         break;
                     case 9:
                     case 10:
-                        $type = $fieldTypeName.'('.$fieldValue.')'; // Used with comma separator
+						$fValues = implode("', '", explode(',', str_replace(' ', '', $fieldValue)));
+                        $type = $fieldTypeName.'(\''.$fValues.'\')'; // Used with comma separator
                         break;
                     case 11:
                         $type = $fieldTypeName.'('.$fieldValue.')';
