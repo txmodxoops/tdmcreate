@@ -368,9 +368,9 @@ class ClassFiles extends TDMCreateFile
         $permissionSubmit = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
         $permissionView = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
         $ret = $this->pc->getPhpCodeCommentLine('Permissions', '', "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$memberHandler', "xoops_gethandler('member')", null, true, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$memberHandler', "xoops_gethandler('member')", null, false, "\t\t");
         $ret .= $this->xc->getXcEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, false, "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, false, "\t\t");
         $ret .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
         $fId = $this->xc->getXcGetVar('', 'this', $fieldId, true);
         $mId = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
@@ -414,7 +414,7 @@ class ClassFiles extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('Get' => 'Values'), "\t");
-        $getValues = $this->xc->getXcEqualsOperator('$ret', 'parent::getValues($keys, $format, $maxDepth)', null, true, "\t\t");
+        $getValues = $this->xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, false, "\t\t");
 
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -432,7 +432,6 @@ class ClassFiles extends TDMCreateFile
                     $getValues .= $this->xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                 break;
                 default:
-
                     if ($fieldElement > 15) {
                         $fieldElements = $this->tc->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
@@ -554,12 +553,12 @@ class ClassFiles extends TDMCreateFile
         $cClh = $this->pc->getPhpCodeCommentMultiLine(array('@var' => 'mixed'), "\t");
         $cClh .= $this->pc->getPhpCodeVariableClass('private', $moduleDirname, 'null', "\t");
 
-        $cClh .= $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'string $db'), "\t");
+        $cClh .= $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null|XoopsDatabase $db'), "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');\n";
         $constr .= $this->xc->getXcGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
         $constr .= $this->xc->getXcEqualsOperator('$this->db', '$db', null, false, "\t\t");
 
-        $cClh .= $this->pc->getPhpCodeFunction('__construct', '$db', $constr, 'public ', false, "\t");
+        $cClh .= $this->pc->getPhpCodeFunction('__construct', 'XoopsDatabase $db', $constr, 'public ', false, "\t");
 
         $cClh .= $this->getClassCreate();
         $cClh .= $this->getClassGet();
@@ -589,7 +588,7 @@ class ClassFiles extends TDMCreateFile
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('@param bool' => '$isNew', '' => '', '@return' => 'object'), "\t");
         $cClhc = $this->getSimpleString('return parent::create($isNew);', "\t\t");
 
-        $ret .= $this->pc->getPhpCodeFunction('&create', '$isNew = true', $cClhc, 'public ', false, "\t");
+        $ret .= $this->pc->getPhpCodeFunction('create', '$isNew = true', $cClhc, 'public ', false, "\t");
 
         return $ret;
     }
@@ -604,7 +603,7 @@ class ClassFiles extends TDMCreateFile
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@return mixed reference to the' => '{@link Get} object'), "\t");
         $cClhg = $this->getSimpleString('return parent::get($i, $fields);', "\t\t");
 
-        $ret .= $this->pc->getPhpCodeFunction('&get', '$i = null, $fields = null', $cClhg, 'public ', false, "\t");
+        $ret .= $this->pc->getPhpCodeFunction('get', '$i = null, $fields = null', $cClhg, 'public ', false, "\t");
 
         return $ret;
     }
@@ -619,7 +618,7 @@ class ClassFiles extends TDMCreateFile
         $ret = $this->pc->getPhpCodeCommentMultiLine(array('get inserted' => 'id', '' => '', '@param' => 'null', '@return integer reference to the' => '{@link Get} object'), "\t");
         $cClhgid = $this->getSimpleString('return $this->db->getInsertId();', "\t\t");
 
-        $ret .= $this->pc->getPhpCodeFunction('&getInsertId', '', $cClhgid, 'public ', false, "\t");
+        $ret .= $this->pc->getPhpCodeFunction('getInsertId', '', $cClhgid, 'public ', false, "\t");
 
         return $ret;
     }
@@ -636,7 +635,7 @@ class ClassFiles extends TDMCreateFile
                                                             '@return array of' => 'object IDs', ), "\t");
         $cClhgids = $this->getSimpleString('return parent::getIds($criteria);', "\t\t");
 
-        $ret .= $this->pc->getPhpCodeFunction('&getIds', '$criteria', $cClhgids, 'public ', false, "\t");
+        $ret .= $this->pc->getPhpCodeFunction('getIds', '$criteria', $cClhgids, 'public ', false, "\t");
 
         return $ret;
     }
@@ -656,7 +655,7 @@ class ClassFiles extends TDMCreateFile
         $if = $this->pc->getPhpCodeConditions('!parent::insert($field, $force)', '', '', $cClhinsert, false, "\t\t");
         $if .= $this->getSimpleString('return true;', "\t\t");
 
-        $ret .= $this->pc->getPhpCodeFunction('&insert', '&$field, $force = false', $if, 'public ', false, "\t");
+        $ret .= $this->pc->getPhpCodeFunction('insert', '&$field, $force = false', $if, 'public ', false, "\t");
 
         return $ret;
     }

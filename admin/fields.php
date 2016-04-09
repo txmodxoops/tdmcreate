@@ -57,7 +57,7 @@ switch ($op) {
             redirect_header('tables.php?op=new', 2, _AM_TDMCREATE_NOTTABLES);
         }
         // Get the list of tables
-        $tablesAll = $tdmcreate->getHandler('tables')->getAllTables($start, $limit);
+        $tablesAll = $tdmcreate->getHandler('tables')->getAllTables($start, $limit, 'table_order');
         if ($tablesCount > 0) {
             $tlid = 1;
             foreach (array_keys($tablesAll) as $tid) {

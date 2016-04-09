@@ -116,7 +116,7 @@ class AdminHeader extends TDMCreateFile
                 $ret .= $this->xc->getXcEqualsOperator("\${$tableName}Handler", "\${$moduleDirname}->getHandler('{$tableName}')", null, true);
             }
         }
-        $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, false);
         $ret .= $this->phpcode->getPhpCodeCommentLine();
         $template = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true);
         $template .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new XoopsTpl()', null, false, "\t");

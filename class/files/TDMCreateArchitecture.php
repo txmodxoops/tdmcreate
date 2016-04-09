@@ -298,7 +298,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         // Language Modinfo File
         $languageModinfo = LanguageModinfo::getInstance();
-        $languageModinfo->write($module, $table, $tables, 'modinfo.php');
+        $languageModinfo->write($module, $table, 'modinfo.php');
         $ret[] = $languageModinfo->render();
         if (1 == $module->getVar('mod_admin')) {
             // Admin Header File

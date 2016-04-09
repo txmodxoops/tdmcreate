@@ -67,16 +67,14 @@ class LanguageModinfo extends TDMCreateFile
      *
      * @param $module
      * @param $table
-     * @param $tables	 
      * @param $filename
      *
      * @return string
      */
-    public function write($module, $table, $tables, $filename)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
-        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -369,30 +367,44 @@ class LanguageModinfo extends TDMCreateFile
     {
         $module = $this->getModule();
         $table = $this->getTable();
-        $tables = $this->getTables();
+		$tables = $this->getTableTables($module->getVar('mod_id'));
+        $tableAdmin = array();
+		$tableUser = array();
+		$tableSubmenu = array();
+		$tableBlocks = array();
+		$tableNotifications = array();
+		$tablePermissions = array();
+		foreach (array_keys($tables) as $t) {
+            $tableAdmin[] = $tables[$t]->getVar('table_admin');
+			$tableUser[] = $tables[$t]->getVar('table_user');
+			$tableSubmenu[] = $tables[$t]->getVar('table_submenu');
+			$tableBlocks[] = $tables[$t]->getVar('table_blocks');
+			$tableNotifications[] = $tables[$t]->getVar('table_notifications');
+			$tablePermissions[] = $tables[$t]->getVar('table_permissions');
+        }
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MI');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getLanguageMain($language, $module);
         $content .= $this->getLanguageMenu($module, $language);
-        if (1 == $table->getVar('table_admin')) {
+        if (in_array(1, $tableAdmin)) {
             $content .= $this->getLanguageAdmin($language);
         }
-        if (1 == $table->getVar('table_user')) {
+        if (in_array(1, $tableUser)) {
             $content .= $this->getLanguageUser($language);
         }
-        //if (1 == $table->getVar('table_submenu')) {
+        if (in_array(1, $tableSubmenu)) {
             $content .= $this->getLanguageSubmenu($language, $tables);
-        //}
-        if (1 == $table->getVar('table_blocks')) {
+        }
+        if (in_array(1, $tableBlocks)) {
             $content .= $this->getLanguageBlocks($tables, $language);
         }
         $content .= $this->getLanguageConfig($language, $table);
-        if (1 == $table->getVar('table_notifications')) {
+        if (in_array(1, $tableNotifications)) {
             $content .= $this->getLanguageNotifications($language);
         }
-        if (1 == $table->getVar('table_permissions')) {
+        if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguagePermissionsGroups($language);
         }
         $content .= $this->getLanguageFooter();
