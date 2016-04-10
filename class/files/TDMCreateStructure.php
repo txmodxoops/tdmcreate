@@ -26,11 +26,7 @@
  * Class TDMCreateStructure.
  */
 class TDMCreateStructure
-{
-    /*
-    * @var mixed
-    */
-    private $xoopsFile;
+{    
     /*
     * @var string
     */
@@ -59,11 +55,7 @@ class TDMCreateStructure
     /**
      *
      */
-    public function __construct()
-    {
-        //parent::__construct();
-        $this->xoopsFile = XoopsFile::getInstance();
-    }
+    public function __construct() {}
 
     /*
     *  @static function &getInstance

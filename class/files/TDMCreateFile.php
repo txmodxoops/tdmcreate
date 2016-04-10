@@ -26,12 +26,7 @@ xoops_load('XoopsFile');
  * Class TDMCreateFile.
  */
 class TDMCreateFile extends TDMCreateTableFields
-{
-    /*
-    * @var string
-    */
-    private $xf = null;
-
+{    
     /**
      * "fileName" attribute of the files.
      *
@@ -93,7 +88,6 @@ class TDMCreateFile extends TDMCreateTableFields
     public function __construct()
     {
         parent::__construct();
-        $this->xf = XoopsFile::getHandler();
     }
 
     /*
@@ -148,11 +142,11 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param $module
      * @param $fileName
      */
-    public function write($module, $fileName)
+    /*public function write($module, $fileName)
     {
         $this->setModule($module);
         $this->setFileName($fileName);
-    }
+    }*/
 
     /*
     *  @private function setRepositoryPath
@@ -586,12 +580,13 @@ class TDMCreateFile extends TDMCreateTableFields
         $folderName = $this->getFolderName();
         $mode = $this->getMode();
         $ret = '';
-        if (!$this->xf->__construct($path, true)) {
+        $xf = XoopsFile::getHandler();
+		if (!$xf->__construct($path, true)) {
             // Force to create file if not exist
-            if ($this->xf->open($mode, true)) {
-                if ($this->xf->writable()) {
+            if ($xf->open($mode, true)) {
+                if ($xf->writable()) {
                     // Integration of the content in the file
-                    if (!$this->xf->write($this->getContent(), $mode, true)) {
+                    if (!$xf->write($this->getContent(), $mode, true)) {
                         $ret .= sprintf($notCreated, $fileName, $folderName);
                         $GLOBALS['xoopsTpl']->assign('created', false);
                         exit();
@@ -599,7 +594,7 @@ class TDMCreateFile extends TDMCreateTableFields
                     // Created
                     $ret .= sprintf($created, $fileName, $folderName);
                     $GLOBALS['xoopsTpl']->assign('created', true);
-                    $this->xf->close();
+                    $xf->close();
                 } else {
                     $ret .= sprintf($notCreated, $fileName, $folderName);
                     $GLOBALS['xoopsTpl']->assign('created', false);

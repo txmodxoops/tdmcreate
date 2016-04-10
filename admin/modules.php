@@ -73,7 +73,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $modulesObj = &$tdmcreate->getHandler('modules')->create();
+        $modulesObj = $tdmcreate->getHandler('modules')->create();
         $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -83,9 +83,9 @@ switch ($op) {
             redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($modId)) {
-            $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
+            $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         } else {
-            $modulesObj = &$tdmcreate->getHandler('modules')->create();
+            $modulesObj = $tdmcreate->getHandler('modules')->create();
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
         //Form module save
@@ -156,7 +156,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        $form = &$modulesObj->getFormModules();
+        $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -175,7 +175,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
+        $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

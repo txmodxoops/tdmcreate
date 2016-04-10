@@ -335,7 +335,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      *
      * @return object
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         return parent::create($isNew);
     }
@@ -349,7 +349,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
-    public function &get($i = null, $fields = null)
+    public function get($i = null, $fields = null)
     {
         return parent::get($i, $fields);
     }
@@ -361,7 +361,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      *
      * @return int reference to the {@link TDMCreateTables} object
      */
-    public function &getInsertId()
+    public function getInsertId()
     {
         return $this->db->getInsertId();
     }
@@ -374,7 +374,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function &insert(&$field, $force = false)
+    public function insert(XoopsObject $field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;

@@ -28,11 +28,6 @@
 class TemplatesAdminPages extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,7 +37,6 @@ class TemplatesAdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
@@ -68,10 +62,11 @@ class TemplatesAdminPages extends TDMCreateFile
     *  @param string $module
     *  @param string $table
     */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setFileName($filename);
     }
 
     /*
@@ -105,7 +100,7 @@ class TemplatesAdminPages extends TDMCreateFile
         }
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             $langFieldName = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             if (1 == $fields[$f]->getVar('field_inlist')) {
                 $lang = $this->htmlcode->getSmartyConst($language, $langFieldName);
@@ -139,7 +134,7 @@ class TemplatesAdminPages extends TDMCreateFile
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
@@ -257,13 +252,14 @@ EOT;*/
 
     /*
     *  @public function render
-    *  @param $filename
+    *  @param null
     *  @return bool|string
     */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
+		$filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
@@ -271,8 +267,8 @@ EOT;*/
         $content .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
         $content .= $this->getTemplatesAdminPagesFooter($moduleDirname);
         //
-        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
