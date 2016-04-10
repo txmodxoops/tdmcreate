@@ -67,8 +67,6 @@ class logoGenerator
         $dirname = 'tdmcreate';
         $iconFileName = XOOPS_ROOT_PATH.'/Frameworks/moduleclasses/icons/32/'.basename($logoIcon);
 
-        //$dirFonts = TDMC_PATH . "/assets/fonts";
-        //$dirLogos = TDMC_PATH . "/assets/images/logos";
         $dirFonts = XOOPS_ROOT_PATH.'/modules/'.$dirname.'/assets/fonts';
         $dirLogos = XOOPS_ROOT_PATH.'/modules/'.$dirname.'/assets/images/logos';
 
@@ -88,7 +86,6 @@ class logoGenerator
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 
-        //$targetImage = TDMC_UPLOAD_IMGMOD_URL . "/" . $moduleDirname . "_logo.png";
         $targetImage = '/uploads/'.$dirname.'/images/modules/'.$moduleDirname.'_logo.png';
 
         imagepng($imageModule, XOOPS_ROOT_PATH.$targetImage);
