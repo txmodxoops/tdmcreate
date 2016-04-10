@@ -234,12 +234,12 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tableAdmin)) {
                 // Admin Pages File
                 $adminPages = AdminPages::getInstance();
-                $adminPages->write($module, $table, $tableName.'.php');
+                $adminPages->write($module, $table, $tableName.'.php', $moduleDirname.'_admin_'.$tableName.'.tpl');
                 $ret[] = $adminPages->render();
                 // Admin Templates File
                 $adminTemplatesPages = TemplatesAdminPages::getInstance();
                 $adminTemplatesPages->write($module, $table);
-                $ret[] = $adminTemplatesPages->renderFile($moduleDirname.'_admin_'.$tableName.'.tpl');
+                $ret[] = $adminTemplatesPages->render();
             }
             // Creation of blocks
             if (in_array(1, $tableBlocks)) {

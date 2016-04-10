@@ -97,7 +97,7 @@ class TDMCreateMoreFiles extends XoopsObject
      */
     public function getFormMoreFiles($action = false)
     {
-        //
+        $tdmcreate = TDMCreateHelper::getInstance();
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
@@ -221,7 +221,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(&$field, $force = false)
+    public function insert(XoopsObject $field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;

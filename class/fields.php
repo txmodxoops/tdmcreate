@@ -557,19 +557,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
     {
         return $this->db->getInsertId();
     }
-
-    /**
-     * get IDs of objects matching a condition.
-     *
-     * @param object $criteria {@link CriteriaElement} to match
-     *
-     * @return array of object IDs
-     */
-    public function getIds($criteria)
-    {
-        return parent::getIds($criteria);
-    }
-
+    
     /**
      * insert a new field in the database.
      *
@@ -578,7 +566,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(&$field, $force = false)
+    public function insert(XoopsObject $field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;
