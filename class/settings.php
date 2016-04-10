@@ -32,14 +32,7 @@ include __DIR__.'/autoload.php';
  * Class TDMCreateSettings.
  */
 class TDMCreateSettings extends XoopsObject
-{
-    /**
-     * Instance of TDMCreate class.
-     *
-     * @var mixed
-     */
-    private $tdmcreate;
-
+{    
     /**
      * Options.
      */
@@ -62,8 +55,7 @@ class TDMCreateSettings extends XoopsObject
      *
      */
     public function __construct()
-    {
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+    {        
         $this->initVar('set_id', XOBJ_DTYPE_INT);
         $this->initVar('set_name', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('name'));
         $this->initVar('set_dirname', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('dirname'));
@@ -147,7 +139,7 @@ class TDMCreateSettings extends XoopsObject
      */
     public function getFormSettings($action = false)
     {
-        //
+        $tdmcreate = TDMCreateHelper::getInstance();
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
@@ -206,7 +198,7 @@ class TDMCreateSettings extends XoopsObject
         $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br />"));
         //
         $fileseltray = new XoopsFormElementTray('', '<br />');
-        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $this->tdmcreate->getConfig('maxsize')));
+        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray->addElement(new XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
@@ -243,7 +235,7 @@ class TDMCreateSettings extends XoopsObject
      */
     public function getValuesSettings($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('set_id');
         $ret['name'] = $this->getVar('set_name');

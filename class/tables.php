@@ -32,14 +32,7 @@ include __DIR__.'/autoload.php';
  * Class TDMCreateTables.
  */
 class TDMCreateTables extends XoopsObject
-{
-    /**
-     * Instance of TDMCreate class.
-     *
-     * @var mixed
-     */
-    private $tdmcreate = null;
-
+{    
     /**
      * Options.
      */
@@ -73,8 +66,7 @@ class TDMCreateTables extends XoopsObject
      *
      */
     public function __construct()
-    {
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+    {        
         $this->initVar('table_id', XOBJ_DTYPE_INT);
         $this->initVar('table_mid', XOBJ_DTYPE_INT);
         $this->initVar('table_category', XOBJ_DTYPE_INT);
@@ -147,7 +139,8 @@ class TDMCreateTables extends XoopsObject
      */
     public function getFormTables($action = false)
     {
-        if ($action === false) {
+        $tdmcreate = TDMCreateHelper::getInstance();
+		if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -160,7 +153,7 @@ class TDMCreateTables extends XoopsObject
         $form = new XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         //
-        $modules = $this->tdmcreate->getHandler('modules')->getObjects(null);
+        $modules = $tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
@@ -213,7 +206,7 @@ class TDMCreateTables extends XoopsObject
         $imgtray1->addElement($imageSelect1, false);
         $imgtray1->addElement(new XoopsFormLabel('', "<br /><img src='".XOOPS_URL.'/'.$iconsDirectory.'/'.$tableImage."' name='image1' id='image1' alt='' />"));
         $fileseltray1 = new XoopsFormElementTray('', '<br />');
-        $fileseltray1->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $this->tdmcreate->getConfig('maxsize')));
+        $fileseltray1->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray1->addElement(new XoopsFormLabel(''));
         $imgtray1->addElement($fileseltray1);
         $imgtray1->setDescription(_AM_TDMCREATE_TABLE_IMAGE_DESC);
@@ -257,7 +250,7 @@ class TDMCreateTables extends XoopsObject
      */
     public function getValuesTables($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('table_id');
         $ret['mid'] = $this->getVar('table_mid');
@@ -395,10 +388,10 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getCountTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
-        $criteriaCountTables = new CriteriaCompo();
-        $criteriaCountTables = $this->getTablesCriteria($criteriaCountTables, $start, $limit, $sort, $order);
+        $cCountTables = new CriteriaCompo();
+        $cCountTables = $this->getTablesCriteria($cCountTables, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteriaCountTables);
+        return $this->getCount($cCountTables);
     }
 
     /**
@@ -406,10 +399,10 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
-        $criteriaAllTables = new CriteriaCompo();
-        $criteriaAllTables = $this->getTablesCriteria($criteriaAllTables, $start, $limit, $sort, $order);
+        $cAllTables = new CriteriaCompo();
+        $cAllTables = $this->getTablesCriteria($cAllTables, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaAllTables);
+        return $this->getAll($cAllTables);
     }
 
     /**
@@ -417,11 +410,11 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllTablesByModuleId($modId, $start = 0, $limit = 0, $sort = 'table_order ASC, table_id, table_name', $order = 'ASC')
     {
-        $criteriaAllTablesByModuleId = new CriteriaCompo();
-        $criteriaAllTablesByModuleId->add(new Criteria('table_mid', $modId));
-        $criteriaAllTablesByModuleId = $this->getTablesCriteria($criteriaAllTablesByModuleId, $start, $limit, $sort, $order);
+        $cAllTablesByModId = new CriteriaCompo();
+        $cAllTablesByModId->add(new Criteria('table_mid', $modId));
+        $cAllTablesByModId = $this->getTablesCriteria($cAllTablesByModId, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaAllTablesByModuleId);
+        return $this->getAll($cAllTablesByModId);
     }
 
     /**

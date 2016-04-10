@@ -45,50 +45,7 @@ class TDMCreateLogo
         return $instance;
     }
     	
-	/*
-    *  @private static function createLogo
-    *  @param mixed $logoIcon
-    *  @param string $moduleDirname
-    */
-    /**
-     * @param $logoIcon
-     * @param $moduleDirname
-     *
-     * @return bool|string
-     */
-    /*private static function createLogo($logoIcon, $moduleDirname)
-    {
-        if (!extension_loaded('gd')) {
-            return false;
-        } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
-            foreach ($requiredFunctions as $func) {
-                if (!function_exists($func)) {
-                    return false;
-                }
-            }
-        }
-        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH.'/empty.png') ||
-            !file_exists($font = TDMC_FONTS_PATH.'/VeraBd.ttf') ||
-            !file_exists($iconFile = XOOPS_ICONS32_PATH.'/'.basename($logoIcon))
-        ) {
-            return false;
-        }
-        $imageModule = imagecreatefrompng($imageBase);
-        $imageIcon = imagecreatefrompng($iconFile);
-        // Write text
-        $textColor = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
-        imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
-        $logoImg = '/'.$moduleDirname.'_logo.png';
-        imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH.$logoImg);
-        imagedestroy($imageModule);
-        imagedestroy($imageIcon);
-
-        return TDMC_UPLOAD_IMGMOD_URL.$logoImg;
-	}*/
-		/**
+	/**
      * @param $logoIcon
      * @param $moduleDirname
      *

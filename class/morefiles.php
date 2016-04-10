@@ -32,14 +32,7 @@ include __DIR__.'/autoload.php';
  * Class TDMCreateMoreFiles.
  */
 class TDMCreateMoreFiles extends XoopsObject
-{
-    /**
-     * Tdmcreate.
-     *
-     * @var mixed
-     */
-    private $tdmcreate;
-
+{    
     /**
      * Settings.
      *
@@ -55,9 +48,7 @@ class TDMCreateMoreFiles extends XoopsObject
      *
      */
     public function __construct()
-    {
-        $this->tdmcreate = TDMCreateHelper::getInstance();
-        //
+    {        
         $this->initVar('file_id', XOBJ_DTYPE_INT);
         $this->initVar('file_mid', XOBJ_DTYPE_INT);
         $this->initVar('file_name', XOBJ_DTYPE_TXTBOX);
@@ -119,7 +110,7 @@ class TDMCreateMoreFiles extends XoopsObject
         $form = new XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
         //
-        $modules = $this->tdmcreate->getHandler('modules')->getObjects(null);
+        $modules = $tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', _AM_TDMCREATE_MORE_FILES_MODULE_SELECT);
         foreach ($modules as $mod) {
@@ -151,10 +142,11 @@ class TDMCreateMoreFiles extends XoopsObject
      */
     public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = parent::getValues($keys, $format, $maxDepth);
+        $tdmcreate = TDMCreateHelper::getInstance();
+		$ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('file_id');
-        $ret['mid'] = $this->tdmcreate->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
+        $ret['mid'] = $tdmcreate->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
         $ret['name'] = $this->getVar('file_name');
         $ret['extension'] = $this->getVar('file_extension');
         $ret['infolder'] = $this->getVar('file_infolder');
@@ -190,7 +182,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      *
      * @return object
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         return parent::create($isNew);
     }
@@ -204,7 +196,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
-    public function &get($i = null, $fields = null)
+    public function get($i = null, $fields = null)
     {
         return parent::get($i, $fields);
     }
@@ -216,7 +208,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      *
      * @return int reference to the {@link TDMCreateTables} object
      */
-    public function &getInsertId()
+    public function getInsertId()
     {
         return $this->db->getInsertId();
     }
@@ -229,7 +221,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function &insert(&$field, $force = false)
+    public function insert(&$field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;
@@ -243,10 +235,10 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function getCountMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteriaMoreFilesCount = new CriteriaCompo();
-        $criteriaMoreFilesCount = $this->getMoreFilesCriteria($criteriaMoreFilesCount, $start, $limit, $sort, $order);
+        $cMoreFilesCount = new CriteriaCompo();
+        $cMoreFilesCount = $this->getMoreFilesCriteria($cMoreFilesCount, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteriaMoreFilesCount);
+        return $this->getCount($cMoreFilesCount);
     }
 
     /**
@@ -254,10 +246,10 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteriaMoreFilesAdd = new CriteriaCompo();
-        $criteriaMoreFilesAdd = $this->getMoreFilesCriteria($criteriaMoreFilesAdd, $start, $limit, $sort, $order);
+        $cMoreFilesAdd = new CriteriaCompo();
+        $cMoreFilesAdd = $this->getMoreFilesCriteria($cMoreFilesAdd, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaMoreFilesAdd);
+        return $this->getAll($cMoreFilesAdd);
     }
 
     /**
@@ -265,23 +257,23 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function getAllMoreFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
-        $criteriaMoreFilesByModuleId = new CriteriaCompo();
-        $criteriaMoreFilesByModuleId->add(new Criteria('file_mid', $modId));
-        $criteriaMoreFilesByModuleId = $this->getMoreFilesCriteria($criteriaMoreFilesByModuleId, $start, $limit, $sort, $order);
+        $cMoreFilesByModId = new CriteriaCompo();
+        $cMoreFilesByModId->add(new Criteria('file_mid', $modId));
+        $cMoreFilesByModId = $this->getMoreFilesCriteria($cMoreFilesByModId, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaMoreFilesByModuleId);
+        return $this->getAll($cMoreFilesByModId);
     }
 
     /**
      * Get MoreFiles Criteria.
      */
-    private function getMoreFilesCriteria($criteriaMoreFiles, $start, $limit, $sort, $order)
+    private function getMoreFilesCriteria($cMoreFiles, $start, $limit, $sort, $order)
     {
-        $criteriaMoreFiles->setStart($start);
-        $criteriaMoreFiles->setLimit($limit);
-        $criteriaMoreFiles->setSort($sort);
-        $criteriaMoreFiles->setOrder($order);
+        $cMoreFiles->setStart($start);
+        $cMoreFiles->setLimit($limit);
+        $cMoreFiles->setSort($sort);
+        $cMoreFiles->setOrder($order);
 
-        return $criteriaMoreFiles;
+        return $cMoreFiles;
     }
 }
