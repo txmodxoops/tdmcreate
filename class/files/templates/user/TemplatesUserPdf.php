@@ -26,12 +26,7 @@
  * Class TemplatesUserPdf.
  */
 class TemplatesUserPdf extends TDMCreateFile
-{
-    /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
+{    
     /*
     *  @public function constructor
     *  @param null
@@ -42,7 +37,6 @@ class TemplatesUserPdf extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -62,19 +56,15 @@ class TemplatesUserPdf extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
-     * @param $module
-     * @param $table
-     */
-    public function write($module)
+     *  @public function write
+     *  @param $module
+     *  @param $filename
+     */    
+    public function write($module, $filename)
     {
         $this->setModule($module);
+		$this->setFileName($filename);
     }
 
     /*
@@ -101,18 +91,19 @@ EOT;
     *  @param string $filename
     */
     /**
-     * @param $filename
+     * @param null
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
+		$filename = $this->getFileName();
         $content = $this->getTemplatesUserPdfBody();
         //
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
