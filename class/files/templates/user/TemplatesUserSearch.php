@@ -26,12 +26,7 @@
  * Class TemplatesUserSearch.
  */
 class TemplatesUserSearch extends TDMCreateFile
-{
-    /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
+{    
     /*
     *  @public function constructor
     *  @param null
@@ -42,7 +37,6 @@ class TemplatesUserSearch extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -72,10 +66,11 @@ class TemplatesUserSearch extends TDMCreateFile
      * @param $module
      * @param $table
      */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setFileName($filename);
     }
 
     /*
@@ -142,7 +137,7 @@ EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
@@ -253,18 +248,19 @@ EOT;
 
     /*
     *  @public function renderFile
-    *  @param string $filename
+    *  @param null
     */
     /**
-     * @param $filename
+     * @param null
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
+		$filename = $this->getFileName();
         $tableFieldname = $table->getVar('table_fieldname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserSearchHeader($moduleDirname, $table, $language);
@@ -276,8 +272,8 @@ EOT;
         }
         $content .= $this->getTemplatesUserSearchFooter($moduleDirname);
         //
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

@@ -26,17 +26,7 @@
  * Class SqlFile.
  */
 class SqlFile extends TDMCreateFile
-{
-    /*
-    * @var string
-    */
-    private $tdmcreate = null;
-
-    /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
+{    
     /*
     *  @public function constructor
     *  @param null
@@ -51,8 +41,6 @@ class SqlFile extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -104,17 +92,17 @@ class SqlFile extends TDMCreateFile
     {
         $date = date('D M d, Y');
         $time = date('G:i');
-        $server_name = $_SERVER['SERVER_NAME'];
-        $server_version = mysql_get_server_info();
+        $serverName = $_SERVER['SERVER_NAME'];
+        $serverVersion = mysql_get_server_info(); // XoopsMySQLDatabase :: getServerVersion();
         $php_version = phpversion();
         // Header Sql Comments
         $ret = $this->getSimpleString("# SQL Dump for {$moduleName} module");
         $ret .= $this->getSimpleString('# PhpMyAdmin Version: 4.0.4');
         $ret .= $this->getSimpleString('# http://www.phpmyadmin.net');
         $ret .= $this->getSimpleString('#');
-        $ret .= $this->getSimpleString("# Host: {$server_name}");
+        $ret .= $this->getSimpleString("# Host: {$serverName}");
         $ret .= $this->getSimpleString("# Generated on: {$date} to {$time}");
-        $ret .= $this->getSimpleString("# Server version: {$server_version}");
+        $ret .= $this->getSimpleString("# Server version: {$serverVersion}");
         $ret .= $this->getSimpleString("# PHP Version: {$php_version}\n");
 
         return $ret;
@@ -175,6 +163,7 @@ class SqlFile extends TDMCreateFile
         $comma = array();
         $row = array();
         $type = '';
+		$tdmcreate = TDMCreateHelper::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
@@ -187,19 +176,19 @@ class SqlFile extends TDMCreateFile
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldKey = $fields[$f]->getVar('field_key');
             if ($fieldType > 1) {
-                $fType = $this->tdmcreate->getHandler('fieldtype')->get($fieldType);
+                $fType = $tdmcreate->getHandler('fieldtype')->get($fieldType);
                 $fieldTypeName = $fType->getVar('fieldtype_name');
             } else {
                 $fieldType = null;
             }
             if ($fieldAttribute > 1) {
-                $fAttribute = $this->tdmcreate->getHandler('fieldattributes')->get($fieldAttribute);
+                $fAttribute = $tdmcreate->getHandler('fieldattributes')->get($fieldAttribute);
                 $fieldAttribute = $fAttribute->getVar('fieldattribute_name');
             } else {
                 $fieldAttribute = null;
             }
             if ($fieldNull > 1) {
-                $fNull = $this->tdmcreate->getHandler('fieldnull')->get($fieldNull);
+                $fNull = $tdmcreate->getHandler('fieldnull')->get($fieldNull);
                 $fieldNull = $fNull->getVar('fieldnull_name');
             } else {
                 $fieldNull = null;
@@ -448,8 +437,8 @@ class SqlFile extends TDMCreateFile
         $content = $this->getHeaderSqlComments($moduleName);
         $content      .= $this->getDatabaseTables($moduleDirname);
         //
-        $this->tdmcfile->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

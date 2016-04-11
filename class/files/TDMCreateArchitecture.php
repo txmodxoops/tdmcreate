@@ -245,12 +245,12 @@ class TDMCreateArchitecture extends TDMCreateStructure
             if (in_array(1, $tableBlocks)) {
                 // Blocks Files
                 $blocksFiles = BlocksFiles::getInstance();
-                $blocksFiles->write($module, $table);
-                $ret[] = $blocksFiles->renderFile($tableName.'.php');
+                $blocksFiles->write($module, $table, $tableName.'.php');
+                $ret[] = $blocksFiles->render();
                 // Templates Blocks Files
                 $templatesBlocks = TemplatesBlocks::getInstance();
-                $templatesBlocks->write($module, $table);
-                $ret[] = $templatesBlocks->renderFile($moduleDirname.'_block_'.$tableName.'.tpl');
+                $templatesBlocks->write($module, $table, $moduleDirname.'_block_'.$tableName.'.tpl');
+                $ret[] = $templatesBlocks->render();
             }
             // Creation of classes
             if (in_array(1, $tableAdmin) || in_array(1, $tableUser)) {
@@ -264,26 +264,26 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 // User Pages File
                 $userPages = UserPages::getInstance();
                 $userPages->write($module, $table, $tableName.'.php');
-                $ret[] = $userPages->renderFile();
+                $ret[] = $userPages->render();
                 if (in_array(0, $tableCategory)) {
                     // User Templates File
                     $userTemplatesPages = TemplatesUserPages::getInstance();
-                    $userTemplatesPages->write($module, $table);
-                    $ret[] = $userTemplatesPages->renderFile($moduleDirname.'_'.$tableName.'.tpl');
+                    $userTemplatesPages->write($module, $table, $moduleDirname.'_'.$tableName.'.tpl');
+                    $ret[] = $userTemplatesPages->render();
                     // User List Templates File
                     $userTemplatesPagesList = TemplatesUserPagesList::getInstance();
                     $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname.'_'.$tableName.'_list'.'.tpl');
-                    $ret[] = $userTemplatesPagesList->renderFile();
+                    $ret[] = $userTemplatesPagesList->render();
                 }
                 if (in_array(1, $tableCategory)) {
                     // User List Templates File
                     $userTemplatesCategories = TemplatesUserCategories::getInstance();
-                    $userTemplatesCategories->write($module, $table);
-                    $ret[] = $userTemplatesCategories->renderFile($moduleDirname.'_'.$tableName.'.tpl');
+                    $userTemplatesCategories->write($module, $table, $moduleDirname.'_'.$tableName.'.tpl');
+                    $ret[] = $userTemplatesCategories->render();
                     // User List Templates File
                     $userTemplatesCategoriesList = TemplatesUserCategoriesList::getInstance();
-                    $userTemplatesCategoriesList->write($module, $table);
-                    $ret[] = $userTemplatesCategoriesList->renderFile($moduleDirname.'_'.$tableName.'_list'.'.tpl');
+                    $userTemplatesCategoriesList->write($module, $table, $moduleDirname.'_'.$tableName.'_list'.'.tpl');
+                    $ret[] = $userTemplatesCategoriesList->render();
                 }
             }
         }
@@ -393,7 +393,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 // Include Update File
                 $includeUpdate = IncludeUpdate::getInstance();
                 $includeUpdate->write($module, 'update.php');
-                $ret[] = $includeUpdate->renderFile();
+                $ret[] = $includeUpdate->render();
             }
             // Creation of search file
             if (in_array(1, $tableSearch)) {
@@ -427,7 +427,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 // Include Comment Functions File
                 $includeCommentFunctions = IncludeCommentFunctions::getInstance();
                 $includeCommentFunctions->write($module, $table, 'comment_functions.php');
-                $ret[] = $includeCommentFunctions->renderFile();
+                $ret[] = $includeCommentFunctions->render();
             }
         }
         // Creation of admin files
@@ -468,8 +468,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userBroken->render();
                 // User Templates Broken File
                 $userTemplatesBroken = TemplatesUserBroken::getInstance();
-                $userTemplatesBroken->write($module, $table);
-                $ret[] = $userTemplatesBroken->renderFile($moduleDirname.'_broken.tpl');
+                $userTemplatesBroken->write($module, $table, $moduleDirname.'_broken.tpl');
+                $ret[] = $userTemplatesBroken->render();
             }
             // User Pdf File
             if (in_array(1, $tablePdf)) {
@@ -478,8 +478,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userPdf->render();
                 // User Templates Pdf File
                 $userTemplatesPdf = TemplatesUserPdf::getInstance();
-                $userTemplatesPdf->write($module);
-                $ret[] = $userTemplatesPdf->renderFile($moduleDirname.'_pdf.tpl');
+                $userTemplatesPdf->write($module, $moduleDirname.'_pdf.tpl');
+                $ret[] = $userTemplatesPdf->render();
             }
             // User Print File
             if (in_array(1, $tablePrint)) {
@@ -488,8 +488,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userPrint->render();
                 // User Templates Print File
                 $userTemplatesPrint = TemplatesUserPrint::getInstance();
-                $userTemplatesPrint->write($module, $table);
-                $ret[] = $userTemplatesPrint->renderFile($moduleDirname.'_print.tpl');
+                $userTemplatesPrint->write($module, $table, $moduleDirname.'_print.tpl');
+                $ret[] = $userTemplatesPrint->render();
             }
             // User Rate File
             if (in_array(1, $tableRate)) {
@@ -498,8 +498,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userRate->render();
                 // User Templates Rate File
                 $userTemplatesRate = TemplatesUserRate::getInstance();
-                $userTemplatesRate->write($module, $table);
-                $ret[] = $userTemplatesRate->renderFile($moduleDirname.'_rate.tpl');
+                $userTemplatesRate->write($module, $table, $moduleDirname.'_rate.tpl');
+                $ret[] = $userTemplatesRate->render();
             }
             // User Rss File
             if (in_array(1, $tableRss)) {
@@ -508,8 +508,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userRss->render();
                 // User Templates Rss File
                 $userTemplatesRss = TemplatesUserRss::getInstance();
-                $userTemplatesRss->write($module);
-                $ret[] = $userTemplatesRss->renderFile($moduleDirname.'_rss.tpl');
+                $userTemplatesRss->write($module, $moduleDirname.'_rss.tpl');
+                $ret[] = $userTemplatesRss->render();
             }
             // User Single File
             if (in_array(1, $tableSingle)) {
@@ -518,8 +518,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userSingle->render();
                 // User Templates Single File
                 $userTemplatesSingle = TemplatesUserSingle::getInstance();
-                $userTemplatesSingle->write($module, $table);
-                $ret[] = $userTemplatesSingle->renderFile($moduleDirname.'_single.tpl');
+                $userTemplatesSingle->write($module, $table, $moduleDirname.'_single.tpl');
+                $ret[] = $userTemplatesSingle->render();
             }
             // User Submit File
             if (in_array(1, $tableSubmit)) {
@@ -528,8 +528,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $userSubmit->render();
                 // User Templates Submit File
                 $userTemplatesSubmit = TemplatesUserSubmit::getInstance();
-                $userTemplatesSubmit->write($module, $table);
-                $ret[] = $userTemplatesSubmit->renderFile($moduleDirname.'_submit.tpl');
+                $userTemplatesSubmit->write($module, $table, $moduleDirname.'_submit.tpl');
+                $ret[] = $userTemplatesSubmit->render();
             }// User Visit File
             if (in_array(1, $tableVisit)) {
                 $userVisit = UserVisit::getInstance();

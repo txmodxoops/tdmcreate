@@ -36,8 +36,7 @@ class BlocksFiles extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();        
     }
 
     /*
@@ -57,19 +56,18 @@ class BlocksFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    */
     /**
+     * @public function write
+    
      * @param $module
      * @param $table
+	 * @param $filename
      */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+		$this->setFileName($filename);
     }
 
     /*
@@ -171,7 +169,7 @@ EOT;
             $fieldName = $fields[$f]->getVar('field_name');
             // Verify if table_fieldname is not empty
             //$lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
@@ -275,15 +273,16 @@ EOT;
     *  @param null
     */
     /**
-     * @param $filename
+     * @param null
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
+		$filename = $this->getFileName();
         $tableName = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
         $tableCategory = $table->getVar('table_category');
@@ -303,8 +302,8 @@ EOT;
         $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent);
         $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
         //
-        $this->tdmcfile->create($moduleDirname, 'blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }
