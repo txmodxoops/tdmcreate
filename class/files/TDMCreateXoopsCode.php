@@ -960,6 +960,7 @@ class TDMCreateXoopsCode
      */
     public function getXcGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false, $t = '')
     {
+        $index = '' !== $index ? $index: 'i';
         $ucfTableName = ucfirst($tableName);
         if (!$noArray) {
             $ret = "{$t}\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";

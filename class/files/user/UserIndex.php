@@ -187,7 +187,7 @@ class UserIndex extends TDMCreateFile
         $condIf .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
         $condIf .= $this->xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
         $condIf .= $this->phpcode->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
-        $foreach = $this->xc->getXcGetValues($tableName, $tableFieldname, 'i', false, "\t");
+        $foreach = $this->xc->getXcGetValues($tableName, $tableSoleName, $tableFieldname, false, "\t");
         $foreach .= $this->phpcode->getPhpCodeArray($tableName);
         $foreach .= $this->phpcode->getPhpCodeArray('acount', array("'count'", '$count'));
         $foreach .= $this->phpcode->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
