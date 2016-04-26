@@ -325,6 +325,7 @@ class TDMCreatePhpCode
     public function getPhpCodeForeach($array, $arrayKey = false, $key = false, $value = false, $content = null, $t = '')
     {
         $vars = '';
+        $value = '' !== $value? $value: 'i';
         if ((false === $arrayKey) && (false === $key)) {
             $vars = "\${$array} as \${$value}";
         } elseif ((false === $arrayKey) && (false !== $key)) {
