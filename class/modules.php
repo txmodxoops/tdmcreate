@@ -365,8 +365,8 @@ class TDMCreateModules extends XoopsObject
 
         return $form;
     }
-	
-	/*
+
+    /*
     *  @private static function createLogo
     *  @param mixed $logoIcon
     *  @param string $moduleDirname
@@ -499,7 +499,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      *
      * @return object
      */
-    public function create($isNew = true)
+    public function &create($isNew = true)
     {
         return parent::create($isNew);
     }
@@ -513,7 +513,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function &get($i = null, $fields = null)
     {
         return parent::get($i, $fields);
     }
@@ -525,7 +525,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      *
      * @return int reference to the {@link TDMCreateTables} object
      */
-    public function getInsertId()
+    public function &getInsertId()
     {
         return $this->db->getInsertId();
     }
@@ -538,7 +538,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(XoopsObject $field, $force = false)
+    public function &insert(&$field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;

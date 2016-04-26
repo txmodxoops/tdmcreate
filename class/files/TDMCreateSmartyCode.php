@@ -64,13 +64,13 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyTag($tag = '', $attributes = array(), $content = '')
+    public function getSmartyTag($tag = '', $attributes = array(), $content = '', $t = '')
     {
         if (empty($attributes)) {
             $attributes = array();
         }
         $attr = $this->getAttributes($attributes);
-        $ret = "<{{$tag}{$attr}}>{$content}<{/{$tag}}>\n";
+        $ret = "{$t}<{{$tag}{$attr}}>{$content}<{/{$tag}}>";
 
         return $ret;
     }
@@ -119,9 +119,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyComment($smartyComment = '')
+    public function getSmartyComment($smartyComment = '', $t = '')
     {
-        return "<{* {$smartyComment} *}>";
+        return "{$t}<{* {$smartyComment} *}>";
     }
 
     /*
@@ -133,9 +133,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyNoSimbol($noSimbol = '')
+    public function getSmartyNoSimbol($noSimbol = '', $t = '')
     {
-        return "<{{$noSimbol}}>";
+        return "{$t}<{{$noSimbol}}>";
     }
 
     /*
@@ -149,9 +149,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyConst($language, $const)
+    public function getSmartyConst($language, $const, $t = '')
     {
-        return "<{\$smarty.const.{$language}{$const}}>";
+        return "{$t}<{\$smarty.const.{$language}{$const}}>";
     }
 
     /*
@@ -163,9 +163,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartySingleVar($var)
+    public function getSmartySingleVar($var, $t = '')
     {
-        return "<{\${$var}}>";
+        return "{$t}<{\${$var}}>";
     }
 
     /*
@@ -179,9 +179,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyDoubleVar($leftVar, $rightVar)
+    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '')
     {
-        return "<{\${$leftVar}.{$rightVar}}>";
+        return "{$t}<{\${$leftVar}.{$rightVar}}>";
     }
 
     /*
@@ -195,16 +195,16 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false)
+    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false, $t = '')
     {
         if (!$admin && !$q) {
-            $ret = "<{include file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{include file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
         } elseif ($admin && !$q) {
-            $ret = "<{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
         } elseif (!$admin && $q) {
-            $ret = "<{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
         } elseif ($admin && $q) {
-            $ret = "<{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
         }
 
         return $ret;
@@ -221,9 +221,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $tableFieldName)
+    public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $tableFieldName, $t = '')
     {
-        return "<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>";
+        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>\n";
     }
 
     /*
@@ -237,9 +237,9 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyIncludeFileListForeach($moduleDirname, $fileName, $tableFieldName)
+    public function getSmartyIncludeFileListForeach($moduleDirname, $fileName, $tableFieldName, $t = '')
     {
-        return "<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}}>";
+        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}}>\n";
     }
 
     /*
@@ -261,31 +261,31 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
+    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '')
     {
         $ret = '';
         if (!$contentElse) {
             if (!$count) {
-                $ret = "<{if \${$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>\n";
             } elseif (!$noSimbol) {
-                $ret = "<{if {$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if {$condition}{$operator}{$type}}>\n";
             } else {
-                $ret = "<{if count(\${$condition}){$operator}{$type}}>\n";
+                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>\n";
             }
-            $ret .= "\t{$contentIf}\n";
-            $ret .= "<{/if}>\n";
+            $ret .= "{$t}{$contentIf}";
+            $ret .= "{$t}<{/if}>\n";
         } else {
             if (!$count) {
-                $ret = "<{if \${$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>\n";
             } elseif (!$noSimbol) {
-                $ret = "<{if {$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if {$condition}{$operator}{$type}}>\n";
             } else {
-                $ret = "<{if count(\${$condition}){$operator}{$type}}>\n";
+                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>\n";
             }
-            $ret .= "\t{$contentIf}\n";
-            $ret .= "<{else}>\n";
-            $ret .= "\t{$contentElse}\n";
-            $ret .= "<{/if}>\n";
+            $ret .= "{$t}{$contentIf}";
+            $ret .= "{$t}<{else}>\n";
+            $ret .= "{$t}{$contentElse}";
+            $ret .= "{$t}<{/if}>\n";
         }
 
         return $ret;
@@ -304,13 +304,13 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '')
+    public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '', $t = '')
     {
         $name = $name != '' ? " name={$name}" : '';
         $key = $key != '' ? " key={$key}" : '';
-        $ret = "<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "<{/foreach}>\n";
+        $ret = "{$t}<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
+        $ret .= "{$t}{$content}";
+        $ret .= "{$t}<{/foreach}>\n";
 
         return $ret;
     }
@@ -328,13 +328,13 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '')
+    public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '', $t = '')
     {
         $loop = $loop != '' ? " loop={$loop}" : '';
         $key = $key != '' ? " key={$key}" : '';
-        $ret = "<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "<{/foreachq}>\n";
+        $ret = "{$t}<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
+        $ret .= "{$t}{$content}";
+        $ret .= "{$t}<{/foreachq}>\n";
 
         return $ret;
     }
@@ -352,13 +352,13 @@ class TDMCreateSmartyCode
      *
      * @return string
      */
-    public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0)
+    public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0, $t = '')
     {
         $start = $start != 0 ? " start={$start}" : '';
         $step = $step != 0 ? " step={$step}" : '';
-        $ret = "<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "<{/section}>\n";
+        $ret = "{$t}<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
+        $ret .= "{$t}{$content}";
+        $ret .= "{$t}<{/section}>\n";
 
         return $ret;
     }

@@ -28,16 +28,6 @@
 class UserPages extends TDMCreateFile
 {
     /*
-    * @var mixed
-    */
-    private $uc = null;
-
-    /*
-    * @var string
-    */
-    private $xc = null;
-
-    /*
     * @var string
     */
     private $tdmcfile = null;
@@ -53,9 +43,6 @@ class UserPages extends TDMCreateFile
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
-        $this->xc = TDMCreateXoopsCode::getInstance();
-        $this->uc = UserXoopsCode::getInstance();
     }
 
     /*
@@ -99,14 +86,17 @@ class UserPages extends TDMCreateFile
      */
     private function getUserPagesHeader($moduleDirname, $tableName)
     {
+        $pc = TDMCreatePhpCode::getInstance();
+        $xc = TDMCreateXoopsCode::getInstance();
+        $uc = UserXoopsCode::getInstance();
         $ret = $this->getInclude();
-        $ret .= $this->uc->getUserTplMain($moduleDirname, $tableName);
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->xc->getXcXoopsRequest('start', 'start', '0', 'Int');
-        $userpager = $this->xc->getXcGetConfig($moduleDirname, 'userpager');
-        $ret .= $this->xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
-        $ret .= $this->xc->getXcAddStylesheet();
+        $ret .= $uc->getUserTplMain($moduleDirname, $tableName);
+        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $xc->getXcXoopsRequest('start', 'start', '0', 'Int');
+        $userpager = $xc->getXcGetConfig($moduleDirname, 'userpager');
+        $ret .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
+        $ret .= $pc->getPhpCodeCommentLine('Define Stylesheet');
+        $ret .= $xc->getXcAddStylesheet();
 
         return $ret;
     }
@@ -121,18 +111,22 @@ class UserPages extends TDMCreateFile
      */
     private function getUserPages($moduleDirname, $tableName, $tableSoleName)
     {
+        $pc = TDMCreatePhpCode::getInstance();
+        $xc = TDMCreateXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
-        $ret = $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret .= $this->xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXcObjHandlerCount($tableName);
-        $ret .= $this->xc->getXcObjHandlerAll($tableName, '', '$start', '$limit');
-        $ret .= $this->phpcode->getPhpCodeArray('keywords', null, false, '');
-        $condIf = $this->phpcode->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
-        $foreach = $this->xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t");
-        $foreach .= $this->xc->getXcXoopsTplAppend($tableName, "\${$tableSoleName}", "\t\t");
+        $t = "\t";
+        $ret = $pc->getPhpCodeCommentLine();
+        $ret .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret .= $xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret .= $pc->getPhpCodeCommentLine();
+        $ret .= $xc->getXcObjHandlerCount($tableName);
+        $ret .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit');
+        $ret .= $pc->getPhpCodeArray('keywords', null, false, '');
+        $condIf = $pc->getPhpCodeArray($tableName, null, false, $t);
+        $condIf .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t);
+        $foreach = $xc->getXcGetValues($tableName, $tableName.'[]', 'i', false, $t);
+
         $table = $this->getTable();
         // Fields
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -142,17 +136,19 @@ class UserPages extends TDMCreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $foreach .= $this->xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
-        $condIf .= $this->phpcode->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
-        $condIf .= $this->xc->getXcPageNav($tableName, "\t");
-        $tableType = $this->xc->getXcGetConfig($moduleDirname, 'table_type');
-        $condIf .= $this->xc->getXcTplAssign('type', $tableType, true, "\t");
-        $divideby = $this->xc->getXcGetConfig($moduleDirname, 'divideby');
-        $condIf .= $this->xc->getXcTplAssign('divideby', $divideby, true, "\t");
-        $numbCol = $this->xc->getXcGetConfig($moduleDirname, 'numb_col');
-        $condIf .= $this->xc->getXcTplAssign('numb_col', $numbCol, true, "\t");
+        $foreach .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, $t."\t");
+        $condIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t);
+        $condIf .= $xc->getXcTplAssign($tableName, "\${$tableName}", true, $t);
+        $condIf .= $pc->getPhpCodeUnset($tableName, $t);
+        $condIf .= $xc->getXcPageNav($tableName, $t);
+        $tableType = $xc->getXcGetConfig($moduleDirname, 'table_type');
+        $condIf .= $xc->getXcTplAssign('type', $tableType, true, $t);
+        $divideby = $xc->getXcGetConfig($moduleDirname, 'divideby');
+        $condIf .= $xc->getXcTplAssign('divideby', $divideby, true, $t);
+        $numbCol = $xc->getXcGetConfig($moduleDirname, 'numb_col');
+        $condIf .= $xc->getXcTplAssign('numb_col', $numbCol, true, $t);
 
-        $ret .= $this->phpcode->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
+        $ret .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
 
         return $ret;
     }
@@ -169,18 +165,21 @@ class UserPages extends TDMCreateFile
      */
     private function getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language)
     {
+        $pc = TDMCreatePhpCode::getInstance();
+        $xc = TDMCreateXoopsCode::getInstance();
+        $uc = UserXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
         $stuTableSoleName = strtoupper($tableSoleName);
-        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $this->uc->getUserBreadcrumbs($language, $stuTableName);
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Keywords');
-        $ret .= $this->uc->getUserMetaKeywords($moduleDirname);
-        $ret .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
-        $ret .= $this->uc->getUserMetaDesc($moduleDirname, $language, $stuTableSoleName);
-        $ret .= $this->xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
-        $ret .= $this->xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret .= $uc->getUserBreadcrumbs($language, $stuTableName);
+        $ret .= $pc->getPhpCodeCommentLine('Keywords');
+        $ret .= $uc->getUserMetaKeywords($moduleDirname);
+        $ret .= $pc->getPhpCodeUnset('keywords');
+        $ret .= $pc->getPhpCodeCommentLine('Description');
+        $ret .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableSoleName);
+        $ret .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
+        $ret .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret .= $this->getInclude('footer');
 
         return $ret;

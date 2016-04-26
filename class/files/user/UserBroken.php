@@ -153,7 +153,7 @@ class UserBroken extends TDMCreateFile
      *
      * @return
      */
-    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $language)
+    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableAutoincrement, $language)
     {
         $fieldId = $this->xc->getXcSaveFieldId($fields);
         $ucfTableName = ucfirst($tableName);
@@ -173,7 +173,7 @@ class UserBroken extends TDMCreateFile
 
         $ret .= $this->phpcode->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', "\$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';\n\$error = true;\n", false, "\t");
 
-        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $fields);
+        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableAutoincrement, $fields);
 
         $condElse = $this->phpcode->getPhpCodeCommentLine('Insert Data');
         $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
@@ -199,14 +199,14 @@ class UserBroken extends TDMCreateFile
       *
       * @return
       */
-    private function getUserBrokenSwitch($moduleDirname, $tableName, $language)
+    private function getUserBrokenSwitch($moduleDirname, $tableName, $tableAutoincrement, $language)
     {
         $table = $this->getTable();
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases = array('form' => array($this->getUserBrokenForm($tableName, $language)),
-                    'save' => array($this->getUserBrokenSave($moduleDirname, $fields, $tableName, $language)), );
+                    'save' => array($this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableAutoincrement, $language)), );
 
         return $this->xc->getXcSwitch('op', $cases, true);
     }
@@ -227,11 +227,12 @@ class UserBroken extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
+        $tableAutoincrement = $table->getVar('table_autoincrement');
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserBrokenHeader($moduleDirname, $fields);
-        $content .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $language);
+        $content .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableAutoincrement, $language);
         $content .= $this->getInclude('footer');
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

@@ -54,7 +54,7 @@ $modversion['targetdir'] = XOOPS_UPLOAD_PATH."/{$dirname}/repository/";
 $modversion['release_date'] = '2016/01/02';
 $modversion['module_website_url'] = 'http://www.xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['module_status'] = 'Alpha 3.4.2';
+$modversion['module_status'] = 'Alpha 3.4';
 
 $modversion['min_php'] = '5.3';
 $modversion['min_xoops'] = '2.5.7';

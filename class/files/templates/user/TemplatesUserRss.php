@@ -26,7 +26,12 @@
  * Class TemplatesUserRss.
  */
 class TemplatesUserRss extends TDMCreateFile
-{    
+{
+    /*
+    * @var string
+    */
+    private $tdmcfile = null;
+
     /*
     *  @public function constructor
     *  @param null
@@ -37,7 +42,8 @@ class TemplatesUserRss extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-	}
+        $this->tdmcfile = TDMCreateFile::getInstance();
+    }
 
     /*
     *  @static function &getInstance
@@ -58,17 +64,17 @@ class TemplatesUserRss extends TDMCreateFile
 
     /*
     *  @public function write
-    *  @param $module
-    *  @param $filename
+    *  @param string $module
+    *  @param string $table
+    *  @param string $filename
     */
     /**
      * @param $module
      * @param $table
      */
-    public function write($module, $filename)
+    public function write($module)
     {
         $this->setModule($module);
-		$this->setFileName($filename);
     }
 
     /*
@@ -127,23 +133,22 @@ EOT;
 
     /*
     *  @public function renderFile
-    *  @param null
+    *  @param string $filename
     */
     /**
-     * @param null
+     * @param $filename
      *
      * @return bool|string
      */
-    public function render()
+    public function renderFile($filename)
     {
         $module = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-		$filename = $this->getFileName();
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserRssXml();
         //
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

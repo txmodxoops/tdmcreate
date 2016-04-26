@@ -3,7 +3,7 @@
  *
  */
 function swapImg(swap) {
-    var obj = document.getElementById(swap);
+    obj = document.getElementById(swap);
     obj.src = !(obj.src == img_minus) ? img_minus : img_plus;
 }
 
@@ -11,8 +11,8 @@ function showImgSelected2(imgId, selectId, imgDir, extra, xoopsUrl) {
     if (xoopsUrl == null) {
         xoopsUrl = ".";
     }
-    var imgDom = xoopsGetElementById(imgId);
-    var selectDom = xoopsGetElementById(selectId);
+    imgDom = xoopsGetElementById(imgId);
+    selectDom = xoopsGetElementById(selectId);
     if (selectDom.options[selectDom.selectedIndex].value != "") {
         imgDom.src = xoopsUrl + "/" + imgDir + "/" + selectDom.options[selectDom.selectedIndex].value + extra;
     }
@@ -22,14 +22,14 @@ function showImgSelected2(imgId, selectId, imgDir, extra, xoopsUrl) {
 }
 
 function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
-    var iconDom = xoopsGetElementById(image4);
-    var iconName = iconDom.src;
-    var str = xoopsGetElementById(mod_dirname).value;
-    var res = str.toLowerCase();
-    var caption = res.replace(' ', '');
-    var logoDom = xoopsGetElementById(image3);
-    var moduleImageDom = xoopsGetElementById(mod_image);
-    var moduleImageSelected = moduleImageDom.options[moduleImageDom.selectedIndex].value;
+    iconDom = xoopsGetElementById(image4);
+    iconName = iconDom.src;
+    str = xoopsGetElementById(mod_dirname).value;
+    res = str.toLowerCase();
+    caption = res.replace(' ', '');
+    logoDom = xoopsGetElementById(image3);
+    moduleImageDom = xoopsGetElementById(mod_image);
+    moduleImageSelected = moduleImageDom.options[moduleImageDom.selectedIndex].value;
     $.ajax({
         type: 'GET',
         url: xoopsUrl + "/class/logoGenerator.php?f=phpFunction&iconName=" + iconName + "&caption=" + caption,
@@ -43,8 +43,9 @@ function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
             mycheck = caption + '_logo.png'; //name of the new logo file
             //if file is not in the list of logo files, add it to the dropdown menu
             var fileExist;
-            var elems = moduleImageDom.options;
-            for (var i = 0, max = elems.length; i < max; i++) {
+            elems = moduleImageDom.options;
+            for (var i = 0,
+                    max = elems.length; i < max; i++) {
                 if (moduleImageDom.options[i].text == mycheck) {
                     fileExist = true;
                 }

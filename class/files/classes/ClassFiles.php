@@ -550,21 +550,15 @@ class ClassFiles extends TDMCreateFile
         $multiLineCom = array('Class Object Handler' => $ucfModuleDirname.$ucfTableName);
         $ret = $this->pc->getPhpCodeCommentMultiLine($multiLineCom);
 
-        $cClh = $this->pc->getPhpCodeCommentMultiLine(array('@var' => 'mixed'), "\t");
-        $cClh .= $this->pc->getPhpCodeVariableClass('private', $moduleDirname, 'null', "\t");
-
-        $cClh .= $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null|XoopsDatabase $db'), "\t");
+        $cClh = $this->pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null|XoopsDatabase $db'), "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');\n";
-        $constr .= $this->xc->getXcGetInstance("this->{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
-        $constr .= $this->xc->getXcEqualsOperator('$this->db', '$db', null, false, "\t\t");
 
         $cClh .= $this->pc->getPhpCodeFunction('__construct', 'XoopsDatabase $db', $constr, 'public ', false, "\t");
-
         $cClh .= $this->getClassCreate();
         $cClh .= $this->getClassGet();
         $cClh .= $this->getClassGetInsertId();
-        $cClh .= $this->getClassGetIds();
-        $cClh .= $this->getClassInsert();
+        //$cClh .= $this->getClassGetIds();
+        //$cClh .= $this->getClassInsert();
         $cClh .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);

@@ -28,11 +28,6 @@
 class TemplatesUserBreadcrumbs extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -92,22 +85,25 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        //
-        $title = $this->htmlcode->getSmartyDoubleVar('itm', 'title');
-        $link = $this->htmlcode->getSmartyDoubleVar('itm', 'link');
-        $intoElse = $this->htmlcode->getHtmlTag('li', array(), $title);
-        $anchorIf = $this->htmlcode->getHtmlAnchor($link, $title, $title);
-        $intoIf = $this->htmlcode->getHtmlTag('li', array(), $anchorIf);
-        $ifelse = $this->htmlcode->getSmartyConditions('itm.link', '', '', $intoIf, $intoElse);
-        $glyph = $this->htmlcode->getHtmlTag('i', array('class' => 'glyphicon glyphicon-home'));
-        $anchor = $this->htmlcode->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
-        $into = $this->htmlcode->getHtmlTag('li', array(), $anchor).PHP_EOL;
-        $into     .= $this->htmlcode->getSmartyForeach('itm', 'xoBreadcrumbs', $ifelse, 'bcloop');
+        $tf = TDMCreateFile::getInstance();
+        $sc = TDMCreateSmartyCode::getInstance();
+        $hc = TDMCreateHtmlCode::getInstance();
+        $t = "\t";
+        $title = $sc->getSmartyDoubleVar('itm', 'title');
+        $titleElse = $sc->getSmartyDoubleVar('itm', 'title', $t."\t").PHP_EOL;
+        $link = $sc->getSmartyDoubleVar('itm', 'link');
+        $glyph = $hc->getHtmlTag('i', array('class' => 'glyphicon glyphicon-home'), '', false, true);
+        $anchor = $hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
+        $into = $hc->getHtmlTag('li', array('class' => 'bc-item'), $anchor, false, true, $t).PHP_EOL;
+        $anchorIf = $hc->getHtmlAnchor($link, $title, $title, '', '', '', $t."\t").PHP_EOL;
+        $breadcrumb = $sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, $t);
+        $foreach = $hc->getHtmlTag('li', array('class' => 'bc-item'), $breadcrumb, false, false, $t);
+        $into .= $sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', $t);
 
-        $content = $this->htmlcode->getHtmlTag('ul', array('class' => 'breadcrumb'), $into);
+        $content = $hc->getHtmlTag('ol', array('class' => 'breadcrumb'), $into);
 
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $tf->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $tf->renderFile();
     }
 }

@@ -92,6 +92,7 @@ class AdminHeader extends TDMCreateFile
     private function getAdminHeader($moduleDirname)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
+        $stuModuleDirname = strtoupper($moduleDirname);
         $table = $this->getTable();
         $tables = $this->getTables();
         $ret = $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(dirname(__DIR__)))', 'include/cp_header');
@@ -138,6 +139,7 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeConditions("{$fileExists}", '', '', $moduleadmin, $redirectHeader);
         $ret .= $this->xc->getXcCPHeader();
         $ret .= $this->xc->getXcEqualsOperator('$adminMenu', 'new ModuleAdmin()');
+        $ret .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
 
         return $ret;
     }

@@ -26,7 +26,7 @@
  * Class SqlFile.
  */
 class SqlFile extends TDMCreateFile
-{    
+{
     /*
     *  @public function constructor
     *  @param null
@@ -63,19 +63,15 @@ class SqlFile extends TDMCreateFile
     /*
     *  @public function write
     *  @param $module
-    *  @param $table
-    *  @param $tables
     *  @param $filename
     */
     /**
      * @param $module
-     * @param $tables
      * @param $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -93,8 +89,8 @@ class SqlFile extends TDMCreateFile
         $date = date('D M d, Y');
         $time = date('G:i');
         $serverName = $_SERVER['SERVER_NAME'];
-        $serverVersion = mysql_get_server_info(); // XoopsMySQLDatabase :: getServerVersion();
-        $php_version = phpversion();
+        $serverVersion = mysql_get_server_info();
+        $phpVersion = phpversion();
         // Header Sql Comments
         $ret = $this->getSimpleString("# SQL Dump for {$moduleName} module");
         $ret .= $this->getSimpleString('# PhpMyAdmin Version: 4.0.4');
@@ -103,7 +99,7 @@ class SqlFile extends TDMCreateFile
         $ret .= $this->getSimpleString("# Host: {$serverName}");
         $ret .= $this->getSimpleString("# Generated on: {$date} to {$time}");
         $ret .= $this->getSimpleString("# Server version: {$serverVersion}");
-        $ret .= $this->getSimpleString("# PHP Version: {$php_version}\n");
+        $ret .= $this->getSimpleString("# PHP Version: {$phpVersion}\n");
 
         return $ret;
     }
@@ -129,13 +125,14 @@ class SqlFile extends TDMCreateFile
 
     /*
     *  @private function getDatabaseTables
-    *  @param $moduleDirname
+    *  @param $module
     *  @return null|string
     */
-    private function getDatabaseTables($moduleDirname)
+    private function getDatabaseTables($module)
     {
         $ret = null;
-        $tables = $this->getTables();
+        $moduleDirname = strtolower($module->getVar('mod_dirname'));
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
@@ -158,12 +155,12 @@ class SqlFile extends TDMCreateFile
     */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
+        $tdmcreate = TDMCreateHelper::getInstance();
         $ret = null;
         $j = 0;
         $comma = array();
         $row = array();
         $type = '';
-		$tdmcreate = TDMCreateHelper::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
@@ -218,9 +215,9 @@ class SqlFile extends TDMCreateFile
                         break;
                     case 9:
                     case 10:
-						$fValues = implode("', '", explode(',', str_replace(' ', '', $fieldValue)));
+                        $fValues = implode("', '", explode(',', str_replace(' ', '', $fieldValue)));
                         $type = $fieldTypeName.'(\''.$fValues.'\')'; // Used with comma separator
-						$default = "DEFAULT '{$fieldDefault}'";
+                        $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 11:
                         $type = $fieldTypeName.'('.$fieldValue.')';
@@ -400,7 +397,7 @@ class SqlFile extends TDMCreateFile
     */
     private function getComma($row, $comma = null)
     {
-        return "\t\t\t{$row}{$comma}";
+        return " {$row}{$comma}";
     }
 
     /*
@@ -435,10 +432,11 @@ class SqlFile extends TDMCreateFile
         $moduleName = strtolower($module->getVar('mod_name'));
         $moduleDirname = strtolower($module->getVar('mod_dirname'));
         $content = $this->getHeaderSqlComments($moduleName);
-        $content      .= $this->getDatabaseTables($moduleDirname);
+        $content .= $this->getDatabaseTables($module);
         //
-        $this->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $tdmcfile = TDMCreateFile::getInstance();
+        $tdmcfile->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $tdmcfile->renderFile();
     }
 }

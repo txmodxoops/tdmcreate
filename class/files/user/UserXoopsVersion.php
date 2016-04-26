@@ -578,12 +578,12 @@ class UserXoopsVersion extends TDMCreateFile
                         'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'default'", 'options' => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')", );
         $ret .= $uCodeVConfig->getUserModVersion(3, $panelType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
-        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Panel by');
+        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Advertise');
         $advertise = array('name' => "'advertise'", 'title' => "'{$language}ADVERTISE'", 'description' => "'{$language}ADVERTISE_DESC'",
                         'formtype' => "'textarea'", 'valuetype' => "'text'", 'default' => "''", );
         $ret .= $uCodeVConfig->getUserModVersion(3, $advertise, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
-        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Panel by');
+        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Bookmarks');
         $bookmarks = array('name' => "'bookmarks'", 'title' => "'{$language}BOOKMARKS'", 'description' => "'{$language}BOOKMARKS_DESC'",
                         'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0', );
         $ret .= $uCodeVConfig->getUserModVersion(3, $bookmarks, 'config', '$c');

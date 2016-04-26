@@ -23,8 +23,12 @@
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 $dirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Root Frameworks icons 32x32 directory
-if (!defined('XOOPS_ICONS32_PATH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH.'/Frameworks/moduleclasses/icons/32');
-if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+if (!defined('XOOPS_ICONS32_PATH')) {
+    define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH.'/Frameworks/moduleclasses/icons/32');
+}
+if (!defined('XOOPS_ICONS32_URL')) {
+    define('XOOPS_ICONS32_URL', XOOPS_URL.'/Frameworks/moduleclasses/icons/32');
+}
 // Local Directories
 define('TDMC_PATH', XOOPS_ROOT_PATH.'/modules/'.$dirname);
 define('TDMC_URL', XOOPS_URL.'/modules/'.$dirname);

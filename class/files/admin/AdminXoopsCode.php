@@ -372,12 +372,12 @@ class AdminXoopsCode
         $xoopsSecurityCheck = $xCodeCaseDelete->getXcSecurityCheck();
         $xoopsSecurityErrors = $xCodeCaseDelete->getXcSecurityErrors();
         $implode = $phpCodeCaseDelete->getPhpCodeImplode(', ', $xoopsSecurityErrors);
-        $redirectHeaderErrors = $xCodeCaseDelete->getXcRedirectHeader($tableName, '.php', '3', $implode, true, $t."\t\t");
+        $redirectHeaderErrors = $xCodeCaseDelete->getXcRedirectHeader($tableName, '', '3', $implode, true, $t."\t\t");
 
-        $delete = $xCodeCaseDelete->getXcDelete($tableName, $tableName, 'Obj', true);
+        $delete = $xCodeCaseDelete->getXcDelete($tableName, $tableName, 'Obj', 'Handler');
         $condition = $phpCodeCaseDelete->getPhpCodeConditions('!'.$xoopsSecurityCheck, '', '', $redirectHeaderErrors, false, $t."\t");
 
-        $redirectHeaderLanguage = $xCodeCaseDelete->getXcRedirectHeader($tableName, '.php', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
+        $redirectHeaderLanguage = $xCodeCaseDelete->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
         $htmlErrors = $xCodeCaseDelete->getXcHtmlErrors($tableName, true);
         $internalElse = $xCodeCaseDelete->getXcTplAssign('error', $htmlErrors, false, $t."\t\t");
         $condition .= $phpCodeCaseDelete->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t."\t");

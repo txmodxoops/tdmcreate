@@ -103,7 +103,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $tablesObj = $tdmcreate->getHandler('tables')->create();
+        $tablesObj = &$tdmcreate->getHandler('tables')->create();
         $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -113,7 +113,7 @@ switch ($op) {
             redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         //
-        $tables = $tdmcreate->getHandler('tables');
+        $tables = &$tdmcreate->getHandler('tables');
         //
         if (isset($tableId)) {
             $tablesObj = &$tables->get($tableId);
@@ -186,7 +186,7 @@ switch ($op) {
                 $tableTid = $GLOBALS['xoopsDB']->getInsertId();
                 $tableAction = '&field_mid='.$tableMid.'&field_tid='.$tableTid.'&field_numb='.$tableNumbFields.'&field_name='.$tableFieldname;
                 // Fields Elements Handler
-                $fieldelementObj = &$tdmcreate->getHandler('fieldelements')->create();
+                $fieldelementObj = $tdmcreate->getHandler('fieldelements')->create();
                 $fieldelementObj->setVar('fieldelement_mid', $tableMid);
                 $fieldelementObj->setVar('fieldelement_tid', $tableTid);
                 $fieldelementObj->setVar('fieldelement_name', 'Table : '.ucfirst($_POST['table_name']));
@@ -241,7 +241,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
+        $tablesObj = &$tdmcreate->getHandler('tables')->get($tableId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -281,7 +281,7 @@ switch ($op) {
             }
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
-        $tableArray = array_merge($modArray, array('submenu'));
+        $tableArray = array('admin', 'user', 'blocks', 'submenu', 'search', 'comments', 'notifications', 'permissions');
         $tid = XoopsRequest::getInt('table_id', 0, 'POST');
         if ($tid > 0) {
             $tablesObj = $tdmcreate->getHandler('tables')->get($tid);

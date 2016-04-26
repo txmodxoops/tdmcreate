@@ -32,7 +32,14 @@ include __DIR__.'/autoload.php';
  * Class TDMCreateSettings.
  */
 class TDMCreateSettings extends XoopsObject
-{    
+{
+    /**
+     * Instance of TDMCreate class.
+     *
+     * @var mixed
+     */
+    private $tdmcreate;
+
     /**
      * Options.
      */
@@ -55,47 +62,47 @@ class TDMCreateSettings extends XoopsObject
      *
      */
     public function __construct()
-    {        
-        $tdmcreate = TDMCreateHelper::getInstance();
-		$this->initVar('set_id', XOBJ_DTYPE_INT);
-        $this->initVar('set_name', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('name'));
-        $this->initVar('set_dirname', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('dirname'));
-        $this->initVar('set_version', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('version'));
-        $this->initVar('set_since', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('since'));
-        $this->initVar('set_min_php', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('min_php'));
-        $this->initVar('set_min_xoops', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('min_xoops'));
-        $this->initVar('set_min_admin', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('min_admin'));
-        $this->initVar('set_min_mysql', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('min_mysql'));
-        $this->initVar('set_description', XOBJ_DTYPE_TXTAREA, $tdmcreate->getConfig('description'));
-        $this->initVar('set_author', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('author'));
-        $this->initVar('set_author_mail', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('author_email'));
-        $this->initVar('set_author_website_url', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('author_website_url'));
-        $this->initVar('set_author_website_name', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('author_website_name'));
-        $this->initVar('set_credits', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('credits'));
-        $this->initVar('set_license', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('license'));
-        $this->initVar('set_release_info', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('release_info'));
-        $this->initVar('set_release_file', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('release_file'));
-        $this->initVar('set_manual', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('manual'));
-        $this->initVar('set_manual_file', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('manual_file'));
-        $this->initVar('set_image', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('image'));
-        $this->initVar('set_demo_site_url', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('demo_site_url'));
-        $this->initVar('set_demo_site_name', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('demo_site_name'));
-        $this->initVar('set_support_url', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('support_url'));
-        $this->initVar('set_support_name', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('support_name'));
-        $this->initVar('set_website_url', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('website_url'));
-        $this->initVar('set_website_name', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('website_name'));
-        $this->initVar('set_release', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('release_date'));
-        $this->initVar('set_status', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('status'));
-        $this->initVar('set_admin', XOBJ_DTYPE_INT, $tdmcreate->getConfig('display_admin'));
-        $this->initVar('set_user', XOBJ_DTYPE_INT, $tdmcreate->getConfig('display_user'));
-        $this->initVar('set_blocks', XOBJ_DTYPE_INT, $tdmcreate->getConfig('active_blocks'));
-        $this->initVar('set_search', XOBJ_DTYPE_INT, $tdmcreate->getConfig('active_search'));
-        $this->initVar('set_comments', XOBJ_DTYPE_INT, $tdmcreate->getConfig('active_comments'));
-        $this->initVar('set_notifications', XOBJ_DTYPE_INT, $tdmcreate->getConfig('active_notifications'));
-        $this->initVar('set_permissions', XOBJ_DTYPE_INT, $tdmcreate->getConfig('active_permissions'));
-        $this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $tdmcreate->getConfig('inroot_copy'));
-        $this->initVar('set_donations', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('donations'));
-        $this->initVar('set_subversion', XOBJ_DTYPE_TXTBOX, $tdmcreate->getConfig('subversion'));
+    {
+        $this->tdmcreate = TDMCreateHelper::getInstance();
+        $this->initVar('set_id', XOBJ_DTYPE_INT);
+        $this->initVar('set_name', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('name'));
+        $this->initVar('set_dirname', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('dirname'));
+        $this->initVar('set_version', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('version'));
+        $this->initVar('set_since', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('since'));
+        $this->initVar('set_min_php', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('min_php'));
+        $this->initVar('set_min_xoops', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('min_xoops'));
+        $this->initVar('set_min_admin', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('min_admin'));
+        $this->initVar('set_min_mysql', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('min_mysql'));
+        $this->initVar('set_description', XOBJ_DTYPE_TXTAREA, $this->tdmcreate->getConfig('description'));
+        $this->initVar('set_author', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('author'));
+        $this->initVar('set_author_mail', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('author_email'));
+        $this->initVar('set_author_website_url', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('author_website_url'));
+        $this->initVar('set_author_website_name', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('author_website_name'));
+        $this->initVar('set_credits', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('credits'));
+        $this->initVar('set_license', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('license'));
+        $this->initVar('set_release_info', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('release_info'));
+        $this->initVar('set_release_file', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('release_file'));
+        $this->initVar('set_manual', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('manual'));
+        $this->initVar('set_manual_file', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('manual_file'));
+        $this->initVar('set_image', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('image'));
+        $this->initVar('set_demo_site_url', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('demo_site_url'));
+        $this->initVar('set_demo_site_name', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('demo_site_name'));
+        $this->initVar('set_support_url', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('support_url'));
+        $this->initVar('set_support_name', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('support_name'));
+        $this->initVar('set_website_url', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('website_url'));
+        $this->initVar('set_website_name', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('website_name'));
+        $this->initVar('set_release', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('release_date'));
+        $this->initVar('set_status', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('status'));
+        $this->initVar('set_admin', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('display_admin'));
+        $this->initVar('set_user', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('display_user'));
+        $this->initVar('set_blocks', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('active_blocks'));
+        $this->initVar('set_search', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('active_search'));
+        $this->initVar('set_comments', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('active_comments'));
+        $this->initVar('set_notifications', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('active_notifications'));
+        $this->initVar('set_permissions', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('active_permissions'));
+        $this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $this->tdmcreate->getConfig('inroot_copy'));
+        $this->initVar('set_donations', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('donations'));
+        $this->initVar('set_subversion', XOBJ_DTYPE_TXTBOX, $this->tdmcreate->getConfig('subversion'));
         $this->initVar('set_type', XOBJ_DTYPE_TXTBOX);
     }
 
@@ -140,7 +147,7 @@ class TDMCreateSettings extends XoopsObject
      */
     public function getFormSettings($action = false)
     {
-        $tdmcreate = TDMCreateHelper::getInstance();
+        //
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
@@ -199,7 +206,7 @@ class TDMCreateSettings extends XoopsObject
         $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br />"));
         //
         $fileseltray = new XoopsFormElementTray('', '<br />');
-        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
+        $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $this->tdmcreate->getConfig('maxsize')));
         $fileseltray->addElement(new XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
@@ -236,7 +243,7 @@ class TDMCreateSettings extends XoopsObject
      */
     public function getValuesSettings($keys = null, $format = null, $maxDepth = null)
     {
-        $ret = $this->getValues($keys, $format, $maxDepth);
+        $ret = parent::getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('set_id');
         $ret['name'] = $this->getVar('set_name');
@@ -304,7 +311,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      *
      * @return object
      */
-    public function create($isNew = true)
+    public function &create($isNew = true)
     {
         return parent::create($isNew);
     }
@@ -318,7 +325,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      * @return mixed reference to the <a href='psi_element://TDMCreateSettings'>TDMCreateSettings</a> object
      *               object
      */
-    public function get($i = null, $fields = null)
+    public function &get($i = null, $fields = null)
     {
         return parent::get($i, $fields);
     }
@@ -330,7 +337,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      *
      * @return int reference to the {@link TDMCreateTables} object
      */
-    public function getInsertId()
+    public function &getInsertId()
     {
         return $this->db->getInsertId();
     }
@@ -343,7 +350,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function insert(XoopsObject $field, $force = false)
+    public function &insert(&$field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;
