@@ -12,7 +12,14 @@ checks:
         duplication: true
 tools:
     php_cs_fixer:
-        enabled: true
+        extensions:
+            # Default:
+            - php
+        fixers:               []
+        enabled:              false
+        filter:
+            paths:            []
+            excluded_paths:   []
         config:
             level: all
         filter:
