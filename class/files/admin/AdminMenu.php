@@ -28,11 +28,6 @@
 class AdminMenu extends TDMCreateFile
 {
     /*
-    * @var mixed
-    */
-    private $xc = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,7 +37,6 @@ class AdminMenu extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc = TDMCreateXoopsCode::getInstance();
     }
 
     /*
@@ -65,20 +59,15 @@ class AdminMenu extends TDMCreateFile
     /*
     *  @public function write
     *  @param string $module
-    *  @param object $table
-    *  @param array $tables
     *  @param string $filename
     */
     /**
      * @param $module
-     * @param $table
-     * @param $tables
      * @param $filename
      */
-    public function write($module, $tables, $filename)
+    public function write($module, $filename)
     {
         $this->setModule($module);
-        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -92,15 +81,16 @@ class AdminMenu extends TDMCreateFile
      */
     private function getAdminMenuArray($param = array(), $adminMenu = false, $ref = false)
     {
+        $xc = TDMCreateXoopsCode::getInstance();
         $ret = '';
         foreach ($param as $key => $value) {
             if ($adminMenu) {
-                $ret .= $this->xc->getXcEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
+                $ret .= $xc->getXcEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
             } else {
                 if ($ref) {
-                    $ret .= $this->xc->getXcEqualsOperator("{$key}", "{$value}", null, true);
+                    $ret .= $xc->getXcEqualsOperator("{$key}", "{$value}", null, true);
                 } else {
-                    $ret .= $this->xc->getXcEqualsOperator("{$key}", "{$value}");
+                    $ret .= $xc->getXcEqualsOperator("{$key}", "{$value}");
                 }
             }
         }
@@ -122,7 +112,7 @@ class AdminMenu extends TDMCreateFile
         $mod = array('$moduleHandler' => "xoops_gethandler('module')",
                     '$xoopsModule' => 'XoopsModule::getByDirname($dirname)',
                     '$moduleInfo' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))", );
-        $ret .= $this->getAdminMenuArray($mod, false, true);
+        $ret .= $this->getAdminMenuArray($mod);
         $sys = array('$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')");
         $ret .= $this->getAdminMenuArray($sys);
 
@@ -142,8 +132,9 @@ class AdminMenu extends TDMCreateFile
      */
     private function getAdminMenuDashboard($language, $menu)
     {
+        $xc = TDMCreateXoopsCode::getInstance();
         $param = array('title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'");
-        $ret = $this->xc->getXcEqualsOperator('$i', '1');
+        $ret = $xc->getXcEqualsOperator('$i', '1');
         $ret .= $this->getAdminMenuArray($param, true);
         $ret .= $this->getSimpleString('++$i;');
 
@@ -163,16 +154,17 @@ class AdminMenu extends TDMCreateFile
      */
     private function getAdminMenuImagesPath($tables, $t)
     {
+        $xc = TDMCreateXoopsCode::getInstance();
         $ret = '';
         $fields = $this->getTableFields($tables[$t]->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             switch ($fieldElement) {
                 case 13:
-                    $ret = $this->xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
+                    $ret = $xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
                     break;
                 default:
-                    $ret = $this->xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "\$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}'");
+                    $ret = $xc->getXcEqualsOperator("\$adminmenu[\$i]['icon']", "\$sysPathIcon32.'/{$tables[$t]->getVar('table_image')}'");
                     break;
             }
         }

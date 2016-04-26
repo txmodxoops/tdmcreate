@@ -3,6 +3,7 @@
 =================================
 
 - Refactoring Classes with Php Functions in place of Heredoc
+- Alpha Contribute & Testers (Timgno, Mamba, Goffy)
 
 =================================
 2015/06/01: Version 1.91 alpha 3

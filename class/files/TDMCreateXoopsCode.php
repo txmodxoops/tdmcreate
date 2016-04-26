@@ -960,6 +960,7 @@ class TDMCreateXoopsCode
      */
     public function getXcGetValues($tableName, $tableSoleName, $index = 'i', $noArray = false, $t = '')
     {
+        $index = '' !== $index ? $index : 'i';
         $ucfTableName = ucfirst($tableName);
         if (!$noArray) {
             $ret = "{$t}\${$tableSoleName} = \${$tableName}All[\${$index}]->getValues{$ucfTableName}();\n";
@@ -1070,7 +1071,7 @@ class TDMCreateXoopsCode
         if (!$isString) {
             $ret = "{$t}redirect_header({$directory}, {$numb}, {$var});\n";
         } else {
-            $ret = "{$t}redirect_header('{$directory}{$options}', {$numb}, {$var});\n";
+            $ret = "{$t}redirect_header('{$directory}.php{$options}', {$numb}, {$var});\n";
         }
 
         return $ret;
@@ -1325,11 +1326,12 @@ class TDMCreateXoopsCode
      *
      *  @param $moduleDirname
      *  @param $tableName
+     *  @param $tableAutoincrement
      *  @param $fields
      *
      *  @return string
      */
-    public function getXcSaveElements($moduleDirname, $tableName, $fields)
+    public function getXcSaveElements($moduleDirname, $tableName, $tableAutoincrement, $fields, $t = '')
     {
         $axCodeSaveElements = AdminXoopsCode::getInstance();
         $ret = '';
@@ -1349,7 +1351,11 @@ class TDMCreateXoopsCode
             } elseif (15 == $fieldElement) {
                 $ret .= self::getXcTextDateSelectSetVar($tableName, $fieldName);
             } else {
-                $ret .= self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+                if (($f != 0) && $tableAutoincrement == 1) {
+                    $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+                } elseif (($f == 0) && $tableAutoincrement == 0) {
+                    $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+                }
             }
         }
 

@@ -26,13 +26,13 @@ $funct = XoopsRequest::getString('funct', '', 'GET');
 $iconName = XoopsRequest::getString('iconName', '', 'GET');
 $caption = XoopsRequest::getString('caption', '', 'GET');
 if (function_exists($funct)) {
-	$ret = TDMCreateLogo::getInstance()->createLogo($iconName, $caption);
-	phpFunction($ret);
+    $ret = TDMCreateLogo::getInstance()->createLogo($iconName, $caption);
+    phpFunction($ret);
 } else {
-	redirect_header('logo.php', 3, 'Method Not Exist');
+    redirect_header('logo.php', 3, 'Method Not Exist');
 }
 // phpFunction
 function phpFunction($val = '')
 {   // create php function here
-	echo $val;
+    echo $val;
 }

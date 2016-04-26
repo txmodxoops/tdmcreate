@@ -197,26 +197,25 @@ class LanguageModinfo extends TDMCreateFile
             $stuTableSoleName = strtoupper($tableSoleName);
             $ucfTableName = ucfirst($tableName);
             $ucfTableSoleName = ucfirst($stuTableSoleName);
-            if (1 == $tables[$i]->getVar('table_blocks')) {
-                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
-                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
-                if ($tables[$i]->getVar('table_category') == 1) {
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
-                } else {
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
-                    $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
-                }
+
+            $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
+            $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
+            if ($tables[$i]->getVar('table_category') == 1) {
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
+            } else {
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block  {$ucfTableSoleName}");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block  {$ucfTableSoleName} description");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_LAST", "{$ucfTableName} block last");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_LAST_DESC", "{$ucfTableName} block last description");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_NEW", "{$ucfTableName} block new");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_NEW_DESC", "{$ucfTableName} block new description");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_HITS", "{$ucfTableName} block hits");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_HITS_DESC", "{$ucfTableName} block hits description");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_TOP", "{$ucfTableName} block top");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_TOP_DESC", "{$ucfTableName} block top description");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_RANDOM", "{$ucfTableName} block random");
+                $ret .= $this->df->getDefine($language, "{$stuTableName}_BLOCK_RANDOM_DESC", "{$ucfTableName} block random description");
             }
         }
 
@@ -367,20 +366,20 @@ class LanguageModinfo extends TDMCreateFile
     {
         $module = $this->getModule();
         $table = $this->getTable();
-		$tables = $this->getTableTables($module->getVar('mod_id'));
+        $tables = $this->getTableTables($module->getVar('mod_id'));
         $tableAdmin = array();
-		$tableUser = array();
-		$tableSubmenu = array();
-		$tableBlocks = array();
-		$tableNotifications = array();
-		$tablePermissions = array();
-		foreach (array_keys($tables) as $t) {
+        $tableUser = array();
+        $tableSubmenu = array();
+        $tableBlocks = array();
+        $tableNotifications = array();
+        $tablePermissions = array();
+        foreach (array_keys($tables) as $t) {
             $tableAdmin[] = $tables[$t]->getVar('table_admin');
-			$tableUser[] = $tables[$t]->getVar('table_user');
-			$tableSubmenu[] = $tables[$t]->getVar('table_submenu');
-			$tableBlocks[] = $tables[$t]->getVar('table_blocks');
-			$tableNotifications[] = $tables[$t]->getVar('table_notifications');
-			$tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $tableUser[] = $tables[$t]->getVar('table_user');
+            $tableSubmenu[] = $tables[$t]->getVar('table_submenu');
+            $tableBlocks[] = $tables[$t]->getVar('table_blocks');
+            $tableNotifications[] = $tables[$t]->getVar('table_notifications');
+            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
         }
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -397,9 +396,9 @@ class LanguageModinfo extends TDMCreateFile
         if (in_array(1, $tableSubmenu)) {
             $content .= $this->getLanguageSubmenu($language, $tables);
         }
-        if (in_array(1, $tableBlocks)) {
+        //if (in_array(1, $tableBlocks)) {
             $content .= $this->getLanguageBlocks($tables, $language);
-        }
+        //}
         $content .= $this->getLanguageConfig($language, $table);
         if (in_array(1, $tableNotifications)) {
             $content .= $this->getLanguageNotifications($language);

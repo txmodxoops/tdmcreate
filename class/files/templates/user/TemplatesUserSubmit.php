@@ -26,7 +26,12 @@
  * Class TemplatesUserSubmit.
  */
 class TemplatesUserSubmit extends TDMCreateFile
-{    
+{
+    /*
+    * @var string
+    */
+    private $tdmcfile = null;
+
     /*
     *  @public function constructor
     *  @param null
@@ -36,7 +41,9 @@ class TemplatesUserSubmit extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
+        $this->tdmcfile = TDMCreateFile::getInstance();
+        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -66,11 +73,10 @@ class TemplatesUserSubmit extends TDMCreateFile
      * @param $module
      * @param $table
      */
-    public function write($module, $table, $filename)
+    public function write($module, $table)
     {
         $this->setModule($module);
         $this->setTable($table);
-		$this->setFileName($filename);
     }
 
     /*
@@ -88,8 +94,7 @@ class TemplatesUserSubmit extends TDMCreateFile
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
     {
-        $htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
-		return $htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
     /*
@@ -105,23 +110,22 @@ class TemplatesUserSubmit extends TDMCreateFile
      */
     private function getTemplatesUserSubmit($moduleDirname, $language)
     {
-        $htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
-		$const = $htmlcode->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
-        $li = $htmlcode->getHtmlLi($const).PHP_EOL;
-        $const = $htmlcode->getSmartyConst($language, 'SUBMIT_ALLPENDING');
-        $li .= $htmlcode->getHtmlLi($const).PHP_EOL;
-        $const = $htmlcode->getSmartyConst($language, 'SUBMIT_DONTABUSE');
-        $li .= $htmlcode->getHtmlLi($const).PHP_EOL;
-        $const = $htmlcode->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
-        $li .= $htmlcode->getHtmlLi($const).PHP_EOL;
-        $ul = $htmlcode->getHtmlUl($li).PHP_EOL;
-        $ret = $htmlcode->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
+        $li = $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_ALLPENDING');
+        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_DONTABUSE');
+        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $const = $this->htmlcode->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
+        $li    .= $this->htmlcode->getHtmlLi($const).PHP_EOL;
+        $ul = $this->htmlcode->getHtmlUl($li).PHP_EOL;
+        $ret = $this->htmlcode->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
 
-        $single = $htmlcode->getSmartySingleVar('message_error').PHP_EOL;
-        $divError = $htmlcode->getHtmlDiv($single, 'errorMsg').PHP_EOL;
-        $ret .= $htmlcode->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
-        $single = $htmlcode->getSmartySingleVar('form').PHP_EOL;
-        $ret .= $htmlcode->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('message_error').PHP_EOL;
+        $divError = $this->htmlcode->getHtmlDiv($single, 'errorMsg').PHP_EOL;
+        $ret   .= $this->htmlcode->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
+        $single = $this->htmlcode->getSmartySingleVar('form').PHP_EOL;
+        $ret   .= $this->htmlcode->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
 
         return $ret;
     }
@@ -137,33 +141,31 @@ class TemplatesUserSubmit extends TDMCreateFile
      */
     private function getTemplatesUserSubmitFooter($moduleDirname)
     {
-        $htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
-		return $htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /*
-    *  @public function render
-    *  @param null
+    *  @public function renderFile
+    *  @param string $filename
     */
     /**
-     * @param null
+     * @param $filename
      *
      * @return bool|string
      */
-    public function render()
+    public function renderFile($filename)
     {
         $module = $this->getModule();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-		$filename = $this->getFileName();
         $tableFieldname = $table->getVar('table_fieldname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserSubmitHeader($moduleDirname);
-        $content .= $this->getTemplatesUserSubmit($moduleDirname, $language);
-        $content .= $this->getTemplatesUserSubmitFooter($moduleDirname);
+        $content       .= $this->getTemplatesUserSubmit($moduleDirname, $language);
+        $content       .= $this->getTemplatesUserSubmitFooter($moduleDirname);
         //
-        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->renderFile();
+        return $this->tdmcfile->renderFile();
     }
 }

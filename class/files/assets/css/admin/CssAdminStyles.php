@@ -19,13 +19,13 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: 1.91 CssStyles.php 12258 2014-01-02 09:33:29Z timgno $
+ * @version         $Id: 1.91 CssAdminStyles.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 /**
- * Class CssStyles.
+ * Class CssAdminStyles.
  */
-class CssStyles extends TDMCreateFile
+class CssAdminStyles extends TDMCreateFile
 {
     /*
     *  @public function constructor
@@ -44,7 +44,7 @@ class CssStyles extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return CssStyles
+     * @return CssAdminStyles
      */
     public static function &getInstance()
     {
@@ -85,29 +85,11 @@ class CssStyles extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
         $content .= <<<EOT
-ul.menu {
-	list-style: none;
-	background-color: #f5f5f5;
-	border-radius: 4px;
-}
-
-ul.menu > li {
-	display: inline-block;
-}
-
-ul.menu > li + li:before {  
-    content: "|\00a0";
-}
-
-.printOnly {
-	display: none;
-}
-
 img {
-	max-width: 300px;
+	max-width: 200px;
 }
 EOT;
-        $this->create($moduleDirname, 'assets/css', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'assets/css/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

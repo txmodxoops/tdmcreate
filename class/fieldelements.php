@@ -122,10 +122,10 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getCountFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteriaCountFieldElements = new CriteriaCompo();
-        $criteriaCountFieldElements = $this->getFieldElementsCriteria($criteriaCountFieldElements, $start, $limit, $sort, $order);
+        $crCountFieldElems = new CriteriaCompo();
+        $crCountFieldElems = $this->getFieldElementsCriteria($crCountFieldElems, $start, $limit, $sort, $order);
 
-        return parent::getCount($criteriaCountFieldElements);
+        return parent::getCount($crCountFieldElems);
     }
 
     /**
@@ -133,10 +133,10 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getObjectsFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteriaObjectsFieldElements = new CriteriaCompo();
-        $criteriaObjectsFieldElements = $this->getFieldElementsCriteria($criteriaObjectsFieldElements, $start, $limit, $sort, $order);
+        $crObjectsFieldElems = new CriteriaCompo();
+        $crObjectsFieldElems = $this->getFieldElementsCriteria($crObjectsFieldElems, $start, $limit, $sort, $order);
 
-        return $this->getObjects($criteriaObjectsFieldElements);
+        return $this->getObjects($crObjectsFieldElems);
     }
 
     /**
@@ -144,10 +144,10 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteriaAllFieldElements = new CriteriaCompo();
-        $criteriaAllFieldElements = $this->getFieldElementsCriteria($criteriaAllFieldElements, $start, $limit, $sort, $order);
+        $crAllFieldElems = new CriteriaCompo();
+        $crAllFieldElems = $this->getFieldElementsCriteria($crAllFieldElems, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaAllFieldElements);
+        return $this->getAll($crAllFieldElems);
     }
 
     /**
@@ -155,24 +155,24 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function getAllFieldElementsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
-        $criteriaAllFieldElementsByModule = new CriteriaCompo();
-        $criteriaAllFieldElementsByModule->add(new Criteria('fieldelement_mid', $modId));
-        $criteriaAllFieldElementsByModule->add(new Criteria('fieldelement_tid', $tabId));
-        $criteriaAllFieldElementsByModule = $this->getFieldElementsCriteria($criteriaAllFieldElementsByModule, $start, $limit, $sort, $order);
+        $crAllFieldElemsByModule = new CriteriaCompo();
+        $crAllFieldElemsByModule->add(new Criteria('fieldelement_mid', $modId));
+        $crAllFieldElemsByModule->add(new Criteria('fieldelement_tid', $tabId));
+        $crAllFieldElemsByModule = $this->getFieldElementsCriteria($crAllFieldElemsByModule, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaAllFieldElementsByModule);
+        return $this->getAll($crAllFieldElemsByModule);
     }
 
     /**
      * Get FieldElements Criteria.
      */
-    private function getFieldElementsCriteria($criteriaFieldElements, $start, $limit, $sort, $order)
+    private function getFieldElementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order)
     {
-        $criteriaFieldElements->setStart($start);
-        $criteriaFieldElements->setLimit($limit);
-        $criteriaFieldElements->setSort($sort);
-        $criteriaFieldElements->setOrder($order);
+        $crFieldElemsCriteria->setStart($start);
+        $crFieldElemsCriteria->setLimit($limit);
+        $crFieldElemsCriteria->setSort($sort);
+        $crFieldElemsCriteria->setOrder($order);
 
-        return $criteriaFieldElements;
+        return $crFieldElemsCriteria;
     }
 }

@@ -107,7 +107,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         // Form Add
-        $fieldsObj = $tdmcreate->getHandler('fields')->create();
+        $fieldsObj = &$tdmcreate->getHandler('fields')->create();
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
     break;
@@ -124,9 +124,9 @@ switch ($op) {
         // Set Variables
         foreach ($_POST['field_id'] as $key => $value) {
             if (isset($value)) {
-                $fieldsObj = $fields->get($value);
+                $fieldsObj = &$fields->get($value);
             } else {
-                $fieldsObj = $fields->create();
+                $fieldsObj = &$fields->create();
             }
             $order = $fieldsObj->isNew() ? $fieldOrder : $_GET['field_order'][$key];
             // Set Data
@@ -159,7 +159,7 @@ switch ($op) {
         }
         unset($fieldOrder);
         // Get table name from field table id
-        $tables = $tdmcreate->getHandler('tables')->get($fieldTid);
+        $tables = &$tdmcreate->getHandler('tables')->get($fieldTid);
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
@@ -213,7 +213,7 @@ switch ($op) {
     break;
 
     case 'delete':
-        $tablesObj = $tdmcreate->getHandler('tables')->get($fieldTid);
+        $tablesObj = &$tdmcreate->getHandler('tables')->get($fieldTid);
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

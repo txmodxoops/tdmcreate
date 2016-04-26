@@ -36,7 +36,7 @@ class IncludeCommon extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /*

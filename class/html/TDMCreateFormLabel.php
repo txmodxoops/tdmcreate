@@ -27,6 +27,16 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class TDMCreateFormLabel extends XoopsFormElement
 {
     /**
+     * Constructor.
+     *
+     * @param string $caption
+     */
+    public function TDMCreateFormLabel($caption = '')
+    {
+        $this->__construct($caption);
+    }
+
+    /**
      * @param string $caption
      */
     public function __construct($caption = '')

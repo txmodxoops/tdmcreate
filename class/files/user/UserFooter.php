@@ -28,11 +28,6 @@
 class UserFooter extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $xc = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class UserFooter extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc = TDMCreateXoopsCode::getInstance();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -86,18 +79,20 @@ class UserFooter extends TDMCreateFile
     */
     private function getUserFooter($moduleDirname)
     {
-        $xoBreadcrumbs = $this->xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
-        $ret = $this->phpcode->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $ret .= $this->xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
-        $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXcTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
-        $ret .= $this->xc->getXcTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
-        $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->xc->getXcTplAssign('admin', "{$language}ADMIN");
-        $ret .= $this->xc->getXcTplAssign('copyright', '$copyright');
-        $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
+        $xc = TDMCreateXoopsCode::getInstance();
+        $pc = TDMCreatePhpCode::getInstance();
+        $stuModuleDirname = strtoupper($moduleDirname);
+        $xoBreadcrumbs = $xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
+        $ret = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
+        $ret .= $xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
+        $ret .= $pc->getPhpCodeCommentLine();
+        $ret .= $xc->getXcTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
+        $ret .= $xc->getXcTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
+        $ret .= $pc->getPhpCodeCommentLine();
+        $ret .= $xc->getXcTplAssign('admin', "{$stuModuleDirname}_ADMIN");
+        $ret .= $xc->getXcTplAssign('copyright', '$copyright');
+        $ret .= $pc->getPhpCodeCommentLine();
+        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
 
         return $ret;
     }

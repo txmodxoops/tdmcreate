@@ -92,7 +92,7 @@ class TemplatesUserCategoriesList extends TDMCreateFile
     {
         $ret = <<<EOT
 <div class="table-responsive">
-    <table class="table table-<{\$type}>">\n
+    <table class="table table-<{\$table_type}>">\n
 EOT;
 
         return $ret;
