@@ -27,24 +27,20 @@
  */
 class LanguageAdmin extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->defines = LanguageDefines::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return LanguageAdmin
      */
     public static function &getInstance()
@@ -57,13 +53,13 @@ class LanguageAdmin extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $tables
-    *  @param string $filename
-    *  @param $filename
-    */
+    /**
+     * @public function write
+     * @param string $module
+     * @param        $table
+     * @param string $tables
+     * @param string $filename
+     */
     public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
@@ -72,12 +68,12 @@ class LanguageAdmin extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminIndex
     *  @param string $language
     *  @param string $tables
     *  @return string
-    */
+     */
     public function getLanguageAdminIndex($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Index');
@@ -93,12 +89,13 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminPages
     *  @param string $language
     *  @param string $tables
     *  @return string
     */
+
     public function getLanguageAdminPages($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Files');
@@ -135,12 +132,13 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminClass
     *  @param string $language
     *  @param string $tables
     *  @return string
     */
+
     public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
@@ -209,11 +207,12 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminPermissions
     *  @param string $language
     *  @return string
     */
+
     public function getLanguageAdminPermissions($language)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Permissions');
@@ -234,11 +233,12 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminFoot
     *  @param string $language
     *  @return string
     */
+
     public function getLanguageAdminFoot($language)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Others');

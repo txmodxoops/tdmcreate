@@ -27,7 +27,7 @@ xoops_load('XoopsFile');
  */
 class TDMCreateFile extends TDMCreateTableFields
 {
-    /*
+    /**
     * @var string
     */
     private $xf = null;
@@ -53,37 +53,37 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     private $uploadPath = null;
 
-    /*
+    /**
     * @var string
     */
     private $content = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $created = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $notCreated = null;
 
-    /*
+    /**
     * @var string
     */
     private $mode = null;
 
-    /*
+    /**
     * @var string
     */
     protected $phpcode = null;
 
-    /*
+    /**
     * @var string
     */
     protected $htmlcode;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -96,7 +96,7 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->xf = XoopsFile::getHandler();
     }
 
-    /*
+    /**
     *  @public static function &getInstance
     *  @param null
     */
@@ -139,7 +139,7 @@ class TDMCreateFile extends TDMCreateTableFields
         }
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $fileName
@@ -154,11 +154,8 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->setFileName($fileName);
     }
 
-    /*
-    *  @private function setRepositoryPath
-    *  @param string $moduleDirname
-    */
     /**
+    *  @private function setRepositoryPath
      * @param $moduleDirname
      */
     private function setRepositoryPath($moduleDirname)
@@ -166,11 +163,8 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->uploadPath = TDMC_UPLOAD_REPOSITORY_PATH.'/'.$moduleDirname;
     }
 
-    /*
-    *  @private function getRepositoryPath
-    *  @param null
-    */
     /**
+    *  @private function getRepositoryPath
      * @return string
      */
     private function getRepositoryPath()
@@ -178,11 +172,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $this->uploadPath;
     }
 
-    /*
-    *  @private function setSubDir
-    *  @param string $subdir
-    */
     /**
+    *  @private function setSubDir
      * @param $subdir
      */
     private function setSubDir($subdir)
@@ -190,10 +181,10 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->subdir = $subdir;
     }
 
-    /*
+    /**
     *  @private function getSubDir
-    *  @param null
-    */
+     * @return string
+     */
     private function getSubDir()
     {
         return $this->subdir;
@@ -211,11 +202,8 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->fileName = $fileName;
     }
 
-    /*
-    *  @public function getFileName
-    *  @param null
-    */
     /**
+    *  @public function getFileName
      * @return mixed
      */
     public function getFileName()
@@ -223,11 +211,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $this->fileName;
     }
 
-    /*
-    *  @private function setContent
-    *  @param string $content
-    */
     /**
+    *  @private function setContent
      * @param $content
      */
     private function setContent($content)
@@ -235,22 +220,16 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->content = $content;
     }
 
-    /*
-    *  @private function setContent
-    *  @param null
-    */
     /**
+    *  @private function setContent
      */
     private function getContent()
     {
         return $this->content;
     }
 
-    /*
-    *  @private function getFolderName
-    *  @param null
-    */
     /**
+    *  @private function getFolderName
      * @return string
      */
     private function getFolderName()
@@ -268,11 +247,9 @@ class TDMCreateFile extends TDMCreateTableFields
         return;
     }
 
-    /*
-    *  @public function getUploadPath
-    *  @param null
-    */
     /**
+    *  @public function getUploadPath
+
      * @return string
      */
     private function getUploadPath()
@@ -286,11 +263,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $ret;
     }
 
-    /*
-    *  @private function getCreated
-    *  @param null
-    */
     /**
+    *  @private function getCreated
      * @return bool
      */
     private function getCreated()
@@ -298,11 +272,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $this->created;
     }
 
-    /*
-    *  @private function getNotCreated
-    *  @param null
-    */
     /**
+    *  @private function getNotCreated
      * @return bool
      */
     private function getNotCreated()
@@ -310,11 +281,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $this->notCreated;
     }
 
-    /*
-    *  @private function setMode
-    *  @param string $mode
-    */
     /**
+    *  @private function setMode
      * @param $mode
      */
     private function setMode($mode)
@@ -322,24 +290,16 @@ class TDMCreateFile extends TDMCreateTableFields
         $this->mode = $mode;
     }
 
-    /*
-    *  @private function getMode
-    *  @param null
-    */
     /**
+    *  @private function getMode
      */
     private function getMode()
     {
         return $this->mode;
     }
 
-    /*
-    *  @public function getLanguage
-    *  @param string $moduleDirname
-    *  @param string $prefix
-    *  @param string $suffix
-    */
     /**
+    *  @public function getLanguage
      * @param        $moduleDirname
      * @param string $prefix
      * @param string $suffix
@@ -359,11 +319,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $ret;
     }
 
-    /*
-    *  @public function getLeftString
-    *  @param string $string
-    */
     /**
+    *  @public function getLeftString
      * @param $string
      *
      * @return string
@@ -373,11 +330,11 @@ class TDMCreateFile extends TDMCreateTableFields
         return substr($string, 0, strpos($string, '_'));
     }
 
-    /*
+    /**
      *  @public function getRightString
-     *  @param $string
-     *
-     * @return string
+
+     * @param null $string
+     * @return null|string
      */
     public function getRightString($string = null)
     {
@@ -393,11 +350,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $string;
     }
 
-    /*
-     *  @public function getCamelCase
-     *  @param $string
-     */
     /**
+     *  @public function getCamelCase
      * @param $string
      * @param $ucfirst
      * @param $lcfirst
@@ -418,11 +372,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $string;
     }
 
-    /*
-     *  @public function getUcfirst
-     *  @param $string
-     */
     /**
+     *  @public function getUcfirst
      * @param $string
      *
      * @return string
@@ -432,11 +383,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return ucfirst($string);
     }
 
-    /*
-     *  @public function getLcfirst
-     *  @param $string
-     */
     /**
+     *  @public function getLcfirst
      * @param $string
      *
      * @return string
@@ -446,11 +394,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return lcfirst($string);
     }
 
-    /*
-     *  @public function getStrToUpper
-     *  @param $string
-     */
     /**
+     *  @public function getStrToUpper
      * @param $string
      *
      * @return string
@@ -460,11 +405,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return strtoupper($string);
     }
 
-    /*
-     *  @public function getStrToLower
-     *  @param $string
-     */
     /**
+     *  @public function getStrToLower
      * @param $string
      *
      * @return string
@@ -474,11 +416,9 @@ class TDMCreateFile extends TDMCreateTableFields
         return strtolower($string);
     }
 
-    /*
-    *  @public function getInclude
-    *  @param $filename
-    */
     /**
+    *  @public function getInclude
+     * @param string $filename
      * @return string
      */
     public function getInclude($filename = 'header')
@@ -486,11 +426,9 @@ class TDMCreateFile extends TDMCreateTableFields
         return "include __DIR__ . '/{$filename}.php';\n";
     }
 
-    /*
-    *  @public function getIncludeOnce
-    *  @param $filename
-    */
     /**
+    *  @public function getIncludeOnce
+     * @param string $filename
      * @return string
      */
     public function getIncludeOnce($filename = 'header')
@@ -510,10 +448,10 @@ class TDMCreateFile extends TDMCreateTableFields
         return "// ------------------- {$comment} ------------------- //\n";
     }
 
-    /*
+    /**
      * @public function getSimpleString
-     * @param $string     
-     *
+     * @param        $string
+     * @param string $t
      * @return string
      */
     public function getSimpleString($string, $t = '')
@@ -521,12 +459,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return "{$t}{$string}\n";
     }
 
-    /*
-    *  @public function getHeaderFilesComments
-    *  @param string $module
-    *  @param string $fileName
-    */
     /**
+    *  @public function getHeaderFilesComments
      * @param $module
      * @param $fileName
      * @param $noPhpFile
@@ -570,11 +504,8 @@ class TDMCreateFile extends TDMCreateTableFields
         return $ret;
     }
 
-    /*
-    *  @public function renderFile
-    *  @param null
-    */
     /**
+    *  @public function renderFile
      * @return string
      */
     public function renderFile()

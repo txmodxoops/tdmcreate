@@ -27,18 +27,16 @@
  */
 class TemplatesUserBroken extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,9 @@ class TemplatesUserBroken extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserBroken
      */
     public static function &getInstance()
@@ -63,15 +59,10 @@ class TemplatesUserBroken extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
-    *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table)
     {
@@ -79,13 +70,9 @@ class TemplatesUserBroken extends TDMCreateFile
         $this->setTable($table);
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserBrokenFileHeader
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesUserBrokenFileHeader($moduleDirname)
@@ -93,17 +80,12 @@ class TemplatesUserBroken extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header');
     }
 
-    /*
-    *  @private function getTemplatesUserBrokenTableHead
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
+    *  @private function getTemplatesUserBrokenTableHead
+     * @param $tableMid
+     * @param $tableId
+     * @param $tableAutoincrement
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language)
@@ -123,17 +105,15 @@ class TemplatesUserBroken extends TDMCreateFile
         return $this->htmlcode->getHtmlTag('thead', array('class' => 'outer'), $tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserBrokenBody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserBrokenBody
      * @param $moduleDirname
-     * @param $table
+     * @param $tableMid
+     * @param $tableId
+     * @param $tableName
+     * @param $tableSolename
+     * @param $tableAutoincrement
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language)
@@ -170,13 +150,9 @@ class TemplatesUserBroken extends TDMCreateFile
         return $this->htmlcode->getHtmlTableTbody($foreach).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserBrokenFileFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesUserBrokenFileFooter($moduleDirname)
@@ -184,13 +160,9 @@ class TemplatesUserBroken extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
-    /*
+    /**
     *  @public function renderFile
     *  @param string $filename
-    */
-    /**
-     * @param $filename
-     *
      * @return bool|string
      */
     public function renderFile($filename)

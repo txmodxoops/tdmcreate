@@ -27,24 +27,20 @@
  */
 class BlocksFiles extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return BlocksFiles
      */
     public static function &getInstance()
@@ -57,33 +53,27 @@ class BlocksFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     */
-    /**
-     * @param $module
-     * @param $table
-     */
+
     public function write($module, $table)
     {
         $this->setModule($module);
         $this->setTable($table);
     }
 
-    /*
-    *  @private function getBlocksShow
-    *  @param null
-    */
     /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $tableFieldname
-     * @param $tableCategory
-     * @param $fields
-     * @param $fieldId
+    *  @private function getBlocksShow
+     * @param     $moduleDirname
+     * @param     $tableName
+     * @param     $tableFieldname
+     * @param     $fields
+     * @param     $fieldId
      *
+     * @param int $fieldParent
      * @return string
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
@@ -213,20 +203,13 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getBlocksEdit
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldId
     *  @param string $fieldMain
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldId
-     * @param $fieldMain
-     * @param $language
      *
      * @return string
      */
@@ -270,11 +253,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function renderFile
-    *  @param null
-    */
     /**
+    *  @public function renderFile
      * @param $filename
      *
      * @return bool|string

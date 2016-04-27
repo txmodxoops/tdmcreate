@@ -27,32 +27,32 @@
  */
 class ClassFormElements extends TDMCreateAbstract
 {
-    /*
+    /**
     * @var string
     */
     private $tc = null;
 
-    /*
+    /**
     * @var string
     */
     private $tf = null;
 
-    /*
+    /**
     * @var string
     */
     private $pc = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $xc = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $cc = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $ttf = null;
@@ -72,11 +72,10 @@ class ClassFormElements extends TDMCreateAbstract
         $this->ttf = TDMCreateTableFields::getInstance();
     }
 
-    /*
+    /**
      *  @static function &getInstance
      *  @param null
-     *
-     * @return ClassFormElements
+     * @return bool|ClassFormElements
      */
     public static function &getInstance()
     {
@@ -88,25 +87,25 @@ class ClassFormElements extends TDMCreateAbstract
         return $instance;
     }
 
-    /*
+    /**
     *  @public function initForm
      *
      * @param $module
      * @param $table
      */
+
     public function initForm($module, $table)
     {
         $this->setModule($module);
         $this->setTable($table);
     }
 
-    /*
+    /**
     *  @private function getXoopsFormText
-     *
-     * @param $language
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $fieldName
+     * @param        $fieldDefault
+     * @param string $required
      * @return string
      */
     private function getXoopsFormText($language, $fieldName, $fieldDefault, $required = 'false')
@@ -127,13 +126,11 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormText
-     *
-     * @param $language
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormTextArea($language, $fieldName, $required = 'false')
@@ -146,14 +143,12 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormDhtmlTextArea
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormDhtmlTextArea($language, $moduleDirname, $fieldName, $required = 'false')
@@ -175,13 +170,13 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormCheckBox
-     *
-     * @param $language
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $tableSoleName
+     * @param        $fieldName
+     * @param        $fieldElementId
+     * @param string $required
      * @return string
      */
     private function getXoopsFormCheckBox($language, $tableSoleName, $fieldName, $fieldElementId, $required = 'false')
@@ -212,13 +207,12 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormHidden
-     *
      * @param $fieldName
-     *
      * @return string
      */
+
     private function getXoopsFormHidden($fieldName)
     {
         $ucfFieldName = $this->tf->getCamelCase($fieldName, true);
@@ -229,16 +223,14 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormImageList
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $tableSoleName
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormImageList($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
@@ -278,16 +270,15 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormSelectFile
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
+
     private function getXoopsFormSelectFile($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $ccFieldName = $this->tf->getCamelCase($fieldName, false, true);
@@ -325,15 +316,13 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormUrlFile
-     *
-     * @param   $language
-     * @param   $moduleDirname
-     * @param   $fieldName
-     * @param   $fieldDefault
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $fieldName
+     * @param        $fieldDefault
+     * @param string $required
      * @return string
      */
     private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required = 'false')
@@ -352,14 +341,14 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormUploadImage
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormUploadImage($language, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required = 'false')
@@ -398,15 +387,13 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormUploadFile
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
@@ -421,14 +408,12 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormColorPicker
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormColorPicker($language, $moduleDirname, $fieldName, $required = 'false')
@@ -442,15 +427,13 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormSelectBox
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormSelectBox($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
@@ -469,13 +452,12 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormSelectUser
-     *
-     * @param $language
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormSelectUser($language, $moduleDirname, $fieldName, $required = 'false')
@@ -489,13 +471,11 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormRadioYN
-     *
-     * @param $language
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormRadioYN($language, $fieldName, $required = 'false')
@@ -510,13 +490,11 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormTextDateSelect
-     *
-     * @param $language
-     * @param $fieldName
-     * @param $required
-     *
+     * @param        $language
+     * @param        $fieldName
+     * @param string $required
      * @return string
      */
     private function getXoopsFormTextDateSelect($language, $fieldName, $required = 'false')
@@ -531,16 +509,14 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormTable
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldName
-     * @param $fieldElement
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param        $fieldElement
+     * @param string $required
      * @return string
      */
     private function getXoopsFormTable($language, $moduleDirname, $tableName, $fieldName, $fieldElement, $required = 'false')
@@ -561,15 +537,15 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormTopic
-     *
-     * @param $language
-     * @param $moduleDirname
-     * @param $table
-     * @param $fields
-     * @param $required
-     *
+     * @param        $language
+     * @param        $moduleDirname
+     * @param        $topicTableName
+     * @param        $fieldId
+     * @param        $fieldPid
+     * @param        $fieldMain
+     * @param string $required
      * @return string
      */
     private function getXoopsFormTopic($language, $moduleDirname, $topicTableName, $fieldId, $fieldPid, $fieldMain, $required = 'false')
@@ -594,13 +570,11 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getXoopsFormTag
-     *
-     * @param $moduleDirname
-     * @param $fieldId
-     * @param $required
-     *
+     * @param        $moduleDirname
+     * @param        $fieldId
+     * @param string $required
      * @return string
      */
     private function getXoopsFormTag($moduleDirname, $fieldId, $required = 'false')
@@ -619,12 +593,12 @@ class ClassFormElements extends TDMCreateAbstract
         return $ret;
     }
 
-    /*
+    /**
     *  @public function renderElements
      *  @param null
-
      * @return string
      */
+
     public function renderElements()
     {
         $module = $this->getModule();

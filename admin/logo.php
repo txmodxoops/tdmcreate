@@ -32,6 +32,9 @@ if (function_exists($funct)) {
     redirect_header('logo.php', 3, 'Method Not Exist');
 }
 // phpFunction
+/**
+ * @param string $val
+ */
 function phpFunction($val = '')
 {   // create php function here
     echo $val;

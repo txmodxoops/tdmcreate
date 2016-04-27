@@ -27,18 +27,16 @@
  */
 class TemplatesUserPagesList extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+ 
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,10 @@ class TemplatesUserPagesList extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
+
      * @return TemplatesUserPagesList
      */
     public static function &getInstance()
@@ -63,15 +60,12 @@ class TemplatesUserPagesList extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $table
+     * @param $tables
+     * @param $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -81,14 +75,12 @@ class TemplatesUserPagesList extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getTemplatesUserPagesListHeader
-    *  @param string $language
-    */
     /**
-     * @param $language
-     *
+    *  @private function getTemplatesUserPagesListHeader
+
      * @return string
+     * @internal param $language
+     *
      */
     private function getTemplatesUserPagesListStartTable()
     {
@@ -100,13 +92,11 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesListThead
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserPagesListThead
+
+     * @param $table
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserPagesListThead($table, $language)
@@ -135,13 +125,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesListTbody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserPagesListTbody
      * @param $moduleDirname
      * @param $table
      * @param $language
@@ -197,17 +182,10 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesListTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
+    *  @private function getTemplatesUserPagesListTfoot
      * @param $table
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserPagesListTfoot($table, $language)
@@ -238,11 +216,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesListEndTable
-    *  @param null
-    */
     /**
+    *  @private function getTemplatesUserPagesListEndTable
      * @param null
      *
      * @return string
@@ -257,17 +232,14 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesListPanel
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserPagesListPanel
      * @param $moduleDirname
-     * @param $table
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableSoleName
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
@@ -347,13 +319,9 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function renderFile
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function renderFile
+
      * @return bool|string
      */
     public function renderFile()

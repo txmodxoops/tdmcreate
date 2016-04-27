@@ -27,29 +27,23 @@
  */
 class TemplatesUserRss extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
     public function __construct()
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TemplatesUserRss
      */
     public static function &getInstance()
@@ -62,32 +56,17 @@ class TemplatesUserRss extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
-     * @param $table
      */
     public function write($module)
     {
         $this->setModule($module);
     }
 
-    /*
-    *  @private function getTemplatesUserRssXml
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesUserRssXml
      * @return string
      */
     private function getTemplatesUserRssXml()

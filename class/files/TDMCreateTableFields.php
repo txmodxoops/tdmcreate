@@ -28,18 +28,16 @@
 class TDMCreateTableFields extends TDMCreateAbstract
 {
     /**
-     *  @public function constructor
-     *
-     *  @param mixed $table
+     * @public   function constructor
+
      */
     public function __construct()
     {
     }
 
-    /*
+    /**
      * @static function &getInstance
-     *
-     * @return TDMCreateFields
+     * @return bool|TDMCreateTableFields
      */
     public static function &getInstance()
     {
@@ -52,11 +50,13 @@ class TDMCreateTableFields extends TDMCreateAbstract
     }
 
     /**
-     *  @public function getTableTables
+     * @public function getTableTables
      *
-     *  @param  $mId
+     * @param        $mId
      *
-     *  @return mixed
+     * @param string $sort
+     * @param string $order
+     * @return mixed
      */
     public function getTableTables($mId, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
@@ -71,12 +71,14 @@ class TDMCreateTableFields extends TDMCreateAbstract
     }
 
     /**
-     *  @public function getTableFields
+     * @public function getTableFields
      *
-     *  @param $mId
-     *  @param $tId
+     * @param        $mId
+     * @param        $tId
      *
-     *  @return mixed
+     * @param string $sort
+     * @param string $order
+     * @return mixed
      */
     public function getTableFields($mId, $tId, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
@@ -92,12 +94,14 @@ class TDMCreateTableFields extends TDMCreateAbstract
     }
 
     /**
-     *  @public function getTableFieldElements
+     * @public function getTableFieldElements
      *
-     *  @param $mId
-     *  @param $tId
+     * @param        $mId
+     * @param        $tId
      *
-     *  @return mixed
+     * @param string $sort
+     * @param string $order
+     * @return mixed
      */
     public function getTableFieldElements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
@@ -119,11 +123,13 @@ class TDMCreateTableFields extends TDMCreateAbstract
     }
 
     /**
-     *  @public function getTableMoreFiles
+     * @public function getTableMoreFiles
      *
-     *  @param  $mId
+     * @param        $mId
      *
-     *  @return mixed
+     * @param string $sort
+     * @param string $order
+     * @return mixed
      */
     public function getTableMoreFiles($mId, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {

@@ -47,11 +47,8 @@ class TDMCreateAddFiles extends XoopsObject
      */
     private $settings;
 
-    /*
-    *  @public function constructor class
-    *  @param null
-    */
     /**
+    *  @public function constructor class
      *
      */
     public function __construct()
@@ -78,11 +75,8 @@ class TDMCreateAddFiles extends XoopsObject
         return $this->getVar($method, $arg);
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateMoreFiles
      */
     public static function &getInstance()
@@ -95,11 +89,8 @@ class TDMCreateAddFiles extends XoopsObject
         return $instance;
     }
 
-    /*
-    *  @public function getFormMoreFiles
-    *  @param mixed $action
-    */
     /**
+    *  @public function getFormMoreFiles
      * @param bool $action
      *
      * @return XoopsThemeForm
@@ -146,6 +137,10 @@ class TDMCreateAddFiles extends XoopsObject
 
     /**
      * Get AddFiles Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getAddFilesValues($keys = null, $format = null, $maxDepth = null)
     {
@@ -161,21 +156,15 @@ class TDMCreateAddFiles extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateMoreFilesHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateMoreFilesHandler.
- */
 class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
 {
-    /*
-    *  @public function constructor class
-    *  @param mixed $db
-    */
     /**
+    *  @public function constructor class
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -238,6 +227,11 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count AddFiles.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -249,6 +243,11 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All AddFiles.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllAddFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -260,6 +259,12 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All AddFiles By Module Id.
+     * @param        $modId
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllAddFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -272,6 +277,12 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get AddFiles Criteria.
+     * @param $criteriaAddFiles
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getAddFilesCriteria($criteriaAddFiles, $start, $limit, $sort, $order)
     {

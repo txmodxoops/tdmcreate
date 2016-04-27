@@ -27,18 +27,16 @@
  */
 class TemplatesUserSubmit extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,8 @@ class TemplatesUserSubmit extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TemplatesUserSubmit
      */
     public static function &getInstance()
@@ -63,13 +58,8 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $table
      */
@@ -79,17 +69,9 @@ class TemplatesUserSubmit extends TDMCreateFile
         $this->setTable($table);
     }
 
-    /*
-    *  @private function getTemplatesUserSubmitHeader
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserSubmitHeader
      * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
@@ -97,15 +79,10 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSubmit
     *  @param string $moduleDirname
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserSubmit($moduleDirname, $language)
@@ -130,13 +107,9 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSubmitFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesUserSubmitFooter($moduleDirname)
@@ -144,13 +117,9 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
-    /*
+    /**
     *  @public function renderFile
     *  @param string $filename
-    */
-    /**
-     * @param $filename
-     *
      * @return bool|string
      */
     public function renderFile($filename)

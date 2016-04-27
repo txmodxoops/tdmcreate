@@ -27,18 +27,16 @@
  */
 class TemplatesBlocks extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,9 @@ class TemplatesBlocks extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesBlocks
      */
     public static function &getInstance()
@@ -63,32 +59,23 @@ class TemplatesBlocks extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     */
-    /**
-     * @param $module
-     * @param $table
-     */
+
     public function write($module, $table)
     {
         $this->setModule($module);
         $this->setTable($table);
     }
 
-    /*
-    *  @private function getTemplatesBlocksTableThead
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
+    *  @private function getTemplatesBlocksTableThead
+     * @param $tableId
+     * @param $tableMid
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesBlocksTableThead($tableId, $tableMid, $language)
@@ -106,17 +93,15 @@ class TemplatesBlocks extends TDMCreateFile
         return $this->htmlcode->getHtmlTableThead($tr).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesBlocksTableTbody
     *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableAutoincrement
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
@@ -187,17 +172,10 @@ EOT;*/
         return $this->htmlcode->getSmartyConditions($tableName.'_count', '', '', $tbody).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesBlocksTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesBlocksTfoot
+    *  @param null
+
      * @return string
      */
     private function getTemplatesBlocksTableTfoot()
@@ -208,14 +186,17 @@ EOT;*/
         return $this->htmlcode->getHtmlTag('tfoot', array(), $tr).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesBlocksTable
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableAutoincrement
+     * @param $language
+     * @return string
+     */
     private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $tbody = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language);
@@ -226,14 +207,10 @@ EOT;*/
         return $this->htmlcode->getHtmlTable($tbody, 'table table-'.$single).PHP_EOL;
     }
 
-    /*
+    /**
     *  @public function renderFile
     *  @param string $filename
-    */
-    /**
-     * @param $filename
-     *
-     * @return bool|string
+      * @return bool|string
      */
     public function renderFile($filename)
     {

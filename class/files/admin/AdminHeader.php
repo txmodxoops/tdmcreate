@@ -27,18 +27,16 @@
  */
 class AdminHeader extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,9 @@ class AdminHeader extends TDMCreateFile
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return AdminHeader
      */
     public static function &getInstance()
@@ -63,18 +59,14 @@ class AdminHeader extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param array $tables
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
-     */
+
     public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
@@ -83,12 +75,13 @@ class AdminHeader extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
      * @private function getAdminPagesHeader
      * @param $moduleDirname
      *
      * @return string
      */
+
     private function getAdminHeader($moduleDirname)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
@@ -144,11 +137,9 @@ class AdminHeader extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

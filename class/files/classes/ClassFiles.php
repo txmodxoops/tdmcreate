@@ -27,37 +27,37 @@
  */
 class ClassFiles extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $cc = null;
 
-    /*
+    /**
     * @var string
     */
     private $pc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     * @var string
     */
     private $tf = null;
 
-    /*
+    /**
     * @var string
     */
     private $fe = null;
 
-    /*
+    /**
     * @var string
     */
     private $tc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -75,7 +75,7 @@ class ClassFiles extends TDMCreateFile
         $this->fe = ClassFormElements::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
     */
@@ -92,7 +92,7 @@ class ClassFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
@@ -102,6 +102,7 @@ class ClassFiles extends TDMCreateFile
      * @param $module
      * @param $table
      * @param $tables
+     * @param $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -111,7 +112,7 @@ class ClassFiles extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getInitVar
     *  @param string $fieldName
     *  @param string $type
@@ -127,7 +128,7 @@ class ClassFiles extends TDMCreateFile
         return $this->cc->getClassInitVar($fieldName, $type);
     }
 
-    /*
+    /**
     *  @private function getInitVars
     *  @param array $fields
     */
@@ -195,7 +196,7 @@ class ClassFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getClassObject
     *  @param $moduleDirname
     *  @param $tableName
@@ -203,6 +204,12 @@ class ClassFiles extends TDMCreateFile
     *
     *  @return string
     */
+    /**
+     * @param $module
+     * @param $table
+     * @param $fields
+     * @return string
+     */
     private function getClassObject($module, $table, $fields)
     {
         $moduleDirname = $module->getVar('mod_dirname');
@@ -269,10 +276,14 @@ class ClassFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @private function getNewInsertId
      *  @param $table
      *
+     * @return string
+     */
+    /**
+     * @param $table
      * @return string
      */
     private function getNewInsertId($table)
@@ -288,7 +299,7 @@ class ClassFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFunctionForm
     *  @param string $module
     *  @param string $table
@@ -297,6 +308,8 @@ class ClassFiles extends TDMCreateFile
      * @param $module
      * @param $table
      *
+     * @param $fieldId
+     * @param $fieldInForm
      * @return string
      */
     private function getFunctionForm($module, $table, $fieldId, $fieldInForm)
@@ -407,6 +420,9 @@ class ClassFiles extends TDMCreateFile
     *  @param null
     */
     /**
+     * @param $moduleDirname
+     * @param $table
+     * @param $fields
      * @return string
      */
     private function getValuesInObject($moduleDirname, $table, $fields)
@@ -467,6 +483,10 @@ class ClassFiles extends TDMCreateFile
      *
      * @return string
      */
+    /**
+     * @param $table
+     * @return string
+     */
     private function getToArrayInObject($table)
     {
         $tableName = $table->getVar('table_name');
@@ -490,6 +510,7 @@ class ClassFiles extends TDMCreateFile
     *  @param $table
     */
     /**
+     * @param $table
      * @return string
      */
     private function getOptionsCheck($table)
@@ -529,13 +550,18 @@ class ClassFiles extends TDMCreateFile
     */
     /**
      * @param $moduleDirname
-     * @param $tableName
-     * @param $tableCategory
-     * @param $tableFieldname
+     * @param $table
      * @param $fieldId
+     * @param $fieldName
      * @param $fieldMain
      *
+     * @param $fieldParent
+     * @param $fieldParentId
+     * @param $fieldElement
      * @return string
+     * @internal param $tableName
+     * @internal param $tableCategory
+     * @internal param $tableFieldname
      */
     private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldParentId, $fieldElement)
     {
@@ -705,14 +731,18 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function getClassByCategory
+     * @public function getClassByCategory
      *
-     *  @param $tableName
-     *  @param $fieldId
-     *  @param $fieldMain
-     *  @param $fieldParent
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableFieldName
+     * @param $fieldId
+     * @param $fieldName
+     * @param $fieldMain
+     * @param $fieldParent
      *
-     *  @return string
+     * @param $fieldElement
+     * @return string
      */
     private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement)
     {
@@ -750,13 +780,13 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function getClassCriteria
+     * @public   function getClassCriteria
      *
-     *  @param $tableName
-     *  @param $fieldId
-     *  @param $fieldMain
+     * @param $tableName
+     * @return string
+     * @internal param $fieldId
+     * @internal param $fieldMain
      *
-     *  @return string
      */
     private function getClassCriteria($tableName)
     {
@@ -777,12 +807,13 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function getClassGetTableSolenameById
+     * @public function getClassGetTableSolenameById
      *
-     *  @param $moduleDirname
-     *  @param $table
+     * @param $moduleDirname
+     * @param $table
      *
-     *  @return string
+     * @param $fieldMain
+     * @return string
      */
     private function getClassGetTableSolenameById($moduleDirname, $table, $fieldMain)
     {
@@ -812,6 +843,9 @@ class ClassFiles extends TDMCreateFile
      * @param null
      *
      * @return bool|string
+     */
+    /**
+     * @return string
      */
     public function render()
     {

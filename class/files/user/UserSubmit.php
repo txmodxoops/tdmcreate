@@ -27,23 +27,21 @@
  */
 class UserSubmit extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $uc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +50,8 @@ class UserSubmit extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserSubmit
      */
     public static function &getInstance()
@@ -69,17 +64,13 @@ class UserSubmit extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
-     */
+
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
@@ -87,10 +78,9 @@ class UserSubmit extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
      * @public function getUserSubmitHeader    
      * @param $moduleDirname
-     *
      * @return string
      */
     public function getUserSubmitHeader($moduleDirname)
@@ -113,11 +103,10 @@ class UserSubmit extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      * @public function getAdminPagesList
      * @param $tableName
      * @param $language
-     *
      * @return string
      */
     public function getUserSubmitForm($tableName, $language)
@@ -139,16 +128,13 @@ class UserSubmit extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function getUserSubmitSave
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
     /**
+    *  @public function getUserSubmitSave
      * @param $moduleDirname
-     * @param $table_id
+     * @param $fields
      * @param $tableName
-     *
+     * @param $tableAutoincrement
+     * @param $language
      * @return string
      */
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $tableAutoincrement, $language)
@@ -177,11 +163,10 @@ class UserSubmit extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function getUserSubmitFooter
-    *  @param null
-    */
     /**
+    *  @public function getUserSubmitFooter
+     * @param $moduleDirname
+     * @param $language
      * @return string
      */
     public function getUserSubmitFooter($moduleDirname, $language)
@@ -194,15 +179,14 @@ class UserSubmit extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @private function getUserSubmitSwitch
-     *  @param $moduleDirname
-     *  @param $tableId
-     *  @param $tableMid
-     *  @param $tableName
-     *  @param $tableAutoincrement
-     *  @param $language
-     *
+     * @param $moduleDirname
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableAutoincrement
+     * @param $language
      * @return string
      */
     private function getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableAutoincrement, $language)
@@ -214,11 +198,8 @@ class UserSubmit extends TDMCreateFile
         return $this->xc->getXcSwitch('op', $cases, true);
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

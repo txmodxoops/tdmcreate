@@ -31,29 +31,25 @@ class TemplatesUserMoreFiles extends TDMCreateFile
     private $folder = null;
     //
     private $extension = null;
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+ 
     public function __construct()
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserMoreFiles
      */
     public static function &getInstance()
@@ -66,15 +62,13 @@ class TemplatesUserMoreFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
-    *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
+     * @param string $folder
+     * @param        $filename
      *
+     * @param        $extension
      * @return string
      */
     public function write($module, $folder = '', $filename, $extension)
@@ -89,11 +83,8 @@ class TemplatesUserMoreFiles extends TDMCreateFile
         $this->extension = $extension;
     }
 
-    /*
-    *  @private function getTemplatesUserMoreFile
-    *  @param null
-    */
     /**
+    *  @private function getTemplatesUserMoreFile
      * @param null
      *
      * @return string
@@ -109,13 +100,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function renderFile
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function renderFile
      * @return bool|string
      */
     public function renderFile()

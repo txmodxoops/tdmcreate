@@ -27,22 +27,22 @@
  */
 class AdminPermissions extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $xc = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $cc = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $axc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -58,11 +58,9 @@ class AdminPermissions extends TDMCreateFile
         $this->axc = AdminXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return AdminPermissions
      */
     public static function &getInstance()
@@ -75,16 +73,11 @@ class AdminPermissions extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $tables
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -93,13 +86,14 @@ class AdminPermissions extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
      * @private function getPermissionsHeader    
      * @param $module
      * @param $language
      *
      * @return string
      */
+
     private function getPermissionsHeader($module, $language)
     {
         $moduleDirname = $module->getVar('mod_dirname');
@@ -125,13 +119,14 @@ class AdminPermissions extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @private function getPermissionsSwitch
      *  @param $moduleDirname
      *  @param $language
      *
      * @return string
      */
+
     private function getPermissionsSwitch($moduleDirname, $language)
     {
         $cases = array('global' => array("\$formTitle = {$language}PERMISSIONS_GLOBAL;",
@@ -153,14 +148,10 @@ class AdminPermissions extends TDMCreateFile
         return $this->phpcode->getPhpCodeSwitch('op', $contentSwitch);
     }
 
-    /*
+    /**
     *  @private function getPermissionsBody
     *  @param string $module
     *  @param string $language
-    */
-    /**
-     * @param $module
-     * @param $language
      *
      * @return string
      */
@@ -211,11 +202,9 @@ class AdminPermissions extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

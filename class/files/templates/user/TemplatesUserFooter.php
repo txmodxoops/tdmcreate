@@ -27,29 +27,25 @@
  */
 class TemplatesUserFooter extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserFooter
      */
     public static function &getInstance()
@@ -62,16 +58,11 @@ class TemplatesUserFooter extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -80,33 +71,29 @@ class TemplatesUserFooter extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
      *  @public function getTemplateUserFooterFacebookLikeButton
      *  @param null
-     *
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserFooterFacebookLikeButton()
     {
         return "<li class='fb-like' data-href='<{\$xoops_mpageurl}>' data-layout='standard' data-action='like' data-show-faces='true'></li>";
     }
 
-    /*
+    /**
      *  @public function getTemplateUserFooterFacebookShareButton
      *  @param null
-     *
-     * @return bool|string
+     * @return string
      */
     public function getTemplateUserFooterFacebookShareButton()
     {
         return "<li class='fb-share-button' data-href='<{\$xoops_mpageurl}>' data-layout='button_count'></li>";
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

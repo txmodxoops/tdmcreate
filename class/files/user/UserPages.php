@@ -27,29 +27,24 @@
  */
 class UserPages extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserPages
      */
     public static function &getInstance()
@@ -107,6 +102,7 @@ class UserPages extends TDMCreateFile
      * @param $moduleDirname
      * @param $tableName
      *
+     * @param $tableSoleName
      * @return string
      */
     private function getUserPages($moduleDirname, $tableName, $tableSoleName)
@@ -185,14 +181,9 @@ class UserPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
-     * @param $filename
-     *
      * @return bool|string
+     * @internal param $filename
      */
     public function renderFile()
     {

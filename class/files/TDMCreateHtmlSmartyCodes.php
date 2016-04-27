@@ -27,22 +27,16 @@
  */
 class TDMCreateHtmlSmartyCodes
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
     public function __construct()
     {
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateHtmlSmartyCodes
      */
     public static function &getInstance()
@@ -55,20 +49,15 @@ class TDMCreateHtmlSmartyCodes
         return $instance;
     }
 
-    /*
-    *  @public function getHtmlTag
-    *  @param string $tag
-    *  @param array  $attributes
-    *  @param string $content
-    *  @param bool   $closed
-    */
     /**
-     * @param $tag
-     * @param $attributes
-     * @param $content
-     * @param $closed
-     *
+    *  @public function getHtmlTag
+     * @param string $tag
+     * @param array  $attributes
+     * @param string $content
+     * @param bool   $noClosed
+     * @param string $t
      * @return string
+     * @internal param $closed
      */
     public function getHtmlTag($tag = '', $attributes = array(), $content = '', $noClosed = false, $t = '')
     {
@@ -85,11 +74,8 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-     /*
+     /**
     *  @private function setAttributes
-    *  @param array $attributes
-    */
-    /**
      * @param  $attributes
      *
      * @return string
@@ -106,11 +92,8 @@ class TDMCreateHtmlSmartyCodes
         return $str;
     }
 
-    /*
-    *  @public function getHtmlEmpty
-    *  @param string $empty
-    */
     /**
+    *  @public function getHtmlEmpty
      * @param $empty
      *
      * @return string
@@ -120,11 +103,8 @@ class TDMCreateHtmlSmartyCodes
         return "{$empty}";
     }
 
-    /*
-    *  @public function getHtmlComment
-    *  @param string $htmlComment
-    */
     /**
+    *  @public function getHtmlComment
      * @param $htmlComment
      *
      * @return string
@@ -134,16 +114,13 @@ class TDMCreateHtmlSmartyCodes
         return "<!-- {$htmlComment} -->";
     }
 
-    /*
-    *  @public function getHtmlBr
-    *  @param string $brNumb
-    *  @param string $class
-    */
     /**
-     * @param $brNumb
-     * @param $class
-     *
+    *  @public function getHtmlBr
+     * @param int    $brNumb
+     * @param string $htmlClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlBr($brNumb = 1, $htmlClass = '', $t = '')
     {
@@ -156,15 +133,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlHNumb
-    *  @param string $htmlHClass
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $htmlHClass
+    *  @public function getHtmlHNumb
+     * @param string $content
+     * @param string $n
+     * @param string $htmlHClass
      *
+     * @param string $t
      * @return string
      */
     public function getHtmlHNumb($content = '', $n = '1', $htmlHClass = '', $t = '')
@@ -175,16 +150,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlDiv
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlDiv
+     * @param string $content
+     * @param string $divClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlDiv($content = '', $divClass = '', $t = '')
     {
@@ -196,16 +168,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlPre
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlPre
+     * @param string $content
+     * @param string $preClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlPre($content = '', $preClass = '', $t = '')
     {
@@ -217,16 +186,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlSpan
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlSpan
+     * @param string $content
+     * @param string $spanClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlSpan($content = '', $spanClass = '', $t = '')
     {
@@ -236,16 +202,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlParagraph
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlParagraph
+     * @param string $content
+     * @param string $pClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlParagraph($content = '', $pClass = '', $t = '')
     {
@@ -257,16 +220,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlI
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlI
+     * @param string $content
+     * @param string $iClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlI($content = '', $iClass = '', $t = '')
     {
@@ -276,16 +236,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlUl
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlUl
+     * @param string $content
+     * @param string $ulClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlUl($content = '', $ulClass = '', $t = '')
     {
@@ -297,16 +254,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlOl
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlOl
+     * @param string $content
+     * @param string $olClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlOl($content = '', $olClass = '', $t = '')
     {
@@ -318,16 +272,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlLi
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlLi
+     * @param string $content
+     * @param string $liClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlLi($content = '', $liClass = '', $t = '')
     {
@@ -336,16 +287,13 @@ class TDMCreateHtmlSmartyCodes
         return "<li{$rLiClass}>{$content}</li>";
     }
 
-    /*
-    *  @public function getHtmlStrong
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlStrong
+     * @param string $content
+     * @param string $strongClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlStrong($content = '', $strongClass = '', $t = '')
     {
@@ -354,20 +302,17 @@ class TDMCreateHtmlSmartyCodes
         return "<strong{$rStrongClass}>{$content}</strong>";
     }
 
-    /*
-    *  @public function getHtmlAnchor
-    *  @param string $class
-    *  @param string $url
-    *  @param string $target
-    *  @param string $content
-    */
     /**
-     * @param $url
-     * @param $content
-     * @param $target
-     * @param $class
-     *
+    *  @public function getHtmlAnchor
+     * @param string $url
+     * @param string $content
+     * @param string $title
+     * @param string $target
+     * @param string $aClass
+     * @param string $rel
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlAnchor($url = '#', $content = '&nbsp;', $title = '', $target = '', $aClass = '', $rel = '', $t = '')
     {
@@ -378,18 +323,14 @@ class TDMCreateHtmlSmartyCodes
         return "<a{$rAClass} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>";
     }
 
-    /*
-    *  @public function getHtmlImage
-    *  @param string $src
-    *  @param string $alt
-    *  @param string $class
-    */
     /**
-     * @param $src
-     * @param $alt
-     * @param $class
-     *
+    *  @public function getHtmlImage
+     * @param string $src
+     * @param string $alt
+     * @param string $imgClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '')
     {
@@ -399,16 +340,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlTable
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlTable
+     * @param string $content
+     * @param string $tableClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlTable($content = '', $tableClass = '', $t = '')
     {
@@ -420,16 +358,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlTableThead
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlTableThead
+     * @param string $content
+     * @param string $theadClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlTableThead($content = '', $theadClass = '', $t = '')
     {
@@ -441,16 +376,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlTableTbody
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlTableTbody
+     * @param string $content
+     * @param string $tbodyClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlTableTbody($content = '', $tbodyClass = '', $t = '')
     {
@@ -462,16 +394,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlTableTfoot
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlTableTfoot
+     * @param string $content
+     * @param string $tfootClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlTableTfoot($content = '', $tfootClass = '', $t = '')
     {
@@ -483,16 +412,13 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlTableRow
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     *
+    *  @public function getHtmlTableRow
+     * @param string $content
+     * @param string $trClass
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlTableRow($content = '', $trClass = '', $t = '')
     {
@@ -504,17 +430,15 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getHtmlTableHead
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     * @param $colspan
+    *  @public function getHtmlTableHead
+     * @param string $content
+     * @param string $thClass
+     * @param string $colspan
      *
+     * @param string $t
      * @return string
+     * @internal param $class
      */
     public function getHtmlTableHead($content = '', $thClass = '', $colspan = '', $t = '')
     {
@@ -524,17 +448,13 @@ class TDMCreateHtmlSmartyCodes
         return "<th{$colspan}{$rThClass}>{$content}</th>";
     }
 
-    /*
-    *  @public function getHtmlTableData
-    *  @param string $class
-    *  @param string $content
-    */
     /**
-     * @param $content
-     * @param $class
-     * @param $colspan
-     *
+    *  @public function getHtmlTableData
+     * @param string $content
+     * @param string $tdClass
+     * @param string $colspan
      * @return string
+     * @internal param $class
      */
     public function getHtmlTableData($content = '', $tdClass = '', $colspan = '')
     {
@@ -544,11 +464,8 @@ class TDMCreateHtmlSmartyCodes
         return "<td{$colspan}{$rTdClass}>{$content}</td>";
     }
 
-    /*
-    *  @public function getSmartyComment
-    *  @param string $comment
-    */
     /**
+    *  @public function getSmartyComment
      * @param $comment
      *
      * @return string
@@ -558,26 +475,20 @@ class TDMCreateHtmlSmartyCodes
         return "<{* {$comment} *}>";
     }
 
-    /*
-    *  @public function getSmartyNoSimbol
-    *  @param string $content
-    */
     /**
-     * @param $content
-     *
+    *  @public function getSmartyNoSimbol
+     * @param string $noSimbol
      * @return string
+     * @internal param $content
+     *
      */
     public function getSmartyNoSimbol($noSimbol = '')
     {
         return "<{{$noSimbol}}>";
     }
 
-    /*
-    *  @public function getSmartyConst
-    *  @param string $language
-    *  @param mixed $const
-    */
     /**
+    *  @public function getSmartyConst
      * @param $language
      * @param $const
      *
@@ -588,11 +499,8 @@ class TDMCreateHtmlSmartyCodes
         return "<{\$smarty.const.{$language}{$const}}>";
     }
 
-    /*
-    *  @public function getSmartySingleVar
-    *  @param string $var
-    */
     /**
+    *  @public function getSmartySingleVar
      * @param string $var
      *
      * @return string
@@ -602,12 +510,8 @@ class TDMCreateHtmlSmartyCodes
         return "<{\${$var}}>";
     }
 
-    /*
-    *  @public function getSmartyDoubleVar
-    *  @param string $leftVar
-    *  @param string $rightVar
-    */
     /**
+    *  @public function getSmartyDoubleVar
      * @param string $leftVar
      * @param string $rightVar
      *
@@ -618,15 +522,13 @@ class TDMCreateHtmlSmartyCodes
         return "<{\${$leftVar}.{$rightVar}}>";
     }
 
-    /*
-    *  @public function getSmartyIncludeFile
-    *  @param string $name
-    */
     /**
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $admin
+    *  @public function getSmartyIncludeFile
+     * @param        $moduleDirname
+     * @param string $fileName
+     * @param bool   $admin
      *
+     * @param bool   $q
      * @return string
      */
     public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false)
@@ -644,11 +546,8 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getSmartyIncludeFileListSection
-    *  @param string $name
-    */
     /**
+    *  @public function getSmartyIncludeFileListSection
      * @param $moduleDirname
      * @param $fileName
      * @param $tableFieldName
@@ -660,12 +559,9 @@ class TDMCreateHtmlSmartyCodes
         return "<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>";
     }
 
-    /*
-    *  @public function getSmartyIncludeFileListForeach
-    *  @param string $name
-    */
     /**
-     * @param $moduleDirname
+    *  @public function getSmartyIncludeFileListForeach
+      * @param $moduleDirname
      * @param $fileName
      * @param $tableFieldName
      *
@@ -676,16 +572,8 @@ class TDMCreateHtmlSmartyCodes
         return "<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}}>";
     }
 
-    /*
-    *  @public function getSmartyConditions
-    *  @param string $condition
-    *  @param string $operator
-    *  @param string $type
-    *  @param string $contentIf
-    *  @param mixed  $contentElse
-    *  @param bool   $count
-    */
     /**
+    *  @public function getSmartyConditions
      * @param string $condition
      * @param string $operator
      * @param string $type
@@ -693,6 +581,7 @@ class TDMCreateHtmlSmartyCodes
      * @param mixed  $contentElse
      * @param bool   $count
      *
+     * @param bool   $noSimbol
      * @return string
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false)
@@ -724,17 +613,14 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getSmartyForeach
-    *  @param string $item
-    *  @param string $from
-    *  @param string $content
-    */
     /**
+    *  @public function getSmartyForeach
      * @param string $item
      * @param string $from
      * @param string $content
      *
+     * @param string $name
+     * @param string $key
      * @return string
      */
     public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '')
@@ -748,17 +634,14 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getSmartyForeachQuery
-    *  @param string $item
-    *  @param string $from
-    *  @param string $content
-    */
     /**
+    *  @public function getSmartyForeachQuery
      * @param string $item
      * @param string $from
      * @param string $content
      *
+     * @param string $loop
+     * @param string $key
      * @return string
      */
     public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '')
@@ -772,17 +655,14 @@ class TDMCreateHtmlSmartyCodes
         return $ret;
     }
 
-    /*
-    *  @public function getSmartySection
-    *  @param string $name
-    *  @param string $loop
-    *  @param string $content
-    */
     /**
+    *  @public function getSmartySection
      * @param string $name
      * @param string $loop
      * @param string $content
      *
+     * @param int    $start
+     * @param int    $step
      * @return string
      */
     public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0)

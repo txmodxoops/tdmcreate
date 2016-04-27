@@ -30,6 +30,9 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
 if (!function_exists('application_autoloader')) {
+    /**
+     * @param $class
+     */
     function application_autoloader($class)
     {
         $classFilename = $class.'.php';

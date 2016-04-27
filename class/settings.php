@@ -240,6 +240,10 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesSettings($keys = null, $format = null, $maxDepth = null)
     {
@@ -257,12 +261,11 @@ class TDMCreateSettings extends XoopsObject
     }
 
     /**
-     * Get Options.
-     */
-    /**
-     * @param $key
-     *
+     * Get Options Settings
+
      * @return string
+     * @internal param $key
+     *
      */
     private function getOptionsSettings()
     {
@@ -278,8 +281,6 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      * Get Defined Language.
-     */
-    /**
      * @param $lang
      *
      * @return string
@@ -361,6 +362,11 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count Settings.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
@@ -372,6 +378,11 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Settings.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllSettings($start = 0, $limit = 0, $sort = 'set_id ASC, set_name', $order = 'ASC')
     {
@@ -383,6 +394,12 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Settings Criteria.
+     * @param $criteriaSettings
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getSettingsCriteria($criteriaSettings, $start, $limit, $sort, $order)
     {

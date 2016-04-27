@@ -27,28 +27,24 @@
  */
 class TemplatesUserIndex extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserIndex
      */
     public static function &getInstance()
@@ -66,6 +62,7 @@ class TemplatesUserIndex extends TDMCreateFile
      *
      * @param $module
      * @param $table
+     * @param $tables
      * @param $filename
      */
     public function write($module, $table, $tables, $filename)
@@ -76,11 +73,9 @@ class TemplatesUserIndex extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function getTemplateUserIndexHeader
-    *  @param $moduleDirname
-    */
     /**
+    *  @public function getTemplateUserIndexHeader
+     * @param $moduleDirname
      * @return bool|string
      */
     public function getTemplateUserIndexHeader($moduleDirname)
@@ -90,13 +85,12 @@ class TemplatesUserIndex extends TDMCreateFile
         return $hc->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserIndexTable
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserIndexTable
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSolename
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserIndexTable($moduleDirname, $tableName, $tableSolename, $language)
@@ -109,13 +103,10 @@ class TemplatesUserIndex extends TDMCreateFile
         return $hc->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserIndexThead
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserIndexThead
+     * @param $tableName
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserIndexTableThead($tableName, $language)
@@ -130,17 +121,12 @@ class TemplatesUserIndex extends TDMCreateFile
         return $hc->getHtmlTableThead($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserIndexTbody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserIndexTbody
      * @param $moduleDirname
-     * @param $table
+     * @param $tableName
+     * @param $tableSolename
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserIndexTableTbody($moduleDirname, $tableName, $tableSolename, $language)
@@ -158,17 +144,10 @@ class TemplatesUserIndex extends TDMCreateFile
         return $hc->getHtmlTableTbody($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserIndexTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesUserIndexTfoot
+
+
      * @return string
      */
     private function getTemplatesUserIndexTableTfoot()
@@ -180,11 +159,11 @@ class TemplatesUserIndex extends TDMCreateFile
         return $hc->getHtmlTableTfoot($tr).PHP_EOL;
     }
 
-    /*
-    *  @public function getTemplatesUserIndexBodyDefault
-    *  @param null
-    */
     /**
+    *  @public function getTemplatesUserIndexBodyDefault
+     * @param $module
+     * @param $table
+     * @param $language
      * @return bool|string
      */
     public function getTemplatesUserIndexBodyDefault($module, $table, $language)
@@ -233,11 +212,12 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getTemplateUserIndexCategories
-    *  @param null
-    */
     /**
+    *  @public function getTemplateUserIndexCategories
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $language
      * @return bool|string
      */
     public function getTemplateUserIndexCategories($moduleDirname, $tableName, $tableSoleName, $language)
@@ -283,11 +263,12 @@ EOT;
         return $ret/*$hc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true)*/.PHP_EOL;
     }
 
-    /*
-    *  @public function getTemplateUserIndexTable
-    *  @param null
-    */
     /**
+    *  @public function getTemplateUserIndexTable
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $language
      * @return bool|string
      */
     public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language)
@@ -317,11 +298,9 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getTemplateUserIndexFooter
-    *  @param $moduleDirname
-    */
     /**
+    *  @public function getTemplateUserIndexFooter
+     * @param $moduleDirname
      * @return bool|string
      */
     public function getTemplateUserIndexFooter($moduleDirname)

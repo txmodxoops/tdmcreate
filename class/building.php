@@ -33,11 +33,8 @@ class TDMCreateBuilding
      */
     private $tc;
 
-    /*
-    *  @public function constructor class
-    *  @param null
-    */
     /**
+    *  @public function constructor class
      *
      */
     public function __construct()
@@ -45,11 +42,8 @@ class TDMCreateBuilding
         $this->tc = TDMCreateHelper::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateBuilding
      */
     public static function &getInstance()
