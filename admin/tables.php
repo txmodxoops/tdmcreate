@@ -138,7 +138,7 @@ switch ($op) {
                                 'table_mid' => $tableMid,
                                 'table_name' => $_POST['table_name'],
                                 'table_solename' => $_POST['table_solename'],
-                                'table_category' => ((1 == $_REQUEST['table_category']) ? 1 : 0),
+                                'table_category' => (1 == $_REQUEST['table_category']) ? 1 : 0,
                                 'table_fieldname' => $tableFieldname,
                                 'table_nbfields' => $tableNumbFields,
                                 'table_order' => $order, ));
