@@ -27,18 +27,16 @@
  */
 class TemplatesUserPages extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,9 @@ class TemplatesUserPages extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserPages
      */
     public static function &getInstance()
@@ -63,15 +59,10 @@ class TemplatesUserPages extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
-    *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table)
     {
@@ -79,13 +70,9 @@ class TemplatesUserPages extends TDMCreateFile
         $this->setTable($table);
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserPagesHeader
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
@@ -93,14 +80,14 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserPagesTable
     *  @param string $moduleDirname
     *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+     * @param $tableSolename
+     * @param $language
+     * @return string
+     */
     private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language)
     {
         $tbody = $this->getTemplatesUserPagesTableThead($tableName, $language);
@@ -111,13 +98,10 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getHtmlTable($tbody, 'table table-'.$single).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesThead
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserPagesThead
+     * @param $tableName
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserPagesTableThead($tableName, $language)
@@ -131,17 +115,12 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getHtmlTableThead($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesTbody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserPagesTbody
      * @param $moduleDirname
-     * @param $table
+     * @param $tableName
+     * @param $tableSolename
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language)
@@ -158,19 +137,10 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getHtmlTableTbody($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesUserPagesTfoot
      * @return string
-     */
+    */
     private function getTemplatesUserPagesTableTfoot()
     {
         $td = $this->htmlcode->getHtmlTableData('&nbsp;').PHP_EOL;
@@ -179,13 +149,12 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getHtmlTableTfoot($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserPages
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserPages    
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSolename
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserPages($moduleDirname, $tableName, $tableSolename, $language)
@@ -196,11 +165,8 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserPagesFooter
-    *  @param string $moduleDirname
-    */
     /**
+    *  @private function getTemplatesUserPagesFooter
      * @param $moduleDirname
      *
      * @return string
@@ -210,11 +176,8 @@ class TemplatesUserPages extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
-    /*
-    *  @public function renderFile
-    *  @param string $filename
-    */
     /**
+    *  @public function renderFile
      * @param $filename
      *
      * @return bool|string

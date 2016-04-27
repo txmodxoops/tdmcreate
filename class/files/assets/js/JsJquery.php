@@ -28,24 +28,20 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  */
 class JsJquery extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return JsJquery
      */
     public static function &getInstance()
@@ -58,26 +54,21 @@ class JsJquery extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $filename
-     */
+
     public function write($module, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

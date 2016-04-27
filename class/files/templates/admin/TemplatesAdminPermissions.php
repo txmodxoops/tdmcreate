@@ -27,18 +27,16 @@
  */
 class TemplatesAdminPermissions extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,8 @@ class TemplatesAdminPermissions extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TemplatesAdminPermissions
      */
     public static function &getInstance()
@@ -63,13 +58,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
-    *  @param string $table
-    */
-    /**
-     * @param $module
      * @param $filename
      */
     public function write($module, $filename)
@@ -78,13 +69,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPermissionsHeader
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
@@ -92,13 +79,10 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPermissions
     *  @param null
-    */
-    /**
-     * @param $moduleDirname
-     *
+ 
      * @return string
      */
     private function getTemplatesAdminPermissions()
@@ -110,13 +94,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPermissionsFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesAdminPermissionsFooter($moduleDirname)
@@ -124,12 +104,10 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
-     * @return bool|string
+      * @return bool|string
      */
     public function render()
     {

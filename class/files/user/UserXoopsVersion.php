@@ -27,28 +27,23 @@
  */
 class UserXoopsVersion extends TDMCreateFile
 {
-    /*
+    /**
     * @var array
     */
     private $kw = array();
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserXoopsVersion
      */
     public static function &getInstance()
@@ -61,14 +56,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param $module
-    *  @param mixed $table
-    *  @param mixed $tables
-    *  @param $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $table
      * @param $tables
@@ -86,11 +75,8 @@ class UserXoopsVersion extends TDMCreateFile
         }
     }
 
-    /*
-    *  @public function setKeywords
-    *  @param mixed $keywords
-    */
     /**
+    *  @public function setKeywords
      * @param $keywords
      */
     public function setKeywords($keywords)
@@ -102,11 +88,8 @@ class UserXoopsVersion extends TDMCreateFile
         }
     }
 
-    /*
-    *  @public function getKeywords
-    *  @param null
-    */
     /**
+    *  @public function getKeywords
      * @return array
      */
     public function getKeywords()
@@ -114,11 +97,10 @@ class UserXoopsVersion extends TDMCreateFile
         return $this->kw;
     }
 
-    /*
+    /**
      * @private function getXoopsVersionHeader
      * @param $module
      * @param $language
-     *
      * @return string
      */
     private function getXoopsVersionHeader($module, $language)
@@ -153,15 +135,12 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionMySQL
-    *  @param $moduleDirname
-    *  @param $table
-    */
     /**
+    *  @private function getXoopsVersionMySQL
      * @param $moduleDirname
      * @param $table
      *
+     * @param $tables
      * @return string
      */
     private function getXoopsVersionMySQL($moduleDirname, $table, $tables)
@@ -185,11 +164,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionSearch
-    *  @param $moduleDirname
-    */
     /**
+    *  @private function getXoopsVersionSearch
      * @param $moduleDirname
      *
      * @return string
@@ -205,11 +181,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionComments
-    *  @param $moduleDirname
-    */
     /**
+    *  @private function getXoopsVersionComments
      * @param $moduleDirname
      *
      * @return string
@@ -228,11 +201,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionTemplatesAdmin
-    *  @param $moduleDirname
-    */
     /**
+    *  @private function getXoopsVersionTemplatesAdmin
      * @param $moduleDirname
      * @param $tables
      *
@@ -260,13 +230,13 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionTemplatesLine
-    *  @param $moduleDirname
-    */
     /**
-     * @param $moduleDirname
+    *  @private function getXoopsVersionTemplatesLine
+     * @param        $moduleDirname
      *
+     * @param        $type
+     * @param string $extra
+     * @param bool   $isAdmin
      * @return string
      */
     private function getXoopsVersionTemplatesLine($moduleDirname, $type, $extra = '', $isAdmin = false)
@@ -288,13 +258,11 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionTemplatesUser
-    *  @param $moduleDirname
-    */
     /**
+    *  @private function getXoopsVersionTemplatesUser
      * @param $moduleDirname
      *
+     * @param $tables
      * @return string
      */
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
@@ -354,13 +322,11 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionSubmenu
-    *  @param $language
-    */
     /**
+    *  @private function getXoopsVersionSubmenu
      * @param $language
      *
+     * @param $tables
      * @return string
      */
     private function getXoopsVersionSubmenu($language, $tables)
@@ -390,15 +356,11 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionBlocks
-    *  @param $moduleDirname
-    *  @param $language
-    */
     /**
+    *  @private function getXoopsVersionBlocks
      * @param $moduleDirname
+     * @param $tables
      * @param $language
-     *
      * @return string
      */
     private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
@@ -427,15 +389,14 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionTypeBlocks
-    *  @param $moduleDirname
-    *  @param $language
-    */
     /**
+    *  @private function getXoopsVersionTypeBlocks
      * @param $moduleDirname
+     * @param $tableName
+     * @param $stuTableSoleName
      * @param $language
      *
+     * @param $type
      * @return string
      */
     private function getXoopsVersionTypeBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $type)
@@ -454,12 +415,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionConfig
-    *  @param $moduleDirname
-    *  @param $language
-    */
     /**
+    *  @private function getXoopsVersionConfig
      * @param $module
      * @param $table
      * @param $language
@@ -607,15 +564,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getNotificationsType
-    *  @param $language
-    *  @param $type
-    *  @param $tableName
-    *  @param $item
-    *  @param $typeOfNotify
-    */
     /**
+    *  @private function getNotificationsType
      * @param $language
      * @param $type
      * @param $tableName
@@ -653,15 +603,10 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionNotifications
-    *  @param $moduleDirname
-    *  @param $language
-    */
     /**
-     * @param $moduleDirname
+    *  @private function getXoopsVersionNotifications
+     * @param $module
      * @param $language
-     *
      * @return string
      */
     private function getXoopsVersionNotifications($module, $language)
@@ -747,16 +692,14 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionNotificationGlobal
-    */
     /**
+    *  @private function getXoopsVersionNotificationGlobal
      * @param $language
      * @param $type
      * @param $name
      * @param $title
      * @param $from
-     *
+     * @param $num
      * @return string
      */
     private function getXoopsVersionNotificationGlobal($language, $type, $name, $title, $from, $num)
@@ -773,16 +716,16 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionNotificationCategory
-    */
     /**
+    *  @private function getXoopsVersionNotificationCategory
      * @param $language
      * @param $type
      * @param $name
      * @param $title
-     * @param $from
-     *
+     * @param $file
+     * @param $item
+     * @param $allow
+     * @param $num
      * @return string
      */
     private function getXoopsVersionNotificationCategory($language, $type, $name, $title, $file, $item, $allow, $num)
@@ -799,18 +742,17 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionNotificationTableName
-    */
     /**
-     * @param $language
-     * @param $type
-     * @param $name
-     * @param $title
-     * @param $file
-     * @param $item
-     * @param $allow
+    *  @private function getXoopsVersionNotificationTableName
+     * @param        $language
+     * @param        $type
+     * @param        $name
+     * @param        $title
+     * @param        $file
+     * @param string $item
+     * @param int    $allow
      *
+     * @param        $num
      * @return string
      */
     private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item = 'cid', $allow = 1, $num)
@@ -827,18 +769,17 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getXoopsVersionNotifications
-    */
     /**
-     * @param $language
-     * @param $type
-     * @param $name
-     * @param $title
-     * @param $from
-     * @param $item
-     * @param $mail
-     *
+    *  @private function getXoopsVersionNotifications
+     * @param     $language
+     * @param     $type
+     * @param     $name
+     * @param     $category
+     * @param int $admin
+     * @param     $title
+     * @param     $table
+     * @param     $mail
+     * @param     $num
      * @return string
      */
     private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin = 1, $title, $table, $mail, $num)
@@ -857,11 +798,8 @@ class UserXoopsVersion extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

@@ -27,29 +27,24 @@
  */
 class TemplatesUserSingle extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TemplatesUserSingle
      */
     public static function &getInstance()
@@ -62,13 +57,8 @@ class TemplatesUserSingle extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $table
      */
@@ -78,13 +68,9 @@ class TemplatesUserSingle extends TDMCreateFile
         $this->setTable($table);
     }
 
-    /*
-    *  @private function getTemplatesUserSingleHeader
-    *  @param string $language
-    */
     /**
-     * @param $language
-     *
+    *  @private function getTemplatesUserSingleHeader
+     * @param $moduleDirname
      * @return string
      */
     private function getTemplatesUserSingleHeader($moduleDirname)
@@ -95,13 +81,8 @@ class TemplatesUserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserSingleBody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
+    *  @private function getTemplatesUserSingleBody
      * @param $moduleDirname
      * @param $table
      * @param $language
@@ -122,11 +103,8 @@ class TemplatesUserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserSingleFooter
-    *  @param string $moduleDirname
-    */
     /**
+    *  @private function getTemplatesUserSingleFooter
      * @param $moduleDirname
      *
      * @return string
@@ -139,13 +117,9 @@ class TemplatesUserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function renderFile
     *  @param string $filename
-    */
-    /**
-     * @param $filename
-     *
      * @return bool|string
      */
     public function renderFile($filename)

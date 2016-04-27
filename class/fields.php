@@ -23,14 +23,11 @@
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
 include __DIR__.'/autoload.php';
-/*
+/**
 *  @Class TDMCreateFields
 *  @extends XoopsObject
 */
 
-/**
- * Class TDMCreateFields.
- */
 class TDMCreateFields extends XoopsObject
 {
     /**
@@ -38,11 +35,8 @@ class TDMCreateFields extends XoopsObject
      */
     private $tdmcreate;
 
-    /*
-    *  @public function constructor class
-    *  @param null
-    */
     /**
+    *  @public function constructor class
      *
      */
     public function __construct()
@@ -87,10 +81,9 @@ class TDMCreateFields extends XoopsObject
         return $this->getVar($method, $arg);
     }
 
-    /*
+    /**
      * @static function &getInstance
-     *
-     * @return TDMCreateFields
+     * @return bool|TDMCreateFields
      */
     public static function &getInstance()
     {
@@ -102,9 +95,8 @@ class TDMCreateFields extends XoopsObject
         return $instance;
     }
 
-    /*
+    /**
      * @private function getHeaderForm
-     *
      * @param bool $action
      * @return TDMCreateThemeForm
      */
@@ -141,9 +133,8 @@ class TDMCreateFields extends XoopsObject
         return $form;
     }
 
-    /*
+    /**
      * @public function getFormNew
-     *
      * @param null $fieldMid
      * @param null $fieldTid
      * @param null $fieldNumb
@@ -303,9 +294,8 @@ class TDMCreateFields extends XoopsObject
         }
     }
 
-    /*
+    /**
      * @public function getFormEdit
-     *
      * @param null $fieldMid
      * @param null $fieldTid
      * @param bool $action
@@ -455,11 +445,8 @@ class TDMCreateFields extends XoopsObject
         return $fieldsForm->getFooterForm($form);
     }
 
-    /*
-    *  @private function getFooterForm
-    *  @param null
-    */
     /**
+    *  @private function getFooterForm
      * @param $form
      *
      * @return mixed
@@ -480,6 +467,10 @@ class TDMCreateFields extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFields($keys = null, $format = null, $maxDepth = null)
     {
@@ -503,21 +494,15 @@ class TDMCreateFields extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateFieldsHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateFieldsHandler.
- */
 class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 {
-    /*
-    *  @public function constructor class
-    *  @param mixed $db
-    */
     /**
+    *  @public function constructor class
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -592,6 +577,11 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
@@ -603,6 +593,11 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
@@ -614,6 +609,13 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Fields By Module & Table Id.
+     * @param        $modId
+     * @param        $tabId
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
@@ -627,6 +629,12 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Fields Criteria.
+     * @param $criteriaFields
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getFieldsCriteria($criteriaFields, $start, $limit, $sort, $order)
     {

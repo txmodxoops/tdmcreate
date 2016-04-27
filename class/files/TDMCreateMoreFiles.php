@@ -27,33 +27,28 @@
  */
 class TDMCreateMoreFiles extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $folder = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $extension = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateMoreFiles
      */
     public static function &getInstance()
@@ -66,15 +61,13 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $filename
      *
+     * @param $folder
+     * @param $extension
      * @return string
      */
     public function write($module, $filename, $folder, $extension)
@@ -89,11 +82,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
         }
     }
 
-    /*
-    *  @private function getMoreFilesPhp
-    *  @param $header
-    */
     /**
+    *  @private function getMoreFilesPhp
      * @param $header
      *
      * @return string
@@ -108,14 +98,11 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getMoreFilesTpl
-    *  @param $header
-    */
     /**
-     * @param $header
-     *
+    *  @private function getMoreFilesTpl
      * @return string
+     * @internal param $header
+     *
      */
     private function getMoreFilesTpl()
     {
@@ -126,14 +113,11 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getMoreFilesHtml
-    *  @param $header
-    */
     /**
-     * @param $header
-     *
+    *  @private function getMoreFilesHtml
      * @return string
+     * @internal param $header
+     *
      */
     private function getMoreFilesHtml()
     {
@@ -144,11 +128,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getMoreFilesText
-    *  @param null
-    */
     /**
+    *  @private function getMoreFilesText
      * @param null
      *
      * @return string
@@ -158,11 +139,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return "# Pleace! put your text code here\n";
     }
 
-    /*
-    *  @private function getMoreFilesSql
-    *  @param null
-    */
     /**
+    *  @private function getMoreFilesSql
      * @param null
      *
      * @return string
@@ -172,11 +150,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return "# Pleace! put your sql code here\n";
     }
 
-    /*
-    *  @private function getMoreFilesCss
-    *  @param $header
-    */
     /**
+    *  @private function getMoreFilesCss
      * @param $header
      *
      * @return string
@@ -189,11 +164,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getMoreFilesDefault
-    *  @param null
-    */
     /**
+    *  @private function getMoreFilesDefault
      * @param null
      *
      * @return string
@@ -203,14 +175,11 @@ class TDMCreateMoreFiles extends TDMCreateFile
         return "Default File\n";
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
      * @return bool|string
+     * @internal param $filename
+     *
      */
     public function render()
     {

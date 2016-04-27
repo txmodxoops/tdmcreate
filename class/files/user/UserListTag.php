@@ -27,24 +27,19 @@
  */
 class UserListTag extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserListTag
      */
     public static function &getInstance()
@@ -57,13 +52,8 @@ class UserListTag extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $filename
      */
@@ -73,13 +63,8 @@ class UserListTag extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function getUserListTag
-    *  @param null
-    */
     /**
-     * @param $moduleDirname
-     *
+    *  @public function getUserListTag
      * @return string
      */
     public function getUserListTag()
@@ -90,11 +75,8 @@ class UserListTag extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

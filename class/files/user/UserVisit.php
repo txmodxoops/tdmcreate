@@ -27,23 +27,21 @@
  */
 class UserVisit extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $uc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+   
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +50,8 @@ class UserVisit extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserVisit
      */
     public static function &getInstance()
@@ -69,13 +64,8 @@ class UserVisit extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $table
      * @param $filename
@@ -92,6 +82,7 @@ class UserVisit extends TDMCreateFile
      *
      * @param $table
      *
+     * @param $fields
      * @return string
      */
     private function getUserVisitHeader($table, $fields)
@@ -158,11 +149,8 @@ class UserVisit extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

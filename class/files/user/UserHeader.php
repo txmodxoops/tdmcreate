@@ -27,23 +27,21 @@
  */
 class UserHeader extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $uc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +50,8 @@ class UserHeader extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserHeader
      */
     public static function &getInstance()
@@ -69,14 +64,8 @@ class UserHeader extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param array $tables
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $table
      * @param $tables
@@ -90,12 +79,11 @@ class UserHeader extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getUserHeader
-    *  @param $moduleDirname
-    *
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @return string
+     */
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
@@ -143,11 +131,8 @@ class UserHeader extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

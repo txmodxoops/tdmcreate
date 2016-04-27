@@ -27,29 +27,22 @@
  */
 class SqlFile extends TDMCreateFile
 {
-    /*
-    *  @public function constructor
-    *  @param null
-    
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return SqlFile
      */
+
     public static function &getInstance()
     {
         static $instance = false;
@@ -60,28 +53,21 @@ class SqlFile extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param $module
     *  @param $filename
     */
-    /**
-     * @param $module
-     * @param $filename
-     */
+
     public function write($module, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getHeaderSqlComments
     *  @param $moduleName
-    */
-    /**
-     * @param $moduleName
-     *
      * @return string
      */
     private function getHeaderSqlComments($moduleName)
@@ -104,15 +90,13 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getHeadDatabaseTable
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param integer $fieldsNumb
-    *
-    *  Unused IF NOT EXISTS
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $fieldsNumb
+     * @return string
+     */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
         $ret = $this->getSimpleString('#');
@@ -123,11 +107,12 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getDatabaseTables
     *  @param $module
     *  @return null|string
     */
+
     private function getDatabaseTables($module)
     {
         $ret = null;
@@ -145,14 +130,16 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getDatabaseFields
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $tableAutoincrement
-    *  @param $fieldsNumb
-    *  @return null|string
-    */
+     * @param $moduleDirname
+     * @param $tableMid
+     * @param $tableId
+     * @param $tableName
+     * @param $tableAutoincrement
+     * @param $fieldsNumb
+     * @return null|string
+     */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
@@ -321,11 +308,9 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFootDatabaseTable
     *  @param null
-    */
-    /**
      * @return string
      */
     private function getFootDatabaseTable()
@@ -333,16 +318,16 @@ class SqlFile extends TDMCreateFile
         return "\n) ENGINE=InnoDB;\n\n";
     }
 
-    /*
+    /**
     *  @private function getFieldRow
-    *  @param $fieldName
-    *  @param $fieldTypeValue
-    *  @param $fieldAttribute
-    *  @param $fieldNull
-    *  @param $fieldDefault
-    *  @param $autoincrement
-    *  @return string
-    */
+     * @param      $fieldName
+     * @param      $fieldTypeValue
+     * @param null $fieldAttribute
+     * @param null $fieldNull
+     * @param null $fieldDefault
+     * @param null $autoincrement
+     * @return string
+     */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
     {
         $retAutoincrement = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
@@ -362,10 +347,12 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getKey
-    *  @return string
-    */
+     * @param $key
+     * @param $fieldName
+     * @return string
+     */
     private function getKey($key, $fieldName)
     {
         switch ($key) {
@@ -389,23 +376,23 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getComma
-    *  @param $row
-    *  @param $comma
-    *  @return string
-    */
+     * @param      $row
+     * @param null $comma
+     * @return string
+     */
     private function getComma($row, $comma = null)
     {
         return " {$row}{$comma}";
     }
 
-    /*
+    /**
     *  @private function getCommaCicle
-    *  @param $comma
-    *  @param $index
-    *  @return string
-    */
+     * @param $comma
+     * @param $index
+     * @return string
+     */
     private function getCommaCicle($comma, $index)
     {
         // Comma issue
@@ -420,11 +407,12 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
     *  @return bool|string
     */
+
     public function render()
     {
         $module = $this->getModule();

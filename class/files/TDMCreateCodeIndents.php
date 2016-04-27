@@ -1,6 +1,10 @@
 <?php
 
 /* The 'nl' function */
+/**
+ * @param int $tabs
+ * @return string
+ */
 function nl($tabs = 0)
 {
     $r = "\n";

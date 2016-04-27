@@ -27,11 +27,9 @@
  */
 class AdminXoopsCode
 {
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return Axc
      */
     public static function &getInstance()
@@ -44,26 +42,27 @@ class AdminXoopsCode
         return $instance;
     }
 
-    /*
+    /**
      *  @public function getAdminTemplateMain
-     *  @param $moduleDirname
-     *  @param $tableName
-     *
-     *  @return string
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param string $t
+     * @return string
      */
     public function getAdminTemplateMain($moduleDirname, $tableName, $t = '')
     {
         return "{$t}\$templateMain = '{$moduleDirname}_admin_{$tableName}.tpl';\n";
     }
 
-    /*
+    /**
      *  @public function getAdminTemplateMain
-     *  @param $language
-     *  @param $tableName
-     *  @param $stuTableSoleName
-     *  @param $type
-     *
-     *  @return string
+     * @param        $language
+     * @param        $tableName
+     * @param        $stuTableSoleName
+     * @param string $op
+     * @param string $type
+     * @param string $t
+     * @return string
      */
     public function getAdminItemButton($language, $tableName, $stuTableSoleName, $op = '?op=new', $type = 'add', $t = '')
     {
@@ -79,36 +78,37 @@ class AdminXoopsCode
     }
 
     /**
-     *  @public function getAdminAddNavigation
+     * @public function getAdminAddNavigation
      *
-     *  @param $tableName
+     * @param        $tableName
      *
-     *  @return string
+     * @param string $t
+     * @return string
      */
     public function getAdminAddNavigation($tableName, $t = '')
     {
         return "{$t}\$adminMenu->addNavigation('{$tableName}.php')";
     }
 
-    /*
+    /**
     *  @public function getAxcAddInfoBox
-    *  @param $language
-    *  
-    *  @return string
-    */
+     * @param        $language
+     * @param string $t
+     * @return string
+     */
     public function getAxcAddInfoBox($language, $t = '')
     {
         return "{$t}\$adminMenu->addInfoBox({$language});\n";
     }
 
-    /*
+    /**
     *  @public function getAxcAddInfoBoxLine
-    *  @param $language
-    *  @param $label
-    *  @param $var
-    *  
-    *  @return string
-    */
+     * @param        $language
+     * @param string $label
+     * @param string $var
+     * @param string $t
+     * @return string
+     */
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addInfoBoxLine(';
@@ -121,14 +121,14 @@ class AdminXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getAxcAddConfigBoxLine
-    *  @param $language
-    *  @param $label
-    *  @param $var
-    *  
-    *  @return string
-    */
+     * @param        $language
+     * @param string $label
+     * @param string $var
+     * @param string $t
+     * @return string
+     */
     public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addConfigBoxLine(';
@@ -141,13 +141,14 @@ class AdminXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getAxcImageListSetVar
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldName
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param string $t
+     * @return string
+     */
     public function getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t = '')
     {
         $pCodeImageList = TDMCreatePhpCode::getInstance();
@@ -171,13 +172,15 @@ class AdminXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getAxcUploadImageSetVar
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldName
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param        $fieldMain
+     * @param string $t
+     * @return string
+     */
     public function getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '')
     {
         $pCodeUploadImage = TDMCreatePhpCode::getInstance();
@@ -207,14 +210,15 @@ class AdminXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getAxcFileSetVar
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $fieldName
-    *  @param $formatUrl
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param bool   $formatUrl
+     * @param string $t
+     * @return string
+     */
     public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '')
     {
         $stuModuleDirname = strtoupper($moduleDirname);
@@ -223,14 +227,16 @@ class AdminXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAxcImageFileSetVar
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $fieldName
-    *  @param $formatUrl
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param string $dirname
+     * @param        $tableName
+     * @param        $fieldName
+     * @param bool   $formatUrl
+     * @param string $t
+     * @return string
+     */
     private function getAxcImageFileSetVar($moduleDirname, $dirname = '', $tableName, $fieldName, $formatUrl = false, $t = '')
     {
         $pCodeFileSetVar = TDMCreatePhpCode::getInstance();
@@ -314,12 +320,12 @@ class AdminXoopsCode
     }
 
     /**
-     *  @public function getAxcFetchMedia
+     * @public function getAxcFetchMedia
+     * @param        $anchor
+     * @param        $var
      *
-     *  @param $anchor
-     *  @param $var
-     *
-     *  @return string
+     * @param string $t
+     * @return string
      */
     public function getAxcFetchMedia($anchor, $var, $t = '')
     {
@@ -327,12 +333,12 @@ class AdminXoopsCode
     }
 
     /**
-     *  @public function getAxcSetPrefix
+     * @public function getAxcSetPrefix
+     * @param        $anchor
+     * @param        $var
      *
-     *  @param $anchor
-     *  @param $var
-     *
-     *  @return string
+     * @param string $t
+     * @return string
      */
     public function getAxcSetPrefix($anchor, $var, $t = '')
     {
@@ -340,26 +346,27 @@ class AdminXoopsCode
     }
 
     /**
-     *  @public function getAxcGetObjHandlerId
+     * @public function getAxcGetObjHandlerId
+     * @param string $tableName
+     * @param string $fieldId
      *
-     *  @param string $tableName
-     *  @param string $fieldId
-     *
-     *  @return string
+     * @param string $t
+     * @return string
      */
     public function getAxcGetObjHandlerId($tableName, $fieldId, $t = '')
     {
         return "{$t}\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
     }
 
-    /*
+    /**
     *  @public function getAdminCodeCaseDelete
-    *  @param $tableName
-    *  @param $language
-    *  @param $fieldId
-    *  @param $fieldMain
-    *  @return string
-    */
+     * @param        $language
+     * @param        $tableName
+     * @param        $fieldId
+     * @param        $fieldMain
+     * @param string $t
+     * @return string
+     */
     public function getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t = '')
     {
         $phpCodeCaseDelete = TDMCreatePhpCode::getInstance();

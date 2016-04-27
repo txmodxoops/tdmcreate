@@ -22,17 +22,14 @@
  * @version         $Id: 1.91 fieldelements.php 11297 2014-03-24 09:11:10Z timgno $
  */
 
-/*
+/**
 *  @Class TDMCreateFieldElements
 *  @extends XoopsObject
 */
 
-/**
- * Class TDMCreateFieldElements.
- */
 class TDMCreateFieldElements extends XoopsObject
 {
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
@@ -61,11 +58,8 @@ class TDMCreateFieldElements extends XoopsObject
         return $this->getVar($method, $arg);
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateFieldElements
      */
     public static function &getInstance()
@@ -80,6 +74,10 @@ class TDMCreateFieldElements extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFieldElements($keys = null, $format = null, $maxDepth = null)
     {
@@ -95,17 +93,14 @@ class TDMCreateFieldElements extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateFieldElementsHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateFieldElementsHandler.
- */
 class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 {
-    /*
+    /**
     *  @public function constructor class
     *  @param mixed $db
     */
@@ -119,6 +114,11 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
@@ -130,6 +130,11 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Objects Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getObjectsFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
@@ -141,6 +146,11 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllFieldElements($start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
@@ -152,6 +162,13 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Fields By Module & Table Id.
+     * @param        $modId
+     * @param        $tabId
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllFieldElementsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
@@ -165,6 +182,12 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get FieldElements Criteria.
+     * @param $crFieldElemsCriteria
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getFieldElementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order)
     {

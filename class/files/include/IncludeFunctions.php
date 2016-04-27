@@ -135,16 +135,12 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFunctionNumbersOfEntries
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      * @param $tableMid
-     * @param $tableMid
+     * @param $tableId
      * @param $tableName
-     *
      * @return string
      */
     private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
@@ -183,13 +179,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFunctionMetaKeywords
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getFunctionMetaKeywords($moduleDirname)
@@ -211,13 +203,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFunctionDescription
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getFunctionMetaDescription($moduleDirname)
@@ -239,15 +227,10 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getRewriteUrl
     *  @param string $moduleDirname
     *  @param string $tableName
-    */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     *
      * @return string
      */
     private function getRewriteUrl($moduleDirname, $tableName)
@@ -343,15 +326,10 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getRewriteFilter
     *  @param string $moduleDirname
     *  @param string $tableName
-    */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     *
      * @return string
      */
     private function getRewriteFilter($moduleDirname, $tableName)
@@ -386,11 +364,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

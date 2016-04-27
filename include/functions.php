@@ -106,6 +106,10 @@ function TDMCreate_copyr($source, $dest)
     return true;
 }
 // Pleace! don't remove
+/**
+ * @param $about
+ * @return string
+ */
 function TDMCreate_MakeDonationForm($about)
 {
     $donationform = array(0 => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
@@ -144,6 +148,10 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 }
 
 //
+/**
+ * @param $str
+ * @return string
+ */
 function UcFirstAndToLower($str)
 {
     return ucfirst(strtolower(trim($str)));

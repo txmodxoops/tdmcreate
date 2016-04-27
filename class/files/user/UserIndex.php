@@ -27,24 +27,19 @@
  */
 class UserIndex extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
-     * @return UserIndex
+    *  @static function &getInstance
+      * @return UserIndex
      */
     public static function &getInstance()
     {
@@ -56,14 +51,11 @@ class UserIndex extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
+    *  @param $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -96,12 +88,16 @@ class UserIndex extends TDMCreateFile
     }
 
     /**
-     * @private function getBodyCategoriesIndex
+     * @private  function getBodyCategoriesIndex
      *
      * @param $moduleDirname
-     * @param $language
-     *
+     * @param $tableMid
+     * @param $tableId
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableFieldname
      * @return string
+     * @internal param $language
      */
     private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
     {
@@ -156,8 +152,10 @@ class UserIndex extends TDMCreateFile
      * @private function getBodyPagesIndex
      *
      * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableFieldname
      * @param $language
-     *
      * @return string
      */
     private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language)
@@ -212,13 +210,12 @@ class UserIndex extends TDMCreateFile
     }
 
     /**
-     * @private function getUserPagesFooter
+     * @private  function getUserPagesFooter
      *
      * @param $moduleDirname
-     * @param $tableName
      * @param $language
-     *
      * @return string
+     * @internal param $tableName
      */
     private function getUserIndexFooter($moduleDirname, $language)
     {
@@ -241,11 +238,8 @@ class UserIndex extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

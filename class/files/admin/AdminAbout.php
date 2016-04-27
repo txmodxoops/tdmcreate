@@ -27,23 +27,21 @@
  */
 class AdminAbout extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $axc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -51,11 +49,9 @@ class AdminAbout extends TDMCreateFile
         $this->axc = AdminXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return AdminAbout
      */
     public static function &getInstance()
@@ -68,14 +64,10 @@ class AdminAbout extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -83,11 +75,9 @@ class AdminAbout extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

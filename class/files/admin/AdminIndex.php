@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
@@ -27,23 +27,21 @@
  */
 class AdminIndex extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $xc = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $adminxc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -52,13 +50,11 @@ class AdminIndex extends TDMCreateFile
         $this->adminxc = AdminXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
+    * @return AdminIndex
     */
-    /**
-     * @return AdminIndex
-     */
     public static function &getInstance()
     {
         static $instance = false;
@@ -69,17 +65,13 @@ class AdminIndex extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $tables
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
-     */
+
     public function write($module, $tables, $filename)
     {
         $this->setModule($module);
@@ -150,13 +142,11 @@ class AdminIndex extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
+    * @return bool|string
     */
-    /**
-     * @return bool|string
-     */
     public function render()
     {
         $module = $this->getModule();

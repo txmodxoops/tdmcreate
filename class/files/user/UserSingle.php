@@ -27,23 +27,21 @@
  */
 class UserSingle extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $uc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +50,8 @@ class UserSingle extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserSingle
      */
     public static function &getInstance()
@@ -69,17 +64,13 @@ class UserSingle extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
-     */
+
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
@@ -92,6 +83,8 @@ class UserSingle extends TDMCreateFile
      *
      * @param $moduleDirname
      *
+     * @param $table
+     * @param $fields
      * @return string
      */
     private function getUserSingleHeader($moduleDirname, $table, $fields)
@@ -120,12 +113,12 @@ class UserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      * @public function getUserSingleBody     
+
      * @param $moduleDirname
      * @param $tableName
      * @param $language
-     *
      * @return string
      */
     public function getUserSingleBody($moduleDirname, $tableName, $language)
@@ -166,11 +159,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()

@@ -27,18 +27,16 @@
  */
 class TemplatesAdminPages extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -46,11 +44,9 @@ class TemplatesAdminPages extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesAdminPages
      */
     public static function &getInstance()
@@ -63,22 +59,24 @@ class TemplatesAdminPages extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     */
+
     public function write($module, $table)
     {
         $this->setModule($module);
         $this->setTable($table);
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesHeader
     *  @param string $moduleDirname
     *  @return string
     */
+
     private function getTemplatesAdminPagesHeader($moduleDirname)
     {
         $ret = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
@@ -87,14 +85,14 @@ class TemplatesAdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesTableThead
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+     * @param $tableSoleName
+     * @param $tableAutoincrement
+     * @param $fields
+     * @param $language
+     * @return string
+     */
     private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $th = '';
@@ -121,14 +119,15 @@ class TemplatesAdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesTableTBody
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableAutoincrement
+     * @param $fields
+     * @return string
+     */
     private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
     {
         $td = '';
@@ -196,14 +195,16 @@ EOT;*/
         return $this->htmlcode->getSmartyConditions($tableName.'_count', '', '', $tbody).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesTable
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableAutoincrement
+     * @param $fields
+     * @param $language
+     * @return string
+     */
     private function getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
@@ -212,14 +213,16 @@ EOT;*/
         return $this->htmlcode->getHtmlTable($tbody, 'table table-bordered').PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPages
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableAutoincrement
+     * @param $fields
+     * @param $language
+     * @return string
+     */
     private function getTemplatesAdminPages($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $htmlTable = $this->getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
@@ -241,11 +244,11 @@ EOT;*/
         return $ifList;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesFooter
-    *  @param string $moduleDirname
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @return string
+     */
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
         $ret = $this->htmlcode->getHtmlTag('br', array(), '', false).PHP_EOL;
@@ -255,11 +258,11 @@ EOT;*/
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
-    *  @param $filename
-    *  @return bool|string
-    */
+     * @param $filename
+     * @return string
+     */
     public function renderFile($filename)
     {
         $module = $this->getModule();

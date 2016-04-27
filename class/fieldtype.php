@@ -22,21 +22,15 @@
  * @version         $Id: 1.91 fieldtype.php 11297 2014-05-14 10:58:10Z timgno $
  */
 
-/*
+/**
 *  @Class TDMCreateFieldtype
 *  @extends XoopsObject
 */
 
-/**
- * Class TDMCreateFieldtype.
- */
 class TDMCreateFieldtype extends XoopsObject
 {
-    /*
-    *  @public function constructor class
-    *  @param null
-    */
     /**
+    *  @public function constructor class
      *
      */
     public function __construct()
@@ -46,11 +40,8 @@ class TDMCreateFieldtype extends XoopsObject
         $this->initVar('fieldtype_value', XOBJ_DTYPE_TXTBOX);
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateFieldElements
      */
     public static function &getInstance()
@@ -65,6 +56,10 @@ class TDMCreateFieldtype extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFieldtype($keys = null, $format = null, $maxDepth = null)
     {
@@ -78,14 +73,11 @@ class TDMCreateFieldtype extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateFieldtypeHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateFieldtypeHandler.
- */
 class TDMCreateFieldtypeHandler extends XoopsPersistableObjectHandler
 {
     /**

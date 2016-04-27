@@ -27,28 +27,24 @@
  */
 class LanguageDefines
 {
-    /*
+    /**
     * @var mixed
     */
     protected $defines;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function &getInstance
     *  @param null
-    */
-    /**
      * @return LanguageDefines
      */
     public static function &getInstance()
@@ -61,33 +57,36 @@ class LanguageDefines
         return $instance;
     }
 
-    /*
+    /**
     *  @public function getAboveHeadDefines
     *  @param string $string
     *  @return string
     */
+
     public function getAboveHeadDefines($string)
     {
         return "// ---------------- {$string} ----------------\n";
     }
 
-    /*
+    /**
     *  @public function getAboveDefines
     *  @param string $string
     *  @return string
     */
+
     public function getAboveDefines($string)
     {
         return "// {$string}\n";
     }
 
-    /*
+    /**
     *  @public function getDefine
     *  @param string $language
     *  @param string $defined
     *  @param string $description
     *  @return string
     */
+
     public function getDefine($language, $defined, $description)
     {
         $defined = strtoupper($defined);

@@ -27,10 +27,9 @@
  */
 class AdminPages extends TDMCreateFile
 {
-    /*
+    /**
      * @public function constructor
      * @param null    
-     *
      */
     public function __construct()
     {
@@ -42,11 +41,12 @@ class AdminPages extends TDMCreateFile
         $axc = AdminXoopsCode::getInstance();
     }
 
-    /*
+    /**
      * @static function &getInstance
      * @param null 
-     *
-     * @return AdminPages
+     */
+    /**
+     * @return AdminPages|bool
      */
     public static function &getInstance()
     {
@@ -58,10 +58,11 @@ class AdminPages extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param $module
     *  @param $table
+    * @param $filename
     */
     public function write($module, $table, $filename)
     {
@@ -70,7 +71,7 @@ class AdminPages extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getAdminPagesHeader
     *  @param $moduleDirname
     *  @param $tableName
@@ -91,12 +92,13 @@ class AdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @private function getAdminPagesSwitch
      *  @param $cases
      *
      * @return string
      */
+
     private function getAdminPagesSwitch($cases = array())
     {
         $pc = TDMCreatePhpCode::getInstance();
@@ -105,17 +107,17 @@ class AdminPages extends TDMCreateFile
         return $pc->getPhpCodeSwitch('op', $contentSwitch);
     }
 
-    /*
+    /**
     *  @private function getAdminPagesList
-    *  @param $moduleDirname
-    *  @param $table
-    *  @param $tableFieldname
-    *  @param $language
-    *  @param $fields
-    *  @param $fieldId
-    *  @param $fieldInForm
-    *  @param $fieldMain
-    *  @return string
+    * @param        $moduleDirname
+    * @param        $table
+    * @param        $language
+    * @param        $fields
+    * @param        $fieldId
+    * @param        $fieldInForm
+    * @param        $fieldMain
+    * @param string $t
+    * @return string
     */
     private function getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain, $t = '')
     {
@@ -161,13 +163,14 @@ class AdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getAdminPagesNew
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $fieldInForm
-    *  @param $language
-    *  @return string
+    /**
+    * @private function getAdminPagesNew
+    * @param        $moduleDirname
+    * @param        $tableName
+    * @param        $fieldInForm
+    * @param        $language
+    * @param string $t
+    * @return string
     */
     private function getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, $t = '')
     {
@@ -192,15 +195,14 @@ class AdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getPermissionsSave
-    *  @param $moduleDirname
-    *  @param $fieldId
-    *  @param $ccFieldId
-    *  @param $newFieldId
-    *  @param $perm
-    *
-    *  @return string
+    * @param        $moduleDirname
+    * @param        $fieldId
+    * @param        $ccFieldId
+    * @param        $newFieldId
+    * @param string $perm
+    * @return string
     */
     private function getPermissionsSave($moduleDirname, $fieldId, $ccFieldId, $newFieldId, $perm = 'view')
     {
@@ -215,17 +217,18 @@ class AdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAdminPagesSave
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $tableCategory
-    *  @param $language
-    *  @param $fields
-    *  @param $fieldId
-    *  @param $fieldMain
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param        $tableName
+     * @param        $tableCategory
+     * @param        $language
+     * @param        $fields
+     * @param        $fieldId
+     * @param        $fieldMain
+     * @param string $t
+     * @return string
+     */
     private function getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $language, $fields, $fieldId, $fieldMain, $t = '')
     {
         $pc = TDMCreatePhpCode::getInstance();
@@ -306,16 +309,16 @@ class AdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAdminPagesEdit
-    *  @param $moduleDirname
-    *  @param $tableName
-    *  @param $tableFieldname
-    *  @param $language
-    *  @param $fieldId
-    *  @param $fieldInForm
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param        $table
+     * @param        $language
+     * @param        $fieldId
+     * @param        $fieldInForm
+     * @param string $t
+     * @return string
+     */
     private function getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, $t = '')
     {
         $pc = TDMCreatePhpCode::getInstance();
@@ -348,14 +351,15 @@ class AdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAdminPagesDelete
-    *  @param $tableName
-    *  @param $language
-    *  @param $fieldId
-    *  @param $fieldMain
-    *  @return string
-    */
+     * @param        $tableName
+     * @param        $language
+     * @param        $fieldId
+     * @param        $fieldMain
+     * @param string $t
+     * @return mixed
+     */
     private function getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, $t = '')
     {
         $axc = AdminXoopsCode::getInstance();
@@ -363,7 +367,7 @@ class AdminPages extends TDMCreateFile
         return $axc->getAdminCodeCaseDelete($language, $tableName, $fieldId, $fieldMain, $t);
     }
 
-    /*
+    /**
      * @public function render    
      * @param null
      *

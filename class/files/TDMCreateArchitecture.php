@@ -27,23 +27,21 @@ include dirname(__DIR__).'/autoload.php';
  */
 class TDMCreateArchitecture extends TDMCreateStructure
 {
-    /*
+    /**
     * @var mixed
     */
     private $tdmcreate = null;
 
-    /*
+    /**
     * @var mixed
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +50,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $this->setUploadPath(TDMC_UPLOAD_REPOSITORY_PATH);
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return TDMCreateArchitecture
      */
     public static function &getInstance()
@@ -69,11 +64,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
         return $instance;
     }
 
-    /*
-    *  @public function setBaseFoldersFiles
-    *  @param string $module
-    */
     /**
+    *  @public function setBaseFoldersFiles
      * @param $module
      */
     public function setBaseFoldersFiles($module)
@@ -163,13 +155,9 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
     }
 
-    /*
-    *  @public function setFilesToBuilding
-    *  @param string $module
-    */
     /**
+    *  @public function setFilesToBuilding
      * @param $module
-     *
      * @return array
      */
     public function setFilesToBuilding($module)

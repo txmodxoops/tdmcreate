@@ -27,23 +27,18 @@
  */
 class UserFooter extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    /*
-    *  @static function &getInstance
-    *  @param null
-    */
     /**
+    *  @static function &getInstance
      * @return UserFooter
      */
     public static function &getInstance()
@@ -56,12 +51,8 @@ class UserFooter extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
      * @param $filename
      */
@@ -71,12 +62,11 @@ class UserFooter extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getUserFooter
-    *  @param $moduleDirname
-    *
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @return string
+     */
     private function getUserFooter($moduleDirname)
     {
         $xc = TDMCreateXoopsCode::getInstance();
@@ -97,11 +87,8 @@ class UserFooter extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+    *  @public function render
      * @return bool|string
      */
     public function render()
