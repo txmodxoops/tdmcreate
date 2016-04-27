@@ -107,7 +107,7 @@ class UserHeader extends TDMCreateFile
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Permission');
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true);
+        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true);
 
         $condIf = $this->xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
         $condElse = $this->xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");

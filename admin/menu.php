@@ -21,7 +21,7 @@
  *
  * @version         $Id: menu.php 11084 2013-02-23 15:44:20Z timgno $
  */
-$module_handler = &xoops_gethandler('module');
+$module_handler = &xoops_getHandler('module');
 $xoopsModule = &XoopsModule::getByDirname('TDMCreate');
 $moduleInfo = &$module_handler->get($xoopsModule->getVar('mid'));
 $sysPathIcon32 = $moduleInfo->getInfo('sysicons32');

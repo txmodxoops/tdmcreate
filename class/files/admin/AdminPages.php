@@ -294,7 +294,7 @@ class AdminPages extends TDMCreateFile
             $contentInsert = $xc->getXcEqualsOperator('$newCatId', "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t."\t");
             $ucfFieldId = $this->getCamelCase($fieldId, true);
             $contentInsert .= $pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t."\t");
-            $contentInsert .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, false, $t."\t");
+            $contentInsert .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, false, $t."\t");
             $contentInsert .= $this->getPermissionsSave($moduleDirname, $fieldId, $ccFieldId, 'new'.$ucfFieldId);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, $fieldId, $ccFieldId, 'new'.$ucfFieldId, 'submit');
             $contentInsert .= $this->getPermissionsSave($moduleDirname, $fieldId, $ccFieldId, 'new'.$ucfFieldId, 'approve');

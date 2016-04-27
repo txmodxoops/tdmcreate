@@ -330,7 +330,7 @@ class ClassFiles extends TDMCreateFile
         $xModule = $this->pc->getPhpCodeGlobals('xoopsModule');
         if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm .= $this->pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
-            $getForm .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
+            $getForm .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
             $getForm .= $this->pc->getPhpCodeTernaryOperator('groups', 'is_object('.$xUser.')', $xUser.'->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
             $checkRight = $this->xc->getXcCheckRight('$gpermHandler', $permString = '', 32, '$groups', $xModule.'->getVar(\'mid\')', true);
             $ternaryOperator = $this->pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t\t");
@@ -381,9 +381,9 @@ class ClassFiles extends TDMCreateFile
         $permissionSubmit = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
         $permissionView = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
         $ret = $this->pc->getPhpCodeCommentLine('Permissions', '', "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$memberHandler', "xoops_gethandler('member')", null, false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$memberHandler', "xoops_getHandler('member')", null, false, "\t\t");
         $ret .= $this->xc->getXcEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, false, "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, false, "\t\t");
         $ret .= $this->pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
         $fId = $this->xc->getXcGetVar('', 'this', $fieldId, true);
         $mId = $this->xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
@@ -757,7 +757,7 @@ class ClassFiles extends TDMCreateFile
 
         $ret = $this->pc->getPhpCodeCommentMultiLine(array("Get All {$ucfTableName} By" => "{$fieldNameDesc} Id"), "\t");
 
-        $critAll = $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
+        $critAll = $this->xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
         $param1 = "'{$moduleDirname}_view'";
         $param2 = "\$GLOBALS['xoopsUser']->getGroups()";
         $param3 = "\$GLOBALS['xoopsModule']->getVar('mid')";
