@@ -73,12 +73,12 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /*
-     *  @static function &getInstance
+     *  @static function getInstance
      *  @param null
      *
      * @return ClassFormElements
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {

@@ -97,13 +97,13 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-    *  @public static function &getInstance
+    *  @public static function getInstance
     *  @param null
     */
     /**
      * @return TDMCreateFile
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {

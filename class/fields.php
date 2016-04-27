@@ -88,11 +88,11 @@ class TDMCreateFields extends XoopsObject
     }
 
     /*
-     * @static function &getInstance
+     * @static function getInstance
      *
      * @return TDMCreateFields
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
