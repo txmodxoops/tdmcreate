@@ -191,7 +191,7 @@ class TDMCreateSettings extends XoopsObject
         $form->addElement($optionsTray);
         //
         $modImage = $this->getVar('set_image');
-        $modImage = $modImage ? $modImage : $set['image'];
+        $modImage = $modImage ?: $set['image'];
         //
         $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
         $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br />');
