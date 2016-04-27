@@ -602,7 +602,7 @@ class TDMCreateXoopsCode
         $phpCodePHeader = TDMCreatePhpCode::getInstance();
         $ret = $phpCodePHeader->getPhpCodeCommentLine('Permission');
         $ret .= $phpCodePHeader->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= self::getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", true);
+        $ret .= self::getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", true);
         $groups = self::getXcEqualsOperator('$groups', '$xoopsUser->getGroups()');
         $elseGroups = self::getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
         $ret .= $phpCodePHeader->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);

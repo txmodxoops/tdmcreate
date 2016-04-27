@@ -123,10 +123,10 @@ function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
     if(is_array(\$permissions) && array_key_exists(\$permtype, \$permissions)) {
         return \$permissions[\$permtype];
     }
-	\$moduleHandler =& xoops_gethandler('module');
+	\$moduleHandler =& xoops_getHandler('module');
 	\${$moduleDirname}Module =& \$moduleHandler->getByDirname(\$dirname);
 	\$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-	\$gpermHandler =& xoops_gethandler('groupperm');
+	\$gpermHandler =& xoops_getHandler('groupperm');
 	\${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
     return \${$tableName};
 }\n

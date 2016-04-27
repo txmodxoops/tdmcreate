@@ -109,7 +109,7 @@ class AdminMenu extends TDMCreateFile
     {
         $dirname = array('$dirname' => 'basename(dirname(__DIR__))');
         $ret = $this->getAdminMenuArray($dirname);
-        $mod = array('$moduleHandler' => "xoops_gethandler('module')",
+        $mod = array('$moduleHandler' => "xoops_getHandler('module')",
                     '$xoopsModule' => 'XoopsModule::getByDirname($dirname)',
                     '$moduleInfo' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))", );
         $ret .= $this->getAdminMenuArray($mod);
