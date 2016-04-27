@@ -29,13 +29,13 @@ include __DIR__.'/autoload.php';
 class TDMCreateLogo
 {
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return TDMCreateModules
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {

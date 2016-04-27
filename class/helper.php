@@ -61,7 +61,7 @@ class TDMCreateHelper
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param mixed $debug
     */
     /**
@@ -69,7 +69,7 @@ class TDMCreateHelper
      *
      * @return TDMCreateHelper
      */
-    public static function &getInstance($debug = false)
+    public static function getInstance($debug = false)
     {
         static $instance = false;
         if (!$instance) {

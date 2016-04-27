@@ -40,13 +40,13 @@ class ClassHelper extends TDMCreateFile
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return ClassHelper
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -124,10 +124,10 @@ class {$ucf_module_dirname}Helper
         \$this->dirname =  basename(dirname(__DIR__));
     }
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param mixed \$debug
     */
-    public static function &getInstance(\$debug = false)
+    public static function getInstance(\$debug = false)
     {
         static \$instance = false;
         if (!\$instance) {
