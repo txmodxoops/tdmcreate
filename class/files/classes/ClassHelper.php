@@ -202,7 +202,7 @@ class {$ucf_module_dirname}Helper
         if (isset(\$xoopsModule) && is_object(\$xoopsModule) && \$xoopsModule->getVar('dirname') == \$this->dirname) {
             \$this->module = \$xoopsModule;
         } else {
-            \$hModule = xoops_gethandler('module');
+            \$hModule = xoops_getHandler('module');
             \$this->module = \$hModule->getByDirname(\$this->dirname);
         }
         \$this->addLog('INIT MODULE');
@@ -214,7 +214,7 @@ class {$ucf_module_dirname}Helper
     public function initConfig()
     {
         \$this->addLog('INIT CONFIG');
-        \$hModConfig = xoops_gethandler('config');
+        \$hModConfig = xoops_getHandler('config');
         \$this->config = \$hModConfig->getConfigsByCat(0, \$this->getModule()->getVar('mid'));
     }
     /*

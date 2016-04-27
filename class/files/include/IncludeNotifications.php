@@ -118,9 +118,9 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
     //
     if (empty(\$xoopsModule) || \$xoopsModule->getVar('dirname') != '{$moduleDirname}')
     {
-        \$module_handler =& xoops_gethandler('module');
+        \$module_handler =& xoops_getHandler('module');
         \$module =& \$module_handler->getByDirname('{$moduleDirname}');
-        \$config_handler =& xoops_gethandler('config');
+        \$config_handler =& xoops_getHandler('config');
         \$config =& \$config_handler->getConfigsByCat(0, \$module->getVar('mid'));
     } else {
         \$module =& \$xoopsModule;

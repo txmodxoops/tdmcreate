@@ -254,6 +254,10 @@ class TDMCreateTables extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesTables($keys = null, $format = null, $maxDepth = null)
     {
@@ -279,11 +283,9 @@ class TDMCreateTables extends XoopsObject
 
     /**
      * Get Options.
-     */
-    /**
-     * @param $key
-     *
      * @return string
+     * @internal param $key
+     *
      */
     public function getOptionsTables()
     {
@@ -299,8 +301,6 @@ class TDMCreateTables extends XoopsObject
 
     /**
      * Get Defined Language.
-     */
-    /**
      * @param $lang
      *
      * @return string
@@ -315,21 +315,15 @@ class TDMCreateTables extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateTablesHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateTablesHandler.
- */
 class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
 {
-    /*
-    *  @public function constructor class
-    *  @param mixed $db
-    */
     /**
+    *  @public function constructor class
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -392,6 +386,11 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count Modules.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
@@ -403,6 +402,11 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Modules.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllTables($start = 0, $limit = 0, $sort = 'table_id ASC, table_name', $order = 'ASC')
     {
@@ -414,6 +418,12 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Tables By Module Id.
+     * @param        $modId
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllTablesByModuleId($modId, $start = 0, $limit = 0, $sort = 'table_order ASC, table_id, table_name', $order = 'ASC')
     {
@@ -426,6 +436,12 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Tables Criteria.
+     * @param $criteriaTables
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getTablesCriteria($criteriaTables, $start, $limit, $sort, $order)
     {

@@ -258,7 +258,7 @@ class TDMCreateModules extends XoopsObject
         $form->addElement($optionsTray);
         //
         $modImage = $this->getVar('mod_image');
-        $modImage = $modImage ? $modImage : $set['image'];
+        $modImage = $modImage ?: $set['image'];
         //
         $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
         $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br />');
@@ -412,6 +412,10 @@ class TDMCreateModules extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesModules($keys = null, $format = null, $maxDepth = null)
     {
@@ -435,11 +439,7 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-     * Get Options.
-     */
-    /**
-     * @param $key
-     *
+     * Get getOptionsModules
      * @return string
      */
     private function getOptionsModules()
@@ -456,8 +456,6 @@ class TDMCreateModules extends XoopsObject
 
     /**
      * Get Defined Language.
-     */
-    /**
      * @param $lang
      *
      * @return string
@@ -472,21 +470,15 @@ class TDMCreateModules extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateModulesHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateModulesHandler.
- */
 class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
 {
-    /*
-    *  @public function constructor class
-    *  @param mixed $db
-    */
     /**
+    *  @public function constructor class
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -549,6 +541,11 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count Modules.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
@@ -560,6 +557,11 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Modules.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
@@ -571,6 +573,12 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Modules Criteria.
+     * @param $criteriaModules
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getModulesCriteria($criteriaModules, $start, $limit, $sort, $order)
     {

@@ -62,27 +62,17 @@ class TemplatesUserPdf extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
+    *  @public function write
      * @param $module
-     * @param $table
      */
     public function write($module)
     {
         $this->setModule($module);
     }
 
-    /*
-    *  @private function getTemplatesUserPdfBody
-    *  @param null
-
-    */
     /**
+    *  @private function getTemplatesUserPdfBody
      * @param null
      *
      * @return string
@@ -96,11 +86,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function renderFile
-    *  @param string $filename
-    */
     /**
+    *  @public function renderFile
      * @param $filename
      *
      * @return bool|string
