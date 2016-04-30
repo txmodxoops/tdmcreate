@@ -79,13 +79,13 @@ class TDMCreateMoreFiles extends XoopsObject
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return TDMCreateMoreFiles
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -148,6 +148,10 @@ class TDMCreateMoreFiles extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
@@ -163,21 +167,15 @@ class TDMCreateMoreFiles extends XoopsObject
     }
 }
 
-/*
+/**
 *  @Class TDMCreateMoreFilesHandler
 *  @extends XoopsPersistableObjectHandler
 */
 
-/**
- * Class TDMCreateMoreFilesHandler.
- */
 class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 {
-    /*
-    *  @public function constructor class
-    *  @param mixed $db
-    */
     /**
+    *  @public function constructor class
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -240,6 +238,11 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count MoreFiles.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -251,6 +254,11 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All MoreFiles.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllMoreFiles($start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -262,6 +270,12 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All MoreFiles By Module Id.
+     * @param        $modId
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllMoreFilesByModuleId($modId, $start = 0, $limit = 0, $sort = 'file_id ASC, file_name', $order = 'ASC')
     {
@@ -274,6 +288,12 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get MoreFiles Criteria.
+     * @param $criteriaMoreFiles
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getMoreFilesCriteria($criteriaMoreFiles, $start, $limit, $sort, $order)
     {

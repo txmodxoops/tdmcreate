@@ -41,13 +41,13 @@ class IncludeUpdate extends TDMCreateFile
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return IncludeUpdate
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -144,7 +144,7 @@ function update_{$moduleDirname}_v{$moduleVersion}(&\$module)
         \$tplids[] = \$tplid;
     }
     if (count(\$tplids) > 0) {
-        \$tplfile_handler =& xoops_gethandler('tplfile');
+        \$tplfile_handler =& xoops_getHandler('tplfile');
         \$duplicate_files = \$tplfile_handler->getObjects(
             new Criteria('tpl_id', "(" . implode(',', \$tplids) . ")", "IN")
         );

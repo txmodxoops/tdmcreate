@@ -28,13 +28,13 @@
 class UserXoopsCode
 {
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return UserXoopsCode
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -44,23 +44,22 @@ class UserXoopsCode
         return $instance;
     }
 
-    /*
+    /**
     *  @public function getUserTplMain
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param string $tableName
+     * @return string
+     */
     public function getUserTplMain($moduleDirname, $tableName = 'index')
     {
         return "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';\n";
     }
 
-    /*
+    /**
      * @public function getUserAddMeta
-     * @param $type
-     * @param $language
-     * @param $tableName
-     *  
+     * @param string $type
+     * @param        $language
+     * @param        $tableName
      * @return string
      */
     public function getUserAddMeta($type = '', $language, $tableName)
@@ -72,12 +71,11 @@ class UserXoopsCode
         return "\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
 
-    /*
+    /**
     *  @public function getUserMetaKeywords
-    *  @param string $moduleDirname
-    *  
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @return string
+     */
     public function getUserMetaKeywords($moduleDirname)
     {
         $pCodeMetaKeywords = TDMCreatePhpCode::getInstance();
@@ -86,26 +84,25 @@ class UserXoopsCode
         return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. {$implode});\n";
     }
 
-    /*
+    /**
     *  @public function getUserMetaDesc
-    *  @param string $moduleDirname    
-    *  @param string $language
-    *  @param string $file
-    *  
-    *  @return string
-    */
+     * @param        $moduleDirname
+     * @param        $language
+     * @param string $file
+     * @return string
+     */
     public function getUserMetaDesc($moduleDirname, $language, $file = 'INDEX')
     {
         return "{$moduleDirname}MetaDescription({$language}{$file}_DESC);\n";
     }
 
-    /*
+    /**
     *  @public function getUserBreadcrumbs
-    *  @param string $language
-    *  @param string $moduleDirname    
-    *  
-    *  @return string
-    */
+     * @param        $language
+     * @param string $tableName
+     * @param string $t
+     * @return string
+     */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
         $stuTableName = strtoupper($tableName);
@@ -115,12 +112,11 @@ class UserXoopsCode
         return $pCodeBreadcrumbs->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
     }
 
-    /*
+    /**
     *  @public function getUserBreadcrumbs
-    *  @param string $moduleDirname
-    *  
-    *  @return string
-    */
+     * @param $moduleDirname
+     * @return string
+     */
     public function getUserBreadcrumbsHeaderFile($moduleDirname)
     {
         $pCodeHeaderFile = TDMCreatePhpCode::getInstance();
@@ -135,12 +131,10 @@ class UserXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getUserBreadcrumbs
-    *  @param null
-    *  
-    *  @return string
-    */
+     * @return string
+     */
     public function getUserBreadcrumbsFooterFile()
     {
         $pCodeFooterFile = TDMCreatePhpCode::getInstance();
@@ -151,16 +145,16 @@ class UserXoopsCode
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getUserModVersion
-    *  @param $eleArray
-    *  @param $descriptions    
-    *  @param $name
-    *  @param $index	
-    *  @param $num	
-    *  
-    *  @return string
-    */
+     * @param int    $eleArray
+     * @param        $descriptions
+     * @param null   $name
+     * @param null   $index
+     * @param bool   $num
+     * @param string $t
+     * @return string
+     */
     public function getUserModVersion($eleArray = 1, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
         $ret = '';

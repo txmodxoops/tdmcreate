@@ -106,6 +106,10 @@ function TDMCreate_copyr($source, $dest)
     return true;
 }
 // Pleace! don't remove
+/**
+ * @param $about
+ * @return string
+ */
 function TDMCreate_MakeDonationForm($about)
 {
     $donationform = array(0 => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
@@ -134,16 +138,20 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
         }
     }
     $aboutRes = '';
-    $istart = strpos($about, ($paypalform[0]), 1);
-    $iend = strpos($about, ($paypalform[5]), $istart + 1) + strlen($paypalform[5]) - 1;
-    $aboutRes .= (substr($about, 0, $istart - 1));
+    $istart = strpos($about, $paypalform[0], 1);
+    $iend = strpos($about, $paypalform[5], $istart + 1) + strlen($paypalform[5]) - 1;
+    $aboutRes .= substr($about, 0, $istart - 1);
     $aboutRes .= implode("\n", $donationform);
-    $aboutRes .= (substr($about, $iend + 1, strlen($about) - $iend - 1));
+    $aboutRes .= substr($about, $iend + 1, strlen($about) - $iend - 1);
 
     return $aboutRes;
 }
 
 //
+/**
+ * @param $str
+ * @return string
+ */
 function UcFirstAndToLower($str)
 {
     return ucfirst(strtolower(trim($str)));

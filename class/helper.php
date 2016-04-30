@@ -61,7 +61,7 @@ class TDMCreateHelper
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param mixed $debug
     */
     /**
@@ -69,7 +69,7 @@ class TDMCreateHelper
      *
      * @return TDMCreateHelper
      */
-    public static function &getInstance($debug = false)
+    public static function getInstance($debug = false)
     {
         static $instance = false;
         if (!$instance) {
@@ -175,7 +175,7 @@ class TDMCreateHelper
         if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
         } else {
-            $hModule = xoops_gethandler('module');
+            $hModule = xoops_getHandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
@@ -188,7 +188,7 @@ class TDMCreateHelper
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig = xoops_gethandler('config');
+        $hModConfig = xoops_getHandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 

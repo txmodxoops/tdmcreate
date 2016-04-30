@@ -67,11 +67,8 @@ abstract class TDMCreateAbstract
         }
     }
 
-    /*
-    *  @public function getModule
-    *  @param null
-    */
     /**
+    *  @public function getModule
      * @return mixed
      */
     public function getModule()
@@ -91,11 +88,8 @@ abstract class TDMCreateAbstract
         }
     }
 
-    /*
-    *  @public function getTable
-    *  @param null
-    */
     /**
+    *  @public function getTable
      * @return mixed
      */
     public function getTable()
@@ -115,11 +109,8 @@ abstract class TDMCreateAbstract
         }
     }
 
-    /*
-    *  @public function getTables
-    *  @param null
-    */
     /**
+    *  @public function getTables
      * @return mixed
      */
     public function getTables()
@@ -139,11 +130,8 @@ abstract class TDMCreateAbstract
         }
     }
 
-    /*
-    *  @public function getFields
-    *  @param null
-    */
     /**
+    *  @public function getFields
      * @return mixed
      */
     public function getFields()
