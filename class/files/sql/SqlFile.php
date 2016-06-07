@@ -26,11 +26,11 @@
  * Class SqlFile.
  */
 class SqlFile extends TDMCreateFile
-{    
+{
     /**
      *  @public function constructor
-     *  @param null
      *
+     *  @param null
      */
     public function __construct()
     {
@@ -39,6 +39,7 @@ class SqlFile extends TDMCreateFile
 
     /**
      * @static function getInstance
+     *
      * @param null
      *
      * @return SqlFile
@@ -55,9 +56,9 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @public function write
+     *
      *  @param $module
      *  @param $filename
-     *
      */
     public function write($module, $filename)
     {
@@ -67,8 +68,8 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getHeaderSqlComments
-     *  @param $moduleName
      *
+     *  @param $moduleName
      * @param $moduleName
      *
      * @return string
@@ -100,7 +101,7 @@ class SqlFile extends TDMCreateFile
      *  @param integer $fieldsNumb
      *
      *  Unused IF NOT EXISTS
-	 *
+     *
      *  @return string
      */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
@@ -115,8 +116,9 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getDatabaseTables
+     *
      *  @param $module
-	 *
+     *
      *  @return null|string
      */
     private function getDatabaseTables($module)
@@ -138,11 +140,12 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getDatabaseFields
+     *
      *  @param $moduleDirname
      *  @param $tableName
      *  @param $tableAutoincrement
      *  @param $fieldsNumb
-	 *
+     *
      *  @return null|string
      */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
@@ -315,6 +318,7 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getFootDatabaseTable
+     *
      *  @param null
      *
      * @return string
@@ -326,13 +330,14 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getFieldRow
+     *
      *  @param $fieldName
      *  @param $fieldTypeValue
      *  @param $fieldAttribute
      *  @param $fieldNull
      *  @param $fieldDefault
      *  @param $autoincrement
-	 *
+     *
      *  @return string
      */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
@@ -357,7 +362,7 @@ class SqlFile extends TDMCreateFile
     /**
      *  @private function getKey
      *
-	 *  @return string
+     *  @return string
      */
     private function getKey($key, $fieldName)
     {
@@ -384,9 +389,10 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getComma
+     *
      *  @param $row
      *  @param $comma
-	 *
+     *
      *  @return string
      */
     private function getComma($row, $comma = null)
@@ -396,9 +402,10 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @private function getCommaCicle
+     *
      *  @param $comma
      *  @param $index
-	 *
+     *
      *  @return string
      */
     private function getCommaCicle($comma, $index)
@@ -417,8 +424,9 @@ class SqlFile extends TDMCreateFile
 
     /**
      *  @public function render
+     *
      *  @param null
-	 *
+     *
      *  @return bool|string
      */
     public function render()

@@ -30,6 +30,7 @@ class TDMCreateBuilding
 {
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return TDMCreateBuilding
@@ -52,7 +53,7 @@ class TDMCreateBuilding
     public function getForm($action = false)
     {
         $tc = TDMCreateHelper::getInstance();
-		if ($action === false) {
+        if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
         xoops_load('XoopsFormLoader');
@@ -71,53 +72,52 @@ class TDMCreateBuilding
 
         return $form;
     }
-	
-	/**
+
+    /**
      * @param string $dir
-	 * @param string $pattern
+     * @param string $pattern
      *
      * @return clearDir
      */
-    public function clearDir($dir, $pattern = "*")
+    public function clearDir($dir, $pattern = '*')
     {
-		// Find all files and folders matching pattern
-        $files = glob($dir . "/$pattern"); 
+        // Find all files and folders matching pattern
+        $files = glob($dir."/$pattern");
         // Interate thorugh the files and folders
-        foreach($files as $file){ 
+        foreach ($files as $file) {
             // if it's a directory then re-call clearDir function to delete files inside this directory     
-            if (is_dir($file) && !in_array($file, array('..', '.')))  {
+            if (is_dir($file) && !in_array($file, array('..', '.'))) {
                 // Remove the directory itself
-				self::clearDir($file, $pattern);                
-                } else if(is_file($file) && ($file != __FILE__)) {
+                self::clearDir($file, $pattern);
+            } elseif (is_file($file) && ($file != __FILE__)) {
                 // Make sure you don't delete the current script
                 unlink($file);
             }
         }
         rmdir($dir);
-	}
-	
-	/**
+    }
+
+    /**
      * @param string $src
-	 * @param string $dst
+     * @param string $dst
      *
      * @return copyDir
      */
     public function copyDir($src, $dst)
-	{		
-		$dir = opendir($src);
-		@mkdir($dst);
-		while(false !== ( $file = readdir($dir)) ) {
-			if (( $file != '.' ) && ( $file != '..' )) {
-				if ( is_dir($src . '/' . $file) ) {
-					// Copy the directory itself
-					self::copyDir($src . '/' . $file,$dst . '/' . $file);
-				}
-				else {
-					// Make sure you copy the current script
-					copy($src . '/' . $file, $dst . '/' . $file);
-				}
-			}
-		}
-		closedir($dir);
-	}
+    {
+        $dir = opendir($src);
+        @mkdir($dst);
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                if (is_dir($src.'/'.$file)) {
+                    // Copy the directory itself
+                    self::copyDir($src.'/'.$file, $dst.'/'.$file);
+                } else {
+                    // Make sure you copy the current script
+                    copy($src.'/'.$file, $dst.'/'.$file);
+                }
+            }
+        }
+        closedir($dir);
+    }
 }

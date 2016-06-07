@@ -47,16 +47,19 @@ class TDMCreateStructure
     * @var mixed
     */
     private $uploadPath;
-	
-	/**
+
+    /**
      *  @public function constructor class
-     *  @param null
      *
+     *  @param null
      */
-    public function __construct() { }
-   
+    public function __construct()
+    {
+    }
+
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return TDMCreateStructure
@@ -73,8 +76,8 @@ class TDMCreateStructure
 
     /**
      *  @protected function setUploadPath
-     *  @param string $path
      *
+     *  @param string $path
      * @param $path
      */
     protected function setUploadPath($path)
@@ -84,9 +87,10 @@ class TDMCreateStructure
 
     /**
      * @protected function getUploadPath
+     *
      * @param string $path
      *
-	 * @return string $path
+     * @return string $path
      */
     protected function getUploadPath()
     {
@@ -106,9 +110,8 @@ class TDMCreateStructure
 
     /**
      *  @protected function getModuleName
-     *  @return string $moduleName
      *
-	 * @return null
+     *  @return string $moduleName
      */
     protected function getModuleName()
     {
@@ -117,8 +120,8 @@ class TDMCreateStructure
 
     /**
      *  @private function setFolderName
-     *  @param string $folderName
      *
+     *  @param string $folderName
      * @param $folderName
      */
     private function setFolderName($folderName)
@@ -130,7 +133,7 @@ class TDMCreateStructure
      *  @private function getFolderName
      *  @return string $folderName
      * 
-	 * @return null
+     * @return null
      */
     private function getFolderName()
     {
@@ -139,8 +142,8 @@ class TDMCreateStructure
 
     /**
      *  @private function setFileName
-     *  @param string $fileName
      *
+     *  @param string $fileName
      * @param $fileName
      */
     private function setFileName($fileName)
@@ -150,9 +153,8 @@ class TDMCreateStructure
 
     /**
      *  @private function getFileName
-     *  @return string $fileName
      *
-	 * @return null
+     *  @return string $fileName
      */
     private function getFileName()
     {
@@ -161,8 +163,8 @@ class TDMCreateStructure
 
     /**
      *  @private function isDir
-     *  @param string $dname
      *
+     *  @param string $dname
      * @param $dname
      */
     private function isDir($dname)
@@ -177,8 +179,8 @@ class TDMCreateStructure
 
     /**
      *  @protected function makeDir
-     *  @param string $dir
      *
+     *  @param string $dir
      */
     protected function makeDir($dir)
     {
@@ -187,9 +189,10 @@ class TDMCreateStructure
 
     /**
      *  @protected function isDirEmpty
+     *
      *  @param string $dir
      *
-	 * @return string
+     * @return string
      */
     public function isDirEmpty($dir)
     {
@@ -210,6 +213,7 @@ class TDMCreateStructure
 
     /**
      *  @public function addFolderPath
+     *
      *  @param string $folderName
      *  @param string $fileName
      *
@@ -230,6 +234,7 @@ class TDMCreateStructure
 
     /**
      *  @public function makeDirInModule
+     *
      *  @param string $dirName
      */
     public function makeDirInModule($dirName)
@@ -240,10 +245,10 @@ class TDMCreateStructure
 
     /**
      *  @public function makeDir & copy file
+     *
      *  @param string $folderName
      *  @param string $fromFile
      *  @param string $toFile
-     *
      */
     public function makeDirAndCopyFile($folderName, $fromFile, $toFile)
     {
@@ -254,10 +259,10 @@ class TDMCreateStructure
 
     /**
      *  @public function copy file
+     *
      *  @param string $folderName
      *  @param string $fromFile
      *  @param string $toFile
-     *
      */
     public function copyFile($folderName, $fromFile, $toFile)
     {
@@ -268,10 +273,10 @@ class TDMCreateStructure
 
     /**
      *  @public function setCopy
+     *
      *  @param string $dname
      *  @param string $fromFile
-	 *  @param string $fname
-     *
+     *  @param string $fname
      */
     public function setCopy($dname, $fromFile, $fname)
     {

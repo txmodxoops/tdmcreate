@@ -36,7 +36,7 @@ class AdminIndex extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /*
@@ -86,7 +86,7 @@ class AdminIndex extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $axc = AdminXoopsCode::getInstance();
-		$moduleDirname = $module->getVar('mod_dirname');
+        $moduleDirname = $module->getVar('mod_dirname');
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $language = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');

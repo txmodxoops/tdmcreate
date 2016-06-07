@@ -525,7 +525,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
     {
         return $this->db->getInsertId();
     }
-    
+
     /**
      * Get Count Modules.
      *

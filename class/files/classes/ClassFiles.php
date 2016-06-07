@@ -29,9 +29,8 @@ class ClassFiles extends TDMCreateFile
 {
     /**
      *  @public function constructor
+     *
      *  @param null
-     *
-     *
      */
     public function __construct()
     {
@@ -40,6 +39,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return ClassFiles
@@ -56,10 +56,10 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @public function write
+     *
      *  @param string $module
      *  @param string $table
      *  @param mixed $tables
-     *
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -71,8 +71,9 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getInitVar
+     *
      *  @param string $fieldName    
-	 *  @param string $type
+     *  @param string $type
      *
      * @return string
      */
@@ -85,6 +86,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getInitVars
+     *
      *  @param array $fields
      *
      * @return string
@@ -151,6 +153,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getClassObject
+     *
      *  @param $moduleDirname
      *  @param $tableName
      *  @param $fields   
@@ -199,7 +202,7 @@ class ClassFiles extends TDMCreateFile
         }
         unset($optionsFieldName);
 
-        $cCl .= $pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null'), "\t");        
+        $cCl .= $pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null'), "\t");
         $constr = $this->getInitVars($fields);
         $cCl .= $pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
         $arrayGetInstance = array('@static function' => '&getInstance', '' => '', '@param' => 'null');
@@ -226,6 +229,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getNewInsertId
+     *
      *  @param $table
      *
      * @return string
@@ -247,6 +251,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getFunctionForm
+     *
      *  @param string $module
      *  @param string $table     
      *
@@ -270,8 +275,8 @@ class ClassFiles extends TDMCreateFile
         $ret = $pc->getPhpCodeCommentMultiLine(array('Get' => 'form', '' => '', '@param mixed' => '$action'), "\t");
         $action = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
-		$getForm = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
-		$getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
+        $getForm = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
         $xUser = $pc->getPhpCodeGlobals('xoopsUser');
         $xModule = $pc->getPhpCodeGlobals('xoopsModule');
         if ((1 != $tableCategory)/* && (1 == $tablePermissions)*/) {
@@ -312,6 +317,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getPermissionsInForm
+     *
      *  @param string $moduleDirname
      *  @param string $fieldId
      *
@@ -362,6 +368,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getValuesInObject
+     *
      *  @param null
      *
      * @return string
@@ -374,8 +381,8 @@ class ClassFiles extends TDMCreateFile
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = $pc->getPhpCodeCommentMultiLine(array('Get' => 'Values'), "\t");
-		$ucfModuleDirname = ucfirst($moduleDirname);
-		$getValues = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $getValues = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
         $getValues .= $xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, false, "\t\t");
 
         foreach (array_keys($fields) as $f) {
@@ -408,11 +415,11 @@ class ClassFiles extends TDMCreateFile
                                 $fieldMainTopic = $fieldNameTopic;
                             }
                         }
-						$getHandlerVar = "\${$moduleDirname}->getHandler('{$topicTableName}')";						
-						$getValues .= $xc->getXcEqualsOperator("\${$topicTableName}", $getHandlerVar, null, false, "\t\t");
+                        $getHandlerVar = "\${$moduleDirname}->getHandler('{$topicTableName}')";
+                        $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}", $getHandlerVar, null, false, "\t\t");
                         $getTopicTable = "\${$topicTableName}->get(\$this->getVar('{$fieldName}'))";
-						$getValues .= $xc->getXcEqualsOperator("\${$fieldName}", $getTopicTable, null, false, "\t\t");
-						$fMainTopic = "\${$fieldName}->getVar('{$fieldMainTopic}')";
+                        $getValues .= $xc->getXcEqualsOperator("\${$fieldName}", $getTopicTable, null, false, "\t\t");
+                        $fMainTopic = "\${$fieldName}->getVar('{$fieldMainTopic}')";
                         $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", $fMainTopic, null, false, "\t\t");
                     } else {
                         $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
@@ -429,6 +436,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getToArrayInObject
+     *
      *  @param $table
      *
      * @return string
@@ -455,6 +463,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @private function getOptionsCheck
+     *
      *  @param $table
      *
      * @return string
@@ -491,6 +500,7 @@ class ClassFiles extends TDMCreateFile
 
     /**
      *  @public function getClassHandler
+     *
      *  @param string $moduleDirname
      *  @param string $tableName
      *  @param string $fieldId

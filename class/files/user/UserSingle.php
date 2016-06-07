@@ -36,7 +36,7 @@ class UserSingle extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /*
@@ -86,7 +86,7 @@ class UserSingle extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-		$ret = $this->getInclude();
+        $ret = $this->getInclude();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -142,7 +142,7 @@ EOT;
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-		$stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = strtoupper($moduleDirname);
         $stuTableName = strtoupper($tableName);
         $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $uc->getUserBreadcrumbs($language, $stuTableName);

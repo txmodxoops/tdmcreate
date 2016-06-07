@@ -685,7 +685,7 @@ class UserXoopsVersion extends TDMCreateFile
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
-			$tableSoleName = $tables[$t]->getVar('table_solename');
+            $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableBroken[] = $tables[$t]->getVar('table_broken');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');

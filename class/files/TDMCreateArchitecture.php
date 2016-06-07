@@ -29,8 +29,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
 {
     /**
      *  @public function constructor class
-     *  @param null
      *
+     *  @param null
      */
     public function __construct()
     {
@@ -40,6 +40,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
 
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return TDMCreateArchitecture
@@ -56,8 +57,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
 
     /**
      *  @public function setBaseFoldersFiles
-     *  @param string $module
      *
+     *  @param string $module
      * @param $module
      */
     public function setBaseFoldersFiles($module)
@@ -152,6 +153,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
 
     /**
      *  @public function setFilesToBuilding
+     *
      *  @param string $module
      *
      * @return array

@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.59 settings.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__ .'/header.php';
+include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 //
@@ -177,4 +177,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__ .'/footer.php';
+include __DIR__.'/footer.php';

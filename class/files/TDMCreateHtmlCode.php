@@ -29,6 +29,7 @@ class TDMCreateHtmlCode
 {
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return TDMCreateHtmlCode

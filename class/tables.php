@@ -142,7 +142,7 @@ class TDMCreateTables extends XoopsObject
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-		$tdmcreate = TDMCreateHelper::getInstance();
+        $tdmcreate = TDMCreateHelper::getInstance();
         $isNew = $this->isNew();
         $tableName = $this->getVar('table_name');
         $tableMid = $this->getVar('table_mid');
@@ -362,7 +362,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
     {
         return $this->db->getInsertId();
     }
-    
+
     /**
      * Get Count Modules.
      *

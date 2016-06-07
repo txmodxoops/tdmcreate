@@ -196,7 +196,7 @@ class TemplatesUserBroken extends TDMCreateFile
     public function render()
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-		$module = $this->getModule();
+        $module = $this->getModule();
         $table = $this->getTable();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');

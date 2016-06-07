@@ -43,12 +43,12 @@ switch ($op) {
         // Directories for copy from to
         $fromDir = TDMC_UPLOAD_REPOSITORY_PATH.'/'.strtolower($moduleDirname);
         $toDir = XOOPS_ROOT_PATH.'/modules/'.strtolower($moduleDirname);
-		include_once TDMC_CLASS_PATH.'/building.php';
+        include_once TDMC_CLASS_PATH.'/building.php';
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository			
-			$building = TDMCreateBuilding::getInstance();
+            $building = TDMCreateBuilding::getInstance();
             if (is_dir($fromDir)) {
-				$building->clearDir($fromDir);
+                $building->clearDir($fromDir);
             }
         }
         // Structure
@@ -74,18 +74,18 @@ switch ($op) {
         // Directory to saved all files
         $GLOBALS['xoopsTpl']->assign('building_directory', sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname));
         // Copy this module in root modules
-        if (1 == $moduleObj->getVar('mod_inroot_copy')) {            
-			$building = TDMCreateBuilding::getInstance();
-			if (isset($moduleDirname)) {
+        if (1 == $moduleObj->getVar('mod_inroot_copy')) {
+            $building = TDMCreateBuilding::getInstance();
+            if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
                 // Warning: If you have an older operating module with the same name, 
                 // it's good to make a copy in another safe folder, 
                 // otherwise it will be deleted irreversibly.			
-				if (is_dir($fromDir)) {
-					$building->clearDir($toDir);
-				}				
+                if (is_dir($fromDir)) {
+                    $building->clearDir($toDir);
+                }
             }
-			$building->copyDir($fromDir, $toDir);
+            $building->copyDir($fromDir, $toDir);
         }
         break;
 

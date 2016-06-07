@@ -49,9 +49,8 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      *  @public function constructor class
+     *
      *  @param null
-     *
-     *
      */
     public function __construct()
     {
@@ -113,6 +112,7 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return TDMCreateSettings
@@ -129,8 +129,8 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      *  @public function getForm
-     *  @param mixed $action
      *
+     *  @param mixed $action
      * @param bool $action
      *
      * @return XoopsThemeForm
@@ -335,7 +335,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
     {
         return $this->db->getInsertId();
     }
-    
+
     /**
      * Get Count Settings.
      *

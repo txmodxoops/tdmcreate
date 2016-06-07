@@ -29,15 +29,17 @@ class AdminPermissions extends TDMCreateFile
 {
     /**
      *  @public function constructor
+     *
      *  @param null
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      *  @return AdminPermissions
@@ -54,11 +56,12 @@ class AdminPermissions extends TDMCreateFile
 
     /**
      *  @public function write
+     *
      *  @param string $module
      *  @param mixed $tables
      *  @param string $filename
      * 
-	 *  @return string
+     *  @return string
      */
     public function write($module, $tables, $filename)
     {
@@ -69,6 +72,7 @@ class AdminPermissions extends TDMCreateFile
 
     /**
      * @private function getPermissionsHeader    
+     *
      * @param $module
      * @param $language
      *
@@ -80,7 +84,7 @@ class AdminPermissions extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $axc = AdminXoopsCode::getInstance();
-		$moduleDirname = $module->getVar('mod_dirname');
+        $moduleDirname = $module->getVar('mod_dirname');
         $tables = $this->getTableTables($module->getVar('mod_id'));
         foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
@@ -113,7 +117,7 @@ class AdminPermissions extends TDMCreateFile
     private function getPermissionsSwitch($moduleDirname, $language)
     {
         $pc = TDMCreatePhpCode::getInstance();
-		$cases = array('global' => array("\$formTitle = {$language}PERMISSIONS_GLOBAL;",
+        $cases = array('global' => array("\$formTitle = {$language}PERMISSIONS_GLOBAL;",
                                         "\$permName = '{$moduleDirname}_ac';",
                                         "\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;",
                                         "\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );", ),
@@ -134,6 +138,7 @@ class AdminPermissions extends TDMCreateFile
 
     /**
      *  @private function getPermissionsBody
+     *
      *  @param string $module
      *  @param string $language
      *
@@ -143,7 +148,7 @@ class AdminPermissions extends TDMCreateFile
     {
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
-		$tables = $this->getTableTables($module->getVar('mod_id'));
+        $tables = $this->getTableTables($module->getVar('mod_id'));
         $tableName = '';
         foreach (array_keys($tables) as $t) {
             if (1 == $tables[$t]->getVar('table_permissions')) {
@@ -190,6 +195,7 @@ class AdminPermissions extends TDMCreateFile
 
     /**
      *  @public function render
+     *
      *  @param null
      *
      *  @return bool|string

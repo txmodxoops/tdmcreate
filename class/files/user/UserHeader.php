@@ -36,7 +36,7 @@ class UserHeader extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /*
@@ -87,13 +87,13 @@ class UserHeader extends TDMCreateFile
     {
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
-		$xc = TDMCreateXoopsCode::getInstance();
+        $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
         $ret .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
         $ret .= $xc->getXcEqualsOperator('$dirname', 'basename(__DIR__)');
-		$language = $this->getLanguage($moduleDirname, 'MA');
+        $language = $this->getLanguage($moduleDirname, 'MA');
         $ret .= $uc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
 
         $table = $this->getTable();

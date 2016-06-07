@@ -36,7 +36,7 @@ class IncludeInstall extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /*
@@ -86,7 +86,7 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallDirectory($dirname)
     {
         $this->pc = TDMCreatePhpCode::getInstance();
-		$contentIf = $this->pc->getPhpCodeMkdir("{$dirname}", '0777', "\t");
+        $contentIf = $this->pc->getPhpCodeMkdir("{$dirname}", '0777', "\t");
         $contentIf .= $this->pc->getPhpCodeChmod("{$dirname}", '0777', "\t");
         $ret = $this->pc->getPhpCodeConditions("!is_dir(\${$dirname})", '', '', $contentIf);
         $ret .= $this->pc->getPhpCodeCopy('$indexFile', "\${$dirname}.'/index.html'");
@@ -105,7 +105,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine('Copy base file');
+        $ret = $this->pc->getPhpCodeCommentLine('Copy base file');
         $ret .= $this->xc->getXcEqualsOperator('$indexFile', "XOOPS_UPLOAD_PATH.'/index.html'");
         $ret .= $this->xc->getXcEqualsOperator('$blankFile', "XOOPS_UPLOAD_PATH.'/blank.gif'");
         $ret .= $this->pc->getPhpCodeCommentLine("Making of uploads/{$moduleDirname} folder");
@@ -127,7 +127,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} uploads folder");
+        $ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} uploads folder");
         $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\${$moduleDirname}.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
 
@@ -147,7 +147,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine('Making of images folder');
+        $ret = $this->pc->getPhpCodeCommentLine('Making of images folder');
         $ret .= $this->xc->getXcEqualsOperator('$images', "\${$moduleDirname}.'/images'");
         $ret .= $this->getInstallDirectory('images');
         $ret .= $this->pc->getPhpCodeCopy('$blankFile', "\$images.'/blank.gif'");
@@ -166,7 +166,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine('Making of shots folder');
+        $ret = $this->pc->getPhpCodeCommentLine('Making of shots folder');
         $ret .= $this->xc->getXcEqualsOperator('$shots', "\${$moduleDirname}.'/shots'");
         $ret .= $this->getInstallDirectory('shots');
         $ret .= $this->pc->getPhpCodeCopy('$blankFile', "\$shots.'/blank.gif'");
@@ -185,7 +185,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine("Making of images/{$tableName} folder");
+        $ret = $this->pc->getPhpCodeCommentLine("Making of images/{$tableName} folder");
         $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\$images.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
         $ret .= $this->pc->getPhpCodeCopy('$blankFile', "\${$tableName}.'/blank.gif'");
@@ -204,7 +204,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine('Making of files folder');
+        $ret = $this->pc->getPhpCodeCommentLine('Making of files folder');
         $ret .= $this->xc->getXcEqualsOperator('$files', "\${$moduleDirname}.'/files'");
         $ret .= $this->getInstallDirectory('files');
 
@@ -224,7 +224,7 @@ class IncludeInstall extends TDMCreateFile
     {
         $this->pc = TDMCreatePhpCode::getInstance();
         $this->xc = TDMCreateXoopsCode::getInstance();
-		$ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} files folder");
+        $ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} files folder");
         $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\$files.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
 
@@ -261,32 +261,32 @@ class IncludeInstall extends TDMCreateFile
         $content .= $this->getInstallModuleFolder($moduleDirname);
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
-			$tableMid = $tables[$t]->getVar('table_mid');
-			$tableName = $tables[$t]->getVar('table_name');
+            $tableMid = $tables[$t]->getVar('table_mid');
+            $tableName = $tables[$t]->getVar('table_name');
             $tableInstall = $tables[$t]->getVar('table_install');
-			if (1 == $tableInstall) {
-				$content .= $this->getInstallTableFolder($moduleDirname, $tableName);			
-				$fields = $this->getTableFields($tableMid, $tableId);
-				foreach (array_keys($fields) as $f) {
-					$fieldElement = $fields[$f]->getVar('field_element');
-					// All fields elements selected
-					switch ($fieldElement) {
-						case 13:
-							$content .= $this->getInstallImagesFolder($moduleDirname);
-							$content .= $this->getInstallTableImagesFolder($tableName);
-							break;
-						case 11:
-							$content .= $this->getInstallImagesShotsFolder($moduleDirname);
-							break;
-						case 12:
-						case 14:
-							$content .= $this->getInstallFilesFolder($moduleDirname);
-							$content .= $this->getInstallTableFilesFolder($tableName);
-							break;
-					}
-				}
-			}
-		}
+            if (1 == $tableInstall) {
+                $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
+                $fields = $this->getTableFields($tableMid, $tableId);
+                foreach (array_keys($fields) as $f) {
+                    $fieldElement = $fields[$f]->getVar('field_element');
+                    // All fields elements selected
+                    switch ($fieldElement) {
+                        case 13:
+                            $content .= $this->getInstallImagesFolder($moduleDirname);
+                            $content .= $this->getInstallTableImagesFolder($tableName);
+                            break;
+                        case 11:
+                            $content .= $this->getInstallImagesShotsFolder($moduleDirname);
+                            break;
+                        case 12:
+                        case 14:
+                            $content .= $this->getInstallFilesFolder($moduleDirname);
+                            $content .= $this->getInstallTableFilesFolder($tableName);
+                            break;
+                    }
+                }
+            }
+        }
         $content .= $this->getInstallFooter();
         //
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

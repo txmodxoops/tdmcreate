@@ -36,7 +36,7 @@ class UserBroken extends TDMCreateFile
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
     }
 
     /*
@@ -88,7 +88,7 @@ class UserBroken extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-		$fieldId = $xc->getXcSaveFieldId($fields);
+        $fieldId = $xc->getXcSaveFieldId($fields);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret = $this->getInclude();
         $ret .= $xc->getXcXoopsRequest('op', 'op', 'list');
@@ -117,7 +117,7 @@ class UserBroken extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-		$ret = $pc->getPhpCodeCommentLine('Mavigation');
+        $ret = $pc->getPhpCodeCommentLine('Mavigation');
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
         $ret .= $xc->getXcTplAssign('navigation', '$navigation');
         $ret .= $pc->getPhpCodeCommentLine('Title of page');
@@ -150,7 +150,7 @@ class UserBroken extends TDMCreateFile
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
-		$fieldId = $xc->getXcSaveFieldId($fields);
+        $fieldId = $xc->getXcSaveFieldId($fields);
         $ucfTableName = ucfirst($tableName);
         $ret = $pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $xc->getXcSecurityCheck();
@@ -197,7 +197,7 @@ class UserBroken extends TDMCreateFile
     private function getUserBrokenSwitch($moduleDirname, $tableName, $tableAutoincrement, $language)
     {
         $xc = TDMCreateXoopsCode::getInstance();
-		$table = $this->getTable();
+        $table = $this->getTable();
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $fields = $this->getTableFields($tableMid, $tableId);

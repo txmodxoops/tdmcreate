@@ -42,9 +42,8 @@ class TDMCreateMoreFiles extends XoopsObject
 
     /**
      *  @public function constructor class
+     *
      *  @param null
-     *
-     *
      */
     public function __construct()
     {
@@ -70,6 +69,7 @@ class TDMCreateMoreFiles extends XoopsObject
 
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return TDMCreateMoreFiles
@@ -86,8 +86,8 @@ class TDMCreateMoreFiles extends XoopsObject
 
     /**
      *  @public function getFormMoreFiles
-     *  @param mixed $action
      *
+     *  @param mixed $action
      * @param bool $action
      *
      * @return XoopsThemeForm
@@ -146,7 +146,7 @@ class TDMCreateMoreFiles extends XoopsObject
     public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-		$ret = $this->getValues($keys, $format, $maxDepth);
+        $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
         $ret['id'] = $this->getVar('file_id');
         $ret['mid'] = $tdmcreate->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');

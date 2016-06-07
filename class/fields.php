@@ -35,9 +35,8 @@ class TDMCreateFields extends XoopsObject
 {
     /**
      *  @public function constructor class
+     *
      *  @param null
-     *
-     *
      */
     public function __construct()
     {
@@ -106,7 +105,7 @@ class TDMCreateFields extends XoopsObject
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-		
+
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_FIELDS_NEW) : sprintf(_AM_TDMCREATE_FIELDS_EDIT);
 
@@ -147,7 +146,7 @@ class TDMCreateFields extends XoopsObject
     public function getFormNew($fieldMid = null, $fieldTid = null, $fieldNumb = null, $fieldName = null, $action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-		// Header function class
+        // Header function class
         $fieldsForm = self::getInstance();
         $form = $fieldsForm->getHeaderForm($action);
         // Get handler tables
@@ -179,7 +178,7 @@ class TDMCreateFields extends XoopsObject
     private function getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-		$form->addElement(new XoopsFormHidden('field_id['.$i.']', 0));
+        $form->addElement(new XoopsFormHidden('field_id['.$i.']', 0));
         $form->addElement(new XoopsFormHidden('field_mid', $fieldMid));
         $form->addElement(new XoopsFormHidden('field_tid', $fieldTid));
 
@@ -309,7 +308,7 @@ class TDMCreateFields extends XoopsObject
     public function getFormEdit($fieldMid = null, $fieldTid = null, $action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-		// Header function class
+        // Header function class
         $fieldsForm = self::getInstance();
         $form = $fieldsForm->getHeaderForm($action);
         //
@@ -453,8 +452,8 @@ class TDMCreateFields extends XoopsObject
 
     /**
      *  @private function getFooterForm
-     *  @param null
      *
+     *  @param null
      * @param $form
      *
      * @return mixed
@@ -510,8 +509,8 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 {
     /**
      *  @public function constructor class
-     *  @param mixed $db
      *
+     *  @param mixed $db
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -554,7 +553,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
     {
         return $this->db->getInsertId();
     }
-    
+
     /**
      * Get Count Fields.
      */
