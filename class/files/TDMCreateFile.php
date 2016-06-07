@@ -148,11 +148,11 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param $module
      * @param $fileName
      */
-    public function write($module, $fileName)
+    /*public function write($module, $fileName)
     {
         $this->setModule($module);
         $this->setFileName($fileName);
-    }
+    }*/
 
     /*
     *  @private function setRepositoryPath

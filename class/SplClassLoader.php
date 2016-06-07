@@ -47,7 +47,7 @@ class SplClassLoader
      * Creates a new <tt>SplClassLoader</tt> that loads classes of the
      * specified namespace.
      *
-     * @param string $ns The namespace to use.
+     * @param string $ns          The namespace to use.
      * @param null   $includePath
      */
     public function __construct($ns = null, $includePath = null)

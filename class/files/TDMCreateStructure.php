@@ -28,10 +28,6 @@
 class TDMCreateStructure
 {
     /*
-    * @var mixed
-    */
-    private $xoopsFile;
-    /*
     * @var string
     */
     private $moduleName;
@@ -51,25 +47,18 @@ class TDMCreateStructure
     * @var mixed
     */
     private $uploadPath;
-
-    /*
-    *  @public function constructor class
-    *  @param string $path
-    */
-    /**
+	
+	/**
+     *  @public function constructor class
+     *  @param null
      *
      */
-    public function __construct()
-    {
-        //parent::__construct();
-        $this->xoopsFile = XoopsFile::getInstance();
-    }
-
-    /*
-    *  @static function getInstance
-    *  @param null
-    */
+    public function __construct() { }
+   
     /**
+     *  @static function getInstance
+     *  @param null
+     *
      * @return TDMCreateStructure
      */
     public static function getInstance()
@@ -82,11 +71,10 @@ class TDMCreateStructure
         return $instance;
     }
 
-    /*
-    *  @protected function setUploadPath
-    *  @param string $path
-    */
     /**
+     *  @protected function setUploadPath
+     *  @param string $path
+     *
      * @param $path
      */
     protected function setUploadPath($path)
@@ -94,11 +82,11 @@ class TDMCreateStructure
         $this->uploadPath = $path;
     }
 
-    /*
-    *  @protected function getUploadPath
-    *  @return string $path
-    */
     /**
+     * @protected function getUploadPath
+     * @param string $path
+     *
+	 * @return string $path
      */
     protected function getUploadPath()
     {
@@ -106,10 +94,9 @@ class TDMCreateStructure
     }
 
     /*
-    *  @protected function setModuleName
-    *  @param string $moduleName
-    */
-    /**
+     * @protected function setModuleName
+     * @param string $moduleName
+     *
      * @param $moduleName
      */
     protected function setModuleName($moduleName)
@@ -117,22 +104,21 @@ class TDMCreateStructure
         $this->moduleName = $moduleName;
     }
 
-    /*
-    *  @protected function getModuleName
-    *  @return string $moduleName
-    */
     /**
+     *  @protected function getModuleName
+     *  @return string $moduleName
+     *
+	 * @return null
      */
     protected function getModuleName()
     {
         return $this->moduleName;
     }
 
-    /*
-    *  @private function setFolderName
-    *  @param string $folderName
-    */
     /**
+     *  @private function setFolderName
+     *  @param string $folderName
+     *
      * @param $folderName
      */
     private function setFolderName($folderName)
@@ -141,21 +127,20 @@ class TDMCreateStructure
     }
 
     /*
-    *  @private function getFolderName
-    *  @return string $folderName
-    */
-    /**
+     *  @private function getFolderName
+     *  @return string $folderName
+     * 
+	 * @return null
      */
     private function getFolderName()
     {
         return $this->folderName;
     }
 
-    /*
-    *  @private function setFileName
-    *  @param string $fileName
-    */
     /**
+     *  @private function setFileName
+     *  @param string $fileName
+     *
      * @param $fileName
      */
     private function setFileName($fileName)
@@ -163,22 +148,21 @@ class TDMCreateStructure
         $this->fileName = $fileName;
     }
 
-    /*
-    *  @private function getFileName
-    *  @return string $fileName
-    */
     /**
+     *  @private function getFileName
+     *  @return string $fileName
+     *
+	 * @return null
      */
     private function getFileName()
     {
         return $this->fileName;
     }
 
-    /*
-    *  @private function isDir
-    *  @param string $dname
-    */
     /**
+     *  @private function isDir
+     *  @param string $dname
+     *
      * @param $dname
      */
     private function isDir($dname)
@@ -191,24 +175,21 @@ class TDMCreateStructure
         }
     }
 
-    /*
-    *  @protected function makeDir
-    *  @param string $dir
-    */
     /**
-     * @param $dir
+     *  @protected function makeDir
+     *  @param string $dir
+     *
      */
     protected function makeDir($dir)
     {
         $this->isDir(strtolower(trim($dir)));
     }
 
-    /*
-    *  @protected function isDirEmpty
-    *  @param string $dir
-    */
     /**
-     * @param $dir
+     *  @protected function isDirEmpty
+     *  @param string $dir
+     *
+	 * @return string
      */
     public function isDirEmpty($dir)
     {
@@ -227,14 +208,10 @@ class TDMCreateStructure
         }
     }
 
-    /*
-    *  @public function addFolderPath
-    *  @param string $folderName
-    *  @param string $fileName
-    */
     /**
-     * @param      $folderName
-     * @param bool $fileName
+     *  @public function addFolderPath
+     *  @param string $folderName
+     *  @param string $fileName
      *
      * @return string
      */
@@ -251,12 +228,9 @@ class TDMCreateStructure
         return $ret;
     }
 
-    /*
-    *  @public function makeDirInModule
-    *  @param string $dirName
-    */
     /**
-     * @param $dirName
+     *  @public function makeDirInModule
+     *  @param string $dirName
      */
     public function makeDirInModule($dirName)
     {
@@ -264,16 +238,12 @@ class TDMCreateStructure
         $this->makeDir($fname);
     }
 
-    /*
-    *  @public function makeDir & copy file
-    *  @param string $folderName
-    *  @param string $fromFile
-    *  @param string $toFile
-    */
     /**
-     * @param $folderName
-     * @param $fromFile
-     * @param $toFile
+     *  @public function makeDir & copy file
+     *  @param string $folderName
+     *  @param string $fromFile
+     *  @param string $toFile
+     *
      */
     public function makeDirAndCopyFile($folderName, $fromFile, $toFile)
     {
@@ -282,16 +252,12 @@ class TDMCreateStructure
         $this->copyFile($folderName, $fromFile, $toFile);
     }
 
-    /*
-    *  @public function copy file
-    *  @param string $folderName
-    *  @param string $fromFile
-    *  @param string $toFile
-    */
     /**
-     * @param $folderName
-     * @param $fromFile
-     * @param $toFile
+     *  @public function copy file
+     *  @param string $folderName
+     *  @param string $fromFile
+     *  @param string $toFile
+     *
      */
     public function copyFile($folderName, $fromFile, $toFile)
     {
@@ -300,15 +266,12 @@ class TDMCreateStructure
         $this->setCopy($dname, $fromFile, $fname);
     }
 
-    /*
-    *  @public function setCopy
-    *  @param string $dname
-    *  @param string $fname
-    */
     /**
-     * @param $dname
-     * @param $fromFile
-     * @param $fname
+     *  @public function setCopy
+     *  @param string $dname
+     *  @param string $fromFile
+	 *  @param string $fname
+     *
      */
     public function setCopy($dname, $fromFile, $fname)
     {

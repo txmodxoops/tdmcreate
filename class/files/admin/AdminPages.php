@@ -35,11 +35,6 @@ class AdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tf = TDMCreateFile::getInstance();
-        $pc = TDMCreatePhpCode::getInstance();
-        $xc = TDMCreateXoopsCode::getInstance();
-        $cc = ClassXoopsCode::getInstance();
-        $axc = AdminXoopsCode::getInstance();
     }
 
     /*

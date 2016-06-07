@@ -135,9 +135,9 @@ class UserIndex extends TDMCreateFile
             $contentIf .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $pc->getPhpCodeArray($tableName, "\t");
-            $foreach = $xc->getXcGetValues($tableName, $tableSoleName, $tableFieldname, false, "\t");
+            $foreach = $xc->getXcGetValues($tableName, $tableSoleName.'Values', $tableFieldname, false, "\t");
             $foreach .= $pc->getPhpCodeArray('acount', array("'count'", '$count'));
-            $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
+            $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName.'Values', '$acount');
             $foreach .= $this->getSimpleString('++$count;', "\t\t");
             $contentIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, $tableFieldname, $foreach, "\t");
             $contentIf .= $xc->getXcTplAssign($tableName, '$'.$tableName, true, "\t");
@@ -180,7 +180,7 @@ class UserIndex extends TDMCreateFile
         $condIf .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
         $condIf .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
         $condIf .= $pc->getPhpCodeArray($tableName);
-        $foreach = $xc->getXcGetValues($tableName, $tableSoleName, $tableFieldname, false, "\t");
+        $foreach = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t");
         $foreach .= $pc->getPhpCodeArray('acount', array("'count'", '$count'));
         $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
         $table = $this->getTable();

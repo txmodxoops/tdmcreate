@@ -22,92 +22,10 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
-/**
- * Clear directory and its contents.
- *
- * @param string $folder The contents
- *
- * @return bool Returns true on success, false on failure
- */
-function TDMCreate_clearDir($folder)
-{
-    $opening = @opendir($folder);
-    if (!$opening) {
-        return;
-    }
-    while ($file = readdir($opening)) {
-        if ($file == '.' || $file == '..') {
-            continue;
-        }
-        if (is_dir($folder.'/'.$file)) {
-            $r = TDMCreate_clearDir($folder.'/'.$file);
-            if (!$r) {
-                return false;
-            }
-        } else {
-            $r = @unlink($folder.'/'.$file);
-            if (!$r) {
-                return false;
-            }
-        }
-    }
-    closedir($opening);
-    $r = @rmdir($folder);
-    if (!$r) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Copy a file, or a folder and its contents.
- *
- * @author      Aidan Lister <aidan@php.net>
- *
- * @version     1.0.0
- *
- * @param string $source The source
- * @param string $dest   The destination
- *
- * @return bool Returns true on success, false on failure
- */
-function TDMCreate_copyr($source, $dest)
-{
-    // Simple copy for a file
-    if (is_file($source)) {
-        return copy($source, $dest);
-    }
-
-    // Make destination directory
-    if (!is_dir($dest)) {
-        mkdir($dest);
-    }
-
-    // Loop through the folder
-    $dir = dir($source);
-    while (false !== $entry = $dir->read()) {
-        // Skip pointers
-        if ($entry == '.' || $entry == '..') {
-            continue;
-        }
-
-        // Deep copy directories
-        if (is_dir("$source/$entry") && ($dest !== "$source/$entry")) {
-            TDMCreate_copyr("$source/$entry", "$dest/$entry");
-        } else {
-            copy("$source/$entry", "$dest/$entry");
-        }
-    }
-
-    // Clean up
-    $dir->close();
-
-    return true;
-}
 // Pleace! don't remove
 /**
  * @param $about
+ *
  * @return string
  */
 function TDMCreate_MakeDonationForm($about)
@@ -147,9 +65,9 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
     return $aboutRes;
 }
 
-//
 /**
  * @param $str
+ *
  * @return string
  */
 function UcFirstAndToLower($str)

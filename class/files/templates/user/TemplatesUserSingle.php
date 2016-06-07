@@ -28,11 +28,6 @@
 class TemplatesUserSingle extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,7 +37,6 @@ class TemplatesUserSingle extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
@@ -72,10 +66,11 @@ class TemplatesUserSingle extends TDMCreateFile
      * @param $module
      * @param $table
      */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+        $this->setFileName($filename);
     }
 
     /*
@@ -90,7 +85,7 @@ class TemplatesUserSingle extends TDMCreateFile
     private function getTemplatesUserSingleHeader($moduleDirname)
     {
         $smarty = TDMCreateSmartyCode::getInstance();
-        $ret = $smarty->getSmartyIncludeFile($moduleDirname, 'single');
+        $ret = $smarty->getSmartyIncludeFile($moduleDirname);
 
         return $ret;
     }
@@ -140,7 +135,7 @@ class TemplatesUserSingle extends TDMCreateFile
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param string $filename
     */
     /**
@@ -148,18 +143,19 @@ class TemplatesUserSingle extends TDMCreateFile
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserSingleHeader($moduleDirname);
         $content .= $this->getTemplatesUserSingleBody($moduleDirname, $table, $language);
         $content .= $this->getTemplatesUserSingleFooter($moduleDirname);
         //
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

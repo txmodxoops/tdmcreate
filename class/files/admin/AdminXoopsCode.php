@@ -349,7 +349,7 @@ class AdminXoopsCode
      */
     public function getAxcGetObjHandlerId($tableName, $fieldId, $t = '')
     {
-        return "{$t}\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
+        return "{$t}\${$tableName}Obj = \${$tableName}Handler->get(\${$fieldId});\n";
     }
 
     /*
@@ -379,7 +379,7 @@ class AdminXoopsCode
 
         $redirectHeaderLanguage = $xCodeCaseDelete->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
         $htmlErrors = $xCodeCaseDelete->getXcHtmlErrors($tableName, true);
-        $internalElse = $xCodeCaseDelete->getXcTplAssign('error', $htmlErrors, false, $t."\t\t");
+        $internalElse = $xCodeCaseDelete->getXcTplAssign('error', $htmlErrors, true, $t."\t\t");
         $condition .= $phpCodeCaseDelete->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t."\t");
 
         $mainElse = $xCodeCaseDelete->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t."\t");

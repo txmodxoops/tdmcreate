@@ -149,7 +149,7 @@ switch ($op) {
 
         if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
-                redirect_header('modules.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_CREATED_OK, $_POST['mod_name']));
+                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_CREATED_OK, $_POST['mod_name']));
             } else {
                 redirect_header('modules.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, $_POST['mod_name']));
             }

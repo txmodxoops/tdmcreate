@@ -37,7 +37,6 @@ class IncludeFunctions extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
@@ -123,10 +122,10 @@ function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
     if(is_array(\$permissions) && array_key_exists(\$permtype, \$permissions)) {
         return \$permissions[\$permtype];
     }
-	\$moduleHandler =& xoops_getHandler('module');
-	\${$moduleDirname}Module =& \$moduleHandler->getByDirname(\$dirname);
+	\$moduleHandler = xoops_getHandler('module');
+	\${$moduleDirname}Module = \$moduleHandler->getByDirname(\$dirname);
 	\$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-	\$gpermHandler =& xoops_getHandler('groupperm');
+	\$gpermHandler = xoops_getHandler('groupperm');
 	\${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
     return \${$tableName};
 }\n
@@ -136,11 +135,13 @@ EOT;
     }
 
     /**
-    *  @private function getFunctionNumbersOfEntries
-    *  @param string $moduleDirname
+     *  @private function getFunctionNumbersOfEntries
+     *
+     *  @param string $moduleDirname
      * @param $tableMid
      * @param $tableId
      * @param $tableName
+     *
      * @return string
      */
     private function getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName)
@@ -180,8 +181,10 @@ EOT;
     }
 
     /**
-    *  @private function getFunctionMetaKeywords
-    *  @param string $moduleDirname
+     *  @private function getFunctionMetaKeywords
+     *
+     *  @param string $moduleDirname
+     *
      * @return string
      */
     private function getFunctionMetaKeywords($moduleDirname)
@@ -190,7 +193,7 @@ EOT;
 \nfunction {$moduleDirname}MetaKeywords(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
-    \$myts =& MyTextSanitizer::getInstance();
+    \$myts = MyTextSanitizer::getInstance();
     \$content= \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
     if(isset(\$xoTheme) && is_object(\$xoTheme)) {
         \$xoTheme->addMeta( 'meta', 'keywords', strip_tags(\$content));
@@ -204,8 +207,10 @@ EOT;
     }
 
     /**
-    *  @private function getFunctionDescription
-    *  @param string $moduleDirname
+     *  @private function getFunctionDescription
+     *
+     *  @param string $moduleDirname
+     *
      * @return string
      */
     private function getFunctionMetaDescription($moduleDirname)
@@ -214,7 +219,7 @@ EOT;
 \nfunction {$moduleDirname}MetaDescription(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
-    \$myts =& MyTextSanitizer::getInstance();
+    \$myts = MyTextSanitizer::getInstance();
     \$content = \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
     if(isset(\$xoTheme) && is_object(\$xoTheme)) {
         \$xoTheme->addMeta( 'meta', 'description', strip_tags(\$content));
@@ -228,9 +233,11 @@ EOT;
     }
 
     /**
-    *  @private function getRewriteUrl
-    *  @param string $moduleDirname
-    *  @param string $tableName
+     *  @private function getRewriteUrl
+     *
+     *  @param string $moduleDirname
+     *  @param string $tableName
+     *
      * @return string
      */
     private function getRewriteUrl($moduleDirname, $tableName)
@@ -327,9 +334,11 @@ EOT;
     }
 
     /**
-    *  @private function getRewriteFilter
-    *  @param string $moduleDirname
-    *  @param string $tableName
+     *  @private function getRewriteFilter
+     *
+     *  @param string $moduleDirname
+     *  @param string $tableName
+     *
      * @return string
      */
     private function getRewriteFilter($moduleDirname, $tableName)
@@ -365,8 +374,10 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *
+     *  @param null
+     *
      * @return bool|string
      */
     public function render()

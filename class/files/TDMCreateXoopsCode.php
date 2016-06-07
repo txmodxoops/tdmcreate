@@ -77,7 +77,7 @@ class TDMCreateXoopsCode
         if (false === $ref) {
             $ret = "{$t}{$var} {$interlock}= {$value};\n";
         } else {
-            $ret = "{$t}{$var} =& {$value};\n";
+            $ret = "{$t}{$var} = {$value};\n";
         }
 
         return $ret;
@@ -363,7 +363,7 @@ class TDMCreateXoopsCode
     */
     public function getXoopsHandlerLine($moduleDirname, $tableName, $t = '')
     {
-        return "{$t}\${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');\n";
+        return "{$t}\${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');\n";
     }
 
     /*
@@ -375,9 +375,9 @@ class TDMCreateXoopsCode
     *
     *  @return string
     */
-    public function getXoopsClearHandler($left, $ref = '&', $anchor, $var, $t = '')
+    public function getXoopsClearHandler($left, $anchor, $var, $t = '')
     {
-        return "{$t}\${$left}Handler ={$ref} \${$anchor}->getHandler('{$var}');\n";
+        return "{$t}\${$left}Handler = \${$anchor}->getHandler('{$var}');\n";
     }
 
     /*
@@ -881,7 +881,7 @@ class TDMCreateXoopsCode
      */
     public function getXcObjHandlerCreate($tableName, $t = '')
     {
-        return "{$t}\${$tableName}Obj =& \${$tableName}Handler->create();\n";
+        return "{$t}\${$tableName}Obj = \${$tableName}Handler->create();\n";
     }
 
     /**
@@ -1147,7 +1147,7 @@ class TDMCreateXoopsCode
         if ($isParam) {
             $ret = "\${$tableName}{$obj}->getHtmlErrors()";
         } else {
-            $ret = "{$t}\${$tableName}{$obj} =& \${$tableName}->getHtmlErrors();";
+            $ret = "{$t}\${$tableName}{$obj} = \${$tableName}->getHtmlErrors();";
         }
 
         return $ret;
@@ -1166,7 +1166,7 @@ class TDMCreateXoopsCode
     {
         $ucfTableName = ucfirst($tableName);
 
-        return "{$t}\${$left} =& \${$tableName}{$obj}->getForm{$ucfTableName}();\n";
+        return "{$t}\${$left} = \${$tableName}{$obj}->getForm{$ucfTableName}();\n";
     }
 
     /**
@@ -1186,7 +1186,7 @@ class TDMCreateXoopsCode
         if ($isParam) {
             $ret = "\${$left}{$handler}->get(\${$var})";
         } else {
-            $ret = "{$t}\${$left}{$obj} =& \${$handler}->get(\${$var});\n";
+            $ret = "{$t}\${$left}{$obj} = \${$handler}->get(\${$var});\n";
         }
 
         return $ret;

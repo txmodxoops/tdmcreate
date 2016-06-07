@@ -28,11 +28,6 @@
 class TemplatesAdminFooter extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class TemplatesAdminFooter extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -88,6 +81,7 @@ class TemplatesAdminFooter extends TDMCreateFile
      */
     public function render()
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleName = $module->getVar('mod_name');
@@ -95,17 +89,17 @@ class TemplatesAdminFooter extends TDMCreateFile
         $supportName = $module->getVar('mod_support_name');
         $language = $this->getLanguage($moduleDirname, 'AM');
 
-        $singleNoVar = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-        $img = $this->htmlcode->getHtmlTag('img', array('src' => $singleNoVar, 'alt' => 'XOOPS'), '', false).PHP_EOL;
-        $anchor = $this->htmlcode->getHtmlTag('a', array('href' => 'http://www.xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'), $img).PHP_EOL;
-        $content = $this->htmlcode->getHtmlTag('div', array('class' => 'center'), $anchor).PHP_EOL;
-        $tree = $this->htmlcode->getHtmlTag('strong', array(), $moduleName);
-        $tree    .= $this->htmlcode->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
-        $tree    .= $this->htmlcode->getHtmlTag('a', array('href' => '<{$maintainedby}>', 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
-        $content .= $this->htmlcode->getHtmlTag('div', array('class' => 'center smallsmall italic pad5'), $tree);
+        $singleNoVar = $hc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
+        $img = $hc->getHtmlTag('img', array('src' => $singleNoVar, 'alt' => 'XOOPS'), '', false).PHP_EOL;
+        $anchor = $hc->getHtmlTag('a', array('href' => 'http://www.xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'), $img).PHP_EOL;
+        $content = $hc->getHtmlTag('div', array('class' => 'center'), $anchor).PHP_EOL;
+        $tree = $hc->getHtmlTag('strong', array(), $moduleName);
+        $tree    .= $hc->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
+        $tree    .= $hc->getHtmlTag('a', array('href' => '<{$maintainedby}>', 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
+        $content .= $hc->getHtmlTag('div', array('class' => 'center smallsmall italic pad5'), $tree);
 
-        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

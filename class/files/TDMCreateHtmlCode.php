@@ -27,22 +27,10 @@
  */
 class TDMCreateHtmlCode
 {
-    /*
-    *  @public function constructor
-    *  @param null
-    */
     /**
+     *  @static function getInstance
+     *  @param null
      *
-     */
-    public function __construct()
-    {
-    }
-
-    /*
-    *  @static function getInstance
-    *  @param null
-    */
-    /**
      * @return TDMCreateHtmlCode
      */
     public static function getInstance()
@@ -77,9 +65,9 @@ class TDMCreateHtmlCode
         }
         $attr = $this->getAttributes($attributes);
         if ($noClosed) {
-            $ret = "{$t}<{$tag}{$attr} />";
+            $ret = "{$t}<{$tag}{$attr} />\n";
         } elseif ($noBreack) {
-            $ret = "{$t}<{$tag}{$attr}>{$content}</{$tag}>";
+            $ret = "{$t}<{$tag}{$attr}>{$content}</{$tag}>\n";
         } else {
             $ret = "{$t}<{$tag}{$attr}>\n";
             $ret .= "{$t}{$content}";
@@ -154,7 +142,7 @@ class TDMCreateHtmlCode
         $brClass = ($htmlClass != '') ? " class='{$htmlClass}'" : '';
         $ret = '';
         for ($i = 0; $i < $brNumb; ++$i) {
-            $ret .= "{$t}<br{$brClass} />";
+            $ret .= "{$t}<br{$brClass} />\n";
         }
 
         return $ret;
@@ -215,7 +203,7 @@ class TDMCreateHtmlCode
     {
         $rPreClass = ($preClass != '') ? " class='{$preClass}'" : '';
         $ret = "{$t}<pre{$rPreClass}>\n";
-        $ret .= "{$t}{$content}\n";
+        $ret .= "{$t}{$content}";
         $ret .= "{$t}</pre>\n";
 
         return $ret;
@@ -235,7 +223,7 @@ class TDMCreateHtmlCode
     public function getHtmlSpan($content = '', $spanClass = '', $t = '')
     {
         $rSpanClass = ($spanClass != '') ? " class='{$spanClass}'" : '';
-        $ret = "{$t}<span{$rSpanClass}>{$content}</span>";
+        $ret = "{$t}<span{$rSpanClass}>{$content}</span>\n";
 
         return $ret;
     }
@@ -255,7 +243,7 @@ class TDMCreateHtmlCode
     {
         $rPClass = ($pClass != '') ? " class='{$pClass}'" : '';
         $ret = "{$t}<p{$rPClass}>\n";
-        $ret .= "{$t}{$content}\n";
+        $ret .= "{$t}{$content}";
         $ret .= "{$t}</p>\n";
 
         return $ret;
@@ -337,7 +325,7 @@ class TDMCreateHtmlCode
     {
         $rLiClass = ($liClass != '') ? " class='{$liClass}'" : '';
 
-        return "{$t}<li{$rLiClass}>{$content}</li>";
+        return "{$t}<li{$rLiClass}>{$content}</li>\n";
     }
 
     /*
@@ -355,7 +343,7 @@ class TDMCreateHtmlCode
     {
         $rStrongClass = ($strongClass != '') ? " class='{$strongClass}'" : '';
 
-        return "{$t}<strong{$rStrongClass}>{$content}</strong>";
+        return "{$t}<strong{$rStrongClass}>{$content}</strong>\n";
     }
 
     /*
@@ -379,7 +367,7 @@ class TDMCreateHtmlCode
         $rAClass = ($aClass != '') ? " class='{$aClass}'" : '';
         $rel = ($rel != '') ? " rel='{$rel}'" : '';
 
-        return "{$t}<a{$rAClass} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>";
+        return "{$t}<a{$rAClass} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>\n";
     }
 
     /*
@@ -398,7 +386,7 @@ class TDMCreateHtmlCode
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '')
     {
         $rImgClass = ($imgClass != '') ? " class='{$imgClass}'" : '';
-        $ret = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' />";
+        $ret = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' />\n";
 
         return $ret;
     }
@@ -525,7 +513,7 @@ class TDMCreateHtmlCode
         $rThClass = ($thClass != '') ? " class='{$thClass}'" : '';
         $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
 
-        return "{$t}<th{$colspan}{$rThClass}>{$content}</th>";
+        return "{$t}<th{$colspan}{$rThClass}>{$content}</th>\n";
     }
 
     /*
@@ -545,6 +533,6 @@ class TDMCreateHtmlCode
         $rTdClass = ($tdClass != '') ? " class='{$tdClass}'" : '';
         $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
 
-        return "{$t}<td{$colspan}{$rTdClass}>{$content}</td>";
+        return "{$t}<td{$colspan}{$rTdClass}>{$content}</td>\n";
     }
 }
