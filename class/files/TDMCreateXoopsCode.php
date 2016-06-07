@@ -56,10 +56,10 @@ class TDMCreateXoopsCode
      */
     public function getXcSwitch($op = '', $cases = array(), $defaultAfterCase = false, $default = false, $t = '')
     {
-        $phpCodeSwitch = TDMCreatePhpCode::getInstance();
-        $contentSwitch = $phpCodeSwitch->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
+        $pc = TDMCreatePhpCode::getInstance();
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
 
-        return $phpCodeSwitch->getPhpCodeSwitch($op, $contentSwitch, $t);
+        return $pc->getPhpCodeSwitch($op, $contentSwitch, $t);
     }
 
     /*
@@ -238,9 +238,16 @@ class TDMCreateXoopsCode
     *  @param $fieldName
     *  @return string
     */
-    public function getXcTextDateSelectSetVar($tableName, $fieldName, $t = '')
+    public function getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName, $t = '')
     {
-        return self::getXcSetVar($tableName, $fieldName, "strtotime(\$_POST['{$fieldName}'])", $t);
+        $tf = TDMCreateFile::getInstance();
+        $rightField = $tf->getRightString($fieldName);
+        $ucfRightFiled = ucfirst($rightField);
+        $value = "date_create_from_format(_SHORTDATESTRING, \$_POST['{$fieldName}'])";
+        $ret = self::getXcEqualsOperator("\${$tableSolename}{$ucfRightFiled}", $value, null, false, $t);
+        $ret .= self::getXcSetVar($tableName, $fieldName, "\${$tableSolename}{$ucfRightFiled}->getTimestamp()", $t);
+
+        return $ret;
     }
 
     /*
