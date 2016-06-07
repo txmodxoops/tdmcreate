@@ -221,7 +221,7 @@ class AdminPages extends TDMCreateFile
     *  @param $fieldMain
     *  @return string
     */
-    private function getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $language, $fields, $fieldId, $fieldMain, $t = '')
+    private function getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $tableSolename, $language, $fields, $fieldId, $fieldMain, $t = '')
     {
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
@@ -266,7 +266,7 @@ class AdminPages extends TDMCreateFile
                         $ret .= $axc->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $t);
                         break;
                     case 15:
-                        $ret .= $xc->getXcTextDateSelectSetVar($tableName, $fieldName, $t);
+                        $ret .= $xc->getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName, $t);
                         break;
                     default:
                         if ($fieldType == 2 || $fieldType == 7 || $fieldType == 8) {
@@ -374,6 +374,7 @@ class AdminPages extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName = $table->getVar('table_name');
         $tableCategory = $table->getVar('table_category');
+        $tableSolename = $table->getVar('table_solename');
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fields = $tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldInForm = null;
@@ -392,7 +393,7 @@ class AdminPages extends TDMCreateFile
         $list = $this->getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain, "\t\t");
         if (in_array(1, $fieldInForm)) {
             $new = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
-            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $language, $fields, $fieldId, $fieldMain, "\t\t");
+            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $tableSolename, $language, $fields, $fieldId, $fieldMain, "\t\t");
             $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
         $delete = $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, "\t\t");
