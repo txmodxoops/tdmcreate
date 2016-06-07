@@ -28,11 +28,6 @@
 class TemplatesAdminPermissions extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class TemplatesAdminPermissions extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -89,7 +82,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
+
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
     }
 
     /*
@@ -103,9 +98,10 @@ class TemplatesAdminPermissions extends TDMCreateFile
      */
     private function getTemplatesAdminPermissions()
     {
-        $form = $this->htmlcode->getSmartySingleVar('form');
-        $ret = $this->htmlcode->getHtmlTag('div', array('class' => 'spacer'), $form).PHP_EOL;
-        $ret .= $this->htmlcode->getHtmlTag('br', array(), '', false).PHP_EOL;
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
+        $form = $hc->getSmartySingleVar('form');
+        $ret = $hc->getHtmlTag('div', array('class' => 'spacer'), $form).PHP_EOL;
+        $ret .= $hc->getHtmlTag('br', array(), '', false).PHP_EOL;
 
         return $ret;
     }
@@ -121,7 +117,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
      */
     private function getTemplatesAdminPermissionsFooter($moduleDirname)
     {
-        return $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true);
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
+
+        return $hc->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
     /*
@@ -138,11 +136,11 @@ class TemplatesAdminPermissions extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
         $content = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
-        $content      .= $this->getTemplatesAdminPermissions();
-        $content      .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
+        $content .= $this->getTemplatesAdminPermissions();
+        $content .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
         //
-        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

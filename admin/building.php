@@ -43,10 +43,12 @@ switch ($op) {
         // Directories for copy from to
         $fromDir = TDMC_UPLOAD_REPOSITORY_PATH.'/'.strtolower($moduleDirname);
         $toDir = XOOPS_ROOT_PATH.'/modules/'.strtolower($moduleDirname);
+        include_once TDMC_CLASS_PATH.'/building.php';
         if (isset($moduleDirname)) {
-            // Clear this module if it's in repository
+            // Clear this module if it's in repository			
+            $building = TDMCreateBuilding::getInstance();
             if (is_dir($fromDir)) {
-                TDMCreate_clearDir($fromDir);
+                $building->clearDir($fromDir);
             }
         }
         // Structure
@@ -73,16 +75,17 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('building_directory', sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname));
         // Copy this module in root modules
         if (1 == $moduleObj->getVar('mod_inroot_copy')) {
+            $building = TDMCreateBuilding::getInstance();
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
                 // Warning: If you have an older operating module with the same name, 
                 // it's good to make a copy in another safe folder, 
-                // otherwise it will be deleted irreversibly.
-                if (is_dir($toDir)) {
-                    TDMCreate_clearDir($toDir);
+                // otherwise it will be deleted irreversibly.			
+                if (is_dir($fromDir)) {
+                    $building->clearDir($toDir);
                 }
             }
-            TDMCreate_copyr($fromDir, $toDir);
+            $building->copyDir($fromDir, $toDir);
         }
         break;
 
@@ -97,8 +100,8 @@ switch ($op) {
         }
         unset($nbModules);
         include_once TDMC_CLASS_PATH.'/building.php';
-        $handler = TDMCreateBuilding::getInstance();
-        $form = $handler->getForm();
+        $building = TDMCreateBuilding::getInstance();
+        $form = $building->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }

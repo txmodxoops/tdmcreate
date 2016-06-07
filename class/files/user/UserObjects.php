@@ -29,11 +29,6 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserObjects extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    protected $userobjects;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -43,7 +38,6 @@ class UserObjects extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*

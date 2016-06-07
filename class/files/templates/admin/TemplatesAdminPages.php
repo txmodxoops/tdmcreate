@@ -28,11 +28,6 @@
 class TemplatesAdminPages extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class TemplatesAdminPages extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -68,10 +61,11 @@ class TemplatesAdminPages extends TDMCreateFile
     *  @param string $module
     *  @param string $table
     */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+        $this->setFileName($filename);
     }
 
     /*
@@ -81,8 +75,9 @@ class TemplatesAdminPages extends TDMCreateFile
     */
     private function getTemplatesAdminPagesHeader($moduleDirname)
     {
-        $ret = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
-        $ret .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
+        $ret = $hc->getHtmlComment('Header').PHP_EOL;
+        $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true);
 
         return $ret;
     }
@@ -97,26 +92,27 @@ class TemplatesAdminPages extends TDMCreateFile
     */
     private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $th = '';
         $langHeadId = strtoupper($tableSoleName).'_ID';
         if (1 == $tableAutoincrement) {
-            $lang = $this->htmlcode->getSmartyConst($language, $langHeadId);
-            $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
+            $lang = $hc->getSmartyConst($language, $langHeadId);
+            $th  .= $hc->getHtmlTag('th', array('class' => 'center'), $lang, false, false, "\t\t\t");
         }
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             $langFieldName = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             if (1 == $fields[$f]->getVar('field_inlist')) {
-                $lang = $this->htmlcode->getSmartyConst($language, $langFieldName);
-                $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center'), $lang).PHP_EOL;
+                $lang = $hc->getSmartyConst($language, $langFieldName);
+                $th  .= $hc->getHtmlTag('th', array('class' => 'center'), $lang, false, false, "\t\t\t");
             }
         }
 
-        $lang = $this->htmlcode->getSmartyConst($language, 'FORM_ACTION');
-        $th  .= $this->htmlcode->getHtmlTag('th', array('class' => 'center width5'), $lang).PHP_EOL;
-        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
-        $ret = $this->htmlcode->getHtmlTag('thead', array(), $tr).PHP_EOL;
+        $lang = $hc->getSmartyConst($language, 'FORM_ACTION');
+        $th  .= $hc->getHtmlTag('th', array('class' => 'center width5'), $lang, false, false, "\t\t\t");
+        $tr = $hc->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $ret = $hc->getHtmlTag('thead', array(), $tr);
 
         return $ret;
     }
@@ -131,15 +127,16 @@ class TemplatesAdminPages extends TDMCreateFile
     */
     private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $td = '';
         if (1 == $tableAutoincrement) {
-            $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-            $td    .= $this->htmlcode->getHtmlTableData($double, 'center').PHP_EOL;
+            $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
+            $td    .= $hc->getHtmlTableData($double, 'center');
         }
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
@@ -149,51 +146,51 @@ class TemplatesAdminPages extends TDMCreateFile
                         // This is to be reviewed, as it was initially to style = "backgroung-color: #"
                         // Now with HTML5 is not supported inline style in the parameters of the HTML tag
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
-                        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $span = $this->htmlcode->getHtmlTag('span', array(), $double);
-                        $td .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $span).PHP_EOL;
+                        $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $span = $hc->getHtmlTag('span', array(), $double);
+                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $span);
                         /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
 EOT;*/
                         break;
                     case 10:
-                        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons32');
-                        $src .= $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
-                        $td  .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
+                        $src = $hc->getSmartyNoSimbol('xoModuleIcons32');
+                        $src .= $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', true, false);
+                        $td  .= $hc->getHtmlTag('td', array('class' => 'center'), "\n\t".$img);
                         break;
                     case 13:
-                        $single = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
-                        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $this->htmlcode->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName, 'style' => 'max-width:100px'), '', false);
-                        $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
+                        $single = $hc->getSmartySingleVar($moduleDirname.'_upload_url');
+                        $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                        $img = $hc->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName, 'style' => 'max-width:100px'), '', true, false);
+                        $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $img, false, false, "\t\t");
                         break;
                     default:
                         if (0 != $f) {
-                            $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td    .= $this->htmlcode->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
+                            $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $double);
                         }
                         break;
                 }
             }
         }
-        $lang = $this->htmlcode->getSmartyConst('', '_EDIT');
-        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 edit.png');
-        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
-        $anchor = $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=edit&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
-        $lang = $this->htmlcode->getSmartyConst('', '_DELETE');
-        $double = $this->htmlcode->getSmartyDoubleVar($tableSoleName, 'id');
-        $src = $this->htmlcode->getSmartyNoSimbol('xoModuleIcons16 delete.png');
-        $img = $this->htmlcode->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
-        $anchor .= $this->htmlcode->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
-        $td     .= $this->htmlcode->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor).PHP_EOL;
-        $cycle = $this->htmlcode->getSmartyNoSimbol('cycle values="odd, even"');
-        $tr = $this->htmlcode->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
-        $foreach = $this->htmlcode->getSmartyForeach($tableSoleName, $tableName.'_list', $tr).PHP_EOL;
-        $tbody = $this->htmlcode->getHtmlTag('tbody', array(), $foreach).PHP_EOL;
+        $lang = $hc->getSmartyConst('', '_EDIT');
+        $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
+        $src = $hc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
+        $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', true, false);
+        $anchor = $hc->getHtmlTag('a', array('href' => $tableName.".php?op=edit&amp;{$fieldId}=".$double, 'title' => $lang), "\n\t".$img);
+        $lang = $hc->getSmartyConst('', '_DELETE');
+        $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
+        $src = $hc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
+        $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', true, false);
+        $anchor .= $hc->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), "\n\t".$img);
+        $td     .= $hc->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor);
+        $cycle = $hc->getSmartyNoSimbol('cycle values=\'odd, even\'');
+        $tr = $hc->getHtmlTag('tr', array('class' => $cycle), $td);
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName.'_list', $tr);
+        $tbody = $hc->getHtmlTag('tbody', array(), $foreach);
 
-        return $this->htmlcode->getSmartyConditions($tableName.'_count', '', '', $tbody).PHP_EOL;
+        return $hc->getSmartyConditions($tableName.'_count', '', '', $tbody);
     }
 
     /*
@@ -206,10 +203,11 @@ EOT;*/
     */
     private function getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $this->htmlcode->getHtmlTable($tbody, 'table table-bordered').PHP_EOL;
+        return $hc->getHtmlTable($tbody, 'table table-bordered');
     }
 
     /*
@@ -222,21 +220,22 @@ EOT;*/
     */
     private function getTemplatesAdminPages($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $htmlTable = $this->getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
-        $htmlTable .= $this->htmlcode->getHtmlTag('div', array('class' => 'clear'), '&nbsp;').PHP_EOL;
-        $single = $this->htmlcode->getSmartySingleVar('pagenav');
-        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'xo-pagenav floatright'), $single);
-        $div       .= $this->htmlcode->getHtmlTag('div', array('class' => 'clear spacer'), '').PHP_EOL;
-        $htmlTable .= $this->htmlcode->getSmartyConditions('pagenav', '', '', $div).PHP_EOL;
-        $ifList = $this->htmlcode->getSmartyConditions($tableName.'_list', '', '', $htmlTable).PHP_EOL;
-        $single = $this->htmlcode->getSmartySingleVar('form');
-        $divComm = $this->htmlcode->getHtmlComment('Display navigation').PHP_EOL;
-        //$divComm .= $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $single).PHP_EOL;
-        $ifList .= $this->htmlcode->getSmartyConditions('form', '', '', $single).PHP_EOL;
-        $single = $this->htmlcode->getSmartySingleVar('error');
-        $strong = $this->htmlcode->getHtmlTag('strong', array(), $single).PHP_EOL;
-        $div = $this->htmlcode->getHtmlTag('div', array('class' => 'errorMsg'), $strong).PHP_EOL;
-        $ifList .= $this->htmlcode->getSmartyConditions('error', '', '', $div).PHP_EOL;
+        $htmlTable .= $hc->getHtmlTag('div', array('class' => 'clear'), '&nbsp;');
+        $single = $hc->getSmartySingleVar('pagenav');
+        $div = $hc->getHtmlTag('div', array('class' => 'xo-pagenav floatright'), $single);
+        $div       .= $hc->getHtmlTag('div', array('class' => 'clear spacer'), '');
+        $htmlTable .= $hc->getSmartyConditions('pagenav', '', '', $div);
+        $ifList = $hc->getSmartyConditions($tableName.'_list', '', '', $htmlTable);
+        $single = $hc->getSmartySingleVar('form');
+        $divComm = $hc->getHtmlComment('Display navigation');
+        //$divComm .= $hc->getHtmlTag('div', array('class' => 'errorMsg'), $single);
+        $ifList .= $hc->getSmartyConditions('form', '', '', $single);
+        $single = $hc->getSmartySingleVar('error');
+        $strong = $hc->getHtmlTag('strong', array(), $single);
+        $div = $hc->getHtmlTag('div', array('class' => 'errorMsg'), $strong);
+        $ifList .= $hc->getSmartyConditions('error', '', '', $div);
 
         return $ifList;
     }
@@ -248,31 +247,33 @@ EOT;*/
     */
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
-        $ret = $this->htmlcode->getHtmlTag('br', array(), '', false).PHP_EOL;
-        $ret .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
-        $ret .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true);
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
+        $ret = $hc->getHtmlTag('br /', array(), '', false);
+        $ret .= $hc->getHtmlComment('Footer');
+        $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true);
 
         return $ret;
     }
 
     /*
     *  @public function render
-    *  @param $filename
+    *  @param null
     *  @return bool|string
     */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
+        $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'), 'field_order');
         $content = $this->getTemplatesAdminPagesHeader($moduleDirname);
         $content .= $this->getTemplatesAdminPages($moduleDirname, $table->getVar('table_name'), $table->getVar('table_solename'), $table->getVar('table_autoincrement'), $fields, $language);
         $content .= $this->getTemplatesAdminPagesFooter($moduleDirname);
-        //
-        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

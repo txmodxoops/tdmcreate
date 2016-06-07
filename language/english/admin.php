@@ -94,7 +94,7 @@ define('_AM_TDMCREATE_SETTING_USER', 'Set Visible User');
 define('_AM_TDMCREATE_SETTING_MIN_PHP', 'Set Minimum PHP');
 define('_AM_TDMCREATE_SETTING_MIN_XOOPS', 'Set Minimum XOOPS');
 define('_AM_TDMCREATE_SETTING_MIN_ADMIN', 'Set Minimum Admin');
-define('_AM_TDMCREATE_SETTING_MIN_MYSQL', 'Set Minimum Database');
+define('_AM_TDMCREATE_SETTING_MIN_MYSQL', 'Set Minimum MySQL');
 define('_AM_TDMCREATE_SETTING_BLOCKS', 'Set Activate Blocks');
 define('_AM_TDMCREATE_SETTING_SEARCH', 'Set Activate Search');
 define('_AM_TDMCREATE_SETTING_COMMENTS', 'Set Activate Comments');

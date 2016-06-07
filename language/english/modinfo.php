@@ -87,7 +87,7 @@ define('_MI_TDMCREATE_CONFIG_BREAK_OPTIONAL', 'Module optional');
 define('_MI_TDMCREATE_CONFIG_MIN_PHP', 'Minimum Php');
 define('_MI_TDMCREATE_CONFIG_MIN_XOOPS', 'Minimum Xoops');
 define('_MI_TDMCREATE_CONFIG_MIN_ADMIN', 'Minimum Admin');
-define('_MI_TDMCREATE_CONFIG_MIN_MYSQL', 'Minimum Database');
+define('_MI_TDMCREATE_CONFIG_MIN_MYSQL', 'Minimum MySQL');
 define('_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER', 'Modules adminpager');
 define('_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER', 'Tables adminpager');
 define('_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER', 'Fields adminpager');

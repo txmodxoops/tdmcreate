@@ -28,11 +28,6 @@
 class TemplatesAdminHeader extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class TemplatesAdminHeader extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -88,19 +81,20 @@ class TemplatesAdminHeader extends TDMCreateFile
      */
     public function render()
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $navigation = $this->htmlcode->getSmartySingleVar('navigation');
-        $due = $this->htmlcode->getHtmlTag('span', array('class' => 'left'), $navigation).PHP_EOL;
-        $buttons = $this->htmlcode->getSmartySingleVar('buttons');
-        $right = $this->htmlcode->getHtmlTag('span', array('class' => 'left'), $buttons.'&nbsp;');
-        $due .= $this->htmlcode->getSmartyConditions('buttons', '', '', $right).PHP_EOL;
-        $content = $this->htmlcode->getHtmlTag('div', array('class' => 'top'), $due);
+        $navigation = $hc->getSmartySingleVar('navigation');
+        $due = $hc->getHtmlTag('span', array('class' => 'left'), $navigation).PHP_EOL;
+        $buttons = $hc->getSmartySingleVar('buttons');
+        $right = $hc->getHtmlTag('span', array('class' => 'left'), $buttons.'&nbsp;');
+        $due .= $hc->getSmartyConditions('buttons', '', '', $right).PHP_EOL;
+        $content = $hc->getHtmlTag('div', array('class' => 'top'), $due);
 
-        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

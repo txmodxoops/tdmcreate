@@ -1,8 +1,8 @@
 <?php
-
 /* The 'nl' function */
 /**
  * @param int $tabs
+ *
  * @return string
  */
 function nl($tabs = 0)
@@ -14,7 +14,6 @@ function nl($tabs = 0)
 
     return $r;
 }
-
 /* Usage example */
 $show_table = true;
 

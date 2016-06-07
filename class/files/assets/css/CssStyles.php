@@ -96,7 +96,7 @@ ul.menu > li {
 }
 
 ul.menu > li + li:before {  
-    content: "|\00a0";
+    content: "|\a0";
 }
 
 .printOnly {

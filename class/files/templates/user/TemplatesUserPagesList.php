@@ -28,11 +28,6 @@
 class TemplatesUserPagesList extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
@@ -42,8 +37,6 @@ class TemplatesUserPagesList extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
@@ -120,7 +113,7 @@ EOT;
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_thead')) {
                     $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                    $rpFieldName = $this->getRightString($fieldName);
                     $ret .= <<<EOT
 				<th><{\$list.{$rpFieldName}}></th>\n
 EOT;
@@ -164,14 +157,14 @@ EOT;
                         default:
                         case 10:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                            $rpFieldName = $this->getRightString($fieldName);
                             $ret .= <<<EOT
 				<td class="center pad5"><img src="<{\$xoops_icons32_url}>/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
 EOT;
                             break;
                         case 13:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                            $rpFieldName = $this->getRightString($fieldName);
                             $ret .= <<<EOT
 				<td class="center pad5"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
 EOT;
@@ -180,7 +173,7 @@ EOT;
                         case 3:
                         case 4:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                            $rpFieldName = $this->getRightString($fieldName);
                             $ret .= <<<EOT
 				<td class="justify pad5"><{\$list.{$rpFieldName}}></td>\n
 EOT;
@@ -223,7 +216,7 @@ EOT;
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
                     $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                    $rpFieldName = $this->getRightString($fieldName);
                     $ret .= <<<EOT
 				<td class="center"><{\$list.{$rpFieldName}}></td>\n
 EOT;
@@ -272,6 +265,7 @@ EOT;
      */
     private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId);
         $ret = '';
         $retNumb = '';
@@ -283,15 +277,15 @@ EOT;
                         default:
                         case 2:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retNumb = $this->htmlcode->getHtmlHNumb($doubleVar, '3', 'panel-title');
+                            $rpFieldName = $this->getRightString($fieldName);
+                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retNumb = $hc->getHtmlHNumb($doubleVar, '3', 'panel-title');
                             break;
                     }
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlDiv($retNumb, 'panel-heading').PHP_EOL;
+        $ret .= $hc->getHtmlDiv($retNumb, 'panel-heading').PHP_EOL;
         $retElem = '';
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -302,53 +296,53 @@ EOT;
                         case 3:
                         case 4:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $this->htmlcode->getHtmlSpan($doubleVar, 'col-sm-9 justify').PHP_EOL;
+                            $rpFieldName = $this->getRightString($fieldName);
+                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-9 justify').PHP_EOL;
                             break;
                         case 10:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $singleVar = $this->htmlcode->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlImage($singleVar.'/'.$doubleVar, "{$tableName}");
-                            $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
+                            $rpFieldName = $this->getRightString($fieldName);
+                            $singleVar = $hc->getSmartySingleVar('xoops_icons32_url');
+                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img = $hc->getHtmlImage($singleVar.'/'.$doubleVar, "{$tableName}");
+                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
                             unset($img);
                             break;
                         case 13:
                             $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
-                            $singleVar = $this->htmlcode->getSmartySingleVar($moduleDirname.'_upload_url');
-                            $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $this->htmlcode->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
-                            $retElem .= $this->htmlcode->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
+                            $rpFieldName = $this->getRightString($fieldName);
+                            $singleVar = $hc->getSmartySingleVar($moduleDirname.'_upload_url');
+                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img = $hc->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
+                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
                             unset($img);
                             break;
                     }
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlDiv($retElem, 'panel-body').PHP_EOL;
+        $ret .= $hc->getHtmlDiv($retElem, 'panel-body').PHP_EOL;
         $retFoot = '';
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
                     $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+                    $rpFieldName = $this->getRightString($fieldName);
                     $langConst = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
-                    $lang = $this->htmlcode->getSmartyConst($language, $langConst);
-                    $doubleVar = $this->htmlcode->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                    $retFoot .= $this->htmlcode->getHtmlSpan($lang.': '.$doubleVar, 'block-pie justify').PHP_EOL;
+                    $lang = $hc->getSmartyConst($language, $langConst);
+                    $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                    $retFoot .= $hc->getHtmlSpan($lang.': '.$doubleVar, 'block-pie justify').PHP_EOL;
                 }
             }
         }
-        $ret .= $this->htmlcode->getHtmlDiv($retFoot, 'panel-foot').PHP_EOL;
+        $ret .= $hc->getHtmlDiv($retFoot, 'panel-foot').PHP_EOL;
 
         return $ret;
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param string $filename
     */
     /**
@@ -356,7 +350,7 @@ EOT;
      *
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
@@ -384,8 +378,8 @@ EOT;
         $content .= $this->getTemplatesUserPagesListEndTable();*/
         //$content = $this->getTemplatesUserPagesListPanel($moduleDirname, $table);
         //
-        $this->tdmcfile->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

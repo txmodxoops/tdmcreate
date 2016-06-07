@@ -36,7 +36,7 @@ class DocsChangelog extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
     }
 
     /*
@@ -91,8 +91,8 @@ Change Log for {$moduleName} - {$date} Version {$module->getVar('mod_version')}
 ==============================================================
  - Original release {$moduleDirname} ({$module->getVar('mod_author')})
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

@@ -37,7 +37,6 @@ class LanguageMailTpl extends TDMCreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->defines = LanguageDefines::getInstance();
     }
 
     /*

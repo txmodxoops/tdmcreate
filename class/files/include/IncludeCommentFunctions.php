@@ -36,8 +36,7 @@ class IncludeCommentFunctions extends TDMCreateFile
      */
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->tdmcreate = TDMCreateHelper::getInstance();
+        parent::__construct();
     }
 
     /*
@@ -75,13 +74,13 @@ class IncludeCommentFunctions extends TDMCreateFile
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param null
     */
     /**
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
@@ -107,8 +106,8 @@ function {$moduleDirname}CommentsApprove(&\$comment){
     // notification mail here
 }
 EOT;
-        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

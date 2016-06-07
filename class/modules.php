@@ -412,9 +412,11 @@ class TDMCreateModules extends XoopsObject
 
     /**
      * Get Values.
+     *
      * @param null $keys
      * @param null $format
      * @param null $maxDepth
+     *
      * @return array
      */
     public function getValuesModules($keys = null, $format = null, $maxDepth = null)
@@ -439,7 +441,8 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-     * Get getOptionsModules
+     * Get getOptionsModules.
+     *
      * @return string
      */
     private function getOptionsModules()
@@ -456,6 +459,7 @@ class TDMCreateModules extends XoopsObject
 
     /**
      * Get Defined Language.
+     *
      * @param $lang
      *
      * @return string
@@ -471,14 +475,14 @@ class TDMCreateModules extends XoopsObject
 }
 
 /**
-*  @Class TDMCreateModulesHandler
-*  @extends XoopsPersistableObjectHandler
-*/
-
+ *  @Class TDMCreateModulesHandler
+ *  @extends XoopsPersistableObjectHandler
+ */
 class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
 {
     /**
-    *  @public function constructor class
+     *  @public function constructor class
+     *
      * @param null|object $db
      */
     public function __construct(&$db)
@@ -491,7 +495,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      *
      * @return object
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         return parent::create($isNew);
     }
@@ -505,7 +509,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      * @return mixed reference to the <a href='psi_element://TDMCreateFields'>TDMCreateFields</a> object
      *               object
      */
-    public function &get($i = null, $fields = null)
+    public function get($i = null, $fields = null)
     {
         return parent::get($i, $fields);
     }
@@ -517,76 +521,65 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      *
      * @return int reference to the {@link TDMCreateTables} object
      */
-    public function &getInsertId()
+    public function getInsertId()
     {
         return $this->db->getInsertId();
     }
 
     /**
-     * insert a new field in the database.
-     *
-     * @param object $field reference to the {@link TDMCreateFields} object
-     * @param bool   $force
-     *
-     * @return bool FALSE if failed, TRUE if already present and unchanged or successful
-     */
-    public function &insert(&$field, $force = false)
-    {
-        if (!parent::insert($field, $force)) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * Get Count Modules.
+     *
      * @param int    $start
      * @param int    $limit
      * @param string $sort
      * @param string $order
+     *
      * @return int
      */
     public function getCountModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
-        $criteriaCountModules = new CriteriaCompo();
-        $criteriaCountModules = $this->getModulesCriteria($criteriaCountModules, $start, $limit, $sort, $order);
+        $crCountModules = new CriteriaCompo();
+        $crCountModules = $this->getModulesCriteria($crCountModules, $start, $limit, $sort, $order);
 
-        return $this->getCount($criteriaCountModules);
+        return $this->getCount($crCountModules);
     }
 
     /**
      * Get All Modules.
+     *
      * @param int    $start
      * @param int    $limit
      * @param string $sort
      * @param string $order
+     *
      * @return array
      */
     public function getAllModules($start = 0, $limit = 0, $sort = 'mod_id ASC, mod_name', $order = 'ASC')
     {
-        $criteriaAllModules = new CriteriaCompo();
-        $criteriaAllModules = $this->getModulesCriteria($criteriaAllModules, $start, $limit, $sort, $order);
+        $crAllModules = new CriteriaCompo();
+        $crAllModules = $this->getModulesCriteria($crAllModules, $start, $limit, $sort, $order);
 
-        return $this->getAll($criteriaAllModules);
+        return $this->getAll($crAllModules);
     }
 
     /**
      * Get Modules Criteria.
-     * @param $criteriaModules
+     *
+     * @param $crModules
      * @param $start
      * @param $limit
      * @param $sort
      * @param $order
+     *
      * @return
      */
-    private function getModulesCriteria($criteriaModules, $start, $limit, $sort, $order)
+    private function getModulesCriteria($crModules, $start, $limit, $sort, $order)
     {
-        $criteriaModules->setStart($start);
-        $criteriaModules->setLimit($limit);
-        $criteriaModules->setSort($sort);
-        $criteriaModules->setOrder($order);
+        $crModules->setStart($start);
+        $crModules->setLimit($limit);
+        $crModules->setSort($sort);
+        $crModules->setOrder($order);
 
-        return $criteriaModules;
+        return $crModules;
     }
 }

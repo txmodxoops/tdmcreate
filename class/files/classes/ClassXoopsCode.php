@@ -46,8 +46,10 @@ class ClassXoopsCode
 
     /**
      * @public function getClassCriteriaCompo
+     *
      * @param        $var
      * @param string $t
+     *
      * @return string
      */
     public function getClassCriteriaCompo($var, $t = '')
@@ -57,12 +59,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassCriteria
+     *
      * @param        $var
      * @param        $param1
      * @param string $param2
      * @param string $param3
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassCriteria($var, $param1, $param2 = '', $param3 = '', $isParam = false, $t = '')
@@ -81,9 +85,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAdd
+     *
      * @param        $var
      * @param        $param
      * @param string $t
+     *
      * @return string
      */
     public function getClassAdd($var, $param, $t = '')
@@ -93,9 +99,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassSetStart
+     *
      * @param        $var
      * @param        $start
      * @param string $t
+     *
      * @return string
      */
     public function getClassSetStart($var, $start, $t = '')
@@ -105,9 +113,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassSetLimit
+     *
      * @param        $var
      * @param        $limit
      * @param string $t
+     *
      * @return string
      */
     public function getClassSetLimit($var, $limit, $t = '')
@@ -117,9 +127,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAdd
+     *
      * @param        $var
      * @param        $sort
      * @param string $t
+     *
      * @return string
      */
     public function getClassSetSort($var, $sort, $t = '')
@@ -129,9 +141,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAdd
+     *
      * @param        $var
      * @param        $order
      * @param string $t
+     *
      * @return string
      */
     public function getClassSetOrder($var, $order, $t = '')
@@ -141,10 +155,12 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAdd
+     *
      * @param string $paramLeft
      * @param string $paramRight
      * @param string $var
      * @param string $t
+     *
      * @return string
      */
     public function getClassInitVar($paramLeft = '', $paramRight = '', $var = 'this', $t = "\t\t")
@@ -156,6 +172,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsPageNav
+     *
      * @param        $var
      * @param        $param1
      * @param null   $param2
@@ -164,6 +181,7 @@ class ClassXoopsCode
      * @param null   $param5
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsPageNav($var, $param1, $param2 = null, $param3 = null, $param4 = null, $param5 = null, $isParam = false, $t = '')
@@ -179,7 +197,8 @@ class ClassXoopsCode
     }
 
     /**
-    *  @public function getXoopsSimpleForm
+     *  @public function getXoopsSimpleForm
+     *
      * @param string $left
      * @param string $element
      * @param string $elementsContent
@@ -188,6 +207,7 @@ class ClassXoopsCode
      * @param string $filename
      * @param string $type
      * @param string $t
+     *
      * @return string
      */
     public function getXoopsSimpleForm($left = '', $element = '', $elementsContent = '', $caption = '', $var = '', $filename = '', $type = 'post', $t = '')
@@ -204,6 +224,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsThemeForm
+     *
      * @param        $var
      * @param        $param1
      * @param null   $param2
@@ -211,6 +232,7 @@ class ClassXoopsCode
      * @param null   $param4
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsThemeForm($var, $param1, $param2 = null, $param3 = null, $param4 = null, $isParam = false, $t = "\t\t")
@@ -227,10 +249,12 @@ class ClassXoopsCode
 
     /**
      * @public function XoopsFormElementTray
+     *
      * @param        $var
      * @param        $param1
      * @param string $param2
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormElementTray($var, $param1, $param2 = '', $t = "\t\t")
@@ -240,11 +264,13 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormLabel
+     *
      * @param        $var
      * @param string $param1
      * @param null   $param2
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormLabel($var, $param1 = '', $param2 = null, $isParam = false, $t = "\t\t")
@@ -262,12 +288,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormFile
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
      * @param        $param3
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormFile($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
@@ -284,12 +312,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormHidden
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
      * @param bool   $isForm
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false, $t = "\t\t")
@@ -312,6 +342,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormText
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -320,6 +351,7 @@ class ClassXoopsCode
      * @param        $param5
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormText($var, $param1, $param2, $param3 = 75, $param4 = 255, $param5, $isParam = false, $t = "\t\t")
@@ -336,6 +368,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormTextArea
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -343,6 +376,7 @@ class ClassXoopsCode
      * @param        $param4
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormTextArea($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
@@ -360,12 +394,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormColorPicker
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
      * @param        $param3
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormColorPicker($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
@@ -382,6 +418,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormSelectUser
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -389,6 +426,7 @@ class ClassXoopsCode
      * @param        $param4
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3 = 'false', $param4, $isParam = false, $t = "\t\t")
@@ -406,6 +444,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormTextDateSelect
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -413,6 +452,7 @@ class ClassXoopsCode
      * @param        $param4
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormTextDateSelect($var, $param1, $param2, $param3 = '', $param4, $isParam = false, $t = "\t\t")
@@ -430,12 +470,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormEditor
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
      * @param        $param3
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormEditor($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
@@ -452,12 +494,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormCheckBox
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
      * @param        $param3
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormCheckBox($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
@@ -474,12 +518,14 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormRadioYN
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
      * @param        $param3
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormRadioYN($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
@@ -496,6 +542,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormSelect
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -504,6 +551,7 @@ class ClassXoopsCode
      * @param null   $param5
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormSelect($var, $param1, $param2, $param3, $param4 = null, $param5 = null, $isParam = false, $t = "\t\t")
@@ -521,6 +569,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormTag
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -529,6 +578,7 @@ class ClassXoopsCode
      * @param int    $param5
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormTag($var, $param1, $param2, $param3, $param4, $param5 = 0, $isParam = false, $t = "\t\t")
@@ -545,6 +595,7 @@ class ClassXoopsCode
 
     /**
      * @public function getClassXoopsFormButton
+     *
      * @param        $var
      * @param        $param1
      * @param        $param2
@@ -552,6 +603,7 @@ class ClassXoopsCode
      * @param        $param4
      * @param bool   $isParam
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsFormButton($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
@@ -574,7 +626,9 @@ class ClassXoopsCode
      * @param        $param2
      * @param        $param3
      * @param string $t
+     *
      * @return string
+     *
      * @internal param $tableName
      * @internal param $fieldId
      * @internal param $fieldParent
@@ -595,8 +649,8 @@ class ClassXoopsCode
      * @param        $param2
      * @param string $param3
      * @param        $param4
-     *
      * @param string $t
+     *
      * @return string
      */
     public function getClassXoopsMakeSelBox($var, $anchor, $param1, $param2, $param3 = '--', $param4, $t = '')
@@ -609,9 +663,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAddOption
+     *
      * @param        $var
      * @param        $params
      * @param string $t
+     *
      * @return string
      */
     public function getClassAddOption($var, $params, $t = "\t\t")
@@ -621,9 +677,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAddOptionArray
+     *
      * @param        $var
      * @param        $params
      * @param string $t
+     *
      * @return string
      */
     public function getClassAddOptionArray($var, $params, $t = "\t\t")
@@ -633,9 +691,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassAddElement
+     *
      * @param string $var
      * @param string $params
      * @param string $t
+     *
      * @return string
      */
     public function getClassAddElement($var = '', $params = '', $t = "\t\t")
@@ -645,9 +705,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassSetDescription
+     *
      * @param        $var
      * @param        $params
      * @param string $t
+     *
      * @return string
      */
     public function getClassSetDescription($var, $params, $t = "\t\t")
@@ -657,9 +719,11 @@ class ClassXoopsCode
 
     /**
      * @public function getClassSetExtra
+     *
      * @param        $var
      * @param        $params
      * @param string $t
+     *
      * @return string
      */
     public function getClassSetExtra($var, $params, $t = "\t\t")
