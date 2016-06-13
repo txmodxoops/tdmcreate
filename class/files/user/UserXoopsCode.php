@@ -136,7 +136,7 @@ class UserXoopsCode
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $titleLink = array("'title'" => $language.'_TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'");
+        $titleLink = array("'title'" => $language.'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'");
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;

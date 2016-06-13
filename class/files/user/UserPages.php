@@ -171,7 +171,7 @@ class UserPages extends TDMCreateFile
         $ret .= $uc->getUserMetaKeywords($moduleDirname);
         $ret .= $pc->getPhpCodeUnset('keywords');
         $ret .= $pc->getPhpCodeCommentLine('Description');
-        $ret .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableSoleName);
+        $ret .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
         $ret .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
         $ret .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret .= $this->getInclude('footer');
