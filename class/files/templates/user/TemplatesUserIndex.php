@@ -244,7 +244,7 @@ EOT;
     {
         $stuTableName = strtoupper($tableName);
         $ret = <<<EOT
-<{if count(\${$tableName}) gt 0}>
+<{if count(\${$tableName}) > 0}>
 <div class="table-responsive">
     <table class="table table-<{\$table_type}>">
 		<thead>
@@ -293,7 +293,7 @@ EOT;
     public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $ret = <<<EOT
-<{if count(\${$tableName}) gt 0}>
+<{if count(\${$tableName}) > 0}>
 	<!-- Start Show new {$tableName} in index -->
 	<div class="{$moduleDirname}-linetitle"><{\$smarty.const.{$language}INDEX_LATEST_LIST}></div>
 	<table class="table table-<{\$table_type}>">

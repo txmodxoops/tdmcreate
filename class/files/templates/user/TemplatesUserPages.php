@@ -194,7 +194,7 @@ class TemplatesUserPages extends TDMCreateFile
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
         $div = $hc->getHtmlDiv($table, 'table-responsive').PHP_EOL;
 
-        return $hc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
+        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true).PHP_EOL;
     }
 
     /*
