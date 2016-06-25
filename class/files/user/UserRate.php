@@ -27,23 +27,10 @@
  */
 class UserRate extends TDMCreateFile
 {
-    /*
-    * @var mixed
-    */
-    private $uc = null;
-
-    /*
-    * @var string
-    */
-    private $xc = null;
-
-    /*
-    *  @public function constructor
-    *  @param null
-    */
     /**
-     *
-     */
+     *  @public function constructor
+     *  @param null
+     */    
     public function __construct()
     {
         parent::__construct();
@@ -52,11 +39,10 @@ class UserRate extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
-    *  @static function getInstance
-    *  @param null
-    */
     /**
+     *  @static function getInstance
+     *  @param null
+     *
      * @return UserRate
      */
     public static function getInstance()
@@ -119,11 +105,11 @@ class UserRate extends TDMCreateFile
      *
      * @return string
      */
-    private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableAutoincrement, $language)
+    private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSolename, $tableAutoincrement, $language)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases = array('form' => array($this->getUserRateForm($tableName, $language)),
-                    'save' => array($this->getUserRateSave($moduleDirname, $fields, $tableName, $tableAutoincrement, $language)), );
+                    'save' => array($this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSolename, $tableAutoincrement, $language)), );
 
         return $this->xc->getXcSwitch('op', $cases, true);
     }
@@ -166,7 +152,7 @@ class UserRate extends TDMCreateFile
      *
      * @return string
      */
-    public function getUserRateSave($moduleDirname, $fields, $tableName, $tableAutoincrement, $language)
+    public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSolename, $tableAutoincrement, $language)
     {
         $ucfTableName = ucfirst($tableName);
         $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
@@ -177,7 +163,7 @@ class UserRate extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
         $ret .= $this->xc->getXcObjHandlerCreate($tableName);
 
-        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableAutoincrement, $fields);
+        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSolename, $tableAutoincrement, $fields);
 
         $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data');
         $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
@@ -225,12 +211,13 @@ class UserRate extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
+		$tableSolename = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserRateHeader($moduleDirname, $tableName);
-        $content .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableAutoincrement, $language);
+        $content .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSolename, $tableAutoincrement, $language);
         $content .= $this->getUserRateFooter($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
