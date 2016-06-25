@@ -26,5 +26,6 @@ $templateMain = 'tdmcreate_about.tpl';
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('about.php'));
 $about = $adminMenu->renderAbout('7LFE862PGJN88', false);
 $aboutRes = TDMCreate_MakeDonationForm($about);
+$GLOBALS['xoopsTpl']->assign('maintained', sprintf(_AM_TDMCREATE_MAINTAINED, $GLOBALS['xoopsModule']->getVar('name')));
 $GLOBALS['xoopsTpl']->assign('about', $aboutRes);
 include __DIR__.'/footer.php';

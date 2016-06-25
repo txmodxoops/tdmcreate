@@ -683,7 +683,7 @@ class TDMCreateXoopsCode
      *
      *  @return string
      */
-    public function getXcUserSaveElements($moduleDirname, $tableName, $fields)
+    public function getXcUserSaveElements($moduleDirname, $tableName, $tableSolename, $fields)
     {
         $axCodeUserSave = AdminXoopsCode::getInstance();
         $ret = '';
@@ -701,7 +701,7 @@ class TDMCreateXoopsCode
             } elseif (14 == $fieldElement) {
                 $ret .= $axCodeUserSave->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
-                $ret .= self::getXcTextDateSelectSetVar($tableName, $fieldName);
+                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
             } else {
                 $ret .= self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
             }
@@ -987,7 +987,7 @@ class TDMCreateXoopsCode
      *
      *  @return string
      */
-    public function getXcSetVarsObjects($moduleDirname, $tableName, $fields)
+    public function getXcSetVarsObjects($moduleDirname, $tableName, $tableSolename, $fields)
     {
         $axCode = AdminXoopsCode::getInstance();
         $ret = '';
@@ -1017,7 +1017,7 @@ class TDMCreateXoopsCode
                         $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= self::getXcTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
                         break;
                     default:
                         $ret .= self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
@@ -1338,7 +1338,7 @@ class TDMCreateXoopsCode
      *
      *  @return string
      */
-    public function getXcSaveElements($moduleDirname, $tableName, $tableAutoincrement, $fields, $t = '')
+    public function getXcSaveElements($moduleDirname, $tableName, $tableSolename, $tableAutoincrement, $fields, $t = '')
     {
         $axCodeSaveElements = AdminXoopsCode::getInstance();
         $ret = '';
@@ -1356,7 +1356,7 @@ class TDMCreateXoopsCode
             } elseif (14 == $fieldElement) {
                 $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
-                $ret .= self::getXcTextDateSelectSetVar($tableName, $fieldName);
+                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
             } else {
                 if (($f != 0) && $tableAutoincrement == 1) {
                     $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");

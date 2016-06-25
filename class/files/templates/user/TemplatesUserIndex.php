@@ -123,8 +123,8 @@ class TemplatesUserIndex extends TDMCreateFile
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $stuTableName = strtoupper($tableName);
         $lang = $hc->getSmartyConst($language, $stuTableName);
-        $single = $hc->getSmartySingleVar('numb_col');
-        $th = $hc->getHtmlTableHead($lang, '', $single).PHP_EOL;
+        $col = $hc->getSmartySingleVar('numb_col');
+        $th = $hc->getHtmlTableHead($lang, '', $col).PHP_EOL;
         $tr = $hc->getHtmlTableRow($th, 'head').PHP_EOL;
 
         return $hc->getHtmlTableThead($tr).PHP_EOL;
@@ -146,9 +146,9 @@ class TemplatesUserIndex extends TDMCreateFile
     private function getTemplatesUserIndexTableTbody($moduleDirname, $tableName, $tableSolename, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $single = $hc->getSmartySingleVar('panel_type');
+        $type = $hc->getSmartySingleVar('panel_type');
         $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
-        $div = $hc->getHtmlDiv($include, 'panel panel-'.$single);
+        $div = $hc->getHtmlDiv($include, 'panel panel-'.$type);
         $cont = $hc->getHtmlTableData($div).PHP_EOL;
         $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
         $cont   .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
@@ -244,7 +244,7 @@ EOT;
     {
         $stuTableName = strtoupper($tableName);
         $ret = <<<EOT
-<{if count(\${$tableName}) gt 0}>
+<{if count(\${$tableName}) > 0}>
 <div class="table-responsive">
     <table class="table table-<{\$table_type}>">
 		<thead>
@@ -280,7 +280,7 @@ EOT;
         $table .= $hc->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
         $div = $hc->getHtmlDiv($table, 'table-responsive').PHP_EOL;
 
-        return $ret/*$hc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true)*/.PHP_EOL;
+        return $ret/*$hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true)*/.PHP_EOL;
     }
 
     /*
@@ -293,7 +293,7 @@ EOT;
     public function getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $ret = <<<EOT
-<{if count(\${$tableName}) gt 0}>
+<{if count(\${$tableName}) > 0}>
 	<!-- Start Show new {$tableName} in index -->
 	<div class="{$moduleDirname}-linetitle"><{\$smarty.const.{$language}INDEX_LATEST_LIST}></div>
 	<table class="table table-<{\$table_type}>">

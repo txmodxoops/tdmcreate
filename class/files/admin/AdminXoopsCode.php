@@ -271,7 +271,7 @@ class AdminXoopsCode
      *
      *  @return string
      */
-    public function getAxcSetVarsObjects($moduleDirname, $tableName, $fields)
+    public function getAxcSetVarsObjects($moduleDirname, $tableName, $tableSolename, $fields)
     {
         $xCodeSetVars = TDMCreateXoopsCode::getInstance();
         $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
@@ -301,7 +301,7 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
                         break;
                     default:
                         $ret .= $xCodeSetVars->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");

@@ -66,13 +66,13 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserAddMeta($type = '', $language, $tableName)
+    public function getUserAddMeta($type = '', $language, $tableName, $t = '')
     {
         $pCodeAddMeta = TDMCreatePhpCode::getInstance();
         $stuTableName = strtoupper($tableName);
         $stripTags = $pCodeAddMeta->getPhpCodeStripTags('', $language.$stuTableName, true);
 
-        return "\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
+        return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
 
     /**
