@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ .'/header.php';
 // Recovered value of arguments op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 // Get fields Variables
@@ -41,7 +41,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
@@ -102,7 +102,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
@@ -179,7 +179,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
@@ -246,4 +246,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ .'/footer.php';

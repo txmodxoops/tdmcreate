@@ -209,7 +209,7 @@ class UserSubmit extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases = array('form' => array($this->getUserSubmitForm($tableName, $language, $t)),
-                    'save' => array($this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSolename, $tableSubmit, $tableAutoincrement, $language, $t)));
+                    'save' => array($this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSolename, $tableSubmit, $tableAutoincrement, $language, $t)), );
 
         return $xc->getXcSwitch('op', $cases, true, false, $t);
     }
@@ -234,7 +234,7 @@ class UserSubmit extends TDMCreateFile
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
-			$tableSolename = $tables[$t]->getVar('table_solename');
+            $tableSolename = $tables[$t]->getVar('table_solename');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             $tableAutoincrement[] = $tables[$t]->getVar('table_autoincrement');
         }

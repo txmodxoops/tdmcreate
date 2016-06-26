@@ -476,9 +476,9 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldElement = array();
-		foreach (array_keys($fields) as $f) {
-            $fieldElement[] = $fields[$f]->getVar('field_element');			
-			if (in_array(array(3, 4), $fieldElement)) {
+        foreach (array_keys($fields) as $f) {
+            $fieldElement[] = $fields[$f]->getVar('field_element');
+            if (in_array(array(3, 4), $fieldElement)) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 $rpFieldName = $this->getRightString($fieldName);
                 $ucfFieldName = ucfirst($rpFieldName);

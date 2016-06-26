@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.59 morefiles.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ .'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 //
@@ -36,7 +36,7 @@ switch ($op) {
         $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('morefiles.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('morefiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MORE_FILE, 'morefiles.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -71,7 +71,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('morefiles.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('morefiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
@@ -113,7 +113,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('morefiles.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('morefiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'morefiles.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
@@ -140,4 +140,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__.'/footer.php';
+include __DIR__ .'/footer.php';

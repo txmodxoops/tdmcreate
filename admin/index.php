@@ -21,7 +21,7 @@
  *
  * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ .'/header.php';
 $countSettings = $tdmcreate->getHandler('settings')->getCount();
 $countModules = $tdmcreate->getHandler('modules')->getCount();
 $countTables = $tdmcreate->getHandler('tables')->getCount();
@@ -30,12 +30,11 @@ $countFiles = $tdmcreate->getHandler('morefiles')->getCount();
 unset($criteria);
 $templateMain = 'tdmcreate_index.tpl';
 $adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMSETTINGS.'</label>', $countSettings, 'Blue');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMMODULES.'</label>', $countModules, 'Green');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'</label>', $countTables, 'Orange');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields, 'Gray');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles, 'Red');
-
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMSETTINGS.'</label>', $countSettings), 'Blue');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMMODULES.'</label>', $countModules), 'Green');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'</label>', $countTables), 'Orange');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields), 'Gray');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = array(
         TDMC_UPLOAD_PATH,
@@ -50,6 +49,6 @@ foreach (array_keys($folder) as $i) {
     $adminMenu->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
-$GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('index.php'));
+$GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
-include __DIR__.'/footer.php';
+include __DIR__ .'/footer.php';

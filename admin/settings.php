@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.59 settings.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ .'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 //
@@ -36,7 +36,7 @@ switch ($op) {
         $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -65,7 +65,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
@@ -142,7 +142,7 @@ switch ($op) {
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_settings.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
@@ -177,4 +177,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ .'/footer.php';

@@ -9,7 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
+use Xmf\Request;
 /**
  * tdmcreate module.
  *
@@ -51,11 +51,6 @@ $GLOBALS['xoopsTpl']->assign('modPathIcon32', $modPathIcon32);
 xoops_loadLanguage('admin', $thisDirname);
 xoops_loadLanguage('modinfo', $thisDirname);
 xoops_loadLanguage('main', $thisDirname);
-// Locad admin menu class
-if (file_exists($GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php'))) {
-    include_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
-} else {
-    redirect_header('../../../admin.php', 5, _AM_MODULEADMIN_MISSING, false);
-}
+
 xoops_cp_header();
-$adminMenu = new ModuleAdmin();
+$adminMenu = \Xmf\Module\Admin::getInstance();
