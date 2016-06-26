@@ -29,8 +29,9 @@ class UserRate extends TDMCreateFile
 {
     /**
      *  @public function constructor
+     *
      *  @param null
-     */    
+     */
     public function __construct()
     {
         parent::__construct();
@@ -41,6 +42,7 @@ class UserRate extends TDMCreateFile
 
     /**
      *  @static function getInstance
+     *
      *  @param null
      *
      * @return UserRate
@@ -211,7 +213,7 @@ class UserRate extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-		$tableSolename = $table->getVar('table_solename');
+        $tableSolename = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');

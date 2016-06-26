@@ -21,7 +21,7 @@
  *
  * @version         $Id: building.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ .'/header.php';
 $op = XoopsRequest::getString('op', 'default');
 $mid = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
@@ -37,7 +37,7 @@ if (!file_exists($indexFile = $cachePath.'/index.html')) {
 switch ($op) {
     case 'build':
         $templateMain = 'tdmcreate_building.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('building.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('building.php'));
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
         // Directories for copy from to
@@ -92,7 +92,7 @@ switch ($op) {
     case 'default':
     default:
         $templateMain = 'tdmcreate_building.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('building.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('building.php'));
         // Redirect if there aren't modules
         $nbModules = $tdmcreate->getHandler('modules')->getCount();
         if (0 == $nbModules) {
@@ -105,4 +105,4 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ .'/footer.php';
