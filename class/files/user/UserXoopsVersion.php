@@ -495,7 +495,7 @@ class UserXoopsVersion extends TDMCreateFile
 
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
-            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')");
             $ret .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
             $group = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key');
             $ret .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
@@ -506,7 +506,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get Admin groups');
             $ret .= $xCodeVConfig->getXcEqualsOperator('$criteria ', 'new CriteriaCompo()');
             $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
-            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')");
             $ret .= $xCodeVConfig->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
             $adminGroup = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key');
             $ret .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
