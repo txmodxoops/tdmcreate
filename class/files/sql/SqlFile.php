@@ -79,7 +79,7 @@ class SqlFile extends TDMCreateFile
         $date = date('D M d, Y');
         $time = date('G:i');
         $serverName = $_SERVER['SERVER_NAME'];
-        $serverVersion = mysql_get_server_info();
+        $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
         $phpVersion = phpversion();
         // Header Sql Comments
         $ret = $this->getSimpleString("# SQL Dump for {$moduleName} module");
