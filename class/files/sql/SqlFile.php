@@ -79,17 +79,17 @@ class SqlFile extends TDMCreateFile
         $date = date('D M d, Y');
         $time = date('H:i:s');
         $serverName = $_SERVER['SERVER_NAME'];
-		      $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
+		$serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
         $phpVersion = phpversion();
         // Header Sql Comments
         $ret = '';
-		      $arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4', 
-								                         '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}", 
-								                         "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}", 
-								                         "# PHP Version: {$phpVersion}\n");
-		      foreach($arrayServerInfo as $serverInfo) {
-			         $ret .= $this->getSimpleString($serverInfo);
-		      }
+		$arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4', 
+								 '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}", 
+								 "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}", 
+								 "# PHP Version: {$phpVersion}\n");
+		foreach($arrayServerInfo as $serverInfo) {
+			$ret .= $this->getSimpleString($serverInfo);
+		}
 
         return $ret;
     }
@@ -107,11 +107,11 @@ class SqlFile extends TDMCreateFile
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
         $ret = '';
-		      $arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}", 
-							                       '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
-		      foreach($arrayDbTable as $dbTable) {
-			         $ret .= $this->getSimpleString($dbTable);
-		      }
+		$arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}", 
+							  '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
+		foreach($arrayDbTable as $dbTable) {
+			$ret .= $this->getSimpleString($dbTable);
+		}
 		
         return $ret;
     }
