@@ -77,19 +77,19 @@ class SqlFile extends TDMCreateFile
     private function getHeaderSqlComments($moduleName)
     {
         $date = date('D M d, Y');
-        $time = date('G:i');
+        $time = date('H:i:s');
         $serverName = $_SERVER['SERVER_NAME'];
-        $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
+		      $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
         $phpVersion = phpversion();
         // Header Sql Comments
-        $ret = $this->getSimpleString("# SQL Dump for {$moduleName} module");
-        $ret .= $this->getSimpleString('# PhpMyAdmin Version: 4.0.4');
-        $ret .= $this->getSimpleString('# http://www.phpmyadmin.net');
-        $ret .= $this->getSimpleString('#');
-        $ret .= $this->getSimpleString("# Host: {$serverName}");
-        $ret .= $this->getSimpleString("# Generated on: {$date} to {$time}");
-        $ret .= $this->getSimpleString("# Server version: {$serverVersion}");
-        $ret .= $this->getSimpleString("# PHP Version: {$phpVersion}\n");
+        $ret = '';
+		      $arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4', 
+								                         '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}", 
+								                         "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}", 
+								                         "# PHP Version: {$phpVersion}\n");
+		      foreach($arrayServerInfo as $serverInfo) {
+			         $ret .= $this->getSimpleString($serverInfo);
+		      }
 
         return $ret;
     }
@@ -106,11 +106,13 @@ class SqlFile extends TDMCreateFile
      */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
-        $ret = $this->getSimpleString('#');
-        $ret .= $this->getSimpleString("# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}");
-        $ret .= $this->getSimpleString('#');
-        $ret .= $this->getSimpleString("\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
-
+        $ret = '';
+		      $arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}", 
+							                       '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
+		      foreach($arrayDbTable as $dbTable) {
+			         $ret .= $this->getSimpleString($dbTable);
+		      }
+		
         return $ret;
     }
 
