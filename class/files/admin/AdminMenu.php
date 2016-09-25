@@ -31,9 +31,7 @@ class AdminMenu extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -177,7 +175,7 @@ class AdminMenu extends TDMCreateFile
      * @param string $module
      * @param string $language
      * @param string $langAbout
-     * @param integer $menu    
+     * @param integer $menu
      *
      * @return string
      */

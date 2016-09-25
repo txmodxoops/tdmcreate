@@ -24,7 +24,7 @@
         <{foreach item=module from=$modules_list}>
             <{if $module.id > 0}>
                 <tr id="module<{$module.id}>" class="modules toggleMain">
-                    <td class='center bold width5'>&#40;<{$module.id}>&#41;
+                    <td class='center bold width6'>&#40;<{$module.id}>&#41;
                         <a href="#" title="Toggle"><img class="imageToggle" src="<{$modPathIcon16}>/toggle.png" alt="Toggle" /></a>
                     </td>
                     <td class='center bold green name'><{$module.name}></td>

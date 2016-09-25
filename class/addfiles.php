@@ -51,9 +51,7 @@ class TDMCreateAddFiles extends XoopsObject
     *  @public function constructor class
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->tdmcreate = TDMCreateHelper::getInstance();

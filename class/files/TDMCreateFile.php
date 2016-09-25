@@ -87,9 +87,7 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -239,8 +237,7 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @private function setContent
     *  @param null
     */
-    /**
-     */
+
     private function getContent()
     {
         return $this->content;
@@ -326,8 +323,7 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @private function getMode
     *  @param null
     */
-    /**
-     */
+
     private function getMode()
     {
         return $this->mode;
@@ -512,7 +508,7 @@ class TDMCreateFile extends TDMCreateTableFields
 
     /*
      * @public function getSimpleString
-     * @param $string     
+     * @param $string
      *
      * @return string
      */

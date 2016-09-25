@@ -31,9 +31,7 @@ class UserSingle extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -111,7 +109,7 @@ class UserSingle extends TDMCreateFile
     }
 
     /*
-     * @public function getUserSingleBody     
+     * @public function getUserSingleBody
      * @param $moduleDirname
      * @param $tableName
      * @param $language
@@ -120,7 +118,7 @@ class UserSingle extends TDMCreateFile
      */
     public function getUserSingleBody($moduleDirname, $tableName, $language)
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 
 EOT;
         $ret .= $this->getSimpleString('$keywords = array();');

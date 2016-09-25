@@ -36,9 +36,7 @@ class LanguageDefines
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();

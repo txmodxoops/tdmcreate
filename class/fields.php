@@ -129,7 +129,6 @@ class TDMCreateFields extends XoopsObject
         $form->addElement(new TDMCreateFormLabel('</tr></thead>'));
         $form->addElement(new TDMCreateFormLabel('<tbody>'));
 
-        //
         return $form;
     }
 
@@ -292,7 +291,7 @@ class TDMCreateFields extends XoopsObject
             $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
             $checkFieldMain->addOption($i, _AM_TDMCREATE_FIELD_MAIN);
             $parametersTray->addElement($checkFieldMain);
-            //
+
             $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">'._AM_TDMCREATE_FIELD_PARAMETERS_LIST.'</div><div class="portlet-content">'.$parametersTray->render().'</div></div></td></tr>'));
         }
     }
@@ -311,7 +310,7 @@ class TDMCreateFields extends XoopsObject
         // Header function class
         $fieldsForm = self::getInstance();
         $form = $fieldsForm->getHeaderForm($action);
-        //
+
         $class = 'even';
         // Get the number of fields - goffy
         $tablesHandler = &$tdmcreate->getHandler('tables');
@@ -431,7 +430,7 @@ class TDMCreateFields extends XoopsObject
                     $checkFieldMain = new TDMCreateFormRadio('', 'field_main', $fieldMain);
                     $checkFieldMain->addOption($id, _AM_TDMCREATE_FIELD_MAIN);
                     $parametersTray->addElement($checkFieldMain);
-                    //
+
                     $form->addElement(new TDMCreateFormLabel('<td><div class="portlet"><div class="portlet-header">'._AM_TDMCREATE_FIELD_PARAMETERS_LIST.'</div><div class="portlet-content">'.$parametersTray->render().'</div></div></td></tr>'));
                 }
             }

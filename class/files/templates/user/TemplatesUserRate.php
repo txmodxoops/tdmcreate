@@ -31,9 +31,7 @@ class TemplatesUserRate extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -271,7 +269,7 @@ EOT;
             $content .= $this->getTemplatesUserRateBodyFieldnameEmpty($moduleDirname, $table, $language);
         }
         $content .= $this->getTemplatesUserRateFooter($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

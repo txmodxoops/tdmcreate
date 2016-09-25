@@ -62,9 +62,7 @@ class TDMCreateTables extends XoopsObject
     *  @public function constructor class
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->initVar('table_id', XOBJ_DTYPE_INT);
@@ -151,7 +149,7 @@ class TDMCreateTables extends XoopsObject
         xoops_load('XoopsFormLoader');
         $form = new XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        //
+
         $modules = $tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
@@ -159,11 +157,11 @@ class TDMCreateTables extends XoopsObject
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
-        //
+
         $tableNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_NAME, 'table_name', 40, 150, $tableName);
         $tableNameText->setDescription(_AM_TDMCREATE_TABLE_NAME_DESC);
         $form->addElement($tableNameText, true);
-        //
+
         $tableSoleNameText = new XoopsFormText(_AM_TDMCREATE_TABLE_SOLENAME, 'table_solename', 40, 150, $this->getVar('table_solename'));
         $tableSoleNameText->setDescription(_AM_TDMCREATE_TABLE_SOLENAME_DESC);
         $form->addElement($tableSoleNameText, true);
@@ -173,27 +171,26 @@ class TDMCreateTables extends XoopsObject
         $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);
         $form->addElement($category);
 
-        //
         $tableFieldname = new XoopsFormText(_AM_TDMCREATE_TABLE_FIELDNAME, 'table_fieldname', 30, 50, $this->getVar('table_fieldname'));
         $tableFieldname->setDescription(_AM_TDMCREATE_TABLE_FIELDNAME_DESC);
         $form->addElement($tableFieldname);
-        //
+
         $tableNumbFileds = new XoopsFormText(_AM_TDMCREATE_TABLE_NBFIELDS, 'table_nbfields', 10, 25, $this->getVar('table_nbfields'));
         $tableNumbFileds->setDescription(_AM_TDMCREATE_TABLE_NBFIELDS_DESC);
         $form->addElement($tableNumbFileds, true);
-        //
+
         if (!$isNew) {
             $tableOrder = new XoopsFormText(_AM_TDMCREATE_TABLE_ORDER, 'table_order', 5, 10, $this->getVar('table_order'));
             $tableOrder->setDescription(_AM_TDMCREATE_TABLE_ORDER_DESC);
             $form->addElement($tableOrder, true);
         }
-        //
+
         $getTableImage = $this->getVar('table_image');
         $tableImage = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
         $uploadsDirectory = '/uploads/tdmcreate/images/tables';
         $iconsDirectory = is_dir(XOOPS_ROOT_PATH.$icons32Directory) ? $icons32Directory : $uploadsDirectory;
-        //
+
         $imgtray1 = new XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br />');
         $imgpath1 = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
@@ -210,14 +207,14 @@ class TDMCreateTables extends XoopsObject
         $imgtray1->addElement($fileseltray1);
         $imgtray1->setDescription(_AM_TDMCREATE_TABLE_IMAGE_DESC);
         $form->addElement($imgtray1);
-        //
+
         $tableAutoincrement = $this->isNew() ? 1 : $this->getVar('table_autoincrement');
         $checkTableAutoincrement = new XoopsFormRadioYN(_AM_TDMCREATE_TABLE_AUTO_INCREMENT, 'table_autoincrement', $tableAutoincrement);
         $checkTableAutoincrement->setDescription(_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC);
         $form->addElement($checkTableAutoincrement);
-        //
+
         $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
-        //
+
         $tableCheckAll = new XoopsFormCheckBox('', 'tablebox', 1);
         $tableCheckAll->addOption('allbox', _AM_TDMCREATE_TABLE_ALL);
         $tableCheckAll->setExtra(' onclick="xoopsCheckAll(\'tableform\', \'tablebox\');" ');
@@ -230,11 +227,11 @@ class TDMCreateTables extends XoopsObject
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_'.strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
-        //
+
         $optionsTray->setDescription(_AM_TDMCREATE_TABLE_OPTIONS_CHECKS_DESC);
-        //
+
         $form->addElement($optionsTray);
-        //
+
         $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormHidden('table_id', ($isNew ? 0 : $this->getVar('table_id'))));

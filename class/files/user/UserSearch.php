@@ -41,9 +41,7 @@ class UserSearch extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -134,7 +132,7 @@ class UserSearch extends TDMCreateFile
      */
     public function getUserSearch($moduleDirname, $tableName, $language)
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 
 EOT;
         $ret .= $this->getSimpleString('$keywords = array();');

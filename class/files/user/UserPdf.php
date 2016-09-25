@@ -41,9 +41,7 @@ class UserPdf extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -103,7 +101,7 @@ class UserPdf extends TDMCreateFile
         $fileExist = $this->phpcode->getPhpCodeFileExists("\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/tcpdf.php'");
         $requireOnce = $this->phpcode->getPhpCodeIncludeDir('$tcpdf', '', true, true, 'require', "\t");
         $ret .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-        $redirectHeader = $this->xc->getXcRedirectHeader($tableName, '.php', $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader($tableName, $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader, $t = '');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
         $ret .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);

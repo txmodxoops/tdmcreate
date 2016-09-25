@@ -31,9 +31,7 @@ class TemplatesUserPdf extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -76,8 +74,8 @@ class TemplatesUserPdf extends TDMCreateFile
      */
     private function getTemplatesUserPdfBody()
     {
-        $ret = <<<EOT
-<div><{\$pdfoutput}></div>
+        $ret = <<<'EOT'
+<div><{$pdfoutput}></div>
 EOT;
 
         return $ret;
@@ -96,7 +94,7 @@ EOT;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getTemplatesUserPdfBody();
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

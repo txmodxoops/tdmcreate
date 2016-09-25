@@ -132,7 +132,7 @@ class TDMCreateStructure
     /*
      *  @private function getFolderName
      *  @return string $folderName
-     * 
+     *
      * @return null
      */
     private function getFolderName()

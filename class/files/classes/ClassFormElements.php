@@ -674,10 +674,10 @@ class ClassFormElements extends TDMCreateAbstract
             $rpFieldName = $tf->getRightString($fieldName);
             $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
-            //
+
             $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
-            //
+
             if (1 == $fieldInForm) {
                 // Switch elements
                 switch ($fieldElement) {

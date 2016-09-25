@@ -31,9 +31,7 @@ class TDMCreateHtmlSmartyCodes
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
     }

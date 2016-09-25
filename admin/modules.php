@@ -21,12 +21,12 @@
  *
  * @version         $Id: 1.59 modules.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__ .'/header.php';
+include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $modId = XoopsRequest::getInt('mod_id');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -83,9 +83,9 @@ switch ($op) {
             redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($modId)) {
-            $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
+            $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         } else {
-            $modulesObj = &$tdmcreate->getHandler('modules')->create();
+            $modulesObj = $tdmcreate->getHandler('modules')->create();
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
         //Form module save
@@ -156,7 +156,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        $form = &$modulesObj->getFormModules();
+        $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -175,7 +175,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
+        $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -209,4 +209,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__ .'/footer.php';
+include __DIR__.'/footer.php';

@@ -72,7 +72,7 @@ class ClassFiles extends TDMCreateFile
     /**
      *  @private function getInitVar
      *
-     *  @param string $fieldName    
+     *  @param string $fieldName
      *  @param string $type
      *
      * @return string
@@ -156,7 +156,7 @@ class ClassFiles extends TDMCreateFile
      *
      *  @param $moduleDirname
      *  @param $tableName
-     *  @param $fields   
+     *  @param $fields
      *
      *  @return string
      */
@@ -253,7 +253,7 @@ class ClassFiles extends TDMCreateFile
      *  @private function getFunctionForm
      *
      *  @param string $module
-     *  @param string $table     
+     *  @param string $table
      *
      * @return string
      */
@@ -481,7 +481,7 @@ class ClassFiles extends TDMCreateFile
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            //
+
             $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId = $fieldElements->getVar('fieldelement_id');
             $rpFieldName = $this->getRightString($fieldName);
@@ -758,7 +758,7 @@ class ClassFiles extends TDMCreateFile
     }
 
     /*
-     * @public function render    
+     * @public function render
      * @param null
      *
      * @return bool|string
@@ -792,7 +792,7 @@ class ClassFiles extends TDMCreateFile
                 $fieldParent = $fieldName; // $fieldParent = fields parameter parent field
             }
             $fieldElement = $fields[$f]->getVar('field_element');
-            //
+
             $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
         }

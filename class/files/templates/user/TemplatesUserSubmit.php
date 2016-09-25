@@ -31,9 +31,7 @@ class TemplatesUserSubmit extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -110,19 +108,19 @@ class TemplatesUserSubmit extends TDMCreateFile
         $const = $hc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
         $li = $hc->getHtmlLi($const).PHP_EOL;
         $const = $hc->getSmartyConst($language, 'SUBMIT_ALLPENDING');
-        $li    .= $hc->getHtmlLi($const).PHP_EOL;
+        $li .= $hc->getHtmlLi($const).PHP_EOL;
         $const = $hc->getSmartyConst($language, 'SUBMIT_DONTABUSE');
-        $li    .= $hc->getHtmlLi($const).PHP_EOL;
+        $li .= $hc->getHtmlLi($const).PHP_EOL;
         $const = $hc->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
-        $li    .= $hc->getHtmlLi($const).PHP_EOL;
+        $li .= $hc->getHtmlLi($const).PHP_EOL;
         $ul = $hc->getHtmlUl($li).PHP_EOL;
         $ret = $hc->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
 
         $single = $hc->getSmartySingleVar('message_error').PHP_EOL;
         $divError = $hc->getHtmlDiv($single, 'errorMsg').PHP_EOL;
-        $ret   .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
+        $ret .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
         $single = $hc->getSmartySingleVar('form').PHP_EOL;
-        $ret   .= $hc->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
+        $ret .= $hc->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
 
         return $ret;
     }
@@ -163,7 +161,7 @@ class TemplatesUserSubmit extends TDMCreateFile
         $content = $this->getTemplatesUserSubmitHeader($moduleDirname);
         $content .= $this->getTemplatesUserSubmit($moduleDirname, $language);
         $content .= $this->getTemplatesUserSubmitFooter($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

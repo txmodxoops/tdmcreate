@@ -31,9 +31,7 @@ class UserSubmit extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -75,7 +73,7 @@ class UserSubmit extends TDMCreateFile
     }
 
     /*
-     * @public function getUserSubmitHeader    
+     * @public function getUserSubmitHeader
      * @param $moduleDirname
      *
      * @return string

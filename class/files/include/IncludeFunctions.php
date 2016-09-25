@@ -31,9 +31,7 @@ class IncludeFunctions extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -414,7 +412,7 @@ EOT;
         $content .= $this->getFunctionMetaDescription($moduleDirname);
         $content .= $this->getRewriteUrl($moduleDirname, $tableName);
         $content .= $this->getRewriteFilter($moduleDirname, $tableName);
-        //
+
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

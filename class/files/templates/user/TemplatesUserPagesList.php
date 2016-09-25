@@ -31,9 +31,7 @@ class TemplatesUserPagesList extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -72,182 +70,6 @@ class TemplatesUserPagesList extends TDMCreateFile
         $this->setTable($table);
         $this->setTables($tables);
         $this->setFileName($filename);
-    }
-
-    /*
-    *  @private function getTemplatesUserPagesListHeader
-    *  @param string $language
-    */
-    /**
-     * @param $language
-     *
-     * @return string
-     */
-    private function getTemplatesUserPagesListStartTable()
-    {
-        $ret = <<<EOT
-<div class="table-responsive">
-    <table class="table table-<{\$type}>">\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserPagesListThead
-    *  @param string $language
-    */
-    /**
-     * @param $language
-     *
-     * @return string
-     */
-    private function getTemplatesUserPagesListThead($table, $language)
-    {
-        $ret = <<<EOT
-		<thead>
-			<tr>\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_thead')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->getRightString($fieldName);
-                    $ret .= <<<EOT
-				<th><{\$list.{$rpFieldName}}></th>\n
-EOT;
-                }
-            }
-        }
-        $ret .= <<<EOT
-			</tr>
-		</thead>\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserPagesListTbody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
-     * @return string
-     */
-    private function getTemplatesUserPagesListTbody($moduleDirname, $table, $language)
-    {
-        $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
-		<tbody>
-			<tr>\n
-EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldElement = $fields[$f]->getVar('field_element');
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_tbody')) {
-                    switch ($fieldElement) {
-                        default:
-                        case 10:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->getRightString($fieldName);
-                            $ret .= <<<EOT
-				<td class="center pad5"><img src="<{\$xoops_icons32_url}>/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
-EOT;
-                            break;
-                        case 13:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->getRightString($fieldName);
-                            $ret .= <<<EOT
-				<td class="center pad5"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
-EOT;
-                            break;
-                        case 2:
-                        case 3:
-                        case 4:
-                            $fieldName = $fields[$f]->getVar('field_name');
-                            $rpFieldName = $this->getRightString($fieldName);
-                            $ret .= <<<EOT
-				<td class="justify pad5"><{\$list.{$rpFieldName}}></td>\n
-EOT;
-                            break;
-                    }
-                }
-            }
-        }
-        $ret .= <<<EOT
-			</tr>
-		</tbody>\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserPagesListTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
-     * @return string
-     */
-    private function getTemplatesUserPagesListTfoot($table, $language)
-    {
-        $tableName = $table->getVar('table_name');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $ret = <<<EOT
-		<tfoot>
-			<tr>\n
-EOT;
-
-        foreach (array_keys($fields) as $f) {
-            if (1 == $fields[$f]->getVar('field_user')) {
-                if (1 == $fields[$f]->getVar('field_tfoot')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->getRightString($fieldName);
-                    $ret .= <<<EOT
-				<td class="center"><{\$list.{$rpFieldName}}></td>\n
-EOT;
-                }
-            }
-        }
-        $ret .= <<<EOT
-			</tr>
-		</tfoot>\n
-EOT;
-
-        return $ret;
-    }
-
-    /*
-    *  @private function getTemplatesUserPagesListEndTable
-    *  @param null
-    */
-    /**
-     * @param null
-     *
-     * @return string
-     */
-    private function getTemplatesUserPagesListEndTable()
-    {
-        $ret = <<<EOT
-	</table>
-</div>\n
-EOT;
-
-        return $ret;
     }
 
     /*
@@ -354,30 +176,25 @@ EOT;
     {
         $module = $this->getModule();
         $table = $this->getTable();
-        $tables = $this->getTables();
-        //$tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        //$tables = $this->getTables();
+        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
         $filename = $this->getFileName();
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = '';
-        foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableCategory[] = $tables[$t]->getVar('table_category');
-            $tableIndex = $tables[$t]->getVar('table_index');
-            if (in_array(0, $tableCategory)) {
-                $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
-            }
+        //foreach (array_keys($tables) as $t) {
+            $tableId = $table/*s[$t]*/->getVar('table_id');
+        $tableMid = $table/*s[$t]*/->getVar('table_mid');
+        $tableName = $table/*s[$t]*/->getVar('table_name');
+        $tableSoleName = $table/*s[$t]*/->getVar('table_solename');
+        $tableCategory[] = $table/*s[$t]*/->getVar('table_category');
+        $tableIndex = $table/*s[$t]*/->getVar('table_index');
+        if (in_array(0, $tableCategory)) {
+            $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         }
-        /*$content = $this->getTemplatesUserPagesListStartTable();
-        $content .= $this->getTemplatesUserPagesListThead($table, $language);
-        $content .= $this->getTemplatesUserPagesListTbody($moduleDirname, $table, $language);
-        $content .= $this->getTemplatesUserPagesListTfoot($table, $language);
-        $content .= $this->getTemplatesUserPagesListEndTable();*/
+        //}
         //$content = $this->getTemplatesUserPagesListPanel($moduleDirname, $table);
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

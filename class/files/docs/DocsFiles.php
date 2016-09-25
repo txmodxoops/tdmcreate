@@ -31,9 +31,7 @@ class DocsFiles extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -136,7 +134,7 @@ EOT;
      */
     public function getInstallFile()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 Read Me First
 =============
 
@@ -155,7 +153,7 @@ EOT;
      */
     public function getReadmeFile()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 Read Me First
 =============
 

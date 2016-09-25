@@ -31,9 +31,7 @@ class LanguageBlocks extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -102,12 +100,12 @@ class LanguageBlocks extends TDMCreateFile
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 $stuFieldName = strtoupper($fieldName);
-                //
+
                 $rpFieldName = $this->getRightString($fieldName);
                 $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
-                //
+
                 $fieldNameDesc = ucfirst($rpFieldName);
-                //
+
                 $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
             }
         }
@@ -145,7 +143,7 @@ class LanguageBlocks extends TDMCreateFile
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getLanguageBlock($module, $language);
         $content .= $this->getLanguageFooter();
-        //
+
         $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

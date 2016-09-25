@@ -31,9 +31,7 @@ class LanguageMain extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -170,7 +168,7 @@ As you can see, you've created a page with a list of links at the top to navigat
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->geLanguagetMain($module, $language);
         $content .= $this->geLanguagetMainFooter($language);
-        //
+
         $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

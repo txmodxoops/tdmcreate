@@ -98,15 +98,15 @@ class TDMCreateMoreFiles extends XoopsObject
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        //
+
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_MORE_FILES_NEW) : sprintf(_AM_TDMCREATE_MORE_FILES_EDIT);
-        //
+
         xoops_load('XoopsFormLoader');
-        //
+
         $form = new XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        //
+
         $modules = $tdmcreate->getHandler('modules')->getObjects(null);
         $modulesSelect = new XoopsFormSelect(_AM_TDMCREATE_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', _AM_TDMCREATE_MORE_FILES_MODULE_SELECT);
@@ -115,19 +115,19 @@ class TDMCreateMoreFiles extends XoopsObject
             $modulesSelect->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($modulesSelect, true);
-        //
+
         $modName = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_NAME, 'file_name', 50, 255, $this->getVar('file_name'));
         $modName->setDescription(_AM_TDMCREATE_MORE_FILES_NAME_DESC);
         $form->addElement($modName, true);
-        //
+
         $fileEstension = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_EXTENSION, 'file_extension', 50, 255, $this->getVar('file_extension'));
         $fileEstension->setDescription(_AM_TDMCREATE_MORE_FILES_EXTENSION_DESC);
         $form->addElement($fileEstension, true);
-        //
+
         $fileInfolder = new XoopsFormText(_AM_TDMCREATE_MORE_FILES_INFOLDER, 'file_infolder', 50, 255, $this->getVar('file_infolder'));
         $fileInfolder->setDescription(_AM_TDMCREATE_MORE_FILES_INFOLDER_DESC);
         $form->addElement($fileInfolder, true);
-        //
+
         $form->addElement(new XoopsFormHidden('op', 'save'));
         $form->addElement(new XoopsFormButton(_REQUIRED.' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
 

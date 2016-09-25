@@ -79,17 +79,17 @@ class SqlFile extends TDMCreateFile
         $date = date('D M d, Y');
         $time = date('H:i:s');
         $serverName = $_SERVER['SERVER_NAME'];
-		$serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
+        $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
         $phpVersion = phpversion();
         // Header Sql Comments
-        $ret = '';
-		$arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4', 
-								 '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}", 
-								 "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}", 
-								 "# PHP Version: {$phpVersion}\n");
-		foreach($arrayServerInfo as $serverInfo) {
-			$ret .= $this->getSimpleString($serverInfo);
-		}
+        $ret = null;
+        $arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4',
+                                 '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}",
+                                 "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}",
+                                 "# PHP Version: {$phpVersion}\n", );
+        foreach ($arrayServerInfo as $serverInfo) {
+            $ret .= $this->getSimpleString($serverInfo);
+        }
 
         return $ret;
     }
@@ -106,13 +106,13 @@ class SqlFile extends TDMCreateFile
      */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
-        $ret = '';
-		$arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}", 
-							  '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (");
-		foreach($arrayDbTable as $dbTable) {
-			$ret .= $this->getSimpleString($dbTable);
-		}
-		
+        $ret = null;
+        $arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
+                              '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (", );
+        foreach ($arrayDbTable as $dbTable) {
+            $ret .= $this->getSimpleString($dbTable);
+        }
+
         return $ret;
     }
 
@@ -368,6 +368,7 @@ class SqlFile extends TDMCreateFile
      */
     private function getKey($key, $fieldName)
     {
+        $ret = null;
         switch ($key) {
             case 2: // PRIMARY KEY
                 $ret = "  PRIMARY KEY (`{$fieldName}`)";
@@ -412,6 +413,7 @@ class SqlFile extends TDMCreateFile
      */
     private function getCommaCicle($comma, $index)
     {
+        $ret = null;
         // Comma issue
         for ($i = 1; $i <= $index; ++$i) {
             if ($i != $index - 1) {

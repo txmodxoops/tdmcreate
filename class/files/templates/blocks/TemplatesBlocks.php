@@ -31,9 +31,7 @@ class TemplatesBlocks extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -95,7 +93,7 @@ class TemplatesBlocks extends TDMCreateFile
             $fieldName = $fields[$f]->getVar('field_name');
             $stuFieldName = strtoupper($fieldName);
             $lang = $hc->getSmartyConst($language, $stuFieldName);
-            $th    .= $hc->getHtmlTableHead($lang, 'center').PHP_EOL;
+            $th .= $hc->getHtmlTableHead($lang, 'center').PHP_EOL;
         }
         $tr = $hc->getHtmlTableRow($th, 'head').PHP_EOL;
 
@@ -121,7 +119,7 @@ class TemplatesBlocks extends TDMCreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
+            $td .= $hc->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -148,18 +146,18 @@ EOT;*/
                         $src = $hc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
-                        $td  .= $hc->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
+                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     case 13:
                         $single = $hc->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img = $hc->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName), '', false);
-                        $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
+                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $img).PHP_EOL;
                         break;
                     default:
                         if (0 != $f) {
                             $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
+                            $td .= $hc->getHtmlTag('td', array('class' => 'center'), $double).PHP_EOL;
                         }
                         break;
                 }
@@ -175,7 +173,7 @@ EOT;*/
         $src = $hc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
         $img = $hc->getHtmlTag('img', array('src' => $src.$double, 'alt' => $tableName), '', false);
         $anchor .= $hc->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), $img).PHP_EOL;
-        $td     .= $hc->getHtmlTag('td', array('class' => 'center'), "\n".$anchor).PHP_EOL;
+        $td .= $hc->getHtmlTag('td', array('class' => 'center'), "\n".$anchor).PHP_EOL;
         $cycle = $hc->getSmartyNoSimbol('cycle values="odd, even"');
         $tr = $hc->getHtmlTag('tr', array('class' => $cycle), $td).PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName.'_list', $tr).PHP_EOL;
@@ -247,7 +245,7 @@ EOT;*/
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $language = $this->getLanguage($moduleDirname, 'MB');
         $content = $this->getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        //
+
         $this->create($moduleDirname, 'templates/blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

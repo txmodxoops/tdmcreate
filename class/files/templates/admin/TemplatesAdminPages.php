@@ -31,9 +31,7 @@ class TemplatesAdminPages extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -97,7 +95,7 @@ class TemplatesAdminPages extends TDMCreateFile
         $langHeadId = strtoupper($tableSoleName).'_ID';
         if (1 == $tableAutoincrement) {
             $lang = $hc->getSmartyConst($language, $langHeadId);
-            $th  .= $hc->getHtmlTag('th', array('class' => 'center'), $lang, false, false, "\t\t\t");
+            $th .= $hc->getHtmlTag('th', array('class' => 'center'), $lang, false, false, "\t\t\t");
         }
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -105,12 +103,12 @@ class TemplatesAdminPages extends TDMCreateFile
             $langFieldName = strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
             if (1 == $fields[$f]->getVar('field_inlist')) {
                 $lang = $hc->getSmartyConst($language, $langFieldName);
-                $th  .= $hc->getHtmlTag('th', array('class' => 'center'), $lang, false, false, "\t\t\t");
+                $th .= $hc->getHtmlTag('th', array('class' => 'center'), $lang, false, false, "\t\t\t");
             }
         }
 
         $lang = $hc->getSmartyConst($language, 'FORM_ACTION');
-        $th  .= $hc->getHtmlTag('th', array('class' => 'center width5'), $lang, false, false, "\t\t\t");
+        $th .= $hc->getHtmlTag('th', array('class' => 'center width5'), $lang, false, false, "\t\t\t");
         $tr = $hc->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
         $ret = $hc->getHtmlTag('thead', array(), $tr);
 
@@ -131,7 +129,7 @@ class TemplatesAdminPages extends TDMCreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td    .= $hc->getHtmlTableData($double, 'center');
+            $td .= $hc->getHtmlTableData($double, 'center');
         }
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -157,18 +155,18 @@ EOT;*/
                         $src = $hc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', true, false);
-                        $td  .= $hc->getHtmlTag('td', array('class' => 'center'), "\n\t".$img);
+                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), "\n\t".$img);
                         break;
                     case 13:
                         $single = $hc->getSmartySingleVar($moduleDirname.'_upload_url');
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img = $hc->getHtmlTag('img', array('src' => $single."/images/{$tableName}/".$double, 'alt' => $tableName, 'style' => 'max-width:100px'), '', true, false);
-                        $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $img, false, false, "\t\t");
+                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $img, false, false, "\t\t");
                         break;
                     default:
                         if (0 != $f) {
                             $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td    .= $hc->getHtmlTag('td', array('class' => 'center'), $double);
+                            $td .= $hc->getHtmlTag('td', array('class' => 'center'), $double);
                         }
                         break;
                 }
@@ -184,7 +182,7 @@ EOT;*/
         $src = $hc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
         $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', true, false);
         $anchor .= $hc->getHtmlTag('a', array('href' => $tableName.".php?op=delete&amp;{$fieldId}=".$double, 'title' => $lang), "\n\t".$img);
-        $td     .= $hc->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor);
+        $td .= $hc->getHtmlTag('td', array('class' => 'center  width5'), "\n".$anchor);
         $cycle = $hc->getSmartyNoSimbol('cycle values=\'odd, even\'');
         $tr = $hc->getHtmlTag('tr', array('class' => $cycle), $td);
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName.'_list', $tr);
@@ -225,7 +223,7 @@ EOT;*/
         $htmlTable .= $hc->getHtmlTag('div', array('class' => 'clear'), '&nbsp;');
         $single = $hc->getSmartySingleVar('pagenav');
         $div = $hc->getHtmlTag('div', array('class' => 'xo-pagenav floatright'), $single);
-        $div       .= $hc->getHtmlTag('div', array('class' => 'clear spacer'), '');
+        $div .= $hc->getHtmlTag('div', array('class' => 'clear spacer'), '');
         $htmlTable .= $hc->getSmartyConditions('pagenav', '', '', $div);
         $ifList = $hc->getSmartyConditions($tableName.'_list', '', '', $htmlTable);
         $single = $hc->getSmartySingleVar('form');

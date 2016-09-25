@@ -21,7 +21,7 @@
  *
  * @version         $Id: building.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__ .'/header.php';
+include __DIR__.'/header.php';
 $op = XoopsRequest::getString('op', 'default');
 $mid = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
@@ -45,7 +45,7 @@ switch ($op) {
         $toDir = XOOPS_ROOT_PATH.'/modules/'.strtolower($moduleDirname);
         include_once TDMC_CLASS_PATH.'/building.php';
         if (isset($moduleDirname)) {
-            // Clear this module if it's in repository			
+            // Clear this module if it's in repository
             $building = TDMCreateBuilding::getInstance();
             if (is_dir($fromDir)) {
                 $building->clearDir($fromDir);
@@ -78,9 +78,9 @@ switch ($op) {
             $building = TDMCreateBuilding::getInstance();
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
-                // Warning: If you have an older operating module with the same name, 
-                // it's good to make a copy in another safe folder, 
-                // otherwise it will be deleted irreversibly.			
+                // Warning: If you have an older operating module with the same name,
+                // it's good to make a copy in another safe folder,
+                // otherwise it will be deleted irreversibly.
                 if (is_dir($fromDir)) {
                     $building->clearDir($toDir);
                 }
@@ -105,4 +105,4 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }
-include __DIR__ .'/footer.php';
+include __DIR__.'/footer.php';

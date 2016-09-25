@@ -69,14 +69,14 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $modId = $module->getVar('mod_id');
         // Id of tables
         $tables = $tf->getTableTables($modId);
-        //
+
         $table = null;
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
             $table = $tdmcreate->getHandler('tables')->get($tableId);
         }
-        //
+
         $indexFile = XOOPS_UPLOAD_PATH.'/index.html';
         $stlModuleAuthor = str_replace(' ', '', strtolower($module->getVar('mod_author')));
         $this->setModuleName($module->getVar('mod_dirname'));
@@ -96,9 +96,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
         $language = ($GLOBALS['xoopsConfig']['language'] != 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
-        $copyFiles = array('class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile,
-                        'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile,
-                        'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/'.$language => $indexFile, 'language/'.$language.'/help' => $indexFile, 'preloads' => $indexFile, );
+        $copyFiles = array('class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile, 'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/'.$language => $indexFile, 'language/'.$language.'/help' => $indexFile, 'preloads' => $indexFile);
         foreach ($copyFiles as $k => $v) {
             // Creation of folders and index.html file
             $this->makeDirAndCopyFile($k, $v, 'index.html');
@@ -124,7 +122,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         // Creation of 'module_author_logo.gif' file
         $this->copyFile('assets/images', $copyNewFile, $logoPng);
         $docs = array('/credits.txt' => 'credits.txt', '/install.txt' => 'install.txt',
-                    '/lang_diff.txt' => 'lang_diff.txt', '/license.txt' => 'license.txt', '/readme.txt' => 'readme.txt', );
+                    '/lang.diff' => 'lang.diff', '/license.txt' => 'license.txt', '/readme.txt' => 'readme.txt', );
         foreach ($docs as $k => $v) {
             // Creation of folder docs and .txt files
             $this->makeDirAndCopyFile('docs', TDMC_DOCS_PATH.$k, $v);
@@ -169,7 +167,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $tables = $tf->getTableTables($modId);
         $files = $tf->getTableMoreFiles($modId);
         $ret = array();
-        //
+
         $table = array();
         $tableCategory = array();
         $tableName = array();

@@ -36,9 +36,7 @@ class TDMCreateFieldtype extends XoopsObject
     *  @public function constructor class
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->initVar('fieldtype_id', XOBJ_DTYPE_INT);

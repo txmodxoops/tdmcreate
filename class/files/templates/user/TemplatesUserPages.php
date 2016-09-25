@@ -31,9 +31,7 @@ class TemplatesUserPages extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -150,7 +148,7 @@ class TemplatesUserPages extends TDMCreateFile
         $div = $hc->getHtmlDiv($include, 'panel panel-'.$single);
         $cont = $hc->getHtmlTableData($div).PHP_EOL;
         $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont   .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
         $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
 
@@ -234,7 +232,7 @@ class TemplatesUserPages extends TDMCreateFile
         $content = $this->getTemplatesUserPagesHeader($moduleDirname);
         $content .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSolename, $language);
         $content .= $this->getTemplatesUserPagesFooter($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

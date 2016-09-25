@@ -21,12 +21,12 @@
  *
  * @version         $Id: 1.59 addfiles.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__ .'/header.php';
+include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $fileId = XoopsRequest::getInt('file_id');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -140,4 +140,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__ .'/footer.php';
+include __DIR__.'/footer.php';

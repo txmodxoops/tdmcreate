@@ -104,4 +104,3 @@ function update_tdmcreate_v191(&$module)
     return true;
 }
 // irmtfan bug fix: solve templates duplicate issue
-

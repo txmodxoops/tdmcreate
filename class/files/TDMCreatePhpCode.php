@@ -60,7 +60,7 @@ class TDMCreatePhpCode
 
     /*
      * @public function getPhpCodeCommentMultiLine
-     * @param $multiLine     
+     * @param $multiLine
      *
      * @return string
      */
@@ -123,7 +123,7 @@ class TDMCreatePhpCode
     }
 
     /*
-    *  @public function getPhpCodeGlobalsVariables    
+    *  @public function getPhpCodeGlobalsVariables
     *  @param $var
     *  @param $type
     *
@@ -161,7 +161,7 @@ class TDMCreatePhpCode
 
     /*
      * @public function getPhpCodeRemoveCarriageReturn
-     * @param $string     
+     * @param $string
      *
      * @return string
      */
@@ -218,7 +218,7 @@ class TDMCreatePhpCode
     *  @param $condition
     *  @param $one
     *  @param $two
-    *  @param $t - Indentation 
+    *  @param $t - Indentation
     *
     *  @return string
     */
@@ -229,7 +229,7 @@ class TDMCreatePhpCode
 
     /*
     *  @public function getPhpCodeClass
-    *  @param $name    
+    *  @param $name
     *  @param $content
     *  @param $extends
     *  @param $type
@@ -250,10 +250,10 @@ class TDMCreatePhpCode
 
     /*
     *  @public function getPhpCodeClass
-    *  @param $type    
+    *  @param $type
     *  @param $name
     *  @param $assign
-    *  @param $t - Indentation 
+    *  @param $t - Indentation
     *
     *  @return string
     */
@@ -268,7 +268,7 @@ class TDMCreatePhpCode
     *  @param $params
     *  @param $content
     *  @param $method
-    *  @param $t - Indentation 
+    *  @param $t - Indentation
     *
     *  @return string
     */
@@ -291,7 +291,7 @@ class TDMCreatePhpCode
      * @param string $type
      * @param string $contentIf
      * @param mixed  $contentElse
-     * @param $t - Indentation 
+     * @param $t - Indentation
      *
      * @return string
      */
@@ -315,9 +315,9 @@ class TDMCreatePhpCode
     /*
      * @public function getPhpCodeForeach
      * @param string $array
-     * @param string $arrayKey     
+     * @param string $arrayKey
      * @param string $key
-     * @param string $value     
+     * @param string $value
      * @param string $content
      *
      * @return string
@@ -398,7 +398,7 @@ class TDMCreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeCaseSwitch     
+     *  @public function getPhpCodeCaseSwitch
      *
      *  @param $cases
      *  @param $defaultAfterCase
@@ -629,7 +629,7 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodePregFunzions($var, $exp = null, $str, $val, $type = 'match', $isParam = false, $t = "\t")
+    public function getPhpCodePregFunzions($var, $exp, $str, $val, $type = 'match', $isParam = false, $t = "\t")
     {
         $pregFunz = "preg_{$type}('";
         if (!$isParam) {
@@ -672,7 +672,7 @@ class TDMCreatePhpCode
     *
     *  @return string
     */
-    public function getPhpCodeStripTags($left = null, $value, $isParam = false, $t = '')
+    public function getPhpCodeStripTags($left, $value, $isParam = false, $t = '')
     {
         if (!$isParam) {
             $ret = "{$t}\${$left} = strip_tags({$value});\n";

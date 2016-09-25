@@ -93,7 +93,7 @@ class AdminXoopsCode
     /*
     *  @public function getAxcAddInfoBox
     *  @param $language
-    *  
+    *
     *  @return string
     */
     public function getAxcAddInfoBox($language, $t = '')
@@ -106,7 +106,7 @@ class AdminXoopsCode
     *  @param $language
     *  @param $label
     *  @param $var
-    *  
+    *
     *  @return string
     */
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
@@ -126,7 +126,7 @@ class AdminXoopsCode
     *  @param $language
     *  @param $label
     *  @param $var
-    *  
+    *
     *  @return string
     */
     public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
@@ -231,7 +231,7 @@ class AdminXoopsCode
     *  @param $formatUrl
     *  @return string
     */
-    private function getAxcImageFileSetVar($moduleDirname, $dirname = '', $tableName, $fieldName, $formatUrl = false, $t = '')
+    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '')
     {
         $pCodeFileSetVar = TDMCreatePhpCode::getInstance();
         $xCodeFileSetVar = TDMCreateXoopsCode::getInstance();

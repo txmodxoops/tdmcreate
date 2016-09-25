@@ -36,9 +36,7 @@ class TDMCreateFieldnull extends XoopsObject
     *  @public function constructor class
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->initVar('fieldnull_id', XOBJ_DTYPE_INT);

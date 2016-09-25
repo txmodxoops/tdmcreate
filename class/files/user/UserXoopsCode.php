@@ -66,7 +66,7 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserAddMeta($type = '', $language, $tableName, $t = '')
+    public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
         $pCodeAddMeta = TDMCreatePhpCode::getInstance();
         $stuTableName = strtoupper($tableName);
@@ -169,7 +169,7 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserModVersion($eleArray = 1, $descriptions, $name = null, $index = null, $num = false, $t = '')
+    public function getUserModVersion($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
         $ret = '';
         $mv = $t.'$modversion';
