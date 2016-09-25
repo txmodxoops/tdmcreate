@@ -32,9 +32,7 @@ class UserObjects extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -99,7 +97,7 @@ EOT;
      */
     public function getUserFooter()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 include  __DIR__ . '/footer.php';
 EOT;
 

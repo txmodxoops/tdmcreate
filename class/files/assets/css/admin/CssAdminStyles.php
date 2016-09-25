@@ -31,9 +31,7 @@ class CssAdminStyles extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -84,7 +82,7 @@ class CssAdminStyles extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
-        $content .= <<<EOT
+        $content .= <<<'EOT'
 img {
 	max-width: 200px;
 }

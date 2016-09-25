@@ -50,7 +50,7 @@ class TDMCreateXoopsCode
      *  @param $cases
      *  @param $defaultAfterCase
      *  @param $default
-     *  @param $t - Indentation 
+     *  @param $t - Indentation
      *
      * @return string
      */
@@ -68,7 +68,7 @@ class TDMCreateXoopsCode
     *  @param $value
     *  @param $interlock
     *  @param $ref
-    *  @param $t - Indentation 
+    *  @param $t - Indentation
     *
     *  @return string
     */
@@ -268,7 +268,7 @@ class TDMCreateXoopsCode
     *  @param $moduleDirname
     *  @return string
     */
-    public function getXcMediaUploader($var = '', $dirPath, $moduleDirname, $t = '')
+    public function getXcMediaUploader($var, $dirPath, $moduleDirname, $t = '')
     {
         $mimetypes = self::getXcGetConfig($moduleDirname, 'mimetypes');
         $maxsize = self::getXcGetConfig($moduleDirname, 'maxsize');
@@ -350,7 +350,7 @@ class TDMCreateXoopsCode
     /*
     *  @public function getXoopsHandlerInstance
     *  @param $moduleDirname
-    *  
+    *
     *  @return string
     */
     public function getXoopsHandlerInstance($moduleDirname, $t = '')
@@ -394,7 +394,7 @@ class TDMCreateXoopsCode
     *  @param $var
     *  @param $options
     *  @param $setExtra
-    *  
+    *
     *  @return string
     */
     public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true, $t = '')
@@ -735,11 +735,11 @@ class TDMCreateXoopsCode
     }
 
     /**
-     *  @public function getXcTplAssign     
+     *  @public function getXcTplAssign
      *
      *  @param $tplString
      *  @param $phpRender
-     *  @param $leftIsString 
+     *  @param $leftIsString
      *
      *  @return string
      */
@@ -822,7 +822,7 @@ class TDMCreateXoopsCode
      *
      *  @return string
      */
-    public function getXcGetInfo($left = '', $string, $isParam = false, $t = '')
+    public function getXcGetInfo($left, $string, $isParam = false, $t = '')
     {
         if (!$isParam) {
             $ret = "{$t}\${$left} = \$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
@@ -1041,7 +1041,7 @@ class TDMCreateXoopsCode
         $phpCodeSecurity = TDMCreatePhpCode::getInstance();
         $securityError = self::getXcSecurityErrors();
         $implode = $phpCodeSecurity->getPhpCodeImplode(',', $securityError);
-        $content = "{$t}\t".self::getXcRedirectHeader($tableName.'.php', '', 3, $implode, $t);
+        $content = "{$t}\t".self::getXcRedirectHeader($tableName, '', 3, $implode, $t);
         $securityCheck = self::getXcSecurityCheck();
 
         return $phpCodeSecurity->getPhpCodeConditions('!'.$securityCheck, '', '', $content, $t);
@@ -1056,7 +1056,7 @@ class TDMCreateXoopsCode
     public function getXcInsertData($tableName, $language, $t = '')
     {
         $phpCodeInsertData = TDMCreatePhpCode::getInstance();
-        $content = "{$t}\t".self::getXcRedirectHeader($tableName.'.php', '?op=list', 2, "{$language}FORM_OK");
+        $content = "{$t}\t".self::getXcRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
         $handlerInsert = self::getXcHandler($tableName, $tableName, false, true, false, 'Obj');
 
         return $phpCodeInsertData->getPhpCodeConditions($handlerInsert, '', '', $content, $t);
@@ -1072,7 +1072,7 @@ class TDMCreateXoopsCode
     *
     *  @return string
     */
-    public function getXcRedirectHeader($directory, $options = '', $numb = '2', $var, $isString = true, $t = '')
+    public function getXcRedirectHeader($directory, $options, $numb, $var, $isString = true, $t = '')
     {
         $ret = '';
         if (!$isString) {
@@ -1089,7 +1089,7 @@ class TDMCreateXoopsCode
     *  @param $tableName
     *  @param $language
     *  @param $fieldId
-    *  @param $fieldMain    
+    *  @param $fieldMain
     *  @param $options
     *
     *  @return string
@@ -1111,7 +1111,7 @@ class TDMCreateXoopsCode
     /*
     *  @public function getXcAddStylesheet
     *  @param $style
-    *  
+    *
     *  @return string
     */
     public function getXcAddStylesheet($style = 'style', $t = '')

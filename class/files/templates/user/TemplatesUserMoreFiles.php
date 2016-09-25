@@ -27,18 +27,15 @@
  */
 class TemplatesUserMoreFiles extends TDMCreateFile
 {
-    //
     private $folder = null;
-    //
+
     private $extension = null;
 
     /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -72,15 +69,11 @@ class TemplatesUserMoreFiles extends TDMCreateFile
      *
      * @return string
      */
-    public function write($module, $folder = '', $filename, $extension)
+    public function write($module, $folder, $filename, $extension)
     {
         $this->setModule($module);
         $this->setFileName($filename);
-        if ($folder != '') {
-            $this->folder = 'templates/'.$folder;
-        } else {
-            $this->folder = 'templates';
-        }
+        $this->folder = $folder;
         $this->extension = $extension;
     }
 
@@ -95,7 +88,7 @@ class TemplatesUserMoreFiles extends TDMCreateFile
      */
     private function getTemplatesUserMoreFile()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 <div class="panel">
 	Pleace! Enter here your template code here
 </div>
@@ -119,7 +112,7 @@ EOT;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getTemplatesUserMoreFile();
-        //
+
         $this->create($moduleDirname, $this->folder, $filename.'.'.$this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

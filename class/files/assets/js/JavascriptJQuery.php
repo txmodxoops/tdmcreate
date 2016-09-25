@@ -31,9 +31,7 @@ class JavascriptJQuery extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -99,7 +97,7 @@ EOT;
      */
     public function getJavascriptJQueryPrint()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 // <![CDATA[
 /*------------------------------------------------------------------------------
 Excerpts from the jsUtilities Library

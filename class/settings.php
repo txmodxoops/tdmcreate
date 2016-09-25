@@ -141,15 +141,15 @@ class TDMCreateSettings extends XoopsObject
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        //
+
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_SETTING_NEW) : sprintf(_AM_TDMCREATE_SETTING_EDIT);
-        //
+
         include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-        //
+
         $form = new XoopsThemeForm($title, 'settingform', $action, 'post');
         $form->setExtra('enctype="multipart/form-data"');
-        //
+
         $form->addElement(new XoopsFormHidden('set_id', $this->getVar('set_id')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_NAME, 'set_name', 50, 255, $this->getVar('set_name')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_DIRNAME, 'set_dirname', 25, 255, $this->getVar('set_dirname')));
@@ -177,12 +177,12 @@ class TDMCreateSettings extends XoopsObject
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_SETTING_'.strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
-        //
+
         $form->addElement($optionsTray);
-        //
+
         $modImage = $this->getVar('set_image');
         $modImage = $modImage ?: $set['image'];
-        //
+
         $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
         $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br />');
         $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './'.strtolower($uploadDirectory).'/');
@@ -194,13 +194,13 @@ class TDMCreateSettings extends XoopsObject
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")'");
         $imgtray->addElement($imageSelect);
         $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br />"));
-        //
+
         $fileseltray = new XoopsFormElementTray('', '<br />');
         $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray->addElement(new XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
-        //        
+
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_MAIL, 'set_author_mail', 50, 255, $this->getVar('set_author_mail')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_URL, 'set_author_website_url', 50, 255, $this->getVar('set_author_website_url')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR_WEBSITE_NAME, 'set_author_website_name', 50, 255, $this->getVar('set_author_website_name')));
@@ -215,11 +215,12 @@ class TDMCreateSettings extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_SUPPORT_NAME, 'set_support_name', 50, 255, $this->getVar('set_support_name')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_WEBSITE_URL, 'set_website_url', 50, 255, $this->getVar('set_website_url')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_WEBSITE_NAME, 'set_website_name', 50, 255, $this->getVar('set_website_name')));
-        $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_RELEASE, 'set_release', 50, 255, $this->getVar('set_release')));
+        // Form Text Date Select
+        $form->addElement(new XoopsFormTextDateSelect(_AM_TDMCREATE_SETTING_RELEASE, 'set_release', '', $this->getVar('set_release')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_STATUS, 'set_status', 50, 255, $this->getVar('set_status')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));
-        //
+
         $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
@@ -254,7 +255,7 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      * Get Options Settings.
-     
+
      * @return string
      *
      * @internal param $key

@@ -21,12 +21,12 @@
  *
  * @version         $Id: 1.59 morefiles.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__ .'/header.php';
+include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $fileId = XoopsRequest::getInt('file_id');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -75,7 +75,7 @@ switch ($op) {
         $adminMenu->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $morefilesObj = &$tdmcreate->getHandler('morefiles')->create();
+        $morefilesObj = $tdmcreate->getHandler('morefiles')->create();
         $form = $morefilesObj->getFormMoreFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -85,9 +85,9 @@ switch ($op) {
             redirect_header('morefiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($fileId)) {
-            $morefilesObj = &$tdmcreate->getHandler('morefiles')->get($fileId);
+            $morefilesObj = $tdmcreate->getHandler('morefiles')->get($fileId);
         } else {
-            $morefilesObj = &$tdmcreate->getHandler('morefiles')->create();
+            $morefilesObj = $tdmcreate->getHandler('morefiles')->create();
         }
         // Form file save
         $morefilesObj->setVars(array(
@@ -105,7 +105,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
-        $form = &$morefilesObj->getFormMoreFiles();
+        $form = $morefilesObj->getFormMoreFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -124,7 +124,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $morefilesObj = &$tdmcreate->getHandler('morefiles')->get($fileId);
+        $morefilesObj = $tdmcreate->getHandler('morefiles')->get($fileId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('morefiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -140,4 +140,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__ .'/footer.php';
+include __DIR__.'/footer.php';

@@ -36,9 +36,7 @@ class UserXoopsVersion extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -135,7 +133,7 @@ class UserXoopsVersion extends TDMCreateFile
 
         $descriptions = array('name' => "{$language}NAME", 'version' => "{$module->getVar('mod_version')}", 'description' => "{$language}DESC",
                             'author' => "'{$module->getVar('mod_author')}'", 'author_mail' => "'{$module->getVar('mod_author_mail')}'", 'author_website_url' => "'{$module->getVar('mod_author_website_url')}'",
-                            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'",'credits' => "'{$module->getVar('mod_credits')}'",'license' => "'{$module->getVar('mod_license')}'",
+                            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'", 'credits' => "'{$module->getVar('mod_credits')}'", 'license' => "'{$module->getVar('mod_license')}'",
                             'license_url' => "'http://www.gnu.org/licenses/gpl-3.0.en.html'", 'help' => "'page=help'", 'release_info' => "'{$module->getVar('mod_release_info')}'",
                             'release_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'", 'release_date' => "'{$date}'",
                             'manual' => "'{$module->getVar('mod_manual')}'", 'manual_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
@@ -495,7 +493,7 @@ class UserXoopsVersion extends TDMCreateFile
 
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
-            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')");
+            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
             $group = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key');
             $ret .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
@@ -506,7 +504,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get Admin groups');
             $ret .= $xCodeVConfig->getXcEqualsOperator('$criteria ', 'new CriteriaCompo()');
             $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
-            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')");
+            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
             $adminGroup = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key');
             $ret .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
@@ -571,7 +569,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $uCodeVConfig->getUserModVersion(3, $divideby, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Table type');
-        $tableType = array('name' => "'table_type'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
+        $tableType = array('name' => "'table_type'", 'title' => "'{$language}TABLE_TYPE'", 'description' => "'{$language}DIVIDEBY_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'int'", 'default' => "'bordered'", 'options' => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')", );
         $ret .= $uCodeVConfig->getUserModVersion(3, $tableType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
@@ -627,7 +625,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getNotificationsType($language, $type = 'category', $tableName, $notifyFile, $item, $typeOfNotify)
+    private function getNotificationsType($language, $type, $tableName, $notifyFile, $item, $typeOfNotify)
     {
         $phpCodeNType = TDMCreatePhpCode::getInstance();
         $uCodeNType = UserXoopsCode::getInstance();
@@ -816,7 +814,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item = 'cid', $allow = 1, $num)
+    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item, $allow, $num)
     {
         $phpCodeVNTN = TDMCreatePhpCode::getInstance();
         $uCodeVNTN = UserXoopsCode::getInstance();
@@ -844,7 +842,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin = 1, $title, $table, $mail, $num)
+    private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin, $title, $table, $mail, $num)
     {
         $phpCodeVNCC = TDMCreatePhpCode::getInstance();
         $uCodeVNCC = UserXoopsCode::getInstance();

@@ -31,9 +31,7 @@ class TemplatesUserBroken extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -211,7 +209,7 @@ class TemplatesUserBroken extends TDMCreateFile
         $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language);
         $content .= $hc->getHtmlTable($contentTable, 'table table-bordered').PHP_EOL;
         $content .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

@@ -31,9 +31,7 @@ class TemplatesAdminFooter extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -94,8 +92,8 @@ class TemplatesAdminFooter extends TDMCreateFile
         $anchor = $hc->getHtmlTag('a', array('href' => 'http://www.xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'), $img).PHP_EOL;
         $content = $hc->getHtmlTag('div', array('class' => 'center'), $anchor).PHP_EOL;
         $tree = $hc->getHtmlTag('strong', array(), $moduleName);
-        $tree    .= $hc->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
-        $tree    .= $hc->getHtmlTag('a', array('href' => '<{$maintainedby}>', 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
+        $tree .= $hc->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
+        $tree .= $hc->getHtmlTag('a', array('href' => '<{$maintainedby}>', 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
         $content .= $hc->getHtmlTag('div', array('class' => 'center smallsmall italic pad5'), $tree);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

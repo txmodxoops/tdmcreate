@@ -31,9 +31,7 @@ class LanguageMailTpl extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -83,7 +81,7 @@ class LanguageMailTpl extends TDMCreateFile
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = <<<EOT
+        $content = <<<'EOT'
 // ---------- Templates Mail Content Dummy ---------- //
 Hello {X_UNAME},
 

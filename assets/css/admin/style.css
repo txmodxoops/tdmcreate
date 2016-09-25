@@ -213,6 +213,10 @@ tbody.table-list tr td {
     width: 4%;
 }
 
+.cell.cell-width1-1 {
+    width: 5%;
+}
+
 .cell.cell-width2 {
     width: 10%;
 }
@@ -278,3 +282,7 @@ tbody.table-list tr td {
 .field-list tr td strong {
     vertical-align: middle;
 }
+
+.width6 {
+    width: 5%;
+} 

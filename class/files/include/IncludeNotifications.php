@@ -31,9 +31,7 @@ class IncludeNotifications extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -157,8 +155,8 @@ EOT;
 			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldId}=' . \$item_id;\n
 EOT;
         }
-        $ret .= <<<EOT
-			return \$item;
+        $ret .= <<<'EOT'
+			return $item;
         break;
     }
 }
@@ -181,7 +179,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getNotificationsFunction($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

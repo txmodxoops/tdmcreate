@@ -354,7 +354,7 @@ class ClassXoopsCode
      *
      * @return string
      */
-    public function getClassXoopsFormText($var, $param1, $param2, $param3 = 75, $param4 = 255, $param5, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormText($var, $param1, $param2, $param3, $param4, $param5, $isParam = false, $t = "\t\t")
     {
         $text = 'new XoopsFormText( ';
         if ($isParam === false) {
@@ -429,7 +429,7 @@ class ClassXoopsCode
      *
      * @return string
      */
-    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3 = 'false', $param4, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormSelectUser($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
         $user = 'new XoopsFormSelectUser( ';
         $getVarSelectUser = TDMCreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
@@ -455,7 +455,7 @@ class ClassXoopsCode
      *
      * @return string
      */
-    public function getClassXoopsFormTextDateSelect($var, $param1, $param2, $param3 = '', $param4, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormTextDateSelect($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
     {
         $tdate = 'new XoopsFormTextDateSelect( ';
         $getVarTextDateSelect = TDMCreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
@@ -633,7 +633,7 @@ class ClassXoopsCode
      * @internal param $fieldId
      * @internal param $fieldParent
      */
-    public function getClassXoopsObjectTree($var = 'mytree', $param1, $param2, $param3, $t = '')
+    public function getClassXoopsObjectTree($var, $param1, $param2, $param3, $t = '')
     {
         $ret = "{$t}\${$var} = new XoopsObjectTree(\${$param1}, '{$param2}', '{$param3}');\n";
 
@@ -653,7 +653,7 @@ class ClassXoopsCode
      *
      * @return string
      */
-    public function getClassXoopsMakeSelBox($var, $anchor, $param1, $param2, $param3 = '--', $param4, $t = '')
+    public function getClassXoopsMakeSelBox($var, $anchor, $param1, $param2, $param3, $param4, $t = '')
     {
         $getVar = TDMCreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param4, true);
         $ret = "{$t}\${$var} = \${$anchor}->makeSelBox( '{$param1}', '{$param2}', '{$param3}', {$getVar}, true );\n";

@@ -21,7 +21,7 @@
  *
  * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
-include __DIR__ .'/header.php';
+include __DIR__.'/header.php';
 $countSettings = $tdmcreate->getHandler('settings')->getCount();
 $countModules = $tdmcreate->getHandler('modules')->getCount();
 $countTables = $tdmcreate->getHandler('tables')->getCount();
@@ -51,4 +51,4 @@ foreach (array_keys($folder) as $i) {
 
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
-include __DIR__ .'/footer.php';
+include __DIR__.'/footer.php';

@@ -60,7 +60,7 @@ class AdminPermissions extends TDMCreateFile
      *  @param string $module
      *  @param mixed $tables
      *  @param string $filename
-     * 
+     *
      *  @return string
      */
     public function write($module, $tables, $filename)
@@ -71,7 +71,7 @@ class AdminPermissions extends TDMCreateFile
     }
 
     /**
-     * @private function getPermissionsHeader    
+     * @private function getPermissionsHeader
      *
      * @param $module
      * @param $language
@@ -183,7 +183,7 @@ class AdminPermissions extends TDMCreateFile
         $foreach2 = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t")."\r";
         $if2 .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach2, "\t\t");
         $if2 .= $xc->getXcTplAssign('form', '$permform->render()', true, "\t\t");
-        $elseInter = $xc->getXcRedirectHeader($tableName.'.php', '?op=new', '3', "{$language}NO_PERMISSIONS_SET", true, "\t\t");
+        $elseInter = $xc->getXcRedirectHeader($tableName, '?op=new', '3', "{$language}NO_PERMISSIONS_SET", true, "\t\t");
         $elseInter .= $this->getSimpleString("\t\texit();");
         $else .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter, "\t");
 
@@ -211,7 +211,7 @@ class AdminPermissions extends TDMCreateFile
         $content .= $this->getPermissionsSwitch($moduleDirname, $language);
         $content .= $this->getPermissionsBody($module, $language);
         $content .= $this->getInclude('footer');
-        //
+
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

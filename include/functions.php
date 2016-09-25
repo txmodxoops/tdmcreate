@@ -48,7 +48,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                                 3 => '<img alt="" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" height="1" border="0" width="1">',
                                 4 => '<input src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" border="0" type="image">',
                                 5 => '</form>', );
-    for ($key = 0;$key <= 4;++$key) {
+    for ($key = 0; $key <= 4; ++$key) {
         switch ($key) {
             case 2:
                 $donationform[$key] = sprintf($donationform[$key], $GLOBALS['xoopsConfig']['sitename'].' - '.(strlen($GLOBALS['xoopsUser']->getVar('name')) > 0 ? $GLOBALS['xoopsUser']->getVar('name').' ['.$GLOBALS['xoopsUser']->getVar('uname').']' : $GLOBALS['xoopsUser']->getVar('uname')), $GLOBALS['xoopsUser']->getVar('email'), XOOPS_LICENSE_KEY, strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),  strtoupper($GLOBALS['xoopsModule']->getVar('dirname')).' '.$GLOBALS['xoopsModule']->getVar('name'));

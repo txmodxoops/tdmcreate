@@ -31,9 +31,7 @@ class UserBroken extends TDMCreateFile
      *  @public function constructor
      *  @param null
      */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -108,7 +106,7 @@ class UserBroken extends TDMCreateFile
     /*
      *  @public function getAdminPagesList
       *  @param $tableName
-      *  @param $language     
+      *  @param $language
       *
       *  @return
       */

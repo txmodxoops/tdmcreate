@@ -1,5 +1,4 @@
 <?php
-
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -9,7 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-use Xmf\Request;
+
 /**
  * tdmcreate module.
  *
@@ -24,7 +23,7 @@ use Xmf\Request;
  */
 include_once dirname(dirname(dirname(__DIR__))).'/include/cp_header.php';
 include_once dirname(__DIR__).'/include/common.php';
-//
+
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Link System Icons
 $sysPathIcon16 = $GLOBALS['xoopsModule']->getInfo('sysicons16');
@@ -50,7 +49,6 @@ $GLOBALS['xoopsTpl']->assign('modPathIcon32', $modPathIcon32);
 // Load languages
 xoops_loadLanguage('admin', $thisDirname);
 xoops_loadLanguage('modinfo', $thisDirname);
-xoops_loadLanguage('main', $thisDirname);
 
 xoops_cp_header();
 $adminMenu = \Xmf\Module\Admin::getInstance();

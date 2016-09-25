@@ -31,9 +31,7 @@ class UserIndex extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -274,7 +272,7 @@ class UserIndex extends TDMCreateFile
             }
         }
         $content .= $this->getUserIndexFooter($moduleDirname, $language);
-        //
+
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

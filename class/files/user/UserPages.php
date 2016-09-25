@@ -31,9 +31,7 @@ class UserPages extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -201,7 +199,7 @@ class UserPages extends TDMCreateFile
         $content .= $this->getUserPagesHeader($moduleDirname, $tableName);
         $content .= $this->getUserPages($moduleDirname, $tableName, $tableSoleName);
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language);
-        //
+
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

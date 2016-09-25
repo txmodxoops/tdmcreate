@@ -85,7 +85,7 @@ class TDMCreateBuilding
         $files = glob($dir."/$pattern");
         // Interate thorugh the files and folders
         foreach ($files as $file) {
-            // if it's a directory then re-call clearDir function to delete files inside this directory     
+            // if it's a directory then re-call clearDir function to delete files inside this directory
             if (is_dir($file) && !in_array($file, array('..', '.'))) {
                 // Remove the directory itself
                 self::clearDir($file, $pattern);

@@ -28,17 +28,10 @@
 class TemplatesUserIndex extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -151,7 +144,7 @@ class TemplatesUserIndex extends TDMCreateFile
         $div = $hc->getHtmlDiv($include, 'panel panel-'.$type);
         $cont = $hc->getHtmlTableData($div).PHP_EOL;
         $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont   .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
         $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
 

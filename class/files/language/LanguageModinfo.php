@@ -31,9 +31,7 @@ class LanguageModinfo extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -57,7 +55,7 @@ class LanguageModinfo extends TDMCreateFile
     }
 
     /**
-     *  @public function write    
+     *  @public function write
      *
      * @param $module
      * @param $table
@@ -73,7 +71,7 @@ class LanguageModinfo extends TDMCreateFile
     }
 
     /**
-     * @private function getLanguageMain     
+     * @private function getLanguageMain
      *
      * @param $language
      * @param $module
@@ -94,7 +92,7 @@ class LanguageModinfo extends TDMCreateFile
      * @private function getLanguageMenu
      *
      * @param $module
-     * @param $language     
+     * @param $language
      *
      * @return string
      */
@@ -414,7 +412,7 @@ class LanguageModinfo extends TDMCreateFile
             $content .= $this->getLanguagePermissionsGroups($language);
         }
         $content .= $this->getLanguageFooter();
-        //
+
         $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

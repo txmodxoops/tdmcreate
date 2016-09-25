@@ -29,7 +29,7 @@ class AdminPages extends TDMCreateFile
 {
     /*
      * @public function constructor
-     * @param null    
+     * @param null
      *
      */
     public function __construct()
@@ -39,7 +39,7 @@ class AdminPages extends TDMCreateFile
 
     /*
      * @static function getInstance
-     * @param null 
+     * @param null
      *
      * @return AdminPages
      */
@@ -359,7 +359,7 @@ class AdminPages extends TDMCreateFile
     }
 
     /*
-     * @public function render    
+     * @public function render
      * @param null
      *
      * @return bool|string
@@ -405,7 +405,7 @@ class AdminPages extends TDMCreateFile
                         'delete' => array($delete), );
         $content .= $this->getAdminPagesSwitch($cases);
         $content .= $this->getInclude('footer');
-        //
+
         $tf->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $tf->renderFile();

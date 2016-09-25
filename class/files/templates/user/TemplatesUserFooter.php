@@ -36,9 +36,7 @@ class TemplatesUserFooter extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -154,7 +152,7 @@ EOT;
 EOT;
             }
             if (1 == $table->getVar('table_notifications')) {
-                $content .= <<<EOT
+                $content .= <<<'EOT'
 <{include file='db:system_notification_select.html'}>
 EOT;
             }

@@ -31,9 +31,7 @@ class TemplatesAdminPermissions extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -138,7 +136,7 @@ class TemplatesAdminPermissions extends TDMCreateFile
         $content = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
         $content .= $this->getTemplatesAdminPermissions();
         $content .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

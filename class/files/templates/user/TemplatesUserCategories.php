@@ -31,9 +31,7 @@ class TemplatesUserCategories extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -154,7 +152,7 @@ class TemplatesUserCategories extends TDMCreateFile
         $div = $hc->getHtmlDiv($include, 'panel panel-'.$single);
         $cont = $hc->getHtmlTableData($div).PHP_EOL;
         $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont   .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
         $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
 
@@ -233,11 +231,11 @@ EOT;*/
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $incl = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName).PHP_EOL;
         $html = $hc->getHtmlEmpty('<br />').PHP_EOL;
-        $incl     .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$numb_col', $html).PHP_EOL;
+        $incl .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$numb_col', $html).PHP_EOL;
         $const = $hc->getSmartyConst($language, $stuTableName.'_TITLE');
         $div = $hc->getHtmlDiv($const, 'panel-heading').PHP_EOL;
         $cont = $hc->getHtmlDiv($incl, 'panel panel-body').PHP_EOL;
-        $div      .= $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
+        $div .= $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
         $panelType = $hc->getSmartySingleVar('panel_type');
 
         return $hc->getHtmlDiv($div, 'panel panel-'.$panelType).PHP_EOL;
@@ -283,7 +281,7 @@ EOT;*/
         /*
         $content .= $this->getTemplatesUserCategories($moduleDirname, $tableName, $tableSolename, $language);*/
         $content .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
-        //
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

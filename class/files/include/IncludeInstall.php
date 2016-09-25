@@ -31,9 +31,7 @@ class IncludeInstall extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -77,7 +75,7 @@ class IncludeInstall extends TDMCreateFile
     }
 
     /**
-     * @private function getInstallDirectory    
+     * @private function getInstallDirectory
      *
      * @param $dirname
      *
@@ -119,7 +117,7 @@ class IncludeInstall extends TDMCreateFile
      *  @private function getHeaderTableFolder
      *
      *  @param $moduleDirname
-     *  @param $tableName    
+     *  @param $tableName
      *
      * @return string
      */
@@ -158,7 +156,7 @@ class IncludeInstall extends TDMCreateFile
     /**
      * @private function getInstallImagesShotsFolder
      *
-     * @param $moduleDirname    
+     * @param $moduleDirname
      *
      * @return string
      */
@@ -177,7 +175,7 @@ class IncludeInstall extends TDMCreateFile
     /**
      *  @private function getInstallTableImagesFolder
      *
-     *  @param $tableName    
+     *  @param $tableName
      *
      * @return string
      */
@@ -196,7 +194,7 @@ class IncludeInstall extends TDMCreateFile
     /**
      *  @private function getInstallFilesFolder
      *
-     *  @param $moduleDirname     
+     *  @param $moduleDirname
      *
      * @return string
      */
@@ -288,7 +286,7 @@ class IncludeInstall extends TDMCreateFile
             }
         }
         $content .= $this->getInstallFooter();
-        //
+
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
