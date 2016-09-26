@@ -77,7 +77,7 @@ class IncludeNotifications extends TDMCreateFile
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $tableSolename = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldParent = 'cid';
         foreach (array_keys($fields) as $f) {
@@ -129,7 +129,7 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
             \$item['url'] = {$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id;
             return \$item;
         break;
-        case '{$tableSolename}':
+        case '{$tableSoleName}':
             // Assume we have a valid link id
             \$sql = 'SELECT {$fieldId}, {$fieldMain} FROM '.\$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = ' . \$item_id;
             \$result = \$xoopsDB->query(\$sql); // TODO: error check
