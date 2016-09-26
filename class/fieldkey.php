@@ -49,7 +49,7 @@ class TDMCreateFieldkey extends XoopsObject
     *  @param null
     */
     /**
-     * @return TDMCreateFieldElements
+     * @return TDMCreateFieldkey
      */
     public static function getInstance()
     {

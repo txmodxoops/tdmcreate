@@ -42,7 +42,7 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
     *  @param null
     */
     /**
-     * @return TemplatesUserHeader
+     * @return TemplatesUserBreadcrumbs
      */
     public static function getInstance()
     {

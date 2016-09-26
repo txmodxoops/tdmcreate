@@ -81,7 +81,7 @@ class TDMCreateAddFiles extends XoopsObject
     *  @param null
     */
     /**
-     * @return TDMCreateMoreFiles
+     * @return TDMCreateAddFiles
      */
     public static function getInstance()
     {

@@ -32,7 +32,7 @@ class AdminXoopsCode
     *  @param null
     */
     /**
-     * @return Axc
+     * @return AdminXoopsCode
      */
     public static function getInstance()
     {
