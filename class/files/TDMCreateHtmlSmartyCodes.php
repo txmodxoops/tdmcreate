@@ -96,7 +96,7 @@ class TDMCreateHtmlSmartyCodes
     {
         $str = '';
         foreach ($attributes as $name => $value) {
-            if ($name != '_') {
+            if ($name !== '_') {
                 $str .= ' '.$name.'="'.$value.'"';
             }
         }

@@ -723,11 +723,11 @@ class TDMCreateXoopsCode
     {
         $ret = '';
         $intVars = ($var2 != '') ? "'{$var1}', {$var2}" : "'{$var1}'";
-        if ($type == 'String') {
+        if ($type === 'String') {
             $ret .= "{$t}\${$left} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
-        } elseif ($type == 'Int') {
+        } elseif ($type === 'Int') {
             $ret .= "{$t}\${$left} = XoopsRequest::getInt({$intVars});\n";
-        } elseif ($type == 'Int' && $metod !== false) {
+        } elseif ($type === 'Int' && $metod !== false) {
             $ret .= "{$t}\${$left} = XoopsRequest::getInt({$intVars}, '{$metod}');\n";
         }
 

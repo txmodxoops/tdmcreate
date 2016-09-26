@@ -346,9 +346,9 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         $lang = '_'.$prefix.'_'.strtoupper($moduleDirname);
         $ret = $lang;
-        if (!empty($suffix) || $suffix != '_') {
+        if (!empty($suffix) || $suffix !== '_') {
             $ret = $lang.'_'.$suffix;
-        } elseif ($suffix == '_') {
+        } elseif ($suffix === '_') {
             $ret = $lang.'_';
         }
 
