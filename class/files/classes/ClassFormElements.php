@@ -747,15 +747,15 @@ class ClassFormElements extends TDMCreateAbstract
                         $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', $fieldNameDesc);
                         $fieldsTopics = $ttf->getTableFields($fieldElementMid, $fieldElementTid);
-                        foreach (array_keys($fieldsTopics) as $f) {
-                            $fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
-                            if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
+                        foreach (array_keys($fieldsTopics) as $g) {
+                            $fieldNameTopic = $fieldsTopics[$g]->getVar('field_name');
+                            if ((0 == $g) && (1 == $table->getVar('table_autoincrement'))) {
                                 $fieldIdTopic = $fieldNameTopic;
                             }
-                            if (1 == $fieldsTopics[$f]->getVar('field_parent')) {
+                            if (1 == $fieldsTopics[$g]->getVar('field_parent')) {
                                 $fieldPidTopic = $fieldNameTopic;
                             }
-                            if (1 == $fieldsTopics[$f]->getVar('field_main')) {
+                            if (1 == $fieldsTopics[$g]->getVar('field_main')) {
                                 $fieldMainTopic = $fieldNameTopic;
                             }
                         }

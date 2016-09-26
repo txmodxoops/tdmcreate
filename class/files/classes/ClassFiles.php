@@ -412,9 +412,9 @@ class ClassFiles extends TDMCreateFile
                         $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', strtolower($fieldNameDesc));
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
-                        foreach (array_keys($fieldsTopics) as $f) {
-                            $fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
-                            if (1 == $fieldsTopics[$f]->getVar('field_main')) {
+                        foreach (array_keys($fieldsTopics) as $g) {
+                            $fieldNameTopic = $fieldsTopics[$g]->getVar('field_name');
+                            if (1 == $fieldsTopics[$g]->getVar('field_main')) {
                                 $fieldMainTopic = $fieldNameTopic;
                             }
                         }
