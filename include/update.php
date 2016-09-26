@@ -62,7 +62,7 @@ function update_tdmcreate_v191(&$module)
         $tplids[] = $tplid;
     }
     if (count($tplids) > 0) {
-        $tplfile_handler = &xoops_gethandler('tplfile');
+        $tplfile_handler = &xoops_getHandler('tplfile');
         $duplicate_files = $tplfile_handler->getObjects(
             new Criteria('tpl_id', '('.implode(',', $tplids).')', 'IN')
         );
@@ -104,4 +104,3 @@ function update_tdmcreate_v191(&$module)
     return true;
 }
 // irmtfan bug fix: solve templates duplicate issue
-

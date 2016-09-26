@@ -46,7 +46,7 @@ class TDMCreateSimpleForm extends XoopsForm
                 $ret .= $ele->render();
             }
         }
-        $ret .=  NWLINE.'</form>';
+        $ret .= NWLINE.'</form>';
 
         return $ret;
     }

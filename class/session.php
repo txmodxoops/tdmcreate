@@ -42,13 +42,13 @@ class TDMCreateSession
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return TDMCreateSession
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!isset($instance)) {

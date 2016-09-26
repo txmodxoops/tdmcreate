@@ -36,9 +36,7 @@ class TemplatesUserHeader extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -47,13 +45,13 @@ class TemplatesUserHeader extends TDMCreateFile
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return TemplatesUserHeader
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -105,7 +103,7 @@ class TemplatesUserHeader extends TDMCreateFile
      */
     public function getTemplateUserHeaderFacebbokSDK()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 	<!-- Load Facebook SDK for JavaScript -->
 	<div id="fb-root"></div>
 	<script>(function(d, s, id) {

@@ -41,7 +41,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
@@ -102,18 +102,18 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         // Form Add
-        $fieldsObj = &$tdmcreate->getHandler('fields')->create();
+        $fieldsObj = $tdmcreate->getHandler('fields')->create();
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
     break;
 
     case 'save':
-        //
+
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
@@ -124,9 +124,9 @@ switch ($op) {
         // Set Variables
         foreach ($_POST['field_id'] as $key => $value) {
             if (isset($value)) {
-                $fieldsObj = &$fields->get($value);
+                $fieldsObj = $fields->get($value);
             } else {
-                $fieldsObj = &$fields->create();
+                $fieldsObj = $fields->create();
             }
             $order = $fieldsObj->isNew() ? $fieldOrder : $_GET['field_order'][$key];
             // Set Data
@@ -159,7 +159,7 @@ switch ($op) {
         }
         unset($fieldOrder);
         // Get table name from field table id
-        $tables = &$tdmcreate->getHandler('tables')->get($fieldTid);
+        $tables = $tdmcreate->getHandler('tables')->get($fieldTid);
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
@@ -169,7 +169,7 @@ switch ($op) {
             // Redirect to field.php if updated - (Needed code from table name by field_tid)
             redirect_header('fields.php', 2, sprintf(_AM_TDMCREATE_FIELDS_FORM_UPDATED_OK, $tableName));
         }
-        //
+
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -179,7 +179,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('fields.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
@@ -213,7 +213,7 @@ switch ($op) {
     break;
 
     case 'delete':
-        $tablesObj = &$tdmcreate->getHandler('tables')->get($fieldTid);
+        $tablesObj = $tdmcreate->getHandler('tables')->get($fieldTid);
         if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

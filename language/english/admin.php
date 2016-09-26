@@ -48,7 +48,7 @@ define('_AM_TDMCREATE_FORMFIELDS', 'Edit fields');
 define('_AM_TDMCREATE_FORM_INFO_TABLE_OPTIONAL_FIELD', 'Optional fields');
 define('_AM_TDMCREATE_FORM_INFO_TABLE_STRUCTURES_FIELD', 'Structures fields');
 define('_AM_TDMCREATE_FORM_INFO_TABLE_ICON_FIELD', 'Icon fields');
-//
+
 define('_AM_TDMCREATE_ID', 'ID');
 define('_AM_TDMCREATE_NAME', 'Name');
 define('_AM_TDMCREATE_BLOCKS', 'Blocks');
@@ -94,7 +94,7 @@ define('_AM_TDMCREATE_SETTING_USER', 'Set Visible User');
 define('_AM_TDMCREATE_SETTING_MIN_PHP', 'Set Minimum PHP');
 define('_AM_TDMCREATE_SETTING_MIN_XOOPS', 'Set Minimum XOOPS');
 define('_AM_TDMCREATE_SETTING_MIN_ADMIN', 'Set Minimum Admin');
-define('_AM_TDMCREATE_SETTING_MIN_MYSQL', 'Set Minimum Database');
+define('_AM_TDMCREATE_SETTING_MIN_MYSQL', 'Set Minimum MySQL');
 define('_AM_TDMCREATE_SETTING_BLOCKS', 'Set Activate Blocks');
 define('_AM_TDMCREATE_SETTING_SEARCH', 'Set Activate Search');
 define('_AM_TDMCREATE_SETTING_COMMENTS', 'Set Activate Comments');
@@ -109,7 +109,7 @@ define('_AM_TDMCREATE_ADD_MODULE', 'Add new module');
 //Form
 define('_AM_TDMCREATE_MODULE_NEW', 'New module');
 define('_AM_TDMCREATE_MODULE_EDIT', 'Edit module');
-//
+
 define('_AM_TDMCREATE_MODULE_IMPORTANT', "<span style='color: #FF0000;'>Required - Information</span>");
 define('_AM_TDMCREATE_MODULE_NOTIMPORTANT', "<span style='color: #00FF00;'>Optional - Information</span>");
 define('_AM_TDMCREATE_MODULE_ID', 'Id');
@@ -151,7 +151,7 @@ define('_AM_TDMCREATE_MODULE_USER', 'Visible User');
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_BLOCKS', 'Activate Blocks');
 define('_AM_TDMCREATE_MODULE_ALL', 'Check All');
-define('_AM_TDMCREATE_OPTIONS_DESC', '<b>Select one or all items to add specific addon in this new module</b><br /><i class="red maxi">Warning: If you have an older operating module with the same name in root/modules, it\'s good to make a copy in another safe folder, otherwise it will be deleted irreversibly.</i>');
+define('_AM_TDMCREATE_OPTIONS_DESC', "<b>Select one or all items to add specific addon in this new module</b><br /><i class='red maxi'>Warning: If you have an older operating module with the same name in root/modules, it\'s good to make a copy in another safe folder, otherwise it will be deleted irreversibly.</i>");
 // ---------------------
 define('_AM_TDMCREATE_MODULE_SEARCH', 'Activate Search');
 define('_AM_TDMCREATE_MODULE_COMMENTS', 'Activate Comments');
@@ -365,7 +365,7 @@ define('_AM_TDMCREATE_NOTMODULES', "There aren't modules, pleace create one firs
 define('_AM_TDMCREATE_NOTTABLES', "There aren't tables, pleace create one first");
 define('_AM_TDMCREATE_FIELDS_FORM_SAVED_OK', "Fields of table <b class='green'>%s</b> successfully saved");
 define('_AM_TDMCREATE_FIELDS_FORM_UPDATED_OK', "Fields of table <b class='green'>%s</b> successfully updated");
-//
+
 define('_AM_TDMCREATE_THEREARENT_MODULES', "There aren't modules");
 define('_AM_TDMCREATE_THEREARENT_TABLES', "There aren't tables");
 define('_AM_TDMCREATE_THEREARENT_FIELDS', "There aren't fields");
@@ -378,11 +378,15 @@ define('_AM_TDMCREATE_FILE_CREATED', "The file <b>%s</b> is created in the <span
 //NOTOK
 define('_AM_TDMCREATE_NOTOK_ARCHITECTURE', "<span class='red'>Problems: Creating the structure of the module (index.html, folders, icons, docs files)</span>");
 define('_AM_TDMCREATE_FILE_NOTCREATED', "Problems: Creating file <b class='red'>%s</b> in the <span class='red bold'>%s</span> folder");
-//
+
 define('_AM_TDMCREATE_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/tdmcreate/repository/</span> of the module <span class='bold green'>%s</span>");
 define('_AM_TDMCREATE_FIELD_PARAMETERS_LIST', '<b>Parameters List</b>');
 // Added in version v1.91
 define('_AM_TDMCREATE_ABOUT_MAKE_DONATION', 'Make a Donation to support this module');
+define('_AM_TDMCREATE_MAINTAINED', '<strong>%s</strong> is maintained by the ');
+define('_AM_TDMCREATE_SUPPORT_FORUM', 'Support Forum');
+define('_AM_TDMCREATE_DONATION_AMOUNT', 'Donation Amount');
+
 define('_AM_TDMCREATE_IMPORTANT', 'Main Settings');
 define('_AM_TDMCREATE_OPTIONS_CHECK', 'Options Settings');
 define('_AM_TDMCREATE_CREATE_IMAGE', 'Create Image Logo');

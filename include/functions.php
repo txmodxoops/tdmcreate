@@ -22,94 +22,16 @@
  */
 defined('XOOPS_ROOT_PATH') or die('Restricted access');
 
-/**
- * Clear directory and its contents.
- *
- * @param string $folder The contents
- *
- * @return bool Returns true on success, false on failure
- */
-function TDMCreate_clearDir($folder)
-{
-    $opening = @opendir($folder);
-    if (!$opening) {
-        return;
-    }
-    while ($file = readdir($opening)) {
-        if ($file == '.' || $file == '..') {
-            continue;
-        }
-        if (is_dir($folder.'/'.$file)) {
-            $r = TDMCreate_clearDir($folder.'/'.$file);
-            if (!$r) {
-                return false;
-            }
-        } else {
-            $r = @unlink($folder.'/'.$file);
-            if (!$r) {
-                return false;
-            }
-        }
-    }
-    closedir($opening);
-    $r = @rmdir($folder);
-    if (!$r) {
-        return false;
-    }
-
-    return true;
-}
-
-/**
- * Copy a file, or a folder and its contents.
- *
- * @author      Aidan Lister <aidan@php.net>
- *
- * @version     1.0.0
- *
- * @param string $source The source
- * @param string $dest   The destination
- *
- * @return bool Returns true on success, false on failure
- */
-function TDMCreate_copyr($source, $dest)
-{
-    // Simple copy for a file
-    if (is_file($source)) {
-        return copy($source, $dest);
-    }
-
-    // Make destination directory
-    if (!is_dir($dest)) {
-        mkdir($dest);
-    }
-
-    // Loop through the folder
-    $dir = dir($source);
-    while (false !== $entry = $dir->read()) {
-        // Skip pointers
-        if ($entry == '.' || $entry == '..') {
-            continue;
-        }
-
-        // Deep copy directories
-        if (is_dir("$source/$entry") && ($dest !== "$source/$entry")) {
-            TDMCreate_copyr("$source/$entry", "$dest/$entry");
-        } else {
-            copy("$source/$entry", "$dest/$entry");
-        }
-    }
-
-    // Clean up
-    $dir->close();
-
-    return true;
-}
 // Pleace! don't remove
+/**
+ * @param $about
+ *
+ * @return string
+ */
 function TDMCreate_MakeDonationForm($about)
 {
     $donationform = array(0 => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
-                                1 => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">'._AM_TDMCREATE_ABOUT_MAKE_DONATION.'</th></tr><tr align="left" valign="top"><td class="head"><div class="xoops-form-element-caption-required"><span class="caption-text">Donation Amount</span><span class="caption-marker">*</span></div></td><td class="even"><select size="1" name="item[A][amount]" id="item[A][amount]" title="Donation Amount"><option value="5">5.00 EUR</option><option value="10">10.00 EUR</option><option value="20">20.00 EUR</option><option value="40">40.00 EUR</option><option value="60">60.00 EUR</option><option value="80">80.00 EUR</option><option value="90">90.00 EUR</option><option value="100">100.00 EUR</option><option value="200">200.00 EUR</option></select></td></tr><tr align="left" valign="top"><td class="head"></td><td class="even"><input class="formButton" name="submit" id="submit" value="'._SUBMIT.'" title="'._SUBMIT.'" type="submit"></td></tr></tbody></table>',
+                                1 => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">'._AM_TDMCREATE_ABOUT_MAKE_DONATION.'</th></tr><tr align="left" valign="top"><td class="head"><div class="xoops-form-element-caption-required"><span class="caption-text">'._AM_TDMCREATE_DONATION_AMOUNT.'</span><span class="caption-marker">*</span></div></td><td class="even"><select size="1" name="item[A][amount]" id="item[A][amount]" title="Donation Amount"><option value="5">5.00 EUR</option><option value="10">10.00 EUR</option><option value="20">20.00 EUR</option><option value="40">40.00 EUR</option><option value="60">60.00 EUR</option><option value="80">80.00 EUR</option><option value="90">90.00 EUR</option><option value="100">100.00 EUR</option><option value="200">200.00 EUR</option></select></td></tr><tr align="left" valign="top"><td class="head"></td><td class="even"><input class="formButton" name="submit" id="submit" value="'._SUBMIT.'" title="'._SUBMIT.'" type="submit"></td></tr></tbody></table>',
                                 2 => '<input name="op" id="op" value="createinvoice" type="hidden"><input name="plugin" id="plugin" value="donations" type="hidden"><input name="donation" id="donation" value="1" type="hidden"><input name="drawfor" id="drawfor" value="Chronolabs Co-Operative" type="hidden"><input name="drawto" id="drawto" value="%s" type="hidden"><input name="drawto_email" id="drawto_email" value="%s" type="hidden"><input name="key" id="key" value="%s" type="hidden"><input name="currency" id="currency" value="EUR" type="hidden"><input name="weight_unit" id="weight_unit" value="kgs" type="hidden"><input name="item[A][cat]" id="item[A][cat]" value="XDN%s" type="hidden"><input name="item[A][name]" id="item[A][name]" value="Donation for %s" type="hidden"><input name="item[A][quantity]" id="item[A][quantity]" value="1" type="hidden"><input name="item[A][shipping]" id="item[A][shipping]" value="0" type="hidden"><input name="item[A][handling]" id="item[A][handling]" value="0" type="hidden"><input name="item[A][weight]" id="item[A][weight]" value="0" type="hidden"><input name="item[A][tax]" id="item[A][tax]" value="0" type="hidden"><input name="return" id="return" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"><input name="cancel" id="cancel" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"></form>', 'D' => '',
                                 3 => '',
                                 4 => '<!-- Start Form Validation JavaScript //-->
@@ -126,7 +48,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
                                 3 => '<img alt="" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" height="1" border="0" width="1">',
                                 4 => '<input src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!" border="0" type="image">',
                                 5 => '</form>', );
-    for ($key = 0;$key <= 4;++$key) {
+    for ($key = 0; $key <= 4; ++$key) {
         switch ($key) {
             case 2:
                 $donationform[$key] = sprintf($donationform[$key], $GLOBALS['xoopsConfig']['sitename'].' - '.(strlen($GLOBALS['xoopsUser']->getVar('name')) > 0 ? $GLOBALS['xoopsUser']->getVar('name').' ['.$GLOBALS['xoopsUser']->getVar('uname').']' : $GLOBALS['xoopsUser']->getVar('uname')), $GLOBALS['xoopsUser']->getVar('email'), XOOPS_LICENSE_KEY, strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),  strtoupper($GLOBALS['xoopsModule']->getVar('dirname')).' '.$GLOBALS['xoopsModule']->getVar('name'));
@@ -134,16 +56,20 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
         }
     }
     $aboutRes = '';
-    $istart = strpos($about, ($paypalform[0]), 1);
-    $iend = strpos($about, ($paypalform[5]), $istart + 1) + strlen($paypalform[5]) - 1;
-    $aboutRes .= (substr($about, 0, $istart - 1));
+    $istart = strpos($about, $paypalform[0], 1);
+    $iend = strpos($about, $paypalform[5], $istart + 1) + strlen($paypalform[5]) - 1;
+    $aboutRes .= substr($about, 0, $istart - 1);
     $aboutRes .= implode("\n", $donationform);
-    $aboutRes .= (substr($about, $iend + 1, strlen($about) - $iend - 1));
+    $aboutRes .= substr($about, $iend + 1, strlen($about) - $iend - 1);
 
     return $aboutRes;
 }
 
-//
+/**
+ * @param $str
+ *
+ * @return string
+ */
 function UcFirstAndToLower($str)
 {
     return ucfirst(strtolower(trim($str)));

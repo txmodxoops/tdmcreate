@@ -28,31 +28,23 @@
 class UserPages extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return UserPages
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -177,7 +169,7 @@ class UserPages extends TDMCreateFile
         $ret .= $uc->getUserMetaKeywords($moduleDirname);
         $ret .= $pc->getPhpCodeUnset('keywords');
         $ret .= $pc->getPhpCodeCommentLine('Description');
-        $ret .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableSoleName);
+        $ret .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
         $ret .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
         $ret .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret .= $this->getInclude('footer');
@@ -194,7 +186,7 @@ class UserPages extends TDMCreateFile
      *
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
         $module = $this->getModule();
         $table = $this->getTable();
@@ -207,9 +199,9 @@ class UserPages extends TDMCreateFile
         $content .= $this->getUserPagesHeader($moduleDirname, $tableName);
         $content .= $this->getUserPages($moduleDirname, $tableName, $tableSoleName);
         $content .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language);
-        //
-        $this->tdmcfile->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

@@ -24,9 +24,9 @@
 include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $fileId = XoopsRequest::getInt('file_id');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -36,7 +36,7 @@ switch ($op) {
         $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('addfiles.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('addfiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_FILE, 'addfiles.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -71,7 +71,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('addfiles.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('addfiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
@@ -113,7 +113,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('addfiles.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('addfiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'addfiles.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());

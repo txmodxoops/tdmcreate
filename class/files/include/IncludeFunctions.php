@@ -31,23 +31,20 @@ class IncludeFunctions extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return IncludeFunctions
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -123,10 +120,10 @@ function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
     if(is_array(\$permissions) && array_key_exists(\$permtype, \$permissions)) {
         return \$permissions[\$permtype];
     }
-	\$moduleHandler =& xoops_gethandler('module');
-	\${$moduleDirname}Module =& \$moduleHandler->getByDirname(\$dirname);
+	\$moduleHandler = xoops_getHandler('module');
+	\${$moduleDirname}Module = \$moduleHandler->getByDirname(\$dirname);
 	\$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-	\$gpermHandler =& xoops_gethandler('groupperm');
+	\$gpermHandler = xoops_getHandler('groupperm');
 	\${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
     return \${$tableName};
 }\n
@@ -135,14 +132,12 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getFunctionNumbersOfEntries
-    *  @param string $moduleDirname
-    */
     /**
-     * @param $moduleDirname
+     *  @private function getFunctionNumbersOfEntries
+     *
+     *  @param string $moduleDirname
      * @param $tableMid
-     * @param $tableMid
+     * @param $tableId
      * @param $tableName
      *
      * @return string
@@ -183,12 +178,10 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getFunctionMetaKeywords
-    *  @param string $moduleDirname
-    */
     /**
-     * @param $moduleDirname
+     *  @private function getFunctionMetaKeywords
+     *
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -198,7 +191,7 @@ EOT;
 \nfunction {$moduleDirname}MetaKeywords(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
-    \$myts =& MyTextSanitizer::getInstance();
+    \$myts = MyTextSanitizer::getInstance();
     \$content= \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
     if(isset(\$xoTheme) && is_object(\$xoTheme)) {
         \$xoTheme->addMeta( 'meta', 'keywords', strip_tags(\$content));
@@ -211,12 +204,10 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getFunctionDescription
-    *  @param string $moduleDirname
-    */
     /**
-     * @param $moduleDirname
+     *  @private function getFunctionDescription
+     *
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -226,7 +217,7 @@ EOT;
 \nfunction {$moduleDirname}MetaDescription(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
-    \$myts =& MyTextSanitizer::getInstance();
+    \$myts = MyTextSanitizer::getInstance();
     \$content = \$myts->undoHtmlSpecialChars(\$myts->displayTarea(\$content));
     if(isset(\$xoTheme) && is_object(\$xoTheme)) {
         \$xoTheme->addMeta( 'meta', 'description', strip_tags(\$content));
@@ -239,14 +230,11 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getRewriteUrl
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
     /**
-     * @param $moduleDirname
-     * @param $tableName
+     *  @private function getRewriteUrl
+     *
+     *  @param string $moduleDirname
+     *  @param string $tableName
      *
      * @return string
      */
@@ -343,14 +331,11 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getRewriteFilter
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
     /**
-     * @param $moduleDirname
-     * @param $tableName
+     *  @private function getRewriteFilter
+     *
+     *  @param string $moduleDirname
+     *  @param string $tableName
      *
      * @return string
      */
@@ -386,11 +371,11 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+     *  @public function render
+     *
+     *  @param null
+     *
      * @return bool|string
      */
     public function render()
@@ -427,7 +412,7 @@ EOT;
         $content .= $this->getFunctionMetaDescription($moduleDirname);
         $content .= $this->getRewriteUrl($moduleDirname, $tableName);
         $content .= $this->getRewriteFilter($moduleDirname, $tableName);
-        //
+
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

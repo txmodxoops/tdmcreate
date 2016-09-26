@@ -36,22 +36,20 @@ class UserXoopsVersion extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return UserXoopsVersion
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -135,8 +133,8 @@ class UserXoopsVersion extends TDMCreateFile
 
         $descriptions = array('name' => "{$language}NAME", 'version' => "{$module->getVar('mod_version')}", 'description' => "{$language}DESC",
                             'author' => "'{$module->getVar('mod_author')}'", 'author_mail' => "'{$module->getVar('mod_author_mail')}'", 'author_website_url' => "'{$module->getVar('mod_author_website_url')}'",
-                            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'",'credits' => "'{$module->getVar('mod_credits')}'",'license' => "'{$module->getVar('mod_license')}'",
-                            'license_url' => "'www.gnu.org/licenses/gpl-2.0.html/'", 'help' => "'page=help'", 'release_info' => "'{$module->getVar('mod_release_info')}'",
+                            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'", 'credits' => "'{$module->getVar('mod_credits')}'", 'license' => "'{$module->getVar('mod_license')}'",
+                            'license_url' => "'http://www.gnu.org/licenses/gpl-3.0.en.html'", 'help' => "'page=help'", 'release_info' => "'{$module->getVar('mod_release_info')}'",
                             'release_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'", 'release_date' => "'{$date}'",
                             'manual' => "'{$module->getVar('mod_manual')}'", 'manual_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
                             'min_php' => "'{$module->getVar('mod_min_php')}'", 'min_xoops' => "'{$module->getVar('mod_min_xoops')}'", 'min_admin' => "'{$module->getVar('mod_min_admin')}'",
@@ -475,8 +473,10 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $this->getDashComment('Config');
         $ret .= $this->getSimpleString('$c = 1;');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldElement = array();
         foreach (array_keys($fields) as $f) {
-            if ($fields[$f]->getVar('field_element') == 4) {
+            $fieldElement[] = $fields[$f]->getVar('field_element');
+            if (in_array(array(3, 4), $fieldElement)) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 $rpFieldName = $this->getRightString($fieldName);
                 $ucfFieldName = ucfirst($rpFieldName);
@@ -493,7 +493,7 @@ class UserXoopsVersion extends TDMCreateFile
 
         if (1 == $table->getVar('table_permissions')) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
-            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", '', false);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
             $group = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key');
             $ret .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
@@ -504,7 +504,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get Admin groups');
             $ret .= $xCodeVConfig->getXcEqualsOperator('$criteria ', 'new CriteriaCompo()');
             $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
-            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", true);
+            $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", '', false);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
             $adminGroup = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key');
             $ret .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
@@ -569,7 +569,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $uCodeVConfig->getUserModVersion(3, $divideby, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Table type');
-        $tableType = array('name' => "'table_type'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
+        $tableType = array('name' => "'table_type'", 'title' => "'{$language}TABLE_TYPE'", 'description' => "'{$language}DIVIDEBY_DESC'",
                         'formtype' => "'select'", 'valuetype' => "'int'", 'default' => "'bordered'", 'options' => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')", );
         $ret .= $uCodeVConfig->getUserModVersion(3, $tableType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
@@ -625,7 +625,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getNotificationsType($language, $type = 'category', $tableName, $notifyFile, $item, $typeOfNotify)
+    private function getNotificationsType($language, $type, $tableName, $notifyFile, $item, $typeOfNotify)
     {
         $phpCodeNType = TDMCreatePhpCode::getInstance();
         $uCodeNType = UserXoopsCode::getInstance();
@@ -685,6 +685,7 @@ class UserXoopsVersion extends TDMCreateFile
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
+            $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableBroken[] = $tables[$t]->getVar('table_broken');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
@@ -716,32 +717,32 @@ class UserXoopsVersion extends TDMCreateFile
         ++$num;
         $ret .= $this->getXoopsVersionNotificationCategory($language, 'category', 'category', 'category', $notifyFiles, $fieldParent, '1', $num);
         ++$num;
-        $ret .= $this->getXoopsVersionNotificationTableName($language, 'category', 'file', 'file', $single, $fieldId, 1, $num);
+        $ret .= $this->getXoopsVersionNotificationTableName($language, 'category', $tableSoleName, $tableSoleName, $single, $fieldId, 1, $num);
         unset($num);
         $num = 1;
         if (in_array(1, $tableCategory)) {
             $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify', $num);
             ++$num;
         }
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_modify', 'global', 1, 'global', 'filemodify', 'global_filemodify_notify', $num);
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName.'_modify', 'global', 1, 'global', $tableSoleName.'modify', 'global_'.$tableSoleName.'modify_notify', $num);
         if (in_array(1, $tableBroken)) {
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_broken', 'global', 1, 'global', 'filebroken', 'global_filebroken_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName.'_broken', 'global', 1, 'global', $tableSoleName.'broken', 'global_'.$tableSoleName.'broken_notify', $num);
         }
         if (in_array(1, $tableSubmit)) {
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'global', 1, 'global', 'filesubmit', 'global_filesubmit_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName.'_submit', 'global', 1, 'global', $tableSoleName.'submit', 'global_'.$tableSoleName.'submit_notify', $num);
         }
         ++$num;
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'global', 0, 'global', 'newfile', 'global_newfile_notify', $num);
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_'.$tableSoleName, 'global', 0, 'global', 'new'.$tableSoleName, 'global_new'.$tableSoleName.'_notify', $num);
         if (in_array(1, $tableCategory)) {
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'file_submit', 'category', 1, 'category', 'filesubmit', 'category_filesubmit_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName.'_submit', 'category', 1, 'category', $tableSoleName.'submit', 'category_'.$tableSoleName.'submit_notify', $num);
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_file', 'category', 0, 'category', 'newfile', 'category_newfile_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_'.$tableSoleName, 'category', 0, 'category', 'new'.$tableSoleName, 'category_new'.$tableSoleName.'_notify', $num);
         }
         ++$num;
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', 'file', 1, 'file', 'approve', 'file_approve_notify', $num);
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', $tableSoleName, 1, $tableSoleName, 'approve', $tableSoleName.'_approve_notify', $num);
         unset($num);
 
         return $ret;
@@ -813,7 +814,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item = 'cid', $allow = 1, $num)
+    private function getXoopsVersionNotificationTableName($language, $type, $name, $title, $file, $item, $allow, $num)
     {
         $phpCodeVNTN = TDMCreatePhpCode::getInstance();
         $uCodeVNTN = UserXoopsCode::getInstance();
@@ -841,7 +842,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin = 1, $title, $table, $mail, $num)
+    private function getXoopsVersionNotificationCodeComplete($language, $type, $name, $category, $admin, $title, $table, $mail, $num)
     {
         $phpCodeVNCC = TDMCreatePhpCode::getInstance();
         $uCodeVNCC = UserXoopsCode::getInstance();

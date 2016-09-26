@@ -31,23 +31,20 @@ class BlocksFiles extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return BlocksFiles
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -66,10 +63,11 @@ class BlocksFiles extends TDMCreateFile
      * @param $module
      * @param $table
      */
-    public function write($module, $table)
+    public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
+        $this->setFileName($filename);
     }
 
     /*
@@ -96,14 +94,14 @@ include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/include/common.php';
 function b_{$moduleDirname}_{$tableName}_show(\$options)
 {
     include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
-    \$myts =& MyTextSanitizer::getInstance();
+    \$myts = MyTextSanitizer::getInstance();
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
     \$block       = array();
     \$typeBlock   = \$options[0];
     \$limit       = \$options[1];
     \$lenghtTitle = \$options[2];
     \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-    \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
+    \${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');
     \$criteria = new CriteriaCompo();
     array_shift(\$options);
     array_shift(\$options);
@@ -171,7 +169,7 @@ EOT;
             $fieldName = $fields[$f]->getVar('field_name');
             // Verify if table_fieldname is not empty
             //$lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
-            $rpFieldName = $this->tdmcfile->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
@@ -241,7 +239,7 @@ function b_{$moduleDirname}_{$tableName}_edit(\$options)
 {
     include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
     \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-    \${$tableName}Handler =& \${$moduleDirname}->getHandler('{$tableName}');
+    \${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
     \$form  = {$language}DISPLAY;
     \$form .= "<input type='hidden' name='options[0]' value='".\$options[0]."' />";
@@ -271,7 +269,7 @@ EOT;
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param null
     */
     /**
@@ -279,9 +277,10 @@ EOT;
      *
      * @return bool|string
      */
-    public function renderFile($filename)
+    public function render()
     {
         $module = $this->getModule();
+        $filename = $this->getFileName();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName = $table->getVar('table_name');
@@ -302,9 +301,9 @@ EOT;
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent);
         $content .= $this->getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language);
-        //
-        $this->tdmcfile->create($moduleDirname, 'blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, 'blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

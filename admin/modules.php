@@ -24,9 +24,9 @@
 include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $modId = XoopsRequest::getInt('mod_id');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -36,7 +36,7 @@ switch ($op) {
         $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
@@ -69,11 +69,11 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $modulesObj = &$tdmcreate->getHandler('modules')->create();
+        $modulesObj = $tdmcreate->getHandler('modules')->create();
         $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -83,9 +83,9 @@ switch ($op) {
             redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($modId)) {
-            $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
+            $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         } else {
-            $modulesObj = &$tdmcreate->getHandler('modules')->create();
+            $modulesObj = $tdmcreate->getHandler('modules')->create();
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
         //Form module save
@@ -149,14 +149,14 @@ switch ($op) {
 
         if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
-                redirect_header('modules.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_CREATED_OK, $_POST['mod_name']));
+                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_CREATED_OK, $_POST['mod_name']));
             } else {
                 redirect_header('modules.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, $_POST['mod_name']));
             }
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
-        $form = &$modulesObj->getFormModules();
+        $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
@@ -164,7 +164,7 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('modules.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
@@ -175,7 +175,7 @@ switch ($op) {
         break;
 
     case 'delete':
-        $modulesObj = &$tdmcreate->getHandler('modules')->get($modId);
+        $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

@@ -22,6 +22,10 @@
  * @since     2.0.0
  */
 XoopsLoad::load('XoopsFormElementTray');
+
+/**
+ * Class TDMCreateFormTab.
+ */
 class TDMCreateFormTab extends XoopsFormElementTray
 {
     /**

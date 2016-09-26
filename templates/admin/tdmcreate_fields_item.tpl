@@ -3,7 +3,7 @@
         <{foreach item=field from=$table.fields key=field_id}>
             <{if $field.id > 0}>
                 <tr id="forder_<{$field.id}>" field_id="<{$field.id}>" order="<{$field.order}>" class="fields <{cycle values='even,odd'}>">
-                    <td class='center width5'>&#91;<{$field.lid}>&#93;&nbsp;<img class="move" src="<{$modPathIcon16}>/drag.png" alt="<{$field.name}>" /></td>
+                    <td class='center width6'>&#91;<{$field.lid}>&#93;&nbsp;<img class="move" src="<{$modPathIcon16}>/drag.png" alt="<{$field.name}>" /></td>
                     <td class='center width10 name'><{$field.name}></td>
                     <td class='center'><img src="<{$modPathIcon16}>/tables.png" alt="Empty" /></td>
                     <td class='center'><img src="<{$modPathIcon16}>/tables.png" alt="Empty" /></td>

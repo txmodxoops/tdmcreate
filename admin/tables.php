@@ -24,7 +24,7 @@
 include __DIR__.'/header.php';
 // Recovered value of arguments op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $modId = XoopsRequest::getInt('mod_id');
 // Request vars
 $tableId = XoopsRequest::getInt('table_id');
@@ -32,7 +32,7 @@ $tableMid = XoopsRequest::getInt('table_mid');
 $tableName = XoopsRequest::getInt('table_name');
 $tableNumbFields = XoopsRequest::getInt('table_nbfields');
 $tableFieldname = XoopsRequest::getString('table_fieldname', '');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -44,7 +44,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('tables.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('tables.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -99,11 +99,11 @@ switch ($op) {
     case 'new':
         // Define main template
         $templateMain = 'tdmcreate_tables.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('tables.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('tables.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $tablesObj = &$tdmcreate->getHandler('tables')->create();
+        $tablesObj = $tdmcreate->getHandler('tables')->create();
         $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -112,11 +112,9 @@ switch ($op) {
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        //
-        $tables = &$tdmcreate->getHandler('tables');
-        //
+        $tables = $tdmcreate->getHandler('tables');
         if (isset($tableId)) {
-            $tablesObj = &$tables->get($tableId);
+            $tablesObj = $tables->get($tableId);
         } else {
             // Checking if table name exist in the same module
             $criteria = new CriteriaCompo();
@@ -129,7 +127,7 @@ switch ($op) {
                     redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, $_POST['table_name']));
                 }
             }
-            $tablesObj = &$tables->create();
+            $tablesObj = $tables->create();
         }
         $tableOrder = XoopsRequest::getInt('table_order');
         $order = $tablesObj->isNew() ? $tableOrder + 1 : $tableOrder;
@@ -138,7 +136,7 @@ switch ($op) {
                                 'table_mid' => $tableMid,
                                 'table_name' => $_POST['table_name'],
                                 'table_solename' => $_POST['table_solename'],
-                                'table_category' => ((1 == $_REQUEST['table_category']) ? 1 : 0),
+                                'table_category' => (1 == $_REQUEST['table_category']) ? 1 : 0,
                                 'table_fieldname' => $tableFieldname,
                                 'table_nbfields' => $tableNumbFields,
                                 'table_order' => $order, ));
@@ -180,7 +178,7 @@ switch ($op) {
         $tablesObj->setVar('table_rss', in_array('rss', $tableOption));
         $tablesObj->setVar('table_single', in_array('single', $tableOption));
         $tablesObj->setVar('table_visit', in_array('visit', $tableOption));
-        //
+
         if ($tables->insert($tablesObj)) {
             if ($tablesObj->isNew()) {
                 $tableTid = $GLOBALS['xoopsDB']->getInsertId();
@@ -200,7 +198,7 @@ switch ($op) {
                 redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_TABLE_FORM_UPDATED_OK, $_POST['table_name']));
             }
         }
-        //
+
         $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
         $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -209,7 +207,7 @@ switch ($op) {
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_tables.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('tables.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('tables.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());

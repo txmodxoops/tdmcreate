@@ -31,22 +31,20 @@ class IncludeCommon extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return IncludeCommon
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -74,6 +72,18 @@ class IncludeCommon extends TDMCreateFile
         $this->setFileName($filename);
     }
 
+    /**
+     * @param $modDirname
+     * @param $const
+     * @param $desc
+     */
+    private function getCommonDefines($modDirname, $const, $desc)
+    {
+        $stuModDirname = strtoupper($modDirname);
+
+        return "define('{$stuModDirname}_{$const}', {$desc});\n";
+    }
+
     /*
     *  @private function getCommonCode
     *  @param object $module
@@ -85,6 +95,8 @@ class IncludeCommon extends TDMCreateFile
      */
     private function getCommonCode($module)
     {
+        $pc = TDMCreatePhpCode::getInstance();
+        $xc = TDMCreateXoopsCode::getInstance();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
         $stuModuleDirname = strtoupper($moduleDirname);
@@ -92,54 +104,42 @@ class IncludeCommon extends TDMCreateFile
         $moduleAuthorWebsiteName = $module->getVar('mod_author_website_name');
         $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
         $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 if (!defined('XOOPS_ICONS32_PATH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
 if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
-define('{$stuModuleDirname}_DIRNAME', '{$moduleDirname}');
-define('{$stuModuleDirname}_PATH', XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME);
-define('{$stuModuleDirname}_URL', XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME);
-define('{$stuModuleDirname}_ICONS_PATH', {$stuModuleDirname}_PATH.'/assets/icons');
-define('{$stuModuleDirname}_ICONS_URL', {$stuModuleDirname}_URL.'/assets/icons');
-define('{$stuModuleDirname}_IMAGE_PATH', {$stuModuleDirname}_PATH.'/assets/images');
-define('{$stuModuleDirname}_IMAGE_URL', {$stuModuleDirname}_URL.'/assets/images');
-define('{$stuModuleDirname}_UPLOAD_PATH', XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME);
-define('{$stuModuleDirname}_UPLOAD_URL', XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME);\n
 EOT;
+        $ret .= self::getCommonDefines($moduleDirname, 'DIRNAME', "'{$moduleDirname}'");
+        $ret .= self::getCommonDefines($moduleDirname, 'PATH', "XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME");
+        $ret .= self::getCommonDefines($moduleDirname, 'URL', "XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME");
+        $ret .= self::getCommonDefines($moduleDirname, 'ICONS_PATH', "{$stuModuleDirname}_PATH.'/assets/icons'");
+        $ret .= self::getCommonDefines($moduleDirname, 'ICONS_URL', "{$stuModuleDirname}_URL.'/assets/icons'");
+        $ret .= self::getCommonDefines($moduleDirname, 'IMAGE_PATH', "{$stuModuleDirname}_PATH.'/assets/images'");
+        $ret .= self::getCommonDefines($moduleDirname, 'IMAGE_URL', "{$stuModuleDirname}_URL.'/assets/images'");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_PATH', "XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_URL', "XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME");
+
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldElement = array();
         foreach (array_keys($fields) as $f) {
             $fieldElement[] = $fields[$f]->getVar('field_element');
         }
-        if (in_array(10, $fieldElement)) {
-            $ret .= <<<EOT
-define('{$stuModuleDirname}_UPLOAD_SHOTS_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');
-define('{$stuModuleDirname}_UPLOAD_SHOTS_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images/shots');\n
-EOT;
-        }
-        if (in_array(array(11, 12), $fieldElement)) {
-            $ret .= <<<EOT
-define('{$stuModuleDirname}_UPLOAD_FILES_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/files');
-define('{$stuModuleDirname}_UPLOAD_FILES_URL', {$stuModuleDirname}_UPLOAD_PATH.'/files');\n
-EOT;
-        }
-        if (in_array(13, $fieldElement)) {
-            $ret .= <<<EOT
-define('{$stuModuleDirname}_UPLOAD_IMAGE_PATH', {$stuModuleDirname}_UPLOAD_PATH.'/images');
-define('{$stuModuleDirname}_UPLOAD_IMAGE_URL', {$stuModuleDirname}_UPLOAD_PATH.'/images');\n
-EOT;
-        }
-        $ret .= <<<EOT
-define('{$stuModuleDirname}_ADMIN', {$stuModuleDirname}_URL . '/admin/index.php');
-\$local_logo = {$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.gif';
-
-// module information
-\$copyright = "<a href='{$moduleAuthorWebsiteUrl}' title='{$moduleAuthorWebsiteName}' target='_blank'>
-                     <img src='".\$local_logo."' alt='{$moduleAuthorWebsiteName}' /></a>";
-
-include_once XOOPS_ROOT_PATH.'/class/xoopsrequest.php';
-include_once {$stuModuleDirname}_PATH.'/class/helper.php';
-include_once {$stuModuleDirname}_PATH.'/include/functions.php';
-EOT;
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_FILES_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/files'");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_FILES_URL', "{$stuModuleDirname}_UPLOAD_URL.'/files'");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images'");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images'");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images/shots'");
+        $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images/shots'");
+        $ret .= self::getCommonDefines($moduleDirname, 'ADMIN', "{$stuModuleDirname}_URL . '/admin/index.php'");
+        $ret .= $xc->getXcEqualsOperator('$localLogo', "{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
+        $ret .= $pc->getPhpCodeCommentLine('Module Information');
+        $htmlCode = TDMCreateHtmlCode::getInstance();
+        $img = $htmlCode->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
+        $anchor = $htmlCode->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank');
+        $replace = $xc->getXcEqualsOperator('$copyright', '"'.$anchor.'"');
+        $ret .= str_replace("\n", '', $replace).PHP_EOL;
+        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
+        $ret .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
+        $ret .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
 
         return $ret;
     }

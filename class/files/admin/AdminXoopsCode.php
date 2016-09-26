@@ -28,13 +28,13 @@
 class AdminXoopsCode
 {
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return Axc
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -93,7 +93,7 @@ class AdminXoopsCode
     /*
     *  @public function getAxcAddInfoBox
     *  @param $language
-    *  
+    *
     *  @return string
     */
     public function getAxcAddInfoBox($language, $t = '')
@@ -106,7 +106,7 @@ class AdminXoopsCode
     *  @param $language
     *  @param $label
     *  @param $var
-    *  
+    *
     *  @return string
     */
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
@@ -126,7 +126,7 @@ class AdminXoopsCode
     *  @param $language
     *  @param $label
     *  @param $var
-    *  
+    *
     *  @return string
     */
     public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
@@ -231,7 +231,7 @@ class AdminXoopsCode
     *  @param $formatUrl
     *  @return string
     */
-    private function getAxcImageFileSetVar($moduleDirname, $dirname = '', $tableName, $fieldName, $formatUrl = false, $t = '')
+    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '')
     {
         $pCodeFileSetVar = TDMCreatePhpCode::getInstance();
         $xCodeFileSetVar = TDMCreateXoopsCode::getInstance();
@@ -271,7 +271,7 @@ class AdminXoopsCode
      *
      *  @return string
      */
-    public function getAxcSetVarsObjects($moduleDirname, $tableName, $fields)
+    public function getAxcSetVarsObjects($moduleDirname, $tableName, $tableSolename, $fields)
     {
         $xCodeSetVars = TDMCreateXoopsCode::getInstance();
         $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
@@ -301,7 +301,7 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $fieldName);
+                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
                         break;
                     default:
                         $ret .= $xCodeSetVars->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
@@ -349,7 +349,7 @@ class AdminXoopsCode
      */
     public function getAxcGetObjHandlerId($tableName, $fieldId, $t = '')
     {
-        return "{$t}\${$tableName}Obj =& \${$tableName}Handler->get(\${$fieldId});\n";
+        return "{$t}\${$tableName}Obj = \${$tableName}Handler->get(\${$fieldId});\n";
     }
 
     /*
@@ -379,7 +379,7 @@ class AdminXoopsCode
 
         $redirectHeaderLanguage = $xCodeCaseDelete->getXcRedirectHeader($tableName, '', '3', "{$language}FORM_DELETE_OK", true, $t."\t\t");
         $htmlErrors = $xCodeCaseDelete->getXcHtmlErrors($tableName, true);
-        $internalElse = $xCodeCaseDelete->getXcTplAssign('error', $htmlErrors, false, $t."\t\t");
+        $internalElse = $xCodeCaseDelete->getXcTplAssign('error', $htmlErrors, true, $t."\t\t");
         $condition .= $phpCodeCaseDelete->getPhpCodeConditions($delete, '', '', $redirectHeaderLanguage, $internalElse, $t."\t");
 
         $mainElse = $xCodeCaseDelete->getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, 'delete', $t."\t");

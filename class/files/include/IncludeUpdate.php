@@ -31,23 +31,20 @@ class IncludeUpdate extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return IncludeUpdate
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -144,7 +141,7 @@ function update_{$moduleDirname}_v{$moduleVersion}(&\$module)
         \$tplids[] = \$tplid;
     }
     if (count(\$tplids) > 0) {
-        \$tplfile_handler =& xoops_gethandler('tplfile');
+        \$tplfile_handler = xoops_getHandler('tplfile');
         \$duplicate_files = \$tplfile_handler->getObjects(
             new Criteria('tpl_id', "(" . implode(',', \$tplids) . ")", "IN")
         );
@@ -192,13 +189,13 @@ EOT;
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param null
     */
     /**
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
         $module = $this->getModule();
         $filename = $this->getFileName();
@@ -207,9 +204,9 @@ EOT;
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getIncludeUpdateModule($moduleDirname, $moduleVersion);
         $content .= $this->getIncludeUpdateVersion($moduleDirname, $moduleVersion);
-        //
-        $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

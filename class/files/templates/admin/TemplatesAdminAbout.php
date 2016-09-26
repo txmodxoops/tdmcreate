@@ -28,33 +28,24 @@
 class TemplatesAdminAbout extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    private $tdmcfile = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
-        $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param string $module
     *  @param string $filename
     */
     /**
      * @return TemplatesAdminAbout
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -88,19 +79,20 @@ class TemplatesAdminAbout extends TDMCreateFile
      */
     public function render()
     {
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->htmlcode->getHtmlComment('Header').PHP_EOL;
-        $content .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
-        $content .= $this->htmlcode->getHtmlComment('About Page').PHP_EOL;
-        $single = $this->htmlcode->getSmartySingleVar('about');
-        $content .= $this->htmlcode->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
-        $content .= $this->htmlcode->getHtmlComment('Footer').PHP_EOL;
-        $content .= $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
+        $content = $hc->getHtmlComment('Header').PHP_EOL;
+        $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
+        $content .= $hc->getHtmlComment('About Page').PHP_EOL;
+        $single = $hc->getSmartySingleVar('about');
+        $content .= $hc->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
+        $content .= $hc->getHtmlComment('Footer').PHP_EOL;
+        $content .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 
-        $this->tdmcfile->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

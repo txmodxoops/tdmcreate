@@ -32,22 +32,20 @@ class IncludeJquery extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return IncludeJquery
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -85,7 +83,7 @@ class IncludeJquery extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         //$content = $this->getHeaderFilesComments($module, $filename);
-        $content = <<<EOT
+        $content = <<<'EOT'
 $(document).ready(function(){
     $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();
     $( ".check" ).css("color","#fff").button();

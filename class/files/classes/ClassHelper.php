@@ -31,22 +31,20 @@ class ClassHelper extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return ClassHelper
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -124,10 +122,10 @@ class {$ucf_module_dirname}Helper
         \$this->dirname =  basename(dirname(__DIR__));
     }
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param mixed \$debug
     */
-    public static function &getInstance(\$debug = false)
+    public static function getInstance(\$debug = false)
     {
         static \$instance = false;
         if (!\$instance) {
@@ -202,7 +200,7 @@ class {$ucf_module_dirname}Helper
         if (isset(\$xoopsModule) && is_object(\$xoopsModule) && \$xoopsModule->getVar('dirname') == \$this->dirname) {
             \$this->module = \$xoopsModule;
         } else {
-            \$hModule = xoops_gethandler('module');
+            \$hModule = xoops_getHandler('module');
             \$this->module = \$hModule->getByDirname(\$this->dirname);
         }
         \$this->addLog('INIT MODULE');
@@ -214,7 +212,7 @@ class {$ucf_module_dirname}Helper
     public function initConfig()
     {
         \$this->addLog('INIT CONFIG');
-        \$hModConfig = xoops_gethandler('config');
+        \$hModConfig = xoops_getHandler('config');
         \$this->config = \$hModConfig->getConfigsByCat(0, \$this->getModule()->getVar('mid'));
     }
     /*

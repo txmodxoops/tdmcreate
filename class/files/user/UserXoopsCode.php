@@ -28,13 +28,13 @@
 class UserXoopsCode
 {
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return UserXoopsCode
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -44,40 +44,44 @@ class UserXoopsCode
         return $instance;
     }
 
-    /*
-    *  @public function getUserTplMain
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @return string
-    */
+    /**
+     *  @public function getUserTplMain
+     *
+     * @param        $moduleDirname
+     * @param string $tableName
+     *
+     * @return string
+     */
     public function getUserTplMain($moduleDirname, $tableName = 'index')
     {
         return "\$GLOBALS['xoopsOption']['template_main'] = '{$moduleDirname}_{$tableName}.tpl';\n";
     }
 
-    /*
+    /**
      * @public function getUserAddMeta
-     * @param $type
-     * @param $language
-     * @param $tableName
-     *  
+     *
+     * @param string $type
+     * @param        $language
+     * @param        $tableName
+     *
      * @return string
      */
-    public function getUserAddMeta($type = '', $language, $tableName)
+    public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
         $pCodeAddMeta = TDMCreatePhpCode::getInstance();
         $stuTableName = strtoupper($tableName);
         $stripTags = $pCodeAddMeta->getPhpCodeStripTags('', $language.$stuTableName, true);
 
-        return "\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
+        return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
 
-    /*
-    *  @public function getUserMetaKeywords
-    *  @param string $moduleDirname
-    *  
-    *  @return string
-    */
+    /**
+     *  @public function getUserMetaKeywords
+     *
+     * @param $moduleDirname
+     *
+     * @return string
+     */
     public function getUserMetaKeywords($moduleDirname)
     {
         $pCodeMetaKeywords = TDMCreatePhpCode::getInstance();
@@ -86,26 +90,29 @@ class UserXoopsCode
         return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. {$implode});\n";
     }
 
-    /*
-    *  @public function getUserMetaDesc
-    *  @param string $moduleDirname    
-    *  @param string $language
-    *  @param string $file
-    *  
-    *  @return string
-    */
+    /**
+     *  @public function getUserMetaDesc
+     *
+     * @param        $moduleDirname
+     * @param        $language
+     * @param string $file
+     *
+     * @return string
+     */
     public function getUserMetaDesc($moduleDirname, $language, $file = 'INDEX')
     {
         return "{$moduleDirname}MetaDescription({$language}{$file}_DESC);\n";
     }
 
-    /*
-    *  @public function getUserBreadcrumbs
-    *  @param string $language
-    *  @param string $moduleDirname    
-    *  
-    *  @return string
-    */
+    /**
+     *  @public function getUserBreadcrumbs
+     *
+     * @param        $language
+     * @param string $tableName
+     * @param string $t
+     *
+     * @return string
+     */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
         $stuTableName = strtoupper($tableName);
@@ -115,32 +122,31 @@ class UserXoopsCode
         return $pCodeBreadcrumbs->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
     }
 
-    /*
-    *  @public function getUserBreadcrumbs
-    *  @param string $moduleDirname
-    *  
-    *  @return string
-    */
-    public function getUserBreadcrumbsHeaderFile($moduleDirname)
+    /**
+     *  @public function getUserBreadcrumbs
+     *
+     * @param $moduleDirname
+     *
+     * @return string
+     */
+    public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
         $pCodeHeaderFile = TDMCreatePhpCode::getInstance();
         $xCodeHeaderFile = TDMCreateXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $getVar = $xCodeHeaderFile->getXcGetVar('', "GLOBALS['xoopsModule']", 'name', true);
-        $titleLink = array("'title'" => $getVar, "'link'" => "{$stuModuleDirname}_URL . '/'");
+        $titleLink = array("'title'" => $language.'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'");
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
     }
 
-    /*
-    *  @public function getUserBreadcrumbs
-    *  @param null
-    *  
-    *  @return string
-    */
+    /**
+     *  @public function getUserBreadcrumbs
+     *
+     * @return string
+     */
     public function getUserBreadcrumbsFooterFile()
     {
         $pCodeFooterFile = TDMCreatePhpCode::getInstance();
@@ -151,17 +157,19 @@ class UserXoopsCode
         return $ret;
     }
 
-    /*
-    *  @public function getUserModVersion
-    *  @param $eleArray
-    *  @param $descriptions    
-    *  @param $name
-    *  @param $index	
-    *  @param $num	
-    *  
-    *  @return string
-    */
-    public function getUserModVersion($eleArray = 1, $descriptions, $name = null, $index = null, $num = false, $t = '')
+    /**
+     *  @public function getUserModVersion
+     *
+     * @param int    $eleArray
+     * @param        $descriptions
+     * @param null   $name
+     * @param null   $index
+     * @param bool   $num
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getUserModVersion($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
         $ret = '';
         $mv = $t.'$modversion';

@@ -17,7 +17,7 @@
  *
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  *
- * @version         $Id: simplelabel.php 12562 2014-04-03 10:57:12Z timgno $
+ * @version         $Id: TDMCreateFormLabel.php 12562 2014-04-03 10:57:12Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
@@ -26,16 +26,6 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class TDMCreateFormLabel extends XoopsFormElement
 {
-    /**
-     * Constructor.
-     *
-     * @param string $caption
-     */
-    public function TDMCreateFormLabel($caption = '')
-    {
-        $this->__construct($caption);
-    }
-
     /**
      * @param string $caption
      */

@@ -24,9 +24,9 @@
 include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
-//
+
 $setId = XoopsRequest::getInt('set_id');
-//
+
 switch ($op) {
     case 'list':
     default:
@@ -36,7 +36,7 @@ switch ($op) {
         $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
@@ -65,11 +65,11 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
 
-        $settingsObj = &$tdmcreate->getHandler('settings')->create();
+        $settingsObj = $tdmcreate->getHandler('settings')->create();
         $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -78,9 +78,9 @@ switch ($op) {
             redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($setId)) {
-            $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
+            $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
         } else {
-            $settingsObj = &$tdmcreate->getHandler('settings')->create();
+            $settingsObj = $tdmcreate->getHandler('settings')->create();
         }
         $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save
@@ -136,13 +136,13 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
-        $form = &$settingsObj->getFormSettings();
+        $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_settings.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('settings.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
@@ -151,7 +151,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':
-        $settingsObj = &$tdmcreate->getHandler('settings')->get($setId);
+        $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));

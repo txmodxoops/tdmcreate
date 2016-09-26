@@ -31,9 +31,7 @@ class LanguageAdmin extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -41,13 +39,13 @@ class LanguageAdmin extends TDMCreateFile
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return LanguageAdmin
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -115,7 +113,7 @@ class LanguageAdmin extends TDMCreateFile
         $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
         $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
         $ret .= $this->defines->getAboveDefines('Buttons');
-        //
+
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
@@ -124,7 +122,7 @@ class LanguageAdmin extends TDMCreateFile
             $ret .= $this->defines->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
         }
         $ret .= $this->defines->getAboveDefines('Lists');
-        //
+
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $stuTableName = strtoupper($tableName);
@@ -144,14 +142,14 @@ class LanguageAdmin extends TDMCreateFile
     public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
-        //
+
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
             $tableSoleName = $tables[$t]->getVar('table_solename');
             $ucfTableSoleName = ucfirst($tableSoleName);
-            //
+
             $fields = $this->getTableFields($tableMid, $tableId);
             foreach (array_keys($fields) as $f) {
                 $fieldInForm = $fields[$f]->getVar('field_inform');
@@ -162,12 +160,12 @@ class LanguageAdmin extends TDMCreateFile
                 $ret .= $this->defines->getDefine($language, "{$tableSoleName}_EDIT", "Edit {$ucfTableSoleName}");
             }
             $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
-            //
+
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $stuFieldName = strtoupper($fieldName);
-                //
+
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 15) {
                     $fieldElements = TDMCreateHelper::getInstance()->getHandler('fieldelements')->get($fieldElement);
@@ -178,10 +176,10 @@ class LanguageAdmin extends TDMCreateFile
                 } else {
                     $fieldNameDesc = strstr($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
                 }
-                //
+
                 $ret .= $this->defines->getDefine($language, $tableSoleName.'_'.$rpFieldName, $fieldNameDesc);
                 $stuTableName = strtoupper($tableName);
-                //
+
                 switch ($fieldElement) {
                     case 10:
                         $ret .= $this->defines->getDefine($language, "FORM_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
@@ -276,7 +274,7 @@ class LanguageAdmin extends TDMCreateFile
             $content .= $this->getLanguageAdminPermissions($language);
         }
         $content .= $this->getLanguageAdminFoot($language);
-        //
+
         $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

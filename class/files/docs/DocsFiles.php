@@ -31,22 +31,20 @@ class DocsFiles extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
-        $this->tdmcfile = TDMCreateFile::getInstance();
+        parent::__construct();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return DocsFiles
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -91,7 +89,7 @@ class DocsFiles extends TDMCreateFile
 ====================================
  {$date} Version {$mod_version}
 ====================================
- - Original release {$moduleDirname} ({$mod_author})
+ - Original release {$moduleDirname} created with tdmcreate module by ({$mod_author})
 EOT;
 
         return $ret;
@@ -136,7 +134,7 @@ EOT;
      */
     public function getInstallFile()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 Read Me First
 =============
 
@@ -155,7 +153,7 @@ EOT;
      */
     public function getReadmeFile()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 Read Me First
 =============
 
@@ -219,8 +217,8 @@ EOT;
                 $content = $this->getLangDiffFile($mod_version);
                 break;
         }
-        $this->tdmcfile->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        return $this->renderFile();
     }
 }

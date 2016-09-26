@@ -29,31 +29,23 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class UserObjects extends TDMCreateFile
 {
     /*
-    * @var string
-    */
-    protected $userobjects;
-
-    /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return UserObjects
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -105,7 +97,7 @@ EOT;
      */
     public function getUserFooter()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 include  __DIR__ . '/footer.php';
 EOT;
 

@@ -87,9 +87,7 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
@@ -97,13 +95,13 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /*
-    *  @public static function &getInstance
+    *  @public static function getInstance
     *  @param null
     */
     /**
      * @return TDMCreateFile
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -148,11 +146,11 @@ class TDMCreateFile extends TDMCreateTableFields
      * @param $module
      * @param $fileName
      */
-    public function write($module, $fileName)
+    /*public function write($module, $fileName)
     {
         $this->setModule($module);
         $this->setFileName($fileName);
-    }
+    }*/
 
     /*
     *  @private function setRepositoryPath
@@ -239,8 +237,7 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @private function setContent
     *  @param null
     */
-    /**
-     */
+
     private function getContent()
     {
         return $this->content;
@@ -326,8 +323,7 @@ class TDMCreateFile extends TDMCreateTableFields
     *  @private function getMode
     *  @param null
     */
-    /**
-     */
+
     private function getMode()
     {
         return $this->mode;
@@ -512,7 +508,7 @@ class TDMCreateFile extends TDMCreateTableFields
 
     /*
      * @public function getSimpleString
-     * @param $string     
+     * @param $string
      *
      * @return string
      */

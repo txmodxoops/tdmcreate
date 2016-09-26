@@ -31,22 +31,20 @@ class CssStyles extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return CssStyles
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -96,7 +94,7 @@ ul.menu > li {
 }
 
 ul.menu > li + li:before {  
-    content: "|\00a0";
+    content: "|\a0";
 }
 
 .printOnly {

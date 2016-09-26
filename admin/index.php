@@ -30,12 +30,11 @@ $countFiles = $tdmcreate->getHandler('morefiles')->getCount();
 unset($criteria);
 $templateMain = 'tdmcreate_index.tpl';
 $adminMenu->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMSETTINGS.'</label>', $countSettings, 'Blue');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMMODULES.'</label>', $countModules, 'Green');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'</label>', $countTables, 'Orange');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields, 'Gray');
-$adminMenu->addInfoBoxLine(_AM_TDMCREATE_ADMIN_NUMMODULES, '<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles, 'Red');
-
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMSETTINGS.'</label>', $countSettings), 'Blue');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMMODULES.'</label>', $countModules), 'Green');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'</label>', $countTables), 'Orange');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields), 'Gray');
+$adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = array(
         TDMC_UPLOAD_PATH,
@@ -50,6 +49,6 @@ foreach (array_keys($folder) as $i) {
     $adminMenu->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
 }
 
-$GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->addNavigation('index.php'));
+$GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
 include __DIR__.'/footer.php';

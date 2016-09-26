@@ -28,37 +28,23 @@
 class IncludeInstall extends TDMCreateFile
 {
     /*
-    * @var mixed
-    */
-    private $pc = null;
-
-    /*
-    * @var mixed
-    */
-    private $xc = null;
-
-    /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->pc = TDMCreatePhpCode::getInstance();
-        $this->xc = TDMCreateXoopsCode::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return IncludeInstall
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -89,7 +75,7 @@ class IncludeInstall extends TDMCreateFile
     }
 
     /**
-     * @private function getInstallDirectory    
+     * @private function getInstallDirectory
      *
      * @param $dirname
      *
@@ -97,6 +83,7 @@ class IncludeInstall extends TDMCreateFile
      */
     private function getInstallDirectory($dirname)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
         $contentIf = $this->pc->getPhpCodeMkdir("{$dirname}", '0777', "\t");
         $contentIf .= $this->pc->getPhpCodeChmod("{$dirname}", '0777', "\t");
         $ret = $this->pc->getPhpCodeConditions("!is_dir(\${$dirname})", '', '', $contentIf);
@@ -114,6 +101,8 @@ class IncludeInstall extends TDMCreateFile
      */
     private function getInstallModuleFolder($moduleDirname)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine('Copy base file');
         $ret .= $this->xc->getXcEqualsOperator('$indexFile', "XOOPS_UPLOAD_PATH.'/index.html'");
         $ret .= $this->xc->getXcEqualsOperator('$blankFile', "XOOPS_UPLOAD_PATH.'/blank.gif'");
@@ -128,12 +117,14 @@ class IncludeInstall extends TDMCreateFile
      *  @private function getHeaderTableFolder
      *
      *  @param $moduleDirname
-     *  @param $tableName    
+     *  @param $tableName
      *
      * @return string
      */
     private function getInstallTableFolder($moduleDirname, $tableName)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} uploads folder");
         $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\${$moduleDirname}.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
@@ -152,6 +143,8 @@ class IncludeInstall extends TDMCreateFile
      */
     private function getInstallImagesFolder($moduleDirname)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine('Making of images folder');
         $ret .= $this->xc->getXcEqualsOperator('$images', "\${$moduleDirname}.'/images'");
         $ret .= $this->getInstallDirectory('images');
@@ -163,12 +156,14 @@ class IncludeInstall extends TDMCreateFile
     /**
      * @private function getInstallImagesShotsFolder
      *
-     * @param $moduleDirname    
+     * @param $moduleDirname
      *
      * @return string
      */
     private function getInstallImagesShotsFolder($moduleDirname)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine('Making of shots folder');
         $ret .= $this->xc->getXcEqualsOperator('$shots', "\${$moduleDirname}.'/shots'");
         $ret .= $this->getInstallDirectory('shots');
@@ -180,12 +175,14 @@ class IncludeInstall extends TDMCreateFile
     /**
      *  @private function getInstallTableImagesFolder
      *
-     *  @param $tableName    
+     *  @param $tableName
      *
      * @return string
      */
     private function getInstallTableImagesFolder($tableName)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine("Making of images/{$tableName} folder");
         $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\$images.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
@@ -197,12 +194,14 @@ class IncludeInstall extends TDMCreateFile
     /**
      *  @private function getInstallFilesFolder
      *
-     *  @param $moduleDirname     
+     *  @param $moduleDirname
      *
      * @return string
      */
     private function getInstallFilesFolder($moduleDirname)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine('Making of files folder');
         $ret .= $this->xc->getXcEqualsOperator('$files', "\${$moduleDirname}.'/files'");
         $ret .= $this->getInstallDirectory('files');
@@ -221,6 +220,8 @@ class IncludeInstall extends TDMCreateFile
      */
     private function getInstallTableFilesFolder($tableName)
     {
+        $this->pc = TDMCreatePhpCode::getInstance();
+        $this->xc = TDMCreateXoopsCode::getInstance();
         $ret = $this->pc->getPhpCodeCommentLine("Making of {$tableName} files folder");
         $ret .= $this->xc->getXcEqualsOperator("\${$tableName}", "\$files.'/{$tableName}'");
         $ret .= $this->getInstallDirectory($tableName);
@@ -256,42 +257,36 @@ class IncludeInstall extends TDMCreateFile
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInstallModuleFolder($moduleDirname);
-
         foreach (array_keys($tables) as $t) {
+            $tableId = $tables[$t]->getVar('table_id');
+            $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
-            $tableInstall[] = $tables[$t]->getVar('table_install');
-            $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
-        }
-        if (in_array(1, $tableInstall)) {
-            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-            foreach (array_keys($fields) as $f) {
-                $fieldElement = $fields[$f]->getVar('field_element');
-                // All fields elements selected
-                switch ($fieldElement) {
-                    case 10:
-                    case 13:
-                        $content .= $this->getInstallImagesFolder($moduleDirname);
-                        foreach (array_keys($tables) as $t) {
-                            $tableName = $tables[$t]->getVar('table_name');
+            $tableInstall = $tables[$t]->getVar('table_install');
+            if (1 == $tableInstall) {
+                $content .= $this->getInstallTableFolder($moduleDirname, $tableName);
+                $fields = $this->getTableFields($tableMid, $tableId);
+                foreach (array_keys($fields) as $f) {
+                    $fieldElement = $fields[$f]->getVar('field_element');
+                    // All fields elements selected
+                    switch ($fieldElement) {
+                        case 13:
+                            $content .= $this->getInstallImagesFolder($moduleDirname);
                             $content .= $this->getInstallTableImagesFolder($tableName);
-                        }
-                        break;
-                    case 11:
-                        $content .= $this->getInstallImagesShotsFolder($moduleDirname);
-                        break;
-                    case 12:
-                    case 14:
-                        $content .= $this->getInstallFilesFolder($moduleDirname);
-                        foreach (array_keys($tables) as $t) {
-                            $tableName = $tables[$t]->getVar('table_name');
+                            break;
+                        case 11:
+                            $content .= $this->getInstallImagesShotsFolder($moduleDirname);
+                            break;
+                        case 12:
+                        case 14:
+                            $content .= $this->getInstallFilesFolder($moduleDirname);
                             $content .= $this->getInstallTableFilesFolder($tableName);
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
         }
         $content .= $this->getInstallFooter();
-        //
+
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

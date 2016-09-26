@@ -27,36 +27,28 @@
  */
 class TemplatesUserMoreFiles extends TDMCreateFile
 {
-    //
     private $folder = null;
-    //
+
     private $extension = null;
-    /*
-    * @var string
-    */
-    private $tdmcfile = null;
 
     /*
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return TemplatesUserMoreFiles
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -77,15 +69,11 @@ class TemplatesUserMoreFiles extends TDMCreateFile
      *
      * @return string
      */
-    public function write($module, $folder = '', $filename, $extension)
+    public function write($module, $folder, $filename, $extension)
     {
         $this->setModule($module);
         $this->setFileName($filename);
-        if ($folder != '') {
-            $this->folder = 'templates/'.$folder;
-        } else {
-            $this->folder = 'templates';
-        }
+        $this->folder = $folder;
         $this->extension = $extension;
     }
 
@@ -100,7 +88,7 @@ class TemplatesUserMoreFiles extends TDMCreateFile
      */
     private function getTemplatesUserMoreFile()
     {
-        $ret = <<<EOT
+        $ret = <<<'EOT'
 <div class="panel">
 	Pleace! Enter here your template code here
 </div>
@@ -110,7 +98,7 @@ EOT;
     }
 
     /*
-    *  @public function renderFile
+    *  @public function render
     *  @param string $filename
     */
     /**
@@ -118,15 +106,15 @@ EOT;
      *
      * @return bool|string
      */
-    public function renderFile()
+    public function render()
     {
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getTemplatesUserMoreFile();
-        //
-        $this->tdmcfile->create($moduleDirname, $this->folder, $filename.'.'.$this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->tdmcfile->renderFile();
+        $this->create($moduleDirname, $this->folder, $filename.'.'.$this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
     }
 }

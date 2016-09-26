@@ -47,7 +47,8 @@ class SplClassLoader
      * Creates a new <tt>SplClassLoader</tt> that loads classes of the
      * specified namespace.
      *
-     * @param string $ns The namespace to use.
+     * @param string $ns          The namespace to use
+     * @param null   $includePath
      */
     public function __construct($ns = null, $includePath = null)
     {
@@ -58,7 +59,7 @@ class SplClassLoader
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
      *
-     * @param string $sep The separator to use.
+     * @param string $sep The separator to use
      */
     public function setNamespaceSeparator($sep)
     {
@@ -132,7 +133,7 @@ class SplClassLoader
     /**
      * Loads the given class or interface.
      *
-     * @param string $className The name of the class to load.
+     * @param string $className The name of the class to load
      */
     public function loadClass($className)
     {

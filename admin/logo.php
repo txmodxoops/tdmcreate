@@ -19,7 +19,7 @@
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 morefiles.php 11297 2013-03-24 10:58:10Z timgno $
+ * @version         $Id: 1.59 logo.php 11297 2013-03-24 10:58:10Z timgno $
  */
 include __DIR__.'/header.php';
 $funct = XoopsRequest::getString('funct', '', 'GET');
@@ -32,6 +32,9 @@ if (function_exists($funct)) {
     redirect_header('logo.php', 3, 'Method Not Exist');
 }
 // phpFunction
+/**
+ * @param string $val
+ */
 function phpFunction($val = '')
 {   // create php function here
     echo $val;

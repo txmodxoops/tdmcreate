@@ -31,23 +31,20 @@ class LanguageMailTpl extends TDMCreateFile
     *  @public function constructor
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         parent::__construct();
-        $this->defines = LanguageDefines::getInstance();
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return LanguageMailTpl
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
@@ -84,7 +81,7 @@ class LanguageMailTpl extends TDMCreateFile
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = <<<EOT
+        $content = <<<'EOT'
 // ---------- Templates Mail Content Dummy ---------- //
 Hello {X_UNAME},
 

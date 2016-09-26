@@ -36,9 +36,7 @@ class TDMCreateFieldkey extends XoopsObject
     *  @public function constructor class
     *  @param null
     */
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->initVar('fieldkey_id', XOBJ_DTYPE_INT);
@@ -47,13 +45,13 @@ class TDMCreateFieldkey extends XoopsObject
     }
 
     /*
-    *  @static function &getInstance
+    *  @static function getInstance
     *  @param null
     */
     /**
      * @return TDMCreateFieldElements
      */
-    public static function &getInstance()
+    public static function getInstance()
     {
         static $instance = false;
         if (!$instance) {
