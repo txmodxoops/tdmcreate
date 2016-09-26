@@ -408,7 +408,7 @@ class TDMCreateFile extends TDMCreateTableFields
             return $this->getUcfirst($leftString).$this->getUcfirst($rightString);
         }
         if ($lcfirst) {
-            return $this->getlcfirst($leftString).$this->getUcfirst($rightString);
+            return $this->getLcfirst($leftString).$this->getUcfirst($rightString);
         }
 
         return $string;

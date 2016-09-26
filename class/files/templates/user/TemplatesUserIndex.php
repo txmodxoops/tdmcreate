@@ -136,7 +136,7 @@ class TemplatesUserIndex extends TDMCreateFile
      *
      * @return string
      */
-    private function getTemplatesUserIndexTableTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $type = $hc->getSmartySingleVar('panel_type');
