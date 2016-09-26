@@ -116,7 +116,7 @@ switch ($op) {
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
-                $errors = $uploader->getErrors();
+                $errors =& $uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
                 $modulesObj->setVar('mod_image', $uploader->getSavedFileName());
