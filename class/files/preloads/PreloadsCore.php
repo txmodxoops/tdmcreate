@@ -28,7 +28,7 @@ defined('XOOPS_ROOT_PATH') or die('Restricted access');
  */
 class PreloadsCore extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -39,11 +39,9 @@ class PreloadsCore extends TDMCreateFile
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return PreloadsCore
      */
     public static function getInstance()
@@ -56,17 +54,10 @@ class PreloadsCore extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param $module
-    *  @param $table
-    *  @param $tables
     *  @param $filename
-    */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -74,7 +65,7 @@ class PreloadsCore extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
     *  @return bool|string

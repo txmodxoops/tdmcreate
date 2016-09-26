@@ -27,7 +27,7 @@
  */
 class TemplatesUserPdf extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserPdf extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserPdf
      */
     public static function getInstance()
@@ -55,9 +53,10 @@ class TemplatesUserPdf extends TDMCreateFile
     }
 
     /**
-     *  @public function write
+     * @public function write
      *
      * @param $module
+     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -82,10 +81,8 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *
-     * @param $filename
-     *
+     * @public   function render
+     * @param null
      * @return bool|string
      */
     public function render()

@@ -23,10 +23,6 @@
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
 include __DIR__.'/autoload.php';
-/*
-*  @Class TDMCreateFields
-*  @extends XoopsObject
-*/
 
 /**
  * Class TDMCreateFields.
@@ -79,7 +75,7 @@ class TDMCreateFields extends XoopsObject
         return $this->getVar($method, $arg);
     }
 
-    /*
+    /**
      * @static function getInstance
      *
      * @return TDMCreateFields
@@ -94,7 +90,7 @@ class TDMCreateFields extends XoopsObject
         return $instance;
     }
 
-    /*
+    /**
      * @private function getHeaderForm
      *
      * @param bool $action
@@ -132,7 +128,7 @@ class TDMCreateFields extends XoopsObject
         return $form;
     }
 
-    /*
+    /**
      * @public function getFormNew
      *
      * @param null $fieldMid
@@ -296,7 +292,7 @@ class TDMCreateFields extends XoopsObject
         }
     }
 
-    /*
+    /**
      * @public function getFormEdit
      *
      * @param null $fieldMid
@@ -473,6 +469,10 @@ class TDMCreateFields extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFields($keys = null, $format = null, $maxDepth = null)
     {
@@ -496,10 +496,6 @@ class TDMCreateFields extends XoopsObject
     }
 }
 
-/*
-*  @Class TDMCreateFieldsHandler
-*  @extends XoopsPersistableObjectHandler
-*/
 
 /**
  * Class TDMCreateFieldsHandler.
@@ -507,12 +503,11 @@ class TDMCreateFields extends XoopsObject
 class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 {
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
-     *  @param mixed $db
-     * @param null|object $db
+     * @param mixed|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'tdmcreate_fields', 'tdmcreatefields', 'field_id', 'field_name');
     }
@@ -555,6 +550,11 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Count Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return int
      */
     public function getCountFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
@@ -566,6 +566,11 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Fields.
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllFields($start = 0, $limit = 0, $sort = 'field_id ASC, field_name', $order = 'ASC')
     {
@@ -577,6 +582,13 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get All Fields By Module & Table Id.
+     * @param        $modId
+     * @param        $tabId
+     * @param int    $start
+     * @param int    $limit
+     * @param string $sort
+     * @param string $order
+     * @return array
      */
     public function getAllFieldsByModuleAndTableId($modId, $tabId, $start = 0, $limit = 0, $sort = 'field_order ASC, field_id, field_name', $order = 'ASC')
     {
@@ -590,6 +602,12 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
 
     /**
      * Get Fields Criteria.
+     * @param $crFields
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return
      */
     private function getFieldsCriteria($crFields, $start, $limit, $sort, $order)
     {

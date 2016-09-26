@@ -27,7 +27,7 @@
  */
 class TemplatesAdminPermissions extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesAdminPermissions
      */
     public static function getInstance()
@@ -54,13 +52,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
-    *  @param string $table
-    */
-    /**
-     * @param $module
      * @param $filename
      */
     public function write($module, $filename)
@@ -69,12 +63,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPermissionsHeader
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -85,13 +76,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $hc->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPermissions
     *  @param null
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
      */
     private function getTemplatesAdminPermissions()
@@ -104,12 +91,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPermissionsFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -120,11 +104,9 @@ class TemplatesAdminPermissions extends TDMCreateFile
         return $hc->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

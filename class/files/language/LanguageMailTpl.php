@@ -27,7 +27,7 @@
  */
 class LanguageMailTpl extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class LanguageMailTpl extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return LanguageMailTpl
      */
     public static function getInstance()
@@ -67,13 +65,8 @@ class LanguageMailTpl extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function renderFile
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+     * @public   function renderFile
      * @return bool|string
      */
     public function render()

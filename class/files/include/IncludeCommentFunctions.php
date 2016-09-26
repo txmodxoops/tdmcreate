@@ -27,7 +27,7 @@
  */
 class IncludeCommentFunctions extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class IncludeCommentFunctions extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeCommentFunctions
      */
     public static function getInstance()
@@ -54,14 +52,10 @@ class IncludeCommentFunctions extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
-    */
-    /**
-     * @param $module
-     * @param $table
      * @param $filename
      */
     public function write($module, $table, $filename)
@@ -71,11 +65,9 @@ class IncludeCommentFunctions extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

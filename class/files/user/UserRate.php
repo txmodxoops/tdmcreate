@@ -57,16 +57,11 @@ class UserRate extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -96,15 +91,15 @@ class UserRate extends TDMCreateFile
         return $ret;
     }
 
-    /*
-     *  @private function getUserRateSwitch
-     *  @param $moduleDirname
-     *  @param $tableId
-     *  @param $tableMid
-     *  @param $tableName
-     *  @param $tableAutoincrement
-     *  @param $language
-     *
+    /**
+     * @private function getUserRateSwitch
+     * @param $moduleDirname
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableSolename
+     * @param $tableAutoincrement
+     * @param $language
      * @return string
      */
     private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSolename, $tableAutoincrement, $language)
@@ -116,7 +111,7 @@ class UserRate extends TDMCreateFile
         return $this->xc->getXcSwitch('op', $cases, true);
     }
 
-    /*
+    /**
      * @public function getAdminPagesList
      * @param $tableName
      * @param $language
@@ -142,16 +137,14 @@ class UserRate extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function getUserRateSave
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    */
     /**
+    *  @public function getUserRateSave
      * @param $moduleDirname
-     * @param $table_id
+     * @param $fields
      * @param $tableName
-     *
+     * @param $tableSolename
+     * @param $tableAutoincrement
+     * @param $language
      * @return string
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSolename, $tableAutoincrement, $language)
@@ -180,11 +173,10 @@ class UserRate extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function getUserRateFooter
-    *  @param null
-    */
     /**
+    *  @public function getUserRateFooter
+     * @param $moduleDirname
+     * @param $language
      * @return string
      */
     public function getUserRateFooter($moduleDirname, $language)
@@ -197,11 +189,9 @@ class UserRate extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

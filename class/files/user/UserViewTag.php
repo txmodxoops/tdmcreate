@@ -27,7 +27,7 @@
  */
 class UserViewTag extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class UserViewTag extends TDMCreateFile
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserViewTag
      */
     public static function getInstance()
@@ -55,16 +53,10 @@ class UserViewTag extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
-    *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -72,14 +64,11 @@ class UserViewTag extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function getUserViewTag
     *  @param null
-    */
-    /**
-     * @param $moduleDirname
-     *
      * @return string
+     *
      */
     public function getUserViewTag()
     {
@@ -89,11 +78,9 @@ class UserViewTag extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

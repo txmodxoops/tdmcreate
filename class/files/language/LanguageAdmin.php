@@ -27,7 +27,7 @@
  */
 class LanguageAdmin extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class LanguageAdmin extends TDMCreateFile
         $this->defines = LanguageDefines::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return LanguageAdmin
      */
     public static function getInstance()
@@ -55,13 +53,13 @@ class LanguageAdmin extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $tables
-    *  @param string $filename
-    *  @param $filename
-    */
+    /**
+     * @public function write
+     * @param string $module
+     * @param        $table
+     * @param string $tables
+     * @param string $filename
+     */
     public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
@@ -70,7 +68,7 @@ class LanguageAdmin extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminIndex
     *  @param string $language
     *  @param string $tables
@@ -91,7 +89,7 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminPages
     *  @param string $language
     *  @param string $tables
@@ -133,7 +131,7 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminClass
     *  @param string $language
     *  @param string $tables
@@ -207,7 +205,7 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminPermissions
     *  @param string $language
     *  @return string
@@ -232,7 +230,7 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getLanguageAdminFoot
     *  @param string $language
     *  @return string
@@ -246,11 +244,9 @@ class LanguageAdmin extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

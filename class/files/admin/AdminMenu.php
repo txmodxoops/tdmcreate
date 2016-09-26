@@ -27,7 +27,7 @@
  */
 class AdminMenu extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,13 +37,11 @@ class AdminMenu extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
+    * @return AdminMenu
     */
-    /**
-     * @return AdminMenu
-     */
     public static function getInstance()
     {
         static $instance = false;
@@ -54,22 +52,18 @@ class AdminMenu extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $filename
-     */
     public function write($module, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
     }
 
-    /*
+    /**
      * @private function getAdminMenuArray
      * @param $param
      * @param $adminMenu
@@ -96,13 +90,11 @@ class AdminMenu extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAdminMenuHeader
     *  @param null
+    * @return string
     */
-    /**
-     * @return string
-     */
     private function getAdminMenuHeader()
     {
         $dirname = array('$dirname' => 'basename(dirname(__DIR__))');
@@ -117,17 +109,13 @@ class AdminMenu extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAdminMenuDashboard
     *  @param string $language
     *  @param integer $menu
+    *
+    * @return string
     */
-    /**
-     * @param $language
-     * @param $menu
-     *
-     * @return string
-     */
     private function getAdminMenuDashboard($language, $menu)
     {
         $xc = TDMCreateXoopsCode::getInstance();
@@ -139,17 +127,13 @@ class AdminMenu extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getAdminMenuImagesPath
     *  @param array $tables
     *  @param integer $t
+    *
+    * @return string
     */
-    /**
-     * @param $tables
-     * @param $t
-     *
-     * @return string
-     */
     private function getAdminMenuImagesPath($tables, $t)
     {
         $xc = TDMCreateXoopsCode::getInstance();
@@ -170,7 +154,7 @@ class AdminMenu extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      * @private function getAdminMenuList
      * @param string $module
      * @param string $language
@@ -206,13 +190,11 @@ class AdminMenu extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
+    * @return bool|string
     */
-    /**
-     * @return bool|string
-     */
     public function render()
     {
         $module = $this->getModule();

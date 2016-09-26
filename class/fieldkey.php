@@ -22,17 +22,13 @@
  * @version         $Id: 1.91 fieldkey.php 11297 2014-05-14 10:58:10Z timgno $
  */
 
-/*
-*  @Class TDMCreateFieldkey
-*  @extends XoopsObject
-*/
 
 /**
  * Class TDMCreateFieldkey.
  */
 class TDMCreateFieldkey extends XoopsObject
 {
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
@@ -44,11 +40,9 @@ class TDMCreateFieldkey extends XoopsObject
         $this->initVar('fieldkey_value', XOBJ_DTYPE_TXTBOX);
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TDMCreateFieldkey
      */
     public static function getInstance()
@@ -63,6 +57,10 @@ class TDMCreateFieldkey extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFieldkey($keys = null, $format = null, $maxDepth = null)
     {
@@ -75,11 +73,6 @@ class TDMCreateFieldkey extends XoopsObject
         return $ret;
     }
 }
-
-/*
-*  @Class TDMCreateFieldkeyHandler
-*  @extends XoopsPersistableObjectHandler
-*/
 
 /**
  * Class TDMCreateFieldkeyHandler.

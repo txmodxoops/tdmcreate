@@ -27,7 +27,7 @@
  */
 class UserHeader extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class UserHeader extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserHeader
      */
     public static function getInstance()
@@ -54,18 +52,12 @@ class UserHeader extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param array $tables
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -75,7 +67,7 @@ class UserHeader extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getUserHeader
     *  @param $moduleDirname
     *
@@ -131,11 +123,9 @@ class UserHeader extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

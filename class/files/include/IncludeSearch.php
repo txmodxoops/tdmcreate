@@ -27,7 +27,7 @@
  */
 class IncludeSearch extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class IncludeSearch extends TDMCreateFile
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeSearch
      */
     public static function getInstance()
@@ -55,16 +53,11 @@ class IncludeSearch extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -73,14 +66,10 @@ class IncludeSearch extends TDMCreateFile
         $this->setTable($table);
     }
 
-    /*
+    /**
     *  @static function getSearchField
     *  @param string $fieldSearch
     *  @param string $options
-    */
-    /**
-     * @param $fieldSearch
-     * @param $options
      *
      * @return string
      */
@@ -104,11 +93,8 @@ class IncludeSearch extends TDMCreateFile
         return $sql;
     }
 
-    /*
-    *  @static function getSearchFunction
-    *  @param string $fieldSearch
-    */
     /**
+    *  @static function getSearchFunction
      * @param $moduleDirname
      *
      * @return string
@@ -175,11 +161,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

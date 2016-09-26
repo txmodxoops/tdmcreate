@@ -28,7 +28,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class IncludeJquery extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class IncludeJquery extends TDMCreateFile
         $this->tdmcfile = TDMCreateFile::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeJquery
      */
     public static function getInstance()
@@ -55,14 +53,10 @@ class IncludeJquery extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -70,11 +64,9 @@ class IncludeJquery extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

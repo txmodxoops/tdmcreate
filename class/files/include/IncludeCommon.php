@@ -27,7 +27,7 @@
  */
 class IncludeCommon extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class IncludeCommon extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeCommon
      */
     public static function getInstance()
@@ -54,17 +52,12 @@ class IncludeCommon extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param object $table
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
-     */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
@@ -76,6 +69,7 @@ class IncludeCommon extends TDMCreateFile
      * @param $modDirname
      * @param $const
      * @param $desc
+     * @return string
      */
     private function getCommonDefines($modDirname, $const, $desc)
     {
@@ -84,15 +78,11 @@ class IncludeCommon extends TDMCreateFile
         return "define('{$stuModDirname}_{$const}', {$desc});\n";
     }
 
-    /*
-    *  @private function getCommonCode
-    *  @param object $module
-    */
     /**
-     * @param $module
-     *
-     * @return string
-     */
+    *  @private function getCommonCode
+    *  @param XoopsObject $module
+    * @return string
+    */
     private function getCommonCode($module)
     {
         $pc = TDMCreatePhpCode::getInstance();
@@ -144,11 +134,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

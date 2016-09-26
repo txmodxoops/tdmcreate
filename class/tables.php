@@ -23,10 +23,6 @@
  * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
 include __DIR__.'/autoload.php';
-/*
-*  @Class TDMCreateTables
-*  @extends XoopsObject
-*/
 
 /**
  * Class TDMCreateTables.
@@ -58,7 +54,7 @@ class TDMCreateTables extends XoopsObject
         'visit',
     );
 
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
@@ -109,11 +105,9 @@ class TDMCreateTables extends XoopsObject
         return $this->getVar($method, $arg);
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TDMCreateTables
      */
     public static function getInstance()
@@ -126,12 +120,9 @@ class TDMCreateTables extends XoopsObject
         return $instance;
     }
 
-    /*
+    /**
     *  @static function getFormTables
     *  @param mixed $action
-    */
-    /**
-     * @param bool $action
      *
      * @return XoopsThemeForm
      */
@@ -277,7 +268,6 @@ class TDMCreateTables extends XoopsObject
      *
      * @return string
      *
-     * @internal param $key
      */
     public function getOptionsTables()
     {

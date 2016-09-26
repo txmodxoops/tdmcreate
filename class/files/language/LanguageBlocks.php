@@ -27,7 +27,7 @@
  */
 class LanguageBlocks extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class LanguageBlocks extends TDMCreateFile
         $this->defines = LanguageDefines::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return LanguageBlocks
      */
     public static function getInstance()
@@ -55,16 +53,11 @@ class LanguageBlocks extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $tables
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -73,14 +66,10 @@ class LanguageBlocks extends TDMCreateFile
         $this->setTables($tables);
     }
 
-    /*
+    /**
     *  @private function getLanguageBlock
     *  @param string $language
     *  @param string $module
-    */
-    /**
-     * @param $module
-     * @param $language
      *
      * @return string
      */
@@ -113,11 +102,9 @@ class LanguageBlocks extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFooter
     *  @param null
-    */
-    /**
      * @return string
      */
     private function getLanguageFooter()
@@ -127,11 +114,9 @@ class LanguageBlocks extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

@@ -27,7 +27,7 @@
  */
 class IncludeInstall extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class IncludeInstall extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeInstall
      */
     public static function getInstance()
@@ -54,17 +52,12 @@ class IncludeInstall extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $tables
-    *  @param string $filename
-    */
     /**
-     * @param $module
-     * @param $table
-     * @param $tables
-     * @param $filename
+     * @public function write
+     * @param string $module
+     * @param        $table
+     * @param mixed  $tables
+     * @param string $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -132,12 +125,9 @@ class IncludeInstall extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getInstallImagesFolder
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -209,12 +199,9 @@ class IncludeInstall extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getInstallTableFilesFolder
     *  @param string $tableName
-    */
-    /**
-     * @param $tableName
      *
      * @return string
      */
@@ -229,11 +216,9 @@ class IncludeInstall extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getInstallFooter
     *  @param null
-    */
-    /**
      * @return string
      */
     private function getInstallFooter()
@@ -241,11 +226,9 @@ class IncludeInstall extends TDMCreateFile
         return $this->getDashComment('Install Footer');
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

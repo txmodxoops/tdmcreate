@@ -27,7 +27,7 @@
  */
 class LanguageModinfo extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class LanguageModinfo extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return LanguageModinfo
      */
     public static function getInstance()
@@ -120,12 +118,9 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguageAdmin
     *  @param $language
-    */
-    /**
-     * @param $language
      *
      * @return string
      */
@@ -139,14 +134,10 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguageSubmenu
     *  @param $language
     *  @param array $tables
-    */
-    /**
-     * @param $language
-     * @param $tables
      *
      * @return string
      */
@@ -172,14 +163,10 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguageBlocks
     *  @param $language
     *  @param array $tables
-    */
-    /**
-     * @param $language
-     * @param $tables
      *
      * @return string
      */
@@ -219,12 +206,9 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguageUser
     *  @param $language
-    */
-    /**
-     * @param $language
      *
      * @return string
      */
@@ -238,14 +222,10 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguageConfig
     *  @param $language
     *  @param $table
-    */
-    /**
-     * @param $language
-     * @param $table
      *
      * @return string
      */
@@ -298,13 +278,10 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguageNotifications
     *  @param $language
-    *  @param mixed $table
-    */
-    /**
-     * @param $language
+    *  @param mixed $tableSoleName
      *
      * @return string
      */
@@ -323,12 +300,9 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getLanguagePermissionsGroups
     *  @param $language
-    */
-    /**
-     * @param $language
      *
      * @return string
      */
@@ -344,11 +318,9 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFooter
     *  @param null
-    */
-    /**
      * @return string
      */
     private function getLanguageFooter()
@@ -359,11 +331,9 @@ class LanguageModinfo extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

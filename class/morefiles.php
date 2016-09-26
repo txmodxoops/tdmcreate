@@ -85,11 +85,9 @@ class TDMCreateMoreFiles extends XoopsObject
     }
 
     /**
-     *  @public function getFormMoreFiles
+     * @public function getFormMoreFiles
      *
-     *  @param mixed $action
-     * @param bool $action
-     *
+     * @param bool|mixed $action
      * @return XoopsThemeForm
      */
     public function getFormMoreFiles($action = false)

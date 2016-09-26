@@ -27,7 +27,7 @@
  */
 class AdminIndex extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,13 +37,11 @@ class AdminIndex extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
+    * @return AdminIndex
     */
-    /**
-     * @return AdminIndex
-     */
     public static function getInstance()
     {
         static $instance = false;
@@ -54,17 +52,12 @@ class AdminIndex extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $tables
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
-     */
     public function write($module, $tables, $filename)
     {
         $this->setModule($module);
@@ -74,7 +67,6 @@ class AdminIndex extends TDMCreateFile
 
     /**
      * @private function render
-     *
      * @param $module
      *
      * @return string
@@ -138,13 +130,11 @@ class AdminIndex extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
+    * @return bool|string
     */
-    /**
-     * @return bool|string
-     */
     public function render()
     {
         $module = $this->getModule();

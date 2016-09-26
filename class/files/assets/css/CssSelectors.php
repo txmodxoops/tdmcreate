@@ -44,12 +44,10 @@ class CssSelectors
     }
 
     /**
-     *  @public function geCssComment
-     *  @param string $comment
-     *  @param string $t
-     *
-     * @param $comment
-     * @param $t
+     * @public function geCssComment
+     * @param string $comment
+     * @param string $t
+     * @return string
      */
     public function geCssComment($comment, $t)
     {
@@ -57,16 +55,13 @@ class CssSelectors
 		
 		return $ret;
     }
-	
-	/**
+
+    /**
      * @public function geCssSelector
      * @param string $selector
-     * @param mixed $content
-	 * @param string $t
-     *
-     * @param $selector
-     * @param $content
-	 * @param $t
+     * @param mixed  $content
+     * @param string $t
+     * @return string
      */
     public function geCssSelector($selector, $content, $t)
     {
@@ -74,7 +69,7 @@ class CssSelectors
 		if(is_array($selector)) {
 			$ret .= $t. implode("\n", $selector) . ' {';
 		} else {
-			$ret .= $selector ' {';
+			$ret .= $selector . ' {';
 		}		
 		if(is_array($content)) {
 			$ret .= $t. implode("\n", $content) . ';';

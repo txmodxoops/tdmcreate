@@ -128,11 +128,9 @@ class TDMCreateSettings extends XoopsObject
     }
 
     /**
-     *  @public function getForm
+     * @public function getForm
      *
-     *  @param mixed $action
-     * @param bool $action
-     *
+     * @param bool|mixed $action
      * @return XoopsThemeForm
      */
     public function getFormSettings($action = false)
@@ -258,7 +256,6 @@ class TDMCreateSettings extends XoopsObject
 
      * @return string
      *
-     * @internal param $key
      */
     private function getOptionsSettings()
     {

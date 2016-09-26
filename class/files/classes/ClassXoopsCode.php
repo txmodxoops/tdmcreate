@@ -628,10 +628,6 @@ class ClassXoopsCode
      * @param string $t
      *
      * @return string
-     *
-     * @internal param $tableName
-     * @internal param $fieldId
-     * @internal param $fieldParent
      */
     public function getClassXoopsObjectTree($var, $param1, $param2, $param3, $t = '')
     {

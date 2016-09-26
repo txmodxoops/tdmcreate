@@ -27,7 +27,7 @@
  */
 class IncludeUpdate extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class IncludeUpdate extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeUpdate
      */
     public static function getInstance()
@@ -54,14 +52,10 @@ class IncludeUpdate extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -69,14 +63,10 @@ class IncludeUpdate extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getIncludeUpdateModule
     *  @param string $moduleDirname
     *  @param mixed $moduleVersion
-    */
-    /**
-     * @param $moduleDirname
-     * @param $moduleVersion
      *
      * @return string
      */
@@ -109,14 +99,10 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getIncludeUpdateVersion
     *  @param string $moduleDirname
     *  @param mixed $moduleVersion
-    */
-    /**
-     * @param $moduleDirname
-     * @param $moduleVersion
      *
      * @return string
      */
@@ -188,11 +174,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

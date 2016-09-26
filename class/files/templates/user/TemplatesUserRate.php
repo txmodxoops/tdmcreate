@@ -27,7 +27,7 @@
  */
 class TemplatesUserRate extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserRate extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserRate
      */
     public static function getInstance()
@@ -54,15 +52,11 @@ class TemplatesUserRate extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table, $filename)
     {
@@ -71,16 +65,11 @@ class TemplatesUserRate extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserRateHeader
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
      *
      * @return string
      */
@@ -110,16 +99,11 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserRateBody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
      *
      * @return string
      */
@@ -171,16 +155,11 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserRateBodyFieldnameEmpty
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
      *
      * @return string
      */
@@ -226,12 +205,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserRateFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -244,13 +220,9 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
+    *  @param null
      * @return bool|string
      */
     public function render()

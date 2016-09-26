@@ -27,17 +27,17 @@
  */
 class UserSearch extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $usercode = null;
 
-    /*
+    /**
     * @var string
     */
     private $xoopscode = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -50,11 +50,9 @@ class UserSearch extends TDMCreateFile
         $this->usercode = UserXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserSearch
      */
     public static function getInstance()
@@ -67,16 +65,11 @@ class UserSearch extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -90,6 +83,8 @@ class UserSearch extends TDMCreateFile
      *
      * @param $moduleDirname
      *
+     * @param $table
+     * @param $fields
      * @return string
      */
     private function getUserSearchHeader($moduleDirname, $table, $fields)
@@ -118,16 +113,11 @@ class UserSearch extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
     /**
-     * @param $module
+    *  @public function getAdminPagesList
+     * @param $moduleDirname
      * @param $tableName
      * @param $language
-     *
      * @return string
      */
     public function getUserSearch($moduleDirname, $tableName, $language)
@@ -168,11 +158,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()
