@@ -27,23 +27,23 @@
  */
 class TDMCreateStructure
 {
-    /*
+    /**
     * @var string
     */
     private $moduleName;
-    /*
+    /**
     * @var string
     */
     private $folderName;
-    /*
+    /**
     * @var string
     */
     private $fileName;
-    /*
+    /**
     * @var string
     */
     private $path;
-    /*
+    /**
     * @var mixed
     */
     private $uploadPath;
@@ -88,8 +88,6 @@ class TDMCreateStructure
     /**
      * @protected function getUploadPath
      *
-     * @param string $path
-     *
      * @return string $path
      */
     protected function getUploadPath()
@@ -97,7 +95,7 @@ class TDMCreateStructure
         return $this->uploadPath;
     }
 
-    /*
+    /**
      * @protected function setModuleName
      * @param string $moduleName
      *
@@ -129,7 +127,7 @@ class TDMCreateStructure
         $this->folderName = $folderName;
     }
 
-    /*
+    /**
      *  @private function getFolderName
      *  @return string $folderName
      *
@@ -199,7 +197,7 @@ class TDMCreateStructure
         $content = array();
         $handle = opendir($dir);
         while (false !== ($entry = readdir($handle))) {
-            if ($entry != '.' && $entry != '..') {
+            if ($entry !== '.' && $entry !== '..') {
                 $content[] = $entry;
             }
         }
@@ -212,11 +210,10 @@ class TDMCreateStructure
     }
 
     /**
-     *  @public function addFolderPath
+     * @public function addFolderPath
      *
-     *  @param string $folderName
-     *  @param string $fileName
-     *
+     * @param string      $folderName
+     * @param bool|string $fileName
      * @return string
      */
     private function addFolderPath($folderName, $fileName = false)

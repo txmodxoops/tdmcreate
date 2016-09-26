@@ -27,7 +27,7 @@
  */
 class UserSingle extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class UserSingle extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserSingle
      */
     public static function getInstance()
@@ -54,16 +52,11 @@ class UserSingle extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -74,9 +67,9 @@ class UserSingle extends TDMCreateFile
 
     /**
      * @private function getUserSingleHeader
-     *
      * @param $moduleDirname
-     *
+     * @param $table
+     * @param $fields
      * @return string
      */
     private function getUserSingleHeader($moduleDirname, $table, $fields)
@@ -108,7 +101,7 @@ class UserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      * @public function getUserSingleBody
      * @param $moduleDirname
      * @param $tableName
@@ -128,7 +121,6 @@ EOT;
 
     /**
      * @private function getUserSingleFooter
-     *
      * @param $moduleDirname
      * @param $tableName
      * @param $language
@@ -157,11 +149,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

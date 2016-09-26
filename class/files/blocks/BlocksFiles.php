@@ -27,7 +27,7 @@
  */
 class BlocksFiles extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,13 +37,11 @@ class BlocksFiles extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
+    * @return BlocksFiles
     */
-    /**
-     * @return BlocksFiles
-     */
     public static function getInstance()
     {
         static $instance = false;
@@ -54,14 +52,11 @@ class BlocksFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    */
     /**
-     * @param $module
-     * @param $table
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param        $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,18 +65,14 @@ class BlocksFiles extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getBlocksShow
-    *  @param null
-    */
     /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $tableFieldname
-     * @param $tableCategory
-     * @param $fields
-     * @param $fieldId
-     *
+     * @private  function getBlocksShow
+     * @param     $moduleDirname
+     * @param     $tableName
+     * @param     $tableFieldname
+     * @param     $fields
+     * @param     $fieldId
+     * @param int $fieldParent
      * @return string
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
@@ -211,23 +202,16 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getBlocksEdit
     *  @param string $moduleDirname
     *  @param string $tableName
     *  @param string $fieldId
     *  @param string $fieldMain
     *  @param string $language
+    *
+    * @return string
     */
-    /**
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $fieldId
-     * @param $fieldMain
-     * @param $language
-     *
-     * @return string
-     */
     private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
         $stuModuleDirname = strtoupper($moduleDirname);
@@ -268,15 +252,12 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
+    *
+    * @return bool|string
     */
-    /**
-     * @param $filename
-     *
-     * @return bool|string
-     */
     public function render()
     {
         $module = $this->getModule();

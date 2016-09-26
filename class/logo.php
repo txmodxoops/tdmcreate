@@ -33,7 +33,7 @@ class TDMCreateLogo
     *  @param null
     */
     /**
-     * @return TDMCreateModules
+     * @return TDMCreateLogo
      */
     public static function getInstance()
     {

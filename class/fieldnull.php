@@ -22,17 +22,12 @@
  * @version         $Id: 1.91 fieldnull.php 11297 2014-05-14 10:58:10Z timgno $
  */
 
-/*
-*  @Class TDMCreateFieldnull
-*  @extends XoopsObject
-*/
-
 /**
  * Class TDMCreateFieldnull.
  */
 class TDMCreateFieldnull extends XoopsObject
 {
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
@@ -44,12 +39,10 @@ class TDMCreateFieldnull extends XoopsObject
         $this->initVar('fieldnull_value', XOBJ_DTYPE_TXTBOX);
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
-     * @return TDMCreateFieldElements
+     * @return TDMCreateFieldnull
      */
     public static function getInstance()
     {
@@ -63,6 +56,10 @@ class TDMCreateFieldnull extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFieldnull($keys = null, $format = null, $maxDepth = null)
     {
@@ -75,11 +72,6 @@ class TDMCreateFieldnull extends XoopsObject
         return $ret;
     }
 }
-
-/*
-*  @Class TDMCreateFieldnullHandler
-*  @extends XoopsPersistableObjectHandler
-*/
 
 /**
  * Class TDMCreateFieldnullHandler.

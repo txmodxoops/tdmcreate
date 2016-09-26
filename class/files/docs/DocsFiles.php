@@ -27,7 +27,7 @@
  */
 class DocsFiles extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,7 +37,7 @@ class DocsFiles extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
     */
@@ -54,7 +54,7 @@ class DocsFiles extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
@@ -69,7 +69,7 @@ class DocsFiles extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function getChangeLogFile
     *  @param string $moduleDirname
     *  @param string $mod_version
@@ -95,11 +95,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getCreditsFile
-    *  @param null
-    */
     /**
+    *  @public function getCreditsFile
      * @param $mod_author
      * @param $mod_credits
      * @param $mod_author_website_url
@@ -125,11 +122,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getInstallFile
     *  @param null
-    */
-    /**
      * @return string
      */
     public function getInstallFile()
@@ -144,11 +139,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function getReadmeFile
     *  @param null
-    */
-    /**
      * @return string
      */
     public function getReadmeFile()
@@ -164,11 +157,8 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function getLangDiffFile
-    *  @param null
-    */
     /**
+    *  @public function getLangDiffFile
      * @param $mod_version
      *
      * @return string
@@ -185,11 +175,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

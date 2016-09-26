@@ -27,7 +27,7 @@
  */
 class TemplatesUserSubmit extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserSubmit extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserSubmit
      */
     public static function getInstance()
@@ -54,15 +52,11 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table, $filename)
     {
@@ -71,18 +65,12 @@ class TemplatesUserSubmit extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSubmitHeader
     *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
      * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
      * @return string
+     *
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
     {
@@ -91,14 +79,10 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $hc->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSubmit
     *  @param string $moduleDirname
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $language
      *
      * @return string
      */
@@ -125,12 +109,9 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSubmitFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -141,13 +122,9 @@ class TemplatesUserSubmit extends TDMCreateFile
         return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
+    *  @param null
      * @return bool|string
      */
     public function render()

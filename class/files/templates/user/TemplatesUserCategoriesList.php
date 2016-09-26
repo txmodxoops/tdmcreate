@@ -27,7 +27,7 @@
  */
 class TemplatesUserCategoriesList extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserCategoriesList extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserCategoriesList
      */
     public static function getInstance()
@@ -54,15 +52,11 @@ class TemplatesUserCategoriesList extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table, $filename)
     {
@@ -71,13 +65,8 @@ class TemplatesUserCategoriesList extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getTemplatesUserCategoriesListHeader
-    *  @param string $language
-    */
     /**
-     * @param $language
-     *
+    *  @private function getTemplatesUserCategoriesListHeader
      * @return string
      */
     private function getTemplatesUserCategoriesListStartTable()
@@ -90,13 +79,10 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesListThead
     *  @param string $language
-    */
-    /**
-     * @param $language
-     *
+     * @param $table
      * @return string
      */
     private function getTemplatesUserCategoriesListThead($table, $language)
@@ -125,16 +111,11 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesListTbody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
      *
      * @return string
      */
@@ -187,17 +168,10 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesUserCategoriesListTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesUserCategoriesListTfoot
+     *  @param string $table
+    *  @param string $language
      * @return string
      */
     private function getTemplatesUserCategoriesListTfoot($table, $language)
@@ -228,12 +202,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesListEndTable
     *  @param null
-    */
-    /**
-     * @param null
      *
      * @return string
      */
@@ -247,17 +218,14 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesListPanel
     *  @param string $moduleDirname
-    *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableSoleName
      * @return string
      */
     private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
@@ -309,14 +277,10 @@ EOT;
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
      * @return bool|string
+     *
      */
     public function render()
     {

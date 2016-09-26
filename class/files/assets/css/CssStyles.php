@@ -27,7 +27,7 @@
  */
 class CssStyles extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class CssStyles extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return CssStyles
      */
     public static function getInstance()
@@ -54,12 +52,10 @@ class CssStyles extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
      * @param $module
      * @param $filename
      */
@@ -69,11 +65,9 @@ class CssStyles extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

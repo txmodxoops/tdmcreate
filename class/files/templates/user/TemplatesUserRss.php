@@ -27,7 +27,7 @@
  */
 class TemplatesUserRss extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,12 +37,10 @@ class TemplatesUserRss extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
-     * @return TemplatesUserRss
+      * @return TemplatesUserRss
      */
     public static function getInstance()
     {
@@ -54,15 +52,10 @@ class TemplatesUserRss extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
-    */
     /**
-     * @param $module
-     * @param $table
+     * @public   function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -70,17 +63,9 @@ class TemplatesUserRss extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getTemplatesUserRssXml
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesUserRssXml
+    *  @param null
      * @return string
      */
     private function getTemplatesUserRssXml()
@@ -124,13 +109,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
-     * @param null
-     *
      * @return bool|string
      */
     public function render()

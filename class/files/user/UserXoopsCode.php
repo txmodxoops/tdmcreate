@@ -64,6 +64,7 @@ class UserXoopsCode
      * @param        $language
      * @param        $tableName
      *
+     * @param string $t
      * @return string
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
@@ -123,10 +124,11 @@ class UserXoopsCode
     }
 
     /**
-     *  @public function getUserBreadcrumbs
+     * @public function getUserBreadcrumbs
      *
      * @param $moduleDirname
      *
+     * @param $language
      * @return string
      */
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)

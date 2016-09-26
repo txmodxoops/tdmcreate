@@ -19,15 +19,15 @@ If you liked the tdmcreate module and thanks to the long process for giving the 
 </p>
 
 > **Note:** This repository contains the code of the tdmcreate module
-It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Txmod Xoops Web Site](http://www.txmodxoops.org), and visit the main discussion forum at [XOOPS Web Site](http://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
+It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Txmod XOOPS Web Site](http://www.txmodxoops.org), and visit the main discussion forum at [XOOPS Web Site](http://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
 
 Clear version
 
 # Require:
-- Xoops 2.5.8;
-- Xoops Admin 1.1;
+- XOOPS 2.5.8;
+- XOOPS Admin 1.2;
 - PHP 5.3 or high;
-- MySQL 5.5; -> Minimum Raccomanded Using InnoDB Version 5.1 or Later
+- MySQL 5.5; -> Minimum Recommended Using InnoDB Version 5.1 or Later
 
 # Adding
  - Added: table_solename field in tables
@@ -40,11 +40,11 @@ Clear version
 # Info
 TDMCreate is a module that create other basic modules for XOOPS CMS.
 
-Tested with xoops 2.5.7.(1,2) and 2.5.8 beta 1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
+Tested with XOOPS 2.5.7.(1,2) and 2.5.8 beta 1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
-That is ahead xoops versions, and goes to 2.6.0, you should download xoops 2.5.7.2 and use with this latest version.
+That is ahead XOOPS versions, and goes to 2.6.0, you should download XOOPS 2.5.7.2 and use with this latest version.
 
-Therefore recommended not to use tdmcreate 1.91, with previous versions of xoops 2.5.7
+Therefore recommended not to use tdmcreate 1.91, with previous versions of XOOPS 2.5.7
 
 # System - Tests 
 PHP = 5.4.31 - 5.5.15
@@ -53,7 +53,7 @@ MySQL = 5.6.20
 
 Apache = 2.4.10
 
-Xoops = 2.5.7.1 - 2.5.8
+XOOPS = 2.5.7.1 - 2.5.8
 
 Codeception = 2.0.13
 

@@ -27,7 +27,7 @@
  */
 class IncludeFunctions extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class IncludeFunctions extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return IncludeFunctions
      */
     public static function getInstance()
@@ -66,12 +64,9 @@ class IncludeFunctions extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getFunctionBlock
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -97,12 +92,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getFunctionGetMyItemIds
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      * @param $tableName
      *
      * @return string

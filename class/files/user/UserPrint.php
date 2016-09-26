@@ -27,17 +27,17 @@
  */
 class UserPrint extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $uc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -50,11 +50,9 @@ class UserPrint extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserPrint
      */
     public static function getInstance()
@@ -67,16 +65,11 @@ class UserPrint extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -85,14 +78,10 @@ class UserPrint extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function getUserPrint
     *  @param string $moduleDirname
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $language
      *
      * @return string
      */
@@ -170,11 +159,9 @@ class UserPrint extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

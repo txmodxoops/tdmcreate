@@ -22,7 +22,7 @@
  * @version         $Id: 1.91 fieldattributes.php 13027 2015-02-14 12:18:10Z timgno $
  */
 
- /*
+ /**
 *  @Class TDMCreateFieldattributes
 *  @extends XoopsObject
 */
@@ -32,7 +32,7 @@
  */
 class TDMCreateFieldattributes extends XoopsObject
 {
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
@@ -44,12 +44,10 @@ class TDMCreateFieldattributes extends XoopsObject
         $this->initVar('fieldattribute_value', XOBJ_DTYPE_TXTBOX);
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
-     * @return TDMCreateFieldElements
+     * @return TDMCreateFieldattributes
      */
     public static function getInstance()
     {
@@ -63,6 +61,10 @@ class TDMCreateFieldattributes extends XoopsObject
 
     /**
      * Get Values.
+     * @param null $keys
+     * @param null $format
+     * @param null $maxDepth
+     * @return array
      */
     public function getValuesFieldattributes($keys = null, $format = null, $maxDepth = null)
     {
@@ -76,13 +78,9 @@ class TDMCreateFieldattributes extends XoopsObject
     }
 }
 
-/*
-*  @Class TDMCreateFieldattributesHandler
-*  @extends XoopsPersistableObjectHandler
-*/
 
 /**
- * Class TDMCreateFieldattributesHandler.
+ * Class TDMCreateFieldattributesHandler
  */
 class TDMCreateFieldattributesHandler extends XoopsPersistableObjectHandler
 {

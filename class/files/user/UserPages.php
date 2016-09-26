@@ -27,7 +27,7 @@
  */
 class UserPages extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class UserPages extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserPages
      */
     public static function getInstance()
@@ -56,7 +54,6 @@ class UserPages extends TDMCreateFile
 
     /**
      * @public function write
-     *
      * @param $module
      * @param $table
      * @param $filename
@@ -70,10 +67,8 @@ class UserPages extends TDMCreateFile
 
     /**
      * @private function getUserPagesHeader
-     *
      * @param $moduleDirname
      * @param $tableName
-     *
      * @return string
      */
     private function getUserPagesHeader($moduleDirname, $tableName)
@@ -95,10 +90,9 @@ class UserPages extends TDMCreateFile
 
     /**
      * @private function getUserPages
-     *
      * @param $moduleDirname
      * @param $tableName
-     *
+     * @param $tableSoleName
      * @return string
      */
     private function getUserPages($moduleDirname, $tableName, $tableSoleName)
@@ -147,7 +141,6 @@ class UserPages extends TDMCreateFile
 
     /**
      * @private function getUserPagesFooter
-     *
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -177,13 +170,9 @@ class UserPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
-     * @param $filename
-     *
      * @return bool|string
      */
     public function render()

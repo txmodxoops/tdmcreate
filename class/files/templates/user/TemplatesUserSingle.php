@@ -27,7 +27,7 @@
  */
 class TemplatesUserSingle extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,12 +37,10 @@ class TemplatesUserSingle extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
-     * @return TemplatesUserSingle
+    * @return TemplatesUserSingle
      */
     public static function getInstance()
     {
@@ -54,15 +52,11 @@ class TemplatesUserSingle extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table, $filename)
     {
@@ -71,13 +65,9 @@ class TemplatesUserSingle extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getTemplatesUserSingleHeader
-    *  @param string $language
-    */
     /**
-     * @param $language
-     *
+    *  @private function getTemplatesUserSingleHeader
+     * @param $moduleDirname
      * @return string
      */
     private function getTemplatesUserSingleHeader($moduleDirname)
@@ -88,16 +78,11 @@ class TemplatesUserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSingleBody
     *  @param string $moduleDirname
     *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
      *
      * @return string
      */
@@ -115,12 +100,9 @@ class TemplatesUserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserSingleFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -132,13 +114,9 @@ class TemplatesUserSingle extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
+    *  @param null
      * @return bool|string
      */
     public function render()

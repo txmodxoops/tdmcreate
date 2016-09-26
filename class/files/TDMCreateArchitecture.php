@@ -95,7 +95,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "blocks" folder and index.html file
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
-        $language = ($GLOBALS['xoopsConfig']['language'] != 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
+        $language = ($GLOBALS['xoopsConfig']['language'] !== 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
         $copyFiles = array('class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile, 'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/'.$language => $indexFile, 'language/'.$language.'/help' => $indexFile, 'preloads' => $indexFile);
         foreach ($copyFiles as $k => $v) {
             // Creation of folders and index.html file

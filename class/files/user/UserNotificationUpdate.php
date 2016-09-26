@@ -27,7 +27,7 @@
  */
 class UserNotificationUpdate extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class UserNotificationUpdate extends TDMCreateFile
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserNotificationUpdate
      */
     public static function getInstance()
@@ -55,14 +53,10 @@ class UserNotificationUpdate extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -70,11 +64,9 @@ class UserNotificationUpdate extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

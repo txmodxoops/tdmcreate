@@ -27,7 +27,7 @@
  */
 class TemplatesUserCategories extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserCategories extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserCategories
      */
     public static function getInstance()
@@ -54,15 +52,11 @@ class TemplatesUserCategories extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
      */
     public function write($module, $table, $filename)
     {
@@ -71,18 +65,11 @@ class TemplatesUserCategories extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesHeader
     *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
      * @return string
+     *
      */
     private function getTemplatesUserCategoriesHeader($moduleDirname)
     {
@@ -91,13 +78,12 @@ class TemplatesUserCategories extends TDMCreateFile
         return $hc->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesTable
     *  @param string $language
-    */
-    /**
-     * @param $language
-     *
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSolename
      * @return string
      */
     private function getTemplatesUserCategoriesTable($moduleDirname, $tableName, $tableSolename, $language)
@@ -110,13 +96,10 @@ class TemplatesUserCategories extends TDMCreateFile
         return $hc->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesThead
     *  @param string $language
-    */
-    /**
-     * @param $language
-     *
+     * @param $tableName
      * @return string
      */
     private function getTemplatesUserCategoriesThead($tableName, $language)
@@ -131,17 +114,12 @@ class TemplatesUserCategories extends TDMCreateFile
         return $hc->getHtmlTableThead($tr).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesTbody
     *  @param string $moduleDirname
-    *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+     * @param $tableName
+     * @param $tableSolename
      * @return string
      */
     private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSolename, $language)
@@ -159,18 +137,10 @@ class TemplatesUserCategories extends TDMCreateFile
         return $hc->getHtmlTableTbody($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserCategoriesTfoot
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
     /**
-     * @param $moduleDirname
-     * @param $table
-     * @param $language
-     *
+    *  @private function getTemplatesUserCategoriesTfoot
      * @return string
+     *
      */
     private function getTemplatesUserCategoriesTfoot()
     {
@@ -181,13 +151,12 @@ class TemplatesUserCategories extends TDMCreateFile
         return $hc->getHtmlTableTfoot($tr).PHP_EOL;
     }
 
-    /*
-    *  @private function getTemplatesUserCategories
-    *  @param null
-    */
     /**
-     * @param null
-     *
+    *  @private function getTemplatesUserCategories
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSolename
+     * @param $language
      * @return string
      */
     private function getTemplatesUserCategories($moduleDirname, $tableName, $tableSolename, $language)
@@ -199,17 +168,12 @@ class TemplatesUserCategories extends TDMCreateFile
         return $hc->getSmartyConditions($tableName, ' gt ', '0', $div, false, true).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesPanel
     *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
+    *  @param string $tableName
+     * @param $tableSoleName
      * @param $language
-     *
      * @return string
      */
     private function getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language)
@@ -241,12 +205,9 @@ EOT;*/
         return $hc->getHtmlDiv($div, 'panel panel-'.$panelType).PHP_EOL;
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserCategoriesFooter
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $moduleDirname
      *
      * @return string
      */
@@ -257,14 +218,10 @@ EOT;*/
         return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
      * @return bool|string
+     *
      */
     public function render()
     {

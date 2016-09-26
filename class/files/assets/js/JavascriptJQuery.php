@@ -27,7 +27,7 @@
  */
 class JavascriptJQuery extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class JavascriptJQuery extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return JavascriptJQuery
      */
     public static function getInstance()
@@ -54,14 +52,10 @@ class JavascriptJQuery extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -69,7 +63,7 @@ class JavascriptJQuery extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
      *  @public function getJavascriptJQueryButtons
      *  @param null
      *
@@ -89,7 +83,7 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
      *  @public function getJavascriptJQueryPrint
      *  @param null
      *
@@ -167,7 +161,7 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
      *  @public function render
      *  @param null
      *

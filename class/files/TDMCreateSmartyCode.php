@@ -27,7 +27,7 @@
  */
 class TDMCreateSmartyCode
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -36,12 +36,10 @@ class TDMCreateSmartyCode
     {
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
-     * @return TDMCreateSmartySmartyCodes
+     * @return TDMCreateSmartyCode
      */
     public static function getInstance()
     {
@@ -56,10 +54,11 @@ class TDMCreateSmartyCode
     /**
      * @public function getSmartyTag
      *
-     * @param $tag
-     * @param $attributes
-     * @param $content
+     * @param string $tag
+     * @param array  $attributes
+     * @param string $content
      *
+     * @param string $t
      * @return string
      */
     public function getSmartyTag($tag = '', $attributes = array(), $content = '', $t = '')
@@ -73,12 +72,9 @@ class TDMCreateSmartyCode
         return $ret;
     }
 
-     /*
+     /**
     *  @private function setAttributes
     *  @param array $attributes
-    */
-    /**
-     * @param  $attributes
      *
      * @return string
      */
@@ -86,7 +82,7 @@ class TDMCreateSmartyCode
     {
         $str = '';
         foreach ($attributes as $name => $value) {
-            if ($name != '_') {
+            if ($name !== '_') {
                 $str .= ' '.$name.'="'.$value.'"';
             }
         }
@@ -94,12 +90,9 @@ class TDMCreateSmartyCode
         return $str;
     }
 
-    /*
+    /**
     *  @public function getSmartyEmpty
     *  @param string $empty
-    */
-    /**
-     * @param $empty
      *
      * @return string
      */
@@ -108,13 +101,10 @@ class TDMCreateSmartyCode
         return "{$empty}";
     }
 
-    /*
-    *  @public function getSmartyComment
-    *  @param string $htmlComment
-    */
     /**
-     * @param $htmlComment
-     *
+     * @public   function getSmartyComment
+     * @param string $smartyComment
+     * @param string $t
      * @return string
      */
     public function getSmartyComment($smartyComment = '', $t = '')
@@ -122,13 +112,11 @@ class TDMCreateSmartyCode
         return "{$t}<{* {$smartyComment} *}>";
     }
 
-    /*
-    *  @public function getSmartyNoSimbol
-    *  @param string $content
-    */
     /**
-     * @param $content
+     * @public function getSmartyNoSimbol
+     * @param string $noSimbol
      *
+     * @param string $t
      * @return string
      */
     public function getSmartyNoSimbol($noSimbol = '', $t = '')
@@ -136,15 +124,12 @@ class TDMCreateSmartyCode
         return "{$t}<{{$noSimbol}}>";
     }
 
-    /*
-    *  @public function getSmartyConst
-    *  @param string $language
-    *  @param mixed $const
-    */
     /**
-     * @param $language
-     * @param $const
+     * @public function getSmartyConst
+     * @param string $language
+     * @param mixed  $const
      *
+     * @param string $t
      * @return string
      */
     public function getSmartyConst($language, $const, $t = '')
@@ -152,13 +137,11 @@ class TDMCreateSmartyCode
         return "{$t}<{\$smarty.const.{$language}{$const}}>";
     }
 
-    /*
-    *  @public function getSmartySingleVar
-    *  @param string $var
-    */
     /**
+     * @public function getSmartySingleVar
      * @param string $var
      *
+     * @param string $t
      * @return string
      */
     public function getSmartySingleVar($var, $t = '')
@@ -166,15 +149,12 @@ class TDMCreateSmartyCode
         return "{$t}<{\${$var}}>";
     }
 
-    /*
-    *  @public function getSmartyDoubleVar
-    *  @param string $leftVar
-    *  @param string $rightVar
-    */
     /**
+     * @public function getSmartyDoubleVar
      * @param string $leftVar
      * @param string $rightVar
      *
+     * @param string $t
      * @return string
      */
     public function getSmartyDoubleVar($leftVar, $rightVar, $t = '')
@@ -182,15 +162,14 @@ class TDMCreateSmartyCode
         return "{$t}<{\${$leftVar}.{$rightVar}}>";
     }
 
-    /*
-    *  @public function getSmartyIncludeFile
-    *  @param string $name
-    */
     /**
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $admin
+     * @public function getSmartyIncludeFile
+     * @param        $moduleDirname
+     * @param string $fileName
+     * @param bool   $admin
      *
+     * @param bool   $q
+     * @param string $t
      * @return string
      */
     public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false, $t = '')
@@ -208,15 +187,13 @@ class TDMCreateSmartyCode
         return $ret;
     }
 
-    /*
-    *  @public function getSmartyIncludeFileListSection
-    *  @param string $name
-    */
     /**
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $tableFieldName
+     * @public function getSmartyIncludeFileListSection
+     * @param        $moduleDirname
+     * @param        $fileName
+     * @param        $tableFieldName
      *
+     * @param string $t
      * @return string
      */
     public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $tableFieldName, $t = '')
@@ -224,15 +201,13 @@ class TDMCreateSmartyCode
         return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>\n";
     }
 
-    /*
-    *  @public function getSmartyIncludeFileListForeach
-    *  @param string $name
-    */
     /**
-     * @param $moduleDirname
-     * @param $fileName
-     * @param $tableFieldName
+     * @public function getSmartyIncludeFileListForeach
+     * @param        $moduleDirname
+     * @param        $fileName
+     * @param        $tableFieldName
      *
+     * @param string $t
      * @return string
      */
     public function getSmartyIncludeFileListForeach($moduleDirname, $fileName, $tableFieldName, $t = '')
@@ -240,16 +215,8 @@ class TDMCreateSmartyCode
         return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}}>\n";
     }
 
-    /*
-    *  @public function getSmartyConditions
-    *  @param string $condition
-    *  @param string $operator
-    *  @param string $type
-    *  @param string $contentIf
-    *  @param mixed  $contentElse
-    *  @param bool   $count
-    */
     /**
+     * @public function getSmartyConditions
      * @param string $condition
      * @param string $operator
      * @param string $type
@@ -257,6 +224,8 @@ class TDMCreateSmartyCode
      * @param mixed  $contentElse
      * @param bool   $count
      *
+     * @param bool   $noSimbol
+     * @param string $t
      * @return string
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '')
@@ -289,17 +258,15 @@ class TDMCreateSmartyCode
         return $ret;
     }
 
-    /*
-    *  @public function getSmartyForeach
-    *  @param string $item
-    *  @param string $from
-    *  @param string $content
-    */
     /**
+     * @public function getSmartyForeach
      * @param string $item
      * @param string $from
      * @param string $content
      *
+     * @param string $name
+     * @param string $key
+     * @param string $t
      * @return string
      */
     public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '', $t = '')
@@ -313,17 +280,15 @@ class TDMCreateSmartyCode
         return $ret;
     }
 
-    /*
-    *  @public function getSmartyForeachQuery
-    *  @param string $item
-    *  @param string $from
-    *  @param string $content
-    */
     /**
+     * @public function getSmartyForeachQuery
      * @param string $item
      * @param string $from
      * @param string $content
      *
+     * @param string $loop
+     * @param string $key
+     * @param string $t
      * @return string
      */
     public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '', $t = '')
@@ -337,17 +302,15 @@ class TDMCreateSmartyCode
         return $ret;
     }
 
-    /*
-    *  @public function getSmartySection
-    *  @param string $name
-    *  @param string $loop
-    *  @param string $content
-    */
     /**
+     * @public function getSmartySection
      * @param string $name
      * @param string $loop
      * @param string $content
      *
+     * @param int    $start
+     * @param int    $step
+     * @param string $t
      * @return string
      */
     public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0, $t = '')

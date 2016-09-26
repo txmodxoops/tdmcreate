@@ -107,7 +107,7 @@ class AdminPermissions extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @private function getPermissionsSwitch
      *  @param $moduleDirname
      *  @param $language

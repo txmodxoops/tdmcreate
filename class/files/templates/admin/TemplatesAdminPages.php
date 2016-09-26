@@ -27,7 +27,7 @@
  */
 class TemplatesAdminPages extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesAdminPages extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesAdminPages
      */
     public static function getInstance()
@@ -54,11 +52,12 @@ class TemplatesAdminPages extends TDMCreateFile
         return $instance;
     }
 
-    /*
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    */
+    /**
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param        $filename
+     */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
@@ -66,7 +65,7 @@ class TemplatesAdminPages extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesHeader
     *  @param string $moduleDirname
     *  @return string
@@ -80,14 +79,14 @@ class TemplatesAdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesAdminPagesTableThead
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+    /**
+     * @private  function getTemplatesAdminPagesTableThead
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param string $fields
+     * @param string $language
+     * @return string
+     */
     private function getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
@@ -115,14 +114,16 @@ class TemplatesAdminPages extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @private function getTemplatesAdminPagesTableTBody
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+    /**
+     * @private  function getTemplatesAdminPagesTableTBody
+     * @param string $moduleDirname
+     * @param string $tableName
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param string $fields
+     * @return string
+     * @internal param string $language
+     */
     private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
@@ -191,14 +192,16 @@ EOT;*/
         return $hc->getSmartyConditions($tableName.'_count', '', '', $tbody);
     }
 
-    /*
-    *  @private function getTemplatesAdminPagesTable
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+    /**
+     * @private function getTemplatesAdminPagesTable
+     * @param string $moduleDirname
+     * @param string $tableName
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param string $fields
+     * @param string $language
+     * @return string
+     */
     private function getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
@@ -208,14 +211,16 @@ EOT;*/
         return $hc->getHtmlTable($tbody, 'table table-bordered');
     }
 
-    /*
-    *  @private function getTemplatesAdminPages
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fields
-    *  @param string $language
-    *  @return string
-    */
+    /**
+     * @private function getTemplatesAdminPages
+     * @param string $moduleDirname
+     * @param string $tableName
+     * @param        $tableSoleName
+     * @param        $tableAutoincrement
+     * @param string $fields
+     * @param string $language
+     * @return string
+     */
     private function getTemplatesAdminPages($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
@@ -238,7 +243,7 @@ EOT;*/
         return $ifList;
     }
 
-    /*
+    /**
     *  @private function getTemplatesAdminPagesFooter
     *  @param string $moduleDirname
     *  @return string
@@ -253,7 +258,7 @@ EOT;*/
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
     *  @return bool|string

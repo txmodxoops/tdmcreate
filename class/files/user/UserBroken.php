@@ -27,7 +27,7 @@
  */
 class UserBroken extends TDMCreateFile
 {
-    /*
+    /**
      *  @public function constructor
      *  @param null
      */
@@ -37,11 +37,9 @@ class UserBroken extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
      *  @static function getInstance
      *  @param null
-     */
-    /**
      * @return UserBroken
      */
     public static function getInstance()
@@ -54,16 +52,11 @@ class UserBroken extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
      *  @public function write
      *  @param $module
      *  @param mixed $table
      *  @param $filename
-     */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -72,14 +65,11 @@ class UserBroken extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-     *  @public function getUserBrokenHeader
-     *  @param null
-     */
     /**
+     *  @public function getUserBrokenHeader
      * @param $moduleDirname
-     *
-     * @return
+     * @param $fields
+     * @return string
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
@@ -103,13 +93,12 @@ class UserBroken extends TDMCreateFile
         return $ret;
     }
 
-    /*
-     *  @public function getAdminPagesList
-      *  @param $tableName
-      *  @param $language
-      *
-      *  @return
-      */
+    /**
+     * @public function getAdminPagesList
+     * @param $tableName
+     * @param $language
+     * @return string
+     */
     public function getUserBrokenForm($tableName, $language)
     {
         $xc = TDMCreateXoopsCode::getInstance();
@@ -132,17 +121,15 @@ class UserBroken extends TDMCreateFile
         return $ret;
     }
 
-    /*
-     *  @public function getUserBrokenSave
-     *  @param $moduleDirname
-     *  @param $tableName
-     */
     /**
+     *  @public function getUserBrokenSave
      * @param $moduleDirname
-     * @param $table_id
+     * @param $fields
      * @param $tableName
-     *
-     * @return
+     * @param $tableSolename
+     * @param $tableAutoincrement
+     * @param $language
+     * @return string
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSolename, $tableAutoincrement, $language)
     {
@@ -183,16 +170,16 @@ class UserBroken extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
       *  @private function getUserSubmitSwitch
       *  @param $moduleDirname
      *  @param $tableName
      *  @param $tableSoleName
+     *  @param $tableAutoincrement
      *  @param $language
-      *
-      * @return
+     * @return bool|string
       */
-    private function getUserBrokenSwitch($moduleDirname, $tableName, $tableSolename, $tableAutoincrement, $language)
+    private function getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $table = $this->getTable();
@@ -205,11 +192,9 @@ class UserBroken extends TDMCreateFile
         return $xc->getXcSwitch('op', $cases, true);
     }
 
-    /*
+    /**
      *  @public function render
      *  @param null
-     */
-    /**
      * @return bool|string
      */
     public function render()

@@ -27,17 +27,17 @@
  */
 class UserPdf extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $uc = null;
 
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -50,11 +50,9 @@ class UserPdf extends TDMCreateFile
         $this->uc = UserXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserPdf
      */
     public static function getInstance()
@@ -67,16 +65,11 @@ class UserPdf extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -87,10 +80,10 @@ class UserPdf extends TDMCreateFile
 
     /**
      * @private function getUserPagesHeader
-     *
      * @param $moduleDirname
      * @param $tableName
-     *
+     * @param $fields
+     * @param $language
      * @return string
      */
     private function getUserPdfHeader($moduleDirname, $tableName, $fields, $language)
@@ -110,16 +103,10 @@ class UserPdf extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function getAdminPagesList
-    *  @param string $tableName
-    *  @param string $language
-    */
     /**
-     * @param $module
-     * @param $tableName
-     * @param $language
-     *
+    *  @public function getAdminPagesList
+     * @param $moduleDirname
+     * @param $fields
      * @return string
      */
     public function getUserPdfTcpdf($moduleDirname, $fields)
@@ -224,11 +211,9 @@ class UserPdf extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

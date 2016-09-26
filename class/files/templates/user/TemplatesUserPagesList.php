@@ -27,7 +27,7 @@
  */
 class TemplatesUserPagesList extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserPagesList extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserPagesList
      */
     public static function getInstance()
@@ -54,16 +52,13 @@ class TemplatesUserPagesList extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     */
+     * @param $tables
+      */
     public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
@@ -72,19 +67,17 @@ class TemplatesUserPagesList extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @private function getTemplatesUserPagesListPanel
     *  @param string $moduleDirname
-    *  @param string $table
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $table
+     * @param $tableId
+     * @param $tableMid
+     * @param $tableName
+     * @param $tableSoleName
      * @param $language
-     *
      * @return string
-     */
+      */
     private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
@@ -163,14 +156,11 @@ class TemplatesUserPagesList extends TDMCreateFile
         return $ret;
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
+    *  @param null
      * @return bool|string
+     *
      */
     public function render()
     {

@@ -27,7 +27,7 @@
  */
 class LanguageMain extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -38,11 +38,9 @@ class LanguageMain extends TDMCreateFile
         $this->defines = LanguageDefines::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return LanguageMain
      */
     public static function getInstance()
@@ -55,16 +53,11 @@ class LanguageMain extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $tables
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -73,14 +66,10 @@ class LanguageMain extends TDMCreateFile
         $this->setTables($tables);
     }
 
-    /*
+    /**
     *  @private function geLanguagetMain
     *  @param string $module
     *  @param string $language
-    */
-    /**
-     * @param $module
-     * @param $language
      *
      * @return string
      */
@@ -134,12 +123,9 @@ As you can see, you've created a page with a list of links at the top to navigat
         return $ret;
     }
 
-    /*
+    /**
     *  @private function geLanguagetMainFooter
     *  @param string $language
-    */
-    /**
-     * @param $language
      *
      * @return string
      */
@@ -152,11 +138,9 @@ As you can see, you've created a page with a list of links at the top to navigat
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

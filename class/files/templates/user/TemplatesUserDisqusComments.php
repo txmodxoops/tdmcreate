@@ -27,7 +27,7 @@
  */
 class TemplatesUserDisqusComments extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class TemplatesUserDisqusComments extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserDisqusComments
      */
     public static function getInstance()
@@ -54,14 +52,10 @@ class TemplatesUserDisqusComments extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      *
      * @return string
      */
@@ -71,11 +65,8 @@ class TemplatesUserDisqusComments extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @private function getTemplatesCommentCode
-    *  @param null
-    */
     /**
+    *  @private function getTemplatesCommentCode
      * @param null
      *
      * @return string
@@ -87,14 +78,10 @@ class TemplatesUserDisqusComments extends TDMCreateFile
         return $hc->getHtmlEmpty('Pleace! Enter here your comments code');
     }
 
-    /*
-    *  @public function render
-    *  @param string $filename
-    */
     /**
-     * @param $filename
-     *
+    *  @public function render
      * @return bool|string
+     *
      */
     public function render()
     {

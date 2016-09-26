@@ -94,7 +94,7 @@ class SqlFile extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @private function getHeadDatabaseTable
      *  @param $moduleDirname
      *  @param $tableName
@@ -141,14 +141,15 @@ class SqlFile extends TDMCreateFile
     }
 
     /**
-     *  @private function getDatabaseFields
+     * @private function getDatabaseFields
      *
-     *  @param $moduleDirname
-     *  @param $tableName
-     *  @param $tableAutoincrement
-     *  @param $fieldsNumb
-     *
-     *  @return null|string
+     * @param $moduleDirname
+     * @param $tableMid
+     * @param $tableId
+     * @param $tableName
+     * @param $tableAutoincrement
+     * @param $fieldsNumb
+     * @return null|string
      */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
@@ -362,9 +363,11 @@ class SqlFile extends TDMCreateFile
     }
 
     /**
-     *  @private function getKey
+     * @private function getKey
      *
-     *  @return string
+     * @param $key
+     * @param $fieldName
+     * @return string
      */
     private function getKey($key, $fieldName)
     {

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
@@ -27,20 +27,21 @@
  */
 class UserRss extends TDMCreateFile
 {
-    /*
+    /**
     * @var mixed
     */
     private $usercode = null;
 
-    /*
+    /**
     * @var string
     */
     private $xoopscode = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
+
 
     public function __construct()
     {
@@ -50,11 +51,9 @@ class UserRss extends TDMCreateFile
         $this->usercode = UserXoopsCode::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return UserRss
      */
     public static function getInstance()
@@ -67,16 +66,11 @@ class UserRss extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param mixed $table
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $table
-     * @param $filename
      */
     public function write($module, $table, $filename)
     {
@@ -85,14 +79,10 @@ class UserRss extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function getUserRss
     *  @param string $moduleDirname
     *  @param string $language
-    */
-    /**
-     * @param $moduleDirname
-     * @param $language
      *
      * @return string
      */
@@ -209,11 +199,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

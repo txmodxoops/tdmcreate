@@ -27,7 +27,7 @@
  */
 class TemplatesAdminIndex extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,12 +37,8 @@ class TemplatesAdminIndex extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
-    *  @static function getInstance
-    *  @param string $module
-    *  @param string $filename
-    */
     /**
+     * @static   function getInstance
      * @return TemplatesAdminIndex
      */
     public static function getInstance()
@@ -55,14 +51,10 @@ class TemplatesAdminIndex extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -70,11 +62,9 @@ class TemplatesAdminIndex extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function render
-    *  @param null
-    */
     /**
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()

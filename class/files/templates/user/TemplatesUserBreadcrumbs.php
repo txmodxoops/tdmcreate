@@ -27,7 +27,7 @@
  */
 class TemplatesUserBreadcrumbs extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,12 +37,10 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
-     * @return TemplatesUserHeader
+     * @return TemplatesUserBreadcrumbs
      */
     public static function getInstance()
     {
@@ -54,16 +52,10 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
-    *  @param mixed $tables
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -71,11 +63,9 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

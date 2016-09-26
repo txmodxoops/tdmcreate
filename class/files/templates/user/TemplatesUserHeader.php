@@ -27,12 +27,12 @@
  */
 class TemplatesUserHeader extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $tdmcfile = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -44,11 +44,9 @@ class TemplatesUserHeader extends TDMCreateFile
         $this->htmlcode = TDMCreateHtmlSmartyCodes::getInstance();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TemplatesUserHeader
      */
     public static function getInstance()
@@ -61,16 +59,10 @@ class TemplatesUserHeader extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
-    *  @param mixed $tables
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $tables
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -78,11 +70,9 @@ class TemplatesUserHeader extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
-    *  @public function getTemplatesUserHeader
-    *  @param null
-    */
     /**
+    *  @public function getTemplatesUserHeader
+     * @param $moduleDirname
      * @return bool|string
      */
     public function getTemplatesUserHeader($moduleDirname)
@@ -95,7 +85,7 @@ class TemplatesUserHeader extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      *  @public function getTemplateFooterFacebbokSDK
      *  @param null
      *
@@ -118,11 +108,9 @@ EOT;
         return $ret;
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()

@@ -108,7 +108,7 @@ class TDMCreateBuilding
         $dir = opendir($src);
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file != '.') && ($file != '..')) {
+            if (($file !== '.') && ($file !== '..')) {
                 if (is_dir($src.'/'.$file)) {
                     // Copy the directory itself
                     self::copyDir($src.'/'.$file, $dst.'/'.$file);

@@ -27,7 +27,7 @@
  */
 class ClassHelper extends TDMCreateFile
 {
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -37,11 +37,9 @@ class ClassHelper extends TDMCreateFile
         parent::__construct();
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return ClassHelper
      */
     public static function getInstance()
@@ -54,14 +52,10 @@ class ClassHelper extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
-    */
-    /**
-     * @param $module
-     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -69,11 +63,9 @@ class ClassHelper extends TDMCreateFile
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
-    */
-    /**
      * @return bool|string
      */
     public function render()
@@ -112,7 +104,7 @@ class {$ucf_module_dirname}Helper
      * @var array
      */
     private \$debugArray = array();
-    /*
+    /**
     *  @protected function constructor class
     *  @param mixed \$debug
     */
@@ -121,7 +113,7 @@ class {$ucf_module_dirname}Helper
         \$this->debug = \$debug;
         \$this->dirname =  basename(dirname(__DIR__));
     }
-    /*
+    /**
     *  @static function getInstance
     *  @param mixed \$debug
     */
@@ -133,7 +125,7 @@ class {$ucf_module_dirname}Helper
         }
         return \$instance;
     }
-    /*
+    /**
     *  @static function getModule
     *  @param null
     */
@@ -144,7 +136,7 @@ class {$ucf_module_dirname}Helper
         }
         return \$this->module;
     }
-    /*
+    /**
     *  @static function getConfig
     *  @param string \$name
     */
@@ -164,7 +156,7 @@ class {$ucf_module_dirname}Helper
         \$this->addLog("Getting config '{\$name}' : " . \$this->config[\$name]);
         return \$this->config[\$name];
     }
-    /*
+    /**
     *  @static function setConfig
     *  @param string \$name
     *  @param mixed \$value
@@ -178,7 +170,7 @@ class {$ucf_module_dirname}Helper
         \$this->addLog("Setting config '{\$name}' : " . \$this->config[\$name]);
         return \$this->config[\$name];
     }
-    /*
+    /**
     *  @static function getHandler
     *  @param string \$name
     */
@@ -190,7 +182,7 @@ class {$ucf_module_dirname}Helper
         \$this->addLog("Getting handler '{\$name}'");
         return \$this->handler[\$name . '_handler'];
     }
-    /*
+    /**
     *  @static function initModule
     *  @param null
     */
@@ -205,7 +197,7 @@ class {$ucf_module_dirname}Helper
         }
         \$this->addLog('INIT MODULE');
     }
-    /*
+    /**
     *  @static function initConfig
     *  @param null
     */
@@ -215,7 +207,7 @@ class {$ucf_module_dirname}Helper
         \$hModConfig = xoops_getHandler('config');
         \$this->config = \$hModConfig->getConfigsByCat(0, \$this->getModule()->getVar('mid'));
     }
-    /*
+    /**
     *  @static function initHandler
     *  @param string \$name
     */
@@ -224,7 +216,7 @@ class {$ucf_module_dirname}Helper
         \$this->addLog('INIT ' . \$name . ' HANDLER');
         \$this->handler[\$name . '_handler'] = xoops_getModuleHandler(\$name, \$this->dirname);
     }
-    /*
+    /**
     *  @static function addLog
     *  @param string \$log
     */

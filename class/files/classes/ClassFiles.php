@@ -55,11 +55,12 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function write
+     * @public function write
      *
-     *  @param string $module
-     *  @param string $table
-     *  @param mixed $tables
+     * @param string $module
+     * @param string $table
+     * @param mixed  $tables
+     * @param        $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -152,13 +153,11 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @private function getClassObject
-     *
-     *  @param $moduleDirname
-     *  @param $tableName
-     *  @param $fields
-     *
-     *  @return string
+     * @private  function getClassObject
+     * @param $module
+     * @param $table
+     * @param $fields
+     * @return string
      */
     private function getClassObject($module, $table, $fields)
     {
@@ -250,11 +249,13 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @private function getFunctionForm
+     * @private function getFunctionForm
      *
-     *  @param string $module
-     *  @param string $table
+     * @param string $module
+     * @param string $table
      *
+     * @param        $fieldId
+     * @param        $fieldInForm
      * @return string
      */
     private function getFunctionForm($module, $table, $fieldId, $fieldInForm)
@@ -367,11 +368,13 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @private function getValuesInObject
+     * @private  function getValuesInObject
      *
-     *  @param null
-     *
+     * @param $moduleDirname
+     * @param $table
+     * @param $fields
      * @return string
+     * @internal param $null
      */
     private function getValuesInObject($moduleDirname, $table, $fields)
     {
@@ -409,9 +412,9 @@ class ClassFiles extends TDMCreateFile
                         $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', strtolower($fieldNameDesc));
                         $fieldsTopics = $this->getTableFields($fieldElementMid, $fieldElementTid);
-                        foreach (array_keys($fieldsTopics) as $f) {
-                            $fieldNameTopic = $fieldsTopics[$f]->getVar('field_name');
-                            if (1 == $fieldsTopics[$f]->getVar('field_main')) {
+                        foreach (array_keys($fieldsTopics) as $g) {
+                            $fieldNameTopic = $fieldsTopics[$g]->getVar('field_name');
+                            if (1 == $fieldsTopics[$g]->getVar('field_main')) {
                                 $fieldMainTopic = $fieldNameTopic;
                             }
                         }
@@ -499,13 +502,17 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function getClassHandler
+     * @public function getClassHandler
      *
-     *  @param string $moduleDirname
-     *  @param string $tableName
-     *  @param string $fieldId
-     *  @param string $fieldMain
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $fieldId
+     * @param        $fieldName
+     * @param string $fieldMain
      *
+     * @param        $fieldParent
+     * @param        $fieldParentId
+     * @param        $fieldElement
      * @return string
      */
     private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldParentId, $fieldElement)
@@ -647,14 +654,18 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function getClassByCategory
+     * @public function getClassByCategory
      *
-     *  @param $tableName
-     *  @param $fieldId
-     *  @param $fieldMain
-     *  @param $fieldParent
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableFieldName
+     * @param $fieldId
+     * @param $fieldName
+     * @param $fieldMain
+     * @param $fieldParent
      *
-     *  @return string
+     * @param $fieldElement
+     * @return string
      */
     private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement)
     {
@@ -699,9 +710,6 @@ class ClassFiles extends TDMCreateFile
      *  @public function getClassCriteria
      *
      *  @param $tableName
-     *  @param $fieldId
-     *  @param $fieldMain
-     *
      *  @return string
      */
     private function getClassCriteria($tableName)
@@ -725,12 +733,13 @@ class ClassFiles extends TDMCreateFile
     }
 
     /**
-     *  @public function getClassGetTableSolenameById
+     * @public function getClassGetTableSolenameById
      *
-     *  @param $moduleDirname
-     *  @param $table
+     * @param $moduleDirname
+     * @param $table
      *
-     *  @return string
+     * @param $fieldMain
+     * @return string
      */
     private function getClassGetTableSolenameById($moduleDirname, $table, $fieldMain)
     {
@@ -757,7 +766,7 @@ class ClassFiles extends TDMCreateFile
         return $ret;
     }
 
-    /*
+    /**
      * @public function render
      * @param null
      *

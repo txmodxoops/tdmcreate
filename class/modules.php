@@ -23,10 +23,6 @@
  * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
 include __DIR__.'/autoload.php';
-/*
-*  @Class TDMCreateModules
-*  @extends XoopsObject
-*/
 
 /**
  * Class TDMCreateModules.
@@ -47,7 +43,7 @@ class TDMCreateModules extends XoopsObject
         'inroot_copy',
     );
 
-    /*
+    /**
     *  @public function constructor class
     *  @param null
     */
@@ -112,11 +108,9 @@ class TDMCreateModules extends XoopsObject
         return $this->getVar($method, $arg);
     }
 
-    /*
+    /**
     *  @static function getInstance
     *  @param null
-    */
-    /**
      * @return TDMCreateModules
      */
     public static function getInstance()
@@ -129,12 +123,9 @@ class TDMCreateModules extends XoopsObject
         return $instance;
     }
 
-    /*
+    /**
     *  @public function getFormModules
     *  @param mixed $action
-    */
-    /**
-     * @param bool $action
      *
      * @return XoopsThemeForm
      */
@@ -364,14 +355,10 @@ class TDMCreateModules extends XoopsObject
         return $form;
     }
 
-    /*
+    /**
     *  @private static function createLogo
     *  @param mixed $logoIcon
     *  @param string $moduleDirname
-    */
-    /**
-     * @param $logoIcon
-     * @param $moduleDirname
      *
      * @return bool|string
      */

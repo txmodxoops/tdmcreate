@@ -27,12 +27,12 @@
  */
 class AdminFooter extends TDMCreateFile
 {
-    /*
+    /**
     * @var string
     */
     private $xc = null;
 
-    /*
+    /**
     *  @public function constructor
     *  @param null
     */
@@ -44,14 +44,10 @@ class AdminFooter extends TDMCreateFile
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
-    /*
-    *  @static function getInstance
-    *  @param string $module
-    *  @param string $filename
-    */
     /**
-     * @return AdminFooter
-     */
+    *  @static function getInstance
+    * @return AdminFooter
+    */
     public static function getInstance()
     {
         static $instance = false;
@@ -62,28 +58,22 @@ class AdminFooter extends TDMCreateFile
         return $instance;
     }
 
-    /*
+    /**
     *  @public function write
     *  @param string $module
     *  @param string $filename
     */
-    /**
-     * @param $module
-     * @param $filename
-     */
     public function write($module, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
     }
 
-    /*
+    /**
     *  @public function render
     *  @param null
+    * @return bool|string
     */
-    /**
-     * @return bool|string
-     */
     public function render()
     {
         $module = $this->getModule();
