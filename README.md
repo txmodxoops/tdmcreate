@@ -45,24 +45,22 @@ Clear version
 # Info
 TDMCreate is a module that create other basic modules for XOOPS CMS.
 
-Tested with XOOPS 2.5.7.(1,2) and 2.5.8 beta 1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
+Tested with XOOPS 2.5.7.(1,2) and 2.5.8, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
 That is ahead XOOPS versions, and goes to 2.6.0, you should download XOOPS 2.5.7.2 and use with this latest version.
 
 Therefore recommended not to use tdmcreate 1.91, with previous versions of XOOPS 2.5.7
 
 # System - Tests 
-PHP = 5.4.31 - 5.5.15
+PHP = 5.4.31, 5.5.15, 5.6.19
 
-MySQL = 5.6.20
+MySQL = 5.6.20, 5.7.11
 
-Apache = 2.4.10
+Apache = 2.4.10, 2.4.18
 
-XOOPS = 2.5.7.1 - 2.5.8
+XOOPS = 2.5.7.1, 2.5.7.2, 2.5.8
 
 Codeception = 2.0.13
-
-Selenium IDE = 2.9.0
 
 [![Stories in Ready](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=ready&title=Ready)](http://waffle.io/txmodxoops/tdmcreate)
 [![Stories in Work in Progress](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=Work in Progress&title=Work in Progress)](http://waffle.io/txmodxoops/tdmcreate)
