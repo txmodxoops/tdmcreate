@@ -63,8 +63,6 @@ XOOPS = 2.5.7.1, 2.5.7.2, 2.5.8
 Codeception = 2.0.13
 
 [![Stories in Ready](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=ready&title=Ready)](http://waffle.io/txmodxoops/tdmcreate)
-[![Stories in Work in Progress](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=Work in Progress&title=Work in Progress)](http://waffle.io/txmodxoops/tdmcreate)
 [![Stories in Done](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=done&title=Done)](http://waffle.io/txmodxoops/tdmcreate)
 [![Stories in Roadmap](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=roadmap&title=Roadmap)](http://waffle.io/txmodxoops/tdmcreate)
-
 [![Throughput Graph](https://graphs.waffle.io/txmodxoops/tdmcreate/throughput.svg)](https://waffle.io/txmodxoops/tdmcreate/metrics)
