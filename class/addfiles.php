@@ -208,12 +208,12 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new field in the database.
      *
-     * @param TDMCreateFields $field reference to the {@link TDMCreateFields} object
+     * @param XoopsObject $field reference to the {@link TDMCreateFields} object
      * @param bool   $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function &insert(&$field, $force = false)
+    public function insert(XoopsObject $field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;
