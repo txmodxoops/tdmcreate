@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -105,10 +105,10 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
     //
     if (empty(\$xoopsModule) || \$xoopsModule->getVar('dirname') != '{$moduleDirname}')
     {
-        \$module_handler =& xoops_getHandler('module');
-        \$module =& \$module_handler->getByDirname('{$moduleDirname}');
-        \$config_handler =& xoops_getHandler('config');
-        \$config =& \$config_handler->getConfigsByCat(0, \$module->getVar('mid'));
+        \$moduleHandler = xoops_getHandler('module');
+        \$module = \$moduleHandler->getByDirname('{$moduleDirname}');
+        \$configHandler = xoops_getHandler('config');
+        \$config =& \$configHandler->getConfigsByCat(0, \$module->getVar('mid'));
     } else {
         \$module =& \$xoopsModule;
         \$config =& \$xoopsModuleConfig;

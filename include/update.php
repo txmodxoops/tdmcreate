@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -62,14 +62,14 @@ function update_tdmcreate_v191(&$module)
         $tplids[] = $tplid;
     }
     if (count($tplids) > 0) {
-        $tplfile_handler = &xoops_getHandler('tplfile');
-        $duplicate_files = $tplfile_handler->getObjects(
+        $tplfileHandler =  xoops_getHandler('tplfile');
+        $duplicate_files = $tplfileHandler->getObjects(
             new Criteria('tpl_id', '('.implode(',', $tplids).')', 'IN')
         );
 
         if (count($duplicate_files) > 0) {
             foreach (array_keys($duplicate_files) as $i) {
-                $tplfile_handler->delete($duplicate_files[$i]);
+                $tplfileHandler->delete($duplicate_files[$i]);
             }
         }
     }

@@ -172,9 +172,9 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return XoopsObject
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         return parent::create($isNew);
     }

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -21,9 +21,9 @@
  *
  * @version         $Id: menu.php 11084 2013-02-23 15:44:20Z timgno $
  */
-$module_handler = xoops_getHandler('module');
+$moduleHandler = xoops_getHandler('module');
 $xoopsModule = XoopsModule::getByDirname('TDMCreate');
-$moduleInfo = $module_handler->get($xoopsModule->getVar('mid'));
+$moduleInfo = $moduleHandler->get($xoopsModule->getVar('mid'));
 $sysPathIcon32 = $moduleInfo->getInfo('sysicons32');
 $modPathIcon32 = $moduleInfo->getInfo('modicons32');
 $adminmenu = array();

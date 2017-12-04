@@ -24,7 +24,7 @@ CREATE TABLE `tdmcreate_settings` (
   `set_description`         VARCHAR(255)        NOT NULL DEFAULT 'This module is for doing following...',
   `set_author`              VARCHAR(255)        NOT NULL DEFAULT 'TDM XOOPS',
   `set_author_mail`         VARCHAR(255)        NOT NULL DEFAULT 'info@email.com',
-  `set_author_website_url`  VARCHAR(255)        NOT NULL DEFAULT 'http://xoops.org',
+  `set_author_website_url`  VARCHAR(255)        NOT NULL DEFAULT 'https://xoops.org',
   `set_author_website_name` VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Project',
   `set_credits`             VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Development Team',
   `set_license`             VARCHAR(255)        NOT NULL DEFAULT 'GPL 2.0 or later',
@@ -35,7 +35,7 @@ CREATE TABLE `tdmcreate_settings` (
   `set_image`               VARCHAR(255)        NOT NULL DEFAULT 'empty.png',
   `set_demo_site_url`       VARCHAR(255)        NOT NULL DEFAULT 'http://www.xoops.org',
   `set_demo_site_name`      VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Demo Site',
-  `set_support_url`         VARCHAR(255)        NOT NULL DEFAULT 'http://xoops.org/modules/newbb',
+  `set_support_url`         VARCHAR(255)        NOT NULL DEFAULT 'https://xoops.org/modules/newbb',
   `set_support_name`        VARCHAR(255)        NOT NULL DEFAULT 'Support Forum',
   `set_website_url`         VARCHAR(255)        NOT NULL DEFAULT 'www.xoops.org',
   `set_website_name`        VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Project',
@@ -55,7 +55,7 @@ CREATE TABLE `tdmcreate_settings` (
   PRIMARY KEY (`set_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
-INSERT INTO `tdmcreate_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`) VALUES (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '5.3', '2.5.7', '1.1', '5.1', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 3.0 or later', 'release_info', 'release_info file', 'link to manual file', 'install.txt', 'empty.png', 'http://www.xoops.org', 'XOOPS Demo Site', 'http://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project', '2015-05-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070', 1);
+INSERT INTO `tdmcreate_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`) VALUES (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '5.3', '2.5.7', '1.1', '5.1', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'https://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 3.0 or later', 'release_info', 'release_info file', 'link to manual file', 'install.txt', 'empty.png', 'http://www.xoops.org', 'XOOPS Demo Site', 'https://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project', '2015-05-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070', 1);
 
 #
 # Table structure for table `tdmcreate_modules` 39

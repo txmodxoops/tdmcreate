@@ -5,6 +5,6 @@
 </div>
 <div class='center smallsmall italic pad5'>
   <{$maintained}>
-    <a href='http://xoops.org/forums/newbb' title='Visit Support Forum' class='tooltip' rel='external'>
+    <a href='https://xoops.org/forums/newbb' title='Visit Support Forum' class='tooltip' rel='external'>
       <{$smarty.const._AM_TDMCREATE_SUPPORT_FORUM}></a>
 </div>

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -157,12 +157,12 @@ class TDMCreateHelper
      */
     public function &getHandler($name)
     {
-        if (!isset($this->handler[$name.'_handler'])) {
+        if (!isset($this->handler[$name.'Handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name.'_handler'];
+        return $this->handler[$name.'Handler'];
     }
 
     /*
@@ -202,7 +202,7 @@ class TDMCreateHelper
     public function initHandler($name)
     {
         $this->addLog('INIT '.$name.' HANDLER');
-        $this->handler[$name.'_handler'] = xoops_getModuleHandler($name, $this->dirname);
+        $this->handler[$name.'Handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
     /*

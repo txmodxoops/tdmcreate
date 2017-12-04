@@ -11,7 +11,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -29,7 +29,7 @@ $modversion['name'] = _MI_TDMCREATE_NAME;
 $modversion['version'] = 1.91;
 $modversion['description'] = _MI_TDMCREATE_DESC;
 $modversion['author'] = 'Xoops TDM';
-$modversion['author_website_url'] = 'http://xoops.org/';
+$modversion['author_website_url'] = 'https://xoops.org/';
 $modversion['author_website_name'] = 'Xoops Team Developers Module';
 $modversion['credits'] = 'Mamba(Xoops), Timgno(Txmod Xoops), Goffy(German Xoops)';
 $modversion['help'] = 'page=help';
@@ -61,9 +61,9 @@ $modversion['min_xoops'] = '2.5.7';
 $modversion['min_admin'] = '1.1';
 $modversion['min_db'] = array('mysql' => '5.5', 'mysqli' => '5.5');
 //about
-$modversion['demo_site_url'] = 'http://xoops.org/';
+$modversion['demo_site_url'] = 'https://xoops.org/';
 $modversion['demo_site_name'] = 'Xoops TDM';
-$modversion['forum_site_url'] = 'http://xoops.org/modules/newbb/viewtopic.php?post_id=358118';
+$modversion['forum_site_url'] = 'https://xoops.org/modules/newbb/viewtopic.php?post_id=358118';
 $modversion['forum_site_name'] = 'TDMCreate 1.91 alpha for Testing';
 $modversion['module_website_name'] = 'Xoops TDM';
 // Admin things
@@ -334,7 +334,7 @@ $modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_URL';
 $modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
 $modversion['config'][$c]['formtype'] = 'textbox';
 $modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'http://xoops.org';
+$modversion['config'][$c]['default'] = 'https://xoops.org';
 ++$c;
 $modversion['config'][$c]['name'] = 'author_website_name';
 $modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_NAME';
@@ -418,7 +418,7 @@ $modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SUPPORT_URL';
 $modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
 $modversion['config'][$c]['formtype'] = 'textbox';
 $modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'http://xoops.org/modules/newbb';
+$modversion['config'][$c]['default'] = 'https://xoops.org/modules/newbb';
 ++$c;
 $modversion['config'][$c]['name'] = 'support_name';
 $modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SUPPORT_NAME';

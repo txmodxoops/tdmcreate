@@ -13,7 +13,7 @@
 /**
  * settings class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -145,7 +145,7 @@ class TDMCreateSettings extends XoopsObject
 
         include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
 
-        $form = new XoopsThemeForm($title, 'settingform', $action, 'post');
+        $form = new XoopsThemeForm($title, 'settingform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         $form->addElement(new XoopsFormHidden('set_id', $this->getVar('set_id')));
@@ -291,9 +291,9 @@ class TDMCreateSettings extends XoopsObject
 class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
         parent::__construct($db, 'tdmcreate_settings', 'tdmcreatesettings', 'set_id', 'set_name');
     }

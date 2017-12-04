@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -75,7 +75,7 @@ class IncludeComments extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename.'.php');
         $content .= <<<EOT
-include_once '../../mainfile.php';
+include_once __DIR__ . '/../../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/include/{$filename}.php';
 EOT;
         $this->create($moduleDirname, 'include', $filename.'.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
@@ -103,7 +103,7 @@ EOT;
         }
         $content = $this->getHeaderFilesComments($module, $filename.'.php');
         $content .= <<<EOT
-include '../../mainfile.php';
+include __DIR__ . '/../../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
 \$com_itemid = isset(\$_REQUEST['com_itemid']) ? (int) (\$_REQUEST['com_itemid']) : 0;
 if (\$com_itemid > 0) {

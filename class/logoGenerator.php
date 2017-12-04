@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -25,7 +25,7 @@ include_once dirname(dirname(dirname(__DIR__))).'/mainfile.php';
 //include_once XOOPS_ROOT_PATH . '/modules/TDMCreate/include/common.php';
 
 if (function_exists($_GET['f'])) { // get function name and parameter  $_GET['f']($_GET["p"]);
-    include_once 'logoGenerator.php';
+    include_once __DIR__ . '/logoGenerator.php';
     $ret = logoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
     phpFunction($ret);
 } else {
