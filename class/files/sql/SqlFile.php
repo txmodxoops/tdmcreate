@@ -80,7 +80,7 @@ class SqlFile extends TDMCreateFile
         $time = date('H:i:s');
         $serverName = $_SERVER['SERVER_NAME'];
         $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
-        $phpVersion = phpversion();
+        $phpVersion = PHP_VERSION;
         // Header Sql Comments
         $ret = null;
         $arrayServerInfo = [
