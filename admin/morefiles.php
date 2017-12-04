@@ -90,11 +90,12 @@ switch ($op) {
             $morefilesObj = $tdmcreate->getHandler('morefiles')->create();
         }
         // Form file save
-        $morefilesObj->setVars(array(
+        $morefilesObj->setVars([
                                  'file_mid' => $_POST['file_mid'],
                                  'file_name' => $_POST['file_name'],
                                  'file_extension' => $_POST['file_extension'],
-                                 'file_infolder' => $_POST['file_infolder'], ));
+                                 'file_infolder' => $_POST['file_infolder'],
+                               ]);
 
         if ($tdmcreate->getHandler('morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
@@ -135,7 +136,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'file_id' => $fileId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
+            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
         }
         break;
 }

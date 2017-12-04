@@ -280,7 +280,7 @@ class ClassFiles extends TDMCreateFile
         $getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
         $xUser = $pc->getPhpCodeGlobals('xoopsUser');
         $xModule = $pc->getPhpCodeGlobals('xoopsModule');
-        if ((1 != $tableCategory)/* && (1 == $tablePermissions)*/) {
+        if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm .= $pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
             $getForm .= $pc->getPhpCodeTernaryOperator('groups', 'is_object('.$xUser.')', $xUser.'->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");

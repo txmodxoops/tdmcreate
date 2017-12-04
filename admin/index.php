@@ -36,17 +36,17 @@ $adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'<
 $adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields), 'Gray');
 $adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles), 'Red');
 // Upload Folders
-$folder = array(
+$folder = [
         TDMC_UPLOAD_PATH,
         TDMC_UPLOAD_REPOSITORY_PATH,
         TDMC_UPLOAD_IMGMOD_PATH,
         TDMC_UPLOAD_IMGTAB_PATH,
-);
+];
 
 // Uploads Folders Created
 foreach (array_keys($folder) as $i) {
     $adminMenu->addConfigBoxLine($folder[$i], 'folder');
-    $adminMenu->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    $adminMenu->addConfigBoxLine([$folder[$i], '777'], 'chmod');
 }
 
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('index.php'));

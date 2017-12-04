@@ -83,10 +83,12 @@ class SqlFile extends TDMCreateFile
         $phpVersion = phpversion();
         // Header Sql Comments
         $ret = null;
-        $arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4',
-                                 '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}",
-                                 "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}",
-                                 "# PHP Version: {$phpVersion}\n", );
+        $arrayServerInfo = [
+            "# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4',
+            '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}",
+            "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}",
+            "# PHP Version: {$phpVersion}\n",
+        ];
         foreach ($arrayServerInfo as $serverInfo) {
             $ret .= $this->getSimpleString($serverInfo);
         }
@@ -107,8 +109,10 @@ class SqlFile extends TDMCreateFile
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
         $ret = null;
-        $arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
-                              '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (", );
+        $arrayDbTable = [
+            '#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
+            '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (",
+        ];
         foreach ($arrayDbTable as $dbTable) {
             $ret .= $this->getSimpleString($dbTable);
         }
@@ -156,8 +160,8 @@ class SqlFile extends TDMCreateFile
         $tdmcreate = TDMCreateHelper::getInstance();
         $ret = null;
         $j = 0;
-        $comma = array();
-        $row = array();
+        $comma = [];
+        $row = [];
         $type = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {

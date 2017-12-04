@@ -96,12 +96,12 @@ class TemplatesUserBroken extends TDMCreateFile
             $stuFieldName = strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 $const = $hc->getSmartyConst($language, $stuFieldName);
-                $th .= $hc->getHtmlTag('th', array('class' => 'center'), $const).PHP_EOL;
+                $th .= $hc->getHtmlTag('th', ['class' => 'center'], $const) . PHP_EOL;
             }
         }
-        $tr = $hc->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $tr = $hc->getHtmlTag('tr', ['class' => 'head'], $th) . PHP_EOL;
 
-        return $hc->getHtmlTag('thead', array('class' => 'outer'), $tr).PHP_EOL;
+        return $hc->getHtmlTag('thead', ['class' => 'outer'], $tr) . PHP_EOL;
     }
 
     /**

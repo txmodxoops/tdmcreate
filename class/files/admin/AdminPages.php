@@ -93,7 +93,7 @@ class AdminPages extends TDMCreateFile
      *
      * @return string
      */
-    private function getAdminPagesSwitch($cases = array())
+    private function getAdminPagesSwitch($cases = [])
     {
         $pc = TDMCreatePhpCode::getInstance();
         $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
@@ -403,11 +403,13 @@ class AdminPages extends TDMCreateFile
         }
         $delete = $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, "\t\t");
 
-        $cases = array('list' => array($list),
-                        'new' => array($new),
-                        'save' => array($save),
-                        'edit' => array($edit),
-                        'delete' => array($delete), );
+        $cases = [
+            'list'   => [$list],
+            'new'    => [$new],
+            'save'   => [$save],
+            'edit'   => [$edit],
+            'delete' => [$delete],
+        ];
         $content .= $this->getAdminPagesSwitch($cases);
         $content .= $this->getInclude('footer');
 

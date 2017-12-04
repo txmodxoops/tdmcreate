@@ -129,8 +129,10 @@ class ClassFormElements extends TDMCreateAbstract
         $ret = $pc->getPhpCodeCommentLine('Form editor', $ucfFieldName, "\t\t");
         $ret .= $pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
         $getConfig = $xc->getXcGetConfig($moduleDirname, $moduleDirname.'_editor_'.$rpFieldName);
-        $configs = array('name' => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
-                        'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig, );
+        $configs = [
+            'name'  => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
+            'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig,
+        ];
         foreach ($configs as $c => $d) {
             $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d,  null, false, "\t\t");
         }
@@ -663,7 +665,7 @@ class ClassFormElements extends TDMCreateAbstract
         $fieldIdTopic = '';
         $fieldPidTopic = '';
         $fieldMainTopic = '';
-        $fieldElementId = array();
+        $fieldElementId = [];
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');

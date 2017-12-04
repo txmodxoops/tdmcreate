@@ -105,8 +105,10 @@ class UserRate extends TDMCreateFile
     private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = array('form' => array($this->getUserRateForm($tableName, $language)),
-                    'save' => array($this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)), );
+        $cases = [
+            'form' => [$this->getUserRateForm($tableName, $language)],
+            'save' => [$this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
+        ];
 
         return $this->xc->getXcSwitch('op', $cases, true);
     }

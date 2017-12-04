@@ -62,7 +62,7 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('base_architecture', false);
         }
         // Get files
-        $build = array();
+        $build = [];
         $files = $handler->setFilesToBuilding($moduleObj);
         foreach ($files as $file) {
             if ($file) {

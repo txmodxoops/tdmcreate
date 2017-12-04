@@ -99,8 +99,10 @@ class AdminPermissions extends TDMCreateFile
         $ret .= $xc->getXcTplAssign('navigation', "\$adminMenu->addNavigation('permissions.php')");
         $ret .= $xc->getXcXoopsRequest('op', 'op', 'global');
         $ret .= $xc->getXcLoad('XoopsFormLoader');
-        $optionsSelect = array('global' => "{$language}PERMISSIONS_GLOBAL", 'approve' => "{$language}PERMISSIONS_APPROVE",
-                                'submit' => "{$language}PERMISSIONS_SUBMIT", 'view' => "{$language}PERMISSIONS_VIEW", );
+        $optionsSelect = [
+            'global' => "{$language}PERMISSIONS_GLOBAL", 'approve' => "{$language}PERMISSIONS_APPROVE",
+            'submit' => "{$language}PERMISSIONS_SUBMIT", 'view' => "{$language}PERMISSIONS_VIEW",
+        ];
         $formSelect = $xc->getXoopsFormSelectExtraOptions('formSelect', '\'\'', 'op', $optionsSelect, 'onchange="document.fselperm.submit()"');
         $ret .= $cc->getXoopsSimpleForm('permTableForm', 'formSelect', $formSelect, '\'\'', 'fselperm', 'permissions');
 
@@ -117,19 +119,29 @@ class AdminPermissions extends TDMCreateFile
     private function getPermissionsSwitch($moduleDirname, $language)
     {
         $pc = TDMCreatePhpCode::getInstance();
-        $cases = array('global' => array("\$formTitle = {$language}PERMISSIONS_GLOBAL;",
-                                        "\$permName = '{$moduleDirname}_ac';",
-                                        "\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;",
-                                        "\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );", ),
-                        'approve' => array("\$formTitle = {$language}PERMISSIONS_APPROVE;",
-                                        "\$permName = '{$moduleDirname}_approve';",
-                                        "\$permDesc = {$language}PERMISSIONS_APPROVE_DESC;", ),
-                        'submit' => array("\$formTitle = {$language}PERMISSIONS_SUBMIT;",
-                                        "\$permName = '{$moduleDirname}_submit';",
-                                        "\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC;", ),
-                        'view' => array("\$formTitle = {$language}PERMISSIONS_VIEW;",
-                                        "\$permName = '{$moduleDirname}_view';",
-                                        "\$permDesc = {$language}PERMISSIONS_VIEW_DESC;", ), );
+        $cases = [
+            'global'  => [
+                "\$formTitle = {$language}PERMISSIONS_GLOBAL;",
+                "\$permName = '{$moduleDirname}_ac';",
+                "\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;",
+                "\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );",
+            ],
+            'approve' => [
+                "\$formTitle = {$language}PERMISSIONS_APPROVE;",
+                "\$permName = '{$moduleDirname}_approve';",
+                "\$permDesc = {$language}PERMISSIONS_APPROVE_DESC;",
+            ],
+            'submit'  => [
+                "\$formTitle = {$language}PERMISSIONS_SUBMIT;",
+                "\$permName = '{$moduleDirname}_submit';",
+                "\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC;",
+            ],
+            'view'    => [
+                "\$formTitle = {$language}PERMISSIONS_VIEW;",
+                "\$permName = '{$moduleDirname}_view';",
+                "\$permDesc = {$language}PERMISSIONS_VIEW_DESC;",
+            ],
+        ];
 
         $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, true, false, "\t");
 

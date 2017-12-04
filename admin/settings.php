@@ -84,7 +84,7 @@ switch ($op) {
         }
         $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save
-        $settingsObj->setVars(array(
+        $settingsObj->setVars([
                                  'set_name' => $_POST['set_name'],
                                  'set_dirname' => $setModuleDirname,
                                  'set_version' => $_POST['set_version'],
@@ -103,11 +103,12 @@ switch ($op) {
                                  'set_release_info' => $_POST['set_release_info'],
                                  'set_release_file' => $_POST['set_release_file'],
                                  'set_manual' => $_POST['set_manual'],
-                                 'set_manual_file' => $_POST['set_manual_file'], ));
+                                 'set_manual_file' => $_POST['set_manual_file'],
+                              ]);
         //Form set_image
         $settingsObj->setVar('set_image', $_POST['set_image']);
         //Form module save
-        $settingsObj->setVars(array(
+        $settingsObj->setVars([
                                  'set_demo_site_url' => $_POST['set_demo_site_url'],
                                  'set_demo_site_name' => $_POST['set_demo_site_name'],
                                  'set_support_url' => $_POST['set_support_url'],
@@ -117,9 +118,10 @@ switch ($op) {
                                  'set_release' => $_POST['set_release'],
                                  'set_status' => $_POST['set_status'],
                                  'set_donations' => $_POST['set_donations'],
-                                 'set_subversion' => $_POST['set_subversion'], )
+                                 'set_subversion' => $_POST['set_subversion'],
+                              ]
         );
-        $settingOption = XoopsRequest::getArray('setting_option', array());
+        $settingOption = XoopsRequest::getArray('setting_option', []);
         $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
         $settingsObj->setVar('set_user', in_array('user', $settingOption));
         $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption));
@@ -162,7 +164,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'set_id' => $setId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $settingsObj->getVar('set_name')));
+            xoops_confirm(['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $settingsObj->getVar('set_name')));
         }
         break;
     case 'display':

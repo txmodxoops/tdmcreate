@@ -61,10 +61,10 @@ class TDMCreateSmartyCode
      * @param string $t
      * @return string
      */
-    public function getSmartyTag($tag = '', $attributes = array(), $content = '', $t = '')
+    public function getSmartyTag($tag = '', $attributes = [], $content = '', $t = '')
     {
         if (empty($attributes)) {
-            $attributes = array();
+            $attributes = [];
         }
         $attr = $this->getAttributes($attributes);
         $ret = "{$t}<{{$tag}{$attr}}>{$content}<{/{$tag}}>";

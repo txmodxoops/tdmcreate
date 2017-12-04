@@ -36,7 +36,7 @@ class TDMCreateSettings extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $options = [
         'admin',
         'user',
         'blocks',
@@ -45,7 +45,7 @@ class TDMCreateSettings extends XoopsObject
         'notifications',
         'permissions',
         'inroot_copy',
-    );
+    ];
 
     /**
      *  @public function constructor class
@@ -259,7 +259,7 @@ class TDMCreateSettings extends XoopsObject
      */
     private function getOptionsSettings()
     {
-        $retSet = array();
+        $retSet = [];
         foreach ($this->options as $option) {
             if ($this->getVar('set_'.$option) == 1) {
                 array_push($retSet, $option);

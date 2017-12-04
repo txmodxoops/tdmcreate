@@ -101,7 +101,7 @@ class TDMCreateSession
      */
     public function destroySession()
     {
-        $_SESSION = array();
+        $_SESSION = [];
         session_destroy();
     }
 }

@@ -117,7 +117,7 @@ class UserXoopsCode
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
         $stuTableName = strtoupper($tableName);
-        $title = array("'title'" => "{$language}{$stuTableName}");
+        $title = ["'title'" => "{$language}{$stuTableName}"];
         $pCodeBreadcrumbs = TDMCreatePhpCode::getInstance();
 
         return $pCodeBreadcrumbs->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
@@ -138,7 +138,7 @@ class UserXoopsCode
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $titleLink = array("'title'" => $language.'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'");
+        $titleLink = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
@@ -176,7 +176,7 @@ class UserXoopsCode
         $ret = '';
         $mv = $t.'$modversion';
         if (!is_array($descriptions)) {
-            $descs = array($descriptions);
+            $descs = [$descriptions];
         } else {
             $descs = $descriptions;
         }

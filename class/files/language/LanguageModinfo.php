@@ -101,7 +101,7 @@ class LanguageModinfo extends TDMCreateFile
         $menu = 1;
         $ret = $df->getAboveHeadDefines('Admin Menu');
         $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Dashboard');
-        $tablePermissions = array();
+        $tablePermissions = [];
         foreach (array_keys($tables) as $i) {
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
@@ -146,7 +146,7 @@ class LanguageModinfo extends TDMCreateFile
         $df = LanguageDefines::getInstance();
         $ret = $df->getAboveDefines('Submenu');
         $i = 1;
-        $tableSubmit = array();
+        $tableSubmit = [];
         foreach (array_keys($tables) as $t) {
             $tableName = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
@@ -235,7 +235,7 @@ class LanguageModinfo extends TDMCreateFile
         $ret = $df->getAboveDefines('Config');
         if (is_object($table) && $table->getVar('table_image') != '') {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-            $fieldElement = array();
+            $fieldElement = [];
             foreach (array_keys($fields) as $f) {
                 $fieldElement[] = $fields[$f]->getVar('field_element');
                 if (in_array(4, $fieldElement)) {
@@ -269,8 +269,10 @@ class LanguageModinfo extends TDMCreateFile
                 $ret .= $df->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
             }
         }
-        $getDefinesConf = array('NUMB_COL' => 'Number Columns', 'NUMB_COL_DESC' => 'Number Columns to View.', 'DIVIDEBY' => 'Divide By', 'DIVIDEBY_DESC' => 'Divide by columns number.',
-                                'TABLE_TYPE' => 'Table Type', 'TABLE_TYPE_DESC' => 'Table Type is the bootstrap html table.', 'PANEL_TYPE' => 'Panel Type', 'PANEL_TYPE_DESC' => 'Panel Type is the bootstrap html div.', 'IDPAYPAL' => 'Paypal ID', 'IDPAYPAL_DESC' => 'Insert here your PayPal ID for donactions.', 'ADVERTISE' => 'Advertisement Code', 'ADVERTISE_DESC' => 'Insert here the advertisement code', 'MAINTAINEDBY' => 'Maintained By', 'MAINTAINEDBY_DESC' => 'Allow url of support site or community', 'BOOKMARKS' => 'Social Bookmarks', 'BOOKMARKS_DESC' => 'Show Social Bookmarks in the single page', 'FACEBOOK_COMMENTS' => 'Facebook comments', 'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page', 'DISQUS_COMMENTS' => 'Disqus comments', 'DISQUS_COMMENTS_DESC' => 'Allow Disqus comments in the single page', );
+        $getDefinesConf = [
+            'NUMB_COL'   => 'Number Columns', 'NUMB_COL_DESC' => 'Number Columns to View.', 'DIVIDEBY' => 'Divide By', 'DIVIDEBY_DESC' => 'Divide by columns number.',
+            'TABLE_TYPE' => 'Table Type', 'TABLE_TYPE_DESC' => 'Table Type is the bootstrap html table.', 'PANEL_TYPE' => 'Panel Type', 'PANEL_TYPE_DESC' => 'Panel Type is the bootstrap html div.', 'IDPAYPAL' => 'Paypal ID', 'IDPAYPAL_DESC' => 'Insert here your PayPal ID for donactions.', 'ADVERTISE' => 'Advertisement Code', 'ADVERTISE_DESC' => 'Insert here the advertisement code', 'MAINTAINEDBY' => 'Maintained By', 'MAINTAINEDBY_DESC' => 'Allow url of support site or community', 'BOOKMARKS' => 'Social Bookmarks', 'BOOKMARKS_DESC' => 'Show Social Bookmarks in the single page', 'FACEBOOK_COMMENTS' => 'Facebook comments', 'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page', 'DISQUS_COMMENTS' => 'Disqus comments', 'DISQUS_COMMENTS_DESC' => 'Allow Disqus comments in the single page',
+        ];
         foreach ($getDefinesConf as $defc => $descc) {
             $ret .= $df->getDefine($language, $defc, $descc);
         }
@@ -291,8 +293,10 @@ class LanguageModinfo extends TDMCreateFile
         $ret = $df->getAboveDefines('Notifications');
         $stuTableSoleName = strtoupper($tableSoleName);
         $ucfTableSoleName = ucfirst($tableSoleName);
-        $getDefinesNotif = array('GLOBAL_NOTIFY' => 'Global notify', 'GLOBAL_NOTIFY_DESC' => 'Global notify desc', 'CATEGORY_NOTIFY' => 'Category notify',
-                                'CATEGORY_NOTIFY_DESC' => 'Category notify desc', $stuTableSoleName.'_NOTIFY' => $ucfTableSoleName.' notify', $stuTableSoleName.'_NOTIFY_DESC' => $ucfTableSoleName.' notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY' => 'Global newcategory notify', 'GLOBAL_NEWCATEGORY_NOTIFY_CAPTION' => 'Global newcategory notify caption', 'GLOBAL_NEWCATEGORY_NOTIFY_DESC' => 'Global newcategory notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY_SUBJECT' => 'Global newcategory notify subject', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY' => 'Global '.$tableSoleName.'modify notify', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY_CAPTION' => 'Global '.$tableSoleName.' modify notify caption', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY_DESC' => 'Global '.$tableSoleName.'modify notify desc', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY_SUBJECT' => 'Global '.$tableSoleName.' modify notify subject', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY' => 'Global '.$tableSoleName.' broken notify', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY_CAPTION' => 'Global '.$tableSoleName.'broken notify caption', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY_DESC' => 'Global '.$tableSoleName.'broken notify desc', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY_SUBJECT' => 'Global '.$tableSoleName.'broken notify subject', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY' => 'Global '.$tableSoleName.' submit notify', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY_CAPTION' => 'Global '.$tableSoleName.' submit notify caption', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY_DESC' => 'Global '.$tableSoleName.'submit notify desc', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY_SUBJECT' => 'Global '.$tableSoleName.'submit notify subject', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY' => 'Global new'.$tableSoleName.' notify', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY_CAPTION' => 'Global new'.$tableSoleName.' notify caption', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY_DESC' => 'Global new'.$tableSoleName.' notify desc', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY_SUBJECT' => 'Global new'.$tableSoleName.' notify subject', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY' => 'Category '.$tableSoleName.'submit notify', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY_CAPTION' => 'Category '.$tableSoleName.' submit notify caption', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY_DESC' => 'Category '.$tableSoleName.' submit notify desc', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY_SUBJECT' => 'Category '.$tableSoleName.' submit notify subject', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY' => 'Category new'.$tableSoleName.' notify', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY_CAPTION' => 'Category new'.$tableSoleName.' notify caption', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY_DESC' => 'Category new'.$tableSoleName.' notify desc', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY_SUBJECT' => 'Category new'.$tableSoleName.' notify subject', $stuTableSoleName.'_APPROVE_NOTIFY' => $ucfTableSoleName.' approve notify', $stuTableSoleName.'_APPROVE_NOTIFY_CAPTION' => $ucfTableSoleName.' approve notify caption', $stuTableSoleName.'_APPROVE_NOTIFY_DESC' => $ucfTableSoleName.' approve notify desc', $stuTableSoleName.'_APPROVE_NOTIFY_SUBJECT' => $ucfTableSoleName.' approve notify subject', );
+        $getDefinesNotif = [
+            'GLOBAL_NOTIFY'        => 'Global notify', 'GLOBAL_NOTIFY_DESC' => 'Global notify desc', 'CATEGORY_NOTIFY' => 'Category notify',
+            'CATEGORY_NOTIFY_DESC' => 'Category notify desc', $stuTableSoleName.'_NOTIFY' => $ucfTableSoleName.' notify', $stuTableSoleName.'_NOTIFY_DESC' => $ucfTableSoleName.' notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY' => 'Global newcategory notify', 'GLOBAL_NEWCATEGORY_NOTIFY_CAPTION' => 'Global newcategory notify caption', 'GLOBAL_NEWCATEGORY_NOTIFY_DESC' => 'Global newcategory notify desc', 'GLOBAL_NEWCATEGORY_NOTIFY_SUBJECT' => 'Global newcategory notify subject', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY' => 'Global '.$tableSoleName.'modify notify', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY_CAPTION' => 'Global '.$tableSoleName.' modify notify caption', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY_DESC' => 'Global '.$tableSoleName.'modify notify desc', 'GLOBAL_'.$stuTableSoleName.'MODIFY_NOTIFY_SUBJECT' => 'Global '.$tableSoleName.' modify notify subject', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY' => 'Global '.$tableSoleName.' broken notify', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY_CAPTION' => 'Global '.$tableSoleName.'broken notify caption', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY_DESC' => 'Global '.$tableSoleName.'broken notify desc', 'GLOBAL_'.$stuTableSoleName.'BROKEN_NOTIFY_SUBJECT' => 'Global '.$tableSoleName.'broken notify subject', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY' => 'Global '.$tableSoleName.' submit notify', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY_CAPTION' => 'Global '.$tableSoleName.' submit notify caption', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY_DESC' => 'Global '.$tableSoleName.'submit notify desc', 'GLOBAL_'.$stuTableSoleName.'SUBMIT_NOTIFY_SUBJECT' => 'Global '.$tableSoleName.'submit notify subject', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY' => 'Global new'.$tableSoleName.' notify', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY_CAPTION' => 'Global new'.$tableSoleName.' notify caption', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY_DESC' => 'Global new'.$tableSoleName.' notify desc', 'GLOBAL_NEW'.$stuTableSoleName.'_NOTIFY_SUBJECT' => 'Global new'.$tableSoleName.' notify subject', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY' => 'Category '.$tableSoleName.'submit notify', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY_CAPTION' => 'Category '.$tableSoleName.' submit notify caption', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY_DESC' => 'Category '.$tableSoleName.' submit notify desc', 'CATEGORY_'.$stuTableSoleName.'SUBMIT_NOTIFY_SUBJECT' => 'Category '.$tableSoleName.' submit notify subject', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY' => 'Category new'.$tableSoleName.' notify', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY_CAPTION' => 'Category new'.$tableSoleName.' notify caption', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY_DESC' => 'Category new'.$tableSoleName.' notify desc', 'CATEGORY_NEW'.$stuTableSoleName.'_NOTIFY_SUBJECT' => 'Category new'.$tableSoleName.' notify subject', $stuTableSoleName.'_APPROVE_NOTIFY' => $ucfTableSoleName.' approve notify', $stuTableSoleName.'_APPROVE_NOTIFY_CAPTION' => $ucfTableSoleName.' approve notify caption', $stuTableSoleName.'_APPROVE_NOTIFY_DESC' => $ucfTableSoleName.' approve notify desc', $stuTableSoleName.'_APPROVE_NOTIFY_SUBJECT' => $ucfTableSoleName.' approve notify subject',
+        ];
         foreach ($getDefinesNotif as $defn => $descn) {
             $ret .= $df->getDefine($language, $defn, $descn);
         }
@@ -341,12 +345,12 @@ class LanguageModinfo extends TDMCreateFile
         $module = $this->getModule();
         $table = $this->getTable();
         $tables = $this->getTableTables($module->getVar('mod_id'));
-        $tableAdmin = array();
-        $tableUser = array();
-        $tableSubmenu = array();
-        $tableBlocks = array();
-        $tableNotifications = array();
-        $tablePermissions = array();
+        $tableAdmin = [];
+        $tableUser = [];
+        $tableSubmenu = [];
+        $tableBlocks = [];
+        $tableNotifications = [];
+        $tablePermissions = [];
         foreach (array_keys($tables) as $t) {
             $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableAdmin[] = $tables[$t]->getVar('table_admin');

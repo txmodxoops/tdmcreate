@@ -59,7 +59,7 @@ $modversion['module_status'] = 'Alpha 3.4';
 $modversion['min_php'] = '5.3';
 $modversion['min_xoops'] = '2.5.7';
 $modversion['min_admin'] = '1.1';
-$modversion['min_db'] = array('mysql' => '5.5', 'mysqli' => '5.5');
+$modversion['min_db'] = ['mysql' => '5.5', 'mysqli' => '5.5'];
 //about
 $modversion['demo_site_url'] = 'https://xoops.org/';
 $modversion['demo_site_name'] = 'Xoops TDM';
@@ -72,18 +72,18 @@ $modversion['hasAdmin'] = 1;
 $modversion['adminindex'] = 'admin/index.php';
 $modversion['adminmenu'] = 'admin/menu.php';
 // Templates admin
-$modversion['templates'][] = array('file' => 'tdmcreate_about.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_building.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_fields.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_fields_item.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_footer.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_header.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_index.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_modules.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_tables.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_tables_item.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_settings.tpl', 'description' => '', 'type' => 'admin');
-$modversion['templates'][] = array('file' => 'tdmcreate_morefiles.tpl', 'description' => '', 'type' => 'admin');
+$modversion['templates'][] = ['file' => 'tdmcreate_about.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_building.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_fields.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_fields_item.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_footer.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_header.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_index.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_modules.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_tables.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_tables_item.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_settings.tpl', 'description' => '', 'type' => 'admin'];
+$modversion['templates'][] = ['file' => 'tdmcreate_morefiles.tpl', 'description' => '', 'type' => 'admin'];
 // Mysql file
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 // Tables

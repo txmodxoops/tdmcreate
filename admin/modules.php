@@ -89,7 +89,7 @@ switch ($op) {
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
         //Form module save
-        $modulesObj->setVars(array(
+        $modulesObj->setVars([
                                  'mod_name' => $_POST['mod_name'],
                                  'mod_dirname' => $moduleDirname,
                                  'mod_version' => $_POST['mod_version'],
@@ -108,7 +108,8 @@ switch ($op) {
                                  'mod_release_info' => $_POST['mod_release_info'],
                                  'mod_release_file' => $_POST['mod_release_file'],
                                  'mod_manual' => $_POST['mod_manual'],
-                                 'mod_manual_file' => $_POST['mod_manual_file'], ));
+                                 'mod_manual_file' => $_POST['mod_manual_file'],
+                             ]);
         //Form mod_image
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         $uploader = new XoopsMediaUploader(TDMC_UPLOAD_IMGMOD_PATH, $tdmcreate->getConfig('mimetypes'),
@@ -125,7 +126,7 @@ switch ($op) {
             $modulesObj->setVar('mod_image', $_POST['mod_image']);
         }
         //Form module save
-        $modulesObj->setVars(array(
+        $modulesObj->setVars([
                                  'mod_demo_site_url' => $_POST['mod_demo_site_url'],
                                  'mod_demo_site_name' => $_POST['mod_demo_site_name'],
                                  'mod_support_url' => $_POST['mod_support_url'],
@@ -135,9 +136,10 @@ switch ($op) {
                                  'mod_release' => $_POST['mod_release'],
                                  'mod_status' => $_POST['mod_status'],
                                  'mod_donations' => $_POST['mod_donations'],
-                                 'mod_subversion' => $_POST['mod_subversion'], )
+                                 'mod_subversion' => $_POST['mod_subversion'],
+                             ]
         );
-        $moduleOption = XoopsRequest::getArray('module_option', array());
+        $moduleOption = XoopsRequest::getArray('module_option', []);
         $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
         $modulesObj->setVar('mod_user', in_array('user', $moduleOption));
         $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption));
@@ -186,12 +188,12 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'mod_id' => $modId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
+            xoops_confirm(['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
         }
         break;
 
     case 'display':
-        $modFieldArray = array('admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions');
+        $modFieldArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
         $id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);

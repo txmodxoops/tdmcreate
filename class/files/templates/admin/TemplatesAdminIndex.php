@@ -78,7 +78,7 @@ class TemplatesAdminIndex extends TDMCreateFile
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
         $content .= $hc->getHtmlComment('Index Page').PHP_EOL;
         $single = $hc->getSmartySingleVar('index');
-        $content .= $hc->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
+        $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
         $content .= $hc->getHtmlComment('Footer').PHP_EOL;
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 

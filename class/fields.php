@@ -325,7 +325,7 @@ class TDMCreateFields extends XoopsObject
         $id = 1;
         foreach ($fields as $field) {
             $class = ($class === 'even') ? 'odd' : 'even';
-            $fieldId = (int) ($field->getVar('field_id'));
+            $fieldId = (int)$field->getVar('field_id');
             if ($id > $fieldNumb) {   // delete additional fields, if number of fields is reduced - goffy
                 $fieldsObj = &$tdmcreate->getHandler('fields')->get($fieldId);
                 $tdmcreate->getHandler('fields')->delete($fieldsObj, true);

@@ -502,9 +502,11 @@ class TDMCreateFile extends TDMCreateTableFields
         fclose($handle);
         $ret .= $data."\n";
         $ret .= "*/\n";
-        $copyright = array($name => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
-                            '@since    ' => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$", );
+        $copyright = [
+            $name          => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
+            '@since    '   => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
+            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+        ];
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;

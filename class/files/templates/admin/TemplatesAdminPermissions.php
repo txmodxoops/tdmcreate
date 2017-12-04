@@ -85,8 +85,8 @@ class TemplatesAdminPermissions extends TDMCreateFile
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $form = $hc->getSmartySingleVar('form');
-        $ret = $hc->getHtmlTag('div', array('class' => 'spacer'), $form).PHP_EOL;
-        $ret .= $hc->getHtmlTag('br', array(), '', false).PHP_EOL;
+        $ret = $hc->getHtmlTag('div', ['class' => 'spacer'], $form) . PHP_EOL;
+        $ret .= $hc->getHtmlTag('br', [], '', false) . PHP_EOL;
 
         return $ret;
     }

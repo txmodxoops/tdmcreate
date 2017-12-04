@@ -54,7 +54,7 @@ class TDMCreateXoopsCode
      *
      * @return string
      */
-    public function getXcSwitch($op = '', $cases = array(), $defaultAfterCase = false, $default = false, $t = '')
+    public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
         $pc = TDMCreatePhpCode::getInstance();
         $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
@@ -414,7 +414,7 @@ class TDMCreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true, $t = '')
+    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = [], $setExtra = true, $t = '')
     {
         $ret = "{$t}\${$varSelect} = new XoopsFormSelect({$caption}, '{$var}', \${$var});\n";
         if (false !== $setExtra) {

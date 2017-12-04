@@ -109,7 +109,7 @@ EOT;
         $ret .= self::getCommonDefines($moduleDirname, 'UPLOAD_URL', "XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME");
 
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldElement = array();
+        $fieldElement = [];
         foreach (array_keys($fields) as $f) {
             $fieldElement[] = $fields[$f]->getVar('field_element');
         }

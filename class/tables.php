@@ -32,7 +32,7 @@ class TDMCreateTables extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $options = [
         'install',
         'index',
         'blocks',
@@ -52,7 +52,7 @@ class TDMCreateTables extends XoopsObject
         'rss',
         'single',
         'visit',
-    );
+    ];
 
     /**
     *  @public function constructor class
@@ -271,7 +271,7 @@ class TDMCreateTables extends XoopsObject
      */
     public function getOptionsTables()
     {
-        $retTable = array();
+        $retTable = [];
         foreach ($this->options as $option) {
             if ($this->getVar('table_'.$option) == 1) {
                 array_push($retTable, $option);

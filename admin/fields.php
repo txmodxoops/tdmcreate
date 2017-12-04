@@ -63,18 +63,18 @@ switch ($op) {
             foreach (array_keys($tablesAll) as $tid) {
                 // Display tables list
                 $table = $tablesAll[$tid]->getValuesTables();
-                $talid = array('lid' => $tlid);
+                $talid = ['lid' => $tlid];
                 $table = array_merge($table, $talid);
                 // Get the list of fields
                 $fieldsCount = $tdmcreate->getHandler('fields')->getCountFields();
                 $fieldsAll = $tdmcreate->getHandler('fields')->getAllFieldsByModuleAndTableId($table['mid'], $tid);
                 // Display fields list
-                $fields = array();
+                $fields = [];
                 $lid = 1;
                 if ($fieldsCount > 0) {
                     foreach (array_keys($fieldsAll) as $fid) {
                         $field = $fieldsAll[$fid]->getValuesFields();
-                        $falid = array('lid' => $lid);
+                        $falid = ['lid' => $lid];
                         $fields[] = array_merge($field, $falid);
                         unset($field);
                         ++$lid;
@@ -224,12 +224,12 @@ switch ($op) {
                 echo $tablesObj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
+            xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
     break;
 
     case 'display':
-        $fieldsArray = array('parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required');
+        $fieldsArray = ['parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required'];
         $fieldId = XoopsRequest::getInt('field_id', 0, 'POST');
         if ($fieldId > 0) {
             $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
