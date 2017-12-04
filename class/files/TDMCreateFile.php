@@ -241,7 +241,7 @@ class TDMCreateFile extends TDMCreateTableFields
             }
         }
         //return 'root module';
-        return;
+        return false;
     }
 
     /**

@@ -117,7 +117,7 @@ class TDMCreateHelper
         if (!isset($this->config[$name])) {
             $this->addLog("ERROR :: CONFIG '{$name}' does not exist");
 
-            return;
+            return false;
         }
         $this->addLog("Getting config '{$name}' : ".$this->config[$name]);
 
