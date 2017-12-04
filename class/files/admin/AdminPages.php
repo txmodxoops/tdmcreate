@@ -131,12 +131,12 @@ class AdminPages extends TDMCreateFile
         $adminpager = $xc->getXcGetConfig($moduleDirname, 'adminpager');
         $ret        .= $xc->getXcXoopsRequest('limit', 'limit', $adminpager, 'Int', false, $t);
         $ret        .= $axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
-        $navigation = $axc->getAdminAddNavigation($tableName);
+        $navigation = $axc->getAdminDisplayNavigation($tableName);
         $ret        .= $xc->getXcTplAssign('navigation', $navigation, true, $t);
 
         if (in_array(1, $fieldInForm)) {
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
-            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
+            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->displayButton()', true, $t);
         }
 
         $ret .= $xc->getXcObjHandlerCount($tableName, $t);
@@ -174,12 +174,12 @@ class AdminPages extends TDMCreateFile
 
         $stuTableName = strtoupper($tableName);
         $ret          = $axc->getAdminTemplateMain($moduleDirname, $tableName);
-        $navigation   = $axc->getAdminAddNavigation($tableName);
+        $navigation   = $axc->getAdminDisplayNavigation($tableName);
         $ret          .= $xc->getXcTplAssign('navigation', $navigation, true, $t);
 
         if (in_array(1, $fieldInForm)) {
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
-            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
+            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->displayButton()', true, $t);
         }
         $ret .= $pc->getPhpCodeCommentLine('Get Form', null, $t);
         $ret .= $xc->getXcObjHandlerCreate($tableName, $t);
@@ -331,13 +331,13 @@ class AdminPages extends TDMCreateFile
         $ccFieldId         = $this->getCamelCase($fieldId, false, true);
 
         $ret        = $axc->getAdminTemplateMain($moduleDirname, $tableName);
-        $navigation = $axc->getAdminAddNavigation($tableName);
+        $navigation = $axc->getAdminDisplayNavigation($tableName);
         $ret        .= $xc->getXcTplAssign('navigation', $navigation, true, $t);
 
         if (in_array(1, $fieldInForm)) {
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
-            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->renderButton()', true, $t);
+            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->displayButton()', true, $t);
         }
         $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $xc->getXcGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);

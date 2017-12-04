@@ -50,5 +50,5 @@ foreach (array_keys($folder) as $i) {
 }
 
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('index.php'));
-$GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
+$GLOBALS['xoopsTpl']->assign('index', $adminMenu->displayIndex());
 include __DIR__.'/footer.php';

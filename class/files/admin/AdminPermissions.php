@@ -96,7 +96,7 @@ class AdminPermissions extends TDMCreateFile
         $ret .= $xc->getXoopsHandlerLine($moduleDirname, $tableName);
         $ret .= $pc->getPhpCodeCommentLine('Check admin have access to this page');
         $ret .= $axc->getAdminTemplateMain($moduleDirname, 'permissions');
-        $ret .= $xc->getXcTplAssign('navigation', "\$adminMenu->addNavigation('permissions.php')");
+        $ret .= $xc->getXcTplAssign('navigation', "\$adminMenu->displayNavigation('permissions.php')");
         $ret .= $xc->getXcXoopsRequest('op', 'op', 'global');
         $ret .= $xc->getXcLoad('XoopsFormLoader');
         $optionsSelect = [

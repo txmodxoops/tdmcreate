@@ -199,7 +199,7 @@ class TDMCreatePhpCode
         if ('' === $type) {
             $type = 'include';
         }
-        if (false == $once) {
+        if (false === $once) {
             if (!$isPath) {
                 $ret = "{$t}{$type} {$directory} .'/{$filename}.php';\n";
             } else {
@@ -279,7 +279,7 @@ class TDMCreatePhpCode
     public function getPhpCodeFunction($name = null, $params = null, $content = null, $method = null, $isRef = false, $t = '')
     {
         $inClass = (null != $method) ? $method : '';
-        $ref = (false != $isRef) ? '&' : '';
+        $ref = (false !== $isRef) ? '&' : '';
         $ret = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
         $ret .= "{$t}{\n";
         $ret .= "{$content}";
@@ -421,7 +421,7 @@ class TDMCreatePhpCode
             $case = is_string($case) ? "'{$case}'" : $case;
             if (!empty($case)) {
                 $ret .= "{$t}case {$case}:\n";
-                if (false != $defaultAfterCase) {
+                if (false !== $defaultAfterCase) {
                     $ret .= $def;
                 }
                 if (is_array($value)) {

@@ -131,7 +131,7 @@ class {$ucf_module_dirname}Helper
     */
     public function &getModule()
     {
-        if (\$this->module == null) {
+        if (\$this->module === null) {
             \$this->initModule();
         }
         return \$this->module;
@@ -142,7 +142,7 @@ class {$ucf_module_dirname}Helper
     */
     public function getConfig(\$name = null)
     {
-        if (\$this->config == null) {
+        if (\$this->config === null) {
             \$this->initConfig();
         }
         if (!\$name) {
@@ -163,7 +163,7 @@ class {$ucf_module_dirname}Helper
     */
     public function setConfig(\$name = null, \$value = null)
     {
-        if (\$this->config == null) {
+        if (\$this->config === null) {
             \$this->initConfig();
         }
         \$this->config[\$name] = \$value;

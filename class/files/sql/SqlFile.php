@@ -358,7 +358,7 @@ class SqlFile extends TDMCreateFile
             $ret = $retAutoincrement;
         } elseif (null != $fieldAttribute) {
             $ret = $retFieldAttribute;
-        } elseif (null == $fieldAttribute) {
+        } elseif (null === $fieldAttribute) {
             $ret = $fieldDefault;
         }
 

@@ -38,7 +38,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
@@ -67,7 +67,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
 
         $settingsObj = $tdmcreate->getHandler('settings')->create();
         $form = $settingsObj->getFormSettings();
@@ -148,7 +148,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
         $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
         $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());

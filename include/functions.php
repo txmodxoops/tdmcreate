@@ -20,7 +20,7 @@
  *
  * @version         $Id: functions.php 11084 2013-02-23 15:44:20Z timgno $
  */
-defined('XOOPS_ROOT_PATH') or die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 // Pleace! don't remove
 /**
@@ -39,7 +39,7 @@ function TDMCreate_MakeDonationForm($about)
 <script type="text/javascript">
 <!--//
 function xoopsFormValidate_donation() { var myform = window.document.donation; 
-var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < selectBox.options.length; i++ ) { if (selectBox.options[i].selected == true && selectBox.options[i].value != \'\') { hasSelected = true; break; } }if (!hasSelected) { window.alert("Please enter Donation Amount"); selectBox.focus(); return false; }return true;
+var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < selectBox.options.length; i++ ) { if (selectBox.options[i].selected === true && selectBox.options[i].value != \'\') { hasSelected = true; break; } }if (!hasSelected) { window.alert("Please enter Donation Amount"); selectBox.focus(); return false; }return true;
 }
 //--></script>
 <!-- End Form Validation JavaScript //-->',

@@ -87,9 +87,9 @@ class AdminXoopsCode
      * @param string $t
      * @return string
      */
-    public function getAdminAddNavigation($tableName, $t = '')
+    public function getAdminDisplayNavigation($tableName, $t = '')
     {
-        return "{$t}\$adminMenu->addNavigation('{$tableName}.php')";
+        return "{$t}\$adminMenu->displayNavigation('{$tableName}.php')";
     }
 
     /**
