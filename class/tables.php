@@ -414,7 +414,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getTablesCriteria($crTables, $start, $limit, $sort, $order)
     {

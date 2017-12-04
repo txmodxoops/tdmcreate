@@ -606,7 +606,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      * @param $limit
      * @param $sort
      * @param $order
-     * @return
+     * @return mixed
      */
     private function getFieldsCriteria($crFields, $start, $limit, $sort, $order)
     {

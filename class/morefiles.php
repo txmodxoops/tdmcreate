@@ -273,7 +273,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getMoreFilesCriteria($crMoreFiles, $start, $limit, $sort, $order)
     {

@@ -377,7 +377,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getSettingsCriteria($crSettings, $start, $limit, $sort, $order)
     {

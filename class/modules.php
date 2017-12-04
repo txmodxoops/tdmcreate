@@ -556,7 +556,7 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getModulesCriteria($crModules, $start, $limit, $sort, $order)
     {
