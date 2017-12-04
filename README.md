@@ -21,6 +21,10 @@ If you liked the tdmcreate module and thanks to the long process for giving the 
 > **Note:** This repository contains the code of the tdmcreate module
 It's under development currently. If you want to build with developers this version of module or create a base modules, you can use the last version of this module at [Txmod XOOPS Web Site](http://www.txmodxoops.org), and visit the main discussion forum at [XOOPS Web Site](https://xoops.org/modules/newbb/viewtopic.php?topic_id=76746) for more information.
 
+Screenshot:
+<p align="center">
+  <img src="https://c6.staticflickr.com/9/8500/29971619205_a397db1039_o.jpg" alt="TDMCreate 1.9.1 dashboard"/>
+</p>
 Clear version
 
 # Require:
@@ -40,20 +44,20 @@ Clear version
 # Info
 TDMCreate is a module that create other basic modules for XOOPS CMS.
 
-Tested with XOOPS 2.5.7.(1,2) and 2.5.8 beta 1, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
+Tested with XOOPS 2.5.9, you can not use it with earlier versions, unless because you don't fit some core files in the background and after some tests.
 
 That is ahead XOOPS versions, and goes to 2.6.0, you should download XOOPS 2.5.7.2 and use with this latest version.
 
 Therefore recommended not to use tdmcreate 1.91, with previous versions of XOOPS 2.5.7
 
 # System - Tests 
-PHP = 5.4.31 - 5.5.15
+PHP = 5.5.15, 5.6.19, 5.7.0
 
-MySQL = 5.6.20
+MySQL = 5.6.20, 5.7.11
 
-Apache = 2.4.10
+Apache = 2.4.10, 2.4.18
 
-XOOPS = 2.5.7.1 - 2.5.8
+XOOPS = 2.5.7.1, 2.5.7.2, 2.5.8
 
 Codeception = 2.0.13
 

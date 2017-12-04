@@ -17,7 +17,7 @@
  *
  * @since           2.5.0
  *
- * @author          Xoops Team Developement Modules - http://www.xoops.org
+ * @author          Xoops Team Developement Modules - https://xoops.org
  *
  * @version         $Id: logoGenerator.php 12258 2014-01-02 09:33:29Z timgno $
  */

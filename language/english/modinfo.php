@@ -16,7 +16,7 @@
  *
  * @since           2.5.0
  *
- * @author          Xoops Team Developement Modules - http://www.xoops.org
+ * @author          Xoops Team Developement Modules - https://xoops.org
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  * @version         $Id: modinfo.php 11084 2013-02-23 15:44:20Z timgno $
@@ -98,5 +98,3 @@ define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER', 'More Files AdminPager');
 define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Files');
 define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER', 'Settings AdminPager');
 define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Settings');
-
- 

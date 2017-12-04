@@ -107,10 +107,10 @@ class TemplatesUserFooter extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = <<<EOT
 <{if \$bookmarks != 0}>
-<{include file="db:system_bookmarks.html"}>
+<{include file="db:system_bookmarks.tpl"}>
 <{/if}>
 \n<{if \$fbcomments != 0}>
-<{include file="db:system_fbcomments.html"}>
+<{include file="db:system_fbcomments.tpl"}>
 <{/if}>
 <div class="pull-left"><{\$copyright}></div>\n
 EOT;
@@ -132,11 +132,11 @@ EOT;
                 $content .= <<<EOT
 <div class="pad2 marg2">
     <{if \$comment_mode == "flat"}>
-        <{include file="db:system_comments_flat.html"}>
+        <{include file="db:system_comments_flat.tpl"}>
     <{elseif \$comment_mode == "thread"}>
-        <{include file="db:system_comments_thread.html"}>
+        <{include file="db:system_comments_thread.tpl"}>
     <{elseif \$comment_mode == "nest"}>
-        <{include file="db:system_comments_nest.html"}>
+        <{include file="db:system_comments_nest.tpl"}>
     <{/if}>
 </div>\n
 <br />\n
@@ -144,7 +144,7 @@ EOT;
             }
             if (1 == $table->getVar('table_notifications')) {
                 $content .= <<<'EOT'
-<{include file='db:system_notification_select.html'}>
+<{include file='db:system_notification_select.tpl'}>
 EOT;
             }
         }

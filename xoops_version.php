@@ -404,7 +404,7 @@ $modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DEMO_SITE_URL';
 $modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
 $modversion['config'][$c]['formtype'] = 'textbox';
 $modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'http://www.xoops.org';
+$modversion['config'][$c]['default'] = 'https://xoops.org';
 ++$c;
 $modversion['config'][$c]['name'] = 'demo_site_name';
 $modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DEMO_SITE_NAME';
