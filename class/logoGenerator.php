@@ -56,7 +56,7 @@ class logoGenerator
         if (!extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
+            $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
@@ -84,7 +84,7 @@ class logoGenerator
         // Write text
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
+        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 

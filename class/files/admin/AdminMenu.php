@@ -71,7 +71,7 @@ class AdminMenu extends TDMCreateFile
      *
      * @return string
      */
-    private function getAdminMenuArray($param = array(), $adminMenu = false, $ref = false)
+    private function getAdminMenuArray($param = [], $adminMenu = false, $ref = false)
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $ret = '';
@@ -97,13 +97,15 @@ class AdminMenu extends TDMCreateFile
     */
     private function getAdminMenuHeader()
     {
-        $dirname = array('$dirname' => 'basename(dirname(__DIR__))');
+        $dirname = ['$dirname' => 'basename(dirname(__DIR__))'];
         $ret = $this->getAdminMenuArray($dirname);
-        $mod = array('$moduleHandler' => "xoops_gethandler('module')",
-                    '$xoopsModule' => 'XoopsModule::getByDirname($dirname)',
-                    '$moduleInfo' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))", );
+        $mod = [
+            '$moduleHandler' => "xoops_gethandler('module')",
+            '$xoopsModule'   => 'XoopsModule::getByDirname($dirname)',
+            '$moduleInfo'    => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
+        ];
         $ret .= $this->getAdminMenuArray($mod);
-        $sys = array('$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')");
+        $sys = ['$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')"];
         $ret .= $this->getAdminMenuArray($sys);
 
         return $ret;
@@ -119,7 +121,7 @@ class AdminMenu extends TDMCreateFile
     private function getAdminMenuDashboard($language, $menu)
     {
         $xc = TDMCreateXoopsCode::getInstance();
-        $param = array('title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'");
+        $param = ['title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'"];
         $ret = $xc->getXcEqualsOperator('$i', '1');
         $ret .= $this->getAdminMenuArray($param, true);
         $ret .= $this->getSimpleString('++$i;');
@@ -171,19 +173,19 @@ class AdminMenu extends TDMCreateFile
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
-                $param1 = array('title' => "{$language}{$menu}", 'link' => "'admin/{$tables[$t]->getVar('table_name')}.php'", 'icon' => "'assets/icons/32/{$tables[$t]->getVar('table_image')}'");
+                $param1 = ['title' => "{$language}{$menu}", 'link' => "'admin/{$tables[$t]->getVar('table_name')}.php'", 'icon' => "'assets/icons/32/{$tables[$t]->getVar('table_image')}'"];
                 $ret .= $this->getAdminMenuArray($param1, true);
                 $ret .= $this->getSimpleString('++$i;');
             }
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;
-            $param2 = array('title' => "{$language}{$menu}", 'link' => "'admin/permissions.php'", 'icon' => "\$sysPathIcon32.'/permissions.png'");
+            $param2 = ['title' => "{$language}{$menu}", 'link' => "'admin/permissions.php'", 'icon' => "\$sysPathIcon32.'/permissions.png'"];
             $ret .= $this->getAdminMenuArray($param2, true);
             $ret .= $this->getSimpleString('++$i;');
         }
         unset($menu);
-        $param3 = array('title' => "{$langAbout}", 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'");
+        $param3 = ['title' => "{$langAbout}", 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'"];
         $ret .= $this->getAdminMenuArray($param3, true);
         $ret .= $this->getSimpleString('unset($i);');
 

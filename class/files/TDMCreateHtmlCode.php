@@ -54,10 +54,10 @@ class TDMCreateHtmlCode
      * @param string $t
      * @return string
      */
-    public function getHtmlTag($tag = '', $attributes = array(), $content = '', $noClosed = false, $noBreak = false, $t = '')
+    public function getHtmlTag($tag = '', $attributes = [], $content = '', $noClosed = false, $noBreak = false, $t = '')
     {
         if (empty($attributes)) {
-            $attributes = array();
+            $attributes = [];
         }
         $attr = $this->getAttributes($attributes);
         if ($noClosed) {

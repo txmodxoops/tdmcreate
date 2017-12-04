@@ -64,9 +64,9 @@ class TDMCreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeCommentMultiLine($multiLine = array(), $t = '')
+    public function getPhpCodeCommentMultiLine($multiLine = [], $t = '')
     {
-        $values = !empty($multiLine) ? $multiLine : array();
+        $values = !empty($multiLine) ? $multiLine : [];
         $ret = "\n{$t}/**\n";
         foreach ($values as $string => $value) {
             if ($string === '' && $value === '') {
@@ -169,7 +169,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $t = "\r")
     {
-        return str_replace(array("{$n}", "{$t}"), '', $string);
+        return str_replace(["{$n}", "{$t}"], '', $string);
     }
 
     /**
@@ -413,7 +413,7 @@ class TDMCreatePhpCode
      *
      *  @return string
      */
-    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false, $t = '')
+    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
         $ret = '';
         $def = "{$t}default:\n";
@@ -542,7 +542,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeArray($var, $array = null, $isParam = false, $t = "\t\t")
     {
-        $retArray = array();
+        $retArray = [];
         if (is_array($array) && !empty($array)) {
             foreach ($array as $k => $v) {
                 if (is_numeric($k)) {

@@ -102,7 +102,7 @@ class UserIndex extends TDMCreateFile
         $ucfTableName = ucfirst($tableName);
         // Fields
         $fields = $this->getTableFields($tableMid, $tableId);
-        $fieldParentId = array();
+        $fieldParentId = [];
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -130,7 +130,7 @@ class UserIndex extends TDMCreateFile
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $pc->getPhpCodeArray($tableName, "\t");
             $foreach = $xc->getXcGetValues($tableName, $tableSoleName.'Values', $tableFieldname, false, "\t");
-            $foreach .= $pc->getPhpCodeArray('acount', array("'count'", '$count'));
+            $foreach .= $pc->getPhpCodeArray('acount', ["'count'", '$count']);
             $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName.'Values', '$acount');
             $foreach .= $this->getSimpleString('++$count;', "\t\t");
             $contentIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, $tableFieldname, $foreach, "\t");
@@ -176,7 +176,7 @@ class UserIndex extends TDMCreateFile
         $condIf .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
         $condIf .= $pc->getPhpCodeArray($tableName);
         $foreach = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t");
-        $foreach .= $pc->getPhpCodeArray('acount', array("'count'", '$count'));
+        $foreach .= $pc->getPhpCodeArray('acount', ["'count'", '$count']);
         $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
         $table = $this->getTable();
         // Fields

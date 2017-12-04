@@ -105,7 +105,7 @@ class TemplatesBlocks extends TDMCreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td .= $hc->getHtmlTag('td', array('class' => 'center'), $double) . PHP_EOL;
+            $td .= $hc->getHtmlTag('td', ['class' => 'center'], $double) . PHP_EOL;
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -122,8 +122,8 @@ class TemplatesBlocks extends TDMCreateFile
                         // Now with HTML5 is not supported inline style in the parameters of the HTML tag
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $span   = $hc->getHtmlTag('span', array(), $double);
-                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $span) . PHP_EOL;
+                        $span   = $hc->getHtmlTag('span', [], $double);
+                        $td .= $hc->getHtmlTag('td', ['class' => 'center'], $span) . PHP_EOL;
                         /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
 EOT;*/
@@ -131,19 +131,19 @@ EOT;*/
                     case 10:
                         $src = $hc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
-                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $img) . PHP_EOL;
+                        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', false);
+                        $td .= $hc->getHtmlTag('td', ['class' => 'center'], $img) . PHP_EOL;
                         break;
                     case 13:
                         $single = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img    = $hc->getHtmlTag('img', array('src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName), '', false);
-                        $td .= $hc->getHtmlTag('td', array('class' => 'center'), $img) . PHP_EOL;
+                        $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', false);
+                        $td .= $hc->getHtmlTag('td', ['class' => 'center'], $img) . PHP_EOL;
                         break;
                     default:
                         if (0 != $f) {
                             $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td .= $hc->getHtmlTag('td', array('class' => 'center'), $double) . PHP_EOL;
+                            $td .= $hc->getHtmlTag('td', ['class' => 'center'], $double) . PHP_EOL;
                         }
                         break;
                 }
@@ -152,18 +152,18 @@ EOT;*/
         $lang   = $hc->getSmartyConst('', '_EDIT');
         $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
         $src    = $hc->getSmartyNoSimbol('xoModuleIcons32 edit.png');
-        $img    = $hc->getHtmlTag('img', array('src' => $src, 'alt' => $tableName), '', false);
-        $anchor = $hc->getHtmlTag('a', array('href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang), $img) . PHP_EOL;
+        $img    = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', false);
+        $anchor = $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img) . PHP_EOL;
         $lang   = $hc->getSmartyConst('', '_DELETE');
         $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
         $src    = $hc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-        $img    = $hc->getHtmlTag('img', array('src' => $src . $double, 'alt' => $tableName), '', false);
-        $anchor .= $hc->getHtmlTag('a', array('href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang), $img) . PHP_EOL;
-        $td .= $hc->getHtmlTag('td', array('class' => 'center'), "\n" . $anchor) . PHP_EOL;
+        $img    = $hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', false);
+        $anchor .= $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img) . PHP_EOL;
+        $td .= $hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor) . PHP_EOL;
         $cycle   = $hc->getSmartyNoSimbol('cycle values="odd, even"');
-        $tr      = $hc->getHtmlTag('tr', array('class' => $cycle), $td) . PHP_EOL;
+        $tr      = $hc->getHtmlTag('tr', ['class' => $cycle], $td) . PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr) . PHP_EOL;
-        $tbody   = $hc->getHtmlTag('tbody', array(), $foreach) . PHP_EOL;
+        $tbody   = $hc->getHtmlTag('tbody', [], $foreach) . PHP_EOL;
 
         return $hc->getSmartyConditions($tableName . '_count', '', '', $tbody) . PHP_EOL;
     }
@@ -175,10 +175,10 @@ EOT;*/
     private function getTemplatesBlocksTableTfoot()
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $td = $hc->getHtmlTag('td', array(), '&nbsp;') . PHP_EOL;
-        $tr = $hc->getHtmlTag('tr', array(), $td) . PHP_EOL;
+        $td = $hc->getHtmlTag('td', [], '&nbsp;') . PHP_EOL;
+        $tr = $hc->getHtmlTag('tr', [], $td) . PHP_EOL;
 
-        return $hc->getHtmlTag('tfoot', array(), $tr) . PHP_EOL;
+        return $hc->getHtmlTag('tfoot', [], $tr) . PHP_EOL;
     }
 
     /**

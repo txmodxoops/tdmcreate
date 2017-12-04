@@ -79,7 +79,7 @@ class TemplatesAdminAbout extends TDMCreateFile
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
         $content .= $hc->getHtmlComment('About Page').PHP_EOL;
         $single = $hc->getSmartySingleVar('about');
-        $content .= $hc->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
+        $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
         $content .= $hc->getHtmlComment('Footer').PHP_EOL;
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 

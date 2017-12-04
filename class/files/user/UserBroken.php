@@ -186,8 +186,10 @@ class UserBroken extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = array('form' => array($this->getUserBrokenForm($tableName, $language)),
-                    'save' => array($this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)), );
+        $cases = [
+            'form' => [$this->getUserBrokenForm($tableName, $language)],
+            'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
+        ];
 
         return $xc->getXcSwitch('op', $cases, true);
     }

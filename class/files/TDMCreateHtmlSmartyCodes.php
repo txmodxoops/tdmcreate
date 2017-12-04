@@ -61,10 +61,10 @@ class TDMCreateHtmlSmartyCodes
      * @param string $t
      * @return string
      */
-    public function getHtmlTag($tag = '', $attributes = array(), $content = '', $noClosed = false, $t = '')
+    public function getHtmlTag($tag = '', $attributes = [], $content = '', $noClosed = false, $t = '')
     {
         if (empty($attributes)) {
-            $attributes = array();
+            $attributes = [];
         }
         $attr = $this->getAttributes($attributes);
         if ($noClosed) {

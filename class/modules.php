@@ -32,7 +32,7 @@ class TDMCreateModules extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $options = [
         'admin',
         'user',
         'blocks',
@@ -41,7 +41,7 @@ class TDMCreateModules extends XoopsObject
         'notifications',
         'permissions',
         'inroot_copy',
-    );
+    ];
 
     /**
     *  @public function constructor class
@@ -135,7 +135,7 @@ class TDMCreateModules extends XoopsObject
         if ($action === false) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        $set = array();
+        $set = [];
         $settings = $tdmcreate->getHandler('settings')->getAllSettings(0, 0, 'set_type');
         foreach ($settings as $setting) {
             $set['name'] = $setting->getVar('set_name');
@@ -214,7 +214,7 @@ class TDMCreateModules extends XoopsObject
         $modMinMysql = $isNew ? $set['min_mysql'] : $this->getVar('mod_min_mysql');
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_MIN_MYSQL, 'mod_min_mysql', 10, 25, $modMinMysql), true);
         // Name description
-        $editorConfigs = array();
+        $editorConfigs = [];
         $editorConfigs['name'] = 'mod_description';
         $editorConfigs['value'] = $isNew ? $set['description'] : $this->getVar('mod_description', 'e');
         $editorConfigs['rows'] = 5;
@@ -367,7 +367,7 @@ class TDMCreateModules extends XoopsObject
         if (!extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
+            $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
@@ -385,7 +385,7 @@ class TDMCreateModules extends XoopsObject
         // Write text
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
+        imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
         $logoImg = '/'.$moduleDirname.'_logo.png';
         imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH.$logoImg);
@@ -432,7 +432,7 @@ class TDMCreateModules extends XoopsObject
      */
     private function getOptionsModules()
     {
-        $retModules = array();
+        $retModules = [];
         foreach ($this->options as $option) {
             if ($this->getVar('mod_'.$option) == 1) {
                 array_push($retModules, $option);

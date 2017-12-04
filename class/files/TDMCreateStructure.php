@@ -194,7 +194,7 @@ class TDMCreateStructure
      */
     public function isDirEmpty($dir)
     {
-        $content = array();
+        $content = [];
         $handle = opendir($dir);
         while (false !== ($entry = readdir($handle))) {
             if ($entry !== '.' && $entry !== '..') {
