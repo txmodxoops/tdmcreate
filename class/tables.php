@@ -310,7 +310,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_tables', 'tdmcreatetables', 'table_id', 'table_name');
+        parent::__construct($db, 'tdmcreate_tables', 'TDMCreateTables', 'table_id', 'table_name');
     }
 
     /**

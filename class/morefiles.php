@@ -169,13 +169,13 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_morefiles', 'tdmcreatemorefiles', 'file_id', 'file_name');
+        parent::__construct($db, 'tdmcreate_morefiles', 'TDMCreateMoreFiles', 'file_id', 'file_name');
     }
 
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return \XoopsObject
      */
     public function create($isNew = true)
     {

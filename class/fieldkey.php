@@ -84,6 +84,6 @@ class TDMCreateFieldkeyHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fieldkey', 'tdmcreatefieldkey', 'fieldkey_id', 'fieldkey_name');
+        parent::__construct($db, 'tdmcreate_fieldkey', 'TDMCreateFieldkey', 'fieldkey_id', 'fieldkey_name');
     }
 }

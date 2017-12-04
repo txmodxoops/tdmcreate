@@ -84,6 +84,6 @@ class TDMCreateFieldtypeHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fieldtype', 'tdmcreatefieldtype', 'fieldtype_id', 'fieldtype_name');
+        parent::__construct($db, 'tdmcreate_fieldtype', 'TDMCreateFieldtype', 'fieldtype_id', 'fieldtype_name');
     }
 }

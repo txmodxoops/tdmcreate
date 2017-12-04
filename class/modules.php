@@ -472,13 +472,13 @@ class TDMCreateModulesHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_modules', 'tdmcreatemodules', 'mod_id', 'mod_name');
+        parent::__construct($db, 'tdmcreate_modules', 'TDMCreateModules', 'mod_id', 'mod_name');
     }
 
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return XoopsObject
      */
     public function create($isNew = true)
     {

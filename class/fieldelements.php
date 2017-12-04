@@ -103,7 +103,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fieldelements', 'tdmcreatefieldelements', 'fieldelement_id', 'fieldelement_name');
+        parent::__construct($db, 'tdmcreate_fieldelements', 'TDMCreateFieldElements', 'fieldelement_id', 'fieldelement_name');
     }
 
     /**

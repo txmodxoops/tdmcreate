@@ -514,7 +514,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return \XoopsObject
      */
     public function create($isNew = true)
     {

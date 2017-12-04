@@ -166,7 +166,7 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_addfiles', 'tdmcreateaddfiles', 'file_id', 'file_name');
+        parent::__construct($db, 'tdmcreate_addfiles', 'TDMCreateAddFiles', 'file_id', 'file_name');
     }
 
     /**
@@ -208,7 +208,7 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new field in the database.
      *
-     * @param object $field reference to the {@link TDMCreateFields} object
+     * @param TDMCreateFields $field reference to the {@link TDMCreateFields} object
      * @param bool   $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful

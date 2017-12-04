@@ -293,13 +293,13 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_settings', 'tdmcreatesettings', 'set_id', 'set_name');
+        parent::__construct($db, 'tdmcreate_settings', 'TDMCreateSettings', 'set_id', 'set_name');
     }
 
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return XoopsObject
      */
     public function create($isNew = true)
     {
