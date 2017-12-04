@@ -87,7 +87,7 @@ class UserSingle extends TDMCreateFile
                 $fieldPid = $fieldName;
             }
         }
-        if ($table->getVar('table_category') == 1) {
+        if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
             $ret .= $xc->getXcXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
         }

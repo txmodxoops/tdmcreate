@@ -106,12 +106,12 @@ class TDMCreateTableFields extends TDMCreateAbstract
     public function getTableFieldElements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        if ($mId != null) {
+        if (null != $mId) {
             $criteria->add(new Criteria('fieldelement_mid', $mId)); // $mId = module Id
             $criteria->setSort($sort);
             $criteria->setOrder($order);
         }
-        if ($tId != null) {
+        if (null != $tId) {
             $criteria->add(new Criteria('fieldelement_tid', $tId)); // $tId = table Id
             $criteria->setSort($sort);
             $criteria->setOrder($order);

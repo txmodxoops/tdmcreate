@@ -101,7 +101,7 @@ class AdminIndex extends TDMCreateFile
             $ret .= $axc->getAxcAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
         }
 
-        if ($tableName == null) {
+        if (null == $tableName) {
             $ret .= $axc->getAxcAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0');
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {

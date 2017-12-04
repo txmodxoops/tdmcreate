@@ -128,7 +128,7 @@ class TDMCreateTables extends XoopsObject
      */
     public function getFormTables($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $tdmcreate = TDMCreateHelper::getInstance();
@@ -273,7 +273,7 @@ class TDMCreateTables extends XoopsObject
     {
         $retTable = [];
         foreach ($this->options as $option) {
-            if ($this->getVar('table_'.$option) == 1) {
+            if (1 == $this->getVar('table_' . $option)) {
                 array_push($retTable, $option);
             }
         }

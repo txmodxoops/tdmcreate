@@ -93,7 +93,7 @@ class TDMCreateMoreFiles extends XoopsObject
     public function getFormMoreFiles($action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 

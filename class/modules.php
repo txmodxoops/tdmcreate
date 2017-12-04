@@ -132,7 +132,7 @@ class TDMCreateModules extends XoopsObject
     public function getFormModules($action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $set = [];
@@ -434,7 +434,7 @@ class TDMCreateModules extends XoopsObject
     {
         $retModules = [];
         foreach ($this->options as $option) {
-            if ($this->getVar('mod_'.$option) == 1) {
+            if (1 == $this->getVar('mod_' . $option)) {
                 array_push($retModules, $option);
             }
         }

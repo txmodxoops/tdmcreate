@@ -136,7 +136,7 @@ class TDMCreateSettings extends XoopsObject
     public function getFormSettings($action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -261,7 +261,7 @@ class TDMCreateSettings extends XoopsObject
     {
         $retSet = [];
         foreach ($this->options as $option) {
-            if ($this->getVar('set_'.$option) == 1) {
+            if (1 == $this->getVar('set_' . $option)) {
                 array_push($retSet, $option);
             }
         }

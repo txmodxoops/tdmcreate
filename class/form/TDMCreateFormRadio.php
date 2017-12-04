@@ -44,7 +44,7 @@ class TDMCreateFormRadio extends XoopsFormRadio
         foreach ($ele_options as $value => $name) {
             ++$id_ele;
             if (!empty($this->columns)) {
-                if ($i % $this->columns == 0) {
+                if (0 == $i % $this->columns) {
                     $ret .= '<tr>';
                 }
                 $ret .= '<td class="radio">';
@@ -56,7 +56,7 @@ class TDMCreateFormRadio extends XoopsFormRadio
             $ret .= $ele_extra.' />'."<label name='xolb_{$ele_name}' for='".$ele_name.'['.$value.']'.$id_ele."'><span><span></span></span>".$name.'</label>'.$ele_delimeter;
             if (!empty($this->columns)) {
                 $ret .= '</td>';
-                if (++$i % $this->columns == 0) {
+                if (0 == ++$i % $this->columns) {
                     $ret .= '</tr>';
                 }
             }

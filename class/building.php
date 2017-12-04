@@ -53,7 +53,7 @@ class TDMCreateBuilding
     public function getForm($action = false)
     {
         $tc = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         xoops_load('XoopsFormLoader');
@@ -89,7 +89,7 @@ class TDMCreateBuilding
             if (is_dir($file) && !in_array($file, ['..', '.'])) {
                 // Remove the directory itself
                 self::clearDir($file, $pattern);
-            } elseif (is_file($file) && ($file != __FILE__)) {
+            } elseif (is_file($file) && (__FILE__ != $file)) {
                 // Make sure you don't delete the current script
                 unlink($file);
             }
@@ -108,7 +108,7 @@ class TDMCreateBuilding
         $dir = opendir($src);
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src.'/'.$file)) {
                     // Copy the directory itself
                     self::copyDir($src.'/'.$file, $dst.'/'.$file);

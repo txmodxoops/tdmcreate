@@ -114,7 +114,7 @@ class TemplatesUserFooter extends TDMCreateFile
 <{/if}>
 <div class="pull-left"><{\$copyright}></div>\n
 EOT;
-        if (is_object($table) && $table->getVar('table_name') != null) {
+        if (is_object($table) && null != $table->getVar('table_name')) {
             $content .= <<<EOT
 <{if \$pagenav != ''}>
     <div class="pull-right"><{\$pagenav}></div>

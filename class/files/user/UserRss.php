@@ -98,7 +98,7 @@ class UserRss extends TDMCreateFile
             $rpFieldName = $fieldName;
             if (strpos($fieldName, '_')) {
                 $str = strpos($fieldName, '_');
-                if ($str !== false) {
+                if (false !== $str) {
                     $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
             }

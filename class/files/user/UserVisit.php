@@ -98,7 +98,7 @@ class UserVisit extends TDMCreateFile
                 $fieldPid = $fieldName;
             }
         }
-        if ($table->getVar('table_category') == 1) {
+        if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
             $ret .= $this->xc->getXcXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
         }

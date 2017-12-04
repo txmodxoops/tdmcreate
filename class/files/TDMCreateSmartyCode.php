@@ -82,7 +82,7 @@ class TDMCreateSmartyCode
     {
         $str = '';
         foreach ($attributes as $name => $value) {
-            if ($name !== '_') {
+            if ('_' !== $name) {
                 $str .= ' '.$name.'="'.$value.'"';
             }
         }
@@ -271,8 +271,8 @@ class TDMCreateSmartyCode
      */
     public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '', $t = '')
     {
-        $name = $name != '' ? " name={$name}" : '';
-        $key = $key != '' ? " key={$key}" : '';
+        $name = '' != $name ? " name={$name}" : '';
+        $key = '' != $key ? " key={$key}" : '';
         $ret = "{$t}<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}<{/foreach}>\n";
@@ -293,8 +293,8 @@ class TDMCreateSmartyCode
      */
     public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '', $t = '')
     {
-        $loop = $loop != '' ? " loop={$loop}" : '';
-        $key = $key != '' ? " key={$key}" : '';
+        $loop = '' != $loop ? " loop={$loop}" : '';
+        $key = '' != $key ? " key={$key}" : '';
         $ret = "{$t}<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}<{/foreachq}>\n";
@@ -315,8 +315,8 @@ class TDMCreateSmartyCode
      */
     public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0, $t = '')
     {
-        $start = $start != 0 ? " start={$start}" : '';
-        $step = $step != 0 ? " step={$step}" : '';
+        $start = 0 != $start ? " start={$start}" : '';
+        $step = 0 != $step ? " step={$step}" : '';
         $ret = "{$t}<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}<{/section}>\n";

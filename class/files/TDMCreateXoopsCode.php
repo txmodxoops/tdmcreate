@@ -139,7 +139,7 @@ class TDMCreateXoopsCode
     */
     public function getXcAnchorFunction($anchor, $name, $vars, $close = false)
     {
-        $semicolon = $close !== false ? ';' : '';
+        $semicolon = false !== $close ? ';' : '';
 
         return "\${$anchor}->{$name}({$vars}){$semicolon}";
     }
@@ -748,12 +748,12 @@ class TDMCreateXoopsCode
     public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $metod = false, $t = '')
     {
         $ret = '';
-        $intVars = ($var2 != '') ? "'{$var1}', {$var2}" : "'{$var1}'";
-        if ($type === 'String') {
+        $intVars = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
+        if ('String' === $type) {
             $ret .= "{$t}\${$left} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
-        } elseif ($type === 'Int') {
+        } elseif ('Int' === $type) {
             $ret .= "{$t}\${$left} = XoopsRequest::getInt({$intVars});\n";
-        } elseif ($type === 'Int' && $metod !== false) {
+        } elseif ('Int' === $type && false !== $metod) {
             $ret .= "{$t}\${$left} = XoopsRequest::getInt({$intVars}, '{$metod}');\n";
         }
 
@@ -773,7 +773,7 @@ class TDMCreateXoopsCode
     public function getXcTplAssign($tplString, $phpRender, $leftIsString = true, $t = '')
     {
         $assign = "{$t}\$GLOBALS['xoopsTpl']->assign(";
-        if ($leftIsString === false) {
+        if (false === $leftIsString) {
             $ret = $assign."{$tplString}, {$phpRender});\n";
         } else {
             $ret = $assign."'{$tplString}', {$phpRender});\n";
@@ -972,8 +972,8 @@ class TDMCreateXoopsCode
     public function getXcObjHandlerAll($tableName, $fieldMain = '', $start = '0', $limit = '0', $t = '')
     {
         $ucfTableName = ucfirst($tableName);
-        $startLimit = ($limit != '0') ? "{$start}, {$limit}" : '0';
-        $params = ($fieldMain != '') ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
+        $startLimit = ('0' != $limit) ? "{$start}, {$limit}" : '0';
+        $params = ('' != $fieldMain) ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
         $ret = "{$t}\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$params});\n";
 
         return $ret;
@@ -1295,9 +1295,9 @@ class TDMCreateXoopsCode
         $ret = '';
         if ($get) {
             $ret = "{$t}\${$left}Handler->get(\${$var});";
-        } elseif ($insert && ($obj != '')) {
+        } elseif ($insert && ('' != $obj)) {
             $ret = "{$t}\${$left}Handler->insert(\${$var}{$obj});";
-        } elseif ($delete && ($obj != '')) {
+        } elseif ($delete && ('' != $obj)) {
             $ret = "{$t}\${$left}Handler->delete(\${$var}{$obj});";
         }
 
@@ -1415,9 +1415,9 @@ class TDMCreateXoopsCode
             } elseif (15 == $fieldElement) {
                 $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
             } else {
-                if (($f != 0) && $tableAutoincrement == 1) {
+                if ((0 != $f) && 1 == $tableAutoincrement) {
                     $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
-                } elseif (($f == 0) && $tableAutoincrement == 0) {
+                } elseif ((0 == $f) && 0 == $tableAutoincrement) {
                     $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
                 }
             }

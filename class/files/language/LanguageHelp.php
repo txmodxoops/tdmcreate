@@ -105,7 +105,7 @@ Detailed instructions on installing modules are available in the <a href="http:/
     <!-- -----Help Content ---------- -->
 </div>
 EOT;
-        if ($language !== 'english') {
+        if ('english' !== $language) {
             $this->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
         }
         $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'].'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

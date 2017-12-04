@@ -88,7 +88,7 @@ class UserHeader extends TDMCreateFile
 
         $table = $this->getTable();
         $tables = $this->getTables();
-        if (is_object($table) && $table->getVar('table_name') != '') {
+        if (is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $xc->getXoopsHandlerInstance($moduleDirname);
         }
         if (is_array($tables)) {

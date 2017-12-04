@@ -47,13 +47,13 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
         // Redirect if there aren't modules
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
-        if ($modulesCount == 0) {
+        if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         unset($modulesCount);
         // Redirect if there aren't tables
         $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
-        if ($tablesCount == 0) {
+        if (0 == $tablesCount) {
             redirect_header('tables.php?op=new', 2, _AM_TDMCREATE_NOTTABLES);
         }
         // Get the list of tables
@@ -214,7 +214,7 @@ switch ($op) {
 
     case 'delete':
         $tablesObj = $tdmcreate->getHandler('tables')->get($fieldTid);
-        if (isset($_REQUEST['ok']) && $_REQUEST['ok'] == 1) {
+        if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }

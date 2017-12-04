@@ -98,7 +98,7 @@ class TDMCreateFields extends XoopsObject
      */
     private function getHeaderForm($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -150,7 +150,7 @@ class TDMCreateFields extends XoopsObject
         // Loop for fields number
         $class = 'even';
         for ($i = 1; $i <= $fieldNumb; ++$i) {
-            $class = ($class === 'even') ? 'odd' : 'even';
+            $class = ('even' === $class) ? 'odd' : 'even';
             // Replaced creation of new line by new function - goffy
             $this->getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fieldName, $tableAutoincrement);
         }
@@ -324,7 +324,7 @@ class TDMCreateFields extends XoopsObject
         unset($cr);
         $id = 1;
         foreach ($fields as $field) {
-            $class = ($class === 'even') ? 'odd' : 'even';
+            $class = ('even' === $class) ? 'odd' : 'even';
             $fieldId = (int)$field->getVar('field_id');
             if ($id > $fieldNumb) {   // delete additional fields, if number of fields is reduced - goffy
                 $fieldsObj = &$tdmcreate->getHandler('fields')->get($fieldId);
@@ -436,7 +436,7 @@ class TDMCreateFields extends XoopsObject
         // adding missing fields or delete unnecessary fields
         // By goffy
         for ($i = $id; $i <= $fieldNumb; ++$i) {
-            $class = ($class === 'even') ? 'odd' : 'even';
+            $class = ('even' === $class) ? 'odd' : 'even';
             $this->getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement);
         }
         unset($id);

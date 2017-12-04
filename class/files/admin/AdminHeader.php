@@ -98,7 +98,7 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->xc->getXcEqualsOperator('$pathModuleAdmin ', "{$dirmoduleadmin}");
         $ret .= $this->xc->getXcEqualsOperator('$modPathIcon16 ', "{$modicons16}");
         $ret .= $this->xc->getXcEqualsOperator('$modPathIcon32 ', "{$modicons32}");
-        if (is_object($table) && $table->getVar('table_name') != '') {
+        if (is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
             $ret .= $this->xc->getXcEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
         }

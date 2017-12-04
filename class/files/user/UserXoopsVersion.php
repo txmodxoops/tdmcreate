@@ -251,7 +251,7 @@ class UserXoopsVersion extends TDMCreateFile
         if ($isAdmin) {
             $ret .= $uCodeVTLine->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin')", 'templates', '');
         } else {
-            if ($extra !== '') {
+            if ('' !== $extra) {
                 $ret .= $uCodeVTLine->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc})", 'templates', '');
             } else {
                 $ret .= $uCodeVTLine->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');

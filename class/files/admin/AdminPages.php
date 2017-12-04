@@ -273,7 +273,7 @@ class AdminPages extends TDMCreateFile
                         $ret .= $xc->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        if ($fieldType == 2 || $fieldType == 7 || $fieldType == 8) {
+                        if (2 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
                             $ret .= $xc->getXcSetVar($tableName, $fieldName, "isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0", $t);
                         } else {
                             $ret .= $xc->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t);
@@ -285,7 +285,7 @@ class AdminPages extends TDMCreateFile
         $ret .= $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t");
         $insert = $xc->getXcInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
-        if ($tableCategory == 1) {
+        if (1 == $tableCategory) {
             $ucfTableName = ucfirst($tableName);
             $contentInsert = $xc->getXcEqualsOperator('$newCatId', "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t."\t");
             $ucfFieldId = $this->getCamelCase($fieldId, true);

@@ -181,15 +181,15 @@ class UserXoopsCode
             $descs = $descriptions;
         }
         foreach ($descs as $key => $desc) {
-            $one = ($name === null) ? $key : $name;
-            $two = ($index === null) ? $key : $index;
-            if ($eleArray === 1) {
+            $one = (null === $name) ? $key : $name;
+            $two = (null === $index) ? $key : $index;
+            if (1 === $eleArray) {
                 $ret .= $mv."['{$one}'] = {$desc};\n";
-            } elseif ($eleArray === 2) {
+            } elseif (2 === $eleArray) {
                 $ret .= $mv."['{$one}'][{$two}] = {$desc};\n";
-            } elseif ($eleArray === 3) {
+            } elseif (3 === $eleArray) {
                 $ret .= $mv."['{$one}'][{$two}]['{$key}'] = {$desc};\n";
-            } elseif ($eleArray === 4) {
+            } elseif (4 === $eleArray) {
                 $ret .= $mv."['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
             }
         }

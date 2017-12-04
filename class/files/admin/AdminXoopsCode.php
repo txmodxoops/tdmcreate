@@ -70,7 +70,7 @@ class AdminXoopsCode
     {
         $stuType = strtoupper($type);
         $aM = $t.'$adminMenu->addItemButton(';
-        if ($type === 'add') {
+        if ('add' === $type) {
             $ret = $aM."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
         } else {
             $ret = $aM."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
@@ -116,7 +116,7 @@ class AdminXoopsCode
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addInfoBoxLine(';
-        if ($var != '') {
+        if ('' != $var) {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>');\n";
@@ -137,7 +137,7 @@ class AdminXoopsCode
     public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addConfigBoxLine(';
-        if ($var != '') {
+        if ('' != $var) {
             $ret = $aMenu."{$language}, '{$label}', {$var});\n";
         } else {
             $ret = $aMenu."{$language}, '{$label}');\n";

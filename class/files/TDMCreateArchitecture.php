@@ -95,7 +95,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "blocks" folder and index.html file
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
-        $language = ($GLOBALS['xoopsConfig']['language'] !== 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
+        $language = ('english' !== $GLOBALS['xoopsConfig']['language']) ? $GLOBALS['xoopsConfig']['language'] : 'english';
         $copyFiles = ['class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile, 'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/' . $language => $indexFile, 'language/' . $language . '/help' => $indexFile, 'preloads' => $indexFile];
         foreach ($copyFiles as $k => $v) {
             // Creation of folders and index.html file
@@ -339,7 +339,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
         // Creation of blocks language file
-        if ($table->getVar('table_name') != null) {
+        if (null != $table->getVar('table_name')) {
             // Include Install File
             $includeInstall = IncludeInstall::getInstance();
             $includeInstall->write($module, $table, $tables, 'install.php');
@@ -373,7 +373,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $languageMailTpl->render();
             }
             // Creation of sql file
-            if ($table->getVar('table_name') != null) {
+            if (null != $table->getVar('table_name')) {
                 // Sql File
                 $sqlFile = SqlFile::getInstance();
                 $sqlFile->write($module, 'mysql.sql');

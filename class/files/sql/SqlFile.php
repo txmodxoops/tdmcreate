@@ -355,11 +355,11 @@ class SqlFile extends TDMCreateFile
         $retShort = "  `{$fieldName}` {$fieldTypeValue},";
 
         $ret = $retShort;
-        if ($autoincrement != null) {
+        if (null != $autoincrement) {
             $ret = $retAutoincrement;
-        } elseif ($fieldAttribute != null) {
+        } elseif (null != $fieldAttribute) {
             $ret = $retFieldAttribute;
-        } elseif ($fieldAttribute == null) {
+        } elseif (null == $fieldAttribute) {
             $ret = $fieldDefault;
         }
 

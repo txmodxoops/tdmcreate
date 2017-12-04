@@ -184,7 +184,7 @@ class LanguageModinfo extends TDMCreateFile
 
             $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
             $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_DESC", "{$ucfTableName} block description");
-            if ($tables[$i]->getVar('table_category') == 1) {
+            if (1 == $tables[$i]->getVar('table_category')) {
                 $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}", "{$ucfTableName} block {$ucfTableSoleName}");
                 $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC", "{$ucfTableName} block {$ucfTableSoleName} description");
             } else {
@@ -233,7 +233,7 @@ class LanguageModinfo extends TDMCreateFile
     {
         $df = LanguageDefines::getInstance();
         $ret = $df->getAboveDefines('Config');
-        if (is_object($table) && $table->getVar('table_image') != '') {
+        if (is_object($table) && '' != $table->getVar('table_image')) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
             $fieldElement = [];
             foreach (array_keys($fields) as $f) {
@@ -258,13 +258,13 @@ class LanguageModinfo extends TDMCreateFile
                 $ret .= $df->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
                 $ret .= $df->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
             }*/
-            if ($table->getVar('table_image') != '') {
+            if ('' != $table->getVar('table_image')) {
                 $ret .= $df->getDefine($language, 'MAXSIZE', 'Max size');
                 $ret .= $df->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads files in byte');
                 $ret .= $df->getDefine($language, 'MIMETYPES', 'Mime Types');
                 $ret .= $df->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
             }
-            if ($table->getVar('table_tag') != 0) {
+            if (0 != $table->getVar('table_tag')) {
                 $ret .= $df->getDefine($language, 'USE_TAG', 'Use TAG');
                 $ret .= $df->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
             }

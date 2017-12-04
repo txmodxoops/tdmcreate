@@ -88,7 +88,7 @@ class TDMCreateHelper
      */
     public function &getModule()
     {
-        if ($this->module == null) {
+        if (null == $this->module) {
             $this->initModule();
         }
 
@@ -106,7 +106,7 @@ class TDMCreateHelper
      */
     public function getConfig($name = null)
     {
-        if ($this->config == null) {
+        if (null == $this->config) {
             $this->initConfig();
         }
         if (!$name) {
@@ -137,7 +137,7 @@ class TDMCreateHelper
      */
     public function setConfig($name = null, $value = null)
     {
-        if ($this->config == null) {
+        if (null == $this->config) {
             $this->initConfig();
         }
         $this->config[$name] = $value;

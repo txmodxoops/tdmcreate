@@ -71,7 +71,7 @@ class ClassFormElements extends TDMCreateAbstract
         $cc = ClassXoopsCode::getInstance();
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
-        if ($fieldDefault != '') {
+        if ('' != $fieldDefault) {
             $ret = $pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", "\t\t");
             $formText = $cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);

@@ -83,7 +83,7 @@ class TDMCreateHtmlCode
     {
         $str = '';
         foreach ($attributes as $name => $value) {
-            if ($name !== '_') {
+            if ('_' !== $name) {
                 $str .= ' '.$name.'="'.$value.'"';
             }
         }
@@ -121,7 +121,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlBr($brNumb = 1, $htmlClass = '', $t = '')
     {
-        $brClass = ($htmlClass != '') ? " class='{$htmlClass}'" : '';
+        $brClass = ('' != $htmlClass) ? " class='{$htmlClass}'" : '';
         $ret = '';
         for ($i = 0; $i < $brNumb; ++$i) {
             $ret .= "{$t}<br{$brClass} />\n";
@@ -140,7 +140,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlHNumb($content = '', $n = '1', $htmlHClass = '', $t = '')
     {
-        $hClass = ($htmlHClass != '') ? " class='{$htmlHClass}'" : '';
+        $hClass = ('' != $htmlHClass) ? " class='{$htmlHClass}'" : '';
         $ret = "{$t}<h{$n}{$hClass}>{$content}</h{$n}>\n";
 
         return $ret;
@@ -155,7 +155,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlDiv($content = '', $divClass = '', $t = '')
     {
-        $rDivClass = ($divClass != '') ? " class='{$divClass}'" : '';
+        $rDivClass = ('' != $divClass) ? " class='{$divClass}'" : '';
         $ret = "{$t}<div{$rDivClass}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}</div>\n";
@@ -172,7 +172,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlPre($content = '', $preClass = '', $t = '')
     {
-        $rPreClass = ($preClass != '') ? " class='{$preClass}'" : '';
+        $rPreClass = ('' != $preClass) ? " class='{$preClass}'" : '';
         $ret = "{$t}<pre{$rPreClass}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}</pre>\n";
@@ -189,7 +189,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlSpan($content = '', $spanClass = '', $t = '')
     {
-        $rSpanClass = ($spanClass != '') ? " class='{$spanClass}'" : '';
+        $rSpanClass = ('' != $spanClass) ? " class='{$spanClass}'" : '';
         $ret = "{$t}<span{$rSpanClass}>{$content}</span>\n";
 
         return $ret;
@@ -204,7 +204,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlParagraph($content = '', $pClass = '', $t = '')
     {
-        $rPClass = ($pClass != '') ? " class='{$pClass}'" : '';
+        $rPClass = ('' != $pClass) ? " class='{$pClass}'" : '';
         $ret = "{$t}<p{$rPClass}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}</p>\n";
@@ -221,7 +221,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlI($content = '', $iClass = '', $t = '')
     {
-        $rIClass = ($iClass != '') ? " class='{$iClass}'" : '';
+        $rIClass = ('' != $iClass) ? " class='{$iClass}'" : '';
         $ret = "{$t}<i{$rIClass}>{$content}</i>";
 
         return $ret;
@@ -236,7 +236,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlUl($content = '', $ulClass = '', $t = '')
     {
-        $rUlClass = ($ulClass != '') ? " class='{$ulClass}'" : '';
+        $rUlClass = ('' != $ulClass) ? " class='{$ulClass}'" : '';
         $ret = "{$t}<ul{$rUlClass}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}</ul>\n";
@@ -253,7 +253,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlOl($content = '', $olClass = '', $t = '')
     {
-        $rOlClass = ($olClass != '') ? " class='{$olClass}'" : '';
+        $rOlClass = ('' != $olClass) ? " class='{$olClass}'" : '';
         $ret = "{$t}<ol{$rOlClass}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}</ol>\n";
@@ -270,7 +270,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlLi($content = '', $liClass = '', $t = '')
     {
-        $rLiClass = ($liClass != '') ? " class='{$liClass}'" : '';
+        $rLiClass = ('' != $liClass) ? " class='{$liClass}'" : '';
 
         return "{$t}<li{$rLiClass}>{$content}</li>\n";
     }
@@ -284,7 +284,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlStrong($content = '', $strongClass = '', $t = '')
     {
-        $rStrongClass = ($strongClass != '') ? " class='{$strongClass}'" : '';
+        $rStrongClass = ('' != $strongClass) ? " class='{$strongClass}'" : '';
 
         return "{$t}<strong{$rStrongClass}>{$content}</strong>\n";
     }
@@ -302,9 +302,9 @@ class TDMCreateHtmlCode
      */
     public function getHtmlAnchor($url = '#', $content = '&nbsp;', $title = '', $target = '', $aClass = '', $rel = '', $t = '')
     {
-        $target = ($target != '') ? " target='{$target}'" : '';
-        $rAClass = ($aClass != '') ? " class='{$aClass}'" : '';
-        $rel = ($rel != '') ? " rel='{$rel}'" : '';
+        $target = ('' != $target) ? " target='{$target}'" : '';
+        $rAClass = ('' != $aClass) ? " class='{$aClass}'" : '';
+        $rel = ('' != $rel) ? " rel='{$rel}'" : '';
 
         return "{$t}<a{$rAClass} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>\n";
     }
@@ -319,7 +319,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '')
     {
-        $rImgClass = ($imgClass != '') ? " class='{$imgClass}'" : '';
+        $rImgClass = ('' != $imgClass) ? " class='{$imgClass}'" : '';
         $ret = "{$t}<img{$rImgClass} src='{$src}' alt='{$alt}' />\n";
 
         return $ret;
@@ -334,7 +334,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlTable($content = '', $tableClass = '', $t = '')
     {
-        $rTableClass = ($tableClass != '') ? " class='{$tableClass}'" : '';
+        $rTableClass = ('' != $tableClass) ? " class='{$tableClass}'" : '';
         $ret = "{$t}<table{$rTableClass}>\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}</table>\n";
@@ -351,7 +351,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlTableThead($content = '', $theadClass = '', $t = '')
     {
-        $rTheadClass = ($theadClass != '') ? " class='{$theadClass}'" : '';
+        $rTheadClass = ('' != $theadClass) ? " class='{$theadClass}'" : '';
         $ret = "{$t}\t<thead{$rTheadClass}>\n";
         $ret .= "{$t}\t{$content}";
         $ret .= "{$t}\t</thead>\n";
@@ -368,7 +368,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlTableTbody($content = '', $tbodyClass = '', $t = '')
     {
-        $rTbodyClass = ($tbodyClass != '') ? " class='{$tbodyClass}'" : '';
+        $rTbodyClass = ('' != $tbodyClass) ? " class='{$tbodyClass}'" : '';
         $ret = "{$t}\t<tbody{$rTbodyClass}>\n";
         $ret .= "{$t}\t{$content}";
         $ret .= "{$t}\t</tbody>\n";
@@ -385,7 +385,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlTableTfoot($content = '', $tfootClass = '', $t = '')
     {
-        $rTfootClass = ($tfootClass != '') ? " class='{$tfootClass}'" : '';
+        $rTfootClass = ('' != $tfootClass) ? " class='{$tfootClass}'" : '';
         $ret = "{$t}\t<tfoot{$rTfootClass}>\n";
         $ret .= "{$t}\t{$content}";
         $ret .= "{$t}\t</tfoot>\n";
@@ -402,7 +402,7 @@ class TDMCreateHtmlCode
       */
     public function getHtmlTableRow($content = '', $trClass = '', $t = '')
     {
-        $rTrClass = ($trClass != '') ? " class='{$trClass}'" : '';
+        $rTrClass = ('' != $trClass) ? " class='{$trClass}'" : '';
         $ret = "{$t}\t<tr{$rTrClass}>\n";
         $ret .= "{$t}\t{$content}";
         $ret .= "{$t}\t</tr>\n";
@@ -420,8 +420,8 @@ class TDMCreateHtmlCode
      */
     public function getHtmlTableHead($content = '', $thClass = '', $colspan = '', $t = '')
     {
-        $rThClass = ($thClass != '') ? " class='{$thClass}'" : '';
-        $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
+        $rThClass = ('' != $thClass) ? " class='{$thClass}'" : '';
+        $colspan = ('' != $colspan) ? " colspan='{$colspan}'" : '';
 
         return "{$t}<th{$colspan}{$rThClass}>{$content}</th>\n";
     }
@@ -436,8 +436,8 @@ class TDMCreateHtmlCode
      */
     public function getHtmlTableData($content = '', $tdClass = '', $colspan = '', $t = '')
     {
-        $rTdClass = ($tdClass != '') ? " class='{$tdClass}'" : '';
-        $colspan = ($colspan != '') ? " colspan='{$colspan}'" : '';
+        $rTdClass = ('' != $tdClass) ? " class='{$tdClass}'" : '';
+        $colspan = ('' != $colspan) ? " colspan='{$colspan}'" : '';
 
         return "{$t}<td{$colspan}{$rTdClass}>{$content}</td>\n";
     }

@@ -236,7 +236,7 @@ class TDMCreateFile extends TDMCreateTableFields
         $path = $this->getUploadPath();
         if (strrpos($path, '\\')) {
             $str = strrpos($path, '\\');
-            if ($str !== false) {
+            if (false !== $str) {
                 return substr($path, $str + 1, strlen($path));
             } else {
                 return substr($path, $str, strlen($path));
@@ -253,7 +253,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     private function getUploadPath()
     {
-        if ($this->getSubDir() != null) {
+        if (null != $this->getSubDir()) {
             $ret = $this->getRepositoryPath().'/'.$this->getSubDir();
         } else {
             $ret = $this->getRepositoryPath();
@@ -315,9 +315,9 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         $lang = '_'.$prefix.'_'.strtoupper($moduleDirname);
         $ret = $lang;
-        if (!empty($suffix) || $suffix !== '_') {
+        if (!empty($suffix) || '_' !== $suffix) {
             $ret = $lang.'_'.$suffix;
-        } elseif ($suffix === '_') {
+        } elseif ('_' === $suffix) {
             $ret = $lang.'_';
         }
 
@@ -345,7 +345,7 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         if (strpos($string, '_')) {
             $str = strpos($string, '_');
-            if ($str !== false) {
+            if (false !== $str) {
                 $ret = substr($string, $str + 1, strlen($string));
 
                 return $ret;

@@ -95,7 +95,7 @@ class TDMCreateAddFiles extends XoopsObject
      */
     public function getFormAddFiles($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
