@@ -51,9 +51,9 @@ class CssSelectors
      */
     public function geCssComment($comment, $t)
     {
-		$ret = ('' != $comment) ? "{$t}/* {$comment} */" : '';
-		
-		return $ret;
+        $ret = ('' != $comment) ? "{$t}/* {$comment} */" : '';
+        
+        return $ret;
     }
 
     /**
@@ -66,18 +66,18 @@ class CssSelectors
     public function geCssSelector($selector, $content, $t)
     {
         $ret = '';
-		if(is_array($selector)) {
-			$ret .= $t. implode("\n", $selector) . ' {';
-		} else {
-			$ret .= $selector . ' {';
-		}		
-		if(is_array($content)) {
-			$ret .= $t. implode("\n", $content) . ';';
-		} else {
-			$ret .= $content . ';';
-		}
-		$ret = '}';
-		
-		return $ret;
+        if (is_array($selector)) {
+            $ret .= $t. implode("\n", $selector) . ' {';
+        } else {
+            $ret .= $selector . ' {';
+        }
+        if (is_array($content)) {
+            $ret .= $t. implode("\n", $content) . ';';
+        } else {
+            $ret .= $content . ';';
+        }
+        $ret = '}';
+        
+        return $ret;
     }
 }

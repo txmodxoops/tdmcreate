@@ -108,7 +108,8 @@ switch ($op) {
         //Form set_image
         $settingsObj->setVar('set_image', $_POST['set_image']);
         //Form module save
-        $settingsObj->setVars([
+        $settingsObj->setVars(
+            [
                                  'set_demo_site_url' => $_POST['set_demo_site_url'],
                                  'set_demo_site_name' => $_POST['set_demo_site_name'],
                                  'set_support_url' => $_POST['set_support_url'],

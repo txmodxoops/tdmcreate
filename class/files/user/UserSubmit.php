@@ -220,6 +220,7 @@ class UserSubmit extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $tables = $this->getTableTables($module->getVar('mod_id'));
+        $tableSoleName = '';
         $tableSubmit = [];
         $tableAutoincrement = [];
         foreach (array_keys($tables) as $t) {

@@ -112,8 +112,13 @@ switch ($op) {
                              ]);
         //Form mod_image
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        $uploader = new XoopsMediaUploader(TDMC_UPLOAD_IMGMOD_PATH, $tdmcreate->getConfig('mimetypes'),
-                                           $tdmcreate->getConfig('maxsize'), null, null);
+        $uploader = new XoopsMediaUploader(
+            TDMC_UPLOAD_IMGMOD_PATH,
+            $tdmcreate->getConfig('mimetypes'),
+                                           $tdmcreate->getConfig('maxsize'),
+            null,
+            null
+        );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
@@ -126,7 +131,8 @@ switch ($op) {
             $modulesObj->setVar('mod_image', $_POST['mod_image']);
         }
         //Form module save
-        $modulesObj->setVars([
+        $modulesObj->setVars(
+            [
                                  'mod_demo_site_url' => $_POST['mod_demo_site_url'],
                                  'mod_demo_site_name' => $_POST['mod_demo_site_name'],
                                  'mod_support_url' => $_POST['mod_support_url'],

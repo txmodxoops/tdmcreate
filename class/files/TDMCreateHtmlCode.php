@@ -73,12 +73,12 @@ class TDMCreateHtmlCode
         return $ret;
     }
 
-     /**
+    /**
     *  @private function setAttributes
     *  @param array $attributes
-     *
-     * @return string
-     */
+    *
+    * @return string
+    */
     private function getAttributes($attributes)
     {
         $str = '';

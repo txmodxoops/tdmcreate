@@ -376,7 +376,7 @@ class LanguageModinfo extends TDMCreateFile
             $content .= $this->getLanguageSubmenu($language, $tables);
         }
         //if (in_array(1, $tableBlocks)) {
-            $content .= $this->getLanguageBlocks($tables, $language);
+        $content .= $this->getLanguageBlocks($tables, $language);
         //}
         $content .= $this->getLanguageConfig($language, $table);
         if (in_array(1, $tableNotifications)) {

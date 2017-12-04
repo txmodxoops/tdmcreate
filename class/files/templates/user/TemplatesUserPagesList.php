@@ -172,7 +172,7 @@ class TemplatesUserPagesList extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = '';
         //foreach (array_keys($tables) as $t) {
-            $tableId = $table/*s[$t]*/->getVar('table_id');
+        $tableId = $table/*s[$t]*/->getVar('table_id');
         $tableMid = $table/*s[$t]*/->getVar('table_mid');
         $tableName = $table/*s[$t]*/->getVar('table_name');
         $tableSoleName = $table/*s[$t]*/->getVar('table_solename');

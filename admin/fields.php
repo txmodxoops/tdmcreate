@@ -151,7 +151,7 @@ switch ($op) {
             $fieldsObj->setVar('field_tfoot', (1 == $_REQUEST['field_tfoot'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_block', (1 == $_REQUEST['field_block'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_main', ($key == $_REQUEST['field_main'] ? 1 : 0));
-            $fieldsObj->setVar('field_search',  (1 == $_REQUEST['field_search'][$key]) ? 1 : 0);
+            $fieldsObj->setVar('field_search', (1 == $_REQUEST['field_search'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_required', (1 == $_REQUEST['field_required'][$key]) ? 1 : 0);
             // Insert Data
             $tdmcreate->getHandler('fields')->insert($fieldsObj);

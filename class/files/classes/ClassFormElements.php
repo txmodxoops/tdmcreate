@@ -134,7 +134,7 @@ class ClassFormElements extends TDMCreateAbstract
             'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig,
         ];
         foreach ($configs as $c => $d) {
-            $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d,  null, false, "\t\t");
+            $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d, null, false, "\t\t");
         }
         $formEditor = $cc->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
         $ret .= $cc->getClassAddElement('form', $formEditor.$required);

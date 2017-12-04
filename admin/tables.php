@@ -144,8 +144,13 @@ switch ($op) {
         //Form table_image
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         $uploaddir = is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
-        $uploader = new XoopsMediaUploader($uploaddir, $tdmcreate->getConfig('mimetypes'),
-                                            $tdmcreate->getConfig('maxsize'), null, null);
+        $uploader = new XoopsMediaUploader(
+            $uploaddir,
+            $tdmcreate->getConfig('mimetypes'),
+                                            $tdmcreate->getConfig('maxsize'),
+            null,
+            null
+        );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
