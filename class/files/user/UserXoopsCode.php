@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -117,7 +117,7 @@ class UserXoopsCode
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
         $stuTableName = strtoupper($tableName);
-        $title = array("'title'" => "{$language}{$stuTableName}");
+        $title = ["'title'" => "{$language}{$stuTableName}"];
         $pCodeBreadcrumbs = TDMCreatePhpCode::getInstance();
 
         return $pCodeBreadcrumbs->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
@@ -138,7 +138,7 @@ class UserXoopsCode
         $stuModuleDirname = strtoupper($moduleDirname);
         $ret = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
-        $titleLink = array("'title'" => $language.'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'");
+        $titleLink = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
@@ -176,20 +176,20 @@ class UserXoopsCode
         $ret = '';
         $mv = $t.'$modversion';
         if (!is_array($descriptions)) {
-            $descs = array($descriptions);
+            $descs = [$descriptions];
         } else {
             $descs = $descriptions;
         }
         foreach ($descs as $key => $desc) {
-            $one = ($name === null) ? $key : $name;
-            $two = ($index === null) ? $key : $index;
-            if ($eleArray === 1) {
+            $one = (null === $name) ? $key : $name;
+            $two = (null === $index) ? $key : $index;
+            if (1 === $eleArray) {
                 $ret .= $mv."['{$one}'] = {$desc};\n";
-            } elseif ($eleArray === 2) {
+            } elseif (2 === $eleArray) {
                 $ret .= $mv."['{$one}'][{$two}] = {$desc};\n";
-            } elseif ($eleArray === 3) {
+            } elseif (3 === $eleArray) {
                 $ret .= $mv."['{$one}'][{$two}]['{$key}'] = {$desc};\n";
-            } elseif ($eleArray === 4) {
+            } elseif (4 === $eleArray) {
                 $ret .= $mv."['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
             }
         }

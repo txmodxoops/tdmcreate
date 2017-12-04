@@ -13,7 +13,7 @@
 /**
  * modules class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -99,7 +99,7 @@ class TDMCreateLogo
         if (!extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
+            $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
@@ -127,7 +127,7 @@ class TDMCreateLogo
         // Write text
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
+        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 

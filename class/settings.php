@@ -13,7 +13,7 @@
 /**
  * settings class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -36,7 +36,7 @@ class TDMCreateSettings extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $options = [
         'admin',
         'user',
         'blocks',
@@ -45,7 +45,7 @@ class TDMCreateSettings extends XoopsObject
         'notifications',
         'permissions',
         'inroot_copy',
-    );
+    ];
 
     /**
      *  @public function constructor class
@@ -136,7 +136,7 @@ class TDMCreateSettings extends XoopsObject
     public function getFormSettings($action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -145,7 +145,7 @@ class TDMCreateSettings extends XoopsObject
 
         include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
 
-        $form = new XoopsThemeForm($title, 'settingform', $action, 'post');
+        $form = new XoopsThemeForm($title, 'settingform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
         $form->addElement(new XoopsFormHidden('set_id', $this->getVar('set_id')));
@@ -253,15 +253,13 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      * Get Options Settings.
-
-     * @return string
-     *
+     * @return array
      */
     private function getOptionsSettings()
     {
-        $retSet = array();
+        $retSet = [];
         foreach ($this->options as $option) {
-            if ($this->getVar('set_'.$option) == 1) {
+            if (1 == $this->getVar('set_' . $option)) {
                 array_push($retSet, $option);
             }
         }
@@ -291,17 +289,17 @@ class TDMCreateSettings extends XoopsObject
 class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
 {
     /**
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_settings', 'tdmcreatesettings', 'set_id', 'set_name');
+        parent::__construct($db, 'tdmcreate_settings', 'TDMCreateSettings', 'set_id', 'set_name');
     }
 
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return XoopsObject
      */
     public function create($isNew = true)
     {
@@ -379,7 +377,7 @@ class TDMCreateSettingsHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getSettingsCriteria($crSettings, $start, $limit, $sort, $order)
     {

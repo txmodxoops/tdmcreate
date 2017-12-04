@@ -12,7 +12,7 @@
 /**
  * tc module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -71,7 +71,7 @@ class ClassFormElements extends TDMCreateAbstract
         $cc = ClassXoopsCode::getInstance();
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
-        if ($fieldDefault != '') {
+        if ('' != $fieldDefault) {
             $ret = $pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", "\t\t");
             $formText = $cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);
@@ -129,10 +129,12 @@ class ClassFormElements extends TDMCreateAbstract
         $ret = $pc->getPhpCodeCommentLine('Form editor', $ucfFieldName, "\t\t");
         $ret .= $pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
         $getConfig = $xc->getXcGetConfig($moduleDirname, $moduleDirname.'_editor_'.$rpFieldName);
-        $configs = array('name' => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
-                        'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig, );
+        $configs = [
+            'name'  => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
+            'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig,
+        ];
         foreach ($configs as $c => $d) {
-            $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d,  null, false, "\t\t");
+            $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d, null, false, "\t\t");
         }
         $formEditor = $cc->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
         $ret .= $cc->getClassAddElement('form', $formEditor.$required);
@@ -663,7 +665,7 @@ class ClassFormElements extends TDMCreateAbstract
         $fieldIdTopic = '';
         $fieldPidTopic = '';
         $fieldMainTopic = '';
-        $fieldElementId = array();
+        $fieldElementId = [];
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
@@ -739,7 +741,7 @@ class ClassFormElements extends TDMCreateAbstract
                         break;
                 }
                 if ($fieldElement > 15) {
-                    if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
+                    if ((1 == $fieldParent) || 1 == $table->getVar('table_category')) {
                         $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');

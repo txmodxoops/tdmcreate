@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
@@ -38,7 +38,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
@@ -71,7 +71,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
 
         $modulesObj = $tdmcreate->getHandler('modules')->create();
         $form = $modulesObj->getFormModules();
@@ -89,7 +89,7 @@ switch ($op) {
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
         //Form module save
-        $modulesObj->setVars(array(
+        $modulesObj->setVars([
                                  'mod_name' => $_POST['mod_name'],
                                  'mod_dirname' => $moduleDirname,
                                  'mod_version' => $_POST['mod_version'],
@@ -108,11 +108,17 @@ switch ($op) {
                                  'mod_release_info' => $_POST['mod_release_info'],
                                  'mod_release_file' => $_POST['mod_release_file'],
                                  'mod_manual' => $_POST['mod_manual'],
-                                 'mod_manual_file' => $_POST['mod_manual_file'], ));
+                                 'mod_manual_file' => $_POST['mod_manual_file'],
+                             ]);
         //Form mod_image
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
-        $uploader = new XoopsMediaUploader(TDMC_UPLOAD_IMGMOD_PATH, $tdmcreate->getConfig('mimetypes'),
-                                           $tdmcreate->getConfig('maxsize'), null, null);
+        $uploader = new XoopsMediaUploader(
+            TDMC_UPLOAD_IMGMOD_PATH,
+            $tdmcreate->getConfig('mimetypes'),
+                                           $tdmcreate->getConfig('maxsize'),
+            null,
+            null
+        );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
@@ -125,7 +131,8 @@ switch ($op) {
             $modulesObj->setVar('mod_image', $_POST['mod_image']);
         }
         //Form module save
-        $modulesObj->setVars(array(
+        $modulesObj->setVars(
+            [
                                  'mod_demo_site_url' => $_POST['mod_demo_site_url'],
                                  'mod_demo_site_name' => $_POST['mod_demo_site_name'],
                                  'mod_support_url' => $_POST['mod_support_url'],
@@ -135,9 +142,10 @@ switch ($op) {
                                  'mod_release' => $_POST['mod_release'],
                                  'mod_status' => $_POST['mod_status'],
                                  'mod_donations' => $_POST['mod_donations'],
-                                 'mod_subversion' => $_POST['mod_subversion'], )
+                                 'mod_subversion' => $_POST['mod_subversion'],
+                             ]
         );
-        $moduleOption = XoopsRequest::getArray('module_option', array());
+        $moduleOption = XoopsRequest::getArray('module_option', []);
         $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
         $modulesObj->setVar('mod_user', in_array('user', $moduleOption));
         $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption));
@@ -167,7 +175,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('modules.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
 
         $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         $form = $modulesObj->getFormModules();
@@ -186,12 +194,12 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'mod_id' => $modId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
+            xoops_confirm(['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
         }
         break;
 
     case 'display':
-        $modFieldArray = array('admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions');
+        $modFieldArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
         $id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);

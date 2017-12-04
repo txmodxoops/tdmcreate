@@ -95,7 +95,7 @@ class TDMCreateAddFiles extends XoopsObject
      */
     public function getFormAddFiles($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -166,15 +166,15 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_addfiles', 'tdmcreateaddfiles', 'file_id', 'file_name');
+        parent::__construct($db, 'tdmcreate_addfiles', 'TDMCreateAddFiles', 'file_id', 'file_name');
     }
 
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return XoopsObject
      */
-    public function &create($isNew = true)
+    public function create($isNew = true)
     {
         return parent::create($isNew);
     }
@@ -208,12 +208,12 @@ class TDMCreateAddFilesHandler extends XoopsPersistableObjectHandler
     /**
      * insert a new field in the database.
      *
-     * @param object $field reference to the {@link TDMCreateFields} object
+     * @param XoopsObject $field reference to the {@link TDMCreateFields} object
      * @param bool   $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
-    public function &insert(&$field, $force = false)
+    public function insert(XoopsObject $field, $force = false)
     {
         if (!parent::insert($field, $force)) {
             return false;

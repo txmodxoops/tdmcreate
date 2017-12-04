@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -129,14 +129,14 @@ class UserSubmit extends TDMCreateFile
     *  @param string $moduleDirname
      * @param        $fields
     *  @param string $tableName
-     * @param        $tableSolename
+     * @param        $tableSoleName
      * @param        $tableSubmit
      * @param        $tableAutoincrement
      * @param        $language
      * @param string $t
      * @return string
      */
-    public function getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSolename, $tableSubmit, $tableAutoincrement, $language, $t = '')
+    public function getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t = '')
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
@@ -150,7 +150,7 @@ class UserSubmit extends TDMCreateFile
         $ret .= $xc->getXcObjHandlerCreate($tableName, $t);
         $autoincrement = in_array(1, $tableAutoincrement) ? $tableAutoincrement : 0;
         if (in_array(1, $tableSubmit)) {
-            $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSolename, $autoincrement, $fields, $t);
+            $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $autoincrement, $fields, $t);
         }
         $ret .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert = $xc->getXcInsert($tableName, $tableName, 'Obj', 'Handler');
@@ -166,8 +166,7 @@ class UserSubmit extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserSubmitFooter
-    *  @param null
+     * @public function getUserSubmitFooter
      * @param $moduleDirname
      * @param $language
      * @return string
@@ -190,19 +189,21 @@ class UserSubmit extends TDMCreateFile
      * @param $tableId
      * @param $tableMid
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $tableSubmit
      * @param $tableAutoincrement
      * @param $language
      * @param $t
      * @return string
      */
-    private function getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSolename, $tableSubmit, $tableAutoincrement, $language, $t)
+    private function getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t)
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = array('form' => array($this->getUserSubmitForm($tableName, $language, $t)),
-                    'save' => array($this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSolename, $tableSubmit, $tableAutoincrement, $language, $t)), );
+        $cases = [
+            'form' => [$this->getUserSubmitForm($tableName, $language, $t)],
+            'save' => [$this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t)],
+        ];
 
         return $xc->getXcSwitch('op', $cases, true, false, $t);
     }
@@ -219,20 +220,21 @@ class UserSubmit extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $tables = $this->getTableTables($module->getVar('mod_id'));
-        $tableSubmit = array();
-        $tableAutoincrement = array();
+        $tableSoleName = '';
+        $tableSubmit = [];
+        $tableAutoincrement = [];
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableMid = $tables[$t]->getVar('table_mid');
             $tableName = $tables[$t]->getVar('table_name');
-            $tableSolename = $tables[$t]->getVar('table_solename');
+            $tableSoleName = $tables[$t]->getVar('table_solename');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             $tableAutoincrement[] = $tables[$t]->getVar('table_autoincrement');
         }
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSolename, $tableSubmit, $tableAutoincrement, $language, "\t");
+        $content .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, "\t");
         $content .= $this->getUserSubmitFooter($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -126,12 +126,12 @@ class UserBroken extends TDMCreateFile
      * @param $moduleDirname
      * @param $fields
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $tableAutoincrement
      * @param $language
      * @return string
      */
-    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSolename, $tableAutoincrement, $language)
+    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
@@ -153,7 +153,7 @@ class UserBroken extends TDMCreateFile
 
         $ret .= $pc->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', "\$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';\n\$error = true;\n", false, "\t");
 
-        $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSolename, $tableAutoincrement, $fields);
+        $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
         $condElse = $pc->getPhpCodeCommentLine('Insert Data');
         $insert = $xc->getXcInsert($tableName, $tableName, 'Obj', true);
@@ -186,8 +186,10 @@ class UserBroken extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = array('form' => array($this->getUserBrokenForm($tableName, $language)),
-                    'save' => array($this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSolename, $tableAutoincrement, $language)), );
+        $cases = [
+            'form' => [$this->getUserBrokenForm($tableName, $language)],
+            'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
+        ];
 
         return $xc->getXcSwitch('op', $cases, true);
     }
@@ -206,13 +208,13 @@ class UserBroken extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-        $tableSolename = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $fields = $this->getTableFields($tableMid, $tableId);
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getUserBrokenHeader($moduleDirname, $fields);
-        $content .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSolename, $tableAutoincrement, $language);
+        $content .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language);
         $content .= $this->getInclude('footer');
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

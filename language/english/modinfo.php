@@ -11,12 +11,12 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Xoops Team Developement Modules - http://www.xoops.org
+ * @author          Xoops Team Developement Modules - https://xoops.org
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  * @version         $Id: modinfo.php 11084 2013-02-23 15:44:20Z timgno $
@@ -88,7 +88,20 @@ define('_MI_TDMCREATE_CONFIG_MIN_PHP', 'Minimum Php');
 define('_MI_TDMCREATE_CONFIG_MIN_XOOPS', 'Minimum Xoops');
 define('_MI_TDMCREATE_CONFIG_MIN_ADMIN', 'Minimum Admin');
 define('_MI_TDMCREATE_CONFIG_MIN_MYSQL', 'Minimum MySQL');
-define('_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER', 'Modules adminpager');
-define('_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER', 'Tables adminpager');
-define('_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER', 'Fields adminpager');
-define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER', 'More Files adminpager');
+define('_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER', 'Modules AdminPager');
+define('_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Modules');
+define('_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER', 'Tables AdminPager');
+define('_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Tables');
+define('_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER', 'Fields AdminPager');
+define('_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Fields');
+define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER', 'More Files AdminPager');
+define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Files');
+define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER', 'Settings AdminPager');
+define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Settings');
+
+
+define('_AM_TDMCREATE_FIELD_ORDER_ERROR', 'Error in Field order');
+define('_AM_TDMCREATE_FORM_DELETED_OK', 'Form Deleted');
+define('_AM_TDMCREATE_NOT_MODULES', 'No modules');
+define('_AM_TDMCREATE_FORM_SURE_DELETE', 'Are you sure to delete it?');
+define('_AM_TDMCREATE_TABLE_ORDER_ERROR', 'Error in Table order');

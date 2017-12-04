@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -70,7 +70,7 @@ class AdminXoopsCode
     {
         $stuType = strtoupper($type);
         $aM = $t.'$adminMenu->addItemButton(';
-        if ($type === 'add') {
+        if ('add' === $type) {
             $ret = $aM."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
         } else {
             $ret = $aM."{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
@@ -87,9 +87,9 @@ class AdminXoopsCode
      * @param string $t
      * @return string
      */
-    public function getAdminAddNavigation($tableName, $t = '')
+    public function getAdminDisplayNavigation($tableName, $t = '')
     {
-        return "{$t}\$adminMenu->addNavigation('{$tableName}.php')";
+        return "{$t}\$adminMenu->displayNavigation('{$tableName}.php')";
     }
 
     /**
@@ -116,7 +116,7 @@ class AdminXoopsCode
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addInfoBoxLine(';
-        if ($var != '') {
+        if ('' != $var) {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>');\n";
@@ -137,7 +137,7 @@ class AdminXoopsCode
     public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
     {
         $aMenu = $t.'$adminMenu->addConfigBoxLine(';
-        if ($var != '') {
+        if ('' != $var) {
             $ret = $aMenu."{$language}, '{$label}', {$var});\n";
         } else {
             $ret = $aMenu."{$language}, '{$label}');\n";
@@ -278,11 +278,11 @@ class AdminXoopsCode
      *
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $fields
      * @return string
      */
-    public function getAxcSetVarsObjects($moduleDirname, $tableName, $tableSolename, $fields)
+    public function getAxcSetVarsObjects($moduleDirname, $tableName, $tableSoleName, $fields)
     {
         $xCodeSetVars = TDMCreateXoopsCode::getInstance();
         $ret = TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
@@ -312,7 +312,7 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
+                        $ret .= $xCodeSetVars->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
                         break;
                     default:
                         $ret .= $xCodeSetVars->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");

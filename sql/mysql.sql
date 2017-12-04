@@ -17,10 +17,10 @@ CREATE TABLE `tdmcreate_settings` (
   `set_dirname`             VARCHAR(100)        NOT NULL DEFAULT 'mymoduledirname',
   `set_version`             VARCHAR(5)          NOT NULL DEFAULT '1.0',
   `set_since`               VARCHAR(5)          NOT NULL DEFAULT '1.0',
-  `set_min_php`             VARCHAR(5)          NOT NULL DEFAULT '5.3',
-  `set_min_xoops`           VARCHAR(5)          NOT NULL DEFAULT '2.5.7',
-  `set_min_admin`           VARCHAR(5)          NOT NULL DEFAULT '1.1',
-  `set_min_mysql`           VARCHAR(5)          NOT NULL DEFAULT '5.1',
+  `set_min_php`             VARCHAR(5)          NOT NULL DEFAULT '5.5',
+  `set_min_xoops`           VARCHAR(5)          NOT NULL DEFAULT '2.5.9',
+  `set_min_admin`           VARCHAR(5)          NOT NULL DEFAULT '1.2',
+  `set_min_mysql`           VARCHAR(5)          NOT NULL DEFAULT '5.5',
   `set_description`         VARCHAR(255)        NOT NULL DEFAULT 'This module is for doing following...',
   `set_author`              VARCHAR(255)        NOT NULL DEFAULT 'TDM XOOPS',
   `set_author_mail`         VARCHAR(255)        NOT NULL DEFAULT 'info@email.com',
@@ -33,7 +33,7 @@ CREATE TABLE `tdmcreate_settings` (
   `set_manual`              VARCHAR(255)        NOT NULL DEFAULT 'link to manual file',
   `set_manual_file`         VARCHAR(255)        NOT NULL DEFAULT 'install.txt',
   `set_image`               VARCHAR(255)        NOT NULL DEFAULT 'empty.png',
-  `set_demo_site_url`       VARCHAR(255)        NOT NULL DEFAULT 'http://www.xoops.org',
+  `set_demo_site_url`       VARCHAR(255)        NOT NULL DEFAULT 'https://xoops.org',
   `set_demo_site_name`      VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Demo Site',
   `set_support_url`         VARCHAR(255)        NOT NULL DEFAULT 'http://xoops.org/modules/newbb',
   `set_support_name`        VARCHAR(255)        NOT NULL DEFAULT 'Support Forum',
@@ -41,7 +41,7 @@ CREATE TABLE `tdmcreate_settings` (
   `set_website_name`        VARCHAR(255)        NOT NULL DEFAULT 'XOOPS Project',
   `set_release`             VARCHAR(11)         NOT NULL DEFAULT '2015-05-02',
   `set_status`              VARCHAR(150)        NOT NULL DEFAULT 'Beta 1',
-  `set_admin`               TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',  
+  `set_admin`               TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `set_user`                TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `set_blocks`              TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `set_search`              TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -53,9 +53,16 @@ CREATE TABLE `tdmcreate_settings` (
   `set_subversion`          VARCHAR(10)         NOT NULL DEFAULT '13070',
   `set_type`                TINYINT(3) UNSIGNED NOT NULL DEFAULT '1',
   PRIMARY KEY (`set_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+)
+  ENGINE = InnoDB
+  AUTO_INCREMENT = 2
+  DEFAULT CHARSET = utf8;
 
-INSERT INTO `tdmcreate_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`) VALUES (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '5.3', '2.5.7', '1.1', '5.1', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 3.0 or later', 'release_info', 'release_info file', 'link to manual file', 'install.txt', 'empty.png', 'http://www.xoops.org', 'XOOPS Demo Site', 'http://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project', '2015-05-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070', 1);
+INSERT INTO `tdmcreate_settings` (`set_id`, `set_name`, `set_dirname`, `set_version`, `set_since`, `set_min_php`, `set_min_xoops`, `set_min_admin`, `set_min_mysql`, `set_description`, `set_author`, `set_author_mail`, `set_author_website_url`, `set_author_website_name`, `set_credits`, `set_license`, `set_release_info`, `set_release_file`, `set_manual`, `set_manual_file`, `set_image`, `set_demo_site_url`, `set_demo_site_name`, `set_support_url`, `set_support_name`, `set_website_url`, `set_website_name`, `set_release`, `set_status`, `set_admin`, `set_user`, `set_blocks`, `set_search`, `set_comments`, `set_notifications`, `set_permissions`, `set_inroot_copy`, `set_donations`, `set_subversion`, `set_type`)
+VALUES
+  (1, 'My Module', 'mymoduledirname', '1.0', '1.0', '5.5', '2.5.9', '1.2', '5.5', 'This module is for doing following...', 'TDM XOOPS', 'info@email.com', 'http://xoops.org', 'XOOPS Project', 'XOOPS Development Team', 'GPL 3.0 or later', 'release_info', 'release_info file', 'link to manual file',
+                                                                                                                                        'install.txt', 'empty.png', 'https://xoops.org', 'XOOPS Demo Site', 'https://xoops.org/modules/newbb', 'Support Forum', 'www.xoops.org', 'XOOPS Project',
+                                                                                                                                                                    '2017-12-02', 'Beta 1', '1', '1', '1', '0', '0', '0', '0', '0', '6KJ7RW5DR3VTJ', '13070', 1);
 
 #
 # Table structure for table `tdmcreate_modules` 39
@@ -67,10 +74,10 @@ CREATE TABLE `tdmcreate_modules` (
   `mod_dirname`             VARCHAR(100)        NOT NULL DEFAULT '',
   `mod_version`             VARCHAR(4)          NOT NULL DEFAULT '1.0',
   `mod_since`               VARCHAR(4)          NOT NULL DEFAULT '1.0',
-  `mod_min_php`             VARCHAR(4)          NOT NULL DEFAULT '5.3',
-  `mod_min_xoops`           VARCHAR(6)          NOT NULL DEFAULT '2.5.7',
-  `mod_min_admin`           VARCHAR(4)          NOT NULL DEFAULT '1.1',
-  `mod_min_mysql`           VARCHAR(6)          NOT NULL DEFAULT '5.0.7',
+  `mod_min_php`             VARCHAR(4)          NOT NULL DEFAULT '5.5',
+  `mod_min_xoops`           VARCHAR(6)          NOT NULL DEFAULT '2.5.9',
+  `mod_min_admin`           VARCHAR(4)          NOT NULL DEFAULT '1.2',
+  `mod_min_mysql`           VARCHAR(6)          NOT NULL DEFAULT '5.5',
   `mod_description`         TEXT,
   `mod_author`              VARCHAR(200)        NOT NULL DEFAULT 'TDM XOOPS',
   `mod_author_mail`         VARCHAR(200)        NOT NULL DEFAULT 'info@email.com',
@@ -91,7 +98,7 @@ CREATE TABLE `tdmcreate_modules` (
   `mod_website_name`        VARCHAR(200)        NOT NULL DEFAULT 'XOOPS',
   `mod_release`             VARCHAR(11)         NOT NULL DEFAULT '00-00-0000',
   `mod_status`              VARCHAR(150)        NOT NULL DEFAULT 'Beta 1',
-  `mod_admin`               TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',  
+  `mod_admin`               TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `mod_user`                TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `mod_blocks`              TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
   `mod_search`              TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
@@ -104,7 +111,8 @@ CREATE TABLE `tdmcreate_modules` (
   PRIMARY KEY (`mod_id`),
   KEY `mod_name` (`mod_name`),
   UNIQUE KEY `mod_dirname` (`mod_dirname`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 #
 # Table structure for table `tdmcreate_tables` 28
@@ -143,7 +151,8 @@ CREATE TABLE `tdmcreate_tables` (
   PRIMARY KEY (`table_id`),
   KEY `table_mid` (`table_mid`),
   KEY `table_name` (`table_name`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 #
 # Table structure for table `tdmcreate_fields` 24
@@ -152,7 +161,7 @@ CREATE TABLE `tdmcreate_tables` (
 CREATE TABLE `tdmcreate_fields` (
   `field_id`        INT(8)       UNSIGNED NOT NULL AUTO_INCREMENT,
   `field_mid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',
-  `field_tid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',  
+  `field_tid`       INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `field_order`     INT(5)       UNSIGNED NOT NULL DEFAULT '0',
   `field_name`      VARCHAR(150)          NOT NULL DEFAULT '',
   `field_type`      VARCHAR(15)           NOT NULL DEFAULT '',
@@ -163,9 +172,9 @@ CREATE TABLE `tdmcreate_fields` (
   `field_key`       VARCHAR(10)           NOT NULL DEFAULT '',
   `field_element`   VARCHAR(80)           NOT NULL DEFAULT '',
   `field_parent`    TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
-  `field_admin`     TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',                                
+  `field_admin`     TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
   `field_inlist`    TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
-  `field_inform`    TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',  
+  `field_inform`    TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
   `field_user`      TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
   `field_thead`     TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
   `field_tbody`     TINYINT(1)   UNSIGNED NOT NULL DEFAULT '0',
@@ -177,7 +186,8 @@ CREATE TABLE `tdmcreate_fields` (
   PRIMARY KEY (`field_id`),
   KEY `field_mid` (`field_mid`),
   KEY `field_tid` (`field_tid`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 #
 # Table structure for table `tdmcreate_languages` 5
@@ -190,8 +200,9 @@ CREATE TABLE `tdmcreate_languages` (
   `lng_define`      VARCHAR(255)          NOT NULL DEFAULT '',
   `lng_description` VARCHAR(255)          NOT NULL DEFAULT '',
   PRIMARY KEY (`lng_id`),
-  KEY `lng_mid` (`lng_mid`)  
-)ENGINE =InnoDB;
+  KEY `lng_mid` (`lng_mid`)
+)
+  ENGINE = InnoDB;
 
 #
 # Table structure for table `tdmcreate_fieldtype` 2
@@ -199,11 +210,12 @@ CREATE TABLE `tdmcreate_languages` (
 
 CREATE TABLE `tdmcreate_fieldtype` (
   `fieldtype_id`    INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
-  `fieldtype_name`  VARCHAR(15)          NOT NULL DEFAULT '',
-  `fieldtype_value` VARCHAR(15)          NOT NULL DEFAULT '',
+  `fieldtype_name`  VARCHAR(15)           NOT NULL DEFAULT '',
+  `fieldtype_value` VARCHAR(15)           NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldtype_id`),
   KEY `fieldtype_name` (`fieldtype_name`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 INSERT INTO `tdmcreate_fieldtype` (`fieldtype_id`, `fieldtype_name`, `fieldtype_value`) VALUES
   (1, '...', ''),
@@ -240,7 +252,8 @@ CREATE TABLE `tdmcreate_fieldattributes` (
   `fieldattribute_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldattribute_id`),
   KEY `fieldattribute_name` (`fieldattribute_name`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 INSERT INTO `tdmcreate_fieldattributes` (`fieldattribute_id`, `fieldattribute_name`, `fieldattribute_value`) VALUES
   (1, '...', ''),
@@ -259,7 +272,8 @@ CREATE TABLE `tdmcreate_fieldnull` (
   `fieldnull_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldnull_id`),
   KEY `fieldnull_name` (`fieldnull_name`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 INSERT INTO `tdmcreate_fieldnull` (`fieldnull_id`, `fieldnull_name`, `fieldnull_value`) VALUES
   (1, '...', ''),
@@ -276,7 +290,8 @@ CREATE TABLE `tdmcreate_fieldkey` (
   `fieldkey_value` VARCHAR(100)          NOT NULL DEFAULT '',
   PRIMARY KEY (`fieldkey_id`),
   KEY `fieldkey_name` (`fieldkey_name`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 INSERT INTO `tdmcreate_fieldkey` (`fieldkey_id`, `fieldkey_name`, `fieldkey_value`) VALUES
   (1, '...', ''),
@@ -299,7 +314,8 @@ CREATE TABLE `tdmcreate_fieldelements` (
   PRIMARY KEY (`fieldelement_id`),
   KEY `fieldelement_mid` (`fieldelement_mid`),
   KEY `fieldelement_tid` (`fieldelement_tid`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;
 
 INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES
   (1, 0, 0, '...', ''),
@@ -323,10 +339,11 @@ INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `f
 #
 
 CREATE TABLE `tdmcreate_morefiles` (
-  `file_id`         INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `file_mid`        INT(5) UNSIGNED NOT NULL DEFAULT '0',
-  `file_name`       VARCHAR(100)    NOT NULL DEFAULT '',
-  `file_extension`  VARCHAR(5)      NOT NULL DEFAULT '.php',
-  `file_infolder`   VARCHAR(50)     NOT NULL DEFAULT '',
+  `file_id`        INT(5) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `file_mid`       INT(5) UNSIGNED NOT NULL DEFAULT '0',
+  `file_name`      VARCHAR(100)    NOT NULL DEFAULT '',
+  `file_extension` VARCHAR(5)      NOT NULL DEFAULT '.php',
+  `file_infolder`  VARCHAR(50)     NOT NULL DEFAULT '',
   PRIMARY KEY (`file_id`)
-)ENGINE =InnoDB;
+)
+  ENGINE = InnoDB;

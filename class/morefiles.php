@@ -13,7 +13,7 @@
 /**
  * morefiles class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -93,7 +93,7 @@ class TDMCreateMoreFiles extends XoopsObject
     public function getFormMoreFiles($action = false)
     {
         $tdmcreate = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -165,17 +165,17 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
     /**
      *  @public function constructor class
      *
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_morefiles', 'tdmcreatemorefiles', 'file_id', 'file_name');
+        parent::__construct($db, 'tdmcreate_morefiles', 'TDMCreateMoreFiles', 'file_id', 'file_name');
     }
 
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return \XoopsObject
      */
     public function create($isNew = true)
     {
@@ -273,7 +273,7 @@ class TDMCreateMoreFilesHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getMoreFilesCriteria($crMoreFiles, $start, $limit, $sort, $order)
     {

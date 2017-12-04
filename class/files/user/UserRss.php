@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -98,7 +98,7 @@ class UserRss extends TDMCreateFile
             $rpFieldName = $fieldName;
             if (strpos($fieldName, '_')) {
                 $str = strpos($fieldName, '_');
-                if ($str !== false) {
+                if (false !== $str) {
                     $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
                 }
             }

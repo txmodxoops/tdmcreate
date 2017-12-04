@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -75,11 +75,11 @@ class TemplatesAdminHeader extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
 
         $navigation = $hc->getSmartySingleVar('navigation');
-        $due = $hc->getHtmlTag('span', array('class' => 'left'), $navigation).PHP_EOL;
+        $due = $hc->getHtmlTag('span', ['class' => 'left'], $navigation) . PHP_EOL;
         $buttons = $hc->getSmartySingleVar('buttons');
-        $right = $hc->getHtmlTag('span', array('class' => 'left'), $buttons.'&nbsp;');
+        $right = $hc->getHtmlTag('span', ['class' => 'left'], $buttons . '&nbsp;');
         $due .= $hc->getSmartyConditions('buttons', '', '', $right).PHP_EOL;
-        $content = $hc->getHtmlTag('div', array('class' => 'top'), $due);
+        $content = $hc->getHtmlTag('div', ['class' => 'top'], $due);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

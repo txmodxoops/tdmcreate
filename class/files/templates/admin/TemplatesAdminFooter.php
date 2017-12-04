@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -78,13 +78,13 @@ class TemplatesAdminFooter extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'AM');
 
         $singleNoVar = $hc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-        $img = $hc->getHtmlTag('img', array('src' => $singleNoVar, 'alt' => 'XOOPS'), '', false).PHP_EOL;
-        $anchor = $hc->getHtmlTag('a', array('href' => 'http://www.xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'), $img).PHP_EOL;
-        $content = $hc->getHtmlTag('div', array('class' => 'center'), $anchor).PHP_EOL;
-        $tree = $hc->getHtmlTag('strong', array(), $moduleName);
+        $img = $hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', false) . PHP_EOL;
+        $anchor = $hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) . PHP_EOL;
+        $content = $hc->getHtmlTag('div', ['class' => 'center'], $anchor) . PHP_EOL;
+        $tree = $hc->getHtmlTag('strong', [], $moduleName);
         $tree .= $hc->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
-        $tree .= $hc->getHtmlTag('a', array('href' => '<{$maintainedby}>', 'title' => 'Visit '.$supportName, 'class' => 'tooltip', 'rel' => 'external'), $supportName);
-        $content .= $hc->getHtmlTag('div', array('class' => 'center smallsmall italic pad5'), $tree);
+        $tree .= $hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
+        $content .= $hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], $tree);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

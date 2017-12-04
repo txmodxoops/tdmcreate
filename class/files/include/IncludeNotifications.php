@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -77,7 +77,7 @@ class IncludeNotifications extends TDMCreateFile
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $tableSolename = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldParent = 'cid';
         foreach (array_keys($fields) as $f) {
@@ -105,10 +105,10 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
     //
     if (empty(\$xoopsModule) || \$xoopsModule->getVar('dirname') != '{$moduleDirname}')
     {
-        \$module_handler =& xoops_getHandler('module');
-        \$module =& \$module_handler->getByDirname('{$moduleDirname}');
-        \$config_handler =& xoops_getHandler('config');
-        \$config =& \$config_handler->getConfigsByCat(0, \$module->getVar('mid'));
+        \$moduleHandler = xoops_getHandler('module');
+        \$module = \$moduleHandler->getByDirname('{$moduleDirname}');
+        \$configHandler = xoops_getHandler('config');
+        \$config =& \$configHandler->getConfigsByCat(0, \$module->getVar('mid'));
     } else {
         \$module =& \$xoopsModule;
         \$config =& \$xoopsModuleConfig;
@@ -129,7 +129,7 @@ function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
             \$item['url'] = {$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id;
             return \$item;
         break;
-        case '{$tableSolename}':
+        case '{$tableSoleName}':
             // Assume we have a valid link id
             \$sql = 'SELECT {$fieldId}, {$fieldMain} FROM '.\$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = ' . \$item_id;
             \$result = \$xoopsDB->query(\$sql); // TODO: error check

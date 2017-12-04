@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -68,16 +68,15 @@ class TemplatesUserPagesList extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserPagesListPanel
-    *  @param string $moduleDirname
-    *  @param string $language
-     * @param $tableId
-     * @param $tableMid
-     * @param $tableName
-     * @param $tableSoleName
-     * @param $language
+     * @private function getTemplatesUserPagesListPanel
+     * @param string $moduleDirname
+     * @param        $tableId
+     * @param        $tableMid
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $language
      * @return string
-      */
+     */
     private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
@@ -173,7 +172,7 @@ class TemplatesUserPagesList extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = '';
         //foreach (array_keys($tables) as $t) {
-            $tableId = $table/*s[$t]*/->getVar('table_id');
+        $tableId = $table/*s[$t]*/->getVar('table_id');
         $tableMid = $table/*s[$t]*/->getVar('table_mid');
         $tableName = $table/*s[$t]*/->getVar('table_name');
         $tableSoleName = $table/*s[$t]*/->getVar('table_solename');

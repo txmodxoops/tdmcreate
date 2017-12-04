@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -80,15 +80,15 @@ class TemplatesUserBreadcrumbs extends TDMCreateFile
         $title = $sc->getSmartyDoubleVar('itm', 'title');
         $titleElse = $sc->getSmartyDoubleVar('itm', 'title', $t."\t").PHP_EOL;
         $link = $sc->getSmartyDoubleVar('itm', 'link');
-        $glyph = $hc->getHtmlTag('i', array('class' => 'glyphicon glyphicon-home'), '', false, true);
+        $glyph = $hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, true);
         $anchor = $hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
-        $into = $hc->getHtmlTag('li', array('class' => 'bc-item'), $anchor, false, true, $t).PHP_EOL;
+        $into = $hc->getHtmlTag('li', ['class' => 'bc-item'], $anchor, false, true, $t) . PHP_EOL;
         $anchorIf = $hc->getHtmlAnchor($link, $title, $title, '', '', '', $t."\t").PHP_EOL;
         $breadcrumb = $sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, $t);
-        $foreach = $hc->getHtmlTag('li', array('class' => 'bc-item'), $breadcrumb, false, false, $t);
+        $foreach = $hc->getHtmlTag('li', ['class' => 'bc-item'], $breadcrumb, false, false, $t);
         $into .= $sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', $t);
 
-        $content = $hc->getHtmlTag('ol', array('class' => 'breadcrumb'), $into);
+        $content = $hc->getHtmlTag('ol', ['class' => 'breadcrumb'], $into);
 
         $tf->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

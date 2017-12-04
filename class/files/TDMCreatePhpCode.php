@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -64,12 +64,12 @@ class TDMCreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeCommentMultiLine($multiLine = array(), $t = '')
+    public function getPhpCodeCommentMultiLine($multiLine = [], $t = '')
     {
-        $values = !empty($multiLine) ? $multiLine : array();
+        $values = !empty($multiLine) ? $multiLine : [];
         $ret = "\n{$t}/**\n";
         foreach ($values as $string => $value) {
-            if ($string === '' && $value === '') {
+            if ('' === $string && '' === $value) {
                 $ret .= "{$t} *\n";
             } else {
                 $ret .= "{$t} * {$string} {$value}\n";
@@ -113,7 +113,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeGlobals($var, $value = '')
     {
-        if ($value != '') {
+        if ('' != $value) {
             $ret = "\$GLOBALS['{$var}'] = \${$value};\n";
         } else {
             $ret = "\$GLOBALS['{$var}']";
@@ -169,7 +169,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $t = "\r")
     {
-        return str_replace(array("{$n}", "{$t}"), '', $string);
+        return str_replace(["{$n}", "{$t}"], '', $string);
     }
 
     /**
@@ -196,10 +196,10 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeIncludeDir($directory = null, $filename = null, $once = false, $isPath = false, $type = 'include', $t = '')
     {
-        if ($type === '') {
+        if ('' === $type) {
             $type = 'include';
         }
-        if ($once == false) {
+        if (false === $once) {
             if (!$isPath) {
                 $ret = "{$t}{$type} {$directory} .'/{$filename}.php';\n";
             } else {
@@ -242,8 +242,8 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeClass($name = null, $content = null, $extends = null, $type = null)
     {
-        $typ = ($type != null) ? "{$type} " : '';
-        $ext = ($extends != null) ? " extends {$extends}" : '';
+        $typ = (null != $type) ? "{$type} " : '';
+        $ext = (null != $extends) ? " extends {$extends}" : '';
         $ret = "{$typ}class {$name}{$ext}\n";
         $ret .= '{';
         $ret .= "{$content}";
@@ -278,8 +278,8 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeFunction($name = null, $params = null, $content = null, $method = null, $isRef = false, $t = '')
     {
-        $inClass = ($method != null) ? $method : '';
-        $ref = ($isRef != false) ? '&' : '';
+        $inClass = (null != $method) ? $method : '';
+        $ref = (false !== $isRef) ? '&' : '';
         $ret = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
         $ret .= "{$t}{\n";
         $ret .= "{$content}";
@@ -413,7 +413,7 @@ class TDMCreatePhpCode
      *
      *  @return string
      */
-    public function getPhpCodeCaseSwitch($cases = array(), $defaultAfterCase = false, $default = false, $t = '')
+    public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
         $ret = '';
         $def = "{$t}default:\n";
@@ -421,7 +421,7 @@ class TDMCreatePhpCode
             $case = is_string($case) ? "'{$case}'" : $case;
             if (!empty($case)) {
                 $ret .= "{$t}case {$case}:\n";
-                if ($defaultAfterCase != false) {
+                if (false !== $defaultAfterCase) {
                     $ret .= $def;
                 }
                 if (is_array($value)) {
@@ -433,7 +433,7 @@ class TDMCreatePhpCode
             }
             $defaultAfterCase = false;
         }
-        if ($default !== false) {
+        if (false !== $default) {
             $ret .= $def;
             $ret .= "{$t}{$default}\n";
             $ret .= "{$t}break;\n";
@@ -542,7 +542,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeArray($var, $array = null, $isParam = false, $t = "\t\t")
     {
-        $retArray = array();
+        $retArray = [];
         if (is_array($array) && !empty($array)) {
             foreach ($array as $k => $v) {
                 if (is_numeric($k)) {
@@ -579,7 +579,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeArrayType($var, $type, $left, $right = null, $isParam = false, $t = "\t\t")
     {
-        $vars = ($right != null) ? "\${$left}, {$right}" : "\${$left}";
+        $vars = (null != $right) ? "\${$left}, {$right}" : "\${$left}";
         if (!$isParam) {
             $ret = "{$t}\${$var}[] = array_{$type}({$vars});\n";
         } else {
@@ -706,7 +706,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeHtmlentities($entitiesVar, $entitiesQuote = false)
     {
-        $entitiesVar = ($entitiesQuote !== false) ? $entitiesVar.', '.$entitiesQuote : $entitiesVar;
+        $entitiesVar = (false !== $entitiesQuote) ? $entitiesVar . ', ' . $entitiesQuote : $entitiesVar;
         $entities = "htmlentities({$entitiesVar})";
 
         return $entities;
@@ -720,7 +720,7 @@ class TDMCreatePhpCode
     */
     public function getPhpCodeHtmlspecialchars($specialVar, $specialQuote = false)
     {
-        $specialVar = ($specialQuote !== false) ? $specialVar.', '.$specialQuote : $specialVar;
+        $specialVar = (false !== $specialQuote) ? $specialVar . ', ' . $specialQuote : $specialVar;
         $specialchars = "htmlspecialchars({$specialVar})";
 
         return $specialchars;

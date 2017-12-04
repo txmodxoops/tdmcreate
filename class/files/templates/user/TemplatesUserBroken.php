@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -96,12 +96,12 @@ class TemplatesUserBroken extends TDMCreateFile
             $stuFieldName = strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 $const = $hc->getSmartyConst($language, $stuFieldName);
-                $th .= $hc->getHtmlTag('th', array('class' => 'center'), $const).PHP_EOL;
+                $th .= $hc->getHtmlTag('th', ['class' => 'center'], $const) . PHP_EOL;
             }
         }
-        $tr = $hc->getHtmlTag('tr', array('class' => 'head'), $th).PHP_EOL;
+        $tr = $hc->getHtmlTag('tr', ['class' => 'head'], $th) . PHP_EOL;
 
-        return $hc->getHtmlTag('thead', array('class' => 'outer'), $tr).PHP_EOL;
+        return $hc->getHtmlTag('thead', ['class' => 'outer'], $tr) . PHP_EOL;
     }
 
     /**
@@ -110,12 +110,12 @@ class TemplatesUserBroken extends TDMCreateFile
      * @param $tableMid
      * @param $tableId
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $tableAutoincrement
      * @param $language
      * @return string
      */
-    private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language)
+    private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $ret = '';
@@ -127,25 +127,25 @@ class TemplatesUserBroken extends TDMCreateFile
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
-                        $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>", "#<{\${$tableSolename}.{$rpFieldName}}>").PHP_EOL;
+                        $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", "#<{\${$tableSoleName}.{$rpFieldName}}>").PHP_EOL;
                         $ret .= $hc->getHtmlTableData($span, 'center').PHP_EOL;
                         break;
                     case 10:
-                        $img = $hc->getHtmlImage("<{xoModuleIcons32}><{\${$tableSolename}.{$rpFieldName}}>", $tableName);
+                        $img = $hc->getHtmlImage("<{xoModuleIcons32}><{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
                         $ret .= $hc->getHtmlTableData($img, 'center').PHP_EOL;
                         break;
                     case 13:
-                        $img = $hc->getHtmlImage("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSolename}.{$rpFieldName}}>", $tableName);
+                        $img = $hc->getHtmlImage("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
                         $ret .= $hc->getHtmlTableData($img, 'center').PHP_EOL;
                         break;
                     default:
-                        $ret .= $hc->getHtmlTableData("<{\${$tableSolename}.{$rpFieldName}}>", 'center').PHP_EOL;
+                        $ret .= $hc->getHtmlTableData("<{\${$tableSoleName}.{$rpFieldName}}>", 'center').PHP_EOL;
                         break;
                 }
             }
         }
         $row = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>').PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSolename, $tableName, $row).PHP_EOL;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row).PHP_EOL;
 
         return $hc->getHtmlTableTbody($foreach).PHP_EOL;
     }
@@ -178,12 +178,12 @@ class TemplatesUserBroken extends TDMCreateFile
         $tableId = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
         $tableName = $table->getVar('table_name');
-        $tableSolename = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserBrokenFileHeader($moduleDirname).PHP_EOL;
         $contentTable = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
-        $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSolename, $tableAutoincrement, $language);
+        $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language);
         $content .= $hc->getHtmlTable($contentTable, 'table table-bordered').PHP_EOL;
         $content .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
 

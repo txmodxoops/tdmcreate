@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -62,7 +62,7 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('base_architecture', false);
         }
         // Get files
-        $build = array();
+        $build = [];
         $files = $handler->setFilesToBuilding($moduleObj);
         foreach ($files as $file) {
             if ($file) {

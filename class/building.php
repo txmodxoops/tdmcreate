@@ -13,7 +13,7 @@
 /**
  * TDMCreateBuilding class.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.x
@@ -53,7 +53,7 @@ class TDMCreateBuilding
     public function getForm($action = false)
     {
         $tc = TDMCreateHelper::getInstance();
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         xoops_load('XoopsFormLoader');
@@ -77,7 +77,7 @@ class TDMCreateBuilding
      * @param string $dir
      * @param string $pattern
      *
-     * @return clearDir
+     * @return void
      */
     public function clearDir($dir, $pattern = '*')
     {
@@ -86,10 +86,10 @@ class TDMCreateBuilding
         // Interate thorugh the files and folders
         foreach ($files as $file) {
             // if it's a directory then re-call clearDir function to delete files inside this directory
-            if (is_dir($file) && !in_array($file, array('..', '.'))) {
+            if (is_dir($file) && !in_array($file, ['..', '.'])) {
                 // Remove the directory itself
                 self::clearDir($file, $pattern);
-            } elseif (is_file($file) && ($file != __FILE__)) {
+            } elseif ((__FILE__ != $file) && is_file($file)) {
                 // Make sure you don't delete the current script
                 unlink($file);
             }
@@ -101,14 +101,14 @@ class TDMCreateBuilding
      * @param string $src
      * @param string $dst
      *
-     * @return copyDir
+     * @return void
      */
     public function copyDir($src, $dst)
     {
         $dir = opendir($src);
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
-            if (($file !== '.') && ($file !== '..')) {
+            if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src.'/'.$file)) {
                     // Copy the directory itself
                     self::copyDir($src.'/'.$file, $dst.'/'.$file);

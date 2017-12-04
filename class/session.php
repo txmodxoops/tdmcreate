@@ -46,7 +46,7 @@ class TDMCreateSession
     *  @param null
     */
     /**
-     * @return TDMCreateSession
+     * @return bool
      */
     public static function getInstance()
     {
@@ -101,7 +101,7 @@ class TDMCreateSession
      */
     public function destroySession()
     {
-        $_SESSION = array();
+        $_SESSION = [];
         session_destroy();
     }
 }

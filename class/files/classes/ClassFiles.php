@@ -12,7 +12,7 @@
 /**
  * tc module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -169,12 +169,12 @@ class ClassFiles extends TDMCreateFile
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $ret = $pc->getPhpCodeDefined();
-        $ret .= $pc->getPhpCodeCommentMultiLine(array('Class Object' => $ucfModuleDirname.$ucfTableName));
+        $ret .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $ucfModuleDirname . $ucfTableName]);
         $cCl = '';
 
-        $fieldInForm = array();
-        $fieldElementId = array();
-        $optionsFieldName = array();
+        $fieldInForm = [];
+        $fieldElementId = [];
+        $optionsFieldName = [];
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -195,16 +195,16 @@ class ClassFiles extends TDMCreateFile
         }
         if (in_array(5, $fieldElementId) > 1) {
             $optionsElements = implode(', ', $optionsFieldName);
-            $cCl .= $pc->getPhpCodeCommentMultiLine(array('Options' => ''));
+            $cCl .= $pc->getPhpCodeCommentMultiLine(['Options' => '']);
             $options = $pc->getPhpCodeArray('', $optionsFieldName, true);
             $cCl .= $pc->getPhpCodeVariableClass('private', 'options', $options);
         }
         unset($optionsFieldName);
 
-        $cCl .= $pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null'), "\t");
+        $cCl .= $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null'], "\t");
         $constr = $this->getInitVars($fields);
         $cCl .= $pc->getPhpCodeFunction('__construct', '', $constr, 'public ', false, "\t");
-        $arrayGetInstance = array('@static function' => '&getInstance', '' => '', '@param' => 'null');
+        $arrayGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
         $cCl .= $pc->getPhpCodeCommentMultiLine($arrayGetInstance, "\t");
         $getInstance = $pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
         $instance = $xc->getXcEqualsOperator('$instance', 'new self()', null, false, "\t\t\t");
@@ -239,7 +239,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $tableName = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('The new inserted' => '$Id'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id'], "\t");
         $getInsertedId = $xc->getXcEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, false, "\t\t");
         $getInsertedId .= $this->getSimpleString('return $newInsertedId;', "\t\t");
 
@@ -273,14 +273,14 @@ class ClassFiles extends TDMCreateFile
         $stuTableSoleName = strtoupper($tableSoleName);
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fe->initForm($module, $table);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Get' => 'form', '' => '', '@param mixed' => '$action'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'form', '' => '', '@param mixed' => '$action'], "\t");
         $action = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getForm = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
         $getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
         $xUser = $pc->getPhpCodeGlobals('xoopsUser');
         $xModule = $pc->getPhpCodeGlobals('xoopsModule');
-        if ((1 != $tableCategory)/* && (1 == $tablePermissions)*/) {
+        if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm .= $pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
             $getForm .= $pc->getPhpCodeTernaryOperator('groups', 'is_object('.$xUser.')', $xUser.'->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
@@ -383,7 +383,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($table->getVar('table_name'));
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Get' => 'Values'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Values'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getValues = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
         $getValues .= $xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, false, "\t\t");
@@ -450,10 +450,10 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $tableName = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
-        $multiLineCom = array('Returns an array representation' => 'of the object', '' => '', '@return' => 'array');
+        $multiLineCom = ['Returns an array representation' => 'of the object', '' => '', '@return' => 'array'];
         $ret = $pc->getPhpCodeCommentMultiLine($multiLineCom, "\t");
 
-        $getToArray = $pc->getPhpCodeArray('ret', array(), false, "\t\t");
+        $getToArray = $pc->getPhpCodeArray('ret', [], false, "\t\t");
         $getToArray .= $xc->getXcEqualsOperator('$vars', '$this->getVars()', null, false, "\t\t");
         $foreach = $xc->getXcGetVar('ret[$var]', 'this', '"{$var}"', false, "\t");
         $getToArray .= $pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");
@@ -477,8 +477,8 @@ class ClassFiles extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $tableName = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Get' => 'Options'), "\t");
-        $getOptions = $pc->getPhpCodeArray('ret', array(), false, "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Options'], "\t");
+        $getOptions = $pc->getPhpCodeArray('ret', [], false, "\t");
 
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -526,10 +526,10 @@ class ClassFiles extends TDMCreateFile
         $ucfTableName = ucfirst($tableName);
         $ucfTableSoleName = ucfirst($tableSoleName);
         $ucfModuleTable = $ucfModuleDirname.$ucfTableName;
-        $multiLineCom = array('Class Object Handler' => $ucfModuleDirname.$ucfTableName);
+        $multiLineCom = ['Class Object Handler' => $ucfModuleDirname . $ucfTableName];
         $ret = $pc->getPhpCodeCommentMultiLine($multiLineCom);
 
-        $cClh = $pc->getPhpCodeCommentMultiLine(array('Constructor' => '', '' => '', '@param' => 'null|XoopsDatabase $db'), "\t");
+        $cClh = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null|XoopsDatabase $db'], "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', '{$moduleDirname}{$tableName}', '{$fieldId}', '{$fieldMain}');\n";
 
         $cClh .= $pc->getPhpCodeFunction('__construct', 'XoopsDatabase $db', $constr, 'public ', false, "\t");
@@ -539,7 +539,7 @@ class ClassFiles extends TDMCreateFile
         $cClh .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);
-        if (in_array(1, $fieldParentId) && $fieldElement > 15) {
+        if ($fieldElement > 15 && in_array(1, $fieldParentId)) {
             $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement);
             $cClh .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);
         }
@@ -557,7 +557,7 @@ class ClassFiles extends TDMCreateFile
     private function getClassCreate()
     {
         $pc = TDMCreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeCommentMultiLine(array('@param bool' => '$isNew', '' => '', '@return' => 'object'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['@param bool' => '$isNew', '' => '', '@return' => 'object'], "\t");
         $cClhc = $this->getSimpleString('return parent::create($isNew);', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('create', '$isNew = true', $cClhc, 'public ', false, "\t");
@@ -573,7 +573,7 @@ class ClassFiles extends TDMCreateFile
     private function getClassGet()
     {
         $pc = TDMCreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeCommentMultiLine(array('retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@return mixed reference to the' => '{@link Get} object'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@return mixed reference to the' => '{@link Get} object'], "\t");
         $cClhg = $this->getSimpleString('return parent::get($i, $fields);', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('get', '$i = null, $fields = null', $cClhg, 'public ', false, "\t");
@@ -589,7 +589,7 @@ class ClassFiles extends TDMCreateFile
     private function getClassGetInsertId()
     {
         $pc = TDMCreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeCommentMultiLine(array('get inserted' => 'id', '' => '', '@param' => 'null', '@return integer reference to the' => '{@link Get} object'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['get inserted' => 'id', '' => '', '@param' => 'null', '@return integer reference to the' => '{@link Get} object'], "\t");
         $cClhgid = $this->getSimpleString('return $this->db->getInsertId();', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('getInsertId', '', $cClhgid, 'public ', false, "\t");
@@ -612,7 +612,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Get Count '.$ucfTableName => 'in the database'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database'], "\t");
 
         $critCount = $cc->getClassCriteriaCompo('crCount'.$ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
@@ -640,7 +640,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Get All '.$ucfTableName => 'in the database'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get All ' . $ucfTableName => 'in the database'], "\t");
 
         $critAll = $cc->getClassCriteriaCompo('crAll'.$ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
@@ -682,7 +682,7 @@ class ClassFiles extends TDMCreateFile
         $topicTableName = str_replace(': ', '', $fieldNameDesc);
         $lcfTopicTableName = lcfirst($topicTableName);
 
-        $ret = $pc->getPhpCodeCommentMultiLine(array("Get All {$ucfTableName} By" => "{$fieldNameDesc} Id"), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(["Get All {$ucfTableName} By" => "{$fieldNameDesc} Id"], "\t");
 
         $critAll = $xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
         $param1 = "'{$moduleDirname}_view'";
@@ -691,7 +691,7 @@ class ClassFiles extends TDMCreateFile
         $critAll .= $xc->getXcGetItemIds($lcfTopicTableName, 'gpermHandler', $param1, $param2, $param3, "\t\t");
         $critAll .= $cc->getClassCriteriaCompo('crAll'.$ucfTableName, "\t\t");
 
-        if (strstr($fieldName, 'status')) {
+        if (false !== strpos($fieldName, 'status')) {
             $crit = $cc->getClassCriteria('', "'{$fieldName}'", '0', "'!='", true);
             $critAll .= $cc->getClassAdd('crAll'.$ucfTableName, $crit, "\t\t");
         }
@@ -717,7 +717,7 @@ class ClassFiles extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Get' => 'Criteria '.$ucfTableName), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName], "\t");
 
         $paramsAllCriteria = "\$cr{$ucfTableName}, \$start, \$limit, \$sort, \$order";
 
@@ -749,7 +749,7 @@ class ClassFiles extends TDMCreateFile
         $tableSoleName = $table->getVar('table_solename');
         $ucfTableSoleName = ucfirst($tableSoleName);
         $ccTableSoleName = $this->getCamelCase($tableSoleName, true);
-        $ret = $pc->getPhpCodeCommentMultiLine(array('Returns the' => $ucfTableSoleName.' from id', '' => '', '@return' => 'string'), "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
         $soleName = $xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
         $soleName .= $xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
 
@@ -783,9 +783,9 @@ class ClassFiles extends TDMCreateFile
         $tableCategory = $table->getVar('table_category');
         $moduleDirname = $module->getVar('mod_dirname');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldInForm = array();
-        $fieldParentId = array();
-        $fieldElementId = array();
+        $fieldInForm = [];
+        $fieldParentId = [];
+        $fieldElementId = [];
         $fieldParent = null;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');

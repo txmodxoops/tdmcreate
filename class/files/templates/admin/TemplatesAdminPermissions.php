@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -85,8 +85,8 @@ class TemplatesAdminPermissions extends TDMCreateFile
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $form = $hc->getSmartySingleVar('form');
-        $ret = $hc->getHtmlTag('div', array('class' => 'spacer'), $form).PHP_EOL;
-        $ret .= $hc->getHtmlTag('br', array(), '', false).PHP_EOL;
+        $ret = $hc->getHtmlTag('div', ['class' => 'spacer'], $form) . PHP_EOL;
+        $ret .= $hc->getHtmlTag('br', [], '', false) . PHP_EOL;
 
         return $ret;
     }

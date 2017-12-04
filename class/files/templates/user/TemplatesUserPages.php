@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -81,15 +81,15 @@ class TemplatesUserPages extends TDMCreateFile
      * @private function getTemplatesUserPagesTable
      * @param string $moduleDirname
      * @param string $tableName
-     * @param        $tableSolename
+     * @param        $tableSoleName
      * @param string $language
      * @return string
      */
-    private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $tbody = $this->getTemplatesUserPagesTableThead($tableName, $language);
-        $tbody .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language);
+        $tbody .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language);
         $tbody .= $this->getTemplatesUserPagesTableTfoot();
         $single = $hc->getSmartySingleVar('table_type');
 
@@ -119,19 +119,19 @@ class TemplatesUserPages extends TDMCreateFile
     *  @param string $moduleDirname
     *  @param string $language
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @return string
      */
-    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $single = $hc->getSmartySingleVar('panel_type');
-        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
+        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
         $div = $hc->getHtmlDiv($include, 'panel panel-'.$single);
         $cont = $hc->getHtmlTableData($div).PHP_EOL;
         $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
         $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
 
         return $hc->getHtmlTableTbody($tr).PHP_EOL;
@@ -156,14 +156,14 @@ class TemplatesUserPages extends TDMCreateFile
     *  @private function getTemplatesUserPages
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $language
      * @return string
      */
-    private function getTemplatesUserPages($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSolename, $language).PHP_EOL;
+        $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language).PHP_EOL;
         $div = $hc->getHtmlDiv($table, 'table-responsive').PHP_EOL;
 
         return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true).PHP_EOL;
@@ -195,10 +195,10 @@ class TemplatesUserPages extends TDMCreateFile
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $tableName = $table->getVar('table_name');
-        $tableSolename = $table->getVar('table_solename');
+        $tableSoleName = $table->getVar('table_solename');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserPagesHeader($moduleDirname);
-        $content .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSolename, $language);
+        $content .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language);
         $content .= $this->getTemplatesUserPagesFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

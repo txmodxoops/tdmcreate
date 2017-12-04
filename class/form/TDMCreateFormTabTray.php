@@ -15,10 +15,10 @@
  * @category  XoopsFormTabTray
  *
  * @author    trabis <lusopoemas@gmail.com>
- * @copyright 2012-2014 The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright 2012-2014 XOOPS Project (https://xoops.org)
  * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  *
- * @link      http://xoops.org
+ * @link      https://xoops.org
  * @since     2.0.0
  */
 XoopsLoad::load('XoopsFormElementTray');
@@ -61,7 +61,7 @@ class TDMCreateFormTabTray extends XoopsFormElementTray
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/jquery.js');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addStylesheet(XOOPS_URL.'/modules/system/css/ui/'.$this->uiTheme.'/ui.all.css');
-        $GLOBALS['xoTheme']->addScript('', array('type' => 'text/javascript'), '$(function() { $("#tabs_'.$this->getName().'").tabs(); });');
+        $GLOBALS['xoTheme']->addScript('', ['type' => 'text/javascript'], '$(function() { $("#tabs_' . $this->getName() . '").tabs(); });');
 
         $ret = '<div id="tabs_'.$this->getName().'">'.NWLINE;
         $ret .= '<ul>'.NWLINE;
@@ -74,7 +74,7 @@ class TDMCreateFormTabTray extends XoopsFormElementTray
         $ret .= '</ul>'.NWLINE;
 
         $hidden = '';
-        $extras = array();
+        $extras = [];
 
         foreach ($this->getElements() as $ele) {
             /* @var $ele Element */

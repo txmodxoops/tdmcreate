@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -52,9 +52,7 @@ class TemplatesAdminAbout extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     * @public function write
      * @param $module
      * @param $filename
      */
@@ -79,7 +77,7 @@ class TemplatesAdminAbout extends TDMCreateFile
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
         $content .= $hc->getHtmlComment('About Page').PHP_EOL;
         $single = $hc->getSmartySingleVar('about');
-        $content .= $hc->getHtmlTag('div', array('class' => 'top'), $single).PHP_EOL;
+        $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
         $content .= $hc->getHtmlComment('Footer').PHP_EOL;
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 

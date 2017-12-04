@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
@@ -38,7 +38,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('morefiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MORE_FILE, 'morefiles.php?op=new', 'add');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgfile_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
@@ -73,7 +73,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('morefiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
 
         $morefilesObj = $tdmcreate->getHandler('morefiles')->create();
         $form = $morefilesObj->getFormMoreFiles();
@@ -90,11 +90,12 @@ switch ($op) {
             $morefilesObj = $tdmcreate->getHandler('morefiles')->create();
         }
         // Form file save
-        $morefilesObj->setVars(array(
+        $morefilesObj->setVars([
                                  'file_mid' => $_POST['file_mid'],
                                  'file_name' => $_POST['file_name'],
                                  'file_extension' => $_POST['file_extension'],
-                                 'file_infolder' => $_POST['file_infolder'], ));
+                                 'file_infolder' => $_POST['file_infolder'],
+                               ]);
 
         if ($tdmcreate->getHandler('morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
@@ -116,7 +117,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('morefiles.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'morefiles.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
 
         $morefilesObj = $tdmcreate->getHandler('morefiles')->get($fileId);
         $form = $morefilesObj->getFormMoreFiles();
@@ -135,7 +136,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'file_id' => $fileId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
+            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
         }
         break;
 }

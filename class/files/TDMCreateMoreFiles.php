@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -76,7 +76,7 @@ class TDMCreateMoreFiles extends TDMCreateFile
         $this->setModule($module);
         $this->extension = $extension;
         $this->setFileName($filename.'.'.$extension);
-        if (strstr($folder, 'user')) {
+        if (false !== strpos($folder, 'user')) {
             $this->folder = '/';
         } else {
             $this->folder = $folder;

@@ -63,4 +63,4 @@ questionable forms of use where this software could be misused in
 any way. 
 
 http://www.txmodxoops.org
-http://www.xoops.org
+https://xoops.org

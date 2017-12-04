@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -172,7 +172,7 @@ class LanguageAdmin extends TDMCreateFile
                     $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                     $fieldNameDesc = str_replace(': ', '', $fieldNameDesc);
                 } else {
-                    $fieldNameDesc = strstr($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
+                    $fieldNameDesc = false !== strpos($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
                 }
 
                 $ret .= $this->defines->getDefine($language, $tableSoleName.'_'.$rpFieldName, $fieldNameDesc);

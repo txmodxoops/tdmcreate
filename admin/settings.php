@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
@@ -38,7 +38,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
@@ -67,7 +67,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
 
         $settingsObj = $tdmcreate->getHandler('settings')->create();
         $form = $settingsObj->getFormSettings();
@@ -84,7 +84,7 @@ switch ($op) {
         }
         $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
         //Form module save
-        $settingsObj->setVars(array(
+        $settingsObj->setVars([
                                  'set_name' => $_POST['set_name'],
                                  'set_dirname' => $setModuleDirname,
                                  'set_version' => $_POST['set_version'],
@@ -103,11 +103,13 @@ switch ($op) {
                                  'set_release_info' => $_POST['set_release_info'],
                                  'set_release_file' => $_POST['set_release_file'],
                                  'set_manual' => $_POST['set_manual'],
-                                 'set_manual_file' => $_POST['set_manual_file'], ));
+                                 'set_manual_file' => $_POST['set_manual_file'],
+                              ]);
         //Form set_image
         $settingsObj->setVar('set_image', $_POST['set_image']);
         //Form module save
-        $settingsObj->setVars(array(
+        $settingsObj->setVars(
+            [
                                  'set_demo_site_url' => $_POST['set_demo_site_url'],
                                  'set_demo_site_name' => $_POST['set_demo_site_name'],
                                  'set_support_url' => $_POST['set_support_url'],
@@ -117,9 +119,10 @@ switch ($op) {
                                  'set_release' => $_POST['set_release'],
                                  'set_status' => $_POST['set_status'],
                                  'set_donations' => $_POST['set_donations'],
-                                 'set_subversion' => $_POST['set_subversion'], )
+                                 'set_subversion' => $_POST['set_subversion'],
+                              ]
         );
-        $settingOption = XoopsRequest::getArray('setting_option', array());
+        $settingOption = XoopsRequest::getArray('setting_option', []);
         $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
         $settingsObj->setVar('set_user', in_array('user', $settingOption));
         $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption));
@@ -145,7 +148,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('settings.php'));
         $adminMenu->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $adminMenu->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->renderButton());
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
         $settingsObj = $tdmcreate->getHandler('settings')->get($setId);
         $form = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
@@ -162,7 +165,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $settingsObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(array('ok' => 1, 'set_id' => $setId, 'op' => 'delete'), $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $settingsObj->getVar('set_name')));
+            xoops_confirm(['ok' => 1, 'set_id' => $setId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $settingsObj->getVar('set_name')));
         }
         break;
     case 'display':

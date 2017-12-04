@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.5
@@ -103,7 +103,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      */
     public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_fieldelements', 'tdmcreatefieldelements', 'fieldelement_id', 'fieldelement_name');
+        parent::__construct($db, 'tdmcreate_fieldelements', 'TDMCreateFieldElements', 'fieldelement_id', 'fieldelement_name');
     }
 
     /**
@@ -181,7 +181,7 @@ class TDMCreateFieldElementsHandler extends XoopsPersistableObjectHandler
      * @param $limit
      * @param $sort
      * @param $order
-     * @return
+     * @return mixed
      */
     private function getFieldElementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order)
     {

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -101,7 +101,7 @@ class AdminIndex extends TDMCreateFile
             $ret .= $axc->getAxcAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
         }
 
-        if ($tableName == null) {
+        if (null === $tableName) {
             $ret .= $axc->getAxcAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0');
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {
@@ -122,8 +122,8 @@ class AdminIndex extends TDMCreateFile
             $ret .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
         $ret .= $pc->getPhpCodeCommentLine('Render Index');
-        $ret .= $xc->getXcTplAssign('navigation', "\$adminMenu->addNavigation('index.php')");
-        $ret .= $xc->getXcTplAssign('index', '$adminMenu->renderIndex()');
+        $ret .= $xc->getXcTplAssign('navigation', "\$adminMenu->displayNavigation('index.php')");
+        $ret .= $xc->getXcTplAssign('index', '$adminMenu->displayIndex()');
 
         $ret .= $this->getInclude('footer');
 

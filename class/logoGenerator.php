@@ -12,12 +12,12 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
  *
- * @author          Xoops Team Developement Modules - http://www.xoops.org
+ * @author          Xoops Team Developement Modules - https://xoops.org
  *
  * @version         $Id: logoGenerator.php 12258 2014-01-02 09:33:29Z timgno $
  */
@@ -25,7 +25,7 @@ include_once dirname(dirname(dirname(__DIR__))).'/mainfile.php';
 //include_once XOOPS_ROOT_PATH . '/modules/TDMCreate/include/common.php';
 
 if (function_exists($_GET['f'])) { // get function name and parameter  $_GET['f']($_GET["p"]);
-    include_once 'logoGenerator.php';
+    include_once __DIR__ . '/logoGenerator.php';
     $ret = logoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
     phpFunction($ret);
 } else {
@@ -56,7 +56,7 @@ class logoGenerator
         if (!extension_loaded('gd')) {
             return false;
         } else {
-            $requiredFunctions = array('imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate');
+            $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
             foreach ($requiredFunctions as $func) {
                 if (!function_exists($func)) {
                     return false;
@@ -84,7 +84,7 @@ class logoGenerator
         // Write text
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
-        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), array());
+        imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
 
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
 

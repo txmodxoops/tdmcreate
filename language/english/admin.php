@@ -11,7 +11,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -415,3 +415,5 @@ define('_AM_TDMCREATE_FILE_MID_LIST', 'Module Name');
 define('_AM_TDMCREATE_FILE_EXTENSION_LIST', 'Extension Type');
 define('_AM_TDMCREATE_FILE_INFOLDER_LIST', 'In Folder');
 define('_AM_TDMCREATE_FORM_ACTION', 'Action');
+
+define('_AM_TDMCREATE_THEREARENT_SETTINGS', 'There are NO Settings! Please create Settings');

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -83,16 +83,16 @@ class TemplatesUserIndex extends TDMCreateFile
     *  @private function getTemplatesUserIndexTable
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $language
      * @return string
      */
-    private function getTemplatesUserIndexTable($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $single = $hc->getSmartySingleVar('table_type');
         $table = $this->getTemplatesUserIndexTableThead($tableName, $language);
-        $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language);
+        $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
 
         return $hc->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
     }
@@ -119,20 +119,20 @@ class TemplatesUserIndex extends TDMCreateFile
     *  @private function getTemplatesUserIndexTbody
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $language
      * @return string
      */
-    private function getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSolename, $language)
+    private function getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $type = $hc->getSmartySingleVar('panel_type');
-        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSolename);
+        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
         $div = $hc->getHtmlDiv($include, 'panel panel-'.$type);
         $cont = $hc->getHtmlTableData($div).PHP_EOL;
         $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont .= $hc->getSmartyConditions($tableSolename.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSolename, $tableName, $cont).PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
         $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
 
         return $hc->getHtmlTableTbody($tr).PHP_EOL;

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -36,19 +36,19 @@ $adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'<
 $adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields), 'Gray');
 $adminMenu->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles), 'Red');
 // Upload Folders
-$folder = array(
+$folder = [
         TDMC_UPLOAD_PATH,
         TDMC_UPLOAD_REPOSITORY_PATH,
         TDMC_UPLOAD_IMGMOD_PATH,
         TDMC_UPLOAD_IMGTAB_PATH,
-);
+];
 
 // Uploads Folders Created
 foreach (array_keys($folder) as $i) {
     $adminMenu->addConfigBoxLine($folder[$i], 'folder');
-    $adminMenu->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+    $adminMenu->addConfigBoxLine([$folder[$i], '777'], 'chmod');
 }
 
 $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('index.php'));
-$GLOBALS['xoopsTpl']->assign('index', $adminMenu->renderIndex());
+$GLOBALS['xoopsTpl']->assign('index', $adminMenu->displayIndex());
 include __DIR__.'/footer.php';

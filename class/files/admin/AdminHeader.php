@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -98,7 +98,7 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->xc->getXcEqualsOperator('$pathModuleAdmin ', "{$dirmoduleadmin}");
         $ret .= $this->xc->getXcEqualsOperator('$modPathIcon16 ', "{$modicons16}");
         $ret .= $this->xc->getXcEqualsOperator('$modPathIcon32 ', "{$modicons32}");
-        if (is_object($table) && $table->getVar('table_name') != '') {
+        if (is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
             $ret .= $this->xc->getXcEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
         }

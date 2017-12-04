@@ -10,7 +10,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright   The XOOPS project http://www.xoops.org/
+ * @copyright   The XOOPS project https://xoops.org/
  * @license     GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since       1.91
@@ -44,19 +44,19 @@ class TDMCreateFormRadio extends XoopsFormRadio
         foreach ($ele_options as $value => $name) {
             ++$id_ele;
             if (!empty($this->columns)) {
-                if ($i % $this->columns == 0) {
+                if (0 == $i % $this->columns) {
                     $ret .= '<tr>';
                 }
                 $ret .= '<td class="radio">';
             }
             $ret .= '<input type="radio" name="'.$ele_name.'" id="'.$ele_name.'['.$value.']'.$id_ele.'" title = "'.htmlspecialchars($ele_title, ENT_QUOTES).'" value="'.htmlspecialchars($value, ENT_QUOTES).'"';
             if (isset($ele_value) && $value == $ele_value) {
-                $ret .= ' checked="checked"';
+                $ret .= ' checked';
             }
             $ret .= $ele_extra.' />'."<label name='xolb_{$ele_name}' for='".$ele_name.'['.$value.']'.$id_ele."'><span><span></span></span>".$name.'</label>'.$ele_delimeter;
             if (!empty($this->columns)) {
                 $ret .= '</td>';
-                if (++$i % $this->columns == 0) {
+                if (0 == ++$i % $this->columns) {
                     $ret .= '</tr>';
                 }
             }

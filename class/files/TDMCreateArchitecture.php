@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -56,9 +56,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
     }
 
     /**
-     *  @public function setBaseFoldersFiles
+     * @public function setBaseFoldersFiles
      *
-     *  @param string $module
      * @param $module
      */
     public function setBaseFoldersFiles($module)
@@ -95,8 +94,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
             // Creation of "blocks" folder and index.html file
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
-        $language = ($GLOBALS['xoopsConfig']['language'] !== 'english') ? $GLOBALS['xoopsConfig']['language'] : 'english';
-        $copyFiles = array('class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile, 'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/'.$language => $indexFile, 'language/'.$language.'/help' => $indexFile, 'preloads' => $indexFile);
+        $language = ('english' !== $GLOBALS['xoopsConfig']['language']) ? $GLOBALS['xoopsConfig']['language'] : 'english';
+        $copyFiles = ['class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile, 'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/' . $language => $indexFile, 'language/' . $language . '/help' => $indexFile, 'preloads' => $indexFile];
         foreach ($copyFiles as $k => $v) {
             // Creation of folders and index.html file
             $this->makeDirAndCopyFile($k, $v, 'index.html');
@@ -121,8 +120,10 @@ class TDMCreateArchitecture extends TDMCreateStructure
         }
         // Creation of 'module_author_logo.gif' file
         $this->copyFile('assets/images', $copyNewFile, $logoPng);
-        $docs = array('/credits.txt' => 'credits.txt', '/install.txt' => 'install.txt',
-                    '/lang.diff' => 'lang.diff', '/license.txt' => 'license.txt', '/readme.txt' => 'readme.txt', );
+        $docs = [
+            '/credits.txt' => 'credits.txt', '/install.txt' => 'install.txt',
+            '/lang.diff'   => 'lang.diff', '/license.txt' => 'license.txt', '/readme.txt' => 'readme.txt',
+        ];
         foreach ($docs as $k => $v) {
             // Creation of folder docs and .txt files
             $this->makeDirAndCopyFile('docs', TDMC_DOCS_PATH.$k, $v);
@@ -166,27 +167,27 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $icon32 = 'assets/icons/32';
         $tables = $tf->getTableTables($modId);
         $files = $tf->getTableMoreFiles($modId);
-        $ret = array();
+        $ret = [];
 
-        $table = array();
-        $tableCategory = array();
-        $tableName = array();
-        $tableAdmin = array();
-        $tableUser = array();
-        $tableBlocks = array();
-        $tableSearch = array();
-        $tableComments = array();
-        $tableNotifications = array();
-        $tablePermissions = array();
-        $tableBroken = array();
-        $tablePdf = array();
-        $tablePrint = array();
-        $tableRate = array();
-        $tableRss = array();
-        $tableSingle = array();
-        $tableSubmit = array();
-        $tableVisit = array();
-        $tableTag = array();
+        $table = [];
+        $tableCategory = [];
+        $tableName = [];
+        $tableAdmin = [];
+        $tableUser = [];
+        $tableBlocks = [];
+        $tableSearch = [];
+        $tableComments = [];
+        $tableNotifications = [];
+        $tablePermissions = [];
+        $tableBroken = [];
+        $tablePdf = [];
+        $tablePrint = [];
+        $tableRate = [];
+        $tableRss = [];
+        $tableSingle = [];
+        $tableSubmit = [];
+        $tableVisit = [];
+        $tableTag = [];
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
@@ -337,7 +338,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
         $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
         // Creation of blocks language file
-        if ($table->getVar('table_name') != null) {
+        if (null != $table->getVar('table_name')) {
             // Include Install File
             $includeInstall = IncludeInstall::getInstance();
             $includeInstall->write($module, $table, $tables, 'install.php');
@@ -371,7 +372,7 @@ class TDMCreateArchitecture extends TDMCreateStructure
                 $ret[] = $languageMailTpl->render();
             }
             // Creation of sql file
-            if ($table->getVar('table_name') != null) {
+            if (null != $table->getVar('table_name')) {
                 // Sql File
                 $sqlFile = SqlFile::getInstance();
                 $sqlFile->write($module, 'mysql.sql');

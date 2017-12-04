@@ -13,7 +13,7 @@
 /**
  * tdmcreatereate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -98,7 +98,7 @@ class TDMCreateFields extends XoopsObject
      */
     private function getHeaderForm($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
 
@@ -150,7 +150,7 @@ class TDMCreateFields extends XoopsObject
         // Loop for fields number
         $class = 'even';
         for ($i = 1; $i <= $fieldNumb; ++$i) {
-            $class = ($class === 'even') ? 'odd' : 'even';
+            $class = ('even' === $class) ? 'odd' : 'even';
             // Replaced creation of new line by new function - goffy
             $this->getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fieldName, $tableAutoincrement);
         }
@@ -324,8 +324,8 @@ class TDMCreateFields extends XoopsObject
         unset($cr);
         $id = 1;
         foreach ($fields as $field) {
-            $class = ($class === 'even') ? 'odd' : 'even';
-            $fieldId = (int) ($field->getVar('field_id'));
+            $class = ('even' === $class) ? 'odd' : 'even';
+            $fieldId = (int)$field->getVar('field_id');
             if ($id > $fieldNumb) {   // delete additional fields, if number of fields is reduced - goffy
                 $fieldsObj = &$tdmcreate->getHandler('fields')->get($fieldId);
                 $tdmcreate->getHandler('fields')->delete($fieldsObj, true);
@@ -436,7 +436,7 @@ class TDMCreateFields extends XoopsObject
         // adding missing fields or delete unnecessary fields
         // By goffy
         for ($i = $id; $i <= $fieldNumb; ++$i) {
-            $class = ($class === 'even') ? 'odd' : 'even';
+            $class = ('even' === $class) ? 'odd' : 'even';
             $this->getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement);
         }
         unset($id);
@@ -446,9 +446,8 @@ class TDMCreateFields extends XoopsObject
     }
 
     /**
-     *  @private function getFooterForm
+     * @private function getFooterForm
      *
-     *  @param null
      * @param $form
      *
      * @return mixed
@@ -515,7 +514,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
     /**
      * @param bool $isNew
      *
-     * @return object
+     * @return \XoopsObject
      */
     public function create($isNew = true)
     {
@@ -607,7 +606,7 @@ class TDMCreateFieldsHandler extends XoopsPersistableObjectHandler
      * @param $limit
      * @param $sort
      * @param $order
-     * @return
+     * @return mixed
      */
     private function getFieldsCriteria($crFields, $start, $limit, $sort, $order)
     {

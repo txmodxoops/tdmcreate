@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -37,7 +37,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
     /**
      * @static function getInstance
      *
-     * @return TDMCreateFields
+     * @return bool|\TDMCreateTableFields
      */
     public static function getInstance()
     {
@@ -106,12 +106,12 @@ class TDMCreateTableFields extends TDMCreateAbstract
     public function getTableFieldElements($mId = null, $tId = null, $sort = 'fieldelement_id ASC, fieldelement_name', $order = 'ASC')
     {
         $criteria = new CriteriaCompo();
-        if ($mId != null) {
+        if (null != $mId) {
             $criteria->add(new Criteria('fieldelement_mid', $mId)); // $mId = module Id
             $criteria->setSort($sort);
             $criteria->setOrder($order);
         }
-        if ($tId != null) {
+        if (null != $tId) {
             $criteria->add(new Criteria('fieldelement_tid', $tId)); // $tId = table Id
             $criteria->setSort($sort);
             $criteria->setOrder($order);

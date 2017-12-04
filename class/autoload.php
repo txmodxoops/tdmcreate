@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -41,9 +41,9 @@ if (!function_exists('application_autoloader')) {
             mkdir($cachePath, 0777);
             chmod($cachePath, 0777);
         }
-        $pathCache = file_exists($cacheFile = $cachePath.'/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : array();
+        $pathCache = file_exists($cacheFile = $cachePath.'/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
         if (!is_array($pathCache)) {
-            $pathCache = array();
+            $pathCache = [];
         }
 
         if (array_key_exists($class, $pathCache)) {

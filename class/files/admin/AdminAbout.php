@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -89,7 +89,7 @@ class AdminAbout extends TDMCreateFile
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= $this->getInclude();
         $content .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
-        $content .= $this->xc->getXcTplAssign('navigation', "\$adminMenu->addNavigation('about.php')");
+        $content .= $this->xc->getXcTplAssign('navigation', "\$adminMenu->displayNavigation('about.php')");
         $content .= $this->xc->getXcTplAssign('about', "\$adminMenu->renderAbout('{$moduleDonations}', false)");
         $content .= $this->getInclude('footer');
 

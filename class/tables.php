@@ -13,7 +13,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.7
@@ -32,7 +32,7 @@ class TDMCreateTables extends XoopsObject
     /**
      * Options.
      */
-    public $options = array(
+    public $options = [
         'install',
         'index',
         'blocks',
@@ -52,7 +52,7 @@ class TDMCreateTables extends XoopsObject
         'rss',
         'single',
         'visit',
-    );
+    ];
 
     /**
     *  @public function constructor class
@@ -128,7 +128,7 @@ class TDMCreateTables extends XoopsObject
      */
     public function getFormTables($action = false)
     {
-        if ($action === false) {
+        if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
         $tdmcreate = TDMCreateHelper::getInstance();
@@ -266,14 +266,13 @@ class TDMCreateTables extends XoopsObject
     /**
      * Get Options.
      *
-     * @return string
-     *
+     * @return array
      */
     public function getOptionsTables()
     {
-        $retTable = array();
+        $retTable = [];
         foreach ($this->options as $option) {
-            if ($this->getVar('table_'.$option) == 1) {
+            if (1 == $this->getVar('table_' . $option)) {
                 array_push($retTable, $option);
             }
         }
@@ -307,11 +306,11 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
     /**
      *  @public function constructor class
      *
-     * @param null|object $db
+     * @param null|XoopsDatabase $db
      */
-    public function __construct(&$db)
+    public function __construct(XoopsDatabase $db)
     {
-        parent::__construct($db, 'tdmcreate_tables', 'tdmcreatetables', 'table_id', 'table_name');
+        parent::__construct($db, 'tdmcreate_tables', 'TDMCreateTables', 'table_id', 'table_name');
     }
 
     /**
@@ -415,7 +414,7 @@ class TDMCreateTablesHandler extends XoopsPersistableObjectHandler
      * @param $sort
      * @param $order
      *
-     * @return
+     * @return mixed
      */
     private function getTablesCriteria($crTables, $start, $limit, $sort, $order)
     {

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -166,8 +166,7 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-    *  @private function setSubDir
-    *  @param string $subdir
+     * @private function setSubDir
      * @param $subdir
      */
     private function setSubDir($subdir)
@@ -206,8 +205,7 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-    *  @private function setContent
-    *  @param string $content
+     * @private function setContent
      * @param $content
      */
     private function setContent($content)
@@ -236,14 +234,14 @@ class TDMCreateFile extends TDMCreateTableFields
         $path = $this->getUploadPath();
         if (strrpos($path, '\\')) {
             $str = strrpos($path, '\\');
-            if ($str !== false) {
+            if (false !== $str) {
                 return substr($path, $str + 1, strlen($path));
             } else {
                 return substr($path, $str, strlen($path));
             }
         }
         //return 'root module';
-        return;
+        return false;
     }
 
     /**
@@ -253,7 +251,7 @@ class TDMCreateFile extends TDMCreateTableFields
      */
     private function getUploadPath()
     {
-        if ($this->getSubDir() != null) {
+        if (null != $this->getSubDir()) {
             $ret = $this->getRepositoryPath().'/'.$this->getSubDir();
         } else {
             $ret = $this->getRepositoryPath();
@@ -283,8 +281,7 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-    *  @private function setMode
-    *  @param string $mode
+     * @private function setMode
      * @param $mode
      */
     private function setMode($mode)
@@ -315,9 +312,9 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         $lang = '_'.$prefix.'_'.strtoupper($moduleDirname);
         $ret = $lang;
-        if (!empty($suffix) || $suffix !== '_') {
+        if (!empty($suffix) || '_' !== $suffix) {
             $ret = $lang.'_'.$suffix;
-        } elseif ($suffix === '_') {
+        } elseif ('_' === $suffix) {
             $ret = $lang.'_';
         }
 
@@ -345,7 +342,7 @@ class TDMCreateFile extends TDMCreateTableFields
     {
         if (strpos($string, '_')) {
             $str = strpos($string, '_');
-            if ($str !== false) {
+            if (false !== $str) {
                 $ret = substr($string, $str + 1, strlen($string));
 
                 return $ret;
@@ -502,9 +499,11 @@ class TDMCreateFile extends TDMCreateTableFields
         fclose($handle);
         $ret .= $data."\n";
         $ret .= "*/\n";
-        $copyright = array($name => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
-                            '@since    ' => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-                            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$", );
+        $copyright = [
+            $name          => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
+            '@since    '   => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
+            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+        ];
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;

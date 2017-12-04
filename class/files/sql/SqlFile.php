@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -67,9 +67,8 @@ class SqlFile extends TDMCreateFile
     }
 
     /**
-     *  @private function getHeaderSqlComments
+     * @private function getHeaderSqlComments
      *
-     *  @param $moduleName
      * @param $moduleName
      *
      * @return string
@@ -80,13 +79,15 @@ class SqlFile extends TDMCreateFile
         $time = date('H:i:s');
         $serverName = $_SERVER['SERVER_NAME'];
         $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
-        $phpVersion = phpversion();
+        $phpVersion = PHP_VERSION;
         // Header Sql Comments
         $ret = null;
-        $arrayServerInfo = array("# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4',
-                                 '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}",
-                                 "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}",
-                                 "# PHP Version: {$phpVersion}\n", );
+        $arrayServerInfo = [
+            "# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4',
+            '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}",
+            "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}",
+            "# PHP Version: {$phpVersion}\n",
+        ];
         foreach ($arrayServerInfo as $serverInfo) {
             $ret .= $this->getSimpleString($serverInfo);
         }
@@ -107,8 +108,10 @@ class SqlFile extends TDMCreateFile
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
         $ret = null;
-        $arrayDbTable = array('#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
-                              '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (", );
+        $arrayDbTable = [
+            '#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
+            '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (",
+        ];
         foreach ($arrayDbTable as $dbTable) {
             $ret .= $this->getSimpleString($dbTable);
         }
@@ -156,8 +159,8 @@ class SqlFile extends TDMCreateFile
         $tdmcreate = TDMCreateHelper::getInstance();
         $ret = null;
         $j = 0;
-        $comma = array();
-        $row = array();
+        $comma = [];
+        $row = [];
         $type = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
@@ -351,11 +354,11 @@ class SqlFile extends TDMCreateFile
         $retShort = "  `{$fieldName}` {$fieldTypeValue},";
 
         $ret = $retShort;
-        if ($autoincrement != null) {
+        if (null != $autoincrement) {
             $ret = $retAutoincrement;
-        } elseif ($fieldAttribute != null) {
+        } elseif (null != $fieldAttribute) {
             $ret = $retFieldAttribute;
-        } elseif ($fieldAttribute == null) {
+        } elseif (null === $fieldAttribute) {
             $ret = $fieldDefault;
         }
 

@@ -12,7 +12,7 @@
 /**
  * tdmcreate module.
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  *
  * @since           2.5.0
@@ -54,7 +54,7 @@ class TDMCreateXoopsCode
      *
      * @return string
      */
-    public function getXcSwitch($op = '', $cases = array(), $defaultAfterCase = false, $default = false, $t = '')
+    public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
         $pc = TDMCreatePhpCode::getInstance();
         $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
@@ -139,7 +139,7 @@ class TDMCreateXoopsCode
     */
     public function getXcAnchorFunction($anchor, $name, $vars, $close = false)
     {
-        $semicolon = $close !== false ? ';' : '';
+        $semicolon = false !== $close ? ';' : '';
 
         return "\${$anchor}->{$name}({$vars}){$semicolon}";
     }
@@ -242,19 +242,19 @@ class TDMCreateXoopsCode
     /**
      * @public function getXcTextDateSelectSetVar
      * @param        $tableName
-     * @param        $tableSolename
+     * @param        $tableSoleName
      * @param        $fieldName
      * @param string $t
      * @return string
      */
-    public function getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName, $t = '')
+    public function getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t = '')
     {
         $tf = TDMCreateFile::getInstance();
         $rightField = $tf->getRightString($fieldName);
         $ucfRightFiled = ucfirst($rightField);
         $value = "date_create_from_format(_SHORTDATESTRING, \$_POST['{$fieldName}'])";
-        $ret = self::getXcEqualsOperator("\${$tableSolename}{$ucfRightFiled}", $value, null, false, $t);
-        $ret .= self::getXcSetVar($tableName, $fieldName, "\${$tableSolename}{$ucfRightFiled}->getTimestamp()", $t);
+        $ret = self::getXcEqualsOperator("\${$tableSoleName}{$ucfRightFiled}", $value, null, false, $t);
+        $ret .= self::getXcSetVar($tableName, $fieldName, "\${$tableSoleName}{$ucfRightFiled}->getTimestamp()", $t);
 
         return $ret;
     }
@@ -414,7 +414,7 @@ class TDMCreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = array(), $setExtra = true, $t = '')
+    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = [], $setExtra = true, $t = '')
     {
         $ret = "{$t}\${$varSelect} = new XoopsFormSelect({$caption}, '{$var}', \${$var});\n";
         if (false !== $setExtra) {
@@ -704,11 +704,11 @@ class TDMCreateXoopsCode
      *
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $fields
      * @return string
      */
-    public function getXcUserSaveElements($moduleDirname, $tableName, $tableSolename, $fields)
+    public function getXcUserSaveElements($moduleDirname, $tableName, $tableSoleName, $fields)
     {
         $axCodeUserSave = AdminXoopsCode::getInstance();
         $ret = '';
@@ -726,7 +726,7 @@ class TDMCreateXoopsCode
             } elseif (14 == $fieldElement) {
                 $ret .= $axCodeUserSave->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
-                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
+                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
             } else {
                 $ret .= self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
             }
@@ -748,12 +748,12 @@ class TDMCreateXoopsCode
     public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $metod = false, $t = '')
     {
         $ret = '';
-        $intVars = ($var2 != '') ? "'{$var1}', {$var2}" : "'{$var1}'";
-        if ($type === 'String') {
+        $intVars = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
+        if ('String' === $type) {
             $ret .= "{$t}\${$left} = XoopsRequest::getString('{$var1}', '{$var2}');\n";
-        } elseif ($type === 'Int') {
+        } elseif ('Int' === $type) {
             $ret .= "{$t}\${$left} = XoopsRequest::getInt({$intVars});\n";
-        } elseif ($type === 'Int' && $metod !== false) {
+        } elseif ('Int' === $type && false !== $metod) {
             $ret .= "{$t}\${$left} = XoopsRequest::getInt({$intVars}, '{$metod}');\n";
         }
 
@@ -773,7 +773,7 @@ class TDMCreateXoopsCode
     public function getXcTplAssign($tplString, $phpRender, $leftIsString = true, $t = '')
     {
         $assign = "{$t}\$GLOBALS['xoopsTpl']->assign(";
-        if ($leftIsString === false) {
+        if (false === $leftIsString) {
             $ret = $assign."{$tplString}, {$phpRender});\n";
         } else {
             $ret = $assign."'{$tplString}', {$phpRender});\n";
@@ -972,8 +972,8 @@ class TDMCreateXoopsCode
     public function getXcObjHandlerAll($tableName, $fieldMain = '', $start = '0', $limit = '0', $t = '')
     {
         $ucfTableName = ucfirst($tableName);
-        $startLimit = ($limit != '0') ? "{$start}, {$limit}" : '0';
-        $params = ($fieldMain != '') ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
+        $startLimit = ('0' != $limit) ? "{$start}, {$limit}" : '0';
+        $params = ('' != $fieldMain) ? "{$startLimit}, '{$fieldMain}'" : $startLimit;
         $ret = "{$t}\${$tableName}All = \${$tableName}Handler->getAll{$ucfTableName}({$params});\n";
 
         return $ret;
@@ -1023,11 +1023,11 @@ class TDMCreateXoopsCode
      *
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSolename
+     * @param $tableSoleName
      * @param $fields
      * @return string
      */
-    public function getXcSetVarsObjects($moduleDirname, $tableName, $tableSolename, $fields)
+    public function getXcSetVarsObjects($moduleDirname, $tableName, $tableSoleName, $fields)
     {
         $axCode = AdminXoopsCode::getInstance();
         $ret = '';
@@ -1057,7 +1057,7 @@ class TDMCreateXoopsCode
                         $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
                         break;
                     case 15:
-                        $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
+                        $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
                         break;
                     default:
                         $ret .= self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
@@ -1295,9 +1295,9 @@ class TDMCreateXoopsCode
         $ret = '';
         if ($get) {
             $ret = "{$t}\${$left}Handler->get(\${$var});";
-        } elseif ($insert && ($obj != '')) {
+        } elseif ($insert && ('' != $obj)) {
             $ret = "{$t}\${$left}Handler->insert(\${$var}{$obj});";
-        } elseif ($delete && ($obj != '')) {
+        } elseif ($delete && ('' != $obj)) {
             $ret = "{$t}\${$left}Handler->delete(\${$var}{$obj});";
         }
 
@@ -1388,14 +1388,14 @@ class TDMCreateXoopsCode
      *
      * @param        $moduleDirname
      * @param        $tableName
-     * @param        $tableSolename
+     * @param        $tableSoleName
      * @param        $tableAutoincrement
      * @param        $fields
      *
      * @param string $t
      * @return string
      */
-    public function getXcSaveElements($moduleDirname, $tableName, $tableSolename, $tableAutoincrement, $fields, $t = '')
+    public function getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $t = '')
     {
         $axCodeSaveElements = AdminXoopsCode::getInstance();
         $ret = '';
@@ -1413,11 +1413,11 @@ class TDMCreateXoopsCode
             } elseif (14 == $fieldElement) {
                 $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
-                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSolename, $fieldName);
+                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
             } else {
-                if (($f != 0) && $tableAutoincrement == 1) {
+                if ((0 != $f) && 1 == $tableAutoincrement) {
                     $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
-                } elseif (($f == 0) && $tableAutoincrement == 0) {
+                } elseif ((0 == $f) && 0 == $tableAutoincrement) {
                     $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
                 }
             }
