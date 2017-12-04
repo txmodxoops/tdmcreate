@@ -166,8 +166,7 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-    *  @private function setSubDir
-    *  @param string $subdir
+     * @private function setSubDir
      * @param $subdir
      */
     private function setSubDir($subdir)
@@ -206,8 +205,7 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-    *  @private function setContent
-    *  @param string $content
+     * @private function setContent
      * @param $content
      */
     private function setContent($content)
@@ -283,8 +281,7 @@ class TDMCreateFile extends TDMCreateTableFields
     }
 
     /**
-    *  @private function setMode
-    *  @param string $mode
+     * @private function setMode
      * @param $mode
      */
     private function setMode($mode)

@@ -53,9 +53,7 @@ class CssStyles extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     * @public function write
      * @param $module
      * @param $filename
      */

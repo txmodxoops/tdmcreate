@@ -57,7 +57,6 @@ class LanguageMailTpl extends TDMCreateFile
      *
      * @param $module
      * @param $filename
-     * @param $module
      */
     public function write($module, $filename)
     {

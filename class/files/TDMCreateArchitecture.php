@@ -56,9 +56,8 @@ class TDMCreateArchitecture extends TDMCreateStructure
     }
 
     /**
-     *  @public function setBaseFoldersFiles
+     * @public function setBaseFoldersFiles
      *
-     *  @param string $module
      * @param $module
      */
     public function setBaseFoldersFiles($module)

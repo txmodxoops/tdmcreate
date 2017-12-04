@@ -166,8 +166,7 @@ class UserSubmit extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserSubmitFooter
-    *  @param null
+     * @public function getUserSubmitFooter
      * @param $moduleDirname
      * @param $language
      * @return string

@@ -428,7 +428,7 @@ class TDMCreateModules extends XoopsObject
     /**
      * Get getOptionsModules.
      *
-     * @return string
+     * @return array
      */
     private function getOptionsModules()
     {

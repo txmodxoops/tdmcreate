@@ -266,8 +266,7 @@ class TDMCreateTables extends XoopsObject
     /**
      * Get Options.
      *
-     * @return string
-     *
+     * @return array
      */
     public function getOptionsTables()
     {

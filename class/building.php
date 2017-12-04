@@ -77,7 +77,7 @@ class TDMCreateBuilding
      * @param string $dir
      * @param string $pattern
      *
-     * @return clearDir
+     * @return void
      */
     public function clearDir($dir, $pattern = '*')
     {
@@ -101,7 +101,7 @@ class TDMCreateBuilding
      * @param string $src
      * @param string $dst
      *
-     * @return copyDir
+     * @return void
      */
     public function copyDir($src, $dst)
     {

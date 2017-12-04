@@ -75,9 +75,8 @@ class TDMCreateStructure
     }
 
     /**
-     *  @protected function setUploadPath
+     * @protected function setUploadPath
      *
-     *  @param string $path
      * @param $path
      */
     protected function setUploadPath($path)
@@ -97,8 +96,6 @@ class TDMCreateStructure
 
     /**
      * @protected function setModuleName
-     * @param string $moduleName
-     *
      * @param $moduleName
      */
     protected function setModuleName($moduleName)
@@ -117,9 +114,8 @@ class TDMCreateStructure
     }
 
     /**
-     *  @private function setFolderName
+     * @private function setFolderName
      *
-     *  @param string $folderName
      * @param $folderName
      */
     private function setFolderName($folderName)
@@ -139,9 +135,8 @@ class TDMCreateStructure
     }
 
     /**
-     *  @private function setFileName
+     * @private function setFileName
      *
-     *  @param string $fileName
      * @param $fileName
      */
     private function setFileName($fileName)
@@ -160,9 +155,8 @@ class TDMCreateStructure
     }
 
     /**
-     *  @private function isDir
+     * @private function isDir
      *
-     *  @param string $dname
      * @param $dname
      */
     private function isDir($dname)

@@ -66,11 +66,9 @@ class TemplatesUserSubmit extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserSubmitHeader
-    *  @param string $moduleDirname
+     * @private function getTemplatesUserSubmitHeader
      * @param $moduleDirname
      * @return string
-     *
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
     {

@@ -37,7 +37,7 @@ class TDMCreateTableFields extends TDMCreateAbstract
     /**
      * @static function getInstance
      *
-     * @return TDMCreateFields
+     * @return bool|\TDMCreateTableFields
      */
     public static function getInstance()
     {

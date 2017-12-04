@@ -253,9 +253,7 @@ class TDMCreateSettings extends XoopsObject
 
     /**
      * Get Options Settings.
-
-     * @return string
-     *
+     * @return array
      */
     private function getOptionsSettings()
     {

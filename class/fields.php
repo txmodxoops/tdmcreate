@@ -446,9 +446,8 @@ class TDMCreateFields extends XoopsObject
     }
 
     /**
-     *  @private function getFooterForm
+     * @private function getFooterForm
      *
-     *  @param null
      * @param $form
      *
      * @return mixed

@@ -46,7 +46,7 @@ class TDMCreateSession
     *  @param null
     */
     /**
-     * @return TDMCreateSession
+     * @return bool
      */
     public static function getInstance()
     {

@@ -67,9 +67,8 @@ class SqlFile extends TDMCreateFile
     }
 
     /**
-     *  @private function getHeaderSqlComments
+     * @private function getHeaderSqlComments
      *
-     *  @param $moduleName
      * @param $moduleName
      *
      * @return string

@@ -68,16 +68,15 @@ class TemplatesUserPagesList extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserPagesListPanel
-    *  @param string $moduleDirname
-    *  @param string $language
-     * @param $tableId
-     * @param $tableMid
-     * @param $tableName
-     * @param $tableSoleName
-     * @param $language
+     * @private function getTemplatesUserPagesListPanel
+     * @param string $moduleDirname
+     * @param        $tableId
+     * @param        $tableMid
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $language
      * @return string
-      */
+     */
     private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
