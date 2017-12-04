@@ -121,7 +121,7 @@ class UserPdf extends TDMCreateFile
             $getVar = $this->xc->getXcGetVar('', 'pdfContent', $fieldName, true);
             switch ($fieldElement) {
                 case 2:
-                    if (strstr($fieldName, 'title') || strstr($fieldName, 'name') && '' == $fieldDefault) {
+                    if (false !== strpos($fieldName, 'title') || false !== strpos($fieldName, 'name') && '' == $fieldDefault) {
                         $ret .= $this->phpcode->getPhpCodeStripTags("pdfData['title']", $getVar);
                     }
                 break;

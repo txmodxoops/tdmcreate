@@ -121,22 +121,22 @@ class UserPrint extends TDMCreateFile
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
-        if (strstr($fieldName, 'published')) {
+        if (false !== strpos($fieldName, 'published')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') == 0 || \${$ccFieldId}->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
         }
-        if (strstr($fieldName, 'expired')) {
+        if (false !== strpos($fieldName, 'expired')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Expired', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        if (strstr($fieldName, 'date')) {
+        if (false !== strpos($fieldName, 'date')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Date', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        if (strstr($fieldName, 'time')) {
+        if (false !== strpos($fieldName, 'time')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Time', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);

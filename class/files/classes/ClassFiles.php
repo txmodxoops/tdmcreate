@@ -691,7 +691,7 @@ class ClassFiles extends TDMCreateFile
         $critAll .= $xc->getXcGetItemIds($lcfTopicTableName, 'gpermHandler', $param1, $param2, $param3, "\t\t");
         $critAll .= $cc->getClassCriteriaCompo('crAll'.$ucfTableName, "\t\t");
 
-        if (strstr($fieldName, 'status')) {
+        if (false !== strpos($fieldName, 'status')) {
             $crit = $cc->getClassCriteria('', "'{$fieldName}'", '0', "'!='", true);
             $critAll .= $cc->getClassAdd('crAll'.$ucfTableName, $crit, "\t\t");
         }

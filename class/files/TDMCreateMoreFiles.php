@@ -76,7 +76,7 @@ class TDMCreateMoreFiles extends TDMCreateFile
         $this->setModule($module);
         $this->extension = $extension;
         $this->setFileName($filename.'.'.$extension);
-        if (strstr($folder, 'user')) {
+        if (false !== strpos($folder, 'user')) {
             $this->folder = '/';
         } else {
             $this->folder = $folder;

@@ -172,7 +172,7 @@ class LanguageAdmin extends TDMCreateFile
                     $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
                     $fieldNameDesc = str_replace(': ', '', $fieldNameDesc);
                 } else {
-                    $fieldNameDesc = strstr($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
+                    $fieldNameDesc = false !== strpos($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
                 }
 
                 $ret .= $this->defines->getDefine($language, $tableSoleName.'_'.$rpFieldName, $fieldNameDesc);
