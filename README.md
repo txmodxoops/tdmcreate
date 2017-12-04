@@ -25,6 +25,7 @@ Screenshot:
 <p align="center">
   <img src="https://c6.staticflickr.com/9/8500/29971619205_a397db1039_o.jpg" alt="TDMCreate 1.9.1 dashboard"/>
 </p>
+
 Clear version
 
 # Require:
@@ -60,7 +61,6 @@ Apache = 2.4.10, 2.4.18
 XOOPS = 2.5.7.1, 2.5.7.2, 2.5.8
 
 Codeception = 2.0.13
-
 Selenium IDE = 2.9.0
 
 [![Stories in Ready](https://badge.waffle.io/txmodxoops/tdmcreate.svg?label=ready&title=Ready)](http://waffle.io/txmodxoops/tdmcreate)
