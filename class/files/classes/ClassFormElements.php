@@ -741,7 +741,7 @@ class ClassFormElements extends TDMCreateAbstract
                         break;
                 }
                 if ($fieldElement > 15) {
-                    if (1 == $table->getVar('table_category') || (1 == $fieldParent)) {
+                    if ((1 == $fieldParent) || 1 == $table->getVar('table_category')) {
                         $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');

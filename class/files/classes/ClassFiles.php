@@ -539,7 +539,7 @@ class ClassFiles extends TDMCreateFile
         $cClh .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);
-        if (in_array(1, $fieldParentId) && $fieldElement > 15) {
+        if ($fieldElement > 15 && in_array(1, $fieldParentId)) {
             $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement);
             $cClh .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);
         }

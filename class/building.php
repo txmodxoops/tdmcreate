@@ -89,7 +89,7 @@ class TDMCreateBuilding
             if (is_dir($file) && !in_array($file, ['..', '.'])) {
                 // Remove the directory itself
                 self::clearDir($file, $pattern);
-            } elseif (is_file($file) && (__FILE__ != $file)) {
+            } elseif ((__FILE__ != $file) && is_file($file)) {
                 // Make sure you don't delete the current script
                 unlink($file);
             }
