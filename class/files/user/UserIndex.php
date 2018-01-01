@@ -82,7 +82,7 @@ class UserIndex extends TDMCreateFile
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $xc->getXcAddStylesheet();
-        $ret .= $pc->getPhpCodeArray('keywords', null, false, "");
+        $ret .= $pc->getPhpCodeArray('keywords', null, false, '');
 
         return $ret;
     }

@@ -110,7 +110,7 @@ class UserXoopsVersion extends TDMCreateFile
     {
         $xCodeVHeader = TDMCreateXoopsCode::getInstance();
         $uCodeVHeader = UserXoopsCode::getInstance();
-        $date = date("Y/m/d");
+        $date = date('Y/m/d');
         $ret = $this->getSimpleString('');
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine();
         $ret .= $xCodeVHeader->getXcEqualsOperator('$dirname ', 'basename(__DIR__)');

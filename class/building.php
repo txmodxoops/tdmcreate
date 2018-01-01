@@ -88,7 +88,7 @@ class TDMCreateBuilding
             // if it's a directory then re-call clearDir function to delete files inside this directory
             if (is_dir($file) && !in_array($file, ['..', '.'])) {
                 // Remove the directory itself
-                self::clearDir($file, $pattern);
+                $this->clearDir($file, $pattern);
             } elseif ((__FILE__ != $file) && is_file($file)) {
                 // Make sure you don't delete the current script
                 unlink($file);
@@ -111,7 +111,7 @@ class TDMCreateBuilding
             if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src.'/'.$file)) {
                     // Copy the directory itself
-                    self::copyDir($src.'/'.$file, $dst.'/'.$file);
+                    $this->copyDir($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     // Make sure you copy the current script
                     copy($src.'/'.$file, $dst.'/'.$file);
