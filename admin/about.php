@@ -23,8 +23,8 @@
  */
 include __DIR__.'/header.php';
 $templateMain = 'tdmcreate_about.tpl';
-$GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('about.php'));
-$about = $adminMenu->renderAbout($adminMenu->setPaypal('7LFE862PGJN88'), false);
+$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('about.php'));
+$about = $adminObject->renderAbout($adminObject->setPaypal('7LFE862PGJN88'), false);
 $aboutRes = TDMCreate_MakeDonationForm($about);
 $GLOBALS['xoopsTpl']->assign('maintained', sprintf(_AM_TDMCREATE_MAINTAINED, $GLOBALS['xoopsModule']->getVar('name')));
 $GLOBALS['xoopsTpl']->assign('about', $aboutRes);

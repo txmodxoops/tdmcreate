@@ -122,8 +122,8 @@ class AdminIndex extends TDMCreateFile
             $ret .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
         }
         $ret .= $pc->getPhpCodeCommentLine('Render Index');
-        $ret .= $xc->getXcTplAssign('navigation', "\$adminMenu->displayNavigation('index.php')");
-        $ret .= $xc->getXcTplAssign('index', '$adminMenu->displayIndex()');
+        $ret .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
+        $ret .= $xc->getXcTplAssign('index', '$adminObject->displayIndex()');
 
         $ret .= $this->getInclude('footer');
 
