@@ -139,7 +139,7 @@ if (\${$fppf} != 0){
     \$criteria->add(new Criteria('{$fppf}', \${$fppf}));
     \${$tableName} = \${$tableName}Handler->get(\${$fppf});
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name') . ' - ' . \${$tableName}->getVar('{$fpmf}');
-}else{
+} else {
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name');
 }
 \$criteria->setLimit(\${$moduleDirname}->geConfig('perpagerss'));
@@ -182,7 +182,7 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
         //permet d'afficher uniquement la description courte
         if (strpos(\$description,'[pagebreak]')==false){
             \$description_short = \$description;
-        }else{
+        } else {
             \$description_short = substr(\$description,0,strpos(\$description,'[pagebreak]'));
         }
         \$tpl->append('items', array('title' => htmlspecialchars(\${$tableName}Arr[\$i]->getVar('{$fpmf}'), ENT_QUOTES),

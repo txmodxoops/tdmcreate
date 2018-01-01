@@ -110,7 +110,7 @@ class UserXoopsVersion extends TDMCreateFile
     {
         $xCodeVHeader = TDMCreateXoopsCode::getInstance();
         $uCodeVHeader = UserXoopsCode::getInstance();
-        $date = date(_DBDATESTRING);
+        $date = date("Y/m/d");
         $ret = $this->getSimpleString('');
         $ret .= TDMCreatePhpCode::getInstance()->getPhpCodeCommentLine();
         $ret .= $xCodeVHeader->getXcEqualsOperator('$dirname ', 'basename(__DIR__)');
@@ -458,7 +458,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
             $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", '', false);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
-            $group = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key');
+            $group = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
             $ret .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
             $groups = [
                 'name'     => "'groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
@@ -471,7 +471,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $this->getSimpleString("\$criteria->add( new Criteria( 'group_type', 'Admin' ) );");
             $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", '', false);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
-            $adminGroup = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key');
+            $adminGroup = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key', null, false, "\t");
             $ret .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
             $adminGroups = [
                 'name'     => "'admin_groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",

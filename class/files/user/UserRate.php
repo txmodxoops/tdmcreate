@@ -110,7 +110,7 @@ class UserRate extends TDMCreateFile
             'save' => [$this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
         ];
 
-        return $this->xc->getXcSwitch('op', $cases, true);
+        return $this->xc->getXcSwitch('op', $cases, true, false, "\t");
     }
 
     /**
@@ -122,19 +122,19 @@ class UserRate extends TDMCreateFile
      */
     public function getUserRateForm($tableName, $language)
     {
-        $ret = $this->phpcode->getPhpCodeCommentLine('Mavigation');
-        $ret .= $this->xc->getXcEqualsOperator('$navigation', "{$language}RATE");
-        $ret .= $this->xc->getXcTplAssign('navigation', '$navigation');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page');
-        $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'");
-        $ret .= $this->xc->getXcEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
-        $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', '$title');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Description');
-        $ret .= $this->uc->getUserAddMeta('description', $language, 'RATE');
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create');
-        $ret .= $this->xc->getXcObjHandlerCreate($tableName);
-        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj');
-        $ret .= $this->xc->getXcTplAssign('form', '$form->render()');
+        $ret = $this->phpcode->getPhpCodeCommentLine('Navigation');
+        $ret .= $this->xc->getXcEqualsOperator('$navigation', "{$language}RATE", null, false, "\t\t");
+        $ret .= $this->xc->getXcTplAssign('navigation', '$navigation', true, "\t\t");
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page', null, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'", null, false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()", null, false, "\t\t");
+        $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', '$title', true, "\t\t");
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Description', null, "\t\t");
+        $ret .= $this->uc->getUserAddMeta('description', $language, 'RATE', "\t\t");
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create', null, "\t\t");
+        $ret .= $this->xc->getXcObjHandlerCreate($tableName, "\t\t");
+        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
+        $ret .= $this->xc->getXcTplAssign('form', '$form->render()', true, "\t\t");
 
         return $ret;
     }
@@ -156,21 +156,21 @@ class UserRate extends TDMCreateFile
         $xoopsSecurityCheck = $this->xc->getXcSecurityCheck();
         $securityError = $this->xc->getXcSecurityErrors();
         $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
-        $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode);
-        $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
-        $ret .= $this->xc->getXcObjHandlerCreate($tableName);
+        $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
+        $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
+        $ret .= $this->xc->getXcObjHandlerCreate($tableName, "\t\t");
 
-        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
+        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, "\t\t");
 
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
         $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
-        $confirmOk = $this->xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK");
-        $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t");
+        $confirmOk = $this->xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, "\t\t\t");
+        $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t\t");
 
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error');
-        $ret .= $this->xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
-        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj');
-        $ret .= $this->xc->getXcTplAssign('form', '$form->display()');
+        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
+        $ret .= $this->xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");
+        $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
+        $ret .= $this->xc->getXcTplAssign('form', '$form->display()', true, "\t\t");
 
         return $ret;
     }

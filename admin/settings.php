@@ -74,7 +74,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
-        if ($GLOBALS['xoopsSecurity']->check()) {
+        if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('settings.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($setId)) {

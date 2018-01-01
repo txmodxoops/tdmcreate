@@ -110,7 +110,7 @@ class AdminHeader extends TDMCreateFile
         }
         $ret .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, false);
         $ret .= $this->phpcode->getPhpCodeCommentLine();
-        $template = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true);
+        $template = $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true, false, 'include', "\t");
         $template .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new XoopsTpl()', null, false, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template, false);
         $ret .= $this->phpcode->getPhpCodeCommentLine('System icons path');
@@ -124,12 +124,12 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeCommentLine('Local admin menu class');
         $xoopsPathCond = $this->xc->getXcPath('$pathModuleAdmin', 'moduleadmin', true);
         $fileExists = $this->phpcode->getPhpCodeFileExists("{$xoopsPathCond}");
-        $moduleadmin = $this->phpcode->getPhpCodeIncludeDir("{$xoopsPathCond}", '', true, true);
-        $redirectHeader = $this->xc->getXcRedirectHeader('../../../admin.php', '', '5', '_AM_MODULEADMIN_MISSING');
+        $moduleadmin = $this->phpcode->getPhpCodeIncludeDir("{$xoopsPathCond}", '', true, true, 'include', "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader('../../../admin.php', '', '5', '_AM_MODULEADMIN_MISSING', true, "\t");
 
         $ret .= $this->phpcode->getPhpCodeConditions("{$fileExists}", '', '', $moduleadmin, $redirectHeader);
         $ret .= $this->xc->getXcCPHeader();
-        $ret .= $this->xc->getXcEqualsOperator('$adminMenu', 'new ModuleAdmin()');
+        $ret .= $this->xc->getXcEqualsOperator('$adminMenu', '\Xmf\Module\Admin::getInstance()');
         $ret .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
 
         return $ret;

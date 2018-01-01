@@ -94,6 +94,7 @@ function xoops_module_update_{$moduleDirname}(&\$module, \$prev_version = null)
     return \$ret;
     // irmtfan bug fix: solve templates duplicate issue
 }
+
 EOT;
 
         return $ret;

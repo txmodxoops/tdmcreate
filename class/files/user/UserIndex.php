@@ -82,7 +82,7 @@ class UserIndex extends TDMCreateFile
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $xc->getXcAddStylesheet();
-        $ret .= $pc->getPhpCodeArray('keywords');
+        $ret .= $pc->getPhpCodeArray('keywords', null, false, "");
 
         return $ret;
     }
@@ -174,7 +174,7 @@ class UserIndex extends TDMCreateFile
         $condIf .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
         $condIf .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
         $condIf .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
-        $condIf .= $pc->getPhpCodeArray($tableName);
+        $condIf .= $pc->getPhpCodeArray($tableName, null, false, "\t");
         $foreach = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t");
         $foreach .= $pc->getPhpCodeArray('acount', ["'count'", '$count']);
         $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');

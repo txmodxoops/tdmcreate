@@ -82,7 +82,7 @@ class AdminFooter extends TDMCreateFile
         $content = $this->getHeaderFilesComments($module, $filename);
         $isset = $this->phpcode->getPhpCodeIsset('templateMain');
         $display = "\t".$this->xc->getXcTplAssign('maintainedby', '$'.$moduleDirname."->getConfig('maintainedby')");
-        $display .= "\t".$this->phpcode->getPhpCodeRemoveCarriageReturn($this->xc->getXcTplDisplay());
+        $display .= "\t".$this->phpcode->getPhpCodeRemoveCarriageReturn($this->xc->getXcTplDisplay(), '', "\r");
         $content .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display, false, '').PHP_EOL;
         $content .= $this->xc->getXcCPFooter();
 
