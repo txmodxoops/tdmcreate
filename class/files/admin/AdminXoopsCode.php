@@ -115,11 +115,11 @@ class AdminXoopsCode
      */
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
-        $aMenu = $t.'$adminObject->addInfoBoxLine(';
+        $aMenu = $t.'$adminObject->addInfoBoxLine(sprintf(';
         if ('' != $var) {
-            $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
+            $ret = $aMenu." '<label>'.{$label}.'</label>', {$var}));\n";
         } else {
-            $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>');\n";
+            $ret = $aMenu." '<label>'.{$label}.'</label>'));\n";
         }
 
         return $ret;
