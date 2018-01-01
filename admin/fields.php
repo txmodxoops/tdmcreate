@@ -41,9 +41,9 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
+        $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
         // Redirect if there aren't modules
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
@@ -102,10 +102,10 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
-        $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
+        $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
+        $adminObject->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Add
         $fieldsObj = $tdmcreate->getHandler('fields')->create();
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
@@ -179,11 +179,11 @@ switch ($op) {
         // Define main template
         $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('fields.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
-        $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
-        $adminMenu->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
+        $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
+        $adminObject->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Edit
         $fieldId = XoopsRequest::getInt('field_id');
         $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);

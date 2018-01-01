@@ -69,7 +69,7 @@ class AdminXoopsCode
     public function getAdminItemButton($language, $tableName, $stuTableSoleName, $op = '?op=new', $type = 'add', $t = '')
     {
         $stuType = strtoupper($type);
-        $aM = $t.'$adminMenu->addItemButton(';
+        $aM = $t.'$adminObject->addItemButton(';
         if ('add' === $type) {
             $ret = $aM."{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
         } else {
@@ -89,7 +89,7 @@ class AdminXoopsCode
      */
     public function getAdminDisplayNavigation($tableName, $t = '')
     {
-        return "{$t}\$adminMenu->displayNavigation('{$tableName}.php')";
+        return "{$t}\$adminObject->displayNavigation('{$tableName}.php')";
     }
 
     /**
@@ -101,7 +101,7 @@ class AdminXoopsCode
      */
     public function getAxcAddInfoBox($language, $t = '')
     {
-        return "{$t}\$adminMenu->addInfoBox({$language});\n";
+        return "{$t}\$adminObject->addInfoBox({$language});\n";
     }
 
     /**
@@ -115,7 +115,7 @@ class AdminXoopsCode
      */
     public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
     {
-        $aMenu = $t.'$adminMenu->addInfoBoxLine(';
+        $aMenu = $t.'$adminObject->addInfoBoxLine(';
         if ('' != $var) {
             $ret = $aMenu."{$language}, '<label>'.{$label}.'</label>', {$var});\n";
         } else {
@@ -136,7 +136,7 @@ class AdminXoopsCode
      */
     public function getAxcAddConfigBoxLine($language, $label = '', $var = '', $t = '')
     {
-        $aMenu = $t.'$adminMenu->addConfigBoxLine(';
+        $aMenu = $t.'$adminObject->addConfigBoxLine(';
         if ('' != $var) {
             $ret = $aMenu."{$language}, '{$label}', {$var});\n";
         } else {

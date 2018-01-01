@@ -136,7 +136,7 @@ class AdminPages extends TDMCreateFile
 
         if (in_array(1, $fieldInForm)) {
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
-            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->displayButton()', true, $t);
+            $ret .= $xc->getXcTplAssign('buttons', '$adminObject->displayButton('left')', true, $t);
         }
 
         $ret .= $xc->getXcObjHandlerCount($tableName, $t);
@@ -179,7 +179,7 @@ class AdminPages extends TDMCreateFile
 
         if (in_array(1, $fieldInForm)) {
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
-            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->displayButton()', true, $t);
+            $ret .= $xc->getXcTplAssign('buttons', '$adminObject->displayButton('left')', true, $t);
         }
         $ret .= $pc->getPhpCodeCommentLine('Get Form', null, $t);
         $ret .= $xc->getXcObjHandlerCreate($tableName, $t);
@@ -337,7 +337,7 @@ class AdminPages extends TDMCreateFile
         if (in_array(1, $fieldInForm)) {
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableSoleName, '?op=new', 'add', $t);
             $ret .= $axc->getAdminItemButton($language, $tableName, $stuTableName, '', 'list', $t);
-            $ret .= $xc->getXcTplAssign('buttons', '$adminMenu->displayButton()', true, $t);
+            $ret .= $xc->getXcTplAssign('buttons', '$adminObject->displayButton('left')', true, $t);
         }
         $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
         $ret .= $xc->getXcGet($tableName, $ccFieldId, 'Obj', $tableName . 'Handler', false, $t);

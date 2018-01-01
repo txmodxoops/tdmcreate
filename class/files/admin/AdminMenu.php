@@ -66,17 +66,17 @@ class AdminMenu extends TDMCreateFile
     /**
      * @private function getAdminMenuArray
      * @param $param
-     * @param $adminMenu
+     * @param $adminObject
      * @param $ref
      *
      * @return string
      */
-    private function getAdminMenuArray($param = [], $adminMenu = false, $ref = false)
+    private function getAdminMenuArray($param = [], $adminObject = false, $ref = false)
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $ret = '';
         foreach ($param as $key => $value) {
-            if ($adminMenu) {
+            if ($adminObject) {
                 $ret .= $xc->getXcEqualsOperator("\$adminmenu[\$i]['{$key}']", "{$value}");
             } else {
                 if ($ref) {

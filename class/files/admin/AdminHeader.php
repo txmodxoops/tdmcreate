@@ -129,7 +129,7 @@ class AdminHeader extends TDMCreateFile
 
         $ret .= $this->phpcode->getPhpCodeConditions("{$fileExists}", '', '', $moduleadmin, $redirectHeader);
         $ret .= $this->xc->getXcCPHeader();
-        $ret .= $this->xc->getXcEqualsOperator('$adminMenu', '\Xmf\Module\Admin::getInstance()');
+        $ret .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
         $ret .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
 
         return $ret;

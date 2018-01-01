@@ -37,7 +37,7 @@ if (!file_exists($indexFile = $cachePath.'/index.html')) {
 switch ($op) {
     case 'build':
         $templateMain = 'tdmcreate_building.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('building.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
         // Directories for copy from to
@@ -92,7 +92,7 @@ switch ($op) {
     case 'default':
     default:
         $templateMain = 'tdmcreate_building.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('building.php'));
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Redirect if there aren't modules
         $nbModules = $tdmcreate->getHandler('modules')->getCount();
         if (0 == $nbModules) {

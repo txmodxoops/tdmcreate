@@ -44,9 +44,9 @@ switch ($op) {
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/sortable.js');
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('tables.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
+        $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
         // Get the list of modules
@@ -99,9 +99,9 @@ switch ($op) {
     case 'new':
         // Define main template
         $templateMain = 'tdmcreate_tables.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('tables.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
+        $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $tdmcreate->getHandler('tables')->create();
         $form = $tablesObj->getFormTables();
@@ -213,10 +213,10 @@ switch ($op) {
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_tables.tpl';
-        $GLOBALS['xoopsTpl']->assign('navigation', $adminMenu->displayNavigation('tables.php'));
-        $adminMenu->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
-        $adminMenu->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');
-        $GLOBALS['xoopsTpl']->assign('buttons', $adminMenu->displayButton());
+        $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
+        $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
+        $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');
+        $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
         $form = $tablesObj->getFormTables();

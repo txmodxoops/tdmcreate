@@ -51,4 +51,4 @@ xoops_loadLanguage('admin', $thisDirname);
 xoops_loadLanguage('modinfo', $thisDirname);
 
 xoops_cp_header();
-$adminMenu = \Xmf\Module\Admin::getInstance();
+$adminObject = \Xmf\Module\Admin::getInstance();

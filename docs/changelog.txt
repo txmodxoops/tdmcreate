@@ -13,6 +13,8 @@
   -- fixed bug in helper.php/function getConfig: adopted for case when config is an array
   -- fixed bug in xoopsverion: release date must be format Y/m/d, otherwise moduladmin.php causes an error
   -- fixed various cases of wrong number of indentions/tabs)
+- changed buttons from right to left (mamba)
+- renamed $adminMenu to $adminObject (mamba)
 
 =================================
 2016/01/28: Version 1.91 alpha 3.x
