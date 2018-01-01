@@ -107,7 +107,7 @@ class UserSubmit extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-        $ret = $pc->getPhpCodeCommentLine('Navigation', null, $t."\t");
+        $ret = $pc->getPhpCodeCommentLine('Navigation');
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', false, $t."\t");
         $ret .= $xc->getXcTplAssign('navigation', '$navigation', true, $t."\t");
         $ret .= $pc->getPhpCodeCommentLine('Title of page', null, $t."\t");
@@ -141,7 +141,7 @@ class UserSubmit extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentLine('Security Check', null, $t);
+        $ret = $pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $xc->getXcSecurityCheck();
         $securityError = $xc->getXcSecurityErrors();
         $implode = $pc->getPhpCodeImplode(',', $securityError);
@@ -158,9 +158,9 @@ class UserSubmit extends TDMCreateFile
         $ret .= $pc->getPhpCodeConditions($insert, '', '', $confirmOk, false, $t);
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, $t);
-        $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj');
-        $ret .= $xc->getXcTplAssign('form', '$form->display()');
+        $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $xc->getXcTplAssign('form', '$form->display()', true, $t);
 
         return $ret;
     }
@@ -202,7 +202,7 @@ class UserSubmit extends TDMCreateFile
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases = [
             'form' => [$this->getUserSubmitForm($tableName, $language, $t)],
-            'save' => [$this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t)],
+            'save' => [$this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t."\t")],
         ];
 
         return $xc->getXcSwitch('op', $cases, true, false, $t);

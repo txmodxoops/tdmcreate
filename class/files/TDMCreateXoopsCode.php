@@ -1407,13 +1407,13 @@ class TDMCreateXoopsCode
                 $fieldMain = $fieldName;
             }
             if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= self::getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                $ret .= $t.self::getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
             } elseif (13 == $fieldElement) {
                 $ret .= $axCodeSaveElements->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
             } elseif (14 == $fieldElement) {
                 $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
-                $ret .= self::getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
+                $ret .= $t.self::getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
             } else {
                 if ((0 != $f) && 1 == $tableAutoincrement) {
                     $ret .= $t.self::getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");

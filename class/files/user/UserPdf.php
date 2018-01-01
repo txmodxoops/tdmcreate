@@ -94,8 +94,8 @@ class UserPdf extends TDMCreateFile
         $fileExist = $this->phpcode->getPhpCodeFileExists("\$tcpdf = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/tcpdf.php'");
         $requireOnce = $this->phpcode->getPhpCodeIncludeDir('$tcpdf', '', true, true, 'require', "\t");
         $ret .= $this->xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-        $redirectHeader = $this->xc->getXcRedirectHeader($tableName, $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
-        $ret .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader, $t = '');
+        $redirectHeader = $this->xc->getXcRedirectHeader($tableName, '', $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
+        $ret .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
         $ret .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
         $ret .= $this->xc->getXcGet($tableName, "\$this->getVar('{$fieldId}')", '', true);

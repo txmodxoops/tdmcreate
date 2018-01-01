@@ -153,7 +153,11 @@ class {$ucf_module_dirname}Helper
             \$this->addLog("ERROR :: CONFIG '{\$name}' does not exist");
             return null;
         }
-        \$this->addLog("Getting config '{\$name}' : " . \$this->config[\$name]);
+		if (is_array(\$this->config[\$name])) {
+            \$this->addLog("Getting config '{\$name}' : " . serialize(\$this->config[\$name]));
+        } else {
+            \$this->addLog("Getting config '{\$name}' : " . \$this->config[\$name]);
+        }
         return \$this->config[\$name];
     }
     /**

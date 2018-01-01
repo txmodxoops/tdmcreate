@@ -2,7 +2,17 @@
 1.91 alpha 3.5  [NOT RELEASED]
 =================================
 - cosmetics, PHP 7 (mamba)
-
+- admin/settings.php: bug in xoopsSecurity during save  (goffy)
+- created tdmxoops_logo.png (copy of tdmxoops_logo.gif) in .../assets/images/logos/ in order to fix error when building new module
+- adoption in module creation procedure  (goffy)
+  -- changed module logo creator - module name will be used instead of module dir name
+  -- class/files/header/AdminHeader.php:
+   --- adopted to XMF
+   --- some tabs in if-conditions were not set
+  -- class/files/language/LanguageAdmin.php: if the last field in a table is not in form for admin, then in language/admin.php the defines for "{$ucfTableSoleName} add/edit" are not created  (goffy)
+  -- fixed bug in helper.php/function getConfig: adopted for case when config is an array
+  -- fixed bug in xoopsverion: release date must be format Y/m/d, otherwise moduladmin.php causes an error
+  -- fixed various cases of wrong number of indentions/tabs)
 
 =================================
 2016/01/28: Version 1.91 alpha 3.x

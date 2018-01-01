@@ -86,8 +86,8 @@ class UserBroken extends TDMCreateFile
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $xc->getXcAddStylesheet();
         $ret .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
-        $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM');
-        $condIf .= $this->getSimpleString('exit();');
+        $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, "\t");
+        $condIf .= $this->getSimpleString('exit();', "\t");
         $ret .= $pc->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf);
 
         return $ret;
@@ -104,19 +104,19 @@ class UserBroken extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-        $ret = $pc->getPhpCodeCommentLine('Mavigation');
-        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER");
-        $ret .= $xc->getXcTplAssign('navigation', '$navigation');
-        $ret .= $pc->getPhpCodeCommentLine('Title of page');
-        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'");
-        $ret .= $xc->getXcEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()");
-        $ret .= $xc->getXcTplAssign('xoops_pagetitle', '$title');
-        $ret .= $pc->getPhpCodeCommentLine('Description');
-        $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER');
-        $ret .= $pc->getPhpCodeCommentLine('Form Create');
-        $ret .= $xc->getXcObjHandlerCreate($tableName);
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj');
-        $ret .= $xc->getXcTplAssign('form', '$form->render()');
+        $ret = $pc->getPhpCodeCommentLine('Navigation');
+        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", null, false, "\t\t");
+        $ret .= $xc->getXcTplAssign('navigation', '$navigation', true, "\t\t");
+        $ret .= $pc->getPhpCodeCommentLine('Title of page', null, "\t\t");
+        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", null, false, "\t\t");
+        $ret .= $xc->getXcEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()", null, false, "\t\t");
+        $ret .= $xc->getXcTplAssign('xoops_pagetitle', '$title', true, "\t\t");
+        $ret .= $pc->getPhpCodeCommentLine('Description', null, "\t\t");
+        $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', "\t\t");
+        $ret .= $pc->getPhpCodeCommentLine('Form Create', null, "\t\t");
+        $ret .= $xc->getXcObjHandlerCreate($tableName, "\t\t");
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
+        $ret .= $xc->getXcTplAssign('form', '$form->render()', true, "\t\t");
 
         return $ret;
     }
@@ -141,31 +141,31 @@ class UserBroken extends TDMCreateFile
         $xoopsSecurityCheck = $xc->getXcSecurityCheck();
         $securityError = $xc->getXcSecurityErrors();
         $implode = $pc->getPhpCodeImplode(',', $securityError);
-        $redirectError = $xc->getXcRedirectHeader($tableName, '', '3', $implode);
-        $ret .= $pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t");
-        $ret .= $xc->getXcObjHandlerCreate($tableName);
+        $redirectError = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
+        $ret .= $pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
+        $ret .= $xc->getXcObjHandlerCreate($tableName, "\t\t");
 
-        $ret .= $this->getSimpleString('$error = false;');
-        $ret .= $this->getSimpleString("\$errorMessage = '';");
-        $ret .= $pc->getPhpCodeCommentLine('Test first the validation');
-        $ret .= $xc->getXcLoad('captcha');
-        $ret .= $xc->getXcXoopsCaptcha();
+        $ret .= $this->getSimpleString('$error = false;', "\t\t");
+        $ret .= $this->getSimpleString("\$errorMessage = '';", "\t\t");
+        $ret .= $pc->getPhpCodeCommentLine('Test first the validation', null, "\t\t");
+        $ret .= $xc->getXcLoad('captcha', "\t\t");
+        $ret .= $xc->getXcXoopsCaptcha("\t\t");
 
-        $ret .= $pc->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', "\$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';\n\$error = true;\n", false, "\t");
+        $ret .= $pc->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', "\t\t\t\$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';\n\t\t\t\$error = true;\n", false, "\t\t");
 
-        $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
+        $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, "\t\t");
 
-        $condElse = $pc->getPhpCodeCommentLine('Insert Data');
+        $condElse = $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t\t");
         $insert = $xc->getXcInsert($tableName, $tableName, 'Obj', true);
-        $redirctHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK");
-        $condElse .= $pc->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t");
-        $assigne = $xc->getXcTplAssign('error_message', '$errorMessage');
-        $ret .= $pc->getPhpCodeConditions('$error', ' == ', 'true', $assigne, $condElse, "\t");
+        $redirctHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, "\t\t\t\t");
+        $condElse .= $pc->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t\t");
+        $assigne = $xc->getXcTplAssign('error_message', '$errorMessage', true, "\t\t\t");
+        $ret .= $pc->getPhpCodeConditions('$error', ' == ', 'true', $assigne, $condElse, "\t\t");
 
-        $ret .= $pc->getPhpCodeCommentLine('Get Form Error');
-        $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()");
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj');
-        $ret .= $xc->getXcTplAssign('form', '$form->display()');
+        $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
+        $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
+        $ret .= $xc->getXcTplAssign('form', '$form->display()', true, "\t\t");
 
         return $ret;
     }
@@ -191,7 +191,7 @@ class UserBroken extends TDMCreateFile
             'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
         ];
 
-        return $xc->getXcSwitch('op', $cases, true);
+        return $xc->getXcSwitch('op', $cases, true, false, "\t");
     }
 
     /**

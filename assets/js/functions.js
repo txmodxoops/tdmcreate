@@ -24,8 +24,7 @@ function showImgSelected2(imgId, selectId, imgDir, extra, xoopsUrl) {
 function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
     iconDom = xoopsGetElementById(image4);
     iconName = iconDom.src;
-    str = xoopsGetElementById(mod_dirname).value;
-    res = str.toLowerCase();
+    res = xoopsGetElementById(mod_name).value;
     caption = res.replace(' ', '');
     logoDom = xoopsGetElementById(image3);
     moduleImageDom = xoopsGetElementById(mod_image);

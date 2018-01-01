@@ -149,8 +149,9 @@ class LanguageAdmin extends TDMCreateFile
             $ucfTableSoleName = ucfirst($tableSoleName);
 
             $fields = $this->getTableFields($tableMid, $tableId);
+            $fieldInForm = 0;
             foreach (array_keys($fields) as $f) {
-                $fieldInForm = $fields[$f]->getVar('field_inform');
+                if ($fieldInForm < $fields[$f]->getVar('field_inform')) $fieldInForm = $fields[$f]->getVar('field_inform');
             }
             if (1 == $fieldInForm) {
                 $ret .= $this->defines->getAboveDefines("{$ucfTableSoleName} add/edit");

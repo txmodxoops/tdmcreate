@@ -396,9 +396,10 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeSwitch($op = null, $content = null, $t = '')
     {
-        $ret = "{$t}switch(\${$op}) {\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}}\n";
+        //$ret = "{$t}switch(\${$op}) {\n"; test goffy
+		$ret = "switch(\${$op}) {\n";
+        $ret .= "{$content}";
+        $ret .= "}\n";
 
         return $ret;
     }
