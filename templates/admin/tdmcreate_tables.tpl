@@ -5,29 +5,29 @@
     <table class='outer width100'>
         <thead>
             <tr>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_ID}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_NAME_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_IMAGE_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_NBFIELDS_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_ADMIN_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_USER_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_BLOCKS_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_SUBMENU_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_SEARCH_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_COMMENTS_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_NOTIFICATIONS_LIST}></th>
-                <th class='center'><{$smarty.const._AM_TDMCREATE_MODULE_PERMISSIONS_LIST}></th>
-                <th class='center width6'><{$smarty.const._AM_TDMCREATE_FORMACTION}></th>
+                <th class='center cell cell-width1' ><{$smarty.const._AM_TDMCREATE_MODULE_ID}></th>
+                <th class='center cell cell-width2'><{$smarty.const._AM_TDMCREATE_MODULE_NAME_LIST}></th>
+                <th class='center cell cell-width3'><{$smarty.const._AM_TDMCREATE_MODULE_IMAGE_LIST}></th>
+                <th class='center cell cell-width4'><{$smarty.const._AM_TDMCREATE_MODULE_NBFIELDS_LIST}></th>
+                <th class='center cell cell-width5'><{$smarty.const._AM_TDMCREATE_MODULE_ADMIN_LIST}></th>
+                <th class='center cell cell-width6'><{$smarty.const._AM_TDMCREATE_MODULE_USER_LIST}></th>
+                <th class='center cell cell-width7'><{$smarty.const._AM_TDMCREATE_MODULE_BLOCKS_LIST}></th>
+                <th class='center cell cell-width8'><{$smarty.const._AM_TDMCREATE_MODULE_SUBMENU_LIST}></th>
+                <th class='center cell cell-width9'><{$smarty.const._AM_TDMCREATE_MODULE_SEARCH_LIST}></th>
+                <th class='center cell cell-width10'><{$smarty.const._AM_TDMCREATE_MODULE_COMMENTS_LIST}></th>
+                <th class='center cell cell-width11'><{$smarty.const._AM_TDMCREATE_MODULE_NOTIFICATIONS_LIST}></th>
+                <th class='center cell cell-width12'><{$smarty.const._AM_TDMCREATE_MODULE_PERMISSIONS_LIST}></th>
+                <th class='center xo-actions cell cell-width13'><{$smarty.const._AM_TDMCREATE_FORMACTION}></th>
             </tr>
         </thead>
         <tbody>
         <{foreach item=module from=$modules_list}>
             <{if $module.id > 0}>
                 <tr id="module<{$module.id}>" class="modules toggleMain">
-                    <td class='center bold width6'>&#40;<{$module.id}>&#41;
+                    <td class='center bold cell cell-width1'>&#40;<{$module.id}>&#41;
                         <a href="#" title="Toggle"><img class="imageToggle" src="<{$modPathIcon16}>/toggle.png" alt="Toggle" /></a>
                     </td>
-                    <td class='center bold green name'><{$module.name}></td>
+                    <td class='center bold green name cell cell-width2'><{$module.name}></td>
                     <td class='center'><img src="<{$tdmc_upload_imgmod_url}>/<{$module.image}>" alt="" height="35" /></td>
                     <td class='center'><img src="<{$modPathIcon16}>/fields.png" alt="16" /></td>
                     <td class='center'><img id="loading_img_admin<{$module.id}>" src="<{$modPathIcon16}>/spinner.gif" style="display:none;" title="<{$smarty.const._AM_SYSTEM_LOADING}>" alt="<{$smarty.const._AM_SYSTEM_LOADING}>" /><img style="cursor:pointer;" class="tooltip" id="img_admin<{$module.id}>" onclick="tdmcreate_setStatus( { op: 'display', mod_id: <{$module.id}>, mod_admin: <{if $module.admin == 1}>0<{else}>1<{/if}> }, 'img_admin<{$module.id}>', 'modules.php' )" src="<{xoModuleIcons16}><{$module.admin}>.png" alt="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$module.name}>" title="<{$smarty.const._AM_TDMCREATE_CHANGE_DISPLAY}>&nbsp;<{$module.name}>" />

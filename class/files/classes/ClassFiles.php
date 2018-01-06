@@ -277,7 +277,8 @@ class ClassFiles extends TDMCreateFile
         $action = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getForm = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
-        $getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
+        //$getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
+		$getForm .= $pc->getPhpCodeConditions('false', ' === ', '$action', $action, false, "\t\t");
         $xUser = $pc->getPhpCodeGlobals('xoopsUser');
         $xModule = $pc->getPhpCodeGlobals('xoopsModule');
         if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {

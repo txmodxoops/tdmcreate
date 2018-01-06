@@ -209,59 +209,113 @@ tbody.table-list tr td {
     text-align: center;
 }
 
+/* width for admin/tables */
 .cell.cell-width1 {
-    width: 4%;
-}
-
-.cell.cell-width1-1 {
     width: 5%;
 }
 
 .cell.cell-width2 {
-    width: 10%;
+    width: 15%;
 }
 
 .cell.cell-width3 {
-    width: 9%;
+    width: 7%;
 }
 
 .cell.cell-width4 {
-    width: 5%;
+    width: 7%;
 }
 
 .cell.cell-width5 {
-    width: 5%;
+    width: 7%;
 }
 
 .cell.cell-width6 {
-    width: 4%;
+    width: 7%;
 }
 
 .cell.cell-width7 {
-    width: 5%;
+    width: 7%;
 }
 
 .cell.cell-width8 {
-    width: 8%;
+    width: 7%;
 }
 
 .cell.cell-width9 {
-    width: 6%;
+    width: 7%;
 }
 
 .cell.cell-width10 {
-    width: 8%;
+    width: 7%;
 }
 
 .cell.cell-width11 {
-    width: 9%;
+    width: 7%;
 }
 
 .cell.cell-width12 {
-    width: 9%;
+    width: 7%;
 }
 
 .cell.cell-width13 {
+    width: 10%;
+}
+
+/* width for admin/fields */
+.cell.cell-width1-2 {
+    width: 5%;
+}
+
+.cell.cell-width2-2 {
+    width: 15%;
+}
+
+.cell.cell-width3-2 {
+    width: 7%;
+}
+
+.cell.cell-width4-2 {
+    width: 7%;
+}
+
+.cell.cell-width5-2 {
+    width: 7%;
+}
+
+.cell.cell-width6-2 {
+    width: 7%;
+}
+
+.cell.cell-width7-2 {
+    width: 7%;
+}
+
+.cell.cell-width8-2 {
+    width: 7%;
+}
+
+.cell.cell-width9-2 {
+    width: 7%;
+}
+
+.cell.cell-width10-2 {
+    width: 7%;
+}
+
+.cell.cell-width11-2 {
+    width: 7%;
+}
+
+.cell.cell-width12-2 {
+    width: 7%;
+}
+
+.cell.cell-width13-2 {
+    width: 5%;
+}
+
+.cell.cell-width14-2 {
     width: 5%;
 }
 
