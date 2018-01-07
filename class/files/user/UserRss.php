@@ -125,7 +125,7 @@ if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 //header ('Content-Type:text/xml; charset=UTF-8');
-\${$moduleDirname}->geConfig("utf8") = false;
+\${$moduleDirname}->geConfig('utf8') = false;
 
 \$tpl = new XoopsTpl();
 \$tpl->xoops_setCaching(2); //1 = Cache global, 2 = Cache individual (for template)
@@ -192,7 +192,7 @@ if (!\$tpl->is_cached('db:{$moduleDirname}_rss.tpl', \${$fppf})) {
                                     'description' => htmlspecialchars(\$description_short, ENT_QUOTES)));
     }
 }
-header("Content-Type:text/xml; charset=" . _CHARSET);
+header('Content-Type:text/xml; charset=' . _CHARSET);
 \$tpl->display('db:{$moduleDirname}_rss.tpl', \${$fppf});
 EOT;
 

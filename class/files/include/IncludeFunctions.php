@@ -74,6 +74,11 @@ class IncludeFunctions extends TDMCreateFile
     {
         $ret = <<<EOT
 \n/***************Blocks***************/
+\n/**
+ * add selected cats
+ * @param \$cats
+ * @return string
+ */
 function {$moduleDirname}_block_addCatSelect(\$cats) {
     if(is_array(\$cats))
     {
@@ -103,7 +108,10 @@ EOT;
     {
         $ret = <<<EOT
 \n/**
- *  Get the permissions ids
+ * Get the permissions ids
+ * @param \$permtype
+ * @param \$dirname
+ * @return mixed \${$tableName}
  */
 function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
 {
@@ -145,7 +153,12 @@ EOT;
         }
         $ret = <<<EOT
 \n/**
- *  Get the number of {$tableName} from the sub categories of a category or sub topics of or topic
+ * Get the number of {$tableName} from the sub categories of a category or sub topics of or topic
+ * @param \$mytree
+ * @param \${$tableName}
+ * @param \$entries
+ * @param \$cid
+ * @return int
  */
 function {$moduleDirname}NumbersOfEntries(\$mytree, \${$tableName}, \$entries, \$cid)
 {
@@ -180,6 +193,11 @@ EOT;
     private function getFunctionMetaKeywords($moduleDirname)
     {
         $ret = <<<EOT
+\n/**
+ * Add content as meta tag to template
+ * @param \$content
+ * @return void
+ */
 \nfunction {$moduleDirname}MetaKeywords(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
@@ -206,7 +224,12 @@ EOT;
     private function getFunctionMetaDescription($moduleDirname)
     {
         $ret = <<<EOT
-\nfunction {$moduleDirname}MetaDescription(\$content)
+\n/**
+ * Add content as meta description to template
+ * @param \$content
+ * @return void
+ */
+ \nfunction {$moduleDirname}MetaDescription(\$content)
 {
     global \$xoopsTpl, \$xoTheme;
     \$myts = MyTextSanitizer::getInstance();
@@ -237,9 +260,10 @@ EOT;
 \n/**
  * Rewrite all url
  *
- * @String  \$module  module name
- * @String  \$array   array
- * @return  \$type    string replacement for any blank case
+ * @param string  \$module  module name
+ * @param array   \$array   array
+ * @param string  \$type    type
+ * @return string \$type    string replacement for any blank case
  */
 function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 {
@@ -251,8 +275,9 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 
     if (\$lenght_id != 0) {
         \$id = \$array['content_id'];
-        while (strlen(\$id) < \$lenght_id)
-            \$id = "0" . \$id;
+        while (strlen(\$id) < \$lenght_id) {
+            \$id = '0' . \$id;
+        }
     } else {
         \$id = \$array['content_id'];
     }
@@ -276,7 +301,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 
         case 'rewrite':
             if(\$topic_name) {
-                \$topic_name = \$topic_name . '/';
+                \$topic_name .= '/';
             }
             \$rewrite_base = xoops_getModuleOption('rewrite_mode', \$module);
             \$rewrite_ext = xoops_getModuleOption('rewrite_ext', \$module);
@@ -285,11 +310,12 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
                 \$module_name = xoops_getModuleOption('rewrite_name', \$module) . '/';
             }
             \$page = \$array['content_alias'];
-            \$type = \$type . '/';
-            \$id = \$id . '/';
-            if (\$type == 'content/') \$type = '';
-
-            if (\$type == 'comment-edit/' || \$type == 'comment-reply/' || \$type == 'comment-delete/') {
+            \$type .= '/';
+            \$id .= '/';
+            if (\$type === 'content/') {
+                \$type = '';
+            }
+            if (\$type === 'comment-edit/' || \$type === 'comment-reply/' || \$type === 'comment-delete/') {
                 return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
             }
 
@@ -298,7 +324,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 
          case 'short':
             if(\$topic_name) {
-                \$topic_name = \$topic_name . '/';
+                \$topic_name .= '/';
             }
             \$rewrite_base = xoops_getModuleOption('rewrite_mode', \$module);
             \$rewrite_ext = xoops_getModuleOption('rewrite_ext', \$module);
@@ -307,16 +333,18 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
                 \$module_name = xoops_getModuleOption('rewrite_name', \$module) . '/';
             }
             \$page = \$array['content_alias'];
-            \$type = \$type . '/';
-            if (\$type == 'content/') \$type = '';
-
-            if (\$type == 'comment-edit/' || \$type == 'comment-reply/' || \$type == 'comment-delete/') {
+            \$type .= '/';
+            if (\$type === 'content/') {
+                \$type = '';
+            }
+            if (\$type === 'comment-edit/' || \$type === 'comment-reply/' || \$type === 'comment-delete/') {
                 return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$id . '/';
             }
 
             return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name . \$page . \$rewrite_ext;
             break;
     }
+    return '';
 }
 EOT;
 
@@ -338,9 +366,10 @@ EOT;
 \n/**
  * Replace all escape, character, ... for display a correct url
  *
- * @String  \$url    string to transform
- * @String  \$type   string replacement for any blank case
- * @return  \$url
+ * @param string \$url      string to transform
+ * @param string \$type     string replacement for any blank case
+ * @param string \$module
+ * @return string \$url
  */
 function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname}') {
 
@@ -355,7 +384,7 @@ function {$moduleDirname}_Filter(\$url, \$type = '', \$module = '{$moduleDirname
     \$url = htmlentities(\$url, ENT_COMPAT, 'utf-8');
     \$url = preg_replace("`&([a-z])(acute|uml|circ|grave|ring|cedil|slash|tilde|caron|lig);`i", "\\1", \$url);
     \$url = preg_replace(array(\$regular_expression, "`[-]+`"), "-", \$url);
-    \$url = (\$url == "") ? \$type : strtolower(trim(\$url, '-'));
+    \$url = (\$url == '') ? \$type : strtolower(trim(\$url, '-'));
     return \$url;
 }
 EOT;

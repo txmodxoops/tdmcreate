@@ -78,7 +78,7 @@ class TemplatesAdminFooter extends TDMCreateFile
         $language = $this->getLanguage($moduleDirname, 'AM');
 
         $singleNoVar = $hc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
-        $img = $hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', false) . PHP_EOL;
+        $img = $hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true) . PHP_EOL;
         $anchor = $hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) . PHP_EOL;
         $content = $hc->getHtmlTag('div', ['class' => 'center'], $anchor) . PHP_EOL;
         $tree = $hc->getHtmlTag('strong', [], $moduleName);

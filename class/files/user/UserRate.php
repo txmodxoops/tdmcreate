@@ -127,7 +127,7 @@ class UserRate extends TDMCreateFile
         $ret .= $this->xc->getXcTplAssign('navigation', '$navigation', true, "\t\t");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page', null, "\t\t");
         $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'", null, false, "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()", null, false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, "\t\t");
         $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', '$title', true, "\t\t");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Description', null, "\t\t");
         $ret .= $this->uc->getUserAddMeta('description', $language, 'RATE', "\t\t");

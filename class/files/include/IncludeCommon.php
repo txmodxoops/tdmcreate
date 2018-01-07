@@ -95,8 +95,13 @@ class IncludeCommon extends TDMCreateFile
         $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
         $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
         $ret = <<<'EOT'
-if (!defined('XOOPS_ICONS32_PATH')) define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
-if (!defined('XOOPS_ICONS32_URL')) define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+if (!defined('XOOPS_ICONS32_PATH')) {
+    define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
+}
+if (!defined('XOOPS_ICONS32_URL')) {
+    define('XOOPS_ICONS32_URL', XOOPS_URL . '/Frameworks/moduleclasses/icons/32');
+}
+
 EOT;
         $ret .= $this->getCommonDefines($moduleDirname, 'DIRNAME', "'{$moduleDirname}'");
         $ret .= $this->getCommonDefines($moduleDirname, 'PATH', "XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME");

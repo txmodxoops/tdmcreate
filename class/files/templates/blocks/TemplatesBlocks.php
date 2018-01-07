@@ -131,13 +131,13 @@ EOT;*/
                     case 10:
                         $src = $hc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', false);
+                        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true);
                         $td .= $hc->getHtmlTag('td', ['class' => 'center'], $img) . PHP_EOL;
                         break;
                     case 13:
                         $single = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', false);
+                        $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true);
                         $td .= $hc->getHtmlTag('td', ['class' => 'center'], $img) . PHP_EOL;
                         break;
                     default:
@@ -152,12 +152,12 @@ EOT;*/
         $lang   = $hc->getSmartyConst('', '_EDIT');
         $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
         $src    = $hc->getSmartyNoSimbol('xoModuleIcons32 edit.png');
-        $img    = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', false);
+        $img    = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true);
         $anchor = $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img) . PHP_EOL;
         $lang   = $hc->getSmartyConst('', '_DELETE');
         $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
         $src    = $hc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-        $img    = $hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', false);
+        $img    = $hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', true);
         $anchor .= $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img) . PHP_EOL;
         $td .= $hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor) . PHP_EOL;
         $cycle   = $hc->getSmartyNoSimbol('cycle values="odd, even"');

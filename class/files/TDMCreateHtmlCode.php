@@ -60,7 +60,9 @@ class TDMCreateHtmlCode
             $attributes = [];
         }
         $attr = $this->getAttributes($attributes);
-        if ($noClosed) {
+        if ('br' === $tag) {
+            $ret = "{$t}<{$tag}{$attr}>\n";
+        } elseif ($noClosed) {
             $ret = "{$t}<{$tag}{$attr} />\n";
         } elseif ($noBreak) {
             $ret = "{$t}<{$tag}{$attr}>{$content}</{$tag}>\n";

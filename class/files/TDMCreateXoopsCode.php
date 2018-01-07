@@ -119,13 +119,18 @@ class TDMCreateXoopsCode
      *  @public function getXcLoadLanguage
      *
      *  @param $lang
-     * @param $t
+     *  @param $t
+     *  @param $domain
      *
      *  @return string
      */
-    public function getXcLoadLanguage($lang, $t = '')
+    public function getXcLoadLanguage($lang, $t = '', $domain = '')
     {
-        return "{$t}xoops_loadLanguage('{$lang}');\n";
+        if ($domain === '') {
+            return "{$t}xoops_loadLanguage('{$lang}');\n";
+        } else {
+            return "{$t}xoops_loadLanguage('{$lang}', '{$domain}');\n";
+        }
     }
 
     /**
@@ -835,13 +840,17 @@ class TDMCreateXoopsCode
      * @public function getXcTplDisplay
      *
      * @param string $displayTpl
-     *
      * @param string $t
+     * @param bool   $usedoublequotes
      * @return string
      */
-    public function getXcTplDisplay($displayTpl = '{$templateMain}', $t = '')
+    public function getXcTplDisplay($displayTpl = '{$templateMain}', $t = '', $usedoublequotes = true)
     {
-        return "{$t}\$GLOBALS['xoopsTpl']->display(\"db:{$displayTpl}\");\n";
+        if ($usedoublequotes) {
+            return "{$t}\$GLOBALS['xoopsTpl']->display(\"db:{$displayTpl}\");\n";
+        } else {
+            return "{$t}\$GLOBALS['xoopsTpl']->display('db:" . $displayTpl . "');\n";
+        }
     }
 
     /**

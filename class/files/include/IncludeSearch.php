@@ -121,13 +121,21 @@ class IncludeSearch extends TDMCreateFile
         }
         $img_search = 'blank.gif';
         $ret = <<<EOT
-\n// search callback functions
+\n
+/**
+ * search callback functions
+ * @param \$queryarray
+ * @param \$andor
+ * @param \$limit
+ * @param \$offset
+ * @param \$userid
+ */
 function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$userid)
 {
     global \$xoopsDB;
-    \$sql = "SELECT '{$fieldId}', '{$fieldMain}' FROM ".\$xoopsDB->prefix('{$moduleDirname}_{$tableName}')." WHERE {$fieldId} != 0";
+    \$sql = "SELECT '{$fieldId}', '{$fieldMain}' FROM " . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} != 0';
     if ( \$userid != 0 ) {
-        \$sql .= " AND {$tableFieldname}_submitter=".(int) (\$userid);
+        \$sql .= ' AND {$tableFieldname}_submitter='.(int) (\$userid);
     }
     if ( is_array(\$queryarray) && \$count = count(\$queryarray) )
     {
@@ -141,7 +149,7 @@ EOT;
             \$sql .= " \$andor ";
             \$sql .= "{$this->getSearchField($fieldSearch, '$i')}";
         }
-        \$sql .= ")";
+        \$sql .= ')';
     }
     \$sql .= " ORDER BY '{$fieldId}' DESC";
     \$result = \$xoopsDB->query(\$sql,\$limit,\$offset);

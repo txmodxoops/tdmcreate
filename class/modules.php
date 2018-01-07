@@ -229,7 +229,7 @@ class TDMCreateModules extends XoopsObject
         $modLicense = $isNew ? $set['license'] : $this->getVar('mod_license');
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_LICENSE, 'mod_license', 50, 255, $modLicense), true);
 
-        $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
+        $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br>');
         $optionsTray->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         // Check All Modules Options
         $checkAllOptions = new XoopsFormCheckBox('', 'modulebox', 1);
@@ -238,7 +238,7 @@ class TDMCreateModules extends XoopsObject
         $checkAllOptions->setClass('xo-checkall');
         $optionsTray->addElement($checkAllOptions);
         // Options
-        $checkbox = new XoopsFormCheckbox(' ', 'module_option', $this->getOptionsModules(), '<br />');
+        $checkbox = new XoopsFormCheckbox(' ', 'module_option', $this->getOptionsModules(), '<br>');
         foreach ($this->options as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_MODULE_'.strtoupper($option)));
         }
@@ -250,7 +250,7 @@ class TDMCreateModules extends XoopsObject
         $modImage = $modImage ?: $set['image'];
 
         $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
-        $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br />');
+        $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br>');
         $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './'.strtolower($uploadDirectory).'/');
         $imageselect = new XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray = XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
@@ -259,9 +259,9 @@ class TDMCreateModules extends XoopsObject
         }
         $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")'");
         $imgtray->addElement($imageselect);
-        $imgtray->addElement(new XoopsFormLabel('', "<br /><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br />"));
+        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br>"));
 
-        $fileseltray = new XoopsFormElementTray('', '<br />');
+        $fileseltray = new XoopsFormElementTray('', '<br>');
         $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray->addElement(new XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
@@ -276,7 +276,7 @@ class TDMCreateModules extends XoopsObject
             $uploadDirectory = '/uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/tables';
             $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/tables');
         }
-        $createLogoTray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_CREATENEWLOGO, '<br />');
+        $createLogoTray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_CREATENEWLOGO, '<br>');
         $iconSelect = new XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
         $tablesImagesArray = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH.$uploadDirectory);
         foreach ($tablesImagesArray as $image) {
@@ -284,7 +284,7 @@ class TDMCreateModules extends XoopsObject
         }
         $iconSelect->setExtra(" onchange='showImgSelected2(\"image4\", \"tables_img\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")' ");
         $createLogoTray->addElement($iconSelect);
-        $createLogoTray->addElement(new XoopsFormLabel('', "<br /><img src='".XOOPS_URL.'/'.$uploadDirectory.'/'.$tables_img."' name='image4' id='image4' alt='' />"));
+        $createLogoTray->addElement(new XoopsFormLabel('', "<br><img src='".XOOPS_URL.'/'.$uploadDirectory.'/'.$tables_img."' name='image4' id='image4' alt='' />"));
         // Create preview and submit buttons
         $buttonLogoGenerator4 = new XoopsFormButton('', 'button4', _AM_TDMCREATE_MODULE_CREATENEWLOGO, 'button');
         $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"".TDMC_URL."\")' ");

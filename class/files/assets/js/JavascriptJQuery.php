@@ -105,8 +105,8 @@ if(Array.prototype.push === null) {
   Array.prototype.push = function(item) {
 	this[this.length] = item;
 	return this.length;
-  };
-};
+  }
+}
 // ---------------------------------------------------------------------
 //                  function.apply (if unsupported)
 //           Courtesy of Aaron Boodman - http://youngpup.net
@@ -119,14 +119,14 @@ if (!Function.prototype.apply) {
 	if (!args) args = [];
 	for (var i = 0; i < args.length; i++) {
 	  sarg[i] = "args["+i+"]";
-	};
+	}
 	call = "oScope.__applyTemp__(" + sarg.join(",") + ");";
 	oScope.__applyTemp__ = this;
 	rtrn = eval(call);
 	oScope.__applyTemp__ = null;
 	return rtrn;
-  };
-};
+  }
+}
 function inArray(needle) {
   for (var i=0; i < this.length; i++) {
 	if (this[i] === needle) {
@@ -173,7 +173,7 @@ EOT;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getJavascriptJQueryButtons();
+        $content = $this->getJavascriptJQueryButtons();
         $content .= $this->getJavascriptJQueryPrint();
 
         $this->create($moduleDirname, 'assets/js', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

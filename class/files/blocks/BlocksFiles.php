@@ -227,8 +227,8 @@ function b_{$moduleDirname}_{$tableName}_edit(\$options)
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
     \$form  = {$language}DISPLAY;
     \$form .= "<input type='hidden' name='options[0]' value='".\$options[0]."' />";
-    \$form .= "<input type='text' name='options[1]' size='5' maxlength='255' value='".\$options[1]."' />&nbsp;<br />";
-    \$form .= {$language}TITLE_LENGTH." : <input type='text' name='options[2]' size='5' maxlength='255' value='".\$options[2]."' /><br /><br />";
+    \$form .= "<input type='text' name='options[1]' size='5' maxlength='255' value='" . \$options[1] . "' />&nbsp;<br>";
+    \$form .= {$language}TITLE_LENGTH." : <input type='text' name='options[2]' size='5' maxlength='255' value='" . \$options[2] . "' /><br><br>";
     array_shift(\$options);
     array_shift(\$options);
     array_shift(\$options);
@@ -238,13 +238,13 @@ function b_{$moduleDirname}_{$tableName}_edit(\$options)
     \$criteria->setOrder('ASC');
     \${$tableName}All = \${$tableName}Handler->getAll(\$criteria);
     unset(\$criteria);
-    \$form .= {$language}{$stuTableName}_TO_DISPLAY."<br /><select name='options[]' multiple='multiple' size='5'>";
-    \$form .= "<option value='0' " . (array_search(0, \$options) === false ? "" : "selected='selected'") . ">" .{$language}ALL_{$stuTableName} . "</option>";
+    \$form .= {$language}{$stuTableName}_TO_DISPLAY."<br><select name='options[]' multiple='multiple' size='5'>";
+    \$form .= "<option value='0' " . (in_array(0, \$options) === false ? '' : "selected='selected'") . '>' . {$language}ALL_{$stuTableName} . '</option>';
     foreach (array_keys(\${$tableName}All) as \$i) {
         \${$fieldId} = \${$tableName}All[\$i]->getVar('{$fieldId}');
-        \$form .= "<option value='" . \${$fieldId} . "' " . (array_search(\${$fieldId}, \$options) === false ? "" : "selected='selected'") . ">".\${$tableName}All[\$i]->getVar('{$fieldMain}')."</option>";
+        \$form .= "<option value='" . \${$fieldId} . "' " . (in_array(\${$fieldId}, \$options) === false ? '' : "selected='selected'") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>';
     }
-    \$form .= "</select>";
+    \$form .= '</select>';
     return \$form;
 }
 EOT;

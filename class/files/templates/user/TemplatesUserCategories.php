@@ -186,7 +186,7 @@ class TemplatesUserCategories extends TDMCreateFile
             <div class="panel panel-body">
                 <{include file="db:{$moduleDirname}_{$tableName}_list.tpl" {$tableSoleName}=\${$tableSoleName}}>
                 <{if \${$tableSoleName}.count is div by \$numb_col}>
-                    <br />
+                    <br>
                 <{/if}>
             </div>
         <{/foreach}>
@@ -194,7 +194,7 @@ class TemplatesUserCategories extends TDMCreateFile
 EOT;*/
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $incl = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName).PHP_EOL;
-        $html = $hc->getHtmlEmpty('<br />').PHP_EOL;
+        $html = $hc->getHtmlEmpty('<br>').PHP_EOL;
         $incl .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$numb_col', $html).PHP_EOL;
         $const = $hc->getSmartyConst($language, $stuTableName.'_TITLE');
         $div = $hc->getHtmlDiv($const, 'panel-heading').PHP_EOL;

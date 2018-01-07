@@ -29,7 +29,7 @@
 class TDMCreateSession
 {
     /**
-     * Session constructor<br />
+     * Session constructor<br>
      * Starts the session with session_start()
      * <strong>Note:</strong> that if the session has already started,
      * session_start() does nothing.

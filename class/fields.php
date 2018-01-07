@@ -216,7 +216,7 @@ class TDMCreateFields extends XoopsObject
             $form->addElement(new TDMCreateFormLabel('<td>&nbsp;</td></tr>'));
         } else {
             // Box header row
-            $parametersTray = new XoopsFormElementTray('', '<br />');
+            $parametersTray = new XoopsFormElementTray('', '<br>');
             // Field Elements
             $crElement = new CriteriaCompo();
             $crElement->add(new Criteria('fieldelement_tid', 0));
@@ -366,7 +366,7 @@ class TDMCreateFields extends XoopsObject
                     $form->addElement(new TDMCreateFormLabel('<td>&nbsp;</td></tr>'));
                 } else {
                     // Box header row
-                    $parametersTray = new XoopsFormElementTray('', '<br />');
+                    $parametersTray = new XoopsFormElementTray('', '<br>');
                     // Field Elements
                     $crElement = new CriteriaCompo();
                     $crElement->add(new Criteria('fieldelement_tid', 0));

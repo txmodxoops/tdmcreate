@@ -72,6 +72,7 @@ class IncludeCommentFunctions extends TDMCreateFile
      */
     public function render()
     {
+     
         $module = $this->getModule();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -81,7 +82,13 @@ class IncludeCommentFunctions extends TDMCreateFile
         $filename = $this->getFileName();
         $content = $this->getHeaderFilesComments($module, $filename);
         $content .= <<<EOT
-
+\n/**
+ * CommentsUpdate
+ *
+ * @param mixed \$itemId
+ * @param mixed \$itemNumb
+ * @return bool
+ */
 function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {
     \$itemId = (int) (\$itemId);
     \$itemNumb = (int) (\$itemNumb);
@@ -91,7 +98,12 @@ function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {
     }
     return true;
 }
-
+\n/**
+ * CommentsApprove
+ *
+ * @param string  \$comment
+ * @return void
+ */
 function {$moduleDirname}CommentsApprove(&\$comment){
     // notification mail here
 }

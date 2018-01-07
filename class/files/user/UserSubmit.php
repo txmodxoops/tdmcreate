@@ -78,7 +78,7 @@ class UserSubmit extends TDMCreateFile
         $uc = UserXoopsCode::getInstance();
         $t = "\t";
         $ret = $this->getInclude();
-        $ret .= $xc->getXcLoadLanguage('admin');
+        $ret .= $xc->getXcLoadLanguage('admin', '', $moduleDirname);
         $ret .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret .= $xc->getXcXoopsRequest('op', 'op', 'form');
         $ret .= $pc->getPhpCodeCommentLine('Template');
@@ -90,7 +90,7 @@ class UserSubmit extends TDMCreateFile
         $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, $t);
         $condIf .= $this->getSimpleString('exit();', $t);
 
-        $ret .= $pc->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf, false);
+        $ret .= $pc->getPhpCodeConditions('$permSubmit', ' === ', 'false', $condIf, false);
 
         return $ret;
     }

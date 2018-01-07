@@ -251,7 +251,7 @@ EOT;*/
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $ret = $hc->getHtmlTag('br /', [], '', false);
+        $ret = $hc->getHtmlTag('br', [], '', true);
         $ret .= $hc->getHtmlComment('Footer');
         $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true);
 

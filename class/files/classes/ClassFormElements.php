@@ -232,7 +232,7 @@ class ClassFormElements extends TDMCreateAbstract
         $ret .= $xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
         $ret .= $xc->getXcEqualsOperator('$imageDirectory', "'/Frameworks/moduleclasses/icons/32'", null, false, $t);
-        $ret .= $cc->getClassXoopsFormElementTray('imageTray', $language.$stuSoleName, '<br />', $t);
+        $ret .= $cc->getClassXoopsFormElementTray('imageTray', $language.$stuSoleName, '<br>', $t);
         $sprintf = $pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
         $ret .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
@@ -241,11 +241,11 @@ class ClassFormElements extends TDMCreateAbstract
         $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name='image1' id='image1' alt='' style='max-width:100px' />\\\"";
+        $paramLabel = "\"<br><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\\\${$ccFieldName}.\\\"' name='image1' id='image1' alt='' style='max-width:100px' />\\\"";
         $xoopsFormLabel = $cc->getClassXoopsFormLabel('', "''", "''", true, '');
         $ret .= $cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $pc->getPhpCodeCommentLine('Form', 'File', $t);
-        $ret .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
+        $ret .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
         $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'FORM_IMAGE_LIST_'.$stuTableName, 'attachedfile', $getConfig, true, '');
         $ret .= $cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);
@@ -280,7 +280,7 @@ class ClassFormElements extends TDMCreateAbstract
         $contentIf = $xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $contentIf .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
         $contentIf .= $xc->getXcEqualsOperator('$uploadDirectory', "'/uploads/{$moduleDirname}/images/shots'", null, false, $t);
-        $contentIf .= $cc->getClassXoopsFormElementTray('imageTray', $language.'FORM_IMAGE', '<br />', $t);
+        $contentIf .= $cc->getClassXoopsFormElementTray('imageTray', $language.'FORM_IMAGE', '<br>', $t);
         $sprintf = $pc->getPhpCodeSprintf($language.'FORM_PATH', '".{$uploadDirectory}/"');
         $contentIf .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, 'selected_image', "\${$moduleDirname}ShotImage", 5, 'false', false, $t);
         $contentIf .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $uploadDirectory', $t);
@@ -289,11 +289,11 @@ class ClassFormElements extends TDMCreateAbstract
         $setExtraParam = "\"onchange='showImgSelected(\\\"image3\\\", \\\"selected_image\\\", \\\"\".\$uploadDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $contentIf .= $cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $contentIf .= $cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name='image3' id='image3' alt='' style='max-width:100px' />\\\"";
+        $paramLabel = "\"<br><img src='\".XOOPS_URL.\"/\".\$uploadDirectory.\"/\" . \${$moduleDirname}ShotImage . \"' name='image3' id='image3' alt='' style='max-width:100px' />\\\"";
         $xoopsFormLabel = $cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $contentIf .= $cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $contentIf .= $pc->getPhpCodeCommentLine('Form', 'File', "\t\t");
-        $contentIf .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
+        $contentIf .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
         $getConfigFile = $xc->getXcGetConfig($moduleDirname, 'maxuploadsize');
         $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'_FORM_UPLOAD', 'attachedimage', $getConfigFile, true, '');
         $contentIf1 = $cc->getClassAddElement('fileSelectTray', $xoopsFormFile.$required, $t."\t");
@@ -326,7 +326,7 @@ class ClassFormElements extends TDMCreateAbstract
         $cc = ClassXoopsCode::getInstance();
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Url', 'Text File', $t);
-        $ret .= $cc->getClassXoopsFormElementTray('formUrlFile', '_OPTIONS', '<br /><br />', $t);
+        $ret .= $cc->getClassXoopsFormElementTray('formUrlFile', '_OPTIONS', '<br><br>', $t);
         $ret .= $pc->getPhpCodeTernaryOperator('formUrl', '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", $t);
         $ret .= $cc->getClassXoopsFormText('formText', $language, $fieldName, 75, 255, 'formUrl', false, $t);
         $ret .= $cc->getClassAddElement('formUrlFile', '$formText'.$required, $t);
@@ -364,7 +364,7 @@ class ClassFormElements extends TDMCreateAbstract
         $ret .= $xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
         $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
         $ret .= $xc->getXcEqualsOperator('$imageDirectory', "'/uploads/{$moduleDirname}/images/{$tableName}'", null, false, $t);
-        $ret .= $cc->getClassXoopsFormElementTray('imageTray', '_OPTIONS', '<br />', $t);
+        $ret .= $cc->getClassXoopsFormElementTray('imageTray', '_OPTIONS', '<br>', $t);
         $sprintf = $pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
         $ret .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
@@ -373,11 +373,11 @@ class ClassFormElements extends TDMCreateAbstract
         $setExtraParam = "\"onchange='showImgSelected(\\\"image1\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
         $ret .= $cc->getClassSetExtra('imageSelect', $setExtraParam, $t);
         $ret .= $cc->getClassAddElement('imageTray', '$imageSelect, false', $t);
-        $paramLabel = "\"<br /><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\${$ccFieldName}.\"' name='image1' id='image1' alt='' style='max-width:100px' />\"";
+        $paramLabel = "\"<br><img src='\".XOOPS_URL.\"/\".\$imageDirectory.\"/\".\${$ccFieldName}.\"' name='image1' id='image1' alt='' style='max-width:100px' />\"";
         $xoopsFormLabel = $cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $ret .= $cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret .= $pc->getPhpCodeCommentLine('Form', 'File', $t);
-        $ret .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br />', $t);
+        $ret .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
         $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'FORM_UPLOAD_IMAGE_'.$stuTableName, 'attachedfile', $getConfig, true, '');
         $ret .= $cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);

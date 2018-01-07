@@ -82,13 +82,19 @@ class LanguageDefines
     *  @param string $language
     *  @param string $defined
     *  @param string $description
+    *  @param bool   $usedoubleqoute
     *  @return string
     */
-    public function getDefine($language, $defined, $description)
+    public function getDefine($language, $defined, $description, $usedoubleqoute = false)
     {
         $defined = strtoupper($defined);
-
-        return $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");
+        
+        if ($usedoubleqoute) {
+            $ret = $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");
+        } else {
+            $ret = $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "'" . $description . "'");
+        }
+        return $ret;
     }
 
     /**

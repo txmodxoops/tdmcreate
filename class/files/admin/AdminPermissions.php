@@ -199,7 +199,7 @@ class AdminPermissions extends TDMCreateFile
         $elseInter .= $this->getSimpleString("\t\texit();");
         $else .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if2, $elseInter, "\t");
 
-        $ret .= $pc->getPhpCodeConditions('$op', ' == ', "'global'", $if1, $else);
+        $ret .= $pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, $else);
         $ret .= $pc->getPhpCodeUnset('permform');
 
         return $ret;

@@ -116,6 +116,7 @@ class {$ucf_module_dirname}Helper
     /**
     *  @static function getInstance
     *  @param mixed \$debug
+    *  @return {$ucf_module_dirname}Helper
     */
     public static function getInstance(\$debug = false)
     {
@@ -128,6 +129,7 @@ class {$ucf_module_dirname}Helper
     /**
     *  @static function getModule
     *  @param null
+    *  @return string
     */
     public function &getModule()
     {
@@ -139,6 +141,7 @@ class {$ucf_module_dirname}Helper
     /**
     *  @static function getConfig
     *  @param string \$name
+    *  @return null|string
     */
     public function getConfig(\$name = null)
     {
@@ -146,7 +149,7 @@ class {$ucf_module_dirname}Helper
             \$this->initConfig();
         }
         if (!\$name) {
-            \$this->addLog("Getting all config");
+            \$this->addLog('Getting all config');
             return \$this->config;
         }
         if (!isset(\$this->config[\$name])) {
@@ -164,6 +167,7 @@ class {$ucf_module_dirname}Helper
     *  @static function setConfig
     *  @param string \$name
     *  @param mixed \$value
+    *  @return mixed
     */
     public function setConfig(\$name = null, \$value = null)
     {
@@ -177,6 +181,7 @@ class {$ucf_module_dirname}Helper
     /**
     *  @static function getHandler
     *  @param string \$name
+    *  @return mixed
     */
     public function getHandler(\$name)
     {
@@ -226,10 +231,8 @@ class {$ucf_module_dirname}Helper
     */
     public function addLog(\$log)
     {
-        if (\$this->debug) {
-            if (is_object(\$GLOBALS['xoopsLogger'])) {
-                \$GLOBALS['xoopsLogger']->addExtra(\$this->module->name(), \$log);
-            }
+        if (\$this->debug && is_object(\$GLOBALS['xoopsLogger'])) {
+            \$GLOBALS['xoopsLogger']->addExtra(\$this->module->name(), \$log);
         }
     }
 }

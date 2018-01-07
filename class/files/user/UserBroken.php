@@ -88,7 +88,7 @@ class UserBroken extends TDMCreateFile
         $ret .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
         $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, "\t");
         $condIf .= $this->getSimpleString('exit();', "\t");
-        $ret .= $pc->getPhpCodeConditions('$permSubmit', ' == ', 'false', $condIf);
+        $ret .= $pc->getPhpCodeConditions('$permSubmit', ' === ', 'false', $condIf);
 
         return $ret;
     }
@@ -109,7 +109,7 @@ class UserBroken extends TDMCreateFile
         $ret .= $xc->getXcTplAssign('navigation', '$navigation', true, "\t\t");
         $ret .= $pc->getPhpCodeCommentLine('Title of page', null, "\t\t");
         $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", null, false, "\t\t");
-        $ret .= $xc->getXcEqualsOperator('$title.', "\$GLOBALS['xoopsModule']->name()", null, false, "\t\t");
+        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, "\t\t");
         $ret .= $xc->getXcTplAssign('xoops_pagetitle', '$title', true, "\t\t");
         $ret .= $pc->getPhpCodeCommentLine('Description', null, "\t\t");
         $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', "\t\t");
@@ -160,7 +160,7 @@ class UserBroken extends TDMCreateFile
         $redirctHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, "\t\t\t\t");
         $condElse .= $pc->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t\t");
         $assigne = $xc->getXcTplAssign('error_message', '$errorMessage', true, "\t\t\t");
-        $ret .= $pc->getPhpCodeConditions('$error', ' == ', 'true', $assigne, $condElse, "\t\t");
+        $ret .= $pc->getPhpCodeConditions('$error', ' === ', 'true', $assigne, $condElse, "\t\t");
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
         $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");

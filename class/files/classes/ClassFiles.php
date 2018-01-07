@@ -239,7 +239,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $tableName = $table->getVar('table_name');
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id'], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['The new inserted' => '$Id', '@return' => 'inserted id'], "\t");
         $getInsertedId = $xc->getXcEqualsOperator('$newInsertedId', "\$GLOBALS['xoopsDB']->getInsertId()", null, false, "\t\t");
         $getInsertedId .= $this->getSimpleString('return $newInsertedId;', "\t\t");
 
@@ -273,7 +273,7 @@ class ClassFiles extends TDMCreateFile
         $stuTableSoleName = strtoupper($tableSoleName);
         $language = $this->getLanguage($moduleDirname, 'AM');
         $fe->initForm($module, $table);
-        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'form', '' => '', '@param mixed' => '$action'], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['@public function' => 'getForm', '@param bool' => '$action', '@return' => 'XoopsThemeForm'], "\t");
         $action = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getForm = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
@@ -384,7 +384,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $stuModuleDirname = strtoupper($moduleDirname);
         $ucfTableName = ucfirst($table->getVar('table_name'));
-        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Values'], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getValues = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
         $getValues .= $xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, false, "\t\t");
@@ -574,7 +574,7 @@ class ClassFiles extends TDMCreateFile
     private function getClassGet()
     {
         $pc = TDMCreatePhpCode::getInstance();
-        $ret = $pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@return mixed reference to the' => '{@link Get} object'], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['retrieve a' => 'field', '' => '', '@param int' => '$i field id', '@param null' => 'fields', '@return mixed reference to the' => '{@link Get} object'], "\t");
         $cClhg = $this->getSimpleString('return parent::get($i, $fields);', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('get', '$i = null, $fields = null', $cClhg, 'public ', false, "\t");
@@ -613,7 +613,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database'], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
         $critCount = $cc->getClassCriteriaCompo('crCount'.$ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
@@ -641,7 +641,7 @@ class ClassFiles extends TDMCreateFile
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(['Get All ' . $ucfTableName => 'in the database'], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get All ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
         $critAll = $cc->getClassCriteriaCompo('crAll'.$ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
@@ -683,7 +683,7 @@ class ClassFiles extends TDMCreateFile
         $topicTableName = str_replace(': ', '', $fieldNameDesc);
         $lcfTopicTableName = lcfirst($topicTableName);
 
-        $ret = $pc->getPhpCodeCommentMultiLine(["Get All {$ucfTableName} By" => "{$fieldNameDesc} Id"], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(["Get All {$ucfTableName} By" => "{$fieldNameDesc} Id", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
         $critAll = $xc->getXcEqualsOperator('$gpermHandler', "xoops_gethandler('groupperm')", null, true, "\t\t");
         $param1 = "'{$moduleDirname}_view'";
@@ -718,7 +718,7 @@ class ClassFiles extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName], "\t");
+        $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName, '@param       ' => "\$cr{$ucfTableName}", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
         $paramsAllCriteria = "\$cr{$ucfTableName}, \$start, \$limit, \$sort, \$order";
 

@@ -86,17 +86,17 @@ class LanguageHelp extends TDMCreateFile
     <!-- -----Help Content ---------- -->
     <h4 class="odd">Description</h4>
     <p class="even">
-        The {$moduleName} module can be used to modules in XOOPS<br /><br />
+        The {$moduleName} module can be used to modules in XOOPS<br><br>
     </p>
     <h4 class="odd">Install/uninstall</h4>
     <p class="even">
-No special measures necessary, follow the standard installation process and extract the {$moduleDirname} folder into the ../modules directory. Install the module through Admin -> System Module -> Modules. <br /><br />
+No special measures necessary, follow the standard installation process and extract the {$moduleDirname} folder into the ../modules directory. Install the module through Admin -> System Module -> Modules. <br><br>
 Detailed instructions on installing modules are available in the <a href="http://goo.gl/adT2i">XOOPS Operations Manual</a>
     </p>
     <h4 class="odd">Features</h4>
     <p class="even">
-        The TDMCreate module continues to expand, to get to the conditions to create modules, more and more sophisticated.<br />
-        For this reason, I invite all developers to report and send in svn any changes or additions to this module, so that we can jointly contribute to the development <br /><br />
+        The TDMCreate module continues to expand, to get to the conditions to create modules, more and more sophisticated.<br>
+        For this reason, I invite all developers to report and send in svn any changes or additions to this module, so that we can jointly contribute to the development <br><br>
     </p>
     <h4 class="odd">Tutorial</h4>
     <p class="even">

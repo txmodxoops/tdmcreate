@@ -98,7 +98,13 @@ class IncludeNotifications extends TDMCreateFile
             $tableSingle = $tableName;
         }
         $ret = <<<EOT
-\n// comment callback functions
+\n/**
+ * comment callback functions
+ *
+ * @param \$category
+ * @param \$item_id
+ * @return array item
+ */
 function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
 {
     global \$xoopsModule, \$xoopsModuleConfig, \$xoopsDB;
@@ -149,6 +155,7 @@ EOT;
 			return $item;
         break;
     }
+    return '';
 }
 EOT;
 

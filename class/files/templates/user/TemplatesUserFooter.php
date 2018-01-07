@@ -119,12 +119,12 @@ EOT;
 <{if \$pagenav != ''}>
     <div class="pull-right"><{\$pagenav}></div>
 <{/if}>
-<br />\n
+<br>\n
 EOT;
         }
         $content .= <<<EOT
 <{if \$xoops_isadmin}>
-   <div class="text-center bold"><a href="<{\$admin}>"><{\$smarty.const.{$language}ADMIN}></a></div><br />
+   <div class="text-center bold"><a href="<{\$admin}>"><{\$smarty.const.{$language}ADMIN}></a></div><br>
 <{/if}>\n
 EOT;
         if (is_object($table)) {
@@ -139,7 +139,7 @@ EOT;
         <{include file="db:system_comments_nest.tpl"}>
     <{/if}>
 </div>\n
-<br />\n
+<br>\n
 EOT;
             }
             if (1 == $table->getVar('table_notifications')) {

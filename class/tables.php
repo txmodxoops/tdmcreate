@@ -182,7 +182,7 @@ class TDMCreateTables extends XoopsObject
         $uploadsDirectory = '/uploads/tdmcreate/images/tables';
         $iconsDirectory = is_dir(XOOPS_ROOT_PATH.$icons32Directory) ? $icons32Directory : $uploadsDirectory;
 
-        $imgtray1 = new XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br />');
+        $imgtray1 = new XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br>');
         $imgpath1 = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
         $imageArray1 = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH.$iconsDirectory);
@@ -191,8 +191,8 @@ class TDMCreateTables extends XoopsObject
         }
         $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"".$iconsDirectory.'", "", "'.XOOPS_URL."\")'");
         $imgtray1->addElement($imageSelect1, false);
-        $imgtray1->addElement(new XoopsFormLabel('', "<br /><img src='".XOOPS_URL.'/'.$iconsDirectory.'/'.$tableImage."' name='image1' id='image1' alt='' />"));
-        $fileseltray1 = new XoopsFormElementTray('', '<br />');
+        $imgtray1->addElement(new XoopsFormLabel('', "<br><img src='".XOOPS_URL.'/'.$iconsDirectory.'/'.$tableImage."' name='image1' id='image1' alt='' />"));
+        $fileseltray1 = new XoopsFormElementTray('', '<br>');
         $fileseltray1->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray1->addElement(new XoopsFormLabel(''));
         $imgtray1->addElement($fileseltray1);
@@ -204,7 +204,7 @@ class TDMCreateTables extends XoopsObject
         $checkTableAutoincrement->setDescription(_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC);
         $form->addElement($checkTableAutoincrement);
 
-        $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br />');
+        $optionsTray = new XoopsFormElementTray(_OPTIONS, '<br>');
 
         $tableCheckAll = new XoopsFormCheckBox('', 'tablebox', 1);
         $tableCheckAll->addOption('allbox', _AM_TDMCREATE_TABLE_ALL);
@@ -212,7 +212,7 @@ class TDMCreateTables extends XoopsObject
         $tableCheckAll->setClass('xo-checkall');
         $optionsTray->addElement($tableCheckAll);
         // Options
-        $checkbox = new XoopsFormCheckbox(' ', 'table_option', $this->getOptionsTables(), '<br />');
+        $checkbox = new XoopsFormCheckbox(' ', 'table_option', $this->getOptionsTables(), '<br>');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_'.strtoupper($option)));

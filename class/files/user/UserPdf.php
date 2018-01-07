@@ -98,7 +98,7 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
         $ret .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
-        $ret .= $this->xc->getXcGet($tableName, "\$this->getVar('{$fieldId}')", '', true);
+        $ret .= $this->xc->getXcGetVar($tableName, 'this', "{$fieldId}", false, '');
 
         return $ret;
     }
@@ -206,7 +206,7 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeCommentLine('Pdf Filename');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Output');
         $ret .= $this->xc->getXcTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
-        $ret .= $this->xc->getXcTplDisplay("{$moduleDirname}_pdf.tpl");
+        $ret .= $this->xc->getXcTplDisplay($moduleDirname . "_pdf.tpl", '', false);
 
         return $ret;
     }

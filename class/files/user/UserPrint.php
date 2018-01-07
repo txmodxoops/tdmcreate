@@ -142,7 +142,7 @@ class UserPrint extends TDMCreateFile
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         $ret .= $this->xc->getXcGet($tableName, "{$ccFieldId}", '', true);
-        $gperm = $this->xc->getXcCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVat('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+        $gperm = $this->xc->getXcCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
         $noPerm = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
         $noPerm .= $this->getSimpleString('exit();', "\t");
@@ -154,7 +154,7 @@ class UserPrint extends TDMCreateFile
         $getVar = $this->xc->getXcGetVar('', $tableSoleName, $fieldMain, true);
         $stripTags = $this->phpcode->getPhpCodeStripTags('', $getVar.' - '."{$language}PRINT".' - '."\$GLOBALS['xoopsModule']->name()", true);
         $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', $stripTags);
-        $ret .= $this->xc->getXcTplDisplay($tableName.'_print.tpl');
+        $ret .= $this->xc->getXcTplDisplay($tableName.'_print.tpl', '', false);
 
         return $ret;
     }

@@ -83,7 +83,7 @@ class LanguageAdmin extends TDMCreateFile
             $tableName = $tables[$t]->getVar('table_name');
             $stuTableName = strtoupper($tableName);
             $stlTableName = strtolower($tableName);
-            $ret .= $this->defines->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database");
+            $ret .= $this->defines->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
         }
 
         return $ret;
@@ -103,13 +103,13 @@ class LanguageAdmin extends TDMCreateFile
             $tableName = $tables[$t]->getVar('table_name');
             $stuTableName = strtoupper($tableName);
             $stlTableName = strtolower($tableName);
-            $ret .= $this->defines->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}");
+            $ret .= $this->defines->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
         }
         $ret .= $this->defines->getAboveDefines('Save/Delete');
         $ret .= $this->defines->getDefine($language, 'FORM_OK', 'Successfully saved');
         $ret .= $this->defines->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');
-        $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>");
-        $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>");
+        $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>", true);
+        $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>", true);
         $ret .= $this->defines->getAboveDefines('Buttons');
 
         foreach (array_keys($tables) as $t) {
