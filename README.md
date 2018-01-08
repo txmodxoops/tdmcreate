@@ -8,8 +8,8 @@ If you liked the tdmcreate module and thanks to the long process for giving the 
 <input type="hidden" name="item_number" value="Donate for the tdmcreate module" />
 <input type="hidden" name="amount" value="50.00" />
 <input type="hidden" name="lc" value="IT" /> 
-<input type="image" src="https://www.paypal.com/it_IT/i/btn/x-click-but21.gif" name="submit" alt="Donate with PayPal" />
-<img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
+<input type="image" src="https://www.paypal.com/en_EN/i/btn/x-click-but21.gif" name="submit" alt="Donate with PayPal" />
+<img alt="" src="https://www.paypal.com/en_EN/i/scr/pixel.gif" width="1" height="1" />
 <input type="hidden" name="no_shipping" value="2" />
 <input type="hidden" name="no_note" value="1" />
 <input type="hidden" name="currency_code" value="EUR" />
