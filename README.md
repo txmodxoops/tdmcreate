@@ -1,7 +1,21 @@
 # Support
 
 Support
-If you liked the tdmcreate module and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the tdmcreate module and using this button <a href="http://www.txmodxoops.org/modules/xdonations/index.php" title="Button Donations" target="_blank"><img src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" alt="Button Donations" /></a> to make a donation
+If you liked the tdmcreate module and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the tdmcreate module and using this button <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+<input type="hidden" name="cmd" value="_xclick" />
+<input type="hidden" name="business" value="txmodxoops@gmail.com" />
+<input type="hidden" name="item_name" value="Donate for the tdmcreate module" />
+<input type="hidden" name="item_number" value="Donate for the tdmcreate module" />
+<input type="hidden" name="amount" value="50.00" />
+<input type="hidden" name="lc" value="IT" /> 
+<input type="image" src="https://www.paypal.com/it_IT/i/btn/x-click-but21.gif" name="submit" alt="Donate with PayPal" />
+<img alt="" src="https://www.paypal.com/it_IT/i/scr/pixel.gif" width="1" height="1" />
+<input type="hidden" name="no_shipping" value="2" />
+<input type="hidden" name="no_note" value="1" />
+<input type="hidden" name="currency_code" value="EUR" />
+<input type="hidden" name="tax" value="0" />
+<input type="hidden" name="bn" value="IC_esempio" />
+</form> to make a donation
 
 # TDMCreate version 1.91
 
