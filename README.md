@@ -26,11 +26,6 @@ Screenshot:
   <img src="https://c6.staticflickr.com/9/8500/29971619205_a397db1039_o.jpg" alt="TDMCreate 1.9.1 dashboard"/>
 </p>
 
-Screenshot:
-<p align="center">
-  <img src="https://c6.staticflickr.com/9/8500/29971619205_a397db1039_o.jpg" alt="TDMCreate 1.9.1 dashboard"/>
-</p>
-
 Clear version
 
 # Require:
