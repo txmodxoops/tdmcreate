@@ -1,7 +1,7 @@
 # Support
 
 Support
-If you liked the tdmcreate module and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to xoops.org
+If you liked the tdmcreate module and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to <a href="https://xoops.org/modules/xdonations/" target="_blank" title="Donate to Xoops">Xoops.org</a>
 
 # TDMCreate version 1.91
 
