@@ -263,7 +263,7 @@ EOT;
  * @param string  \$module  module name
  * @param array   \$array   array
  * @param string  \$type    type
- * @return string \$type    string replacement for any blank case
+ * @return null|string \$type    string replacement for any blank case
  */
 function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 {
@@ -344,7 +344,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
             return XOOPS_URL . \$rewrite_base . \$module_name . \$type . \$topic_name . \$page . \$rewrite_ext;
             break;
     }
-    return '';
+    return null;
 }
 EOT;
 

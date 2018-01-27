@@ -103,7 +103,7 @@ class IncludeNotifications extends TDMCreateFile
  *
  * @param \$category
  * @param \$item_id
- * @return array item
+ * @return array item|null
  */
 function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
 {
@@ -155,7 +155,7 @@ EOT;
 			return $item;
         break;
     }
-    return '';
+    return null;
 }
 EOT;
 
