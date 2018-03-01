@@ -425,7 +425,7 @@ class UserXoopsVersion extends TDMCreateFile
      *
      * @return string
      */
-    private function getXoopsVersionConfig($module, $table, $language)
+    private function getXoopsVersionConfig($module, $tables, $language)
     {
         $phpCodeVConfig = TDMCreatePhpCode::getInstance();
         $xCodeVConfig = TDMCreateXoopsCode::getInstance();
@@ -433,28 +433,60 @@ class UserXoopsVersion extends TDMCreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $ret = $this->getDashComment('Config');
         $ret .= $this->getSimpleString('$c = 1;');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldElement = [];
-        foreach (array_keys($fields) as $f) {
-            $fieldElement[] = $fields[$f]->getVar('field_element');
-            if (in_array([3, 4], $fieldElement)) {
-                $fieldName = $fields[$f]->getVar('field_name');
-                $rpFieldName = $this->getRightString($fieldName);
-                $ucfFieldName = ucfirst($rpFieldName);
-                $stuFieldName = strtoupper($rpFieldName);
-                $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Editor', $rpFieldName);
-                $ret .= $xCodeVConfig->getXcLoad('xoopseditorhandler');
-                $ret .= $xCodeVConfig->getXcEqualsOperator('$editorHandler'.$ucfFieldName, 'XoopsEditorHandler::getInstance()');
-                $editor = [
-                    'name'     => "'{$moduleDirname}_editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$stuFieldName}'", 'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
-                    'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler'.$ucfFieldName.'->getList())',
-                ];
-                $ret .= $uCodeVConfig->getUserModVersion(3, $editor, 'config', '$c');
-                $ret .= $this->getSimpleString('++$c;');
-            }
-        }
+		
+		$table_permissions = 0;
+		$table_admin = 0;
+		$table_user = 0;
+		$table_tag = 0;
+		$field_images = 0;
+		foreach ($tables as $table) {
+			$fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+			foreach (array_keys($fields) as $f) {
+				$fieldElement = $fields[$f]->getVar('field_element');
+				switch ($fieldElement) {
+					case '3':
+					case '4':
+					case 3:
+					case 4:	
+						$fieldName = $fields[$f]->getVar('field_name');
+						$rpFieldName = $this->getRightString($fieldName);
+						$ucfFieldName = ucfirst($rpFieldName);
+						$stuFieldName = strtoupper($rpFieldName);
+						$ret .= $phpCodeVConfig->getPhpCodeCommentLine('Editor', $rpFieldName);
+						$ret .= $xCodeVConfig->getXcLoad('xoopseditorhandler');
+						$ret .= $xCodeVConfig->getXcEqualsOperator('$editorHandler'.$ucfFieldName, 'XoopsEditorHandler::getInstance()');
+						$editor = [
+							'name'     => "'editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$stuFieldName}'", 'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
+							'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler'.$ucfFieldName.'->getList())',
+						];
+						$ret .= $uCodeVConfig->getUserModVersion(3, $editor, 'config', '$c');
+						$ret .= $this->getSimpleString('++$c;');
+					break;
+					
+					case '10':
+					case '11':
+					case '12':
+					case '13':
+					case '14':
+					case 10:
+					case 11:
+					case 12:
+					case 13:
+					case 14:
+						$field_images = 1;
+					break;
+					case 'else':
+					default:
+					break;
+				}
+			}
+			if (1 == $table->getVar('table_permissions')) { $table_permissions = 1;}
+			if (1 == $table->getVar('table_admin')) { $table_admin = 1;}
+			if (1 == $table->getVar('table_user')) { $table_user = 1;}
+			if (1 == $table->getVar('table_tag')) { $table_tag = 1;}
+		}
 
-        if (1 == $table->getVar('table_permissions')) {
+        if (1 === $table_permissions) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
             $ret .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_gethandler('member')", '', false);
             $ret .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
@@ -489,11 +521,8 @@ class UserXoopsVersion extends TDMCreateFile
         $ret .= $uCodeVConfig->getUserModVersion(3, $arrayKeyword, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         unset($this->keywords);
-        $fieldElement = [];
-        foreach (array_keys($fields) as $f) {
-            $fieldElement[] = $fields[$f]->getVar('field_element');
-        }
-        if (in_array(10, $fieldElement) || in_array(11, $fieldElement) || in_array(12, $fieldElement) || in_array(13, $fieldElement) || in_array(14, $fieldElement)) {
+
+        if ( 1 === $field_images) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : maxsize of image');
             $maxsize = [
                 'name'     => "'maxsize'", 'title' => "'{$language}MAXSIZE'", 'description' => "'{$language}MAXSIZE_DESC'",
@@ -510,7 +539,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $uCodeVConfig->getUserModVersion(3, $mimetypes, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
         }
-        if (1 == $table->getVar('table_admin')) {
+        if (1 === $table_admin) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Admin pager');
             $adminPager = [
                 'name'     => "'adminpager'", 'title' => "'{$language}ADMIN_PAGER'", 'description' => "'{$language}ADMIN_PAGER_DESC'",
@@ -519,7 +548,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $uCodeVConfig->getUserModVersion(3, $adminPager, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
         }
-        if (1 == $table->getVar('table_user')) {
+        if (1 === $table_user) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('User pager');
             $userPager = [
                 'name'     => "'userpager'", 'title' => "'{$language}USER_PAGER'", 'description' => "'{$language}USER_PAGER_DESC'",
@@ -528,7 +557,7 @@ class UserXoopsVersion extends TDMCreateFile
             $ret .= $uCodeVConfig->getUserModVersion(3, $userPager, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
         }
-        if (1 == $table->getVar('table_tag')) {
+        if (1 === $table_tag) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Use tag');
             $useTag = [
                 'name'     => "'usetag'", 'title' => "'{$language}USE_TAG'", 'description' => "'{$language}USE_TAG_DESC'",
@@ -899,7 +928,7 @@ class UserXoopsVersion extends TDMCreateFile
         if (in_array(1, $tableBlocks)) {
             $content .= $this->getXoopsVersionBlocks($moduleDirname, $tables, $language);
         }
-        $content .= $this->getXoopsVersionConfig($module, $table, $language);
+		$content .= $this->getXoopsVersionConfig($module, $tables, $language);
         if (in_array(1, $tableNotifications)) {
             $content .= $this->getXoopsVersionNotifications($module, $language);
         }

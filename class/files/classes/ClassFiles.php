@@ -422,7 +422,7 @@ class ClassFiles extends TDMCreateFile
                         $getHandlerVar = "\${$moduleDirname}->getHandler('{$topicTableName}')";
                         $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}", $getHandlerVar, null, false, "\t\t");
                         $getTopicTable = "\${$topicTableName}->get(\$this->getVar('{$fieldName}'))";
-                        $getValues .= $xc->getXcEqualsOperator("\${$fieldName}", $getTopicTable, null, false, "\t\t");
+                        $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}Obj", $getTopicTable, null, false, "\t\t");
                         $fMainTopic = "\${$fieldName}->getVar('{$fieldMainTopic}')";
                         $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", $fMainTopic, null, false, "\t\t");
                     } else {
