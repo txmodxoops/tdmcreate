@@ -90,8 +90,8 @@ class IncludeCommentFunctions extends TDMCreateFile
  * @return bool
  */
 function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {
-    \$itemId = (int) (\$itemId);
-    \$itemNumb = (int) (\$itemNumb);
+    \$itemId = (int)\$itemId;
+    \$itemNumb = (int)\$itemNumb;
     \$article = new {$ucfModuleDirname}{$ucfTableName}(\$itemId);
     if (!\$article->updateComments(\$itemNumb)) {
         return false;

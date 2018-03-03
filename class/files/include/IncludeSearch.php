@@ -135,7 +135,7 @@ function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$use
     global \$xoopsDB;
     \$sql = "SELECT '{$fieldId}', '{$fieldMain}' FROM " . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} != 0';
     if ( \$userid != 0 ) {
-        \$sql .= ' AND {$tableFieldname}_submitter='.(int) (\$userid);
+        \$sql .= ' AND {$tableFieldname}_submitter='.(int)\$userid;
     }
     if ( is_array(\$queryarray) && \$count = count(\$queryarray) )
     {
