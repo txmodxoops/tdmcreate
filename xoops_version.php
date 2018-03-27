@@ -26,7 +26,7 @@ if (!defined('XOOPS_ROOT_PATH')) {
 $moduleDirName = basename(__DIR__);
 
 $modversion['version']             = 1.91;
-$modversion['module_status']       = 'Alpha 3.5';
+$modversion['module_status']       = 'Alpha 3.6';
 $modversion['release_date']        = '2017/07/07';
 $modversion['name']                = _MI_TDMCREATE_NAME;
 $modversion['description']         = _MI_TDMCREATE_DESC;

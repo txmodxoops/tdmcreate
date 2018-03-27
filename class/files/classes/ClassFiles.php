@@ -309,7 +309,7 @@ class ClassFiles extends TDMCreateFile
         //$hiddenSave = $cc->getClassXoopsFormHidden('', "'op'", "'save'", true, false);
         $getForm .= $cc->getClassAddElement('form', "new XoopsFormHidden('op', 'save')");
         //$buttonSend = $cc->getClassXoopsFormButton('', '', 'submit', '_SUBMIT', 'submit', true);
-        $getForm .= $cc->getClassAddElement('form', "new XoopsFormButton('', 'submit', _SUBMIT, 'submit')");
+        $getForm .= $cc->getClassAddElement('form', "new XoopsFormButtonTray('', _SUBMIT, 'submit', '', false)");
         $getForm .= $this->getSimpleString('return $form;', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('getForm'.$ucfTableName, '$action = false', $getForm, 'public ', false, "\t");
@@ -423,7 +423,7 @@ class ClassFiles extends TDMCreateFile
                         $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}", $getHandlerVar, null, false, "\t\t");
                         $getTopicTable = "\${$topicTableName}->get(\$this->getVar('{$fieldName}'))";
                         $getValues .= $xc->getXcEqualsOperator("\${$topicTableName}Obj", $getTopicTable, null, false, "\t\t");
-                        $fMainTopic = "\${$fieldName}->getVar('{$fieldMainTopic}')";
+                        $fMainTopic = "\${$topicTableName}Obj->getVar('{$fieldMainTopic}')";
                         $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}']", $fMainTopic, null, false, "\t\t");
                     } else {
                         $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");

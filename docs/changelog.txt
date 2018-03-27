@@ -1,3 +1,38 @@
+=================================================
+2018/03/27: Version 1.91 alpha 3.6 [NOT RELEASED]
+=================================================
+- change from adminMenu to adminObject (mamba)
+- buttons on left (mamba)
+- replace static calls (mamba)
+- fix statistics (mamba)
+- implemented yoda in file creation (goffy)
+- css corrections (goffy)
+- yoda corrections (goffy)
+- corrected css for templates admin tables/fields (goffy)
+- replace <br /> by <br>; changed also function TDMCreateHTMLCode, TDMCreateHTMLSmartyCode (goffy)
+- corrected typing errors (e.g. getVat) (goffy)
+- removed unnecessary semicolons in js (goffy)
+- added PHPDocs (goffy)
+- replace double quote in language define by single quote; changed also function getXcTplDisplay, getDefine (goffy)
+- removed unnecessary closing tag (img) (goffy)
+- changed getXcLoadLanguage (include moduledir) (goffy)
+- cosmetics (goffy)
+- changed comparision to stict (===) (goffy)
+- solved wrong string concatenate (goffy)
+- Update README.md (timgno)
+- fixed notification of no return value from php code inspection (goffy)
+- XoopsFormTextDateSelect: created var for isNew was not used (goffy)
+- Class files - getValues... function: changed from {fieldname} to {tablename}Obj (goffy)
+- Class files - getForm: added field names to comment lines (goffy)
+- Creation of xoopsversion.php: config was based on last table (goffy)
+- config name for xoopseditorhandler was too long (goffy)
+- corrected case mismatch: xoops_gethandler into xoops_getHandler (goffy)
+- unnecessary parentheses: removed brackets (goffy)
+- unnecessary double quotes (goffy)
+- fixed bug in function getValuesInObject (wrong object name) (goffy)
+- creation of form: replaced XoopsFormButton by XoopsFormButtonTray (goffy)
+- LanguageModinfo.php: Config items have been created only by fields of last table; changed to all tables (goffy)
+
 =================================
 1.91 alpha 3.5  [NOT RELEASED]
 =================================

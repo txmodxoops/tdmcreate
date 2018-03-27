@@ -225,50 +225,52 @@ class LanguageModinfo extends TDMCreateFile
     /**
     *  @private function getLanguageConfig
     *  @param $language
-    *  @param $table
+    *  @param $tables
      *
      * @return string
      */
-    private function getLanguageConfig($language, $table)
+    private function getLanguageConfig($language, $tables)
     {
         $df = LanguageDefines::getInstance();
         $ret = $df->getAboveDefines('Config');
-        if (is_object($table) && '' != $table->getVar('table_image')) {
-            $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-            $fieldElement = [];
-            foreach (array_keys($fields) as $f) {
-                $fieldElement[] = $fields[$f]->getVar('field_element');
-                if (in_array(4, $fieldElement)) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->getRightString($fieldName);
-                    $ucfFieldName = ucfirst($rpFieldName);
-                    $stuFieldName = strtoupper($rpFieldName);
-                    $ret .= $df->getDefine($language, 'EDITOR_'.$stuFieldName, 'Editor');
-                    $ret .= $df->getDefine($language, 'EDITOR_'.$stuFieldName.'_DESC', 'Select the Editor '.$ucfFieldName.' to use');
-                }
-            }
-            unset($fieldElement);
-        }
+		$fieldImage = false;
+		$useTag = false;
+		// $usePermissions = false;
+		foreach (array_keys($tables) as $i) {
+			$fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+			foreach (array_keys($fields) as $f) {
+				$fieldElement = $fields[$f]->getVar('field_element');
+				if (4 == $fieldElement) {
+					$fieldName = $fields[$f]->getVar('field_name');
+					$rpFieldName = $this->getRightString($fieldName);
+					$ucfFieldName = ucfirst($rpFieldName);
+					$stuFieldName = strtoupper($rpFieldName);
+					$ret .= $df->getDefine($language, 'EDITOR_'.$stuFieldName, 'Editor');
+					$ret .= $df->getDefine($language, 'EDITOR_'.$stuFieldName.'_DESC', 'Select the Editor '.$ucfFieldName.' to use');
+				}
+				if (13 == $fieldElement) {$fieldImage = true;}
+			}
+			if (0 != $tables[$i]->getVar('table_tag')) {$useTag = true;}
+			// if (0 != $tables[$i]->getVar('table_permissions')) {$usePermissions = true;}
+		}
         $ret .= $df->getDefine($language, 'KEYWORDS', 'Keywords');
         $ret .= $df->getDefine($language, 'KEYWORDS_DESC', 'Insert here the keywords (separate by comma)');
-        if (is_object($table)) {
-            /*if ($table->getVar('table_permissions') != 0) {
-                $ret .= $df->getDefine($language, "GROUPS", "Groups");
-                $ret .= $df->getDefine($language, "GROUPS_DESC", "Groups to have permissions");
-                $ret .= $df->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
-                $ret .= $df->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
-            }*/
-            if ('' != $table->getVar('table_image')) {
-                $ret .= $df->getDefine($language, 'MAXSIZE', 'Max size');
-                $ret .= $df->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads files in byte');
-                $ret .= $df->getDefine($language, 'MIMETYPES', 'Mime Types');
-                $ret .= $df->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
-            }
-            if (0 != $table->getVar('table_tag')) {
-                $ret .= $df->getDefine($language, 'USE_TAG', 'Use TAG');
-                $ret .= $df->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
-            }
-        }
+		/*if (usePermissions) {
+			$ret .= $df->getDefine($language, "GROUPS", "Groups");
+			$ret .= $df->getDefine($language, "GROUPS_DESC", "Groups to have permissions");
+			$ret .= $df->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
+			$ret .= $df->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
+		}*/
+		if ($fieldImage) {
+			$ret .= $df->getDefine($language, 'MAXSIZE', 'Max size');
+			$ret .= $df->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads files in byte');
+			$ret .= $df->getDefine($language, 'MIMETYPES', 'Mime Types');
+			$ret .= $df->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
+		}
+		if ($useTag) {
+			$ret .= $df->getDefine($language, 'USE_TAG', 'Use TAG');
+			$ret .= $df->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
+		}
         $getDefinesConf = [
             'NUMB_COL'   => 'Number Columns', 'NUMB_COL_DESC' => 'Number Columns to View.', 'DIVIDEBY' => 'Divide By', 'DIVIDEBY_DESC' => 'Divide by columns number.',
             'TABLE_TYPE' => 'Table Type', 'TABLE_TYPE_DESC' => 'Table Type is the bootstrap html table.', 'PANEL_TYPE' => 'Panel Type', 'PANEL_TYPE_DESC' => 'Panel Type is the bootstrap html div.', 'IDPAYPAL' => 'Paypal ID', 'IDPAYPAL_DESC' => 'Insert here your PayPal ID for donactions.', 'ADVERTISE' => 'Advertisement Code', 'ADVERTISE_DESC' => 'Insert here the advertisement code', 'MAINTAINEDBY' => 'Maintained By', 'MAINTAINEDBY_DESC' => 'Allow url of support site or community', 'BOOKMARKS' => 'Social Bookmarks', 'BOOKMARKS_DESC' => 'Show Social Bookmarks in the single page', 'FACEBOOK_COMMENTS' => 'Facebook comments', 'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page', 'DISQUS_COMMENTS' => 'Disqus comments', 'DISQUS_COMMENTS_DESC' => 'Allow Disqus comments in the single page',
@@ -378,7 +380,7 @@ class LanguageModinfo extends TDMCreateFile
         //if (in_array(1, $tableBlocks)) {
         $content .= $this->getLanguageBlocks($tables, $language);
         //}
-        $content .= $this->getLanguageConfig($language, $table);
+        $content .= $this->getLanguageConfig($language, $tables);
         if (in_array(1, $tableNotifications)) {
             $content .= $this->getLanguageNotifications($language, $tableSoleName);
         }
