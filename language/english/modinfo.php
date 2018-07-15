@@ -77,7 +77,7 @@ define('_MI_TDMCREATE_CONFIG_PAYPAL_BUTTON', 'Paypal Button');
 define('_MI_TDMCREATE_CONFIG_SUBVERSION', 'Subversion');
 define('_MI_TDMCREATE_CONFIG_DESCRIPTION', 'Module Description');
 define('_MI_TDMCREATE_CONFIG_MIMETYPES', 'Mimetypes of images');
-define('_MI_TDMCREATE_CONFIG_MIMETYPES_DESC', 'Set mimetypes of images and files separated by <b>|</>');
+define('_MI_TDMCREATE_CONFIG_MIMETYPES_DESC', 'Set mimetypes of images and files separated by <b>|</b>');
 define('_MI_TDMCREATE_CONFIG_MAXSIZE', 'Maximum size of images');
 define('_MI_TDMCREATE_CONFIG_MAXSIZE_DESC', 'Set maximum size of images in Bytes');
 //1.39
