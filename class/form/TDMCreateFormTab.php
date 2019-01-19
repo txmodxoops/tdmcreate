@@ -48,7 +48,7 @@ class TDMCreateFormTab extends XoopsFormElementTray
     public function render()
     {
         $ret = '';
-        /* @var $ele Element */
+        /* @var $ele XoopsFormElement */
         foreach ($this->getElements() as $ele) {
             $ret .= NWLINE;
             $ret .= '<tr>'.NWLINE;

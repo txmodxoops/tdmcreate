@@ -126,7 +126,7 @@ class TDMCreateXoopsCode
      */
     public function getXcLoadLanguage($lang, $t = '', $domain = '')
     {
-        if ($domain === '') {
+        if ('' === $domain) {
             return "{$t}xoops_loadLanguage('{$lang}');\n";
         } else {
             return "{$t}xoops_loadLanguage('{$lang}', '{$domain}');\n";

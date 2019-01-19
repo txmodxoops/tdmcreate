@@ -418,9 +418,9 @@ class UserXoopsVersion extends TDMCreateFile
     }
 
     /**
-    *  @private function getXoopsVersionConfig
+     * @private function getXoopsVersionConfig
      * @param $module
-     * @param $table
+     * @param $tables
      * @param $language
      *
      * @return string

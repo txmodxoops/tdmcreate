@@ -206,7 +206,7 @@ class UserPdf extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeCommentLine('Pdf Filename');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Output');
         $ret .= $this->xc->getXcTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
-        $ret .= $this->xc->getXcTplDisplay($moduleDirname . "_pdf.tpl", '', false);
+        $ret .= $this->xc->getXcTplDisplay($moduleDirname . '_pdf.tpl', '', false);
 
         return $ret;
     }

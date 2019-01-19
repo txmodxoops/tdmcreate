@@ -113,7 +113,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret .= $this->defines->getDefine($language, 'SUBMIT', 'Submit');
         $ret .= $this->defines->getDefine($language, "SUBMIT_{$stuTableSoleName}", "Submit {$ucfTableSoleName}");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_ALLPENDING', "All {$tableSoleName}/script information are posted pending verification.");
-        $ret .= $this->defines->getDefine($language, 'SUBMIT_DONTABUSE', "Username and IP are recorded, so please do not abuse the system.");
+        $ret .= $this->defines->getDefine($language, 'SUBMIT_DONTABUSE', 'Username and IP are recorded, so please do not abuse the system.');
         $ret .= $this->defines->getDefine($language, 'SUBMIT_ISAPPROVED', "Your {$tableSoleName} has been approved");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_PROPOSER', "Submit a {$tableSoleName}");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_RECEIVED', "We have received your {$tableSoleName} info. Thank you !");

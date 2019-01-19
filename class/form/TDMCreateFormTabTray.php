@@ -34,6 +34,7 @@ class TDMCreateFormTabTray extends XoopsFormElementTray
      * @var string
      */
     private $uiTheme = '';
+    private $delimiter;
 
     /**
      * __construct.
@@ -77,7 +78,7 @@ class TDMCreateFormTabTray extends XoopsFormElementTray
         $extras = [];
 
         foreach ($this->getElements() as $ele) {
-            /* @var $ele Element */
+            /* @var $ele XoopsFormElement */
             if (!$ele->isHidden()) {
                 if (!$ele instanceof TDMCreateFormRaw) {
                     if ($ele instanceof TDMCreateFormTab) {
@@ -97,7 +98,7 @@ class TDMCreateFormTabTray extends XoopsFormElementTray
             }
         }
         if (!empty($extras)) {
-            $tray = new ElementTray('', $this->getDelimiter());
+            $tray = new XoopsFormElementTray('', $this->delimiter);
             foreach ($extras as $extra) {
                 $tray->addElement($extra);
             }
