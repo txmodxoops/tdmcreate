@@ -28,10 +28,9 @@
 class UserViewTag extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -39,8 +38,8 @@ class UserViewTag extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserViewTag
      */
     public static function getInstance()
@@ -54,9 +53,9 @@ class UserViewTag extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -65,10 +64,9 @@ class UserViewTag extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserViewTag
-    *  @param null
+     *  @public function getUserViewTag
+     *  @param null
      * @return string
-     *
      */
     public function getUserViewTag()
     {
@@ -79,8 +77,8 @@ class UserViewTag extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

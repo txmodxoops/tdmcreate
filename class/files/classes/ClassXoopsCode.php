@@ -31,6 +31,7 @@ class ClassXoopsCode
     *  @static function getInstance
     *  @param null
     */
+
     /**
      * @return ClassXoopsCode
      */
@@ -165,7 +166,7 @@ class ClassXoopsCode
      */
     public function getClassInitVar($paramLeft = '', $paramRight = '', $var = 'this', $t = "\t\t")
     {
-        $stuParamRight = strtoupper($paramRight);
+        $stuParamRight = mb_strtoupper($paramRight);
 
         return "{$t}\${$var}->initVar('{$paramLeft}', XOBJ_DTYPE_{$stuParamRight});\n";
     }

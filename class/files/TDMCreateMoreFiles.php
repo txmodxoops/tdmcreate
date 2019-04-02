@@ -28,28 +28,27 @@
 class TDMCreateMoreFiles extends TDMCreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $folder = null;
 
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $extension = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TDMCreateMoreFiles
      */
     public static function getInstance()
@@ -75,8 +74,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
     {
         $this->setModule($module);
         $this->extension = $extension;
-        $this->setFileName($filename.'.'.$extension);
-        if (false !== strpos($folder, 'user')) {
+        $this->setFileName($filename . '.' . $extension);
+        if (false !== mb_strpos($folder, 'user')) {
             $this->folder = '/';
         } else {
             $this->folder = $folder;
@@ -115,7 +114,6 @@ class TDMCreateMoreFiles extends TDMCreateFile
     /**
      * @private  function getMoreFilesHtml
      * @return string
-     *
      */
     private function getMoreFilesHtml()
     {
@@ -127,8 +125,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
     }
 
     /**
-    *  @private function getMoreFilesText
-    *  @param null
+     *  @private function getMoreFilesText
+     *  @param null
      *
      * @return string
      */
@@ -138,8 +136,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
     }
 
     /**
-    *  @private function getMoreFilesSql
-    *  @param null
+     *  @private function getMoreFilesSql
+     *  @param null
      *
      * @return string
      */
@@ -149,8 +147,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
     }
 
     /**
-    *  @private function getMoreFilesCss
-    *  @param $header
+     *  @private function getMoreFilesCss
+     *  @param $header
      *
      * @return string
      */
@@ -163,8 +161,8 @@ class TDMCreateMoreFiles extends TDMCreateFile
     }
 
     /**
-    *  @private function getMoreFilesDefault
-    *  @param null
+     *  @private function getMoreFilesDefault
+     *  @param null
      *
      * @return string
      */

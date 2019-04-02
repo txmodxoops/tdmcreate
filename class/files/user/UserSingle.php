@@ -28,18 +28,17 @@
 class UserSingle extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserSingle
      */
     public static function getInstance()
@@ -53,10 +52,10 @@ class UserSingle extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -132,8 +131,8 @@ EOT;
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableName = strtoupper($tableName);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuTableName = mb_strtoupper($tableName);
         $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $uc->getUserBreadcrumbs($language, $stuTableName);
         $ret .= $pc->getPhpCodeCommentLine('Keywords');
@@ -150,8 +149,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

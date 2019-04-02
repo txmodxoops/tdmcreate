@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__.'/autoload.php';
+include __DIR__ . '/autoload.php';
 
 /**
  * Class TDMCreateTables.
@@ -55,10 +55,9 @@ class TDMCreateTables extends XoopsObject
     ];
 
     /**
-    *  @public function constructor class
-    *  @param null
-    */
-
+     *  @public function constructor class
+     *  @param null
+     */
     public function __construct()
     {
         $this->initVar('table_id', XOBJ_DTYPE_INT);
@@ -106,8 +105,8 @@ class TDMCreateTables extends XoopsObject
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TDMCreateTables
      */
     public static function getInstance()
@@ -121,8 +120,8 @@ class TDMCreateTables extends XoopsObject
     }
 
     /**
-    *  @static function getFormTables
-    *  @param mixed $action
+     *  @static function getFormTables
+     *  @param mixed $action
      *
      * @return XoopsThemeForm
      */
@@ -180,18 +179,18 @@ class TDMCreateTables extends XoopsObject
         $tableImage = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
         $uploadsDirectory = '/uploads/tdmcreate/images/tables';
-        $iconsDirectory = is_dir(XOOPS_ROOT_PATH.$icons32Directory) ? $icons32Directory : $uploadsDirectory;
+        $iconsDirectory = is_dir(XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
 
         $imgtray1 = new XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br>');
         $imgpath1 = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
-        $imageArray1 = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH.$iconsDirectory);
+        $imageArray1 = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $iconsDirectory);
         foreach ($imageArray1 as $image1) {
             $imageSelect1->addOption("{$image1}", $image1);
         }
-        $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"".$iconsDirectory.'", "", "'.XOOPS_URL."\")'");
+        $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray1->addElement($imageSelect1, false);
-        $imgtray1->addElement(new XoopsFormLabel('', "<br><img src='".XOOPS_URL.'/'.$iconsDirectory.'/'.$tableImage."' name='image1' id='image1' alt='' />"));
+        $imgtray1->addElement(new XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' name='image1' id='image1' alt='' />"));
         $fileseltray1 = new XoopsFormElementTray('', '<br>');
         $fileseltray1->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
         $fileseltray1->addElement(new XoopsFormLabel(''));
@@ -215,7 +214,7 @@ class TDMCreateTables extends XoopsObject
         $checkbox = new XoopsFormCheckbox(' ', 'table_option', $this->getOptionsTables(), '<br>');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_'.strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_TABLE_' . mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -223,7 +222,7 @@ class TDMCreateTables extends XoopsObject
 
         $form->addElement($optionsTray);
 
-        $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
+        $buttonTray = new XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormHidden('table_id', ($isNew ? 0 : $this->getVar('table_id'))));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));

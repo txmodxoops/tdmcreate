@@ -31,6 +31,7 @@ class UserXoopsCode
     *  @static function getInstance
     *  @param null
     */
+
     /**
      * @return UserXoopsCode
      */
@@ -70,8 +71,8 @@ class UserXoopsCode
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
         $pCodeAddMeta = TDMCreatePhpCode::getInstance();
-        $stuTableName = strtoupper($tableName);
-        $stripTags = $pCodeAddMeta->getPhpCodeStripTags('', $language.$stuTableName, true);
+        $stuTableName = mb_strtoupper($tableName);
+        $stripTags = $pCodeAddMeta->getPhpCodeStripTags('', $language . $stuTableName, true);
 
         return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
@@ -116,7 +117,7 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
-        $stuTableName = strtoupper($tableName);
+        $stuTableName = mb_strtoupper($tableName);
         $title = ["'title'" => "{$language}{$stuTableName}"];
         $pCodeBreadcrumbs = TDMCreatePhpCode::getInstance();
 
@@ -135,7 +136,7 @@ class UserXoopsCode
     {
         $pCodeHeaderFile = TDMCreatePhpCode::getInstance();
         $xCodeHeaderFile = TDMCreateXoopsCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
         $titleLink = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
@@ -174,7 +175,7 @@ class UserXoopsCode
     public function getUserModVersion($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
         $ret = '';
-        $mv = $t.'$modversion';
+        $mv = $t . '$modversion';
         if (!is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
@@ -184,13 +185,13 @@ class UserXoopsCode
             $one = (null === $name) ? $key : $name;
             $two = (null === $index) ? $key : $index;
             if (1 === $eleArray) {
-                $ret .= $mv."['{$one}'] = {$desc};\n";
+                $ret .= $mv . "['{$one}'] = {$desc};\n";
             } elseif (2 === $eleArray) {
-                $ret .= $mv."['{$one}'][{$two}] = {$desc};\n";
+                $ret .= $mv . "['{$one}'][{$two}] = {$desc};\n";
             } elseif (3 === $eleArray) {
-                $ret .= $mv."['{$one}'][{$two}]['{$key}'] = {$desc};\n";
+                $ret .= $mv . "['{$one}'][{$two}]['{$key}'] = {$desc};\n";
             } elseif (4 === $eleArray) {
-                $ret .= $mv."['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
+                $ret .= $mv . "['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
             }
         }
 

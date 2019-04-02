@@ -28,15 +28,14 @@
 class AdminHeader extends TDMCreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $xc = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -45,8 +44,8 @@ class AdminHeader extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return AdminHeader
      */
     public static function getInstance()
@@ -60,12 +59,12 @@ class AdminHeader extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param array $tables
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param array $tables
+     *  @param string $filename
+     */
     public function write($module, $table, $tables, $filename)
     {
         $this->setModule($module);
@@ -83,7 +82,7 @@ class AdminHeader extends TDMCreateFile
     private function getAdminHeader($moduleDirname)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $table = $this->getTable();
         $tables = $this->getTables();
         $ret = $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(dirname(__DIR__)))', 'include/cp_header');
@@ -136,8 +135,8 @@ class AdminHeader extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

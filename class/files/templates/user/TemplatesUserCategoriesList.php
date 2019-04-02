@@ -28,18 +28,17 @@
 class TemplatesUserCategoriesList extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserCategoriesList
      */
     public static function getInstance()
@@ -53,10 +52,10 @@ class TemplatesUserCategoriesList extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -66,7 +65,7 @@ class TemplatesUserCategoriesList extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserCategoriesListHeader
+     *  @private function getTemplatesUserCategoriesListHeader
      * @return string
      */
     private function getTemplatesUserCategoriesListStartTable()
@@ -80,8 +79,8 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserCategoriesListThead
-    *  @param string $language
+     *  @private function getTemplatesUserCategoriesListThead
+     *  @param string $language
      * @param $table
      * @return string
      */
@@ -112,10 +111,10 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserCategoriesListTbody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
+     *  @private function getTemplatesUserCategoriesListTbody
+     *  @param string $moduleDirname
+     *  @param string $table
+     *  @param string $language
      *
      * @return string
      */
@@ -169,9 +168,9 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserCategoriesListTfoot
+     *  @private function getTemplatesUserCategoriesListTfoot
      *  @param string $table
-    *  @param string $language
+     *  @param string $language
      * @return string
      */
     private function getTemplatesUserCategoriesListTfoot($table, $language)
@@ -203,8 +202,8 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserCategoriesListEndTable
-    *  @param null
+     *  @private function getTemplatesUserCategoriesListEndTable
+     *  @param null
      *
      * @return string
      */
@@ -219,9 +218,9 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserCategoriesListPanel
-    *  @param string $moduleDirname
-    *  @param string $language
+     *  @private function getTemplatesUserCategoriesListPanel
+     *  @param string $moduleDirname
+     *  @param string $language
      * @param $tableId
      * @param $tableMid
      * @param $tableName
@@ -244,43 +243,42 @@ EOT;
                         case 2:
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-2').PHP_EOL;
+                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-2') . PHP_EOL;
                             break;
                         case 3:
                         case 4:
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-3 justify').PHP_EOL;
+                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-3 justify') . PHP_EOL;
                             break;
                         case 10:
                             $rpFieldName = $this->getRightString($fieldName);
                             $singleVar = $hc->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlImage($singleVar.'/'.$doubleVar, "{$tableName}");
-                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
+                            $img = $hc->getHtmlImage($singleVar . '/' . $doubleVar, "{$tableName}");
+                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                         case 13:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar = $hc->getSmartySingleVar($moduleDirname.'_upload_url');
+                            $singleVar = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlImage($singleVar."/images/{$tableName}/".$doubleVar, "{$tableName}");
-                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3').PHP_EOL;
+                            $img = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, "{$tableName}");
+                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                     }
                 }
             }
         }
-        $ret .= $hc->getHtmlDiv($retElem, 'panel-body').PHP_EOL;
+        $ret .= $hc->getHtmlDiv($retElem, 'panel-body') . PHP_EOL;
 
         return $ret;
     }
 
     /**
-    *  @public function render
+     *  @public function render
      * @return bool|string
-     *
      */
     public function render()
     {
@@ -300,7 +298,7 @@ EOT;
             $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableFieldname = $tables[$t]->getVar('table_fieldname');
             $tableIndex = $tables[$t]->getVar('table_index');
-            if (in_array(1, $tableCategory)) {
+            if (in_array(1, $tableCategory, true)) {
                 $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }
         }

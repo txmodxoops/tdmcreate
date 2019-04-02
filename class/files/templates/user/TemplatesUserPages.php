@@ -28,18 +28,17 @@
 class TemplatesUserPages extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserPages
      */
     public static function getInstance()
@@ -53,10 +52,10 @@ class TemplatesUserPages extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -66,15 +65,15 @@ class TemplatesUserPages extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserPagesHeader
-    *  @param string $moduleDirname
+     *  @private function getTemplatesUserPagesHeader
+     *  @param string $moduleDirname
      * @return string
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
     }
 
     /**
@@ -93,31 +92,31 @@ class TemplatesUserPages extends TDMCreateFile
         $tbody .= $this->getTemplatesUserPagesTableTfoot();
         $single = $hc->getSmartySingleVar('table_type');
 
-        return $hc->getHtmlTable($tbody, 'table table-'.$single).PHP_EOL;
+        return $hc->getHtmlTable($tbody, 'table table-' . $single) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserPagesThead
-    *  @param string $language
+     *  @private function getTemplatesUserPagesThead
+     *  @param string $language
      * @param $tableName
      * @return string
      */
     private function getTemplatesUserPagesTableThead($tableName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $stuTableName = strtoupper($tableName);
+        $stuTableName = mb_strtoupper($tableName);
         $single = $hc->getSmartySingleVar('divideby');
-        $lang = $hc->getSmartyConst($language, $stuTableName.'_TITLE');
-        $th = $hc->getHtmlTableHead($lang, '', $single).PHP_EOL;
-        $tr = $hc->getHtmlTableRow($th, 'head').PHP_EOL;
+        $lang = $hc->getSmartyConst($language, $stuTableName . '_TITLE');
+        $th = $hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
 
-        return $hc->getHtmlTableThead($tr).PHP_EOL;
+        return $hc->getHtmlTableThead($tr) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserPagesTbody
-    *  @param string $moduleDirname
-    *  @param string $language
+     *  @private function getTemplatesUserPagesTbody
+     *  @param string $moduleDirname
+     *  @param string $language
      * @param $tableName
      * @param $tableSoleName
      * @return string
@@ -127,33 +126,32 @@ class TemplatesUserPages extends TDMCreateFile
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $single = $hc->getSmartySingleVar('panel_type');
         $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
-        $div = $hc->getHtmlDiv($include, 'panel panel-'.$single);
-        $cont = $hc->getHtmlTableData($div).PHP_EOL;
-        $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
-        $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
+        $div = $hc->getHtmlDiv($include, 'panel panel-' . $single);
+        $cont = $hc->getHtmlTableData($div) . PHP_EOL;
+        $html = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($foreach) . PHP_EOL;
 
-        return $hc->getHtmlTableTbody($tr).PHP_EOL;
+        return $hc->getHtmlTableTbody($tr) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserPagesTfoot
+     *  @private function getTemplatesUserPagesTfoot
      * @param null
      * @return string
-     *
      */
     private function getTemplatesUserPagesTableTfoot()
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $td = $hc->getHtmlTableData('&nbsp;').PHP_EOL;
-        $tr = $hc->getHtmlTableRow($td).PHP_EOL;
+        $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
 
-        return $hc->getHtmlTableTfoot($tr).PHP_EOL;
+        return $hc->getHtmlTableTfoot($tr) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserPages
+     *  @private function getTemplatesUserPages
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -163,15 +161,15 @@ class TemplatesUserPages extends TDMCreateFile
     private function getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language).PHP_EOL;
-        $div = $hc->getHtmlDiv($table, 'table-responsive').PHP_EOL;
+        $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language) . PHP_EOL;
+        $div = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
 
-        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true).PHP_EOL;
+        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserPagesFooter
-    *  @param string $moduleDirname
+     *  @private function getTemplatesUserPagesFooter
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -183,8 +181,8 @@ class TemplatesUserPages extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      *
      * @return bool|string
      */

@@ -28,18 +28,17 @@
 class UserPages extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserPages
      */
     public static function getInstance()
@@ -99,7 +98,7 @@ class UserPages extends TDMCreateFile
     {
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $t = "\t";
         $ret = $pc->getPhpCodeCommentLine();
@@ -111,7 +110,7 @@ class UserPages extends TDMCreateFile
         $ret .= $pc->getPhpCodeArray('keywords', null, false, '');
         $condIf = $pc->getPhpCodeArray($tableName, null, false, $t);
         $condIf .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t);
-        $foreach = $xc->getXcGetValues($tableName, $tableName.'[]', 'i', false, $t);
+        $foreach = $xc->getXcGetValues($tableName, $tableName . '[]', 'i', false, $t);
 
         $table = $this->getTable();
         // Fields
@@ -122,7 +121,7 @@ class UserPages extends TDMCreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $foreach .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, $t."\t");
+        $foreach .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, $t . "\t");
         $condIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t);
         $condIf .= $xc->getXcTplAssign($tableName, "\${$tableName}", true, $t);
         $condIf .= $pc->getPhpCodeUnset($tableName, $t);
@@ -153,9 +152,9 @@ class UserPages extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableName = strtoupper($tableName);
-        $stuTableSoleName = strtoupper($tableSoleName);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuTableName = mb_strtoupper($tableName);
+        $stuTableSoleName = mb_strtoupper($tableSoleName);
         $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $uc->getUserBreadcrumbs($language, $stuTableName);
         $ret .= $pc->getPhpCodeCommentLine('Keywords');
@@ -171,8 +170,8 @@ class UserPages extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

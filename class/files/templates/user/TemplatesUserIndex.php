@@ -28,18 +28,17 @@
 class TemplatesUserIndex extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserIndex
      */
     public static function getInstance()
@@ -68,19 +67,19 @@ class TemplatesUserIndex extends TDMCreateFile
     }
 
     /**
-    *  @public function getTemplateUserIndexHeader
-    *  @param $moduleDirname
+     *  @public function getTemplateUserIndexHeader
+     *  @param $moduleDirname
      * @return bool|string
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
         $hc = TDMCreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserIndexTable
+     *  @private function getTemplatesUserIndexTable
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -94,29 +93,29 @@ class TemplatesUserIndex extends TDMCreateFile
         $table = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
 
-        return $hc->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
+        return $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserIndexThead
-    *  @param string $language
+     *  @private function getTemplatesUserIndexThead
+     *  @param string $language
      * @param $tableName
      * @return string
      */
     private function getTemplatesUserIndexTableThead($tableName, $language)
     {
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
-        $stuTableName = strtoupper($tableName);
+        $stuTableName = mb_strtoupper($tableName);
         $lang = $hc->getSmartyConst($language, $stuTableName);
         $col = $hc->getSmartySingleVar('numb_col');
-        $th = $hc->getHtmlTableHead($lang, '', $col).PHP_EOL;
-        $tr = $hc->getHtmlTableRow($th, 'head').PHP_EOL;
+        $th = $hc->getHtmlTableHead($lang, '', $col) . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
 
-        return $hc->getHtmlTableThead($tr).PHP_EOL;
+        return $hc->getHtmlTableThead($tr) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserIndexTbody
+     *  @private function getTemplatesUserIndexTbody
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -128,31 +127,31 @@ class TemplatesUserIndex extends TDMCreateFile
         $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $type = $hc->getSmartySingleVar('panel_type');
         $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
-        $div = $hc->getHtmlDiv($include, 'panel panel-'.$type);
-        $cont = $hc->getHtmlTableData($div).PHP_EOL;
-        $html = $hc->getHtmlEmpty('</tr><tr>').PHP_EOL;
-        $cont .= $hc->getSmartyConditions($tableSoleName.'.count', ' is div by ', '$divideby', $html).PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont).PHP_EOL;
-        $tr = $hc->getHtmlTableRow($foreach).PHP_EOL;
+        $div = $hc->getHtmlDiv($include, 'panel panel-' . $type);
+        $cont = $hc->getHtmlTableData($div) . PHP_EOL;
+        $html = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
+        $cont .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($foreach) . PHP_EOL;
 
-        return $hc->getHtmlTableTbody($tr).PHP_EOL;
+        return $hc->getHtmlTableTbody($tr) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserIndexTfoot
+     *  @private function getTemplatesUserIndexTfoot
      * @return string
      */
     private function getTemplatesUserIndexTableTfoot()
     {
         $hc = TDMCreateHtmlCode::getInstance();
-        $td = $hc->getHtmlTableData('&nbsp;').PHP_EOL;
-        $tr = $hc->getHtmlTableRow($td).PHP_EOL;
+        $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
 
-        return $hc->getHtmlTableTfoot($tr).PHP_EOL;
+        return $hc->getHtmlTableTfoot($tr) . PHP_EOL;
     }
 
     /**
-    *  @public function getTemplatesUserIndexBodyDefault
+     *  @public function getTemplatesUserIndexBodyDefault
      * @param $module
      * @param $table
      * @param $language
@@ -179,7 +178,7 @@ EOT;
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
-            $stuTableName = strtoupper($tableName);
+            $stuTableName = mb_strtoupper($tableName);
             $ret .= <<<EOT
                     <li><a href="<{\${$moduleDirname}_url}>/{$tableName}.php"><{\$smarty.const.{$language}{$stuTableName}}></a></li>\n
 EOT;
@@ -205,7 +204,7 @@ EOT;
     }
 
     /**
-    *  @public function getTemplateUserIndexCategories
+     *  @public function getTemplateUserIndexCategories
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -214,7 +213,7 @@ EOT;
      */
     public function getTemplateUserIndexCategories($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $stuTableName = strtoupper($tableName);
+        $stuTableName = mb_strtoupper($tableName);
         $ret = <<<EOT
 <{if count(\${$tableName}) > 0}>
 <div class="table-responsive">
@@ -249,14 +248,14 @@ EOT;
         $single = $hc->getSmartySingleVar('table_type');
         $table = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
-        $table .= $hc->getHtmlTable($table, 'table table-'.$single).PHP_EOL;
-        $div = $hc->getHtmlDiv($table, 'table-responsive').PHP_EOL;
+        $table .= $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
+        $div = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
 
-        return $ret/*$hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true)*/.PHP_EOL;
+        return $ret/*$hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true)*/ . PHP_EOL;
     }
 
     /**
-    *  @public function getTemplateUserIndexTable
+     *  @public function getTemplateUserIndexTable
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -291,8 +290,8 @@ EOT;
     }
 
     /**
-    *  @public function getTemplateUserIndexFooter
-    *  @param $moduleDirname
+     *  @public function getTemplateUserIndexFooter
+     *  @param $moduleDirname
      * @return bool|string
      */
     public function getTemplateUserIndexFooter($moduleDirname)
@@ -303,8 +302,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -323,10 +322,10 @@ EOT;
             $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableFieldname = $tables[$t]->getVar('table_fieldname');
             $tableIndex[] = $tables[$t]->getVar('table_index');
-            if (in_array(1, $tableCategory) && in_array(1, $tableIndex)) {
+            if (in_array(1, $tableCategory, true) && in_array(1, $tableIndex, true)) {
                 $content .= $this->getTemplateUserIndexCategories($moduleDirname, $tableName, $tableSoleName, $language);
             }
-            if (in_array(0, $tableCategory) && in_array(1, $tableIndex)) {
+            if (in_array(0, $tableCategory, true) && in_array(1, $tableIndex, true)) {
                 $content .= $this->getTemplateUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language);
             }
         }

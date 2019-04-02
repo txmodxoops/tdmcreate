@@ -22,7 +22,7 @@
  *
  * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
-include __DIR__.'/autoload.php';
+include __DIR__ . '/autoload.php';
 
 /**
  * Class TDMCreateModules.
@@ -44,10 +44,9 @@ class TDMCreateModules extends XoopsObject
     ];
 
     /**
-    *  @public function constructor class
-    *  @param null
-    */
-
+     *  @public function constructor class
+     *  @param null
+     */
     public function __construct()
     {
         $tdmcreate = TDMCreateHelper::getInstance();
@@ -109,8 +108,8 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TDMCreateModules
      */
     public static function getInstance()
@@ -124,8 +123,8 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-    *  @public function getFormModules
-    *  @param mixed $action
+     *  @public function getFormModules
+     *  @param mixed $action
      *
      * @return XoopsThemeForm
      */
@@ -181,7 +180,7 @@ class TDMCreateModules extends XoopsObject
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_MODULE_NEW) : sprintf(_AM_TDMCREATE_MODULE_EDIT);
 
-        include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
+        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'moduleform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -240,7 +239,7 @@ class TDMCreateModules extends XoopsObject
         // Options
         $checkbox = new XoopsFormCheckbox(' ', 'module_option', $this->getOptionsModules(), '<br>');
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_MODULE_'.strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_MODULE_' . mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -249,17 +248,17 @@ class TDMCreateModules extends XoopsObject
         $modImage = $this->getVar('mod_image');
         $modImage = $modImage ?: $set['image'];
 
-        $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
+        $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br>');
-        $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './'.strtolower($uploadDirectory).'/');
+        $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
         $imageselect = new XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray = XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
             $imageselect->addOption("{$image}", $image);
         }
-        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")'");
+        $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageselect);
-        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br>"));
+        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' name='image3' id='image3' alt='' /><br>"));
 
         $fileseltray = new XoopsFormElementTray('', '<br>');
         $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
@@ -269,25 +268,25 @@ class TDMCreateModules extends XoopsObject
         //---------- START LOGO GENERATOR -----------------
         $tables_img = $this->getVar('table_image') ?: 'about.png';
         $iconsdir = '/Frameworks/moduleclasses/icons/32';
-        if (is_dir(XOOPS_ROOT_PATH.$iconsdir)) {
+        if (is_dir(XOOPS_ROOT_PATH . $iconsdir)) {
             $uploadDirectory = $iconsdir;
             $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsdir}/");
         } else {
-            $uploadDirectory = '/uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/tables';
-            $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/tables');
+            $uploadDirectory = '/uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables';
+            $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
         }
         $createLogoTray = new XoopsFormElementTray(_AM_TDMCREATE_MODULE_CREATENEWLOGO, '<br>');
         $iconSelect = new XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
-        $tablesImagesArray = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH.$uploadDirectory);
+        $tablesImagesArray = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $uploadDirectory);
         foreach ($tablesImagesArray as $image) {
             $iconSelect->addOption("{$image}", $image);
         }
-        $iconSelect->setExtra(" onchange='showImgSelected2(\"image4\", \"tables_img\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")' ");
+        $iconSelect->setExtra(" onchange='showImgSelected2(\"image4\", \"tables_img\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")' ");
         $createLogoTray->addElement($iconSelect);
-        $createLogoTray->addElement(new XoopsFormLabel('', "<br><img src='".XOOPS_URL.'/'.$uploadDirectory.'/'.$tables_img."' name='image4' id='image4' alt='' />"));
+        $createLogoTray->addElement(new XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadDirectory . '/' . $tables_img . "' name='image4' id='image4' alt='' />"));
         // Create preview and submit buttons
         $buttonLogoGenerator4 = new XoopsFormButton('', 'button4', _AM_TDMCREATE_MODULE_CREATENEWLOGO, 'button');
-        $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"".TDMC_URL."\")' ");
+        $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"" . TDMC_URL . "\")' ");
         $createLogoTray->addElement($buttonLogoGenerator4);
 
         $form->addElement($createLogoTray);
@@ -347,7 +346,7 @@ class TDMCreateModules extends XoopsObject
         $modSubversion = $isNew ? $set['subversion'] : $this->getVar('mod_subversion');
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_MODULE_SUBVERSION, 'mod_subversion', 50, 255, $modSubversion));
 
-        $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
+        $buttonTray = new XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $form->addElement($buttonTray);
@@ -356,9 +355,9 @@ class TDMCreateModules extends XoopsObject
     }
 
     /**
-    *  @private static function createLogo
-    *  @param mixed $logoIcon
-    *  @param string $moduleDirname
+     *  @private static function createLogo
+     *  @param mixed $logoIcon
+     *  @param string $moduleDirname
      *
      * @return bool|string
      */
@@ -366,17 +365,17 @@ class TDMCreateModules extends XoopsObject
     {
         if (!extension_loaded('gd')) {
             return false;
-        } else {
-            $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
-            foreach ($requiredFunctions as $func) {
-                if (!function_exists($func)) {
-                    return false;
-                }
+        }
+        $requiredFunctions = ['imagecreatefrompng', 'imagefttext', 'imagecopy', 'imagepng', 'imagedestroy', 'imagecolorallocate'];
+        foreach ($requiredFunctions as $func) {
+            if (!function_exists($func)) {
+                return false;
             }
         }
-        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH.'/empty.png') ||
-            !file_exists($font = TDMC_FONTS_PATH.'/VeraBd.ttf') ||
-            !file_exists($iconFile = XOOPS_ICONS32_PATH.'/'.basename($logoIcon))
+
+        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . '/empty.png') ||
+            !file_exists($font = TDMC_FONTS_PATH . '/VeraBd.ttf') ||
+            !file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . basename($logoIcon))
         ) {
             return false;
         }
@@ -384,15 +383,15 @@ class TDMCreateModules extends XoopsObject
         $imageIcon = imagecreatefrompng($iconFile);
         // Write text
         $textColor = imagecolorallocate($imageModule, 0, 0, 0);
-        $spaceBorder = (92 - strlen($moduleDirname) * 7.5) / 2;
+        $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
-        $logoImg = '/'.$moduleDirname.'_logo.png';
-        imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH.$logoImg);
+        $logoImg = '/' . $moduleDirname . '_logo.png';
+        imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
         imagedestroy($imageModule);
         imagedestroy($imageIcon);
 
-        return TDMC_UPLOAD_IMGMOD_URL.$logoImg;
+        return TDMC_UPLOAD_IMGMOD_URL . $logoImg;
     }
 
     /**

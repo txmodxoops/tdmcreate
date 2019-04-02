@@ -28,18 +28,17 @@
 class IncludeFunctions extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeFunctions
      */
     public static function getInstance()
@@ -65,8 +64,8 @@ class IncludeFunctions extends TDMCreateFile
     }
 
     /**
-    *  @private function getFunctionBlock
-    *  @param string $moduleDirname
+     *  @private function getFunctionBlock
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -98,8 +97,8 @@ EOT;
     }
 
     /**
-    *  @private function getFunctionGetMyItemIds
-    *  @param string $moduleDirname
+     *  @private function getFunctionGetMyItemIds
+     *  @param string $moduleDirname
      * @param $tableName
      *
      * @return string
@@ -419,13 +418,13 @@ EOT;
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
-        if (in_array(1, $tableBlocks)) {
+        if (in_array(1, $tableBlocks, true)) {
             $content .= $this->getFunctionBlock($moduleDirname);
         }
-        if (in_array(1, $tablePermissions)) {
+        if (in_array(1, $tablePermissions, true)) {
             $content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
         }
-        if (in_array(1, $tableCategory)) {
+        if (in_array(1, $tableCategory, true)) {
             $content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName);
         }
         $content .= $this->getFunctionMetaKeywords($moduleDirname);

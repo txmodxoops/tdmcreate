@@ -28,18 +28,17 @@
 class TemplatesUserBroken extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserBroken
      */
     public static function getInstance()
@@ -53,10 +52,10 @@ class TemplatesUserBroken extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -66,8 +65,8 @@ class TemplatesUserBroken extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserBrokenFileHeader
-    *  @param string $moduleDirname
+     *  @private function getTemplatesUserBrokenFileHeader
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -79,7 +78,7 @@ class TemplatesUserBroken extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserBrokenTableHead
+     *  @private function getTemplatesUserBrokenTableHead
      * @param $tableMid
      * @param $tableId
      * @param $tableAutoincrement
@@ -93,7 +92,7 @@ class TemplatesUserBroken extends TDMCreateFile
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
-            $stuFieldName = strtoupper($fieldName);
+            $stuFieldName = mb_strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 $const = $hc->getSmartyConst($language, $stuFieldName);
                 $th .= $hc->getHtmlTag('th', ['class' => 'center'], $const) . PHP_EOL;
@@ -105,7 +104,7 @@ class TemplatesUserBroken extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserBrokenBody
+     *  @private function getTemplatesUserBrokenBody
      * @param $moduleDirname
      * @param $tableMid
      * @param $tableId
@@ -127,32 +126,32 @@ class TemplatesUserBroken extends TDMCreateFile
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
-                        $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", "#<{\${$tableSoleName}.{$rpFieldName}}>").PHP_EOL;
-                        $ret .= $hc->getHtmlTableData($span, 'center').PHP_EOL;
+                        $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", "#<{\${$tableSoleName}.{$rpFieldName}}>") . PHP_EOL;
+                        $ret .= $hc->getHtmlTableData($span, 'center') . PHP_EOL;
                         break;
                     case 10:
                         $img = $hc->getHtmlImage("<{xoModuleIcons32}><{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
-                        $ret .= $hc->getHtmlTableData($img, 'center').PHP_EOL;
+                        $ret .= $hc->getHtmlTableData($img, 'center') . PHP_EOL;
                         break;
                     case 13:
                         $img = $hc->getHtmlImage("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
-                        $ret .= $hc->getHtmlTableData($img, 'center').PHP_EOL;
+                        $ret .= $hc->getHtmlTableData($img, 'center') . PHP_EOL;
                         break;
                     default:
-                        $ret .= $hc->getHtmlTableData("<{\${$tableSoleName}.{$rpFieldName}}>", 'center').PHP_EOL;
+                        $ret .= $hc->getHtmlTableData("<{\${$tableSoleName}.{$rpFieldName}}>", 'center') . PHP_EOL;
                         break;
                 }
             }
         }
-        $row = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>').PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row).PHP_EOL;
+        $row = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>') . PHP_EOL;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row) . PHP_EOL;
 
-        return $hc->getHtmlTableTbody($foreach).PHP_EOL;
+        return $hc->getHtmlTableTbody($foreach) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserBrokenFileFooter
-    *  @param string $moduleDirname
+     *  @private function getTemplatesUserBrokenFileFooter
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -164,9 +163,8 @@ class TemplatesUserBroken extends TDMCreateFile
     }
 
     /**
-    *  @public function render
+     *  @public function render
      * @return bool|string
-     *
      */
     public function render()
     {
@@ -181,10 +179,10 @@ class TemplatesUserBroken extends TDMCreateFile
         $tableSoleName = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserBrokenFileHeader($moduleDirname).PHP_EOL;
+        $content = $this->getTemplatesUserBrokenFileHeader($moduleDirname) . PHP_EOL;
         $contentTable = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
         $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        $content .= $hc->getHtmlTable($contentTable, 'table table-bordered').PHP_EOL;
+        $content .= $hc->getHtmlTable($contentTable, 'table table-bordered') . PHP_EOL;
         $content .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

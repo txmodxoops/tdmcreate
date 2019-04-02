@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.59 modules.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 
@@ -41,7 +41,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
         $modulesAll = $tdmcreate->getHandler('modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
@@ -56,15 +56,14 @@ switch ($op) {
                 unset($module);
             }
             if ($modulesCount > $limit) {
-                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MODULES);
         }
         break;
-
     case 'new':
         // Define main template
         $templateMain = 'tdmcreate_modules.tpl';
@@ -77,7 +76,6 @@ switch ($op) {
         $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('modules.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -87,7 +85,7 @@ switch ($op) {
         } else {
             $modulesObj = $tdmcreate->getHandler('modules')->create();
         }
-        $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['mod_dirname']));
+        $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['mod_dirname']));
         //Form module save
         $modulesObj->setVars([
                                  'mod_name' => $_POST['mod_name'],
@@ -111,18 +109,18 @@ switch ($op) {
                                  'mod_manual_file' => $_POST['mod_manual_file'],
                              ]);
         //Form mod_image
-        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploader = new XoopsMediaUploader(
             TDMC_UPLOAD_IMGMOD_PATH,
             $tdmcreate->getConfig('mimetypes'),
-                                           $tdmcreate->getConfig('maxsize'),
+            $tdmcreate->getConfig('maxsize'),
             null,
             null
         );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
             if (!$uploader->upload()) {
-                $errors =& $uploader->getErrors();
+                $errors = &$uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, $errors);
             } else {
                 $modulesObj->setVar('mod_image', $uploader->getSavedFileName());
@@ -146,14 +144,14 @@ switch ($op) {
                              ]
         );
         $moduleOption = XoopsRequest::getArray('module_option', []);
-        $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
-        $modulesObj->setVar('mod_user', in_array('user', $moduleOption));
-        $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption));
-        $modulesObj->setVar('mod_search', in_array('search', $moduleOption));
-        $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption));
-        $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption));
-        $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption));
-        $modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
+        $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption, true));
+        $modulesObj->setVar('mod_user', in_array('user', $moduleOption, true));
+        $modulesObj->setVar('mod_blocks', in_array('blocks', $moduleOption, true));
+        $modulesObj->setVar('mod_search', in_array('search', $moduleOption, true));
+        $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption, true));
+        $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption, true));
+        $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption, true));
+        $modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption, true));
 
         if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
@@ -167,7 +165,6 @@ switch ($op) {
         $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_modules.tpl';
@@ -181,7 +178,6 @@ switch ($op) {
         $form = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'delete':
         $modulesObj = $tdmcreate->getHandler('modules')->get($modId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
@@ -197,16 +193,15 @@ switch ($op) {
             xoops_confirm(['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
         }
         break;
-
     case 'display':
         $modFieldArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
         $id = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($id);
             foreach ($modFieldArray as $moduleField) {
-                if (isset($_POST['mod_'.$moduleField])) {
-                    $modField = $modulesObj->getVar('mod_'.$moduleField);
-                    $modulesObj->setVar('mod_'.$moduleField, !$modField);
+                if (isset($_POST['mod_' . $moduleField])) {
+                    $modField = $modulesObj->getVar('mod_' . $moduleField);
+                    $modulesObj->setVar('mod_' . $moduleField, !$modField);
                 }
             }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
@@ -217,4 +212,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

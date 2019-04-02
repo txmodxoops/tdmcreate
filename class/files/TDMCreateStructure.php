@@ -28,24 +28,24 @@
 class TDMCreateStructure
 {
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $moduleName;
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $folderName;
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $fileName;
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $path;
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $uploadPath;
 
     /**
@@ -126,8 +126,6 @@ class TDMCreateStructure
     /**
      *  @private function getFolderName
      *  @return string $folderName
-     *
-     * @return null
      */
     private function getFolderName()
     {
@@ -176,7 +174,7 @@ class TDMCreateStructure
      */
     protected function makeDir($dir)
     {
-        $this->isDir(strtolower(trim($dir)));
+        $this->isDir(mb_strtolower(trim($dir)));
     }
 
     /**
@@ -198,9 +196,9 @@ class TDMCreateStructure
         closedir($handle);
         if (count($content) > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -215,9 +213,9 @@ class TDMCreateStructure
         $this->setFolderName($folderName);
         if ($fileName) {
             $this->setFileName($fileName);
-            $ret = $this->getUploadPath().DS.$this->getModuleName().DS.$this->getFolderName().DS.$this->getFileName();
+            $ret = $this->getUploadPath() . DS . $this->getModuleName() . DS . $this->getFolderName() . DS . $this->getFileName();
         } else {
-            $ret = $this->getUploadPath().DS.$this->getModuleName().DS.$this->getFolderName();
+            $ret = $this->getUploadPath() . DS . $this->getModuleName() . DS . $this->getFolderName();
         }
 
         return $ret;

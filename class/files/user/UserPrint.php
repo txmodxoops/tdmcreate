@@ -28,20 +28,19 @@
 class UserPrint extends TDMCreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $uc = null;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xc = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -51,8 +50,8 @@ class UserPrint extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserPrint
      */
     public static function getInstance()
@@ -66,10 +65,10 @@ class UserPrint extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -79,15 +78,15 @@ class UserPrint extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserPrint
-    *  @param string $moduleDirname
-    *  @param string $language
+     *  @public function getUserPrint
+     *  @param string $moduleDirname
+     *  @param string $language
      *
      * @return string
      */
     public function getUserPrint($moduleDirname, $language)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
@@ -97,10 +96,10 @@ class UserPrint extends TDMCreateFile
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             $rpFieldName = $fieldName;
-            if (strpos($fieldName, '_')) {
-                $str = strpos($fieldName, '_');
+            if (mb_strpos($fieldName, '_')) {
+                $str = mb_strpos($fieldName, '_');
                 if (false !== $str) {
-                    $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
+                    $rpFieldName = mb_substr($fieldName, $str + 1, mb_strlen($fieldName));
                 }
             }
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
@@ -113,7 +112,7 @@ class UserPrint extends TDMCreateFile
             $ucfFieldName = ucfirst($fieldName);
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $stuLpFieldName = strtoupper($ccFieldId);
+        $stuLpFieldName = mb_strtoupper($ccFieldId);
         $ret = $this->getInclude();
         $ret .= $this->xc->getXcXoopsRequest("{$ccFieldId}", "{$fieldId}", '', 'Int');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
@@ -121,22 +120,22 @@ class UserPrint extends TDMCreateFile
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
         $ret .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
-        if (false !== strpos($fieldName, 'published')) {
+        if (false !== mb_strpos($fieldName, 'published')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') == 0 || \${$ccFieldId}->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
         }
-        if (false !== strpos($fieldName, 'expired')) {
+        if (false !== mb_strpos($fieldName, 'expired')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Expired', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        if (false !== strpos($fieldName, 'date')) {
+        if (false !== mb_strpos($fieldName, 'date')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Date', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        if (false !== strpos($fieldName, 'time')) {
+        if (false !== mb_strpos($fieldName, 'time')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Time', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
@@ -152,16 +151,16 @@ class UserPrint extends TDMCreateFile
         $ret .= $this->phpcode->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
         $ret .= $this->xc->getXcTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
         $getVar = $this->xc->getXcGetVar('', $tableSoleName, $fieldMain, true);
-        $stripTags = $this->phpcode->getPhpCodeStripTags('', $getVar.' - '."{$language}PRINT".' - '."\$GLOBALS['xoopsModule']->name()", true);
+        $stripTags = $this->phpcode->getPhpCodeStripTags('', $getVar . ' - ' . "{$language}PRINT" . ' - ' . "\$GLOBALS['xoopsModule']->name()", true);
         $ret .= $this->xc->getXcTplAssign('xoops_pagetitle', $stripTags);
-        $ret .= $this->xc->getXcTplDisplay($tableName.'_print.tpl', '', false);
+        $ret .= $this->xc->getXcTplDisplay($tableName . '_print.tpl', '', false);
 
         return $ret;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

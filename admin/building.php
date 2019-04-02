@@ -21,16 +21,16 @@
  *
  * @version         $Id: building.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 $op = XoopsRequest::getString('op', 'default');
 $mid = XoopsRequest::getInt('mod_id');
 $moduleObj = $tdmcreate->getHandler('modules')->get($mid);
-$cachePath = XOOPS_VAR_PATH.'/caches/tdmcreate_cache';
+$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
 // Clear cache
-if (file_exists($cache = $cachePath.'/classpaths.cache')) {
+if (file_exists($cache = $cachePath . '/classpaths.cache')) {
     unlink($cache);
 }
-if (!file_exists($indexFile = $cachePath.'/index.html')) {
+if (!file_exists($indexFile = $cachePath . '/index.html')) {
     copy('index.html', $indexFile);
 }
 // Switch option
@@ -41,9 +41,9 @@ switch ($op) {
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
         // Directories for copy from to
-        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH.'/'.strtolower($moduleDirname);
-        $toDir = XOOPS_ROOT_PATH.'/modules/'.strtolower($moduleDirname);
-        include_once TDMC_CLASS_PATH.'/building.php';
+        $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname);
+        $toDir = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
+        include_once TDMC_CLASS_PATH . '/building.php';
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
             $building = TDMCreateBuilding::getInstance();
@@ -52,7 +52,7 @@ switch ($op) {
             }
         }
         // Structure
-        include_once TDMC_CLASS_PATH.'/files/TDMCreateArchitecture.php';
+        include_once TDMC_CLASS_PATH . '/files/TDMCreateArchitecture.php';
         $handler = TDMCreateArchitecture::getInstance();
         // Creation of the structure of folders and files
         $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);
@@ -88,7 +88,6 @@ switch ($op) {
             $building->copyDir($fromDir, $toDir);
         }
         break;
-
     case 'default':
     default:
         $templateMain = 'tdmcreate_building.tpl';
@@ -99,10 +98,10 @@ switch ($op) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         unset($nbModules);
-        include_once TDMC_CLASS_PATH.'/building.php';
+        include_once TDMC_CLASS_PATH . '/building.php';
         $building = TDMCreateBuilding::getInstance();
         $form = $building->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

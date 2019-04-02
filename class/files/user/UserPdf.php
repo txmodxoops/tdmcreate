@@ -28,20 +28,19 @@
 class UserPdf extends TDMCreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $uc = null;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xc = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -51,8 +50,8 @@ class UserPdf extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserPdf
      */
     public static function getInstance()
@@ -66,10 +65,10 @@ class UserPdf extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -104,7 +103,7 @@ class UserPdf extends TDMCreateFile
     }
 
     /**
-    *  @public function getAdminPagesList
+     *  @public function getAdminPagesList
      * @param $moduleDirname
      * @param $fields
      * @return string
@@ -112,7 +111,7 @@ class UserPdf extends TDMCreateFile
     public function getUserPdfTcpdf($moduleDirname, $fields)
     {
         $fieldId = $this->xc->getXcSaveFieldId($fields);
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -121,7 +120,7 @@ class UserPdf extends TDMCreateFile
             $getVar = $this->xc->getXcGetVar('', 'pdfContent', $fieldName, true);
             switch ($fieldElement) {
                 case 2:
-                    if (false !== strpos($fieldName, 'title') || false !== strpos($fieldName, 'name') && '' == $fieldDefault) {
+                    if (false !== mb_strpos($fieldName, 'title') || false !== mb_strpos($fieldName, 'name') && '' == $fieldDefault) {
                         $ret .= $this->phpcode->getPhpCodeStripTags("pdfData['title']", $getVar);
                     }
                 break;
@@ -212,8 +211,8 @@ class UserPdf extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

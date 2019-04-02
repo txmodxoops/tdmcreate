@@ -45,6 +45,7 @@ class TDMCreateSession
     *  @static function getInstance
     *  @param null
     */
+
     /**
      * @return bool
      */
@@ -81,9 +82,9 @@ class TDMCreateSession
     {
         if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

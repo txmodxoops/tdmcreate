@@ -28,18 +28,17 @@
 class IncludeNotifications extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeNotifications
      */
     public static function getInstance()
@@ -53,10 +52,10 @@ class IncludeNotifications extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -66,14 +65,14 @@ class IncludeNotifications extends TDMCreateFile
     }
 
     /**
-    *  @static function getNotificationsFunction
-    *  @param string $moduleDirname
+     *  @static function getNotificationsFunction
+     *  @param string $moduleDirname
      *
      * @return string
      */
     public function getNotificationsFunction($moduleDirname)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $table = $this->getTable();
         $tableName = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
@@ -163,8 +162,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

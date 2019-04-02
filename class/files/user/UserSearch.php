@@ -28,20 +28,19 @@
 class UserSearch extends TDMCreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $usercode = null;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xoopscode = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -51,8 +50,8 @@ class UserSearch extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserSearch
      */
     public static function getInstance()
@@ -66,10 +65,10 @@ class UserSearch extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -114,7 +113,7 @@ class UserSearch extends TDMCreateFile
     }
 
     /**
-    *  @public function getAdminPagesList
+     *  @public function getAdminPagesList
      * @param $moduleDirname
      * @param $tableName
      * @param $language
@@ -141,8 +140,8 @@ EOT;
      */
     private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableName = strtoupper($tableName);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuTableName = mb_strtoupper($tableName);
         $ret = $this->getCommentLine('Breadcrumbs');
         $ret .= $this->usercode->getUserBreadcrumbs("{$stuTableName}", $language);
         $ret .= $this->getCommentLine('Keywords');
@@ -159,8 +158,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

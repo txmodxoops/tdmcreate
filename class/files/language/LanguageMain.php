@@ -28,10 +28,9 @@
 class LanguageMain extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -39,8 +38,8 @@ class LanguageMain extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return LanguageMain
      */
     public static function getInstance()
@@ -54,10 +53,10 @@ class LanguageMain extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $tables
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $tables
+     *  @param string $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -67,9 +66,9 @@ class LanguageMain extends TDMCreateFile
     }
 
     /**
-    *  @private function geLanguagetMain
-    *  @param string $module
-    *  @param string $language
+     *  @private function geLanguagetMain
+     *  @param string $module
+     *  @param string $language
      *
      * @return string
      */
@@ -89,8 +88,8 @@ As you can see, you have created a page with a list of links at the top to navig
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableSoleName = $tables[$i]->getVar('table_solename');
-            $stuTableName = strtoupper($tableName);
-            $stuTableSoleName = strtoupper($tableSoleName);
+            $stuTableName = mb_strtoupper($tableName);
+            $stuTableSoleName = mb_strtoupper($tableSoleName);
             $ucfTableName = UcFirstAndToLower($tableName);
             $ucfTableSoleName = UcFirstAndToLower($tableSoleName);
             $ret .= $this->defines->getAboveDefines($ucfTableSoleName);
@@ -104,7 +103,7 @@ As you can see, you have created a page with a list of links at the top to navig
                 $fieldName = $fields[$f]->getVar('field_name');
                 $rpFieldName = $this->getRightString($fieldName);
                 $fieldNameDesc = ucfirst($rpFieldName);
-                $ret .= $this->defines->getDefine($language, $stuTableSoleName.'_'.$rpFieldName, $fieldNameDesc);
+                $ret .= $this->defines->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
             }
         }
         $ret .= $this->defines->getDefine($language, 'INDEX_THEREARE', "There are %s {$ucfTableName}");
@@ -124,8 +123,8 @@ As you can see, you have created a page with a list of links at the top to navig
     }
 
     /**
-    *  @private function geLanguagetMainFooter
-    *  @param string $language
+     *  @private function geLanguagetMainFooter
+     *  @param string $language
      *
      * @return string
      */
@@ -139,8 +138,8 @@ As you can see, you have created a page with a list of links at the top to navig
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -153,7 +152,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $content .= $this->geLanguagetMain($module, $language);
         $content .= $this->geLanguagetMainFooter($language);
 
-        $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

@@ -28,18 +28,17 @@
 class IncludeComments extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeComments
      */
     public static function getInstance()
@@ -53,9 +52,9 @@ class IncludeComments extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
      */
     public function write($module, $table)
     {
@@ -64,36 +63,36 @@ class IncludeComments extends TDMCreateFile
     }
 
     /**
-    *  @public function getCommentsIncludes
-    *  @param string $module
-    *  @param string $filename
+     *  @public function getCommentsIncludes
+     *  @param string $module
+     *  @param string $filename
      *
      * @return bool|string
      */
     public function renderCommentsIncludes($module, $filename)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename.'.php');
+        $content = $this->getHeaderFilesComments($module, $filename . '.php');
         $content .= <<<EOT
 include_once __DIR__ . '/../../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/include/{$filename}.php';
 EOT;
-        $this->create($moduleDirname, 'include', $filename.'.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->render();
     }
 
     /**
-    *  @public function getCommentsNew
-    *  @param string $module
-    *  @param string $filename
+     *  @public function getCommentsNew
+     *  @param string $module
+     *  @param string $filename
      *
      * @return bool|string
      */
     public function renderCommentsNew($module, $filename)
     {
         $table = $this->getTable();
-        $moduleDirname = strtolower($module->getVar('mod_dirname'));
+        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
         $tableName = $table->getVar('table_name');
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
@@ -101,7 +100,7 @@ EOT;
                 $fpmf = $fields[$f]->getVar('field_name');
             }
         }
-        $content = $this->getHeaderFilesComments($module, $filename.'.php');
+        $content = $this->getHeaderFilesComments($module, $filename . '.php');
         $content .= <<<EOT
 include __DIR__ . '/../../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
@@ -113,10 +112,11 @@ if (\$com_itemid > 0) {
     include XOOPS_ROOT_PATH.'/include/{$filename}.php';
 }
 EOT;
-        $this->create($moduleDirname, 'include', $filename.'.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
+
     /**
     *  @public function render
     *  @param null

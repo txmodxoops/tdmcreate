@@ -99,7 +99,7 @@ class SqlFile extends TDMCreateFile
      *  @private function getHeadDatabaseTable
      *  @param $moduleDirname
      *  @param $tableName
-     *  @param integer $fieldsNumb
+     *  @param int $fieldsNumb
      *
      *  Unused IF NOT EXISTS
      *
@@ -129,7 +129,7 @@ class SqlFile extends TDMCreateFile
     private function getDatabaseTables($module)
     {
         $ret = null;
-        $moduleDirname = strtolower($module->getVar('mod_dirname'));
+        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
         foreach (array_keys($tables) as $t) {
             $tableId = $tables[$t]->getVar('table_id');
@@ -197,7 +197,7 @@ class SqlFile extends TDMCreateFile
                     case 3:
                     case 4:
                     case 5:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
                             $default = "DEFAULT '0'";
                         } else {
@@ -207,7 +207,7 @@ class SqlFile extends TDMCreateFile
                     case 6:
                     case 7:
                     case 8:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
                             $default = "DEFAULT '0.00'"; // From MySQL 5.7 Manual
                         } else {
@@ -217,11 +217,11 @@ class SqlFile extends TDMCreateFile
                     case 9:
                     case 10:
                         $fValues = implode("', '", explode(',', str_replace(' ', '', $fieldValue)));
-                        $type = $fieldTypeName.'(\''.$fValues.'\')'; // Used with comma separator
+                        $type = $fieldTypeName . '(\'' . $fValues . '\')'; // Used with comma separator
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 11:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
                             $default = "DEFAULT 'my@email.com'";
                         } else {
@@ -229,7 +229,7 @@ class SqlFile extends TDMCreateFile
                         }
                         break;
                     case 12:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         if (empty($fieldDefault)) {
                             $default = "DEFAULT 'http:\\'";
                         } else {
@@ -238,7 +238,7 @@ class SqlFile extends TDMCreateFile
                         break;
                     case 13:
                     case 14:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 15:
@@ -252,7 +252,7 @@ class SqlFile extends TDMCreateFile
                     case 20:
                     case 21:
                     case 22:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 23:
@@ -264,7 +264,7 @@ class SqlFile extends TDMCreateFile
                         }
                         break;
                     default:
-                        $type = $fieldTypeName.'('.$fieldValue.')';
+                        $type = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                 }
@@ -309,7 +309,7 @@ class SqlFile extends TDMCreateFile
         // ================= COMMA ================= //
         for ($i = 0; $i < $j; ++$i) {
             if ($i != $j - 1) {
-                $row[] = $comma[$i].',';
+                $row[] = $comma[$i] . ',';
             } else {
                 $row[] = $comma[$i];
             }
@@ -423,9 +423,9 @@ class SqlFile extends TDMCreateFile
         // Comma issue
         for ($i = 1; $i <= $index; ++$i) {
             if ($i != $index - 1) {
-                $ret = $this->getComma(isset($comma[$i]), ',')."\n";
+                $ret = $this->getComma(isset($comma[$i]), ',') . "\n";
             } else {
-                $ret = $this->getComma(isset($comma[$i]))."\n";
+                $ret = $this->getComma(isset($comma[$i])) . "\n";
             }
         }
 
@@ -443,8 +443,8 @@ class SqlFile extends TDMCreateFile
     {
         $module = $this->getModule();
         $filename = $this->getFileName();
-        $moduleName = strtolower($module->getVar('mod_name'));
-        $moduleDirname = strtolower($module->getVar('mod_dirname'));
+        $moduleName = mb_strtolower($module->getVar('mod_name'));
+        $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
         $content = $this->getHeaderSqlComments($moduleName);
         $content .= $this->getDatabaseTables($module);
 

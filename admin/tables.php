@@ -21,7 +21,7 @@
  *
  * @version         $Id: tables.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 
@@ -48,7 +48,7 @@ switch ($op) {
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Get the list of modules
         $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
         // Redirect if there aren't modules
@@ -87,15 +87,14 @@ switch ($op) {
                 unset($module);
             }
             if ($modulesCount > $limit) {
-                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                $pagenav = new XoopsPageNav($modulesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_TABLES);
         }
         break;
-
     case 'new':
         // Define main template
         $templateMain = 'tdmcreate_tables.tpl';
@@ -107,7 +106,6 @@ switch ($op) {
         $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -142,12 +140,12 @@ switch ($op) {
                                 'table_order' => $order,
                             ]);
         //Form table_image
-        include_once XOOPS_ROOT_PATH.'/class/uploader.php';
+        include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploaddir = is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
         $uploader = new XoopsMediaUploader(
             $uploaddir,
             $tdmcreate->getConfig('mimetypes'),
-                                            $tdmcreate->getConfig('maxsize'),
+            $tdmcreate->getConfig('maxsize'),
             null,
             null
         );
@@ -165,41 +163,41 @@ switch ($op) {
         $tablesObj->setVar('table_autoincrement', (1 == $_REQUEST['table_autoincrement']) ? 1 : 0);
         // Options
         $tableOption = XoopsRequest::getArray('table_option', []);
-        $tablesObj->setVar('table_install', in_array('install', $tableOption));
-        $tablesObj->setVar('table_index', in_array('index', $tableOption));
-        $tablesObj->setVar('table_blocks', in_array('blocks', $tableOption));
-        $tablesObj->setVar('table_admin', in_array('admin', $tableOption));
-        $tablesObj->setVar('table_user', in_array('user', $tableOption));
-        $tablesObj->setVar('table_submenu', in_array('submenu', $tableOption));
-        $tablesObj->setVar('table_submit', in_array('submit', $tableOption));
-        $tablesObj->setVar('table_tag', in_array('tag', $tableOption));
-        $tablesObj->setVar('table_broken', in_array('broken', $tableOption));
-        $tablesObj->setVar('table_search', in_array('search', $tableOption));
-        $tablesObj->setVar('table_comments', in_array('comments', $tableOption));
-        $tablesObj->setVar('table_notifications', in_array('notifications', $tableOption));
-        $tablesObj->setVar('table_permissions', in_array('permissions', $tableOption));
-        $tablesObj->setVar('table_rate', in_array('rate', $tableOption));
-        $tablesObj->setVar('table_print', in_array('print', $tableOption));
-        $tablesObj->setVar('table_pdf', in_array('pdf', $tableOption));
-        $tablesObj->setVar('table_rss', in_array('rss', $tableOption));
-        $tablesObj->setVar('table_single', in_array('single', $tableOption));
-        $tablesObj->setVar('table_visit', in_array('visit', $tableOption));
+        $tablesObj->setVar('table_install', in_array('install', $tableOption, true));
+        $tablesObj->setVar('table_index', in_array('index', $tableOption, true));
+        $tablesObj->setVar('table_blocks', in_array('blocks', $tableOption, true));
+        $tablesObj->setVar('table_admin', in_array('admin', $tableOption, true));
+        $tablesObj->setVar('table_user', in_array('user', $tableOption, true));
+        $tablesObj->setVar('table_submenu', in_array('submenu', $tableOption, true));
+        $tablesObj->setVar('table_submit', in_array('submit', $tableOption, true));
+        $tablesObj->setVar('table_tag', in_array('tag', $tableOption, true));
+        $tablesObj->setVar('table_broken', in_array('broken', $tableOption, true));
+        $tablesObj->setVar('table_search', in_array('search', $tableOption, true));
+        $tablesObj->setVar('table_comments', in_array('comments', $tableOption, true));
+        $tablesObj->setVar('table_notifications', in_array('notifications', $tableOption, true));
+        $tablesObj->setVar('table_permissions', in_array('permissions', $tableOption, true));
+        $tablesObj->setVar('table_rate', in_array('rate', $tableOption, true));
+        $tablesObj->setVar('table_print', in_array('print', $tableOption, true));
+        $tablesObj->setVar('table_pdf', in_array('pdf', $tableOption, true));
+        $tablesObj->setVar('table_rss', in_array('rss', $tableOption, true));
+        $tablesObj->setVar('table_single', in_array('single', $tableOption, true));
+        $tablesObj->setVar('table_visit', in_array('visit', $tableOption, true));
 
         if ($tables->insert($tablesObj)) {
             if ($tablesObj->isNew()) {
                 $tableTid = $GLOBALS['xoopsDB']->getInsertId();
-                $tableAction = '&field_mid='.$tableMid.'&field_tid='.$tableTid.'&field_numb='.$tableNumbFields.'&field_name='.$tableFieldname;
+                $tableAction = '&field_mid=' . $tableMid . '&field_tid=' . $tableTid . '&field_numb=' . $tableNumbFields . '&field_name=' . $tableFieldname;
                 // Fields Elements Handler
                 $fieldelementObj = $tdmcreate->getHandler('fieldelements')->create();
                 $fieldelementObj->setVar('fieldelement_mid', $tableMid);
                 $fieldelementObj->setVar('fieldelement_tid', $tableTid);
-                $fieldelementObj->setVar('fieldelement_name', 'Table : '.ucfirst($_POST['table_name']));
-                $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-'.ucfirst($_POST['table_name']));
+                $fieldelementObj->setVar('fieldelement_name', 'Table : ' . ucfirst($_POST['table_name']));
+                $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . ucfirst($_POST['table_name']));
                 // Insert new field element id for table name
                 if (!$tdmcreate->getHandler('fieldelements')->insert($fieldelementObj)) {
-                    $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors().' Field element');
+                    $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
                 }
-                redirect_header('fields.php?op=new'.$tableAction, 5, sprintf(_AM_TDMCREATE_TABLE_FORM_CREATED_OK, $_POST['table_name']));
+                redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_TDMCREATE_TABLE_FORM_CREATED_OK, $_POST['table_name']));
             } else {
                 redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_TABLE_FORM_UPDATED_OK, $_POST['table_name']));
             }
@@ -209,7 +207,6 @@ switch ($op) {
         $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'edit':
         // Define main template
         $templateMain = 'tdmcreate_tables.tpl';
@@ -222,7 +219,6 @@ switch ($op) {
         $form = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'order':
         // Initialize tables handler
         $tablesObj = $tdmcreate->getHandler('tables');
@@ -243,7 +239,6 @@ switch ($op) {
         }
         exit;
         break;
-
     case 'delete':
         $tablesObj = &$tdmcreate->getHandler('tables')->get($tableId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
@@ -268,16 +263,15 @@ switch ($op) {
             xoops_confirm(['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
         break;
-
     case 'display':
         $modArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
         $mid = XoopsRequest::getInt('mod_id', 0, 'POST');
         if ($mid > 0) {
             $modulesObj = $tdmcreate->getHandler('modules')->get($mid);
             foreach ($modArray as $modField) {
-                if (isset($_POST['mod_'.$modField])) {
-                    $mField = $modulesObj->getVar('mod_'.$modField);
-                    $modulesObj->setVar('mod_'.$modField, !$mField);
+                if (isset($_POST['mod_' . $modField])) {
+                    $mField = $modulesObj->getVar('mod_' . $modField);
+                    $modulesObj->setVar('mod_' . $modField, !$mField);
                 }
             }
             if ($tdmcreate->getHandler('modules')->insert($modulesObj)) {
@@ -290,9 +284,9 @@ switch ($op) {
         if ($tid > 0) {
             $tablesObj = $tdmcreate->getHandler('tables')->get($tid);
             foreach ($tableArray as $tableField) {
-                if (isset($_POST['table_'.$tableField])) {
-                    $tblField = $tablesObj->getVar('table_'.$tableField);
-                    $tablesObj->setVar('table_'.$tableField, !$tblField);
+                if (isset($_POST['table_' . $tableField])) {
+                    $tblField = $tablesObj->getVar('table_' . $tableField);
+                    $tablesObj->setVar('table_' . $tableField, !$tblField);
                 }
             }
             if ($tdmcreate->getHandler('tables')->insert($tablesObj)) {
@@ -302,4 +296,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

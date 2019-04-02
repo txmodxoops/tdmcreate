@@ -28,18 +28,17 @@
 class TemplatesUserRate extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserRate
      */
     public static function getInstance()
@@ -53,10 +52,10 @@ class TemplatesUserRate extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -66,10 +65,10 @@ class TemplatesUserRate extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserRateHeader
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
+     *  @private function getTemplatesUserRateHeader
+     *  @param string $moduleDirname
+     *  @param string $table
+     *  @param string $language
      *
      * @return string
      */
@@ -84,7 +83,7 @@ EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
-            $langStuFieldName = $language.strtoupper($fieldName);
+            $langStuFieldName = $language . mb_strtoupper($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 $ret .= <<<EOT
             <th class="center"><{\$smarty.const.{$langStuFieldName}}></th>\n
@@ -100,10 +99,10 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserRateBody
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
+     *  @private function getTemplatesUserRateBody
+     *  @param string $moduleDirname
+     *  @param string $table
+     *  @param string $language
      *
      * @return string
      */
@@ -156,10 +155,10 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserRateBodyFieldnameEmpty
-    *  @param string $moduleDirname
-    *  @param string $table
-    *  @param string $language
+     *  @private function getTemplatesUserRateBodyFieldnameEmpty
+     *  @param string $moduleDirname
+     *  @param string $table
+     *  @param string $language
      *
      * @return string
      */
@@ -206,8 +205,8 @@ EOT;
     }
 
     /**
-    *  @private function getTemplatesUserRateFooter
-    *  @param string $moduleDirname
+     *  @private function getTemplatesUserRateFooter
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -221,8 +220,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

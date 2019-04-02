@@ -28,18 +28,17 @@
 class IncludeCommon extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeCommon
      */
     public static function getInstance()
@@ -53,11 +52,11 @@ class IncludeCommon extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param object $table
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param object $table
+     *  @param string $filename
+     */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
@@ -73,27 +72,27 @@ class IncludeCommon extends TDMCreateFile
      */
     private function getCommonDefines($modDirname, $const, $desc)
     {
-        $stuModDirname = strtoupper($modDirname);
+        $stuModDirname = mb_strtoupper($modDirname);
 
         return "define('{$stuModDirname}_{$const}', {$desc});\n";
     }
 
     /**
-    *  @private function getCommonCode
-    *  @param XoopsObject $module
-    * @return string
-    */
+     *  @private function getCommonCode
+     *  @param XoopsObject $module
+     * @return string
+     */
     private function getCommonCode($module)
     {
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $moduleAuthor = $module->getVar('mod_author');
         $moduleAuthorWebsiteName = $module->getVar('mod_author_website_name');
         $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
-        $moduleAuthorImage = str_replace(' ', '', strtolower($moduleAuthor));
+        $moduleAuthorImage = str_replace(' ', '', mb_strtolower($moduleAuthor));
         $ret = <<<'EOT'
 if (!defined('XOOPS_ICONS32_PATH')) {
     define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
@@ -130,8 +129,8 @@ EOT;
         $htmlCode = TDMCreateHtmlCode::getInstance();
         $img = $htmlCode->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
         $anchor = $htmlCode->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank');
-        $replace = $xc->getXcEqualsOperator('$copyright', '"'.$anchor.'"');
-        $ret .= str_replace("\n", '', $replace).PHP_EOL;
+        $replace = $xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
+        $ret .= str_replace("\n", '', $replace) . PHP_EOL;
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
         $ret .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
         $ret .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
@@ -140,8 +139,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

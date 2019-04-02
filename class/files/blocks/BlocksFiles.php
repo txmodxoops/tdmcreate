@@ -28,20 +28,19 @@
 class BlocksFiles extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
-    * @return BlocksFiles
-    */
+     *  @static function getInstance
+     *  @param null
+     * @return BlocksFiles
+     */
     public static function getInstance()
     {
         static $instance = false;
@@ -77,7 +76,7 @@ class BlocksFiles extends TDMCreateFile
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret = <<<EOT
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/include/common.php';
@@ -203,19 +202,19 @@ EOT;
     }
 
     /**
-    *  @public function getBlocksEdit
-    *  @param string $moduleDirname
-    *  @param string $tableName
-    *  @param string $fieldId
-    *  @param string $fieldMain
-    *  @param string $language
-    *
-    * @return string
-    */
+     *  @public function getBlocksEdit
+     *  @param string $moduleDirname
+     *  @param string $tableName
+     *  @param string $fieldId
+     *  @param string $fieldMain
+     *  @param string $language
+     *
+     * @return string
+     */
     private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
-        $stuTableName = strtoupper($tableName);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $stuTableName = mb_strtoupper($tableName);
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret = <<<EOT
 // Function edit block
@@ -253,11 +252,11 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
-    *
-    * @return bool|string
-    */
+     *  @public function render
+     *  @param null
+     *
+     * @return bool|string
+     */
     public function render()
     {
         $module = $this->getModule();

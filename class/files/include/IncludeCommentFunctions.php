@@ -28,18 +28,17 @@
 class IncludeCommentFunctions extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeCommentFunctions
      */
     public static function getInstance()
@@ -53,9 +52,9 @@ class IncludeCommentFunctions extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
      * @param $filename
      */
     public function write($module, $table, $filename)
@@ -66,13 +65,12 @@ class IncludeCommentFunctions extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
     {
-     
         $module = $this->getModule();
         $table = $this->getTable();
         $moduleDirname = $module->getVar('mod_dirname');

@@ -22,7 +22,7 @@
  *
  * @version         $Id: settings.php 13070 2015-05-19 12:24:20Z timgno $
  */
-include __DIR__.'/autoload.php';
+include __DIR__ . '/autoload.php';
 /*
 *  @Class TDMCreateSettings
 *  @extends XoopsObject
@@ -143,7 +143,7 @@ class TDMCreateSettings extends XoopsObject
         $isNew = $this->isNew();
         $title = $isNew ? sprintf(_AM_TDMCREATE_SETTING_NEW) : sprintf(_AM_TDMCREATE_SETTING_EDIT);
 
-        include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
+        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
         $form = new XoopsThemeForm($title, 'settingform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
@@ -172,7 +172,7 @@ class TDMCreateSettings extends XoopsObject
         $checkbox = new XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br>');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
-            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_SETTING_'.strtoupper($option)));
+            $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_SETTING_' . mb_strtoupper($option)));
         }
         $optionsTray->addElement($checkbox);
 
@@ -181,17 +181,17 @@ class TDMCreateSettings extends XoopsObject
         $modImage = $this->getVar('set_image');
         $modImage = $modImage ?: $set['image'];
 
-        $uploadDirectory = 'uploads/'.$GLOBALS['xoopsModule']->dirname().'/images/modules';
+        $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray = new XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br>');
-        $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './'.strtolower($uploadDirectory).'/');
+        $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
         $imageSelect = new XoopsFormSelect($imgpath, 'set_image', $modImage);
         $modImage_array = XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImage_array as $image) {
             $imageSelect->addOption("{$image}", $image);
         }
-        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"".$uploadDirectory.'", "", "'.XOOPS_URL."\")'");
+        $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageSelect);
-        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='".TDMC_UPLOAD_IMGMOD_URL.'/'.$modImage."' name='image3' id='image3' alt='' /><br>"));
+        $imgtray->addElement(new XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' name='image3' id='image3' alt='' /><br>"));
 
         $fileseltray = new XoopsFormElementTray('', '<br>');
         $fileseltray->addElement(new XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $tdmcreate->getConfig('maxsize')));
@@ -219,7 +219,7 @@ class TDMCreateSettings extends XoopsObject
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_PAYPAL_BUTTON, 'set_donations', 50, 255, $this->getVar('set_donations')));
         $form->addElement(new XoopsFormText(_AM_TDMCREATE_SETTING_SUBVERSION, 'set_subversion', 50, 255, $this->getVar('set_subversion')));
 
-        $buttonTray = new XoopsFormElementTray(_REQUIRED.' <sup class="red bold">*</sup>', '');
+        $buttonTray = new XoopsFormElementTray(_REQUIRED . ' <sup class="red bold">*</sup>', '');
         $buttonTray->addElement(new XoopsFormHidden('op', 'save'));
         $buttonTray->addElement(new XoopsFormButton('', 'submit', _SUBMIT, 'submit'));
         $form->addElement($buttonTray);
