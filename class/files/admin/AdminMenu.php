@@ -28,20 +28,19 @@
 class AdminMenu extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
-    * @return AdminMenu
-    */
+     *  @static function getInstance
+     *  @param null
+     * @return AdminMenu
+     */
     public static function getInstance()
     {
         static $instance = false;
@@ -53,10 +52,10 @@ class AdminMenu extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
+     */
     public function write($module, $filename)
     {
         $this->setModule($module);
@@ -91,18 +90,18 @@ class AdminMenu extends TDMCreateFile
     }
 
     /**
-    *  @private function getAdminMenuHeader
-    *  @param null
-    * @return string
-    */
+     *  @private function getAdminMenuHeader
+     *  @param null
+     * @return string
+     */
     private function getAdminMenuHeader()
     {
         $dirname = ['$dirname' => 'basename(dirname(__DIR__))'];
         $ret = $this->getAdminMenuArray($dirname);
         $mod = [
             '$moduleHandler' => "xoops_getHandler('module')",
-            '$xoopsModule'   => 'XoopsModule::getByDirname($dirname)',
-            '$moduleInfo'    => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
+            '$xoopsModule' => 'XoopsModule::getByDirname($dirname)',
+            '$moduleInfo' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
         ];
         $ret .= $this->getAdminMenuArray($mod);
         $sys = ['$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')"];
@@ -112,12 +111,12 @@ class AdminMenu extends TDMCreateFile
     }
 
     /**
-    *  @private function getAdminMenuDashboard
-    *  @param string $language
-    *  @param integer $menu
-    *
-    * @return string
-    */
+     *  @private function getAdminMenuDashboard
+     *  @param string $language
+     *  @param int $menu
+     *
+     * @return string
+     */
     private function getAdminMenuDashboard($language, $menu)
     {
         $xc = TDMCreateXoopsCode::getInstance();
@@ -130,12 +129,12 @@ class AdminMenu extends TDMCreateFile
     }
 
     /**
-    *  @private function getAdminMenuImagesPath
-    *  @param array $tables
-    *  @param integer $t
-    *
-    * @return string
-    */
+     *  @private function getAdminMenuImagesPath
+     *  @param array $tables
+     *  @param int $t
+     *
+     * @return string
+     */
     private function getAdminMenuImagesPath($tables, $t)
     {
         $xc = TDMCreateXoopsCode::getInstance();
@@ -161,7 +160,7 @@ class AdminMenu extends TDMCreateFile
      * @param string $module
      * @param string $language
      * @param string $langAbout
-     * @param integer $menu
+     * @param int $menu
      *
      * @return string
      */
@@ -178,7 +177,7 @@ class AdminMenu extends TDMCreateFile
                 $ret .= $this->getSimpleString('++$i;');
             }
         }
-        if (in_array(1, $tablePermissions)) {
+        if (in_array(1, $tablePermissions, true)) {
             ++$menu;
             $param2 = ['title' => "{$language}{$menu}", 'link' => "'admin/permissions.php'", 'icon' => "\$sysPathIcon32.'/permissions.png'"];
             $ret .= $this->getAdminMenuArray($param2, true);
@@ -193,10 +192,10 @@ class AdminMenu extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
-    * @return bool|string
-    */
+     *  @public function render
+     *  @param null
+     * @return bool|string
+     */
     public function render()
     {
         $module = $this->getModule();

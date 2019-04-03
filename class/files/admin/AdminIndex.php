@@ -28,20 +28,19 @@
 class AdminIndex extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
-    * @return AdminIndex
-    */
+     *  @static function getInstance
+     *  @param null
+     * @return AdminIndex
+     */
     public static function getInstance()
     {
         static $instance = false;
@@ -53,11 +52,11 @@ class AdminIndex extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $tables
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $tables
+     *  @param string $filename
+     */
     public function write($module, $tables, $filename)
     {
         $this->setModule($module);
@@ -91,23 +90,23 @@ class AdminIndex extends TDMCreateFile
         $ret .= $pc->getPhpCodeCommentLine('Template Index');
         $ret .= $axc->getAdminTemplateMain("{$moduleDirname}", 'index');
         $ret .= $pc->getPhpCodeCommentLine('InfoBox Statistics');
-        $ret .= $axc->getAxcAddInfoBox($language.'STATISTICS');
+        $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
         $ret .= $pc->getPhpCodeCommentLine('Info elements');
         foreach (array_keys($tables) as $i) {
             $tableName = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
-            $stuTableName = $languageThereAre.strtoupper($tableName);
+            $stuTableName = $languageThereAre . mb_strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $axc->getAxcAddInfoBoxLine($language.'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
+            $ret .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
         }
 
         if (null === $tableName) {
-            $ret .= $axc->getAxcAddInfoBoxLine($language.'STATISTICS', 'No statistics', '0');
+            $ret .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', 'No statistics', '0');
         }
-        if (is_array($tables) && in_array(1, $tableInstall)) {
+        if (is_array($tables) && in_array(1, $tableInstall, true)) {
             $ret .= $pc->getPhpCodeCommentLine('Upload Folders');
             $ret .= $this->getSimpleString('$folder = array(');
-            $stuModuleDirname = strtoupper($moduleDirname);
+            $stuModuleDirname = mb_strtoupper($moduleDirname);
             $ret .= $this->getSimpleString("\t{$stuModuleDirname}_UPLOAD_PATH,");
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
@@ -119,7 +118,7 @@ class AdminIndex extends TDMCreateFile
             $ret .= $pc->getPhpCodeCommentLine('Uploads Folders Created');
             $boxLine = $axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
             $boxLine .= $axc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
-            $ret .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '').PHP_EOL;
+            $ret .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
         }
         $ret .= $pc->getPhpCodeCommentLine('Render Index');
         $ret .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
@@ -131,10 +130,10 @@ class AdminIndex extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
-    * @return bool|string
-    */
+     *  @public function render
+     *  @param null
+     * @return bool|string
+     */
     public function render()
     {
         $module = $this->getModule();

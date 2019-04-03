@@ -28,18 +28,17 @@
 class UserFooter extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserFooter
      */
     public static function getInstance()
@@ -53,9 +52,9 @@ class UserFooter extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -64,16 +63,16 @@ class UserFooter extends TDMCreateFile
     }
 
     /**
-    *  @private function getUserFooter
-    *  @param $moduleDirname
-    *
-    *  @return string
-    */
+     *  @private function getUserFooter
+     *  @param $moduleDirname
+     *
+     *  @return string
+     */
     private function getUserFooter($moduleDirname)
     {
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $xoBreadcrumbs = $xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
         $ret = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
         $ret .= $xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
@@ -90,8 +89,8 @@ class UserFooter extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

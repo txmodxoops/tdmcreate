@@ -32,18 +32,17 @@ class TemplatesUserMoreFiles extends TDMCreateFile
     private $extension = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserMoreFiles
      */
     public static function getInstance()
@@ -57,9 +56,9 @@ class TemplatesUserMoreFiles extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      * @param $folder
      * @param $extension
      * @return string
@@ -73,7 +72,7 @@ class TemplatesUserMoreFiles extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesUserMoreFile
+     *  @private function getTemplatesUserMoreFile
      * @param null
      *
      * @return string
@@ -90,10 +89,9 @@ EOT;
     }
 
     /**
-    *  @public function render
+     *  @public function render
      * @param null
      * @return bool|string
-     *
      */
     public function render()
     {
@@ -102,7 +100,7 @@ EOT;
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getTemplatesUserMoreFile();
 
-        $this->create($moduleDirname, $this->folder, $filename.'.'.$this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

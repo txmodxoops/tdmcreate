@@ -28,10 +28,9 @@
 class LanguageBlocks extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -39,8 +38,8 @@ class LanguageBlocks extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return LanguageBlocks
      */
     public static function getInstance()
@@ -54,10 +53,10 @@ class LanguageBlocks extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $tables
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $tables
+     *  @param string $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -67,9 +66,9 @@ class LanguageBlocks extends TDMCreateFile
     }
 
     /**
-    *  @private function getLanguageBlock
-    *  @param string $language
-    *  @param string $module
+     *  @private function getLanguageBlock
+     *  @param string $language
+     *  @param string $module
      *
      * @return string
      */
@@ -88,10 +87,10 @@ class LanguageBlocks extends TDMCreateFile
             $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
                 $fieldName = $fields[$f]->getVar('field_name');
-                $stuFieldName = strtoupper($fieldName);
+                $stuFieldName = mb_strtoupper($fieldName);
 
                 $rpFieldName = $this->getRightString($fieldName);
-                $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
+                $lpFieldName = mb_substr($fieldName, 0, mb_strpos($fieldName, '_'));
 
                 $fieldNameDesc = ucfirst($rpFieldName);
 
@@ -103,8 +102,8 @@ class LanguageBlocks extends TDMCreateFile
     }
 
     /**
-    *  @private function getFooter
-    *  @param null
+     *  @private function getFooter
+     *  @param null
      * @return string
      */
     private function getLanguageFooter()
@@ -115,8 +114,8 @@ class LanguageBlocks extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -129,7 +128,7 @@ class LanguageBlocks extends TDMCreateFile
         $content .= $this->getLanguageBlock($module, $language);
         $content .= $this->getLanguageFooter();
 
-        $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

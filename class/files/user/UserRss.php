@@ -28,21 +28,19 @@
 class UserRss extends TDMCreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $usercode = null;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xoopscode = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -52,8 +50,8 @@ class UserRss extends TDMCreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserRss
      */
     public static function getInstance()
@@ -67,10 +65,10 @@ class UserRss extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -80,9 +78,9 @@ class UserRss extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserRss
-    *  @param string $moduleDirname
-    *  @param string $language
+     *  @public function getUserRss
+     *  @param string $moduleDirname
+     *  @param string $language
      *
      * @return string
      */
@@ -96,20 +94,20 @@ class UserRss extends TDMCreateFile
             $fieldMain[] = $fields[$f]->getVar('field_main');
             $fieldParent[] = $fields[$f]->getVar('field_parent');
             $rpFieldName = $fieldName;
-            if (strpos($fieldName, '_')) {
-                $str = strpos($fieldName, '_');
+            if (mb_strpos($fieldName, '_')) {
+                $str = mb_strpos($fieldName, '_');
                 if (false !== $str) {
-                    $rpFieldName = substr($fieldName, $str + 1, strlen($fieldName));
+                    $rpFieldName = mb_substr($fieldName, $str + 1, mb_strlen($fieldName));
                 }
             }
-            $lpFieldName = substr($fieldName, 0, strpos($fieldName, '_'));
+            $lpFieldName = mb_substr($fieldName, 0, mb_strpos($fieldName, '_'));
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
-            if (in_array(1, $fieldMain)) {
+            if (in_array(1, $fieldMain, true)) {
                 $fpmf = $fieldName;
             }
-            if (in_array(1, $fieldParent)) {
+            if (in_array(1, $fieldParent, true)) {
                 $fppf = $fieldName;
             } else {
                 $fppf = 'cid';
@@ -200,8 +198,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

@@ -68,7 +68,7 @@ class TDMCreateBuilding
         $form->addElement($mod_select, true);
 
         $form->addElement(new XoopsFormHidden('op', 'build'));
-        $form->addElement(new XoopsFormButton(_REQUIRED.' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
+        $form->addElement(new XoopsFormButton(_REQUIRED . ' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
 
         return $form;
     }
@@ -76,17 +76,15 @@ class TDMCreateBuilding
     /**
      * @param string $dir
      * @param string $pattern
-     *
-     * @return void
      */
     public function clearDir($dir, $pattern = '*')
     {
         // Find all files and folders matching pattern
-        $files = glob($dir."/$pattern");
+        $files = glob($dir . "/$pattern");
         // Interate thorugh the files and folders
         foreach ($files as $file) {
             // if it's a directory then re-call clearDir function to delete files inside this directory
-            if (is_dir($file) && !in_array($file, ['..', '.'])) {
+            if (is_dir($file) && !in_array($file, ['..', '.'], true)) {
                 // Remove the directory itself
                 $this->clearDir($file, $pattern);
             } elseif ((__FILE__ != $file) && is_file($file)) {
@@ -100,8 +98,6 @@ class TDMCreateBuilding
     /**
      * @param string $src
      * @param string $dst
-     *
-     * @return void
      */
     public function copyDir($src, $dst)
     {
@@ -109,12 +105,12 @@ class TDMCreateBuilding
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (('.' !== $file) && ('..' !== $file)) {
-                if (is_dir($src.'/'.$file)) {
+                if (is_dir($src . '/' . $file)) {
                     // Copy the directory itself
                     $this->copyDir($src . '/' . $file, $dst . '/' . $file);
                 } else {
                     // Make sure you copy the current script
-                    copy($src.'/'.$file, $dst.'/'.$file);
+                    copy($src . '/' . $file, $dst . '/' . $file);
                 }
             }
         }

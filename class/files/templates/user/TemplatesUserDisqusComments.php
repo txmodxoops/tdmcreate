@@ -28,18 +28,17 @@
 class TemplatesUserDisqusComments extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesUserDisqusComments
      */
     public static function getInstance()
@@ -53,9 +52,9 @@ class TemplatesUserDisqusComments extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      *
      * @return string
      */
@@ -66,7 +65,7 @@ class TemplatesUserDisqusComments extends TDMCreateFile
     }
 
     /**
-    *  @private function getTemplatesCommentCode
+     *  @private function getTemplatesCommentCode
      * @param null
      *
      * @return string
@@ -79,9 +78,8 @@ class TemplatesUserDisqusComments extends TDMCreateFile
     }
 
     /**
-    *  @public function render
+     *  @public function render
      * @return bool|string
-     *
      */
     public function render()
     {

@@ -20,6 +20,8 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  * @version         $Id: update.php 12258 2014-01-02 09:33:29Z timgno $
+ * @param mixed $module
+ * @param null|mixed $prev_version
  */
 
 /**
@@ -54,17 +56,17 @@ function update_tdmcreate_v191(&$module)
 {
     global $xoopsDB;
     $result = $xoopsDB->query(
-        'SELECT t1.tpl_id FROM '.$xoopsDB->prefix('tplfile').' t1, '.$xoopsDB->prefix('tplfile')
-        .' t2 WHERE t1.tpl_refid = t2.tpl_refid AND t1.tpl_module = t2.tpl_module AND t1.tpl_tplset=t2.tpl_tplset AND t1.tpl_file = t2.tpl_file AND t1.tpl_type = t2.tpl_type AND t1.tpl_id > t2.tpl_id'
+        'SELECT t1.tpl_id FROM ' . $xoopsDB->prefix('tplfile') . ' t1, ' . $xoopsDB->prefix('tplfile')
+        . ' t2 WHERE t1.tpl_refid = t2.tpl_refid AND t1.tpl_module = t2.tpl_module AND t1.tpl_tplset=t2.tpl_tplset AND t1.tpl_file = t2.tpl_file AND t1.tpl_type = t2.tpl_type AND t1.tpl_id > t2.tpl_id'
     );
     $tplids = [];
     while (list($tplid) = $xoopsDB->fetchRow($result)) {
         $tplids[] = $tplid;
     }
     if (count($tplids) > 0) {
-        $tplfileHandler =  xoops_getHandler('tplfile');
+        $tplfileHandler = xoops_getHandler('tplfile');
         $duplicate_files = $tplfileHandler->getObjects(
-            new Criteria('tpl_id', '('.implode(',', $tplids).')', 'IN')
+            new Criteria('tpl_id', '(' . implode(',', $tplids) . ')', 'IN')
         );
 
         if (count($duplicate_files) > 0) {
@@ -73,9 +75,9 @@ function update_tdmcreate_v191(&$module)
             }
         }
     }
-    $sql = 'SHOW INDEX FROM '.$xoopsDB->prefix('tplfile')." WHERE KEY_NAME = 'tpl_refid_module_set_file_type'";
+    $sql = 'SHOW INDEX FROM ' . $xoopsDB->prefix('tplfile') . " WHERE KEY_NAME = 'tpl_refid_module_set_file_type'";
     if (!$result = $xoopsDB->queryF($sql)) {
-        xoops_error($this->db->error().'<br />'.$sql);
+        xoops_error($this->db->error() . '<br />' . $sql);
 
         return false;
     }
@@ -90,10 +92,10 @@ function update_tdmcreate_v191(&$module)
 
         return true;
     }
-    $sql = 'ALTER TABLE '.$xoopsDB->prefix('tplfile')
-        .' ADD UNIQUE tpl_refid_module_set_file_type ( tpl_refid, tpl_module, tpl_tplset, tpl_file, tpl_type )';
+    $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tplfile')
+        . ' ADD UNIQUE tpl_refid_module_set_file_type ( tpl_refid, tpl_module, tpl_tplset, tpl_file, tpl_type )';
     if (!$result = $xoopsDB->queryF($sql)) {
-        xoops_error($xoopsDB->error().'<br />'.$sql);
+        xoops_error($xoopsDB->error() . '<br />' . $sql);
         $module->setErrors(
             "'tpl_refid_module_set_file_type' unique index is not added to 'tplfile' table. Warning: do not use XOOPS until you add this unique index."
         );

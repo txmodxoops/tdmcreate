@@ -21,7 +21,7 @@
  *
  * @version         $Id: 1.59 settings.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op = XoopsRequest::getString('op', 'list');
 
@@ -41,7 +41,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('tdmc_url', TDMC_URL);
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
         $settingsCount = $tdmcreate->getHandler('settings')->getCountSettings();
         $settingsAll = $tdmcreate->getHandler('settings')->getAllSettings($start, $limit);
@@ -53,8 +53,8 @@ switch ($op) {
                 unset($setting);
             }
             if ($settingsCount > $limit) {
-                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new XoopsPageNav($settingsCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                $pagenav = new XoopsPageNav($settingsCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
@@ -82,7 +82,7 @@ switch ($op) {
         } else {
             $settingsObj = $tdmcreate->getHandler('settings')->create();
         }
-        $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', strtolower($_POST['set_dirname']));
+        $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['set_dirname']));
         //Form module save
         $settingsObj->setVars([
                                  'set_name' => $_POST['set_name'],
@@ -123,14 +123,14 @@ switch ($op) {
                               ]
         );
         $settingOption = XoopsRequest::getArray('setting_option', []);
-        $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
-        $settingsObj->setVar('set_user', in_array('user', $settingOption));
-        $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption));
-        $settingsObj->setVar('set_search', in_array('search', $settingOption));
-        $settingsObj->setVar('set_comments', in_array('comments', $settingOption));
-        $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption));
-        $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption));
-        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
+        $settingsObj->setVar('set_admin', in_array('admin', $settingOption, true));
+        $settingsObj->setVar('set_user', in_array('user', $settingOption, true));
+        $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption, true));
+        $settingsObj->setVar('set_search', in_array('search', $settingOption, true));
+        $settingsObj->setVar('set_comments', in_array('comments', $settingOption, true));
+        $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption, true));
+        $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption, true));
+        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption, true));
 
         $settingsObj->setVar('set_type', $_POST['set_type']);
 
@@ -180,4 +180,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

@@ -44,7 +44,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @public function initForm
+     *  @public function initForm
      *
      * @param $module
      * @param $table
@@ -75,18 +75,18 @@ class ClassFormElements extends TDMCreateAbstract
             $ret = $pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", "\t\t");
             $formText = $cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, "{$ccFieldName}", true);
-            $ret .= $cc->getClassAddElement('form', $formText.$required);
+            $ret .= $cc->getClassAddElement('form', $formText . $required);
         } else {
             $ret = $pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $formText = $cc->getClassXoopsFormText('', $language, $fieldName, 50, 255, "this->getVar('{$fieldName}')", true);
-            $ret .= $cc->getClassAddElement('form', $formText.$required);
+            $ret .= $cc->getClassAddElement('form', $formText . $required);
         }
 
         return $ret;
     }
 
     /**
-    *  @private function getXoopsFormText
+     *  @private function getXoopsFormText
      *
      * @param $language
      * @param $fieldName
@@ -102,13 +102,13 @@ class ClassFormElements extends TDMCreateAbstract
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ret = $pc->getPhpCodeCommentLine('Form Text Area', $ucfFieldName, "\t\t");
         $formTextArea = $cc->getClassXoopsFormTextArea('', $language, $fieldName, 4, 47, true);
-        $ret .= $cc->getClassAddElement('form', $formTextArea.$required);
+        $ret .= $cc->getClassAddElement('form', $formTextArea . $required);
 
         return $ret;
     }
 
     /**
-    *  @private function getXoopsFormDhtmlTextArea
+     *  @private function getXoopsFormDhtmlTextArea
      *
      * @param $language
      * @param $moduleDirname
@@ -128,16 +128,16 @@ class ClassFormElements extends TDMCreateAbstract
 
         $ret = $pc->getPhpCodeCommentLine('Form editor', $ucfFieldName, "\t\t");
         $ret .= $pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
-        $getConfig = $xc->getXcGetConfig($moduleDirname, 'editor_'.$rpFieldName);
+        $getConfig = $xc->getXcGetConfig($moduleDirname, 'editor_' . $rpFieldName);
         $configs = [
-            'name'  => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
+            'name' => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
             'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig,
         ];
         foreach ($configs as $c => $d) {
             $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d, null, false, "\t\t");
         }
         $formEditor = $cc->getClassXoopsFormEditor('', $language, $fieldName, 'editorConfigs', true);
-        $ret .= $cc->getClassAddElement('form', $formEditor.$required);
+        $ret .= $cc->getClassAddElement('form', $formEditor . $required);
 
         return $ret;
     }
@@ -158,25 +158,25 @@ class ClassFormElements extends TDMCreateAbstract
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-        $stuTableSoleName = strtoupper($tableSoleName);
+        $stuTableSoleName = mb_strtoupper($tableSoleName);
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
         $t = "\t\t";
-        if (in_array(5, $fieldElementId) > 1) {
-            $ret = $pc->getPhpCodeCommentLine('Form Check Box', 'List Options '.$ucfFieldName, $t);
+        if (in_array(5, $fieldElementId, true) > 1) {
+            $ret = $pc->getPhpCodeCommentLine('Form Check Box', 'List Options ' . $ucfFieldName, $t);
             $ret .= $xc->getXcEqualsOperator('$checkOption', '$this->getOptions()');
-            $foreach = $cc->getClassXoopsFormCheckBox('check'.$ucfFieldName, '<hr />', $tableSoleName.'_option', '$checkOption', false, $t);
-            $foreach .= $cc->getClassSetDescription('check'.$ucfFieldName, "{$language}{$stuTableSoleName}_OPTIONS_DESC", $t);
-            $foreach .= $cc->getClassAddOption('check'.$ucfFieldName, "\$option, {$language}{$stuTableSoleName}_ . strtoupper(\$option)", $t."\t");
+            $foreach = $cc->getClassXoopsFormCheckBox('check' . $ucfFieldName, '<hr />', $tableSoleName . '_option', '$checkOption', false, $t);
+            $foreach .= $cc->getClassSetDescription('check' . $ucfFieldName, "{$language}{$stuTableSoleName}_OPTIONS_DESC", $t);
+            $foreach .= $cc->getClassAddOption('check' . $ucfFieldName, "\$option, {$language}{$stuTableSoleName}_ . strtoupper(\$option)", $t . "\t");
             $ret .= $pc->getPhpCodeForeach("{$tableName}All", false, false, 'option', $foreach, $t);
             $intElem = "\$check{$ucfFieldName}{$required}";
             $ret .= $cc->getClassAddElement('form', $intElem, $t);
         } else {
             $ret = $pc->getPhpCodeCommentLine('Form Check Box', $ucfFieldName, $t);
             $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
-            $ret .= $cc->getClassXoopsFormCheckBox('check'.$ucfFieldName, "{$language}", $fieldName, "\${$ccFieldName}", false, $t);
+            $ret .= $cc->getClassXoopsFormCheckBox('check' . $ucfFieldName, "{$language}", $fieldName, "\${$ccFieldName}", false, $t);
             $option = "1, {$language}";
-            $ret .= $cc->getClassAddOption('check'.$ucfFieldName, $option, $t);
+            $ret .= $cc->getClassAddOption('check' . $ucfFieldName, $option, $t);
             $intElem = "\$check{$ucfFieldName}{$required}";
             $ret .= $cc->getClassAddElement('form', $intElem, $t);
         }
@@ -185,7 +185,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormHidden
+     *  @private function getXoopsFormHidden
      *
      * @param $fieldName
      *
@@ -205,7 +205,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormImageList
+     *  @private function getXoopsFormImageList
      *
      * @param $language
      * @param $moduleDirname
@@ -222,18 +222,18 @@ class ClassFormElements extends TDMCreateAbstract
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-        $stuTableName = strtoupper($tableName);
+        $stuTableName = mb_strtoupper($tableName);
         $rpFieldName = $tf->getRightString($fieldName);
-        $stuSoleName = strtoupper($tableSoleName.'_'.$rpFieldName);
+        $stuSoleName = mb_strtoupper($tableSoleName . '_' . $rpFieldName);
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Frameworks', 'Image Files ' . $ucfFieldName, $t);
-        $ret .= $xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
-        $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
+        $ret .= $xc->getXcEqualsOperator('$get' . $ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
+        $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get' . $ucfFieldName, '$get' . $ucfFieldName, "'blank.gif'", $t);
         $ret .= $xc->getXcEqualsOperator('$imageDirectory', "'/Frameworks/moduleclasses/icons/32'", null, false, $t);
-        $ret .= $cc->getClassXoopsFormElementTray('imageTray', $language.$stuSoleName, '<br>', $t);
-        $sprintf = $pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
+        $ret .= $cc->getClassXoopsFormElementTray('imageTray', $language . $stuSoleName, '<br>', $t);
+        $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
         $ret .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
         $contForeach = $cc->getClassAddOption('imageSelect', '"{$image1}", $image1', "\t");
@@ -247,7 +247,7 @@ class ClassFormElements extends TDMCreateAbstract
         $ret .= $pc->getPhpCodeCommentLine('Form', 'File', $t);
         $ret .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
-        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'FORM_IMAGE_LIST_'.$stuTableName, 'attachedfile', $getConfig, true, '');
+        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . 'FORM_IMAGE_LIST_' . $stuTableName, 'attachedfile', $getConfig, true, '');
         $ret .= $cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);
         $xoopsFormLabel1 = $cc->getClassXoopsFormLabel('', "''", null, true, $t);
         $ret .= $cc->getClassAddElement('fileSelectTray', $xoopsFormLabel1, $t);
@@ -258,7 +258,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormSelectFile
+     *  @private function getXoopsFormSelectFile
      *
      * @param $language
      * @param $moduleDirname
@@ -277,11 +277,11 @@ class ClassFormElements extends TDMCreateAbstract
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $t = "\t\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Frameworks', 'Image Files ' . $ucfFieldName, "\t\t");
-        $contentIf = $xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
-        $contentIf .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
+        $contentIf = $xc->getXcEqualsOperator('$get' . $ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
+        $contentIf .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get' . $ucfFieldName, '$get' . $ucfFieldName, "'blank.gif'", $t);
         $contentIf .= $xc->getXcEqualsOperator('$uploadDirectory', "'/uploads/{$moduleDirname}/images/shots'", null, false, $t);
-        $contentIf .= $cc->getClassXoopsFormElementTray('imageTray', $language.'FORM_IMAGE', '<br>', $t);
-        $sprintf = $pc->getPhpCodeSprintf($language.'FORM_PATH', '".{$uploadDirectory}/"');
+        $contentIf .= $cc->getClassXoopsFormElementTray('imageTray', $language . 'FORM_IMAGE', '<br>', $t);
+        $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_PATH', '".{$uploadDirectory}/"');
         $contentIf .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, 'selected_image', "\${$moduleDirname}ShotImage", 5, 'false', false, $t);
         $contentIf .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $uploadDirectory', $t);
         $contForeach = $cc->getClassAddOption('imageSelect', '"{$image1}", $image1', "\t");
@@ -295,8 +295,8 @@ class ClassFormElements extends TDMCreateAbstract
         $contentIf .= $pc->getPhpCodeCommentLine('Form', 'File', "\t\t");
         $contentIf .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
         $getConfigFile = $xc->getXcGetConfig($moduleDirname, 'maxuploadsize');
-        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'_FORM_UPLOAD', 'attachedimage', $getConfigFile, true, '');
-        $contentIf1 = $cc->getClassAddElement('fileSelectTray', $xoopsFormFile.$required, $t."\t");
+        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . '_FORM_UPLOAD', 'attachedimage', $getConfigFile, true, '');
+        $contentIf1 = $cc->getClassAddElement('fileSelectTray', $xoopsFormFile . $required, $t . "\t");
 
         $contentIf .= $cc->getClassAddElement('imageTray', '$fileSelectTray', $t);
         $contentIf .= $cc->getClassAddElement('form', "\$imageTray{$required}", $t);
@@ -309,7 +309,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormUrlFile
+     *  @private function getXoopsFormUrlFile
      *
      * @param   $language
      * @param   $moduleDirname
@@ -322,19 +322,19 @@ class ClassFormElements extends TDMCreateAbstract
     private function getXoopsFormUrlFile($language, $moduleDirname, $fieldName, $fieldDefault, $required = 'false')
     {
         $tf = TDMCreateFile::getInstance();
-		$pc = TDMCreatePhpCode::getInstance();
+        $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-		$ucfFieldName = $tf->getCamelCase($fieldName, true);
+        $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Url', 'Text File ' . $ucfFieldName, $t);
         $ret .= $cc->getClassXoopsFormElementTray('formUrlFile', '_OPTIONS', '<br><br>', $t);
         $ret .= $pc->getPhpCodeTernaryOperator('formUrl', '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", $t);
         $ret .= $cc->getClassXoopsFormText('formText', $language, $fieldName, 75, 255, 'formUrl', false, $t);
-        $ret .= $cc->getClassAddElement('formUrlFile', '$formText'.$required, $t);
+        $ret .= $cc->getClassAddElement('formUrlFile', '$formText' . $required, $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
-        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'UPLOAD', 'attachedfile', $getConfig, true, '');
-        $ret .= $cc->getClassAddElement('formUrlFile', $xoopsFormFile.$required, $t);
+        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . 'UPLOAD', 'attachedfile', $getConfig, true, '');
+        $ret .= $cc->getClassAddElement('formUrlFile', $xoopsFormFile . $required, $t);
         $ret .= $cc->getClassAddElement('form', '$formUrlFile', $t);
 
         return $ret;
@@ -357,17 +357,17 @@ class ClassFormElements extends TDMCreateAbstract
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-        $stuTableName = strtoupper($tableName);
-        $stuSoleName = strtoupper($tableSoleName);
+        $stuTableName = mb_strtoupper($tableName);
+        $stuSoleName = mb_strtoupper($tableSoleName);
         $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Upload', 'Image ' . $ucfFieldName, $t);
-        $ret .= $xc->getXcEqualsOperator('$get'.$ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
-        $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get'.$ucfFieldName, '$get'.$ucfFieldName, "'blank.gif'", $t);
+        $ret .= $xc->getXcEqualsOperator('$get' . $ucfFieldName, "\$this->getVar('{$fieldName}')", null, false, $t);
+        $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$get' . $ucfFieldName, '$get' . $ucfFieldName, "'blank.gif'", $t);
         $ret .= $xc->getXcEqualsOperator('$imageDirectory', "'/uploads/{$moduleDirname}/images/{$tableName}'", null, false, $t);
         $ret .= $cc->getClassXoopsFormElementTray('imageTray', '_OPTIONS', '<br>', $t);
-        $sprintf = $pc->getPhpCodeSprintf($language.'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
+        $sprintf = $pc->getPhpCodeSprintf($language . 'FORM_IMAGE_PATH', '".{$imageDirectory}/"');
         $ret .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
         $ret .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
         $contForeach = $cc->getClassAddOption('imageSelect', '"{$image1}", $image1', "\t");
@@ -381,7 +381,7 @@ class ClassFormElements extends TDMCreateAbstract
         $ret .= $pc->getPhpCodeCommentLine('Form', 'File ' . $ucfFieldName, $t);
         $ret .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
-        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'FORM_UPLOAD_IMAGE_'.$stuTableName, 'attachedfile', $getConfig, true, '');
+        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . 'FORM_UPLOAD_IMAGE_' . $stuTableName, 'attachedfile', $getConfig, true, '');
         $ret .= $cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);
         $xoopsFormLabel1 = $cc->getClassXoopsFormLabel('', "''", null, true);
         $ret .= $cc->getClassAddElement('fileSelectTray', $xoopsFormLabel1, $t);
@@ -392,7 +392,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormUploadFile
+     *  @private function getXoopsFormUploadFile
      *
      * @param $language
      * @param $moduleDirname
@@ -405,22 +405,22 @@ class ClassFormElements extends TDMCreateAbstract
     private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
         $tf = TDMCreateFile::getInstance();
-		$pc = TDMCreatePhpCode::getInstance();
+        $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-		$ucfFieldName = $tf->getCamelCase($fieldName, true);
-        $stuTableName = strtoupper($tableName);
+        $ucfFieldName = $tf->getCamelCase($fieldName, true);
+        $stuTableName = mb_strtoupper($tableName);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form', 'File ' . $ucfFieldName, $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
-        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language.'_'.$stuTableName, $fieldName, $getConfig, true, '');
+        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . '_' . $stuTableName, $fieldName, $getConfig, true, '');
         $ret .= $cc->getClassAddElement('form', $xoopsFormFile, $t);
 
         return $ret;
     }
 
     /**
-    *  @private function getXoopsFormColorPicker
+     *  @private function getXoopsFormColorPicker
      *
      * @param $language
      * @param $moduleDirname
@@ -432,10 +432,10 @@ class ClassFormElements extends TDMCreateAbstract
     private function getXoopsFormColorPicker($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $tf = TDMCreateFile::getInstance();
-		$pc = TDMCreatePhpCode::getInstance();
+        $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-		$ucfFieldName = $tf->getCamelCase($fieldName, true);
+        $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Color', 'Picker ' . $ucfFieldName, $t);
         $getVar = $xc->getXcGetVar('', 'this', $fieldName, true);
@@ -446,7 +446,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormSelectBox
+     *  @private function getXoopsFormSelectBox
      *
      * @param $language
      * @param $moduleDirname
@@ -468,9 +468,9 @@ class ClassFormElements extends TDMCreateAbstract
         $ret = $pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
         $ret .= $xc->getXoopsHandlerLine($moduleDirname, $tableName, $t);
         $ret .= $pc->getPhpCodeCommentLine('Form', 'Select ' . $ucfTableName, $t);
-        $ret .= $cc->getClassXoopsFormSelect($ccFieldName.'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
-        $ret .= $cc->getClassAddOption($ccFieldName.'Select', "'Empty'", $t);
-        $ret .= $cc->getClassAddOptionArray($ccFieldName.'Select', "\${$tableName}Handler->getList()", $t);
+        $ret .= $cc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
+        $ret .= $cc->getClassAddOption($ccFieldName . 'Select', "'Empty'", $t);
+        $ret .= $cc->getClassAddOptionArray($ccFieldName . 'Select', "\${$tableName}Handler->getList()", $t);
         $ret .= $cc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
 
         return $ret;
@@ -488,21 +488,21 @@ class ClassFormElements extends TDMCreateAbstract
     private function getXoopsFormSelectUser($language, $moduleDirname, $fieldName, $required = 'false')
     {
         $tf = TDMCreateFile::getInstance();
-		$pc = TDMCreatePhpCode::getInstance();
+        $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-		$ucfFieldName = $tf->getCamelCase($fieldName, true);
+        $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Select', 'User ' . $ucfFieldName, $t);
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'maxsize');
         $xoopsSelectUser = $cc->getClassXoopsFormSelectUser('', $language, $fieldName, 'false', $fieldName, true, $t);
-        $ret .= $cc->getClassAddElement('form', $xoopsSelectUser.$required, $t);
+        $ret .= $cc->getClassAddElement('form', $xoopsSelectUser . $required, $t);
 
         return $ret;
     }
 
     /**
-    *  @private function getXoopsFormRadioYN
+     *  @private function getXoopsFormRadioYN
      *
      * @param $language
      * @param $fieldName
@@ -516,18 +516,18 @@ class ClassFormElements extends TDMCreateAbstract
         $pc = TDMCreatePhpCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
-		$ucfFieldName = $tf->getCamelCase($fieldName, true);
+        $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Radio', 'Yes/No ' . $ucfFieldName, $t);
         $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
         $xoopsRadioYN = $cc->getClassXoopsFormRadioYN('', $language, $fieldName, $ccFieldName, true, $t);
-        $ret .= $cc->getClassAddElement('form', $xoopsRadioYN.$required, $t);
+        $ret .= $cc->getClassAddElement('form', $xoopsRadioYN . $required, $t);
 
         return $ret;
     }
 
     /**
-    *  @private function getXoopsFormTextDateSelect
+     *  @private function getXoopsFormTextDateSelect
      *
      * @param $language
      * @param $fieldName
@@ -542,17 +542,17 @@ class ClassFormElements extends TDMCreateAbstract
         $cc = ClassXoopsCode::getInstance();
         $t = "\t\t";
         $ccFieldName = $tf->getCamelCase($fieldName, false, true);
-		$ucfFieldName = $tf->getCamelCase($fieldName, true);
+        $ucfFieldName = $tf->getCamelCase($fieldName, true);
         $ret = $pc->getPhpCodeCommentLine('Form Text', 'Date Select ' . $ucfFieldName, $t);
         $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
         $xoopsTextDateSelect = $cc->getClassXoopsFormTextDateSelect('', $language, $fieldName, $fieldName, $ccFieldName, true, $t);
-        $ret .= $cc->getClassAddElement('form', $xoopsTextDateSelect.$required, $t);
+        $ret .= $cc->getClassAddElement('form', $xoopsTextDateSelect . $required, $t);
 
         return $ret;
     }
 
     /**
-    *  @private function getXoopsFormTable
+     *  @private function getXoopsFormTable
      *
      * @param $language
      * @param $moduleDirname
@@ -574,12 +574,12 @@ class ClassFormElements extends TDMCreateAbstract
         $t = "\t\t";
         if ($fieldElement > 15) {
             $fElement = $tc->getHandler('fieldelements')->get($fieldElement);
-            $rpFieldelementName = strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
-			$ret = $pc->getPhpCodeCommentLine('Form Table', $rpFieldelementName, $t);
+            $rpFieldelementName = mb_strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
+            $ret = $pc->getPhpCodeCommentLine('Form Table', $rpFieldelementName, $t);
             $ccFieldName = $tf->getCamelCase($fieldName, false, true);
             $ret .= $xc->getXoopsHandlerLine($moduleDirname, $rpFieldelementName, $t);
-            $ret .= $cc->getClassXoopsFormSelect($ccFieldName.'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
-            $ret .= $cc->getClassAddOptionArray($ccFieldName.'Select', "\${$rpFieldelementName}Handler->getList()", $t);
+            $ret .= $cc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
+            $ret .= $cc->getClassAddOptionArray($ccFieldName . 'Select', "\${$rpFieldelementName}Handler->getList()", $t);
             $ret .= $cc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
         }
 
@@ -605,19 +605,19 @@ class ClassFormElements extends TDMCreateAbstract
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
         $ucfTopicTableName = ucfirst($topicTableName);
-        $stlTopicTableName = strtolower($topicTableName);
+        $stlTopicTableName = mb_strtolower($topicTableName);
         $ccFieldPid = $tf->getCamelCase($fieldPid, false, true);
         $t = "\t\t";
         $ret = $pc->getPhpCodeCommentLine('Form Table', $ucfTopicTableName, $t);
         $ret .= $xc->getXoopsHandlerLine($moduleDirname, $stlTopicTableName, $t);
         $ret .= $cc->getClassCriteriaCompo('criteria', $t);
-        $ret .= $xc->getXcClearHandlerCount($stlTopicTableName.'Count', $stlTopicTableName, '$criteria', $t);
-        $contIf = $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', $t."\t");
-        $contIf .= $xc->getXcClearHandlerAll($stlTopicTableName.'All', $stlTopicTableName, '$criteria', $t."\t");
-        $contIf .= $cc->getClassXoopsObjectTree($stlTopicTableName.'Tree', $stlTopicTableName.'All', $fieldId, $fieldPid, $t."\t");
-        $contIf .= $cc->getClassXoopsMakeSelBox($ccFieldPid, $stlTopicTableName.'Tree', $fieldPid, $fieldMain, '--', $fieldPid, $t."\t");
+        $ret .= $xc->getXcClearHandlerCount($stlTopicTableName . 'Count', $stlTopicTableName, '$criteria', $t);
+        $contIf = $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', $t . "\t");
+        $contIf .= $xc->getXcClearHandlerAll($stlTopicTableName . 'All', $stlTopicTableName, '$criteria', $t . "\t");
+        $contIf .= $cc->getClassXoopsObjectTree($stlTopicTableName . 'Tree', $stlTopicTableName . 'All', $fieldId, $fieldPid, $t . "\t");
+        $contIf .= $cc->getClassXoopsMakeSelBox($ccFieldPid, $stlTopicTableName . 'Tree', $fieldPid, $fieldMain, '--', $fieldPid, $t . "\t");
         $formLabel = $cc->getClassXoopsFormLabel('', $language, "\${$ccFieldPid}", true, '');
-        $contIf .= $cc->getClassAddElement('form', $formLabel, $t."\t");
+        $contIf .= $cc->getClassAddElement('form', $formLabel, $t . "\t");
         $ret .= $pc->getPhpCodeConditions("\${$stlTopicTableName}Count", null, null, $contIf, false, $t);
         $ret .= $pc->getPhpCodeUnset('criteria', $t);
 
@@ -625,7 +625,7 @@ class ClassFormElements extends TDMCreateAbstract
     }
 
     /**
-    *  @private function getXoopsFormTag
+     *  @private function getXoopsFormTag
      *
      * @param $moduleDirname
      * @param $fieldId
@@ -642,18 +642,18 @@ class ClassFormElements extends TDMCreateAbstract
         $ret = $pc->getPhpCodeCommentLine('Use tag', 'module', $t);
         $isDir = $pc->getPhpCodeIsDir("XOOPS_ROOT_PATH . '/modules/tag'");
         $ret .= $pc->getPhpCodeTernaryOperator('dirTag', $isDir, 'true', 'false', $t);
-        $paramIf = '('.$xc->getXcGetConfig($moduleDirname, 'usetag').' == 1)';
-        $condIf = $pc->getPhpCodeTernaryOperator('tagId', '$this->isNew()', '0', "\$this->getVar('{$fieldId}')", $t."\t");
-        $condIf .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/include/formtag', true, false, $type = 'include', $t."\t");
+        $paramIf = '(' . $xc->getXcGetConfig($moduleDirname, 'usetag') . ' == 1)';
+        $condIf = $pc->getPhpCodeTernaryOperator('tagId', '$this->isNew()', '0', "\$this->getVar('{$fieldId}')", $t . "\t");
+        $condIf .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/include/formtag', true, false, $type = 'include', $t . "\t");
         $paramElem = $cc->getClassXoopsFormTag('', 'tag', 60, 255, 'tagId', 0, true, '');
-        $condIf .= $cc->getClassAddElement('form', $paramElem.$required, $t."\t");
+        $condIf .= $cc->getClassAddElement('form', $paramElem . $required, $t . "\t");
         $ret .= $pc->getPhpCodeConditions($paramIf, ' && ', '$dirTag', $condIf, false, $t);
 
         return $ret;
     }
 
     /**
-    *  @public function renderElements
+     *  @public function renderElements
      *  @param null
      * @return string
      */
@@ -686,7 +686,7 @@ class ClassFormElements extends TDMCreateAbstract
                 $fieldId = $fieldName;
             }
             $rpFieldName = $tf->getRightString($fieldName);
-            $language = $languageFunct.strtoupper($tableSoleName).'_'.strtoupper($rpFieldName);
+            $language = $languageFunct . mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
             $required = (1 == $fields[$f]->getVar('field_required')) ? ', true' : '';
 
             $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
@@ -756,7 +756,7 @@ class ClassFormElements extends TDMCreateAbstract
                         $fieldElementMid = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
                         $fieldElementName = $fieldElements->getVar('fieldelement_name');
-                        $fieldNameDesc = substr($fieldElementName, strrpos($fieldElementName, ':'), strlen($fieldElementName));
+                        $fieldNameDesc = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                         $topicTableName = str_replace(': ', '', $fieldNameDesc);
                         $fieldsTopics = $ttf->getTableFields($fieldElementMid, $fieldElementTid);
                         foreach (array_keys($fieldsTopics) as $g) {

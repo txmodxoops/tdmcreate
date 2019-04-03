@@ -28,18 +28,17 @@
 class UserHeader extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserHeader
      */
     public static function getInstance()
@@ -53,11 +52,11 @@ class UserHeader extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param array $tables
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param array $tables
+     *  @param string $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -68,14 +67,14 @@ class UserHeader extends TDMCreateFile
     }
 
     /**
-    *  @private function getUserHeader
-    *  @param $moduleDirname
-    *
-    *  @return string
-    */
+     *  @private function getUserHeader
+     *  @param $moduleDirname
+     *
+     *  @return string
+     */
     private function getUserHeader($moduleDirname)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
         $xc = TDMCreateXoopsCode::getInstance();
         $pc = TDMCreatePhpCode::getInstance();
@@ -124,8 +123,8 @@ class UserHeader extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

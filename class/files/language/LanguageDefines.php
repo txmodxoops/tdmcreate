@@ -28,23 +28,22 @@
 class LanguageDefines
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     protected $defines;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         $this->phpcode = TDMCreatePhpCode::getInstance();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return LanguageDefines
      */
     public static function getInstance()
@@ -58,48 +57,49 @@ class LanguageDefines
     }
 
     /**
-    *  @public function getAboveHeadDefines
-    *  @param string $string
-    *  @return string
-    */
+     *  @public function getAboveHeadDefines
+     *  @param string $string
+     *  @return string
+     */
     public function getAboveHeadDefines($string)
     {
         return "// ---------------- {$string} ----------------\n";
     }
 
     /**
-    *  @public function getAboveDefines
-    *  @param string $string
-    *  @return string
-    */
+     *  @public function getAboveDefines
+     *  @param string $string
+     *  @return string
+     */
     public function getAboveDefines($string)
     {
         return "// {$string}\n";
     }
 
     /**
-    *  @public function getDefine
-    *  @param string $language
-    *  @param string $defined
-    *  @param string $description
-    *  @param bool   $usedoubleqoute
-    *  @return string
-    */
+     *  @public function getDefine
+     *  @param string $language
+     *  @param string $defined
+     *  @param string $description
+     *  @param bool   $usedoubleqoute
+     *  @return string
+     */
     public function getDefine($language, $defined, $description, $usedoubleqoute = false)
     {
-        $defined = strtoupper($defined);
-        
+        $defined = mb_strtoupper($defined);
+
         if ($usedoubleqoute) {
             $ret = $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");
         } else {
             $ret = $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "'" . $description . "'");
         }
+
         return $ret;
     }
 
     /**
-    *  @public function getBelowDefines
-    *  @param string $string
+     *  @public function getBelowDefines
+     *  @param string $string
      *
      * @return string
      */

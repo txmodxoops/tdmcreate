@@ -58,10 +58,10 @@ class UserRate extends TDMCreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -140,7 +140,7 @@ class UserRate extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserRateSave
+     *  @public function getUserRateSave
      * @param $moduleDirname
      * @param $fields
      * @param $tableName
@@ -176,14 +176,14 @@ class UserRate extends TDMCreateFile
     }
 
     /**
-    *  @public function getUserRateFooter
+     *  @public function getUserRateFooter
      * @param $moduleDirname
      * @param $language
      * @return string
      */
     public function getUserRateFooter($moduleDirname, $language)
     {
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $this->uc->getUserBreadcrumbs('RATE', $language);
         $ret .= $this->getInclude('footer');
@@ -192,8 +192,8 @@ class UserRate extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

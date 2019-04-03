@@ -28,18 +28,17 @@
 class UserIndex extends TDMCreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserIndex
      */
     public static function getInstance()
@@ -120,7 +119,7 @@ class UserIndex extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $cc = ClassXoopsCode::getInstance();
-        if (in_array(1, $fieldParentId)) {
+        if (in_array(1, $fieldParentId, true)) {
             $ret .= $xc->getXcObjHandlerCount($tableName);
             $ret .= $pc->getPhpCodeCommentLine('If there are ', $tableName);
             $ret .= $this->getSimpleString('$count = 1;');
@@ -129,12 +128,12 @@ class UserIndex extends TDMCreateFile
             $contentIf .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $pc->getPhpCodeArray($tableName, "\t");
-            $foreach = $xc->getXcGetValues($tableName, $tableSoleName.'Values', $tableFieldname, false, "\t");
+            $foreach = $xc->getXcGetValues($tableName, $tableSoleName . 'Values', $tableFieldname, false, "\t");
             $foreach .= $pc->getPhpCodeArray('acount', ["'count'", '$count']);
-            $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName.'Values', '$acount');
+            $foreach .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName . 'Values', '$acount');
             $foreach .= $this->getSimpleString('++$count;', "\t\t");
             $contentIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, $tableFieldname, $foreach, "\t");
-            $contentIf .= $xc->getXcTplAssign($tableName, '$'.$tableName, true, "\t");
+            $contentIf .= $xc->getXcTplAssign($tableName, '$' . $tableName, true, "\t");
             $contentIf .= $pc->getPhpCodeUnset($tableName, "\t");
             $getConfig = $xc->getXcGetConfig($moduleDirname, 'numb_col');
             $contentIf .= $xc->getXcTplAssign('numb_col', $getConfig, true, "\t");
@@ -159,9 +158,9 @@ class UserIndex extends TDMCreateFile
     {
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName = ucfirst($tableName);
         $ret = $pc->getPhpCodeCommentLine();
         $ret .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
@@ -190,7 +189,7 @@ class UserIndex extends TDMCreateFile
         $foreach .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
         $foreach .= $this->getSimpleString('++$count;', "\t\t");
         $condIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
-        $condIf .= $xc->getXcTplAssign($tableName, '$'.$tableName, true, "\t");
+        $condIf .= $xc->getXcTplAssign($tableName, '$' . $tableName, true, "\t");
         $condIf .= $pc->getPhpCodeUnset($tableName, "\t");
         $condIf .= $xc->getXcPageNav($tableName, "\t");
         $thereare = $pc->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
@@ -217,7 +216,7 @@ class UserIndex extends TDMCreateFile
         $pc = TDMCreatePhpCode::getInstance();
         $xc = TDMCreateXoopsCode::getInstance();
         $uc = UserXoopsCode::getInstance();
-        $stuModuleDirname = strtoupper($moduleDirname);
+        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret .= $uc->getUserBreadcrumbs($language);
         $ret .= $pc->getPhpCodeCommentLine('Keywords');
@@ -234,8 +233,8 @@ class UserIndex extends TDMCreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -256,10 +255,10 @@ class UserIndex extends TDMCreateFile
             $tableCategory[] = $tables[$t]->getVar('table_category');
             $tableFieldname = $tables[$t]->getVar('table_fieldname');
             $tableIndex[] = $tables[$t]->getVar('table_index');
-            if (in_array(1, $tableCategory) && in_array(1, $tableIndex)) {
+            if (in_array(1, $tableCategory, true) && in_array(1, $tableIndex, true)) {
                 $content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }
-            if (in_array(0, $tableCategory) && in_array(1, $tableIndex)) {
+            if (in_array(0, $tableCategory, true) && in_array(1, $tableIndex, true)) {
                 $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);
             }
         }

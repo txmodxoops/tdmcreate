@@ -31,7 +31,6 @@ class TemplatesBlocks extends TDMCreateFile
      * @public function constructor
      * @param null
      */
-
     public function __construct()
     {
         parent::__construct();
@@ -74,13 +73,13 @@ class TemplatesBlocks extends TDMCreateFile
      */
     private function getTemplatesBlocksTableThead($tableId, $tableMid, $language)
     {
-        $hc     = TDMCreateHtmlSmartyCodes::getInstance();
-        $th     = '';
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
+        $th = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
-            $stuFieldName = strtoupper($fieldName);
-            $lang         = $hc->getSmartyConst($language, $stuFieldName);
+            $fieldName = $fields[$f]->getVar('field_name');
+            $stuFieldName = mb_strtoupper($fieldName);
+            $lang = $hc->getSmartyConst($language, $stuFieldName);
             $th .= $hc->getHtmlTableHead($lang, 'center') . PHP_EOL;
         }
         $tr = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
@@ -109,9 +108,9 @@ class TemplatesBlocks extends TDMCreateFile
         }
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
-            $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldName = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName  = $this->getRightString($fieldName);
+            $rpFieldName = $this->getRightString($fieldName);
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
@@ -122,7 +121,7 @@ class TemplatesBlocks extends TDMCreateFile
                         // Now with HTML5 is not supported inline style in the parameters of the HTML tag
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $span   = $hc->getHtmlTag('span', [], $double);
+                        $span = $hc->getHtmlTag('span', [], $double);
                         $td .= $hc->getHtmlTag('td', ['class' => 'center'], $span) . PHP_EOL;
                         /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
@@ -137,7 +136,7 @@ EOT;*/
                     case 13:
                         $single = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true);
+                        $img = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true);
                         $td .= $hc->getHtmlTag('td', ['class' => 'center'], $img) . PHP_EOL;
                         break;
                     default:
@@ -149,21 +148,21 @@ EOT;*/
                 }
             }
         }
-        $lang   = $hc->getSmartyConst('', '_EDIT');
+        $lang = $hc->getSmartyConst('', '_EDIT');
         $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
-        $src    = $hc->getSmartyNoSimbol('xoModuleIcons32 edit.png');
-        $img    = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true);
+        $src = $hc->getSmartyNoSimbol('xoModuleIcons32 edit.png');
+        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true);
         $anchor = $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img) . PHP_EOL;
-        $lang   = $hc->getSmartyConst('', '_DELETE');
+        $lang = $hc->getSmartyConst('', '_DELETE');
         $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
-        $src    = $hc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
-        $img    = $hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', true);
+        $src = $hc->getSmartyNoSimbol('xoModuleIcons32 delete.png');
+        $img = $hc->getHtmlTag('img', ['src' => $src . $double, 'alt' => $tableName], '', true);
         $anchor .= $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img) . PHP_EOL;
         $td .= $hc->getHtmlTag('td', ['class' => 'center'], "\n" . $anchor) . PHP_EOL;
-        $cycle   = $hc->getSmartyNoSimbol('cycle values="odd, even"');
-        $tr      = $hc->getHtmlTag('tr', ['class' => $cycle], $td) . PHP_EOL;
+        $cycle = $hc->getSmartyNoSimbol('cycle values="odd, even"');
+        $tr = $hc->getHtmlTag('tr', ['class' => $cycle], $td) . PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr) . PHP_EOL;
-        $tbody   = $hc->getHtmlTag('tbody', [], $foreach) . PHP_EOL;
+        $tbody = $hc->getHtmlTag('tbody', [], $foreach) . PHP_EOL;
 
         return $hc->getSmartyConditions($tableName . '_count', '', '', $tbody) . PHP_EOL;
     }
@@ -194,7 +193,7 @@ EOT;*/
      */
     private function getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $hc    = TDMCreateHtmlSmartyCodes::getInstance();
+        $hc = TDMCreateHtmlSmartyCodes::getInstance();
         $tbody = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language);
         $tbody .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
         $tbody .= $this->getTemplatesBlocksTableTfoot();
@@ -211,17 +210,17 @@ EOT;*/
      */
     public function render()
     {
-        $module             = $this->getModule();
-        $table              = $this->getTable();
-        $filename           = $this->getFileName();
-        $moduleDirname      = $module->getVar('mod_dirname');
-        $tableId            = $table->getVar('table_id');
-        $tableMid           = $table->getVar('table_mid');
-        $tableName          = $table->getVar('table_name');
-        $tableSoleName      = $table->getVar('table_solename');
+        $module = $this->getModule();
+        $table = $this->getTable();
+        $filename = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tableId = $table->getVar('table_id');
+        $tableMid = $table->getVar('table_mid');
+        $tableName = $table->getVar('table_name');
+        $tableSoleName = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
-        $language           = $this->getLanguage($moduleDirname, 'MB');
-        $content            = $this->getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $language = $this->getLanguage($moduleDirname, 'MB');
+        $content = $this->getTemplatesBlocksTable($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
 
         $this->create($moduleDirname, 'templates/blocks', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
