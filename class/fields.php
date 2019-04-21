@@ -319,7 +319,7 @@ class TDMCreateFields extends XoopsObject
         $cr = new CriteriaCompo();
         $cr->add(new Criteria('field_mid', $fieldMid));
         $cr->add(new Criteria('field_tid', $fieldTid));
-        $cr->setSort('field_id'); //added by goffy
+        $cr->setSort('field_order'); //added by goffy
         $fields = $tdmcreate->getHandler('fields')->getObjects($cr);
         unset($cr);
         $id = 1;
