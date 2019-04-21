@@ -132,7 +132,9 @@ switch ($op) {
         $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption, true));
         $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption, true));
 
-        $settingsObj->setVar('set_type', $_POST['set_type']);
+        if (\Xmf\Request::hasVar('set_type')) {
+            $settingsObj->setVar('set_type', $_POST['set_type']);
+        }
 
         if ($tdmcreate->getHandler('settings')->insert($settingsObj)) {
             redirect_header('settings.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, $_POST['set_name']));
