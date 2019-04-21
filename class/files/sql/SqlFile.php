@@ -216,7 +216,7 @@ class SqlFile extends TDMCreateFile
                         break;
                     case 9:
                     case 10:
-                        $fValues = implode("', '", explode(',', str_replace(' ', '', $fieldValue)));
+                        $fValues = str_replace(',', "', '", str_replace(' ', '', $fieldValue));
                         $type = $fieldTypeName . '(\'' . $fValues . '\')'; // Used with comma separator
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
