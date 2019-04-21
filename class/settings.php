@@ -187,7 +187,7 @@ class TDMCreateSettings extends XoopsObject
         $imageSelect = new XoopsFormSelect($imgpath, 'set_image', $modImage);
         $modImage_array = XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImage_array as $image) {
-            $imageSelect->addOption((string)($image), $image);
+            $imageSelect->addOption((string)$image, $image);
         }
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageSelect);

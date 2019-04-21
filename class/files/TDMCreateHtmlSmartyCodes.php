@@ -104,7 +104,7 @@ class TDMCreateHtmlSmartyCodes
      */
     public function getHtmlEmpty($empty = '')
     {
-        return (string)($empty);
+        return (string)$empty;
     }
 
     /**

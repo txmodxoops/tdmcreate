@@ -98,7 +98,7 @@ class TDMCreateSmartyCode
      */
     public function getSmartyEmpty($empty = '')
     {
-        return (string)($empty);
+        return (string)$empty;
     }
 
     /**

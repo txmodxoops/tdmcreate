@@ -76,12 +76,12 @@ class AdminMenu extends TDMCreateFile
         $ret = '';
         foreach ($param as $key => $value) {
             if ($adminObject) {
-                $ret .= $xc->getXcEqualsOperator("\$adminmenu[\$i]['{$key}']", (string)($value));
+                $ret .= $xc->getXcEqualsOperator("\$adminmenu[\$i]['{$key}']", (string)$value);
             } else {
                 if ($ref) {
-                    $ret .= $xc->getXcEqualsOperator((string)($key), (string)($value), null, true);
+                    $ret .= $xc->getXcEqualsOperator((string)$key, (string)$value, null, true);
                 } else {
-                    $ret .= $xc->getXcEqualsOperator((string)($key), (string)($value));
+                    $ret .= $xc->getXcEqualsOperator((string)$key, (string)$value);
                 }
             }
         }
@@ -184,7 +184,7 @@ class AdminMenu extends TDMCreateFile
             $ret .= $this->getSimpleString('++$i;');
         }
         unset($menu);
-        $param3 = ['title' => (string)($langAbout), 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'"];
+        $param3 = ['title' => (string)$langAbout, 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'"];
         $ret .= $this->getAdminMenuArray($param3, true);
         $ret .= $this->getSimpleString('unset($i);');
 

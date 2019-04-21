@@ -77,8 +77,8 @@ class IncludeInstall extends TDMCreateFile
     private function getInstallDirectory($dirname)
     {
         $this->pc = TDMCreatePhpCode::getInstance();
-        $contentIf = $this->pc->getPhpCodeMkdir((string)($dirname), '0777', "\t");
-        $contentIf .= $this->pc->getPhpCodeChmod((string)($dirname), '0777', "\t");
+        $contentIf = $this->pc->getPhpCodeMkdir((string)$dirname, '0777', "\t");
+        $contentIf .= $this->pc->getPhpCodeChmod((string)$dirname, '0777', "\t");
         $ret = $this->pc->getPhpCodeConditions("!is_dir(\${$dirname})", '', '', $contentIf);
         $ret .= $this->pc->getPhpCodeCopy('$indexFile', "\${$dirname}.'/index.html'");
 

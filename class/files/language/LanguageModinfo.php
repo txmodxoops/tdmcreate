@@ -79,8 +79,8 @@ class LanguageModinfo extends TDMCreateFile
     {
         $df = LanguageDefines::getInstance();
         $ret = $df->getAboveHeadDefines('Admin Main');
-        $ret .= $df->getDefine($language, 'NAME', (string)($module->getVar('mod_name')));
-        $ret .= $df->getDefine($language, 'DESC', (string)($module->getVar('mod_description')));
+        $ret .= $df->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
+        $ret .= $df->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
 
         return $ret;
     }
@@ -105,7 +105,7 @@ class LanguageModinfo extends TDMCreateFile
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
             $ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
-            $ret .= $df->getDefine($language, "ADMENU{$menu}", (string)($ucfTableName));
+            $ret .= $df->getDefine($language, "ADMENU{$menu}", (string)$ucfTableName);
         }
         if (in_array(1, $tablePermissions, true)) {
             ++$menu;
@@ -150,7 +150,7 @@ class LanguageModinfo extends TDMCreateFile
             $tableName = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= $df->getDefine($language, "SMNAME{$i}", (string)($tableName));
+                $ret .= $df->getDefine($language, "SMNAME{$i}", (string)$tableName);
             }
             ++$i;
         }

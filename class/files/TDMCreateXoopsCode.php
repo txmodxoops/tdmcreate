@@ -572,7 +572,7 @@ class TDMCreateXoopsCode
         $phpCodeTextArea = TDMCreatePhpCode::getInstance();
         $getVar = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
 
-        return (string)($t) . $phpCodeTextArea->getPhpCodeStripTags("{$lpFieldName}['{$rpFieldName}']", $getVar, false, $t);
+        return (string)$t . $phpCodeTextArea->getPhpCodeStripTags("{$lpFieldName}['{$rpFieldName}']", $getVar, false, $t);
     }
 
     /**

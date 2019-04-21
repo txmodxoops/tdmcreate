@@ -118,7 +118,7 @@ class UserXoopsVersion extends TDMCreateFile
         $hm = (1 == $module->getVar('mod_user')) ? 1 : 0;
 
         $descriptions = [
-            'name'                => "{$language}NAME", 'version' => (string)($module->getVar('mod_version')), 'description' => "{$language}DESC",
+            'name'                => "{$language}NAME", 'version' => (string)$module->getVar('mod_version'), 'description' => "{$language}DESC",
             'author'              => "'{$module->getVar('mod_author')}'", 'author_mail' => "'{$module->getVar('mod_author_mail')}'", 'author_website_url' => "'{$module->getVar('mod_author_website_url')}'",
             'author_website_name' => "'{$module->getVar('mod_author_website_name')}'", 'credits' => "'{$module->getVar('mod_credits')}'", 'license' => "'{$module->getVar('mod_license')}'",
             'license_url'         => "'http://www.gnu.org/licenses/gpl-3.0.en.html'", 'help' => "'page=help'", 'release_info' => "'{$module->getVar('mod_release_info')}'",
@@ -404,7 +404,7 @@ class UserXoopsVersion extends TDMCreateFile
         $uCodeVTBlocks = UserXoopsCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
         $ucfTableName = ucfirst($tableName);
-        $ret = $phpCodeVTBlocks->getPhpCodeCommentLine((string)($ucfTableName));
+        $ret = $phpCodeVTBlocks->getPhpCodeCommentLine((string)$ucfTableName);
         $blocks = [
             'file' => "'{$tableName}.php'", 'name' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}", 'description' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC",
             'show_func' => "'b_{$moduleDirname}_{$tableName}_show'", 'edit_func' => "'b_{$moduleDirname}_{$tableName}_edit'",
@@ -820,7 +820,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $phpCodeVNC->getPhpCodeCommentLine('Category Notify');
         $global = [
             'name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
-            'subscribe_from' => "array('{$impFile}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => (string)($allow),
+            'subscribe_from' => "array('{$impFile}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => (string)$allow,
         ];
         $ret .= $uCodeVNC->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
@@ -849,7 +849,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ret = $phpCodeVNTN->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $table = [
             'name' => "'{$name}'", 'title' => "{$language}{$stuTitle}_NOTIFY", 'description' => "{$language}{$stuTitle}_NOTIFY_DESC",
-            'subscribe_from' => "'{$file}.php'", 'item_name' => "'{$item}'", 'allow_bookmark' => (string)($allow),
+            'subscribe_from' => "'{$file}.php'", 'item_name' => "'{$item}'", 'allow_bookmark' => (string)$allow,
         ];
         $ret .= $uCodeVNTN->getUserModVersion(4, $table, 'notification', "'{$type}'", $num);
 
@@ -879,7 +879,7 @@ class UserXoopsVersion extends TDMCreateFile
         $ucfTitle = ucfirst($title);
         $ret = $phpCodeVNCC->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $event = [
-            'name'          => "'{$name}'", 'category' => "'{$category}'", 'admin_only' => (string)($admin), 'title' => "{$language}{$title}_{$table}_NOTIFY",
+            'name'          => "'{$name}'", 'category' => "'{$category}'", 'admin_only' => (string)$admin, 'title' => "{$language}{$title}_{$table}_NOTIFY",
             'caption'       => "{$language}{$title}_{$table}_NOTIFY_CAPTION", 'description' => "{$language}{$title}_{$table}_NOTIFY_DESC",
             'mail_template' => "'{$mail}'", 'mail_subject' => "{$language}{$title}_{$table}_NOTIFY_SUBJECT",
         ];

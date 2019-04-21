@@ -118,7 +118,7 @@ class TemplatesUserPagesList extends TDMCreateFile
                             $rpFieldName = $this->getRightString($fieldName);
                             $singleVar = $hc->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)($tableName));
+                            $img = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
                             $retElem .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
@@ -127,7 +127,7 @@ class TemplatesUserPagesList extends TDMCreateFile
                             $rpFieldName = $this->getRightString($fieldName);
                             $singleVar = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)($tableName));
+                            $img = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
                             $retElem .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;

@@ -114,7 +114,7 @@ class UserPrint extends TDMCreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $stuLpFieldName = mb_strtoupper($ccFieldId);
         $ret = $this->getInclude();
-        $ret .= $this->xc->getXcXoopsRequest((string)($ccFieldId), (string)($fieldId), '', 'Int');
+        $ret .= $this->xc->getXcXoopsRequest((string)$ccFieldId, (string)$fieldId, '', 'Int');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xc->getXcAddStylesheet();
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
@@ -140,7 +140,7 @@ class UserPrint extends TDMCreateFile
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        $ret .= $this->xc->getXcGet($tableName, (string)($ccFieldId), '', true);
+        $ret .= $this->xc->getXcGet($tableName, (string)$ccFieldId, '', true);
         $gperm = $this->xc->getXcCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
         $noPerm = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");

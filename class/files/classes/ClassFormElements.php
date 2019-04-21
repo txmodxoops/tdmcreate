@@ -74,7 +74,7 @@ class ClassFormElements extends TDMCreateAbstract
         if ('' != $fieldDefault) {
             $ret = $pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
             $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", "\t\t");
-            $formText = $cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, (string)($ccFieldName), true);
+            $formText = $cc->getClassXoopsFormText('', $language, $fieldName, 20, 150, (string)$ccFieldName, true);
             $ret .= $cc->getClassAddElement('form', $formText . $required);
         } else {
             $ret = $pc->getPhpCodeCommentLine('Form Text', $ucfFieldName, "\t\t");
@@ -174,7 +174,7 @@ class ClassFormElements extends TDMCreateAbstract
         } else {
             $ret = $pc->getPhpCodeCommentLine('Form Check Box', $ucfFieldName, $t);
             $ret .= $pc->getPhpCodeTernaryOperator($ccFieldName, '$this->isNew()', 0, "\$this->getVar('{$fieldName}')", $t);
-            $ret .= $cc->getClassXoopsFormCheckBox('check' . $ucfFieldName, (string)($language), $fieldName, "\${$ccFieldName}", false, $t);
+            $ret .= $cc->getClassXoopsFormCheckBox('check' . $ucfFieldName, (string)$language, $fieldName, "\${$ccFieldName}", false, $t);
             $option = "1, {$language}";
             $ret .= $cc->getClassAddOption('check' . $ucfFieldName, $option, $t);
             $intElem = "\$check{$ucfFieldName}{$required}";
