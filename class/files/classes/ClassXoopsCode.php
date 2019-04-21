@@ -215,7 +215,7 @@ class ClassXoopsCode
     {
         $ret = "{$t}\${$left} = new XoopsSimpleForm({$caption}, '{$var}', '{$filename}.php', '{$type}');\n";
         if (!empty($elementsContent)) {
-            $ret .= "{$elementsContent}";
+            $ret .= (string)($elementsContent);
         }
         $ret .= "{$t}\${$left}->addElement(\${$element});\n";
         $ret .= "{$t}\${$left}->display();\n";

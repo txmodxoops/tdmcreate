@@ -169,7 +169,7 @@ class TDMCreatePhpCode
      */
     public function getPhpCodeRemoveCarriageReturn($string, $n = "\n", $t = "\r")
     {
-        return str_replace(["{$n}", "{$t}"], '', $string);
+        return str_replace([(string)($n), (string)($t)], '', $string);
     }
 
     /**
@@ -246,7 +246,7 @@ class TDMCreatePhpCode
         $ext = (null != $extends) ? " extends {$extends}" : '';
         $ret = "{$typ}class {$name}{$ext}\n";
         $ret .= '{';
-        $ret .= "{$content}";
+        $ret .= (string)($content);
         $ret .= "}\n";
 
         return $ret;
@@ -282,7 +282,7 @@ class TDMCreatePhpCode
         $ref = (false !== $isRef) ? '&' : '';
         $ret = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
         $ret .= "{$t}{\n";
-        $ret .= "{$content}";
+        $ret .= (string)($content);
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -303,13 +303,13 @@ class TDMCreatePhpCode
     {
         if (false === $contentElse) {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
-            $ret .= "{$contentIf}";
+            $ret .= (string)($contentIf);
             $ret .= "{$t}}\n";
         } else {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
-            $ret .= "{$contentIf}";
+            $ret .= (string)($contentIf);
             $ret .= "{$t}} else {\n";
-            $ret .= "{$contentElse}";
+            $ret .= (string)($contentElse);
             $ret .= "{$t}}\n";
         }
 
@@ -398,7 +398,7 @@ class TDMCreatePhpCode
     {
         //$ret = "{$t}switch(\${$op}) {\n"; test goffy
         $ret = "switch(\${$op}) {\n";
-        $ret .= "{$content}";
+        $ret .= (string)($content);
         $ret .= "}\n";
 
         return $ret;

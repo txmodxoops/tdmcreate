@@ -276,7 +276,7 @@ class ClassFiles extends TDMCreateFile
         $ret = $pc->getPhpCodeCommentMultiLine(['@public function' => 'getForm', '@param bool' => '$action', '@return' => 'XoopsThemeForm'], "\t");
         $action = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, false, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $getForm = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $getForm = $xc->getXcGetInstance((string)($moduleDirname), "{$ucfModuleDirname}Helper", "\t\t");
         //$getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
         $getForm .= $pc->getPhpCodeConditions('false', ' === ', '$action', $action, false, "\t\t");
         $xUser = $pc->getPhpCodeGlobals('xoopsUser');
@@ -342,17 +342,17 @@ class ClassFiles extends TDMCreateFile
         $mId = $xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
         $ifGroups = $xc->getXcGetGroupIds('groupsIdsApprove', 'gpermHandler', "'{$moduleDirname}_approve'", $fId, $mId, "\t\t\t");
         $ifGroups .= $pc->getPhpCodeArrayType('groupsIdsApprove', 'values', 'groupsIdsApprove', null, false, "\t\t\t");
-        $ifGroups .= $cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', "{$permissionApprove}", 'groups_approve[]', '$groupsIdsApprove', false, "\t\t\t");
+        $ifGroups .= $cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', (string)($permissionApprove), 'groups_approve[]', '$groupsIdsApprove', false, "\t\t\t");
         $ifGroups .= $xc->getXcGetGroupIds('groupsIdsSubmit', 'gpermHandler', "'{$moduleDirname}_submit'", $fId, $mId, "\t\t\t");
         $ifGroups .= $pc->getPhpCodeArrayType('groupsIdsSubmit', 'values', 'groupsIdsSubmit', null, false, "\t\t\t");
-        $ifGroups .= $cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', "{$permissionSubmit}", 'groups_submit[]', '$groupsIdsSubmit', false, "\t\t\t");
+        $ifGroups .= $cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', (string)($permissionSubmit), 'groups_submit[]', '$groupsIdsSubmit', false, "\t\t\t");
         $ifGroups .= $xc->getXcGetGroupIds('groupsIdsView', 'gpermHandler', "'{$moduleDirname}_view'", $fId, $mId, "\t\t\t");
         $ifGroups .= $pc->getPhpCodeArrayType('groupsIdsView', 'values', 'groupsIdsView', null, false, "\t\t\t");
-        $ifGroups .= $cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', "{$permissionView}", 'groups_view[]', '$groupsIdsView', false, "\t\t\t");
+        $ifGroups .= $cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', (string)($permissionView), 'groups_view[]', '$groupsIdsView', false, "\t\t\t");
 
-        $else = $cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', "{$permissionApprove}", 'groups_approve[]', '$fullList', false, "\t\t\t");
-        $else .= $cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', "{$permissionSubmit}", 'groups_submit[]', '$fullList', false, "\t\t\t");
-        $else .= $cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', "{$permissionView}", 'groups_view[]', '$fullList', false, "\t\t\t");
+        $else = $cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', (string)($permissionApprove), 'groups_approve[]', '$fullList', false, "\t\t\t");
+        $else .= $cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', (string)($permissionSubmit), 'groups_submit[]', '$fullList', false, "\t\t\t");
+        $else .= $cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', (string)($permissionView), 'groups_view[]', '$fullList', false, "\t\t\t");
 
         $ret .= $pc->getPhpCodeConditions('!$this->isNew()', null, null, $ifGroups, $else, "\t\t");
         $ret .= $pc->getPhpCodeCommentLine('To Approve', '', "\t\t");
@@ -386,7 +386,7 @@ class ClassFiles extends TDMCreateFile
         $ucfTableName = ucfirst($table->getVar('table_name'));
         $ret = $pc->getPhpCodeCommentMultiLine(['Get' => 'Values', '@param null $keys' => '', '@param null $format' => '', '@param null$maxDepth' => '', '@return' => 'array'], "\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $getValues = $xc->getXcGetInstance("{$moduleDirname}", "{$ucfModuleDirname}Helper", "\t\t");
+        $getValues = $xc->getXcGetInstance((string)($moduleDirname), "{$ucfModuleDirname}Helper", "\t\t");
         $getValues .= $xc->getXcEqualsOperator('$ret', '$this->getValues($keys, $format, $maxDepth)', null, false, "\t\t");
 
         foreach (array_keys($fields) as $f) {

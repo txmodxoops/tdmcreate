@@ -101,7 +101,7 @@ class TDMCreateHtmlCode
      */
     public function getHtmlEmpty($empty = '')
     {
-        return "{$empty}";
+        return (string)($empty);
     }
 
     /**

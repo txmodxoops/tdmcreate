@@ -100,10 +100,10 @@ class UserSearch extends TDMCreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldPid}", "{$fieldPid}", '0', 'Int');
+            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest((string)($ccFieldPid), (string)($fieldPid), '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest("{$ccFieldId}", "{$fieldId}", '0', 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest((string)($ccFieldId), (string)($fieldId), '0', 'Int');
         $ret .= $this->usercode->getUserTplMain($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->getCommentLine('Define Stylesheet');
@@ -143,7 +143,7 @@ EOT;
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName = mb_strtoupper($tableName);
         $ret = $this->getCommentLine('Breadcrumbs');
-        $ret .= $this->usercode->getUserBreadcrumbs("{$stuTableName}", $language);
+        $ret .= $this->usercode->getUserBreadcrumbs((string)($stuTableName), $language);
         $ret .= $this->getCommentLine('Keywords');
         $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeUnset('keywords');

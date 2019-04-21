@@ -88,7 +88,7 @@ class AdminIndex extends TDMCreateFile
             $ret .= $xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
         $ret .= $pc->getPhpCodeCommentLine('Template Index');
-        $ret .= $axc->getAdminTemplateMain("{$moduleDirname}", 'index');
+        $ret .= $axc->getAdminTemplateMain((string)($moduleDirname), 'index');
         $ret .= $pc->getPhpCodeCommentLine('InfoBox Statistics');
         $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
         $ret .= $pc->getPhpCodeCommentLine('Info elements');

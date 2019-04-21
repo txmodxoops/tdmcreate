@@ -94,9 +94,9 @@ class AdminHeader extends TDMCreateFile
         $modicons32 = $this->xc->getXcGetInfo('', 'modicons32', true);
         $ret .= $this->xc->getXcEqualsOperator('$sysPathIcon16 ', "'../' . {$sysicons16}");
         $ret .= $this->xc->getXcEqualsOperator('$sysPathIcon32 ', "'../' . {$sysicons32}");
-        $ret .= $this->xc->getXcEqualsOperator('$pathModuleAdmin ', "{$dirmoduleadmin}");
-        $ret .= $this->xc->getXcEqualsOperator('$modPathIcon16 ', "{$modicons16}");
-        $ret .= $this->xc->getXcEqualsOperator('$modPathIcon32 ', "{$modicons32}");
+        $ret .= $this->xc->getXcEqualsOperator('$pathModuleAdmin ', (string)($dirmoduleadmin));
+        $ret .= $this->xc->getXcEqualsOperator('$modPathIcon16 ', (string)($modicons16));
+        $ret .= $this->xc->getXcEqualsOperator('$modPathIcon32 ', (string)($modicons32));
         if (is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
             $ret .= $this->xc->getXcEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
@@ -122,11 +122,11 @@ class AdminHeader extends TDMCreateFile
         $ret .= $this->xc->getXcLoadLanguage('modinfo');
         $ret .= $this->phpcode->getPhpCodeCommentLine('Local admin menu class');
         $xoopsPathCond = $this->xc->getXcPath('$pathModuleAdmin', 'moduleadmin', true);
-        $fileExists = $this->phpcode->getPhpCodeFileExists("{$xoopsPathCond}");
-        $moduleadmin = $this->phpcode->getPhpCodeIncludeDir("{$xoopsPathCond}", '', true, true, 'include', "\t");
+        $fileExists = $this->phpcode->getPhpCodeFileExists((string)($xoopsPathCond));
+        $moduleadmin = $this->phpcode->getPhpCodeIncludeDir((string)($xoopsPathCond), '', true, true, 'include', "\t");
         $redirectHeader = $this->xc->getXcRedirectHeader('../../../admin.php', '', '5', '_AM_MODULEADMIN_MISSING', true, "\t");
 
-        $ret .= $this->phpcode->getPhpCodeConditions("{$fileExists}", '', '', $moduleadmin, $redirectHeader);
+        $ret .= $this->phpcode->getPhpCodeConditions((string)($fileExists), '', '', $moduleadmin, $redirectHeader);
         $ret .= $this->xc->getXcCPHeader();
         $ret .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
         $ret .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
