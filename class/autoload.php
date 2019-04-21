@@ -38,7 +38,9 @@ if (!function_exists('application_autoloader')) {
         $classFilename = $class.'.php';
         $cachePath = XOOPS_VAR_PATH.'/caches/tdmcreate_cache';
         if (!is_dir($cachePath)) {
-            mkdir($cachePath, 0777);
+            if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
+            }
             chmod($cachePath, 0777);
         }
         $pathCache = file_exists($cacheFile = $cachePath.'/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];

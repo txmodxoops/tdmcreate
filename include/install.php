@@ -27,7 +27,9 @@ $emptyFile = XOOPS_ROOT_PATH.'/modules/tdmcreate/assets/images/logos/empty.png';
 // Making of "uploads" folder
 $tdmcreate = XOOPS_UPLOAD_PATH.'/tdmcreate';
 if (!is_dir($tdmcreate)) {
-    mkdir($tdmcreate, 0777);
+    if (!mkdir($tdmcreate, 0777) && !is_dir($tdmcreate)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $tdmcreate));
+    }
 }
     chmod($tdmcreate, 0777);
 copy($indexFile, $tdmcreate.'/index.html');
@@ -35,7 +37,9 @@ copy($indexFile, $tdmcreate.'/index.html');
 // Making of images uploads folder
 $repository = $tdmcreate.'/repository';
 if (!is_dir($repository)) {
-    mkdir($repository, 0777);
+    if (!mkdir($repository, 0777) && !is_dir($repository)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $repository));
+    }
 }
     chmod($repository, 0777);
 copy($indexFile, $repository.'/index.html');
@@ -43,7 +47,9 @@ copy($indexFile, $repository.'/index.html');
 // Making of images uploads folder
 $images = $tdmcreate.'/images';
 if (!is_dir($images)) {
-    mkdir($images, 0777);
+    if (!mkdir($images, 0777) && !is_dir($images)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $images));
+    }
 }
     chmod($images, 0777);
 copy($indexFile, $images.'/index.html');
@@ -52,7 +58,9 @@ copy($blankFile, $images.'/blank.gif');
 // Making of "modules" images folder
 $modules = $images.'/modules';
 if (!is_dir($modules)) {
-    mkdir($modules, 0777);
+    if (!mkdir($modules, 0777) && !is_dir($modules)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $modules));
+    }
 }
     chmod($modules, 0777);
 copy($indexFile, $modules.'/index.html');
@@ -62,7 +70,9 @@ copy($emptyFile, $modules.'/empty.png');
 // Making of "tables" images folder
 $tables = $images.'/tables';
 if (!is_dir($tables)) {
-    mkdir($tables, 0777);
+    if (!mkdir($tables, 0777) && !is_dir($tables)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $tables));
+    }
 }
     chmod($tables, 0777);
 copy($indexFile, $tables.'/index.html');

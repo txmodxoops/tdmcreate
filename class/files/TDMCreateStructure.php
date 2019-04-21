@@ -160,7 +160,9 @@ class TDMCreateStructure
     private function isDir($dname)
     {
         if (!is_dir($dname)) {
-            mkdir($dname, 0755);
+            if (!mkdir($dname, 0755) && !is_dir($dname)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $dname));
+            }
             chmod($dname, 0755);
         } else {
             chmod($dname, 0755);

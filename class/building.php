@@ -102,7 +102,9 @@ class TDMCreateBuilding
     public function copyDir($src, $dst)
     {
         $dir = opendir($src);
-        @mkdir($dst);
+        if (!mkdir($dst) && !is_dir($dst)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dst));
+        }
         while (false !== ($file = readdir($dir))) {
             if (('.' !== $file) && ('..' !== $file)) {
                 if (is_dir($src . '/' . $file)) {
