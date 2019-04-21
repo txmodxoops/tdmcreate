@@ -82,7 +82,7 @@ function update_tdmcreate_v191(&$module)
         return false;
     }
     $ret = [];
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[] = $myrow;
     }
     if (!empty($ret)) {
