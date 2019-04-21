@@ -240,7 +240,7 @@ switch ($op) {
         exit;
         break;
     case 'delete':
-        $tablesObj =& $tdmcreate->getHandler('tables')->get($tableId);
+        $tablesObj = $tdmcreate->getHandler('tables')->get($tableId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('tables.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -249,7 +249,7 @@ switch ($op) {
                 // Delete items in table fieldelements - idea by goffy
                 $fieldelements = $tdmcreate->getHandler('fieldelements')->getAllFieldElementsByModuleAndTableId($tableMid, $tableId);
                 foreach (array_keys($fieldelements) as $fe) {
-                    $fieldElementsObj =& $tdmcreate->getHandler('fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
+                    $fieldElementsObj = $tdmcreate->getHandler('fieldelements')->get($fieldelements[$fe]->getVar('fieldelement_id'));
                     if (!$tdmcreate->getHandler('fieldelements')->delete($fieldElementsObj)) {
                         $GLOBALS['xoopsTpl']->assign('error', $fieldElementsObj->getHtmlErrors());
                     }

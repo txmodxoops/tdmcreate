@@ -309,7 +309,7 @@ class TDMCreateFields extends XoopsObject
 
         $class = 'even';
         // Get the number of fields - goffy
-        $tablesHandler =& $tdmcreate->getHandler('tables');
+        $tablesHandler = $tdmcreate->getHandler('tables');
         $tables = $tablesHandler->get($fieldTid);
         $tableAutoincrement = $tables->getVar('table_autoincrement');
         $fieldNumb = $tables->getVar('table_nbfields');
@@ -327,7 +327,7 @@ class TDMCreateFields extends XoopsObject
             $class = ('even' === $class) ? 'odd' : 'even';
             $fieldId = (int)$field->getVar('field_id');
             if ($id > $fieldNumb) {   // delete additional fields, if number of fields is reduced - goffy
-                $fieldsObj =& $tdmcreate->getHandler('fields')->get($fieldId);
+                $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
                 $tdmcreate->getHandler('fields')->delete($fieldsObj, true);
             } else {
                 // show field with settings
