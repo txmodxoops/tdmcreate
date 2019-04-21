@@ -100,10 +100,10 @@ class UserSearch extends TDMCreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest((string)$ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest((string)$ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
         $ret .= $this->usercode->getUserTplMain($moduleDirname);
         $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $this->getCommentLine('Define Stylesheet');

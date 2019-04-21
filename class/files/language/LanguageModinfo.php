@@ -105,7 +105,7 @@ class LanguageModinfo extends TDMCreateFile
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
             $ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
-            $ret .= $df->getDefine($language, "ADMENU{$menu}", (string)$ucfTableName);
+            $ret .= $df->getDefine($language, "ADMENU{$menu}", $ucfTableName);
         }
         if (in_array(1, $tablePermissions, true)) {
             ++$menu;

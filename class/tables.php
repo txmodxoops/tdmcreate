@@ -186,7 +186,7 @@ class TDMCreateTables extends XoopsObject
         $imageSelect1 = new XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
         $imageArray1 = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $iconsDirectory);
         foreach ($imageArray1 as $image1) {
-            $imageSelect1->addOption((string)$image1, $image1);
+            $imageSelect1->addOption($image1, $image1);
         }
         $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray1->addElement($imageSelect1, false);

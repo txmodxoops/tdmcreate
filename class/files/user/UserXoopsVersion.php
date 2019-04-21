@@ -404,7 +404,7 @@ class UserXoopsVersion extends TDMCreateFile
         $uCodeVTBlocks = UserXoopsCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
         $ucfTableName = ucfirst($tableName);
-        $ret = $phpCodeVTBlocks->getPhpCodeCommentLine((string)$ucfTableName);
+        $ret = $phpCodeVTBlocks->getPhpCodeCommentLine($ucfTableName);
         $blocks = [
             'file' => "'{$tableName}.php'", 'name' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}", 'description' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC",
             'show_func' => "'b_{$moduleDirname}_{$tableName}_show'", 'edit_func' => "'b_{$moduleDirname}_{$tableName}_edit'",

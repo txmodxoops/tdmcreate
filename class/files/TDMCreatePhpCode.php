@@ -246,7 +246,7 @@ class TDMCreatePhpCode
         $ext = (null != $extends) ? " extends {$extends}" : '';
         $ret = "{$typ}class {$name}{$ext}\n";
         $ret .= '{';
-        $ret .= (string)$content;
+        $ret .= $content;
         $ret .= "}\n";
 
         return $ret;
@@ -282,7 +282,7 @@ class TDMCreatePhpCode
         $ref = (false !== $isRef) ? '&' : '';
         $ret = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
         $ret .= "{$t}{\n";
-        $ret .= (string)$content;
+        $ret .= $content;
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -303,13 +303,13 @@ class TDMCreatePhpCode
     {
         if (false === $contentElse) {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
-            $ret .= (string)$contentIf;
+            $ret .= $contentIf;
             $ret .= "{$t}}\n";
         } else {
             $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
-            $ret .= (string)$contentIf;
+            $ret .= $contentIf;
             $ret .= "{$t}} else {\n";
-            $ret .= (string)$contentElse;
+            $ret .= $contentElse;
             $ret .= "{$t}}\n";
         }
 
@@ -398,7 +398,7 @@ class TDMCreatePhpCode
     {
         //$ret = "{$t}switch(\${$op}) {\n"; test goffy
         $ret = "switch(\${$op}) {\n";
-        $ret .= (string)$content;
+        $ret .= $content;
         $ret .= "}\n";
 
         return $ret;

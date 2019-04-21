@@ -88,10 +88,10 @@ class UserSingle extends TDMCreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret .= $xc->getXcXoopsRequest((string)$ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret .= $xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret .= $xc->getXcXoopsRequest((string)$ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret .= $xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
         $ret .= $uc->getUserTplMain($moduleDirname, 'single');
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $pc->getPhpCodeCommentLine('Define Stylesheet');

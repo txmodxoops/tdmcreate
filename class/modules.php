@@ -254,7 +254,7 @@ class TDMCreateModules extends XoopsObject
         $imageselect = new XoopsFormSelect($imgpath, 'mod_image', $modImage);
         $modImageArray = XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
-            $imageselect->addOption((string)$image, $image);
+            $imageselect->addOption($image, $image);
         }
         $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageselect);
@@ -279,7 +279,7 @@ class TDMCreateModules extends XoopsObject
         $iconSelect = new XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
         $tablesImagesArray = XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $uploadDirectory);
         foreach ($tablesImagesArray as $image) {
-            $iconSelect->addOption((string)$image, $image);
+            $iconSelect->addOption($image, $image);
         }
         $iconSelect->setExtra(" onchange='showImgSelected2(\"image4\", \"tables_img\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")' ");
         $createLogoTray->addElement($iconSelect);

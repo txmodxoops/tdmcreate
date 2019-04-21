@@ -80,7 +80,7 @@ class UserBroken extends TDMCreateFile
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret = $this->getInclude();
         $ret .= $xc->getXcXoopsRequest('op', 'op', 'list');
-        $ret .= $xc->getXcXoopsRequest((string)$ccFieldId, (string)$fieldId, '', 'Int');
+        $ret .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
         $ret .= $pc->getPhpCodeCommentLine('Template');
         $ret .= $uc->getUserTplMain($moduleDirname, 'broken');
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);

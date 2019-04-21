@@ -42,7 +42,7 @@ $modversion['release_file'] = 'https://github.com/txmodxoops/tdmcreate-1.91/rele
 $modversion['manual'] = 'MANUAL';
 $modversion['manual_file'] = XOOPS_URL . "/modules/{$moduleDirName}/docs/manual.txt";
 $modversion['image'] = "assets/images/{$moduleDirName}_logo.png";
-$modversion['dirname'] = (string)$moduleDirName;
+$modversion['dirname'] = $moduleDirName;
 // Frameworks icons
 $modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
 $modversion['sysicons16'] = '../../Frameworks/moduleclasses/icons/16';
