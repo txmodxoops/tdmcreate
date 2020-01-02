@@ -311,7 +311,7 @@ class Fields extends \XoopsObject
 
         $class = 'even';
         // Get the number of fields - goffy
-        $tablesHandler =& $helper->getHandler('Tables');
+        $tablesHandler = $helper->getHandler('Tables');
         $tables = $tablesHandler->get($fieldTid);
         $tableAutoincrement = $tables->getVar('table_autoincrement');
         $fieldNumb = $tables->getVar('table_nbfields');
@@ -329,7 +329,7 @@ class Fields extends \XoopsObject
             $class = ('even' === $class) ? 'odd' : 'even';
             $fieldId = (int)$field->getVar('field_id');
             if ($id > $fieldNumb) {   // delete additional fields, if number of fields is reduced - goffy
-                $fieldsObj =& $helper->getHandler('Fields')->get($fieldId);
+                $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
                 $helper->getHandler('Fields')->delete($fieldsObj, true);
             } else {
                 // show field with settings
