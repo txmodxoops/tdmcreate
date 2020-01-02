@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 use XoopsModules\Tdmcreate;
 
@@ -24,17 +26,15 @@ use XoopsModules\Tdmcreate;
  * @version         $Id: 1.91 fieldelements.php 11297 2014-03-24 09:11:10Z timgno $
  */
 
-
 /**
  * Class FieldElements.
  */
 class FieldElements extends \XoopsObject
 {
     /**
-    *  @public function constructor class
-    *  @param null
-    */
-
+     *  @public function constructor class
+     *  @param null
+     */
     public function __construct()
     {
         $this->initVar('fieldelement_id', XOBJ_DTYPE_INT);
@@ -58,8 +58,8 @@ class FieldElements extends \XoopsObject
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return FieldElements
      */
     public static function getInstance()

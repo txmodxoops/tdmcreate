@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Assets\Js;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Assets\Js;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class JavascriptJQuery extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return JavascriptJQuery
      */
     public static function getInstance()
@@ -56,9 +57,9 @@ class JavascriptJQuery extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {

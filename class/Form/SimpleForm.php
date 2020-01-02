@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Form;
+<?php
+
+namespace XoopsModules\Tdmcreate\Form;
 
 /**
  * XOOPS simple form.
@@ -39,16 +41,16 @@ class SimpleForm extends \XoopsForm
      */
     public function render()
     {
-        $ret = ($this->getTitle() ? '<div class=" center head ">'.$this->getTitle().'</div>' : '');
-        $ret .= '<form name="'.$this->getName().'" id="'.$this->getName().'" action="'.$this->getAction().'" method="'.$this->getMethod().'"'.$this->getExtra().'>'.NWLINE;
+        $ret = ($this->getTitle() ? '<div class=" center head ">' . $this->getTitle() . '</div>' : '');
+        $ret .= '<form name="' . $this->getName() . '" id="' . $this->getName() . '" action="' . $this->getAction() . '" method="' . $this->getMethod() . '"' . $this->getExtra() . '>' . NWLINE;
         foreach ($this->getElements() as $ele) {
             if (!$ele->isHidden()) {
-                $ret .= '<div class="'.$ele->getClass().'"><strong>'.$ele->getCaption().'</strong>'.$ele->render().'</div>'.NWLINE;
+                $ret .= '<div class="' . $ele->getClass() . '"><strong>' . $ele->getCaption() . '</strong>' . $ele->render() . '</div>' . NWLINE;
             } else {
                 $ret .= $ele->render();
             }
         }
-        $ret .= NWLINE.'</form>';
+        $ret .= NWLINE . '</form>';
 
         return $ret;
     }

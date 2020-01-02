@@ -1,6 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
 
-use XoopsModules\Tdmcreate;
+namespace XoopsModules\Tdmcreate;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -26,14 +26,13 @@ use XoopsModules\Tdmcreate;
  */
 //include __DIR__.'/autoload.php';
 
-
 /**
  * Class MoreFilesHandler.
  */
 class AddFilesHandler extends \XoopsPersistableObjectHandler
 {
     /**
-    *  @public function constructor class
+     *  @public function constructor class
      * @param null|\XoopsDatabase|\XoopsMySQLDatabase $db
      */
     public function __construct(\XoopsDatabase $db)

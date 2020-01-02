@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class Pdf extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Pdf
      */
     public static function getInstance()

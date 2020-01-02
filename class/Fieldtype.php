@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 use XoopsModules\Tdmcreate;
 
@@ -24,17 +26,15 @@ use XoopsModules\Tdmcreate;
  * @version         $Id: 1.91 fieldtype.php 11297 2014-05-14 10:58:10Z timgno $
  */
 
-
 /**
  * Class Fieldtype.
  */
 class Fieldtype extends \XoopsObject
 {
     /**
-    *  @public function constructor class
-    *  @param null
-    */
-
+     *  @public function constructor class
+     *  @param null
+     */
     public function __construct()
     {
         $this->initVar('fieldtype_id', XOBJ_DTYPE_INT);
@@ -43,8 +43,8 @@ class Fieldtype extends \XoopsObject
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Fieldtype
      */
     public static function getInstance()

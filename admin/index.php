@@ -21,10 +21,9 @@
  *
  * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_index.tpl';
 
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 $countSettings = $helper->getHandler('Settings')->getCount();
 $countModules = $helper->getHandler('Modules')->getCount();
 $countTables = $helper->getHandler('Tables')->getCount();
@@ -34,11 +33,11 @@ unset($criteria);
 
 //$templateMain = 'tdmcreate_index.tpl';
 $adminObject->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
-$adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMSETTINGS.'</label>', $countSettings), 'Blue');
-$adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMMODULES.'</label>', $countModules), 'Green');
-$adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMTABLES.'</label>', $countTables), 'Orange');
-$adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFIELDS.'</label>', $countFields), 'Gray');
-$adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMFILES.'</label>', $countFiles), 'Red');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMSETTINGS . '</label>', $countSettings), 'Blue');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMMODULES . '</label>', $countModules), 'Green');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMTABLES . '</label>', $countTables), 'Orange');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFIELDS . '</label>', $countFields), 'Gray');
+$adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = [
         TDMC_UPLOAD_PATH,
@@ -56,4 +55,4 @@ foreach (array_keys($folder) as $i) {
 $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminObject->displayIndex());
 
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

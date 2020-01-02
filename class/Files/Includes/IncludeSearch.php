@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Includes;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Includes;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,10 +33,9 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeSearch extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -42,8 +43,8 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeSearch
      */
     public static function getInstance()
@@ -57,10 +58,10 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,9 +71,9 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-    *  @static function getSearchField
-    *  @param string $fieldSearch
-    *  @param string $options
+     *  @static function getSearchField
+     *  @param string $fieldSearch
+     *  @param string $options
      *
      * @return string
      */
@@ -85,9 +86,9 @@ class IncludeSearch extends Files\CreateFile
             $sql .= '(';
             for ($i = 0; $i < $nb_fieldSearch; ++$i) {
                 if ($i != $nb_fieldSearch - 1) {
-                    $sql .= ''.$fieldSearch[$i].' LIKE %$queryarray['.$options.']% OR ';
+                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[' . $options . ']% OR ';
                 } else {
-                    $sql .= ''.$fieldSearch[$i].' LIKE %$queryarray[0]%';
+                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[0]%';
                 }
             }
             $sql .= ')';
@@ -97,7 +98,7 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-    *  @static function getSearchFunction
+     *  @static function getSearchFunction
      * @param $moduleDirname
      *
      * @return string
@@ -144,7 +145,7 @@ function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$use
     {
         \$sql .= " AND (
 EOT;
-        $ret .= $this->getSearchField($fieldSearch, 0).'";';
+        $ret .= $this->getSearchField($fieldSearch, 0) . '";';
         $ret .= <<<EOT
 
         for(\$i = 1; \$i < \$count; ++\$i)
@@ -173,8 +174,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

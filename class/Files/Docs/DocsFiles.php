@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Docs;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Docs;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,19 +33,19 @@ use XoopsModules\Tdmcreate\Files;
 class DocsFiles extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
-    */
+     *  @static function getInstance
+     *  @param null
+     */
+
     /**
      * @return DocsFiles
      */
@@ -58,10 +60,11 @@ class DocsFiles extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
+     */
+
     /**
      * @param $module
      * @param $filename
@@ -73,11 +76,12 @@ class DocsFiles extends Files\CreateFile
     }
 
     /**
-    *  @public function getChangeLogFile
-    *  @param string $moduleDirname
-    *  @param string $mod_version
-    *  @param string $mod_author
-    */
+     *  @public function getChangeLogFile
+     *  @param string $moduleDirname
+     *  @param string $mod_version
+     *  @param string $mod_author
+     */
+
     /**
      * @param $moduleDirname
      * @param $mod_version
@@ -99,7 +103,7 @@ EOT;
     }
 
     /**
-    *  @public function getCreditsFile
+     *  @public function getCreditsFile
      * @param $mod_author
      * @param $mod_credits
      * @param $mod_author_website_url
@@ -126,8 +130,8 @@ EOT;
     }
 
     /**
-    *  @public function getInstallFile
-    *  @param null
+     *  @public function getInstallFile
+     *  @param null
      * @return string
      */
     public function getInstallFile()
@@ -143,8 +147,8 @@ EOT;
     }
 
     /**
-    *  @public function getReadmeFile
-    *  @param null
+     *  @public function getReadmeFile
+     *  @param null
      * @return string
      */
     public function getReadmeFile()
@@ -161,7 +165,7 @@ EOT;
     }
 
     /**
-    *  @public function getLangDiffFile
+     *  @public function getLangDiffFile
      * @param $mod_version
      *
      * @return string
@@ -179,8 +183,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

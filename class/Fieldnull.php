@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 use XoopsModules\Tdmcreate;
 
@@ -30,10 +32,9 @@ use XoopsModules\Tdmcreate;
 class Fieldnull extends \XoopsObject
 {
     /**
-    *  @public function constructor class
-    *  @param null
-    */
-
+     *  @public function constructor class
+     *  @param null
+     */
     public function __construct()
     {
         $this->initVar('fieldnull_id', XOBJ_DTYPE_INT);
@@ -42,8 +43,8 @@ class Fieldnull extends \XoopsObject
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Fieldnull
      */
     public static function getInstance()

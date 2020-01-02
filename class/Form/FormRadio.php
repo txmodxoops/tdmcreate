@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Form;
+<?php
+
+namespace XoopsModules\Tdmcreate\Form;
 
 /**
  * XOOPS form radio compo.
@@ -20,7 +22,6 @@
  *
  * @version     $Id: Tdmcreate\FormRadio.php 12360 2014-12-06 13:18:22Z timgno $
  */
-
 class FormRadio extends \XoopsFormRadio
 {
     /**
@@ -50,11 +51,11 @@ class FormRadio extends \XoopsFormRadio
                 }
                 $ret .= '<td class="radio">';
             }
-            $ret .= '<input type="radio" name="'.$ele_name.'" id="'.$ele_name.'['.$value.']'.$id_ele.'" title = "'.htmlspecialchars($ele_title, ENT_QUOTES).'" value="'.htmlspecialchars($value, ENT_QUOTES).'"';
+            $ret .= '<input type="radio" name="' . $ele_name . '" id="' . $ele_name . '[' . $value . ']' . $id_ele . '" title = "' . htmlspecialchars($ele_title, ENT_QUOTES) . '" value="' . htmlspecialchars($value, ENT_QUOTES) . '"';
             if (isset($ele_value) && $value == $ele_value) {
                 $ret .= ' checked';
             }
-            $ret .= $ele_extra.' />'."<label name='xolb_{$ele_name}' for='".$ele_name.'['.$value.']'.$id_ele."'><span><span></span></span>".$name.'</label>'.$ele_delimeter;
+            $ret .= $ele_extra . ' />' . "<label name='xolb_{$ele_name}' for='" . $ele_name . '[' . $value . ']' . $id_ele . "'><span><span></span></span>" . $name . '</label>' . $ele_delimeter;
             if (!empty($this->columns)) {
                 $ret .= '</td>';
                 if (0 == ++$i % $this->columns) {
@@ -65,7 +66,7 @@ class FormRadio extends \XoopsFormRadio
         if (!empty($this->columns)) {
             $span = $i % $this->columns;
             if ($span) {
-                $ret .= '<td colspan="'.($this->columns - $span).'"></td></tr>';
+                $ret .= '<td colspan="' . ($this->columns - $span) . '"></td></tr>';
             }
             $ret .= '</table>';
         }

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Includes;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Includes;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeInstall extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeInstall
      */
     public static function getInstance()
@@ -129,8 +130,8 @@ class IncludeInstall extends Files\CreateFile
     }
 
     /**
-    *  @private function getInstallImagesFolder
-    *  @param string $moduleDirname
+     *  @private function getInstallImagesFolder
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -203,8 +204,8 @@ class IncludeInstall extends Files\CreateFile
     }
 
     /**
-    *  @private function getInstallTableFilesFolder
-    *  @param string $tableName
+     *  @private function getInstallTableFilesFolder
+     *  @param string $tableName
      *
      * @return string
      */
@@ -220,8 +221,8 @@ class IncludeInstall extends Files\CreateFile
     }
 
     /**
-    *  @private function getInstallFooter
-    *  @param null
+     *  @private function getInstallFooter
+     *  @param null
      * @return string
      */
     private function getInstallFooter()
@@ -230,8 +231,8 @@ class IncludeInstall extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

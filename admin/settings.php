@@ -21,7 +21,6 @@
  *
  * @version         $Id: 1.59 settings.php 11297 2013-03-24 10:58:10Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_settings.tpl';
 
 include __DIR__ . '/header.php';
@@ -185,4 +184,4 @@ $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

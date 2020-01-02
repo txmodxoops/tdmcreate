@@ -1,8 +1,9 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Docs;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Docs;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
-
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -32,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class DocsChangelog extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return DocsChangelog
      */
     public static function getInstance()
@@ -68,8 +68,8 @@ class DocsChangelog extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

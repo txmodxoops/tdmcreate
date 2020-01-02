@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,10 +33,9 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminHeader extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -55,9 +56,9 @@ class TemplatesAdminHeader extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -66,8 +67,8 @@ class TemplatesAdminHeader extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -81,7 +82,7 @@ class TemplatesAdminHeader extends Files\CreateFile
         $due = $hc->getHtmlTag('span', ['class' => 'left'], $navigation) . PHP_EOL;
         $buttons = $hc->getSmartySingleVar('buttons');
         $right = $hc->getHtmlTag('span', ['class' => 'left'], $buttons . '&nbsp;');
-        $due .= $hc->getSmartyConditions('buttons', '', '', $right).PHP_EOL;
+        $due .= $hc->getSmartyConditions('buttons', '', '', $right) . PHP_EOL;
         $content = $hc->getHtmlTag('div', ['class' => 'top'], $due);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

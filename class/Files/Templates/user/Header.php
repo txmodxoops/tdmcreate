@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,15 +33,14 @@ use XoopsModules\Tdmcreate\Files;
 class Header extends Files\CreateFile
 {
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $tdmcfile = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -48,8 +49,8 @@ class Header extends Files\CreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Header
      */
     public static function getInstance()
@@ -63,9 +64,9 @@ class Header extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -74,16 +75,16 @@ class Header extends Files\CreateFile
     }
 
     /**
-    *  @public function getTemplatesUserHeader
+     *  @public function getTemplatesUserHeader
      * @param $moduleDirname
      * @return bool|string
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-        $ret = $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true).PHP_EOL;
+        $ret = $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true) . PHP_EOL;
         $var = $this->htmlcode->getSmartySingleVar('ads');
-        $div = $this->htmlcode->getHtmlDiv($var, 'center').PHP_EOL;
-        $ret .= $this->htmlcode->getSmartyConditions('ads', ' != ', '\'\'', $div).PHP_EOL;
+        $div = $this->htmlcode->getHtmlDiv($var, 'center') . PHP_EOL;
+        $ret .= $this->htmlcode->getSmartyConditions('ads', ' != ', '\'\'', $div) . PHP_EOL;
 
         return $ret;
     }
@@ -112,8 +113,8 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

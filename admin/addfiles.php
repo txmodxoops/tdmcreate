@@ -21,10 +21,9 @@
  *
  * @version         $Id: 1.59 addfiles.php 11297 2013-03-24 10:58:10Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_addfiles.tpl';
 
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
 $op = \Xmf\Request::getString('op', 'list');
 
@@ -61,15 +60,14 @@ switch ($op) {
                 unset($files);
             }
             if ($addfilesCount > $limit) {
-                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new \XoopsPageNav($addfilesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                $pagenav = new \XoopsPageNav($addfilesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MODULES);
         }
         break;
-
     case 'new':
         // Define main template
 //        $templateMain = 'tdmcreate_addfiles.tpl';
@@ -82,7 +80,6 @@ switch ($op) {
         $form = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'save':
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('addfiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
@@ -112,7 +109,6 @@ switch ($op) {
         $form = &$addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'edit':
         // Define main template
 //        $templateMain = 'tdmcreate_addfiles.tpl';
@@ -126,7 +122,6 @@ switch ($op) {
         $form = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
-
     case 'delete':
         $addfilesObj = $helper->getHandler('Addfiles')->get($fileId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
@@ -144,4 +139,4 @@ switch ($op) {
         break;
 }
 
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

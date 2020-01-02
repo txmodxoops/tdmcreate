@@ -1,8 +1,9 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Admin;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
-
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -124,7 +125,7 @@ class AdminPermissions extends Files\CreateFile
     {
         $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
         $cases = [
-            'global'  => [
+            'global' => [
                 "\$formTitle = {$language}PERMISSIONS_GLOBAL;",
                 "\$permName = '{$moduleDirname}_ac';",
                 "\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;",
@@ -135,12 +136,12 @@ class AdminPermissions extends Files\CreateFile
                 "\$permName = '{$moduleDirname}_approve';",
                 "\$permDesc = {$language}PERMISSIONS_APPROVE_DESC;",
             ],
-            'submit'  => [
+            'submit' => [
                 "\$formTitle = {$language}PERMISSIONS_SUBMIT;",
                 "\$permName = '{$moduleDirname}_submit';",
                 "\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC;",
             ],
-            'view'    => [
+            'view' => [
                 "\$formTitle = {$language}PERMISSIONS_VIEW;",
                 "\$permName = '{$moduleDirname}_view';",
                 "\$permDesc = {$language}PERMISSIONS_VIEW_DESC;",
@@ -196,7 +197,7 @@ class AdminPermissions extends Files\CreateFile
         $if2 = $xc->getXcObjHandlerAll($tableName, $fieldMain, 0, 0, "\t\t");
         $getVar1 = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldId, true);
         $getVar2 = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
-        $foreach2 = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t")."\r";
+        $foreach2 = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t") . "\r";
         $if2 .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach2, "\t\t");
         $if2 .= $xc->getXcTplAssign('form', '$permform->render()', true, "\t\t");
         $elseInter = $xc->getXcRedirectHeader($tableName, '?op=new', '3', "{$language}NO_PERMISSIONS_SET", true, "\t\t");

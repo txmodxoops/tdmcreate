@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -126,17 +128,17 @@ class UserPdf extends Files\CreateFile
                     if (false !== mb_strpos($fieldName, 'title') || false !== mb_strpos($fieldName, 'name') && '' == $fieldDefault) {
                         $ret .= $this->phpcode->getPhpCodeStripTags("pdfData['title']", $getVar);
                     }
-                break;
+                    break;
                 case 3:
                 case 4:
                     $ret .= $this->phpcode->getPhpCodeStripTags("pdfData['content']", $getVar);
-                break;
+                    break;
                 case 8:
                     $ret .= $this->xc->getXcUnameFromId("pdfData['author']", $getVar);
-                break;
+                    break;
                 case 15:
                     $ret .= $this->xc->getXcFormatTimeStamp("pdfData['date']", $getVar);
-                break;
+                    break;
             }
         }
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Config');

@@ -1,6 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
 
-use XoopsModules\Tdmcreate;
+namespace XoopsModules\Tdmcreate;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -25,7 +25,6 @@ use XoopsModules\Tdmcreate;
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
 //include __DIR__.'/autoload.php';
-
 
 /**
  * Class FieldsHandler.

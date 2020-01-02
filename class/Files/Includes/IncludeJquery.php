@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Includes;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Includes;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -32,18 +34,17 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class IncludeJquery extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         $this->tdmcfile = Tdmcreate\Files\CreateFile::getInstance();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return IncludeJquery
      */
     public static function getInstance()
@@ -57,9 +58,9 @@ class IncludeJquery extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -68,8 +69,8 @@ class IncludeJquery extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

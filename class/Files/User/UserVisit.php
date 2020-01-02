@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,20 +33,19 @@ use XoopsModules\Tdmcreate\Files;
 class UserVisit extends Files\CreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $uc = null;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xc = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -54,8 +55,8 @@ class UserVisit extends Files\CreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return UserVisit
      */
     public static function getInstance()
@@ -69,10 +70,10 @@ class UserVisit extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param mixed $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param mixed $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -154,8 +155,8 @@ class UserVisit extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Assets\Css;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Assets\Css;
 
 use XoopsModules\Tdmcreate\Files;
 
@@ -30,18 +32,17 @@ use XoopsModules\Tdmcreate\Files;
 class CssStyles extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return CssStyles
      */
     public static function getInstance()
@@ -66,8 +67,8 @@ class CssStyles extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

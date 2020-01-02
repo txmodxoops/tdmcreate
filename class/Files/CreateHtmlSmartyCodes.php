@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files;
 
 use XoopsModules\Tdmcreate;
 
@@ -30,17 +32,16 @@ use XoopsModules\Tdmcreate;
 class CreateHtmlSmartyCodes
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Tdmcreate\Files\CreateHtmlSmartyCodes
      */
     public static function getInstance()
@@ -81,17 +82,17 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @private function setAttributes
-    *  @param array $attributes
-    *
-    * @return string
-    */
+     *  @private function setAttributes
+     *  @param array $attributes
+     *
+     * @return string
+     */
     private function getAttributes($attributes)
     {
         $str = '';
         foreach ($attributes as $name => $value) {
             if ('_' !== $name) {
-                $str .= ' '.$name.'="'.$value.'"';
+                $str .= ' ' . $name . '="' . $value . '"';
             }
         }
 
@@ -99,8 +100,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getHtmlEmpty
-    *  @param string $empty
+     *  @public function getHtmlEmpty
+     *  @param string $empty
      *
      * @return string
      */
@@ -110,8 +111,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getHtmlComment
-    *  @param string $htmlComment
+     *  @public function getHtmlComment
+     *  @param string $htmlComment
      *
      * @return string
      */
@@ -454,7 +455,7 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getHtmlTableData
+     *  @public function getHtmlTableData
      * @param $content
      * @param $tdClass
      * @param $colspan
@@ -470,8 +471,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartyComment
-    *  @param string $comment
+     *  @public function getSmartyComment
+     *  @param string $comment
      *
      * @return string
      */
@@ -481,8 +482,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartyNoSimbol
-    *  @param string $noSimbol
+     *  @public function getSmartyNoSimbol
+     *  @param string $noSimbol
      *
      * @return string
      */
@@ -492,9 +493,9 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartyConst
-    *  @param string $language
-    *  @param mixed $const
+     *  @public function getSmartyConst
+     *  @param string $language
+     *  @param mixed $const
      *
      * @return string
      */
@@ -504,8 +505,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartySingleVar
-    *  @param string $var
+     *  @public function getSmartySingleVar
+     *  @param string $var
      *
      * @return string
      */
@@ -515,9 +516,9 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartyDoubleVar
-    *  @param string $leftVar
-    *  @param string $rightVar
+     *  @public function getSmartyDoubleVar
+     *  @param string $leftVar
+     *  @param string $rightVar
      *
      * @return string
      */
@@ -551,7 +552,7 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartyIncludeFileListSection
+     *  @public function getSmartyIncludeFileListSection
      * @param $moduleDirname
      * @param $fileName
      * @param $tableFieldName
@@ -564,7 +565,7 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-    *  @public function getSmartyIncludeFileListForeach
+     *  @public function getSmartyIncludeFileListForeach
      * @param $moduleDirname
      * @param $fileName
      * @param $tableFieldName

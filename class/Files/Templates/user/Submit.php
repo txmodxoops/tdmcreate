@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class Submit extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Submit
      */
     public static function getInstance()
@@ -56,10 +57,10 @@ class Submit extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $table
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $table
+     *  @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -77,13 +78,13 @@ class Submit extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header').PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesUserSubmit
-    *  @param string $moduleDirname
-    *  @param string $language
+     *  @private function getTemplatesUserSubmit
+     *  @param string $moduleDirname
+     *  @param string $language
      *
      * @return string
      */
@@ -91,28 +92,28 @@ class Submit extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $const = $hc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
-        $li = $hc->getHtmlLi($const).PHP_EOL;
+        $li = $hc->getHtmlLi($const) . PHP_EOL;
         $const = $hc->getSmartyConst($language, 'SUBMIT_ALLPENDING');
-        $li .= $hc->getHtmlLi($const).PHP_EOL;
+        $li .= $hc->getHtmlLi($const) . PHP_EOL;
         $const = $hc->getSmartyConst($language, 'SUBMIT_DONTABUSE');
-        $li .= $hc->getHtmlLi($const).PHP_EOL;
+        $li .= $hc->getHtmlLi($const) . PHP_EOL;
         $const = $hc->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
-        $li .= $hc->getHtmlLi($const).PHP_EOL;
-        $ul = $hc->getHtmlUl($li).PHP_EOL;
-        $ret = $hc->getHtmlDiv($ul, $moduleDirname.'-tips').PHP_EOL;
+        $li .= $hc->getHtmlLi($const) . PHP_EOL;
+        $ul = $hc->getHtmlUl($li) . PHP_EOL;
+        $ret = $hc->getHtmlDiv($ul, $moduleDirname . '-tips') . PHP_EOL;
 
-        $single = $hc->getSmartySingleVar('message_error').PHP_EOL;
-        $divError = $hc->getHtmlDiv($single, 'errorMsg').PHP_EOL;
-        $ret .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError).PHP_EOL;
-        $single = $hc->getSmartySingleVar('form').PHP_EOL;
-        $ret .= $hc->getHtmlDiv($single, $moduleDirname.'-submitform').PHP_EOL;
+        $single = $hc->getSmartySingleVar('message_error') . PHP_EOL;
+        $divError = $hc->getHtmlDiv($single, 'errorMsg') . PHP_EOL;
+        $ret .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError) . PHP_EOL;
+        $single = $hc->getSmartySingleVar('form') . PHP_EOL;
+        $ret .= $hc->getHtmlDiv($single, $moduleDirname . '-submitform') . PHP_EOL;
 
         return $ret;
     }
 
     /**
-    *  @private function getTemplatesUserSubmitFooter
-    *  @param string $moduleDirname
+     *  @private function getTemplatesUserSubmitFooter
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -124,8 +125,8 @@ class Submit extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

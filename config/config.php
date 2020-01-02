@@ -16,21 +16,20 @@
  * @since
  * @author       XOOPS Development Team
  */
-
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 return (object)[
-    'name'           => mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
-    'paths'          => [
-        'dirname'    => $moduleDirName,
-        'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
-        'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
-        'modUrl'     => XOOPS_URL . '/modules/' . $moduleDirName,
+    'name' => mb_strtoupper($moduleDirName) . ' ModuleConfigurator',
+    'paths' => [
+        'dirname' => $moduleDirName,
+        'admin' => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
+        'modPath' => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+        'modUrl' => XOOPS_URL . '/modules/' . $moduleDirName,
         'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
+        'uploadUrl' => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
-    'uploadFolders'  => [
+    'uploadFolders' => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
@@ -57,7 +56,7 @@ return (object)[
         //            '/templates/blocks/',
         //            '/templates/admin/'
     ],
-    'oldFiles'        => [
+    'oldFiles' => [
         '/class/request.php',
         '/class/registry.php',
         '/class/utilities.php',
@@ -66,7 +65,7 @@ return (object)[
         //            '/include/functions.php',
         '/ajaxrating.txt',
     ],
-    'oldFolders'      => [
+    'oldFolders' => [
         '/images',
         '/css',
         '/js',
@@ -75,7 +74,7 @@ return (object)[
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
-    'moduleStats'  => [
+    'moduleStats' => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
         //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
         //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
@@ -83,4 +82,3 @@ return (object)[
     'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
 ];
-

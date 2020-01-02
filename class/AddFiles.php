@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 use XoopsModules\Tdmcreate;
 
@@ -46,10 +48,9 @@ class AddFiles extends \XoopsObject
     private $settings;
 
     /**
-    *  @public function constructor class
-    *  @param null
-    */
-
+     *  @public function constructor class
+     *  @param null
+     */
     public function __construct()
     {
         $this->helper = Tdmcreate\Helper::getInstance();
@@ -75,8 +76,8 @@ class AddFiles extends \XoopsObject
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return AddFiles
      */
     public static function getInstance()
@@ -90,8 +91,8 @@ class AddFiles extends \XoopsObject
     }
 
     /**
-    *  @public function getFormMoreFiles
-    *  @param mixed $action
+     *  @public function getFormMoreFiles
+     *  @param mixed $action
      *
      * @return \XoopsThemeForm
      */
@@ -130,7 +131,7 @@ class AddFiles extends \XoopsObject
         $form->addElement($fileInfolder, true);
 
         $form->addElement(new \XoopsFormHidden('op', 'save'));
-        $form->addElement(new \XoopsFormButton(_REQUIRED.' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
+        $form->addElement(new \XoopsFormButton(_REQUIRED . ' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
 
         return $form;
     }
@@ -155,4 +156,3 @@ class AddFiles extends \XoopsObject
         return $ret;
     }
 }
-

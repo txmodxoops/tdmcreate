@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Language;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Language;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageMailTpl extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return LanguageMailTpl
      */
     public static function getInstance()
@@ -100,7 +101,7 @@ Please do not reply to this message.
 webmaster
 {X_ADMINMAIL}
 EOT;
-        $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'].'/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/mail_template', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

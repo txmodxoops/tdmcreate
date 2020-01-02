@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 use XoopsModules\Tdmcreate;
 
@@ -23,7 +25,6 @@ use XoopsModules\Tdmcreate;
  *
  * @version         $Id: 1.91 fieldkey.php 11297 2014-05-14 10:58:10Z timgno $
  */
-
 
 /**
  * Class FieldkeyHandler.

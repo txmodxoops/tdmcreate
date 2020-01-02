@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Form;
+<?php
+
+namespace XoopsModules\Tdmcreate\Form;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -22,7 +24,6 @@
  * @version         $Id: 1.59 themeform.php 11297 2013-03-24 10:58:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
 
 \XoopsLoad::load('XoopsFormLoader');
 
@@ -50,7 +51,7 @@ class ThemeForm extends \XoopsForm
     {
         $ele_name = $this->getName();
         //$ret = ($this->getTitle() ? '<div class=" center head ">' . $this->getTitle() . '</div>' : '');
-        $ret = NWLINE.'<form name="'.$ele_name.'" id="'.$ele_name.'" action="'.$this->getAction().'" method="'.$this->getMethod().'" onsubmit="return xoopsFormValidate_'.$ele_name.'();"'.$this->getExtra().'>'.NWLINE;
+        $ret = NWLINE . '<form name="' . $ele_name . '" id="' . $ele_name . '" action="' . $this->getAction() . '" method="' . $this->getMethod() . '" onsubmit="return xoopsFormValidate_' . $ele_name . '();"' . $this->getExtra() . '>' . NWLINE;
         $hidden = '';
         $class = 'even';
         foreach ($this->getElements() as $ele) {
@@ -64,7 +65,7 @@ class ThemeForm extends \XoopsForm
                 }
             }
         }
-        $ret .= NWLINE.' '.$hidden.NWLINE.'</form>';
+        $ret .= NWLINE . ' ' . $hidden . NWLINE . '</form>';
         $ret .= $this->renderValidationJS(true);
 
         return $ret;

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -34,7 +36,6 @@ class UserBroken extends Files\CreateFile
      *  @public function constructor
      *  @param null
      */
-
     public function __construct()
     {
         parent::__construct();
@@ -174,14 +175,14 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-      *  @private function getUserSubmitSwitch
-      *  @param $moduleDirname
+     *  @private function getUserSubmitSwitch
+     *  @param $moduleDirname
      *  @param $tableName
      *  @param $tableSoleName
      *  @param $tableAutoincrement
      *  @param $language
      * @return bool|string
-      */
+     */
     private function getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();

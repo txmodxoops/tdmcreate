@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files;
 
 use  XoopsModules\Tdmcreate;
 use  XoopsModules\Tdmcreate\Files;
@@ -31,17 +33,16 @@ use  XoopsModules\Tdmcreate\Files;
 class CreateSmartyCode
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return Files\CreateSmartyCode
      */
     public static function getInstance()
@@ -76,17 +77,17 @@ class CreateSmartyCode
     }
 
     /**
-    *  @private function setAttributes
-    *  @param array $attributes
-    *
-    * @return string
-    */
+     *  @private function setAttributes
+     *  @param array $attributes
+     *
+     * @return string
+     */
     private function getAttributes($attributes)
     {
         $str = '';
         foreach ($attributes as $name => $value) {
             if ('_' !== $name) {
-                $str .= ' '.$name.'="'.$value.'"';
+                $str .= ' ' . $name . '="' . $value . '"';
             }
         }
 
@@ -94,8 +95,8 @@ class CreateSmartyCode
     }
 
     /**
-    *  @public function getSmartyEmpty
-    *  @param string $empty
+     *  @public function getSmartyEmpty
+     *  @param string $empty
      *
      * @return string
      */

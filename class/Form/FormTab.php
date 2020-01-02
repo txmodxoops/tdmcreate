@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Form;
+<?php
+
+namespace XoopsModules\Tdmcreate\Form;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -51,25 +53,25 @@ class FormTab extends \XoopsFormElementTray
         /* @var \XoopsFormElement $ele */
         foreach ($this->getElements() as $ele) {
             $ret .= NWLINE;
-            $ret .= '<tr>'.NWLINE;
-            $ret .= '<td class="head" width="30%">'.NWLINE;
+            $ret .= '<tr>' . NWLINE;
+            $ret .= '<td class="head" width="30%">' . NWLINE;
             $required = $ele->isRequired() ? '-required' : '';
-            $ret .= '<div class="xoops-form-element-caption'.$required.'">'.NWLINE;
-            $ret .= '<span class="caption-text">'.$ele->getCaption().'</span>'.NWLINE;
-            $ret .= '<span class="caption-marker">*</span>'.NWLINE;
-            $ret .= '</div>'.NWLINE;
+            $ret .= '<div class="xoops-form-element-caption' . $required . '">' . NWLINE;
+            $ret .= '<span class="caption-text">' . $ele->getCaption() . '</span>' . NWLINE;
+            $ret .= '<span class="caption-marker">*</span>' . NWLINE;
+            $ret .= '</div>' . NWLINE;
             $description = $ele->getDescription();
             if ($description) {
-                $ret .= '<div style="font-weight: normal">'.NWLINE;
-                $ret .= $description.NWLINE;
-                $ret .= '</div>'.NWLINE;
+                $ret .= '<div style="font-weight: normal">' . NWLINE;
+                $ret .= $description . NWLINE;
+                $ret .= '</div>' . NWLINE;
             }
-            $ret .= '</td>'.NWLINE;
-            $ret .= '<td class="even">'.NWLINE;
-            $ret .= $ele->render().NWLINE;
-            $ret .= '<span class="form-horizontal">'.$ele->getDescription().'</span>';
-            $ret .= '</td>'.NWLINE;
-            $ret .= '</tr>'.NWLINE;
+            $ret .= '</td>' . NWLINE;
+            $ret .= '<td class="even">' . NWLINE;
+            $ret .= $ele->render() . NWLINE;
+            $ret .= '<span class="form-horizontal">' . $ele->getDescription() . '</span>';
+            $ret .= '</td>' . NWLINE;
+            $ret .= '</tr>' . NWLINE;
         }
 
         return $ret;

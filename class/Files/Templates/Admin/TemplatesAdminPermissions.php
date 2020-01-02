@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminPermissions extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return TemplatesAdminPermissions
      */
     public static function getInstance()
@@ -56,8 +57,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
+     *  @public function write
+     *  @param string $module
      * @param $filename
      */
     public function write($module, $filename)
@@ -67,8 +68,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-    *  @private function getTemplatesAdminPermissionsHeader
-    *  @param string $moduleDirname
+     *  @private function getTemplatesAdminPermissionsHeader
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -76,12 +77,12 @@ class TemplatesAdminPermissions extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header', true).PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header', true) . PHP_EOL;
     }
 
     /**
-    *  @private function getTemplatesAdminPermissions
-    *  @param null
+     *  @private function getTemplatesAdminPermissions
+     *  @param null
      * @return string
      */
     private function getTemplatesAdminPermissions()
@@ -95,8 +96,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-    *  @private function getTemplatesAdminPermissionsFooter
-    *  @param string $moduleDirname
+     *  @private function getTemplatesAdminPermissionsFooter
+     *  @param string $moduleDirname
      *
      * @return string
      */
@@ -108,8 +109,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files;
 
 use XoopsModules\Tdmcreate;
 
@@ -47,7 +49,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTag
+     *  @public function getHtmlTag
      * @param string $tag
      * @param array  $attributes
      * @param string $content
@@ -78,17 +80,17 @@ class CreateHtmlCode
     }
 
     /**
-    *  @private function setAttributes
-    *  @param array $attributes
-    *
-    * @return string
-    */
+     *  @private function setAttributes
+     *  @param array $attributes
+     *
+     * @return string
+     */
     private function getAttributes($attributes)
     {
         $str = '';
         foreach ($attributes as $name => $value) {
             if ('_' !== $name) {
-                $str .= ' '.$name.'="'.$value.'"';
+                $str .= ' ' . $name . '="' . $value . '"';
             }
         }
 
@@ -96,8 +98,8 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlEmpty
-    *  @param string $empty
+     *  @public function getHtmlEmpty
+     *  @param string $empty
      *
      * @return string
      */
@@ -107,9 +109,9 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlComment
-    *  @param string $htmlComment
-       * @return string
+     *  @public function getHtmlComment
+     *  @param string $htmlComment
+     * @return string
      */
     public function getHtmlComment($htmlComment = '')
     {
@@ -117,8 +119,8 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlBr
-    *  @param int $brNumb
+     *  @public function getHtmlBr
+     *  @param int $brNumb
      * @param string $htmlClass
      * @param string $t
      * @return string
@@ -135,7 +137,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlHNumb
+     *  @public function getHtmlHNumb
      * @param string $content
      * @param string $n
      * @param string $htmlHClass
@@ -151,7 +153,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlDiv
+     *  @public function getHtmlDiv
      * @param string $content
      * @param string $divClass
      * @param string $t
@@ -168,7 +170,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlPre
+     *  @public function getHtmlPre
      * @param string $content
      * @param string $preClass
      * @param string $t
@@ -185,8 +187,8 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlSpan
-    *  @param string $content
+     *  @public function getHtmlSpan
+     *  @param string $content
      * @param string $spanClass
      * @param string $t
      * @return string
@@ -200,7 +202,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlParagraph
+     *  @public function getHtmlParagraph
      * @param string $content
      * @param string $pClass
      * @param string $t
@@ -217,7 +219,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlI
+     *  @public function getHtmlI
      * @param string $content
      * @param string $iClass
      * @param string $t
@@ -232,7 +234,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlUl
+     *  @public function getHtmlUl
      * @param string $content
      * @param string $ulClass
      * @param string $t
@@ -249,7 +251,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlOl
+     *  @public function getHtmlOl
      * @param string $content
      * @param string $olClass
      * @param string $t
@@ -266,7 +268,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlLi
+     *  @public function getHtmlLi
      * @param string $content
      * @param string $liClass
      * @param string $t
@@ -280,7 +282,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlStrong
+     *  @public function getHtmlStrong
      * @param string $content
      * @param string $strongClass
      * @param string $t
@@ -294,7 +296,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlAnchor
+     *  @public function getHtmlAnchor
      * @param string $url
      * @param string $content
      * @param string $title
@@ -314,9 +316,9 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlImage
-    *  @param string $src
-    *  @param string $alt
+     *  @public function getHtmlImage
+     *  @param string $src
+     *  @param string $alt
      * @param string $imgClass
      * @param string $t
      * @return string
@@ -330,7 +332,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTable
+     *  @public function getHtmlTable
      * @param string $content
      * @param string $tableClass
      * @param string $t
@@ -347,7 +349,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTableThead
+     *  @public function getHtmlTableThead
      * @param string $content
      * @param string $theadClass
      * @param string $t
@@ -364,7 +366,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTableTbody
+     *  @public function getHtmlTableTbody
      * @param string $content
      * @param string $tbodyClass
      * @param string $t
@@ -381,7 +383,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTableTfoot
+     *  @public function getHtmlTableTfoot
      * @param string $content
      * @param string $tfootClass
      * @param string $t
@@ -398,12 +400,12 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTableRow
+     *  @public function getHtmlTableRow
      * @param string $content
      * @param string $trClass
      * @param string $t
      * @return string
-      */
+     */
     public function getHtmlTableRow($content = '', $trClass = '', $t = '')
     {
         $rTrClass = ('' != $trClass) ? " class='{$trClass}'" : '';
@@ -415,7 +417,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTableHead
+     *  @public function getHtmlTableHead
      * @param string $content
      * @param string $thClass
      * @param string $colspan
@@ -431,7 +433,7 @@ class CreateHtmlCode
     }
 
     /**
-    *  @public function getHtmlTableData
+     *  @public function getHtmlTableData
      * @param string $content
      * @param string $tdClass
      * @param string $colspan

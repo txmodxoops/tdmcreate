@@ -23,7 +23,6 @@ use XoopsModules\Tdmcreate;
  *
  * @version         $Id: building.php 12258 2014-01-02 09:33:29Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_building.tpl';
 
 include __DIR__ . '/header.php';

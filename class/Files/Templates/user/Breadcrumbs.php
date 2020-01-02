@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -32,18 +34,17 @@ use XoopsModules\Tdmcreate\Files\Templates\User;
 class Breadcrumbs extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return User\Breadcrumbs
      */
     public static function getInstance()
@@ -57,9 +58,9 @@ class Breadcrumbs extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -68,8 +69,8 @@ class Breadcrumbs extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -82,12 +83,12 @@ class Breadcrumbs extends Files\CreateFile
         $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $t = "\t";
         $title = $sc->getSmartyDoubleVar('itm', 'title');
-        $titleElse = $sc->getSmartyDoubleVar('itm', 'title', $t."\t").PHP_EOL;
+        $titleElse = $sc->getSmartyDoubleVar('itm', 'title', $t . "\t") . PHP_EOL;
         $link = $sc->getSmartyDoubleVar('itm', 'link');
         $glyph = $hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, true);
         $anchor = $hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
         $into = $hc->getHtmlTag('li', ['class' => 'bc-item'], $anchor, false, true, $t) . PHP_EOL;
-        $anchorIf = $hc->getHtmlAnchor($link, $title, $title, '', '', '', $t."\t").PHP_EOL;
+        $anchorIf = $hc->getHtmlAnchor($link, $title, $title, '', '', '', $t . "\t") . PHP_EOL;
         $breadcrumb = $sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, $t);
         $foreach = $hc->getHtmlTag('li', ['class' => 'bc-item'], $breadcrumb, false, false, $t);
         $into .= $sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', $t);

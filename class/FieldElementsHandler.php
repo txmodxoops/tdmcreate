@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 use XoopsModules\Tdmcreate;
 
@@ -24,14 +26,13 @@ use XoopsModules\Tdmcreate;
  * @version         $Id: 1.91 fieldelements.php 11297 2014-03-24 09:11:10Z timgno $
  */
 
-
 /**
  * Class FieldElementsHandler.
  */
 class FieldElementsHandler extends \XoopsPersistableObjectHandler
 {
     /**
-    *  @public function constructor class
+     *  @public function constructor class
      * @param null|\XoopsDatabase|\XoopsMySQLDatabase $db
      */
     public function __construct(\XoopsDatabase $db)

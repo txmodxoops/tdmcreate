@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Html;
+<?php
+
+namespace XoopsModules\Tdmcreate\Html;
 
 /**
  * XOOPS form element.

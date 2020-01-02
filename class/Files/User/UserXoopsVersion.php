@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -121,20 +123,48 @@ class UserXoopsVersion extends Files\CreateFile
         $hm = (1 == $module->getVar('mod_user')) ? 1 : 0;
 
         $descriptions = [
-            'name'                => "{$language}NAME", 'version' => (string)$module->getVar('mod_version'), 'description' => "{$language}DESC",
-            'author'              => "'{$module->getVar('mod_author')}'", 'author_mail' => "'{$module->getVar('mod_author_mail')}'", 'author_website_url' => "'{$module->getVar('mod_author_website_url')}'",
-            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'", 'credits' => "'{$module->getVar('mod_credits')}'", 'license' => "'{$module->getVar('mod_license')}'",
-            'license_url'         => "'http://www.gnu.org/licenses/gpl-3.0.en.html'", 'help' => "'page=help'", 'release_info' => "'{$module->getVar('mod_release_info')}'",
-            'release_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'", 'release_date' => "'{$date}'",
-            'manual' => "'{$module->getVar('mod_manual')}'", 'manual_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
-            'min_php' => "'{$module->getVar('mod_min_php')}'", 'min_xoops' => "'{$module->getVar('mod_min_xoops')}'", 'min_admin' => "'{$module->getVar('mod_min_admin')}'",
-            'min_db' => "array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}')", 'image' => "'assets/images/{$module->getVar('mod_image')}'",
-            'dirname' => 'basename(__DIR__)', 'dirmoduleadmin' => "'Frameworks/moduleclasses/moduleadmin'", 'sysicons16' => "'../../Frameworks/moduleclasses/icons/16'",
-            'sysicons32' => "'../../Frameworks/moduleclasses/icons/32'", 'modicons16' => "'assets/icons/16'", 'modicons32' => "'assets/icons/32'",
-            'demo_site_url' => "'{$module->getVar('mod_demo_site_url')}'", 'demo_site_name' => "'{$module->getVar('mod_demo_site_name')}'", 'support_url' => "'{$module->getVar('mod_support_url')}'",
-            'support_name' => "'{$module->getVar('mod_support_name')}'", 'module_website_url' => "'{$module->getVar('mod_website_url')}'", 'module_website_name' => "'{$module->getVar('mod_website_name')}'", 'release' => "'{$module->getVar('mod_release')}'", 'module_status' => "'{$module->getVar('mod_status')}'",
-            'system_menu' => '1', 'hasAdmin' => $ha, 'hasMain' => $hm, 'adminindex' => "'admin/index.php'", 'adminmenu' => "'admin/menu.php'",
-            'onInstall' => "'include/install.php'", 'onUpdate' => "'include/update.php'",
+            'name' => "{$language}NAME",
+'version' => (string)$module->getVar('mod_version'),
+'description' => "{$language}DESC",
+            'author' => "'{$module->getVar('mod_author')}'",
+'author_mail' => "'{$module->getVar('mod_author_mail')}'",
+'author_website_url' => "'{$module->getVar('mod_author_website_url')}'",
+            'author_website_name' => "'{$module->getVar('mod_author_website_name')}'",
+'credits' => "'{$module->getVar('mod_credits')}'",
+'license' => "'{$module->getVar('mod_license')}'",
+            'license_url' => "'http://www.gnu.org/licenses/gpl-3.0.en.html'",
+'help' => "'page=help'",
+'release_info' => "'{$module->getVar('mod_release_info')}'",
+            'release_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_release_file')}'",
+'release_date' => "'{$date}'",
+            'manual' => "'{$module->getVar('mod_manual')}'",
+'manual_file' => "XOOPS_URL . '/modules/{$module->getVar('mod_dirname')}/docs/{$module->getVar('mod_manual_file')}'",
+            'min_php' => "'{$module->getVar('mod_min_php')}'",
+'min_xoops' => "'{$module->getVar('mod_min_xoops')}'",
+'min_admin' => "'{$module->getVar('mod_min_admin')}'",
+            'min_db' => "array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}')",
+'image' => "'assets/images/{$module->getVar('mod_image')}'",
+            'dirname' => 'basename(__DIR__)',
+'dirmoduleadmin' => "'Frameworks/moduleclasses/moduleadmin'",
+'sysicons16' => "'../../Frameworks/moduleclasses/icons/16'",
+            'sysicons32' => "'../../Frameworks/moduleclasses/icons/32'",
+'modicons16' => "'assets/icons/16'",
+'modicons32' => "'assets/icons/32'",
+            'demo_site_url' => "'{$module->getVar('mod_demo_site_url')}'",
+'demo_site_name' => "'{$module->getVar('mod_demo_site_name')}'",
+'support_url' => "'{$module->getVar('mod_support_url')}'",
+            'support_name' => "'{$module->getVar('mod_support_name')}'",
+'module_website_url' => "'{$module->getVar('mod_website_url')}'",
+'module_website_name' => "'{$module->getVar('mod_website_name')}'",
+'release' => "'{$module->getVar('mod_release')}'",
+'module_status' => "'{$module->getVar('mod_status')}'",
+            'system_menu' => '1',
+'hasAdmin' => $ha,
+'hasMain' => $hm,
+'adminindex' => "'admin/index.php'",
+'adminmenu' => "'admin/menu.php'",
+            'onInstall' => "'include/install.php'",
+'onUpdate' => "'include/update.php'",
         ];
 
         $ret .= $uCodeVHeader->getUserModVersion(1, $descriptions);
@@ -409,9 +439,13 @@ class UserXoopsVersion extends Files\CreateFile
         $ucfTableName = ucfirst($tableName);
         $ret = $phpCodeVTBlocks->getPhpCodeCommentLine($ucfTableName);
         $blocks = [
-            'file' => "'{$tableName}.php'", 'name' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}", 'description' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC",
-            'show_func' => "'b_{$moduleDirname}_{$tableName}_show'", 'edit_func' => "'b_{$moduleDirname}_{$tableName}_edit'",
-            'template' => "'{$moduleDirname}_block_{$tableName}.tpl'", 'options' => "'{$type}|5|25|0'",
+            'file' => "'{$tableName}.php'",
+'name' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}",
+'description' => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}_DESC",
+            'show_func' => "'b_{$moduleDirname}_{$tableName}_show'",
+'edit_func' => "'b_{$moduleDirname}_{$tableName}_edit'",
+            'template' => "'{$moduleDirname}_block_{$tableName}.tpl'",
+'options' => "'{$type}|5|25|0'",
         ];
         $ret .= $uCodeVTBlocks->getUserModVersion(3, $blocks, 'blocks', '$b');
         $ret .= $this->getSimpleString('++$b;');
@@ -458,12 +492,17 @@ class UserXoopsVersion extends Files\CreateFile
                         $ret .= $xCodeVConfig->getXcLoad('xoopseditorhandler');
                         $ret .= $xCodeVConfig->getXcEqualsOperator('$editorHandler' . $ucfFieldName, 'XoopsEditorHandler::getInstance()');
                         $editor = [
-                            'name' => "'editor_{$rpFieldName}'", 'title' => "'{$language}EDITOR_{$stuFieldName}'", 'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
-                            'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'dhtml'", 'options' => 'array_flip($editorHandler' . $ucfFieldName . '->getList())',
+                            'name' => "'editor_{$rpFieldName}'",
+'title' => "'{$language}EDITOR_{$stuFieldName}'",
+'description' => "'{$language}EDITOR_{$stuFieldName}_DESC'",
+                            'formtype' => "'select'",
+'valuetype' => "'text'",
+'default' => "'dhtml'",
+'options' => 'array_flip($editorHandler' . $ucfFieldName . '->getList())',
                         ];
                         $ret .= $uCodeVConfig->getUserModVersion(3, $editor, 'config', '$c');
                         $ret .= $this->getSimpleString('++$c;');
-                    break;
+                        break;
                     case '10':
                     case '11':
                     case '12':
@@ -475,10 +514,10 @@ class UserXoopsVersion extends Files\CreateFile
                     case 13:
                     case 14:
                         $field_images = 1;
-                    break;
+                        break;
                     case 'else':
                     default:
-                    break;
+                        break;
                 }
             }
             if (1 == $table->getVar('table_permissions')) {
@@ -502,8 +541,13 @@ class UserXoopsVersion extends Files\CreateFile
             $group = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
             $ret .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
             $groups = [
-                'name' => "'groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
-                'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$groups', 'options' => '$groups',
+                'name' => "'groups'",
+'title' => "'{$language}GROUPS'",
+'description' => "'{$language}GROUPS_DESC'",
+                'formtype' => "'select_multi'",
+'valuetype' => "'array'",
+'default' => '$groups',
+'options' => '$groups',
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $groups, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
@@ -515,8 +559,13 @@ class UserXoopsVersion extends Files\CreateFile
             $adminGroup = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key', null, false, "\t");
             $ret .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
             $adminGroups = [
-                'name' => "'admin_groups'", 'title' => "'{$language}GROUPS'", 'description' => "'{$language}GROUPS_DESC'",
-                'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => '$adminGroups', 'options' => '$adminGroups',
+                'name' => "'admin_groups'",
+'title' => "'{$language}GROUPS'",
+'description' => "'{$language}GROUPS_DESC'",
+                'formtype' => "'select_multi'",
+'valuetype' => "'array'",
+'default' => '$adminGroups',
+'options' => '$adminGroups',
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $adminGroups, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
@@ -524,8 +573,12 @@ class UserXoopsVersion extends Files\CreateFile
         $keyword = implode(', ', $this->getKeywords());
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Keywords');
         $arrayKeyword = [
-            'name' => "'keywords'", 'title' => "'{$language}KEYWORDS'", 'description' => "'{$language}KEYWORDS_DESC'",
-            'formtype' => "'textbox'", 'valuetype' => "'text'", 'default' => "'{$moduleDirname}, {$keyword}'",
+            'name' => "'keywords'",
+'title' => "'{$language}KEYWORDS'",
+'description' => "'{$language}KEYWORDS_DESC'",
+            'formtype' => "'textbox'",
+'valuetype' => "'text'",
+'default' => "'{$moduleDirname}, {$keyword}'",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $arrayKeyword, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
@@ -534,15 +587,23 @@ class UserXoopsVersion extends Files\CreateFile
         if (1 === $field_images) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : maxsize of image');
             $maxsize = [
-                'name' => "'maxsize'", 'title' => "'{$language}MAXSIZE'", 'description' => "'{$language}MAXSIZE_DESC'",
-                'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '5000000',
+                'name' => "'maxsize'",
+'title' => "'{$language}MAXSIZE'",
+'description' => "'{$language}MAXSIZE_DESC'",
+                'formtype' => "'textbox'",
+'valuetype' => "'int'",
+'default' => '5000000',
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $maxsize, 'config', '$c');
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : mimetypes of image');
             $ret .= $this->getSimpleString('++$c;');
             $mimetypes = [
-                'name' => "'mimetypes'", 'title' => "'{$language}MIMETYPES'", 'description' => "'{$language}MIMETYPES_DESC'",
-                'formtype' => "'select_multi'", 'valuetype' => "'array'", 'default' => "array('image/gif', 'image/jpeg', 'image/png')",
+                'name' => "'mimetypes'",
+'title' => "'{$language}MIMETYPES'",
+'description' => "'{$language}MIMETYPES_DESC'",
+                'formtype' => "'select_multi'",
+'valuetype' => "'array'",
+'default' => "array('image/gif', 'image/jpeg', 'image/png')",
                 'options' => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')",
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $mimetypes, 'config', '$c');
@@ -551,8 +612,12 @@ class UserXoopsVersion extends Files\CreateFile
         if (1 === $table_admin) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Admin pager');
             $adminPager = [
-                'name' => "'adminpager'", 'title' => "'{$language}ADMIN_PAGER'", 'description' => "'{$language}ADMIN_PAGER_DESC'",
-                'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10',
+                'name' => "'adminpager'",
+'title' => "'{$language}ADMIN_PAGER'",
+'description' => "'{$language}ADMIN_PAGER_DESC'",
+                'formtype' => "'textbox'",
+'valuetype' => "'int'",
+'default' => '10',
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $adminPager, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
@@ -560,8 +625,12 @@ class UserXoopsVersion extends Files\CreateFile
         if (1 === $table_user) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('User pager');
             $userPager = [
-                'name' => "'userpager'", 'title' => "'{$language}USER_PAGER'", 'description' => "'{$language}USER_PAGER_DESC'",
-                'formtype' => "'textbox'", 'valuetype' => "'int'", 'default' => '10',
+                'name' => "'userpager'",
+'title' => "'{$language}USER_PAGER'",
+'description' => "'{$language}USER_PAGER_DESC'",
+                'formtype' => "'textbox'",
+'valuetype' => "'int'",
+'default' => '10',
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $userPager, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
@@ -569,72 +638,116 @@ class UserXoopsVersion extends Files\CreateFile
         if (1 === $table_tag) {
             $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Use tag');
             $useTag = [
-                'name' => "'usetag'", 'title' => "'{$language}USE_TAG'", 'description' => "'{$language}USE_TAG_DESC'",
-                'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0',
+                'name' => "'usetag'",
+'title' => "'{$language}USE_TAG'",
+'description' => "'{$language}USE_TAG_DESC'",
+                'formtype' => "'yesno'",
+'valuetype' => "'int'",
+'default' => '0',
             ];
             $ret .= $uCodeVConfig->getUserModVersion(3, $useTag, 'config', '$c');
             $ret .= $this->getSimpleString('++$c;');
         }
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Number column');
         $numbCol = [
-            'name' => "'numb_col'", 'title' => "'{$language}NUMB_COL'", 'description' => "'{$language}NUMB_COL_DESC'",
-            'formtype' => "'select'", 'valuetype' => "'int'", 'default' => '1', 'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
+            'name' => "'numb_col'",
+'title' => "'{$language}NUMB_COL'",
+'description' => "'{$language}NUMB_COL_DESC'",
+            'formtype' => "'select'",
+'valuetype' => "'int'",
+'default' => '1',
+'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $numbCol, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Divide by');
         $divideby = [
-            'name' => "'divideby'", 'title' => "'{$language}DIVIDEBY'", 'description' => "'{$language}DIVIDEBY_DESC'",
-            'formtype' => "'select'", 'valuetype' => "'int'", 'default' => '1', 'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
+            'name' => "'divideby'",
+'title' => "'{$language}DIVIDEBY'",
+'description' => "'{$language}DIVIDEBY_DESC'",
+            'formtype' => "'select'",
+'valuetype' => "'int'",
+'default' => '1',
+'options' => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $divideby, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Table type');
         $tableType = [
-            'name' => "'table_type'", 'title' => "'{$language}TABLE_TYPE'", 'description' => "'{$language}DIVIDEBY_DESC'",
-            'formtype' => "'select'", 'valuetype' => "'int'", 'default' => "'bordered'", 'options' => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')",
+            'name' => "'table_type'",
+'title' => "'{$language}TABLE_TYPE'",
+'description' => "'{$language}DIVIDEBY_DESC'",
+            'formtype' => "'select'",
+'valuetype' => "'int'",
+'default' => "'bordered'",
+'options' => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $tableType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Panel by');
         $panelType = [
-            'name' => "'panel_type'", 'title' => "'{$language}PANEL_TYPE'", 'description' => "'{$language}PANEL_TYPE_DESC'",
-            'formtype' => "'select'", 'valuetype' => "'text'", 'default' => "'default'", 'options' => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')",
+            'name' => "'panel_type'",
+'title' => "'{$language}PANEL_TYPE'",
+'description' => "'{$language}PANEL_TYPE_DESC'",
+            'formtype' => "'select'",
+'valuetype' => "'text'",
+'default' => "'default'",
+'options' => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $panelType, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Advertise');
         $advertise = [
-            'name' => "'advertise'", 'title' => "'{$language}ADVERTISE'", 'description' => "'{$language}ADVERTISE_DESC'",
-            'formtype' => "'textarea'", 'valuetype' => "'text'", 'default' => "''",
+            'name' => "'advertise'",
+'title' => "'{$language}ADVERTISE'",
+'description' => "'{$language}ADVERTISE_DESC'",
+            'formtype' => "'textarea'",
+'valuetype' => "'text'",
+'default' => "''",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $advertise, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Bookmarks');
         $bookmarks = [
-            'name' => "'bookmarks'", 'title' => "'{$language}BOOKMARKS'", 'description' => "'{$language}BOOKMARKS_DESC'",
-            'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0',
+            'name' => "'bookmarks'",
+'title' => "'{$language}BOOKMARKS'",
+'description' => "'{$language}BOOKMARKS_DESC'",
+            'formtype' => "'yesno'",
+'valuetype' => "'int'",
+'default' => '0',
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $bookmarks, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Facebook Comments');
         $facebookComments = [
-            'name' => "'facebook_comments'", 'title' => "'{$language}FACEBOOK_COMMENTS'", 'description' => "'{$language}FACEBOOK_COMMENTS_DESC'",
-            'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0',
+            'name' => "'facebook_comments'",
+'title' => "'{$language}FACEBOOK_COMMENTS'",
+'description' => "'{$language}FACEBOOK_COMMENTS_DESC'",
+            'formtype' => "'yesno'",
+'valuetype' => "'int'",
+'default' => '0',
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $facebookComments, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Disqus Comments');
         $disqusComments = [
-            'name' => "'disqus_comments'", 'title' => "'{$language}DISQUS_COMMENTS'", 'description' => "'{$language}DISQUS_COMMENTS_DESC'",
-            'formtype' => "'yesno'", 'valuetype' => "'int'", 'default' => '0',
+            'name' => "'disqus_comments'",
+'title' => "'{$language}DISQUS_COMMENTS'",
+'description' => "'{$language}DISQUS_COMMENTS_DESC'",
+            'formtype' => "'yesno'",
+'valuetype' => "'int'",
+'default' => '0',
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $disqusComments, 'config', '$c');
         $ret .= $this->getSimpleString('++$c;');
         $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Maintained by');
         $maintainedby = [
-            'name' => "'maintainedby'", 'title' => "'{$language}MAINTAINEDBY'", 'description' => "'{$language}MAINTAINEDBY_DESC'",
-            'formtype' => "'textbox'", 'valuetype' => "'text'", 'default' => "'{$module->getVar('mod_support_url')}'",
+            'name' => "'maintainedby'",
+'title' => "'{$language}MAINTAINEDBY'",
+'description' => "'{$language}MAINTAINEDBY_DESC'",
+            'formtype' => "'textbox'",
+'valuetype' => "'text'",
+'default' => "'{$module->getVar('mod_support_url')}'",
         ];
         $ret .= $uCodeVConfig->getUserModVersion(3, $maintainedby, 'config', '$c');
         $ret .= $this->getSimpleString('unset($c);');
@@ -666,17 +779,26 @@ class UserXoopsVersion extends Files\CreateFile
             case 'category':
                 $ret .= $phpCodeNType->getPhpCodeCommentLine('Category Notify');
                 $category = [
-                    'name' => "'category'", 'title' => "'{$language}{$stuTableName}_NOTIFY'", 'description' => "'{$language}{$stuTableName}_NOTIFY_DESC'",
-                    'subscribe_from' => "array('index.php',{$notifyFile})", 'item_name' => "'{$item}'", "'allow_bookmark'" => '1',
+                    'name' => "'category'",
+'title' => "'{$language}{$stuTableName}_NOTIFY'",
+'description' => "'{$language}{$stuTableName}_NOTIFY_DESC'",
+                    'subscribe_from' => "array('index.php',{$notifyFile})",
+'item_name' => "'{$item}'",
+"'allow_bookmark'" => '1',
                 ];
                 $ret .= $uCodeNType->getUserModVersion(3, $category, 'notification', "'{$type}'");
                 break;
             case 'event':
                 $ret .= $phpCodeNType->getPhpCodeCommentLine('Event Notify');
                 $event = [
-                    'name' => "'{$typeOfNotify}'", 'category' => "'{$tableName}'", 'admin_only' => '1', "'title'" => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY'",
-                    'caption' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION'", 'description' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_DESC'",
-                    'mail_template' => "'{$tableName}_{$typeOfNotify}_notify'", 'mail_subject' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT'",
+                    'name' => "'{$typeOfNotify}'",
+'category' => "'{$tableName}'",
+'admin_only' => '1',
+"'title'" => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY'",
+                    'caption' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_CAPTION'",
+'description' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_DESC'",
+                    'mail_template' => "'{$tableName}_{$typeOfNotify}_notify'",
+'mail_subject' => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT'",
                 ];
                 $ret .= $uCodeNType->getUserModVersion(3, $event, 'notification', "'{$type}'");
                 break;
@@ -794,7 +916,9 @@ class UserXoopsVersion extends Files\CreateFile
         $implodeFrom = implode(".php', '", $from);
         $ret = $phpCodeVNG->getPhpCodeCommentLine('Global Notify');
         $global = [
-            'name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
+            'name' => "'{$name}'",
+'title' => "{$language}{$title}_NOTIFY",
+'description' => "{$language}{$title}_NOTIFY_DESC",
             'subscribe_from' => "array('index.php', '{$implodeFrom}.php')",
         ];
         $ret .= $uCodeVNG->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
@@ -822,8 +946,12 @@ class UserXoopsVersion extends Files\CreateFile
         $impFile = implode(".php', '", $file);
         $ret = $phpCodeVNC->getPhpCodeCommentLine('Category Notify');
         $global = [
-            'name' => "'{$name}'", 'title' => "{$language}{$title}_NOTIFY", 'description' => "{$language}{$title}_NOTIFY_DESC",
-            'subscribe_from' => "array('{$impFile}.php')", 'item_name' => "'{$item}'", 'allow_bookmark' => (string)$allow,
+            'name' => "'{$name}'",
+'title' => "{$language}{$title}_NOTIFY",
+'description' => "{$language}{$title}_NOTIFY_DESC",
+            'subscribe_from' => "array('{$impFile}.php')",
+'item_name' => "'{$item}'",
+'allow_bookmark' => (string)$allow,
         ];
         $ret .= $uCodeVNC->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
 
@@ -851,8 +979,12 @@ class UserXoopsVersion extends Files\CreateFile
         $ucfTitle = ucfirst($title);
         $ret = $phpCodeVNTN->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $table = [
-            'name' => "'{$name}'", 'title' => "{$language}{$stuTitle}_NOTIFY", 'description' => "{$language}{$stuTitle}_NOTIFY_DESC",
-            'subscribe_from' => "'{$file}.php'", 'item_name' => "'{$item}'", 'allow_bookmark' => (string)$allow,
+            'name' => "'{$name}'",
+'title' => "{$language}{$stuTitle}_NOTIFY",
+'description' => "{$language}{$stuTitle}_NOTIFY_DESC",
+            'subscribe_from' => "'{$file}.php'",
+'item_name' => "'{$item}'",
+'allow_bookmark' => (string)$allow,
         ];
         $ret .= $uCodeVNTN->getUserModVersion(4, $table, 'notification', "'{$type}'", $num);
 
@@ -882,9 +1014,14 @@ class UserXoopsVersion extends Files\CreateFile
         $ucfTitle = ucfirst($title);
         $ret = $phpCodeVNCC->getPhpCodeCommentLine($ucfTitle . ' Notify');
         $event = [
-            'name'          => "'{$name}'", 'category' => "'{$category}'", 'admin_only' => (string)$admin, 'title' => "{$language}{$title}_{$table}_NOTIFY",
-            'caption'       => "{$language}{$title}_{$table}_NOTIFY_CAPTION", 'description' => "{$language}{$title}_{$table}_NOTIFY_DESC",
-            'mail_template' => "'{$mail}'", 'mail_subject' => "{$language}{$title}_{$table}_NOTIFY_SUBJECT",
+            'name' => "'{$name}'",
+'category' => "'{$category}'",
+'admin_only' => (string)$admin,
+'title' => "{$language}{$title}_{$table}_NOTIFY",
+            'caption' => "{$language}{$title}_{$table}_NOTIFY_CAPTION",
+'description' => "{$language}{$title}_{$table}_NOTIFY_DESC",
+            'mail_template' => "'{$mail}'",
+'mail_subject' => "{$language}{$title}_{$table}_NOTIFY_SUBJECT",
         ];
         $ret .= $uCodeVNCC->getUserModVersion(4, $event, 'notification', "'{$type}'", $num);
 

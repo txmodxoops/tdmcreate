@@ -51,6 +51,7 @@ class TDMCreateHelper
     *  @protected function constructor class
     *  @param mixed $debug
     */
+
     /**
      * @param $debug
      */
@@ -64,6 +65,7 @@ class TDMCreateHelper
     *  @static function getInstance
     *  @param mixed $debug
     */
+
     /**
      * @param bool $debug
      *
@@ -83,6 +85,7 @@ class TDMCreateHelper
     *  @static function getModule
     *  @param null
     */
+
     /**
      * @return string
      */
@@ -99,6 +102,7 @@ class TDMCreateHelper
     *  @static function getConfig
     *  @param string $name
     */
+
     /**
      * @param null $name
      *
@@ -119,7 +123,7 @@ class TDMCreateHelper
 
             return false;
         }
-        $this->addLog("Getting config '{$name}' : ".$this->config[$name]);
+        $this->addLog("Getting config '{$name}' : " . $this->config[$name]);
 
         return $this->config[$name];
     }
@@ -129,6 +133,7 @@ class TDMCreateHelper
     *  @param string $name
     *  @param mixed $value
     */
+
     /**
      * @param null $name
      * @param null $value
@@ -141,7 +146,7 @@ class TDMCreateHelper
             $this->initConfig();
         }
         $this->config[$name] = $value;
-        $this->addLog("Setting config '{$name}' : ".$this->config[$name]);
+        $this->addLog("Setting config '{$name}' : " . $this->config[$name]);
 
         return $this->config[$name];
     }
@@ -150,6 +155,7 @@ class TDMCreateHelper
     *  @static function getHandler
     *  @param string $name
     */
+
     /**
      * @param $name
      *
@@ -157,12 +163,12 @@ class TDMCreateHelper
      */
     public function &getHandler($name)
     {
-        if (!isset($this->handler[$name.'Handler'])) {
+        if (!isset($this->handler[$name . 'Handler'])) {
             $this->initHandler($name);
         }
         $this->addLog("Getting handler '{$name}'");
 
-        return $this->handler[$name.'Handler'];
+        return $this->handler[$name . 'Handler'];
     }
 
     /*
@@ -196,19 +202,21 @@ class TDMCreateHelper
     *  @static function initHandler
     *  @param string $name
     */
+
     /**
      * @param $name
      */
     public function initHandler($name)
     {
-        $this->addLog('INIT '.$name.' HANDLER');
-        $this->handler[$name.'Handler'] = xoops_getModuleHandler($name, $this->dirname);
+        $this->addLog('INIT ' . $name . ' HANDLER');
+        $this->handler[$name . 'Handler'] = xoops_getModuleHandler($name, $this->dirname);
     }
 
     /*
     *  @static function addLog
     *  @param string $log
     */
+
     /**
      * @param $log
      */

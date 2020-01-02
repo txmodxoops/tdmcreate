@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\User;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\User;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,18 +33,17 @@ use XoopsModules\Tdmcreate\Files;
 class FacebookComments extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return FacebookComments
      */
     public static function getInstance()
@@ -56,9 +57,9 @@ class FacebookComments extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      *
      * @return string
      */
@@ -69,7 +70,7 @@ class FacebookComments extends Files\CreateFile
     }
 
     /**
-    *  @private function getTemplatesCommentCode
+     *  @private function getTemplatesCommentCode
      * @param null
      *
      * @return string
@@ -82,7 +83,7 @@ class FacebookComments extends Files\CreateFile
     }
 
     /**
-    *  @public function render
+     *  @public function render
      * @return bool|string
      */
     public function render()

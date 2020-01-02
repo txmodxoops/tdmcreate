@@ -30,10 +30,9 @@
  *
  * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_fields.tpl';
 
-include __DIR__.'/header.php';
+include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
 $op = \Xmf\Request::getString('op', 'list');
 // Get fields Variables
@@ -56,7 +55,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Redirect if there aren't modules
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
         if (0 == $modulesCount) {
@@ -101,15 +100,14 @@ switch ($op) {
             unset($tlid);
             unset($fields);
             if ($tablesCount > $limit) {
-                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new \XoopsPageNav($tablesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                $pagenav = new \XoopsPageNav($tablesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_FIELDS);
         }
-    break;
-
+        break;
     case 'new':
         // Define main template
 //        $templateMain = 'tdmcreate_fields.tpl';
@@ -122,10 +120,8 @@ switch ($op) {
         $fieldsObj = $helper->getHandler('Fields')->create();
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
-
+        break;
     case 'save':
-
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
@@ -185,8 +181,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
-
+        break;
     case 'edit':
         // Define main template
 //        $templateMain = 'tdmcreate_fields.tpl';
@@ -201,8 +196,7 @@ switch ($op) {
         $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
         $form = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
-
+        break;
     case 'order':
         // Initialize fields handler
         $fieldsObj = $helper->getHandler('Fields');
@@ -223,7 +217,6 @@ switch ($op) {
         }
         exit;
     break;
-
     case 'delete':
         $tablesObj = $helper->getHandler('Tables')->get($fieldTid);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
@@ -238,17 +231,16 @@ switch ($op) {
         } else {
             xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
-    break;
-
+        break;
     case 'display':
         $fieldsArray = ['parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required'];
         $fieldId = \Xmf\Request::getInt('field_id', 0, 'POST');
         if ($fieldId > 0) {
             $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
             foreach ($fieldsArray as $field) {
-                if (isset($_POST['field_'.$field])) {
-                    $fldField = $fieldsObj->getVar('field_'.$field);
-                    $fieldsObj->setVar('field_'.$field, !$fldField);
+                if (isset($_POST['field_' . $field])) {
+                    $fldField = $fieldsObj->getVar('field_' . $field);
+                    $fieldsObj->setVar('field_' . $field, !$fldField);
                 }
             }
             if ($helper->getHandler('Fields')->insert($fieldsObj)) {
@@ -258,4 +250,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

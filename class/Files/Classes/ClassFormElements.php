@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Classes;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Classes;
 
 use XoopsModules\Tdmcreate;
 
@@ -132,8 +134,13 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret .= $pc->getPhpCodeArray('editorConfigs', null, false, "\t\t");
         $getConfig = $xc->getXcGetConfig($moduleDirname, 'editor_' . $rpFieldName);
         $configs = [
-            'name' => "'{$fieldName}'", 'value' => "\$this->getVar('{$fieldName}', 'e')", 'rows' => 5, 'cols' => 40,
-            'width' => "'100%'", 'height' => "'400px'", 'editor' => $getConfig,
+            'name' => "'{$fieldName}'",
+'value' => "\$this->getVar('{$fieldName}', 'e')",
+'rows' => 5,
+'cols' => 40,
+            'width' => "'100%'",
+'height' => "'400px'",
+'editor' => $getConfig,
         ];
         foreach ($configs as $c => $d) {
             $ret .= $xc->getXcEqualsOperator("\$editorConfigs['{$c}']", $d, null, false, "\t\t");

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,10 +33,9 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminAbout extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -66,8 +67,8 @@ class TemplatesAdminAbout extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -76,12 +77,12 @@ class TemplatesAdminAbout extends Files\CreateFile
         $module = $this->getModule();
         $filename = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $hc->getHtmlComment('Header').PHP_EOL;
-        $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true).PHP_EOL;
-        $content .= $hc->getHtmlComment('About Page').PHP_EOL;
+        $content = $hc->getHtmlComment('Header') . PHP_EOL;
+        $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
+        $content .= $hc->getHtmlComment('About Page') . PHP_EOL;
         $single = $hc->getSmartySingleVar('about');
         $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
-        $content .= $hc->getHtmlComment('Footer').PHP_EOL;
+        $content .= $hc->getHtmlComment('Footer') . PHP_EOL;
         $content .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

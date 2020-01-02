@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Assets\Css;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Assets\Css;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -52,7 +54,7 @@ class CssSelectors
     public function geCssComment($comment, $t)
     {
         $ret = ('' != $comment) ? "{$t}/* {$comment} */" : '';
-        
+
         return $ret;
     }
 
@@ -67,17 +69,17 @@ class CssSelectors
     {
         $ret = '';
         if (is_array($selector)) {
-            $ret .= $t. implode("\n", $selector) . ' {';
+            $ret .= $t . implode("\n", $selector) . ' {';
         } else {
             $ret .= $selector . ' {';
         }
         if (is_array($content)) {
-            $ret .= $t. implode("\n", $content) . ';';
+            $ret .= $t . implode("\n", $content) . ';';
         } else {
             $ret .= $content . ';';
         }
         $ret = '}';
-        
+
         return $ret;
     }
 }

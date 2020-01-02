@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files;
 
 use XoopsModules\Tdmcreate;
 
@@ -138,8 +140,6 @@ class CreateFile extends CreateTableFields
 
     /**
      *  @public function write
-     *  @param string $module
-     *  @param string $fileName
      * @param mixed $moduleDirname
      */
     /*public function write($module, $fileName)
@@ -500,8 +500,14 @@ class CreateFile extends CreateTableFields
         $ret .= $data . "\n";
         $ret .= "*/\n";
         $copyright = [
-            $name => 'module for xoops', '' => '', '@copyright  ' => '   module for xoops', '@license   ' => "    {$license}", '@package   ' => "    {$dirname}",
-            '@since    ' => "     {$since}", '@min_xoops   ' => "  {$minXoops}", '@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
+            $name => 'module for xoops',
+'' => '',
+'@copyright  ' => '   module for xoops',
+'@license   ' => "    {$license}",
+'@package   ' => "    {$dirname}",
+            '@since    ' => "     {$since}",
+'@min_xoops   ' => "  {$minXoops}",
+'@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
             '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
         ];
         $ret .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);

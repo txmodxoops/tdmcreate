@@ -21,7 +21,6 @@
  *
  * @version         $Id: header.php 12258 2014-01-02 09:33:29Z timgno $
  */
-
 include dirname(__DIR__) . '/preloads/autoloader.php';
 
 include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
@@ -32,8 +31,8 @@ $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 $sysPathIcon16 = $GLOBALS['xoopsModule']->getInfo('sysicons16');
 $sysPathIcon32 = $GLOBALS['xoopsModule']->getInfo('sysicons32');
 // Link Local Icons
-$modPathIcon16   = $GLOBALS['xoopsModule']->getInfo('modicons16');
-$modPathIcon32   = $GLOBALS['xoopsModule']->getInfo('modicons32');
+$modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
+$modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
 //$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 
 /** @var \XoopsModules\Tdmcreate\Helper $helper */

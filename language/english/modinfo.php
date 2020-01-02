@@ -99,7 +99,6 @@ define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC', 'Set how many maximum p
 define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER', 'Settings AdminPager');
 define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Settings');
 
-
 define('_AM_TDMCREATE_FIELD_ORDER_ERROR', 'Error in Field order');
 define('_AM_TDMCREATE_FORM_DELETED_OK', 'Form Deleted');
 define('_AM_TDMCREATE_NOT_MODULES', 'No modules');

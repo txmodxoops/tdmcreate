@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -28,7 +30,7 @@ use XoopsModules\Tdmcreate\Files;
 /**
  * Class CreateTableFields
  */
-class CreateTableFields extends  Files\CreateAbstractClass
+class CreateTableFields extends Files\CreateAbstractClass
 {
     /**
      * @public   function constructor

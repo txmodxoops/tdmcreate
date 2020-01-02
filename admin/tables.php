@@ -21,7 +21,6 @@
  *
  * @version         $Id: tables.php 12258 2014-01-02 09:33:29Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_tables.tpl';
 
 include __DIR__ . '/header.php';

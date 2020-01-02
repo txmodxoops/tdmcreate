@@ -1,4 +1,7 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Admin;
+
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
 
@@ -30,15 +33,14 @@ use XoopsModules\Tdmcreate\Files;
 class AdminFooter extends Files\CreateFile
 {
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xc = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -47,9 +49,9 @@ class AdminFooter extends Files\CreateFile
     }
 
     /**
-    *  @static function getInstance
-    * @return AdminFooter
-    */
+     *  @static function getInstance
+     * @return AdminFooter
+     */
     public static function getInstance()
     {
         static $instance = false;
@@ -61,10 +63,10 @@ class AdminFooter extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
+     */
     public function write($module, $filename)
     {
         $this->setModule($module);
@@ -72,10 +74,10 @@ class AdminFooter extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
-    * @return bool|string
-    */
+     *  @public function render
+     *  @param null
+     * @return bool|string
+     */
     public function render()
     {
         $module = $this->getModule();
@@ -83,9 +85,9 @@ class AdminFooter extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $content = $this->getHeaderFilesComments($module, $filename);
         $isset = $this->phpcode->getPhpCodeIsset('templateMain');
-        $display = "\t".$this->xc->getXcTplAssign('maintainedby', '$'.$moduleDirname."->getConfig('maintainedby')");
-        $display .= "\t".$this->phpcode->getPhpCodeRemoveCarriageReturn($this->xc->getXcTplDisplay(), '', "\r");
-        $content .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display, false, '').PHP_EOL;
+        $display = "\t" . $this->xc->getXcTplAssign('maintainedby', '$' . $moduleDirname . "->getConfig('maintainedby')");
+        $display .= "\t" . $this->phpcode->getPhpCodeRemoveCarriageReturn($this->xc->getXcTplDisplay(), '', "\r");
+        $content .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display, false, '') . PHP_EOL;
         $content .= $this->xc->getXcCPFooter();
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

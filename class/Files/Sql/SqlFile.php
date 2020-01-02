@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Sql;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Sql;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -86,9 +88,13 @@ class SqlFile extends Files\CreateFile
         // Header Sql Comments
         $ret = null;
         $arrayServerInfo = [
-            "# SQL Dump for {$moduleName} module", '# PhpMyAdmin Version: 4.0.4',
-            '# http://www.phpmyadmin.net', '#', "# Host: {$serverName}",
-            "# Generated on: {$date} to {$time}", "# Server version: {$serverVersion}",
+            "# SQL Dump for {$moduleName} module",
+'# PhpMyAdmin Version: 4.0.4',
+            '# http://www.phpmyadmin.net',
+'#',
+"# Host: {$serverName}",
+            "# Generated on: {$date} to {$time}",
+"# Server version: {$serverVersion}",
             "# PHP Version: {$phpVersion}\n",
         ];
         foreach ($arrayServerInfo as $serverInfo) {
@@ -112,8 +118,10 @@ class SqlFile extends Files\CreateFile
     {
         $ret = null;
         $arrayDbTable = [
-            '#', "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
-            '#', "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (",
+            '#',
+"# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
+            '#',
+"\nCREATE TABLE `{$moduleDirname}_{$tableName}` (",
         ];
         foreach ($arrayDbTable as $dbTable) {
             $ret .= $this->getSimpleString($dbTable);

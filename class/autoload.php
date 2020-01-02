@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
+
+namespace XoopsModules\Tdmcreate;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -35,15 +37,15 @@ if (!function_exists('application_autoloader')) {
      */
     function application_autoloader($class)
     {
-        $classFilename = $class.'.php';
-        $cachePath = XOOPS_VAR_PATH.'/caches/tdmcreate_cache';
+        $classFilename = $class . '.php';
+        $cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
         if (!is_dir($cachePath)) {
             if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
             }
             chmod($cachePath, 0777);
         }
-        $pathCache = file_exists($cacheFile = $cachePath.'/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
+        $pathCache = file_exists($cacheFile = $cachePath . '/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
         if (!is_array($pathCache)) {
             $pathCache = [];
         }

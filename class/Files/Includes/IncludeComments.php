@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Includes;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Includes;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;

@@ -32,7 +32,7 @@ class Migrate extends \Xmf\Database\Migrate
      */
     public function __construct()
     {
-        require_once  dirname(dirname(__DIR__)) . '/include/config.php';
+        require_once dirname(dirname(__DIR__)) . '/include/config.php';
         $config = getConfig();
         $this->renameTables = $config->renameTables;
 

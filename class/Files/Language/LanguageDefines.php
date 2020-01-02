@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Language;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Language;
 
 use XoopsModules\Tdmcreate;
 

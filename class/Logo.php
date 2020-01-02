@@ -1,6 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate;
+<?php
 
-use XoopsModules\Tdmcreate;
+namespace XoopsModules\Tdmcreate;
 
 /*
  You may not change or alter any portion of this comment or credits

@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Language;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Language;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,10 +33,9 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageHelp extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -42,8 +43,8 @@ class LanguageHelp extends Files\CreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
+     *  @static function getInstance
+     *  @param null
      * @return LanguageHelp
      */
     public static function getInstance()
@@ -57,9 +58,9 @@ class LanguageHelp extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -68,8 +69,8 @@ class LanguageHelp extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -109,9 +110,9 @@ Detailed instructions on installing modules are available in the <a href="http:/
 </div>
 EOT;
         if ('english' !== $language) {
-            $this->create($moduleDirname, 'language/'.$language.'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+            $this->create($moduleDirname, 'language/' . $language . '/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
         }
-        $this->create($moduleDirname, 'language/'.$GLOBALS['xoopsConfig']['language'].'/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'] . '/help', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }

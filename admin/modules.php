@@ -21,7 +21,6 @@
  *
  * @version         $Id: 1.59 modules.php 11297 2013-03-24 10:58:10Z timgno $
  */
-
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_modules.tpl';
 
 include __DIR__ . '/header.php';

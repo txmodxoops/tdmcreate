@@ -1,8 +1,8 @@
-<?php namespace XoopsModules\Tdmcreate\Files;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files;
 
 use XoopsModules\Tdmcreate;
-use XoopsModules\Tdmcreate\Files\Admin;
-
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -127,8 +127,11 @@ class CreateArchitecture extends CreateStructure
         // Creation of 'module_author_logo.gif' file
         $this->copyFile('assets/images', $copyNewFile, $logoPng);
         $docs = [
-            '/credits.txt' => 'credits.txt', '/install.txt' => 'install.txt',
-            '/lang.diff' => 'lang.diff', '/license.txt' => 'license.txt', '/readme.txt' => 'readme.txt',
+            '/credits.txt' => 'credits.txt',
+'/install.txt' => 'install.txt',
+            '/lang.diff' => 'lang.diff',
+'/license.txt' => 'license.txt',
+'/readme.txt' => 'readme.txt',
         ];
         foreach ($docs as $k => $v) {
             // Creation of folder docs and .txt files
@@ -336,7 +339,7 @@ class CreateArchitecture extends CreateStructure
             $ret[] = $languageAdmin->render();
         }
         // Class Helper File
-        $classHelper =  Tdmcreate\Files\Classes\ClassHelper::getInstance();
+        $classHelper = Tdmcreate\Files\Classes\ClassHelper::getInstance();
         $classHelper->write($module, 'helper.php');
         $ret[] = $classHelper->render();
         // Include Functions File

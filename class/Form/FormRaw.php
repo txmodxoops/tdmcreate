@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Form;
+<?php
+
+namespace XoopsModules\Tdmcreate\Form;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -24,7 +26,6 @@
  * @link      https://xoops.org
  * @since     2.6.0
  */
-
 class FormRaw extends \XoopsFormElement
 {
     /**

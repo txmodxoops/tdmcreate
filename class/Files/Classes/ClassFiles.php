@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Classes;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Classes;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -400,13 +402,13 @@ class ClassFiles extends Files\CreateFile
                 case 3:
                 case 4:
                     $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", false, "\t\t");
-                break;
+                    break;
                 case 8:
                     $getValues .= $xc->getXcUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
-                break;
+                    break;
                 case 15:
                     $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");
-                break;
+                    break;
                 default:
                     if ($fieldElement > 15) {
                         $fieldElements = $tc->getHandler('fieldelements')->get($fieldElement);
@@ -431,7 +433,7 @@ class ClassFiles extends Files\CreateFile
                     } else {
                         $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
                     }
-                break;
+                    break;
             }
         }
         $getValues .= $this->getSimpleString('return $ret;', "\t\t");

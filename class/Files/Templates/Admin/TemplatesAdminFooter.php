@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Templates\Admin;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,10 +33,9 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminFooter extends Files\CreateFile
 {
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -55,9 +56,9 @@ class TemplatesAdminFooter extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
      */
     public function write($module, $filename)
     {
@@ -66,8 +67,8 @@ class TemplatesAdminFooter extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
+     *  @public function render
+     *  @param null
      * @return bool|string
      */
     public function render()
@@ -85,7 +86,7 @@ class TemplatesAdminFooter extends Files\CreateFile
         $anchor = $hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) . PHP_EOL;
         $content = $hc->getHtmlTag('div', ['class' => 'center'], $anchor) . PHP_EOL;
         $tree = $hc->getHtmlTag('strong', [], $moduleName);
-        $tree .= $hc->getSmartyConst($language, 'MAINTAINEDBY').PHP_EOL;
+        $tree .= $hc->getSmartyConst($language, 'MAINTAINEDBY') . PHP_EOL;
         $tree .= $hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
         $content .= $hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], $tree);
 

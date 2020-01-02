@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Tdmcreate\Files\Admin;
+<?php
+
+namespace XoopsModules\Tdmcreate\Files\Admin;
 
 use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
@@ -31,20 +33,19 @@ use XoopsModules\Tdmcreate\Files;
 class AdminAbout extends Files\CreateFile
 {
     /**
-    * @var mixed
-    */
+     * @var mixed
+     */
     private $axc = null;
 
     /**
-    * @var string
-    */
+     * @var string
+     */
     private $xc = null;
 
     /**
-    *  @public function constructor
-    *  @param null
-    */
-
+     *  @public function constructor
+     *  @param null
+     */
     public function __construct()
     {
         parent::__construct();
@@ -53,10 +54,10 @@ class AdminAbout extends Files\CreateFile
     }
 
     /**
-    *  @static function getInstance
-    *  @param null
-    * @return AdminAbout
-    */
+     *  @static function getInstance
+     *  @param null
+     * @return AdminAbout
+     */
     public static function getInstance()
     {
         static $instance = false;
@@ -68,10 +69,10 @@ class AdminAbout extends Files\CreateFile
     }
 
     /**
-    *  @public function write
-    *  @param string $module
-    *  @param string $filename
-    */
+     *  @public function write
+     *  @param string $module
+     *  @param string $filename
+     */
     public function write($module, $filename)
     {
         $this->setModule($module);
@@ -79,10 +80,10 @@ class AdminAbout extends Files\CreateFile
     }
 
     /**
-    *  @public function render
-    *  @param null
-    * @return bool|string
-    */
+     *  @public function render
+     *  @param null
+     * @return bool|string
+     */
     public function render()
     {
         $module = $this->getModule();
