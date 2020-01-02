@@ -73,4 +73,4 @@
    <div class="spacer"><{$form}></div>
 <{/if}>
 <!-- Footer -->
-<{includeq file="db:tdmcreate_footer.tpl"}>
+<{*<{includeq file="db:tdmcreate_footer.tpl"}>*}>

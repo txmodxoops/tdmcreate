@@ -31,7 +31,7 @@ function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
     moduleImageSelected = moduleImageDom.options[moduleImageDom.selectedIndex].value;
     $.ajax({
         type: 'GET',
-        url: xoopsUrl + "/class/logoGenerator.php?f=phpFunction&iconName=" + iconName + "&caption=" + caption,
+        url: xoopsUrl + "/class/LogoGenerator.php?f=phpFunction&iconName=" + iconName + "&caption=" + caption,
         // call php function , phpFunction=function Name , x= parameter
         data: {},
         dataType: "html",

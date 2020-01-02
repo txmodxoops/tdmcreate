@@ -21,14 +21,18 @@
  *
  * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
+
+$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_index.tpl';
+
 include __DIR__.'/header.php';
-$countSettings = $tdmcreate->getHandler('settings')->getCount();
-$countModules = $tdmcreate->getHandler('modules')->getCount();
-$countTables = $tdmcreate->getHandler('tables')->getCount();
-$countFields = $tdmcreate->getHandler('fields')->getCount();
-$countFiles = $tdmcreate->getHandler('morefiles')->getCount();
+$countSettings = $helper->getHandler('Settings')->getCount();
+$countModules = $helper->getHandler('Modules')->getCount();
+$countTables = $helper->getHandler('Tables')->getCount();
+$countFields = $helper->getHandler('Fields')->getCount();
+$countFiles = $helper->getHandler('Morefiles')->getCount();
 unset($criteria);
-$templateMain = 'tdmcreate_index.tpl';
+
+//$templateMain = 'tdmcreate_index.tpl';
 $adminObject->addInfoBox(_AM_TDMCREATE_ADMIN_NUMMODULES);
 $adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMSETTINGS.'</label>', $countSettings), 'Blue');
 $adminObject->addInfoBoxLine(sprintf('<label>'._AM_TDMCREATE_THEREARE_NUMMODULES.'</label>', $countModules), 'Green');
@@ -51,4 +55,5 @@ foreach (array_keys($folder) as $i) {
 
 $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('index.php'));
 $GLOBALS['xoopsTpl']->assign('index', $adminObject->displayIndex());
+
 include __DIR__.'/footer.php';

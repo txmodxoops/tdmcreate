@@ -119,7 +119,7 @@ $modversion['config'][$c]['formtype'] = 'select';
 $modversion['config'][$c]['valuetype'] = 'text';
 $modversion['config'][$c]['default'] = 'dhtml';
 xoops_load('xoopseditorhandler');
-$editorHandler = XoopsEditorHandler::getInstance();
+$editorHandler = \XoopsEditorHandler::getInstance();
 $modversion['config'][$c]['options'] = array_flip($editorHandler->getList());
 ++$c;
 //Uploads : mimetypes

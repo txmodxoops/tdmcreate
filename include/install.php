@@ -25,17 +25,17 @@ $blankFile = XOOPS_UPLOAD_PATH.'/blank.gif';
 $emptyFile = XOOPS_ROOT_PATH.'/modules/tdmcreate/assets/images/logos/empty.png';
 
 // Making of "uploads" folder
-$tdmcreate = XOOPS_UPLOAD_PATH.'/tdmcreate';
-if (!is_dir($tdmcreate)) {
-    if (!mkdir($tdmcreate, 0777) && !is_dir($tdmcreate)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $tdmcreate));
+$helper = XOOPS_UPLOAD_PATH.'/tdmcreate';
+if (!is_dir($helper)) {
+    if (!mkdir($helper, 0777) && !is_dir($helper)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $helper));
     }
 }
-    chmod($tdmcreate, 0777);
-copy($indexFile, $tdmcreate.'/index.html');
+    chmod($helper, 0777);
+copy($indexFile, $helper.'/index.html');
 
 // Making of images uploads folder
-$repository = $tdmcreate.'/repository';
+$repository = $helper.'/repository';
 if (!is_dir($repository)) {
     if (!mkdir($repository, 0777) && !is_dir($repository)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $repository));
@@ -45,7 +45,7 @@ if (!is_dir($repository)) {
 copy($indexFile, $repository.'/index.html');
 
 // Making of images uploads folder
-$images = $tdmcreate.'/images';
+$images = $helper.'/images';
 if (!is_dir($images)) {
     if (!mkdir($images, 0777) && !is_dir($images)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $images));

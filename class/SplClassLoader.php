@@ -1,4 +1,6 @@
-<?php
+<?php namespace XoopsModules\Tdmcreate;
+
+use XoopsModules\Tdmcreate;
 
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS

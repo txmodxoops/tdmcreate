@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Tdmcreate\Form;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -22,14 +23,15 @@
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-xoops_load('XoopsFormLoader');
+
+\XoopsLoad::load('XoopsFormLoader');
 
 /**
  * Form that will output as a theme-enabled HTML table.
  *
  * Also adds JavaScript to validate required fields
  */
-class TDMCreateThemeForm extends XoopsForm
+class ThemeForm extends \XoopsForm
 {
     /**
      * create HTML to output the form as a theme-enabled table with validation.
@@ -38,7 +40,7 @@ class TDMCreateThemeForm extends XoopsForm
      *
      * To use the noColspan simply use the following example:
      *
-     * $colspan = new XoopsFormDhtmlTextArea( '', 'key', $value, '100%', '100%' );
+     * $colspan = new \XoopsFormDhtmlTextArea( '', 'key', $value, '100%', '100%' );
      * $colspan->setNocolspan();
      * $form->addElement( $colspan );
      *
@@ -54,10 +56,12 @@ class TDMCreateThemeForm extends XoopsForm
         foreach ($this->getElements() as $ele) {
             if (!is_object($ele)) {
                 $ret .= $ele;
-            } elseif (!$ele->isHidden()) {
-                $ret .= $ele->render();
             } else {
-                $hidden .= $ele->render();
+                if (!$ele->isHidden()) {
+                    $ret .= $ele->render();
+                } else {
+                    $hidden .= $ele->render();
+                }
             }
         }
         $ret .= NWLINE.' '.$hidden.NWLINE.'</form>';

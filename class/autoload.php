@@ -1,4 +1,4 @@
-<?php
+<?php namespace XoopsModules\Tdmcreate;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -55,8 +55,8 @@ if (!function_exists('application_autoloader')) {
             }
         } else {
             /* Determine the location of the file within the $class_root and, if found, load and cache it */
-            $directories = new RecursiveDirectoryIterator(__DIR__);
-            foreach (new RecursiveIteratorIterator($directories) as $file) {
+            $directories = new \RecursiveDirectoryIterator(__DIR__);
+            foreach (new \RecursiveIteratorIterator($directories) as $file) {
                 if ($file->getFilename() == $classFilename) {
                     $fullPath = $file->getRealPath();
                     $pathCache[$class] = $fullPath;

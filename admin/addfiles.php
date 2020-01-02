@@ -21,19 +21,22 @@
  *
  * @version         $Id: 1.59 addfiles.php 11297 2013-03-24 10:58:10Z timgno $
  */
+
+$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_addfiles.tpl';
+
 include __DIR__.'/header.php';
 // Recovered value of argument op in the URL $
-$op = XoopsRequest::getString('op', 'list');
+$op = \Xmf\Request::getString('op', 'list');
 
-$fileId = XoopsRequest::getInt('file_id');
+$fileId = \Xmf\Request::getInt('file_id');
 
 switch ($op) {
     case 'list':
     default:
-        $start = XoopsRequest::getInt('start', 0);
-        $limit = XoopsRequest::getInt('limit', $tdmcreate->getConfig('addfiles_adminpager'));
+        $start = \Xmf\Request::getInt('start', 0);
+        $limit = \Xmf\Request::getInt('limit', $helper->getConfig('addfiles_adminpager'));
         // Define main template
-        $templateMain = 'tdmcreate_addfiles.tpl';
+//        $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
@@ -43,13 +46,13 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgfile_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
-        $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
+        $modulesCount = $helper->getHandler('Modules')->getCountModules();
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOT_MODULES);
         }
-        $addfilesCount = $tdmcreate->getHandler('addfiles')->getCountAddFiles();
-        $addfilesAll = $tdmcreate->getHandler('addfiles')->getAllAddFiles($start, $limit);
+        $addfilesCount = $helper->getHandler('Addfiles')->getCountAddFiles();
+        $addfilesAll = $helper->getHandler('Addfiles')->getAllAddFiles($start, $limit);
         // Display addfiles list
         if ($addfilesCount > 0) {
             foreach (array_keys($addfilesAll) as $i) {
@@ -59,7 +62,7 @@ switch ($op) {
             }
             if ($addfilesCount > $limit) {
                 include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new XoopsPageNav($addfilesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                $pagenav = new \XoopsPageNav($addfilesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
@@ -69,13 +72,13 @@ switch ($op) {
 
     case 'new':
         // Define main template
-        $templateMain = 'tdmcreate_addfiles.tpl';
+//        $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
-        $addfilesObj = $tdmcreate->getHandler('addfiles')->create();
+        $addfilesObj = $helper->getHandler('Addfiles')->create();
         $form = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -85,9 +88,9 @@ switch ($op) {
             redirect_header('addfiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         if (isset($fileId)) {
-            $addfilesObj = $tdmcreate->getHandler('addfiles')->get($fileId);
+            $addfilesObj = $helper->getHandler('Addfiles')->get($fileId);
         } else {
-            $addfilesObj = $tdmcreate->getHandler('addfiles')->create();
+            $addfilesObj = $helper->getHandler('Addfiles')->create();
         }
         // Form file save
         $addfilesObj->setVars([
@@ -97,7 +100,7 @@ switch ($op) {
                                  'file_infolder' => $_POST['file_infolder'],
                               ]);
 
-        if ($tdmcreate->getHandler('addfiles')->insert($addfilesObj)) {
+        if ($helper->getHandler('Addfiles')->insert($addfilesObj)) {
             if ($addfilesObj->isNew()) {
                 redirect_header('addfiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_CREATED_OK, $_POST['file_name']));
             } else {
@@ -112,25 +115,25 @@ switch ($op) {
 
     case 'edit':
         // Define main template
-        $templateMain = 'tdmcreate_addfiles.tpl';
+//        $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'addfiles.php?op=new', 'add');
         $adminObject->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
-        $addfilesObj = $tdmcreate->getHandler('addfiles')->get($fileId);
+        $addfilesObj = $helper->getHandler('Addfiles')->get($fileId);
         $form = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 
     case 'delete':
-        $addfilesObj = $tdmcreate->getHandler('addfiles')->get($fileId);
+        $addfilesObj = $helper->getHandler('Addfiles')->get($fileId);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('addfiles.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($tdmcreate->getHandler('addfiles')->delete($addfilesObj)) {
+            if ($helper->getHandler('Addfiles')->delete($addfilesObj)) {
                 redirect_header('addfiles.php', 3, _AM_TDMCREATE_FORM_DELETED_OK);
             } else {
                 $GLOBALS['xoopsTpl']->assign('error', $addfilesObj->getHtmlErrors());

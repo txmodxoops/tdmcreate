@@ -21,24 +21,29 @@
  *
  * @version         $Id: header.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include_once dirname(dirname(dirname(__DIR__))).'/include/cp_header.php';
-include_once dirname(__DIR__).'/include/common.php';
+
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
+include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Link System Icons
 $sysPathIcon16 = $GLOBALS['xoopsModule']->getInfo('sysicons16');
 $sysPathIcon32 = $GLOBALS['xoopsModule']->getInfo('sysicons32');
 // Link Local Icons
-$modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
-$modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
+$modPathIcon16   = $GLOBALS['xoopsModule']->getInfo('modicons16');
+$modPathIcon32   = $GLOBALS['xoopsModule']->getInfo('modicons32');
 $pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
-// TDMCreate Instance
-$tdmcreate = TDMCreateHelper::getInstance();
+
+/** @var \XoopsModules\Tdmcreate\Helper $helper */
+$helper = \XoopsModules\Tdmcreate\Helper::getInstance();
+
 // MyTextSanitizer
 $myts = MyTextSanitizer::getInstance();
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once XOOPS_ROOT_PATH.'/class/template.php';
-    $xoopsTpl = new XoopsTpl();
+    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    $xoopsTpl = new \XoopsTpl();
 }
 // System Icons
 $GLOBALS['xoopsTpl']->assign('sysPathIcon16', $sysPathIcon16);
@@ -51,4 +56,5 @@ xoops_loadLanguage('admin', $thisDirname);
 xoops_loadLanguage('modinfo', $thisDirname);
 
 xoops_cp_header();
+/** @var \Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();

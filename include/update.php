@@ -66,7 +66,7 @@ function update_tdmcreate_v191(&$module)
     if (count($tplids) > 0) {
         $tplfileHandler = xoops_getHandler('tplfile');
         $duplicate_files = $tplfileHandler->getObjects(
-            new Criteria('tpl_id', '(' . implode(',', $tplids) . ')', 'IN')
+            new \Criteria('tpl_id', '(' . implode(',', $tplids) . ')', 'IN')
         );
 
         if (count($duplicate_files) > 0) {

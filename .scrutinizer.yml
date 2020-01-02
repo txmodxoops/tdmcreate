@@ -18,12 +18,10 @@ tools:
         fixers:               []
         enabled:              false
         filter:
-            paths:            []
+          paths: ["admin/*", "class/*", "include/*", "language/*", "templates/*"]
             excluded_paths:   []
         config:
             level: all
-        filter:
-            paths: ["admin/*", "class/*", "include/*", "language/*", "templates/*"]
     php_cpd:
         enabled: true
         excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
@@ -38,7 +36,6 @@ tools:
         enabled: true
         excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
     php_analyzer: true
-    php_analyzer:
         filter:
             paths: ["admin/*", "class/*", "include/*", "language/*"]
     sensiolabs_security_checker: true
