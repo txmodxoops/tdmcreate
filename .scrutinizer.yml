@@ -1,41 +1,20 @@
-# .scrutinizer.yml
-filter:
-    excluded_paths:
-        - assets/*
+# language: php
 build:
-    environment:
-        php:
-            version: 5.4.41       # Common versions: 5.4, 5.5, 5.6 or hhvm
-checks:
-    php:
-        code_rating: true
-        duplication: true
-tools:
-    php_cs_fixer:
-        extensions:
-            # Default:
-            - php
-        fixers:               []
-        enabled:              false
-        filter:
-          paths: ["admin/*", "class/*", "include/*", "language/*", "templates/*"]
-            excluded_paths:   []
-        config:
-            level: all
-    php_cpd:
-        enabled: true
-        excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
-    php_loc:
-        enabled: true
-        excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
-    php_mess_detector:
-        enabled: true
-        filter:
-            paths: ["src/*"]
-    php_pdepend:
-        enabled: true
-        excluded_dirs: ["assets", "docs", "sql", "language", "templates"]
-    php_analyzer: true
-        filter:
-            paths: ["admin/*", "class/*", "include/*", "language/*"]
-    sensiolabs_security_checker: true
+  nodes:
+    tests: true
+    analysis:
+      dependencies:
+        after:
+          # The following installs the most recent XOOPS CMS version, you might want
+          # to install a specific release tag or branch instead.
+          - git clone --depth=1 https://github.com/XOOPS/XoopsCore25
+          - git clone --depth=1 https://github.com/mambax7/tag
+      project_setup:
+        override: true
+      tests:
+        override:
+          - php-scrutinizer-run --enable-security-analysis
+filter:
+  dependency_paths:
+    - XoopsCore25/*
+    - tag/*
