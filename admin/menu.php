@@ -35,7 +35,7 @@ $helper->loadLanguage('feedback');
 
 $pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
 if (is_object($helper->getModule())) {
-    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
+//    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
 $moduleHandler = xoops_getHandler('module');
@@ -90,19 +90,19 @@ $adminmenu[] = [
 $adminmenu[] = [
     'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_FEEDBACK'),
     'link'  => 'admin/feedback.php',
-    'icon'  => $pathIcon32 . '/mail_foward.png',
+    'icon'  => $pathIcon32 . 'mail_foward.png',
 ];
 
 if ($helper->getConfig('displayDeveloperTools')) {
     $adminmenu[] = [
         'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
         'link' => 'admin/migrate.php',
-        'icon' => $pathIcon32 . '/database_go.png',
+        'icon' => $pathIcon32 . 'database_go.png',
     ];
 }
 
 $adminmenu[] = [
     'title' => _MI_TDMCREATE_ABOUT,
     'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png',
+    'icon'  => $pathIcon32 . 'about.png',
 ];

@@ -34,7 +34,7 @@ $sysPathIcon32 = $GLOBALS['xoopsModule']->getInfo('sysicons32');
 // Link Local Icons
 $modPathIcon16   = $GLOBALS['xoopsModule']->getInfo('modicons16');
 $modPathIcon32   = $GLOBALS['xoopsModule']->getInfo('modicons32');
-$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
+//$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
 
 /** @var \XoopsModules\Tdmcreate\Helper $helper */
 $helper = \XoopsModules\Tdmcreate\Helper::getInstance();

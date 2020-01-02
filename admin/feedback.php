@@ -20,13 +20,13 @@
  */
 
 use Xmf\Request;
-use XoopsModules\xxxxx\Common;
+use XoopsModules\Tdmcreate\Common;
 
-include __DIR__ . '/admin_header.php';
+include __DIR__ . '/header.php';
 
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-$feedback = new \XoopsModules\xxxxx\Common\ModuleFeedback();
+$feedback = new \XoopsModules\Tdmcreate\Common\ModuleFeedback();
 
 // It recovered the value of argument op in URL$
 $op            = Request::getString('op', 'list');
@@ -34,7 +34,7 @@ $moduleDirName = $GLOBALS['xoopsModule']->getVar('dirname');
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 xoops_loadLanguage('feedback', $moduleDirName);
 
-xoops_cp_header();
+//xoops_cp_header();
 
 switch ($op) {
     case 'list':
@@ -96,4 +96,4 @@ switch ($op) {
 
         break;
 }
-require __DIR__ . '/admin_footer.php';
+require __DIR__ . '/footer.php';
