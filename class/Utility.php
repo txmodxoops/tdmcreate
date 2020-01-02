@@ -174,6 +174,10 @@ class Utility
 
     //--------------- Custom module methods -----------------------------
 
+    /**
+     * @param $about
+     * @return string
+     */
     public static function MakeDonationForm($about)
     {
         $donationform = [

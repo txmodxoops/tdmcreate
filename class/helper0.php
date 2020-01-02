@@ -67,7 +67,7 @@ class TDMCreateHelper
     /**
      * @param bool $debug
      *
-     * @return Tdmcreate\Helper
+     * @return bool|\TDMCreateHelper
      */
     public static function getInstance($debug = false)
     {

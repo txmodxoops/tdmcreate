@@ -80,7 +80,7 @@ class FormTabTray extends \XoopsFormElementTray
         $extras = [];
 
         foreach ($this->getElements() as $ele) {
-            /* @var $ele \XoopsFormElement */
+            /* @var \XoopsFormElement $ele */
             if (!$ele->isHidden()) {
                 if (!$ele instanceof Tdmcreate\Form\FormRaw) {
                     if ($ele instanceof Tdmcreate\Form\FormTab) {
