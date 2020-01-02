@@ -63,7 +63,8 @@ class FormRadio extends \XoopsFormRadio
             }
         }
         if (!empty($this->columns)) {
-            if ($span = $i % $this->columns) {
+            $span = $i % $this->columns;
+            if ($span) {
                 $ret .= '<td colspan="'.($this->columns - $span).'"></td></tr>';
             }
             $ret .= '</table>';
