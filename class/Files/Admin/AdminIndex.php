@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class AdminIndex extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class AdminIndex extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return AdminIndex
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class AdminIndex extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $tables
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $tables
+     * @param string $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -77,20 +77,20 @@ class AdminIndex extends Files\CreateFile
      */
     private function getAdminIndex($module)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        $language = $this->getLanguage($moduleDirname, 'AM');
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $axc              = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $language         = $this->getLanguage($moduleDirname, 'AM');
         $languageThereAre = $this->getLanguage($moduleDirname, 'AM', 'THEREARE_');
-        $ret = $this->getInclude();
-        $ret .= $pc->getPhpCodeCommentLine('Count elements');
-        $tableName = null;
+        $ret              = $this->getInclude();
+        $ret              .= $pc->getPhpCodeCommentLine('Count elements');
+        $tableName        = null;
         foreach (array_keys($tables) as $i) {
-            $tableName = $tables[$i]->getVar('table_name');
+            $tableName    = $tables[$i]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
-            $ret .= $xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
+            $ret          .= $xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
         $ret .= $pc->getPhpCodeCommentLine('Template Index');
         $ret .= $axc->getAdminTemplateMain((string)$moduleDirname, 'index');
@@ -98,32 +98,32 @@ class AdminIndex extends Files\CreateFile
         $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
         $ret .= $pc->getPhpCodeCommentLine('Info elements');
         foreach (array_keys($tables) as $i) {
-            $tableName = $tables[$i]->getVar('table_name');
+            $tableName      = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
-            $stuTableName = $languageThereAre . mb_strtoupper($tableName);
-            $ucfTableName = ucfirst($tableName);
-            $ret .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
+            $stuTableName   = $languageThereAre . mb_strtoupper($tableName);
+            $ucfTableName   = ucfirst($tableName);
+            $ret            .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
         }
 
         if (null === $tableName) {
             $ret .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', 'No statistics', '0');
         }
         if (is_array($tables) && in_array(1, $tableInstall)) {
-            $ret .= $pc->getPhpCodeCommentLine('Upload Folders');
-            $ret .= $this->getSimpleString('$folder = array(');
+            $ret              .= $pc->getPhpCodeCommentLine('Upload Folders');
+            $ret              .= $this->getSimpleString('$folder = array(');
             $stuModuleDirname = mb_strtoupper($moduleDirname);
-            $ret .= $this->getSimpleString("\t{$stuModuleDirname}_UPLOAD_PATH,");
+            $ret              .= $this->getSimpleString("\t{$stuModuleDirname}_UPLOAD_PATH,");
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
                 if (1 == $tables[$i]->getVar('table_install')) {
                     $ret .= $this->getSimpleString("\t{$stuModuleDirname}_UPLOAD_PATH . '/{$tableName}/',");
                 }
             }
-            $ret .= $this->getSimpleString(');');
-            $ret .= $pc->getPhpCodeCommentLine('Uploads Folders Created');
+            $ret     .= $this->getSimpleString(');');
+            $ret     .= $pc->getPhpCodeCommentLine('Uploads Folders Created');
             $boxLine = $axc->getAxcAddConfigBoxLine('$folder[$i]', 'folder', '', "\t");
             $boxLine .= $axc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
-            $ret .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
+            $ret     .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
         }
         $ret .= $pc->getPhpCodeCommentLine('Render Index');
         $ret .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
@@ -135,17 +135,17 @@ class AdminIndex extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
+        $module        = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $filename = $this->getFileName();
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getAdminIndex($module);
+        $filename      = $this->getFileName();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getAdminIndex($module);
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

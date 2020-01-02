@@ -42,8 +42,8 @@ class MoreFiles extends Files\CreateFile
     private $extension = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -51,8 +51,8 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return MoreFiles
      */
     public static function getInstance()
@@ -129,8 +129,8 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @private function getMoreFilesText
-     *  @param null
+     * @private function getMoreFilesText
+     * @param null
      *
      * @return string
      */
@@ -140,8 +140,8 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @private function getMoreFilesSql
-     *  @param null
+     * @private function getMoreFilesSql
+     * @param null
      *
      * @return string
      */
@@ -151,8 +151,8 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @private function getMoreFilesCss
-     *  @param $header
+     * @private function getMoreFilesCss
+     * @param $header
      *
      * @return string
      */
@@ -165,8 +165,8 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @private function getMoreFilesDefault
-     *  @param null
+     * @private function getMoreFilesDefault
+     * @param null
      *
      * @return string
      */
@@ -181,10 +181,10 @@ class MoreFiles extends Files\CreateFile
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $header = $this->getHeaderFilesComments($module, $filename, 0);
+        $header        = $this->getHeaderFilesComments($module, $filename, 0);
         switch ($this->extension) {
             case 'php':
                 $content = $this->getMoreFilesPhp($header);

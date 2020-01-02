@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class Pdf extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class Pdf extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Pdf
      */
     public static function getInstance()
@@ -69,7 +69,7 @@ class Pdf extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserPdfBody
+     * @private function getTemplatesUserPdfBody
      *
      * @param null
      *
@@ -91,10 +91,10 @@ EOT;
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getTemplatesUserPdfBody();
+        $content       = $this->getTemplatesUserPdfBody();
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class UserSubmit extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class UserSubmit extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserSubmit
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class UserSubmit extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -77,20 +77,20 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitHeader($moduleDirname)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc = UserXoopsCode::getInstance();
-        $t = "\t";
-        $ret = $this->getInclude();
-        $ret .= $xc->getXcLoadLanguage('admin', '', $moduleDirname);
-        $ret .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret .= $xc->getXcXoopsRequest('op', 'op', 'form');
-        $ret .= $pc->getPhpCodeCommentLine('Template');
-        $ret .= $uc->getUserTplMain($moduleDirname, 'submit');
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $xc->getXcAddStylesheet();
-        $ret .= "\$permSubmit = \$gpermHandler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid')) ? true : false;\n";
-        $ret .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
+        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc     = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uc     = UserXoopsCode::getInstance();
+        $t      = "\t";
+        $ret    = $this->getInclude();
+        $ret    .= $xc->getXcLoadLanguage('admin', '', $moduleDirname);
+        $ret    .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
+        $ret    .= $xc->getXcXoopsRequest('op', 'op', 'form');
+        $ret    .= $pc->getPhpCodeCommentLine('Template');
+        $ret    .= $uc->getUserTplMain($moduleDirname, 'submit');
+        $ret    .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret    .= $xc->getXcAddStylesheet();
+        $ret    .= "\$permSubmit = \$gpermHandler->checkRight('{$moduleDirname}_ac', 4, \$groups, \$GLOBALS['xoopsModule']->getVar('mid')) ? true : false;\n";
+        $ret    .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
         $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, $t);
         $condIf .= $this->getSimpleString('exit();', $t);
 
@@ -108,9 +108,9 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitForm($tableName, $language, $t = '')
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc = UserXoopsCode::getInstance();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uc  = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation');
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', false, $t . "\t");
         $ret .= $xc->getXcTplAssign('navigation', '$navigation', true, $t . "\t");
@@ -129,10 +129,10 @@ class UserSubmit extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserSubmitSave
-     *  @param string $moduleDirname
+     * @public function getUserSubmitSave
+     * @param string $moduleDirname
      * @param        $fields
-     *  @param string $tableName
+     * @param string $tableName
      * @param        $tableSoleName
      * @param        $tableSubmit
      * @param        $tableAutoincrement
@@ -142,24 +142,24 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t = '')
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentLine('Security Check');
+        $xc                 = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc                 = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ucfTableName       = ucfirst($tableName);
+        $ret                = $pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $xc->getXcSecurityCheck();
-        $securityError = $xc->getXcSecurityErrors();
-        $implode = $pc->getPhpCodeImplode(',', $securityError);
-        $redirectError = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
-        $ret .= $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
-        $ret .= $xc->getXcObjHandlerCreate($tableName, $t);
-        $autoincrement = in_array(1, $tableAutoincrement) ? $tableAutoincrement : 0;
+        $securityError      = $xc->getXcSecurityErrors();
+        $implode            = $pc->getPhpCodeImplode(',', $securityError);
+        $redirectError      = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
+        $ret                .= $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
+        $ret                .= $xc->getXcObjHandlerCreate($tableName, $t);
+        $autoincrement      = in_array(1, $tableAutoincrement) ? $tableAutoincrement : 0;
         if (in_array(1, $tableSubmit)) {
             $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $autoincrement, $fields, $t);
         }
-        $ret .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
-        $insert = $xc->getXcInsert($tableName, $tableName, 'Obj', 'Handler');
+        $ret       .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
+        $insert    = $xc->getXcInsert($tableName, $tableName, 'Obj', 'Handler');
         $confirmOk = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t");
-        $ret .= $pc->getPhpCodeConditions($insert, '', '', $confirmOk, false, $t);
+        $ret       .= $pc->getPhpCodeConditions($insert, '', '', $confirmOk, false, $t);
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, $t);
         $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
@@ -177,12 +177,12 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitFooter($moduleDirname, $language)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc = UserXoopsCode::getInstance();
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uc               = UserXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $uc->getUserBreadcrumbs($language, 'SUBMIT');
-        $ret .= $this->getInclude('footer');
+        $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret              .= $uc->getUserBreadcrumbs($language, 'SUBMIT');
+        $ret              .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -202,9 +202,9 @@ class UserSubmit extends Files\CreateFile
      */
     private function getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = [
+        $cases  = [
             'form' => [$this->getUserSubmitForm($tableName, $language, $t)],
             'save' => [$this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t . "\t")],
         ];
@@ -213,33 +213,33 @@ class UserSubmit extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tables = $this->getTableTables($module->getVar('mod_id'));
-        $tableSoleName = '';
-        $tableSubmit = [];
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $tables             = $this->getTableTables($module->getVar('mod_id'));
+        $tableSoleName      = '';
+        $tableSubmit        = [];
         $tableAutoincrement = [];
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableSubmit[] = $tables[$t]->getVar('table_submit');
+            $tableId              = $tables[$t]->getVar('table_id');
+            $tableMid             = $tables[$t]->getVar('table_mid');
+            $tableName            = $tables[$t]->getVar('table_name');
+            $tableSoleName        = $tables[$t]->getVar('table_solename');
+            $tableSubmit[]        = $tables[$t]->getVar('table_submit');
             $tableAutoincrement[] = $tables[$t]->getVar('table_autoincrement');
         }
         $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserSubmitHeader($moduleDirname);
-        $content .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, "\t");
-        $content .= $this->getUserSubmitFooter($moduleDirname, $language);
+        $content  = $this->getHeaderFilesComments($module, $filename);
+        $content  .= $this->getUserSubmitHeader($moduleDirname);
+        $content  .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, "\t");
+        $content  .= $this->getUserSubmitFooter($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -34,8 +34,8 @@ use XoopsModules\Tdmcreate\Files\Templates\User;
 class Broken extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class Broken extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return User\Broken
      */
     public static function getInstance()
@@ -58,10 +58,10 @@ class Broken extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -71,8 +71,8 @@ class Broken extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserBrokenFileHeader
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserBrokenFileHeader
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -84,7 +84,7 @@ class Broken extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserBrokenTableHead
+     * @private function getTemplatesUserBrokenTableHead
      * @param $tableMid
      * @param $tableId
      * @param $tableAutoincrement
@@ -93,15 +93,15 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $th = '';
+        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $th     = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $stuFieldName = mb_strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 $const = $hc->getSmartyConst($language, $stuFieldName);
-                $th .= $hc->getHtmlTag('th', ['class' => 'center'], $const) . PHP_EOL;
+                $th    .= $hc->getHtmlTag('th', ['class' => 'center'], $const) . PHP_EOL;
             }
         }
         $tr = $hc->getHtmlTag('tr', ['class' => 'head'], $th) . PHP_EOL;
@@ -110,7 +110,7 @@ class Broken extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserBrokenBody
+     * @private function getTemplatesUserBrokenBody
      * @param $moduleDirname
      * @param $tableMid
      * @param $tableId
@@ -122,18 +122,18 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $ret = '';
+        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $ret    = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName  = $this->getRightString($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
                         $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", "#<{\${$tableSoleName}.{$rpFieldName}}>") . PHP_EOL;
-                        $ret .= $hc->getHtmlTableData($span, 'center') . PHP_EOL;
+                        $ret  .= $hc->getHtmlTableData($span, 'center') . PHP_EOL;
                         break;
                     case 10:
                         $img = $hc->getHtmlImage("<{xoModuleIcons32}><{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
@@ -149,15 +149,15 @@ class Broken extends Files\CreateFile
                 }
             }
         }
-        $row = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>') . PHP_EOL;
+        $row     = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>') . PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row) . PHP_EOL;
 
         return $hc->getHtmlTableTbody($foreach) . PHP_EOL;
     }
 
     /**
-     *  @private function getTemplatesUserBrokenFileFooter
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserBrokenFileFooter
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -169,27 +169,27 @@ class Broken extends Files\CreateFile
     }
 
     /**
-     *  @public function render
+     * @public function render
      * @return bool|string
      */
     public function render()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
+        $hc                 = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $tableId            = $table->getVar('table_id');
+        $tableMid           = $table->getVar('table_mid');
+        $tableName          = $table->getVar('table_name');
+        $tableSoleName      = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserBrokenFileHeader($moduleDirname) . PHP_EOL;
-        $contentTable = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
-        $contentTable .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        $content .= $hc->getHtmlTable($contentTable, 'table table-bordered') . PHP_EOL;
-        $content .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
+        $language           = $this->getLanguage($moduleDirname, 'MA');
+        $content            = $this->getTemplatesUserBrokenFileHeader($moduleDirname) . PHP_EOL;
+        $contentTable       = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
+        $contentTable       .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $content            .= $hc->getHtmlTable($contentTable, 'table table-bordered') . PHP_EOL;
+        $content            .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

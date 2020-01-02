@@ -32,8 +32,8 @@ use XoopsModules\Tdmcreate;
 class CreatePhpCode
 {
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return CreatePhpCode
      */
     public static function getInstance()
@@ -56,7 +56,7 @@ class CreatePhpCode
     public function getPhpCodeCommentLine($comment = null, $var = null, $t = '')
     {
         $value = !empty($var) ? ' ' . $var : '';
-        $ret = "{$t}// {$comment}{$value}\n";
+        $ret   = "{$t}// {$comment}{$value}\n";
 
         return $ret;
     }
@@ -71,7 +71,7 @@ class CreatePhpCode
     public function getPhpCodeCommentMultiLine($multiLine = [], $t = '')
     {
         $values = !empty($multiLine) ? $multiLine : [];
-        $ret = "\n{$t}/**\n";
+        $ret    = "\n{$t}/**\n";
         foreach ($values as $string => $value) {
             if ('' === $string && '' === $value) {
                 $ret .= "{$t} *\n";
@@ -85,11 +85,11 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeDefine
-     *  @param $left
-     *  @param $right
+     * @public function getPhpCodeDefine
+     * @param $left
+     * @param $right
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeDefine($left, $right)
     {
@@ -97,11 +97,11 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeDefine
-     *  @param $left
-     *  @param $right
+     * @public function getPhpCodeDefine
+     * @param $left
+     * @param $right
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeDefined($left = 'XOOPS_ROOT_PATH', $right = 'Restricted access')
     {
@@ -109,11 +109,11 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeGlobals
-     *  @param $var
-     *  @param $value
+     * @public function getPhpCodeGlobals
+     * @param $var
+     * @param $value
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeGlobals($var, $value = '')
     {
@@ -127,11 +127,11 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeGlobalsVariables
-     *  @param $var
-     *  @param $type
+     * @public function getPhpCodeGlobalsVariables
+     * @param $var
+     * @param $type
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeGlobalsVariables($var = null, $type = 'REQUEST')
     {
@@ -177,10 +177,10 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeFileExists
-     *  @param $filename
+     * @public function getPhpCodeFileExists
+     * @param $filename
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeFileExists($filename)
     {
@@ -221,14 +221,14 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeTernaryOperator
-     *  @param $return
-     *  @param $condition
-     *  @param $one
-     *  @param $two
-     *  @param $t - Indentation
+     * @public function getPhpCodeTernaryOperator
+     * @param $return
+     * @param $condition
+     * @param $one
+     * @param $two
+     * @param $t - Indentation
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeTernaryOperator($return, $condition, $one, $two, $t = '')
     {
@@ -236,13 +236,13 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeClass
-     *  @param $name
-     *  @param $content
-     *  @param $extends
-     *  @param $type
+     * @public function getPhpCodeClass
+     * @param $name
+     * @param $content
+     * @param $extends
+     * @param $type
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeClass($name = null, $content = null, $extends = null, $type = null)
     {
@@ -257,13 +257,13 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeClass
-     *  @param $type
-     *  @param $name
-     *  @param $assign
-     *  @param $t - Indentation
+     * @public function getPhpCodeClass
+     * @param $type
+     * @param $name
+     * @param $assign
+     * @param $t - Indentation
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeVariableClass($type = 'private', $name = null, $assign = 'null', $t = '')
     {
@@ -283,11 +283,11 @@ class CreatePhpCode
     public function getPhpCodeFunction($name = null, $params = null, $content = null, $method = null, $isRef = false, $t = '')
     {
         $inClass = (null != $method) ? $method : '';
-        $ref = (false !== $isRef) ? '&' : '';
-        $ret = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
-        $ret .= "{$t}{\n";
-        $ret .= $content;
-        $ret .= "{$t}}\n";
+        $ref     = (false !== $isRef) ? '&' : '';
+        $ret     = "{$t}{$inClass}function {$ref}{$name}({$params})\n";
+        $ret     .= "{$t}{\n";
+        $ret     .= $content;
+        $ret     .= "{$t}}\n";
 
         return $ret;
     }
@@ -299,7 +299,7 @@ class CreatePhpCode
      * @param string $type
      * @param string $contentIf
      * @param mixed  $contentElse
-     * @param $t - Indentation
+     * @param        $t - Indentation
      *
      * @return string
      */
@@ -333,7 +333,7 @@ class CreatePhpCode
      */
     public function getPhpCodeForeach($array, $arrayKey = false, $key = false, $value = false, $content = null, $t = '')
     {
-        $vars = '';
+        $vars  = '';
         $value = '' !== $value ? $value : 'i';
         if ((false === $arrayKey) && (false === $key)) {
             $vars = "\${$array} as \${$value}";
@@ -376,7 +376,7 @@ class CreatePhpCode
      * @param $content
      * @param $value
      * @param $operator
-     *  @param $t
+     * @param $t
      *
      * @return string
      */
@@ -390,13 +390,13 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeSwitch
+     * @public function getPhpCodeSwitch
      *
-     *  @param $op
-     *  @param $content
-     *  @param $t
+     * @param $op
+     * @param $content
+     * @param $t
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeSwitch($op = null, $content = null, $t = '')
     {
@@ -409,14 +409,14 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeCaseSwitch
+     * @public function getPhpCodeCaseSwitch
      *
-     *  @param $cases
-     *  @param $defaultAfterCase
-     *  @param $default
-     *  @param $t
+     * @param $cases
+     * @param $defaultAfterCase
+     * @param $default
+     * @param $t
      *
-     *  @return string
+     * @return string
      */
     public function getPhpCodeCaseSwitch($cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
@@ -448,9 +448,9 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeIsset
-     *  @param $var
-     *  @return string
+     * @public function getPhpCodeIsset
+     * @param $var
+     * @return string
      */
     public function getPhpCodeIsset($var)
     {
@@ -469,9 +469,9 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeIsDir
-     *  @param $var
-     *  @return string
+     * @public function getPhpCodeIsDir
+     * @param $var
+     * @return string
      */
     public function getPhpCodeIsDir($var)
     {
@@ -479,10 +479,10 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeImplode
-     *  @param $left
-     *  @param $right
-     *  @return string
+     * @public function getPhpCodeImplode
+     * @param $left
+     * @param $right
+     * @return string
      */
     public function getPhpCodeImplode($left, $right)
     {
@@ -490,10 +490,10 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeExplode
-     *  @param $left
-     *  @param $right
-     *  @return string
+     * @public function getPhpCodeExplode
+     * @param $left
+     * @param $right
+     * @return string
      */
     public function getPhpCodeExplode($left, $right)
     {
@@ -595,10 +595,10 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeSprintf
-     *  @param $left
-     *  @param $right
-     *  @return string
+     * @public function getPhpCodeSprintf
+     * @param $left
+     * @param $right
+     * @return string
      */
     public function getPhpCodeSprintf($left, $right)
     {
@@ -606,9 +606,9 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeEmpty
-     *  @param $var
-     *  @return string
+     * @public function getPhpCodeEmpty
+     * @param $var
+     * @return string
      */
     public function getPhpCodeEmpty($var)
     {
@@ -616,9 +616,9 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeHeader
-     *  @param $var
-     *  @return string
+     * @public function getPhpCodeHeader
+     * @param $var
+     * @return string
      */
     public function getPhpCodeHeader($var)
     {
@@ -626,9 +626,9 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeRawurlencode
-     *  @param $var
-     *  @return string
+     * @public function getPhpCodeRawurlencode
+     * @param $var
+     * @return string
      */
     public function getPhpCodeRawurlencode($var)
     {
@@ -704,28 +704,28 @@ class CreatePhpCode
     }
 
     /**
-     *  @public function getPhpCodeHtmlentities
-     *  @param $entitiesVar
-     *  @param $entitiesQuote
-     *  @return string
+     * @public function getPhpCodeHtmlentities
+     * @param $entitiesVar
+     * @param $entitiesQuote
+     * @return string
      */
     public function getPhpCodeHtmlentities($entitiesVar, $entitiesQuote = false)
     {
         $entitiesVar = (false !== $entitiesQuote) ? $entitiesVar . ', ' . $entitiesQuote : $entitiesVar;
-        $entities = "htmlentities({$entitiesVar})";
+        $entities    = "htmlentities({$entitiesVar})";
 
         return $entities;
     }
 
     /**
-     *  @public function getPhpCodeHtmlspecialchars
-     *  @param $specialVar
-     *  @param $specialQuote
-     *  @return string
+     * @public function getPhpCodeHtmlspecialchars
+     * @param $specialVar
+     * @param $specialQuote
+     * @return string
      */
     public function getPhpCodeHtmlspecialchars($specialVar, $specialQuote = false)
     {
-        $specialVar = (false !== $specialQuote) ? $specialVar . ', ' . $specialQuote : $specialVar;
+        $specialVar   = (false !== $specialQuote) ? $specialVar . ', ' . $specialQuote : $specialVar;
         $specialchars = "htmlspecialchars({$specialVar})";
 
         return $specialchars;

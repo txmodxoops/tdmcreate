@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class DocsFiles extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class DocsFiles extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      */
 
     /**
@@ -60,9 +60,9 @@ class DocsFiles extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
 
     /**
@@ -76,10 +76,10 @@ class DocsFiles extends Files\CreateFile
     }
 
     /**
-     *  @public function getChangeLogFile
-     *  @param string $moduleDirname
-     *  @param string $mod_version
-     *  @param string $mod_author
+     * @public function getChangeLogFile
+     * @param string $moduleDirname
+     * @param string $mod_version
+     * @param string $mod_author
      */
 
     /**
@@ -92,7 +92,7 @@ class DocsFiles extends Files\CreateFile
     public function getChangeLogFile($moduleDirname, $mod_version, $mod_author)
     {
         $date = date('Y/m/d G:i:s');
-        $ret = <<<EOT
+        $ret  = <<<EOT
 ====================================
  {$date} Version {$mod_version}
 ====================================
@@ -103,7 +103,7 @@ EOT;
     }
 
     /**
-     *  @public function getCreditsFile
+     * @public function getCreditsFile
      * @param $mod_author
      * @param $mod_credits
      * @param $mod_author_website_url
@@ -130,8 +130,8 @@ EOT;
     }
 
     /**
-     *  @public function getInstallFile
-     *  @param null
+     * @public function getInstallFile
+     * @param null
      * @return string
      */
     public function getInstallFile()
@@ -147,8 +147,8 @@ EOT;
     }
 
     /**
-     *  @public function getReadmeFile
-     *  @param null
+     * @public function getReadmeFile
+     * @param null
      * @return string
      */
     public function getReadmeFile()
@@ -165,7 +165,7 @@ EOT;
     }
 
     /**
-     *  @public function getLangDiffFile
+     * @public function getLangDiffFile
      * @param $mod_version
      *
      * @return string
@@ -183,18 +183,18 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $mod_author = $module->getVar('mod_author');
-        $mod_credits = $module->getVar('mod_credits');
+        $module                 = $this->getModule();
+        $moduleDirname          = $module->getVar('mod_dirname');
+        $mod_author             = $module->getVar('mod_author');
+        $mod_credits            = $module->getVar('mod_credits');
         $mod_author_website_url = $module->getVar('mod_author_website_url');
-        $mod_description = $module->getVar('mod_description');
+        $mod_description        = $module->getVar('mod_description');
         switch ($filename = $this->getFileName()) {
             case 'changelog':
                 $content = $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);

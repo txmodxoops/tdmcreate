@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageModinfo extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return LanguageModinfo
      */
     public static function getInstance()
@@ -57,7 +57,7 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @public function write
+     * @public function write
      *
      * @param $module
      * @param $table
@@ -82,7 +82,7 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageMain($language, $module)
     {
-        $df = LanguageDefines::getInstance();
+        $df  = LanguageDefines::getInstance();
         $ret = $df->getAboveHeadDefines('Admin Main');
         $ret .= $df->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
         $ret .= $df->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
@@ -100,17 +100,17 @@ class LanguageModinfo extends Files\CreateFile
      */
     private function getLanguageMenu($module, $language)
     {
-        $df = Tdmcreate\Files\Language\LanguageDefines::getInstance();
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        $menu = 1;
-        $ret = $df->getAboveHeadDefines('Admin Menu');
-        $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Dashboard');
+        $df               = Tdmcreate\Files\Language\LanguageDefines::getInstance();
+        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $menu             = 1;
+        $ret              = $df->getAboveHeadDefines('Admin Menu');
+        $ret              .= $df->getDefine($language, "ADMENU{$menu}", 'Dashboard');
         $tablePermissions = [];
         foreach (array_keys($tables) as $i) {
             ++$menu;
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
-            $ucfTableName = ucfirst($tables[$i]->getVar('table_name'));
-            $ret .= $df->getDefine($language, "ADMENU{$menu}", $ucfTableName);
+            $ucfTableName       = ucfirst($tables[$i]->getVar('table_name'));
+            $ret                .= $df->getDefine($language, "ADMENU{$menu}", $ucfTableName);
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;
@@ -123,14 +123,14 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageAdmin
-     *  @param $language
+     * @private function getLanguageAdmin
+     * @param $language
      *
      * @return string
      */
     private function getLanguageAdmin($language)
     {
-        $df = LanguageDefines::getInstance();
+        $df  = LanguageDefines::getInstance();
         $ret = $df->getAboveHeadDefines('Admin Nav');
         $ret .= $df->getDefine($language, 'ADMIN_PAGER', 'Admin pager');
         $ret .= $df->getDefine($language, 'ADMIN_PAGER_DESC', 'Admin per page list');
@@ -139,20 +139,20 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageSubmenu
-     *  @param $language
-     *  @param array $tables
+     * @private function getLanguageSubmenu
+     * @param       $language
+     * @param array $tables
      *
      * @return string
      */
     private function getLanguageSubmenu($language, $tables)
     {
-        $df = LanguageDefines::getInstance();
-        $ret = $df->getAboveDefines('Submenu');
-        $i = 1;
+        $df          = LanguageDefines::getInstance();
+        $ret         = $df->getAboveDefines('Submenu');
+        $i           = 1;
         $tableSubmit = [];
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName     = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_submenu')) {
                 $ret .= $df->getDefine($language, "SMNAME{$i}", (string)$tableName);
@@ -168,22 +168,22 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageBlocks
-     *  @param $language
-     *  @param array $tables
+     * @private function getLanguageBlocks
+     * @param       $language
+     * @param array $tables
      *
      * @return string
      */
     private function getLanguageBlocks($tables, $language)
     {
-        $df = LanguageDefines::getInstance();
+        $df  = LanguageDefines::getInstance();
         $ret = $df->getAboveDefines('Blocks');
         foreach (array_keys($tables) as $i) {
-            $tableName = $tables[$i]->getVar('table_name');
-            $stuTableName = mb_strtoupper($tableName);
-            $tableSoleName = $tables[$i]->getVar('table_solename');
+            $tableName        = $tables[$i]->getVar('table_name');
+            $stuTableName     = mb_strtoupper($tableName);
+            $tableSoleName    = $tables[$i]->getVar('table_solename');
             $stuTableSoleName = mb_strtoupper($tableSoleName);
-            $ucfTableName = ucfirst($tableName);
+            $ucfTableName     = ucfirst($tableName);
             $ucfTableSoleName = ucfirst($stuTableSoleName);
 
             $ret .= $df->getDefine($language, "{$stuTableName}_BLOCK", "{$ucfTableName} block");
@@ -211,14 +211,14 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageUser
-     *  @param $language
+     * @private function getLanguageUser
+     * @param $language
      *
      * @return string
      */
     private function getLanguageUser($language)
     {
-        $df = LanguageDefines::getInstance();
+        $df  = LanguageDefines::getInstance();
         $ret = $df->getAboveDefines('User');
         $ret .= $df->getDefine($language, 'USER_PAGER', 'User pager');
         $ret .= $df->getDefine($language, 'USER_PAGER_DESC', 'User per page list');
@@ -227,30 +227,30 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageConfig
-     *  @param $language
-     *  @param $tables
+     * @private function getLanguageConfig
+     * @param $language
+     * @param $tables
      *
      * @return string
      */
     private function getLanguageConfig($language, $tables)
     {
-        $df = LanguageDefines::getInstance();
-        $ret = $df->getAboveDefines('Config');
+        $df         = LanguageDefines::getInstance();
+        $ret        = $df->getAboveDefines('Config');
         $fieldImage = false;
-        $useTag = false;
+        $useTag     = false;
         // $usePermissions = false;
         foreach (array_keys($tables) as $i) {
             $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
                 $fieldElement = $fields[$f]->getVar('field_element');
                 if (4 == $fieldElement) {
-                    $fieldName = $fields[$f]->getVar('field_name');
-                    $rpFieldName = $this->getRightString($fieldName);
+                    $fieldName    = $fields[$f]->getVar('field_name');
+                    $rpFieldName  = $this->getRightString($fieldName);
                     $ucfFieldName = ucfirst($rpFieldName);
                     $stuFieldName = mb_strtoupper($rpFieldName);
-                    $ret .= $df->getDefine($language, 'EDITOR_' . $stuFieldName, 'Editor');
-                    $ret .= $df->getDefine($language, 'EDITOR_' . $stuFieldName . '_DESC', 'Select the Editor ' . $ucfFieldName . ' to use');
+                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuFieldName, 'Editor');
+                    $ret          .= $df->getDefine($language, 'EDITOR_' . $stuFieldName . '_DESC', 'Select the Editor ' . $ucfFieldName . ' to use');
                 }
                 if (13 == $fieldElement) {
                     $fieldImage = true;
@@ -280,26 +280,26 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $df->getDefine($language, 'USE_TAG_DESC', 'If you use tag module, check this option to yes');
         }
         $getDefinesConf = [
-            'NUMB_COL' => 'Number Columns',
-'NUMB_COL_DESC' => 'Number Columns to View.',
-'DIVIDEBY' => 'Divide By',
-'DIVIDEBY_DESC' => 'Divide by columns number.',
-            'TABLE_TYPE' => 'Table Type',
-'TABLE_TYPE_DESC' => 'Table Type is the bootstrap html table.',
-'PANEL_TYPE' => 'Panel Type',
-'PANEL_TYPE_DESC' => 'Panel Type is the bootstrap html div.',
-'IDPAYPAL' => 'Paypal ID',
-'IDPAYPAL_DESC' => 'Insert here your PayPal ID for donactions.',
-'ADVERTISE' => 'Advertisement Code',
-'ADVERTISE_DESC' => 'Insert here the advertisement code',
-'MAINTAINEDBY' => 'Maintained By',
-'MAINTAINEDBY_DESC' => 'Allow url of support site or community',
-'BOOKMARKS' => 'Social Bookmarks',
-'BOOKMARKS_DESC' => 'Show Social Bookmarks in the single page',
-'FACEBOOK_COMMENTS' => 'Facebook comments',
-'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page',
-'DISQUS_COMMENTS' => 'Disqus comments',
-'DISQUS_COMMENTS_DESC' => 'Allow Disqus comments in the single page',
+            'NUMB_COL'               => 'Number Columns',
+            'NUMB_COL_DESC'          => 'Number Columns to View.',
+            'DIVIDEBY'               => 'Divide By',
+            'DIVIDEBY_DESC'          => 'Divide by columns number.',
+            'TABLE_TYPE'             => 'Table Type',
+            'TABLE_TYPE_DESC'        => 'Table Type is the bootstrap html table.',
+            'PANEL_TYPE'             => 'Panel Type',
+            'PANEL_TYPE_DESC'        => 'Panel Type is the bootstrap html div.',
+            'IDPAYPAL'               => 'Paypal ID',
+            'IDPAYPAL_DESC'          => 'Insert here your PayPal ID for donactions.',
+            'ADVERTISE'              => 'Advertisement Code',
+            'ADVERTISE_DESC'         => 'Insert here the advertisement code',
+            'MAINTAINEDBY'           => 'Maintained By',
+            'MAINTAINEDBY_DESC'      => 'Allow url of support site or community',
+            'BOOKMARKS'              => 'Social Bookmarks',
+            'BOOKMARKS_DESC'         => 'Show Social Bookmarks in the single page',
+            'FACEBOOK_COMMENTS'      => 'Facebook comments',
+            'FACEBOOK_COMMENTS_DESC' => 'Allow Facebook comments in the single page',
+            'DISQUS_COMMENTS'        => 'Disqus comments',
+            'DISQUS_COMMENTS_DESC'   => 'Allow Disqus comments in the single page',
         ];
         foreach ($getDefinesConf as $defc => $descc) {
             $ret .= $df->getDefine($language, $defc, $descc);
@@ -309,57 +309,57 @@ class LanguageModinfo extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageNotifications
-     *  @param $language
-     *  @param mixed $tableSoleName
+     * @private function getLanguageNotifications
+     * @param       $language
+     * @param mixed $tableSoleName
      *
      * @return string
      */
     private function getLanguageNotifications($language, $tableSoleName)
     {
-        $df = LanguageDefines::getInstance();
-        $ret = $df->getAboveDefines('Notifications');
+        $df               = LanguageDefines::getInstance();
+        $ret              = $df->getAboveDefines('Notifications');
         $stuTableSoleName = mb_strtoupper($tableSoleName);
         $ucfTableSoleName = ucfirst($tableSoleName);
-        $getDefinesNotif = [
-            'GLOBAL_NOTIFY' => 'Global notify',
-'GLOBAL_NOTIFY_DESC' => 'Global notify desc',
-'CATEGORY_NOTIFY' => 'Category notify',
-            'CATEGORY_NOTIFY_DESC' => 'Category notify desc',
-$stuTableSoleName . '_NOTIFY' => $ucfTableSoleName . ' notify',
-$stuTableSoleName . '_NOTIFY_DESC' => $ucfTableSoleName . ' notify desc',
-'GLOBAL_NEWCATEGORY_NOTIFY' => 'Global newcategory notify',
-'GLOBAL_NEWCATEGORY_NOTIFY_CAPTION' => 'Global newcategory notify caption',
-'GLOBAL_NEWCATEGORY_NOTIFY_DESC' => 'Global newcategory notify desc',
-'GLOBAL_NEWCATEGORY_NOTIFY_SUBJECT' => 'Global newcategory notify subject',
-'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY' => 'Global ' . $tableSoleName . 'modify notify',
-'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY_CAPTION' => 'Global ' . $tableSoleName . ' modify notify caption',
-'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY_DESC' => 'Global ' . $tableSoleName . 'modify notify desc',
-'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY_SUBJECT' => 'Global ' . $tableSoleName . ' modify notify subject',
-'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY' => 'Global ' . $tableSoleName . ' broken notify',
-'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY_CAPTION' => 'Global ' . $tableSoleName . 'broken notify caption',
-'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY_DESC' => 'Global ' . $tableSoleName . 'broken notify desc',
-'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY_SUBJECT' => 'Global ' . $tableSoleName . 'broken notify subject',
-'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY' => 'Global ' . $tableSoleName . ' submit notify',
-'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY_CAPTION' => 'Global ' . $tableSoleName . ' submit notify caption',
-'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY_DESC' => 'Global ' . $tableSoleName . 'submit notify desc',
-'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY_SUBJECT' => 'Global ' . $tableSoleName . 'submit notify subject',
-'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY' => 'Global new' . $tableSoleName . ' notify',
-'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY_CAPTION' => 'Global new' . $tableSoleName . ' notify caption',
-'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY_DESC' => 'Global new' . $tableSoleName . ' notify desc',
-'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY_SUBJECT' => 'Global new' . $tableSoleName . ' notify subject',
-'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY' => 'Category ' . $tableSoleName . 'submit notify',
-'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY_CAPTION' => 'Category ' . $tableSoleName . ' submit notify caption',
-'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY_DESC' => 'Category ' . $tableSoleName . ' submit notify desc',
-'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY_SUBJECT' => 'Category ' . $tableSoleName . ' submit notify subject',
-'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY' => 'Category new' . $tableSoleName . ' notify',
-'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY_CAPTION' => 'Category new' . $tableSoleName . ' notify caption',
-'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY_DESC' => 'Category new' . $tableSoleName . ' notify desc',
-'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY_SUBJECT' => 'Category new' . $tableSoleName . ' notify subject',
-$stuTableSoleName . '_APPROVE_NOTIFY' => $ucfTableSoleName . ' approve notify',
-$stuTableSoleName . '_APPROVE_NOTIFY_CAPTION' => $ucfTableSoleName . ' approve notify caption',
-$stuTableSoleName . '_APPROVE_NOTIFY_DESC' => $ucfTableSoleName . ' approve notify desc',
-$stuTableSoleName . '_APPROVE_NOTIFY_SUBJECT' => $ucfTableSoleName . ' approve notify subject',
+        $getDefinesNotif  = [
+            'GLOBAL_NOTIFY'                                           => 'Global notify',
+            'GLOBAL_NOTIFY_DESC'                                      => 'Global notify desc',
+            'CATEGORY_NOTIFY'                                         => 'Category notify',
+            'CATEGORY_NOTIFY_DESC'                                    => 'Category notify desc',
+            $stuTableSoleName . '_NOTIFY'                             => $ucfTableSoleName . ' notify',
+            $stuTableSoleName . '_NOTIFY_DESC'                        => $ucfTableSoleName . ' notify desc',
+            'GLOBAL_NEWCATEGORY_NOTIFY'                               => 'Global newcategory notify',
+            'GLOBAL_NEWCATEGORY_NOTIFY_CAPTION'                       => 'Global newcategory notify caption',
+            'GLOBAL_NEWCATEGORY_NOTIFY_DESC'                          => 'Global newcategory notify desc',
+            'GLOBAL_NEWCATEGORY_NOTIFY_SUBJECT'                       => 'Global newcategory notify subject',
+            'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY'           => 'Global ' . $tableSoleName . 'modify notify',
+            'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY_CAPTION'   => 'Global ' . $tableSoleName . ' modify notify caption',
+            'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY_DESC'      => 'Global ' . $tableSoleName . 'modify notify desc',
+            'GLOBAL_' . $stuTableSoleName . 'MODIFY_NOTIFY_SUBJECT'   => 'Global ' . $tableSoleName . ' modify notify subject',
+            'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY'           => 'Global ' . $tableSoleName . ' broken notify',
+            'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY_CAPTION'   => 'Global ' . $tableSoleName . 'broken notify caption',
+            'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY_DESC'      => 'Global ' . $tableSoleName . 'broken notify desc',
+            'GLOBAL_' . $stuTableSoleName . 'BROKEN_NOTIFY_SUBJECT'   => 'Global ' . $tableSoleName . 'broken notify subject',
+            'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY'           => 'Global ' . $tableSoleName . ' submit notify',
+            'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY_CAPTION'   => 'Global ' . $tableSoleName . ' submit notify caption',
+            'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY_DESC'      => 'Global ' . $tableSoleName . 'submit notify desc',
+            'GLOBAL_' . $stuTableSoleName . 'SUBMIT_NOTIFY_SUBJECT'   => 'Global ' . $tableSoleName . 'submit notify subject',
+            'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY'              => 'Global new' . $tableSoleName . ' notify',
+            'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY_CAPTION'      => 'Global new' . $tableSoleName . ' notify caption',
+            'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY_DESC'         => 'Global new' . $tableSoleName . ' notify desc',
+            'GLOBAL_NEW' . $stuTableSoleName . '_NOTIFY_SUBJECT'      => 'Global new' . $tableSoleName . ' notify subject',
+            'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY'         => 'Category ' . $tableSoleName . 'submit notify',
+            'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY_CAPTION' => 'Category ' . $tableSoleName . ' submit notify caption',
+            'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY_DESC'    => 'Category ' . $tableSoleName . ' submit notify desc',
+            'CATEGORY_' . $stuTableSoleName . 'SUBMIT_NOTIFY_SUBJECT' => 'Category ' . $tableSoleName . ' submit notify subject',
+            'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY'            => 'Category new' . $tableSoleName . ' notify',
+            'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY_CAPTION'    => 'Category new' . $tableSoleName . ' notify caption',
+            'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY_DESC'       => 'Category new' . $tableSoleName . ' notify desc',
+            'CATEGORY_NEW' . $stuTableSoleName . '_NOTIFY_SUBJECT'    => 'Category new' . $tableSoleName . ' notify subject',
+            $stuTableSoleName . '_APPROVE_NOTIFY'                     => $ucfTableSoleName . ' approve notify',
+            $stuTableSoleName . '_APPROVE_NOTIFY_CAPTION'             => $ucfTableSoleName . ' approve notify caption',
+            $stuTableSoleName . '_APPROVE_NOTIFY_DESC'                => $ucfTableSoleName . ' approve notify desc',
+            $stuTableSoleName . '_APPROVE_NOTIFY_SUBJECT'             => $ucfTableSoleName . ' approve notify subject',
         ];
         foreach ($getDefinesNotif as $defn => $descn) {
             $ret .= $df->getDefine($language, $defn, $descn);
@@ -369,14 +369,14 @@ $stuTableSoleName . '_APPROVE_NOTIFY_SUBJECT' => $ucfTableSoleName . ' approve n
     }
 
     /**
-     *  @private function getLanguagePermissionsGroups
-     *  @param $language
+     * @private function getLanguagePermissionsGroups
+     * @param $language
      *
      * @return string
      */
     private function getLanguagePermissionsGroups($language)
     {
-        $df = LanguageDefines::getInstance();
+        $df  = LanguageDefines::getInstance();
         $ret = $df->getAboveDefines('Permissions Groups');
         $ret .= $df->getDefine($language, 'GROUPS', 'Groups access');
         $ret .= $df->getDefine($language, 'GROUPS_DESC', 'Select general access permission for groups.');
@@ -387,49 +387,49 @@ $stuTableSoleName . '_APPROVE_NOTIFY_SUBJECT' => $ucfTableSoleName . ' approve n
     }
 
     /**
-     *  @private function getFooter
-     *  @param null
+     * @private function getFooter
+     * @param null
      * @return string
      */
     private function getLanguageFooter()
     {
-        $df = LanguageDefines::getInstance();
+        $df  = LanguageDefines::getInstance();
         $ret = $df->getBelowDefines('End');
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $tables = $this->getTableTables($module->getVar('mod_id'));
-        $tableAdmin = [];
-        $tableUser = [];
-        $tableSubmenu = [];
-        $tableBlocks = [];
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $tables             = $this->getTableTables($module->getVar('mod_id'));
+        $tableAdmin         = [];
+        $tableUser          = [];
+        $tableSubmenu       = [];
+        $tableBlocks        = [];
         $tableNotifications = [];
-        $tablePermissions = [];
+        $tablePermissions   = [];
         foreach (array_keys($tables) as $t) {
-            $tableSoleName = $tables[$t]->getVar('table_solename');
-            $tableAdmin[] = $tables[$t]->getVar('table_admin');
-            $tableUser[] = $tables[$t]->getVar('table_user');
-            $tableSubmenu[] = $tables[$t]->getVar('table_submenu');
-            $tableBlocks[] = $tables[$t]->getVar('table_blocks');
+            $tableSoleName        = $tables[$t]->getVar('table_solename');
+            $tableAdmin[]         = $tables[$t]->getVar('table_admin');
+            $tableUser[]          = $tables[$t]->getVar('table_user');
+            $tableSubmenu[]       = $tables[$t]->getVar('table_submenu');
+            $tableBlocks[]        = $tables[$t]->getVar('table_blocks');
             $tableNotifications[] = $tables[$t]->getVar('table_notifications');
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
         }
-        $filename = $this->getFileName();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MI');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getLanguageMain($language, $module);
-        $content .= $this->getLanguageMenu($module, $language);
+        $language      = $this->getLanguage($moduleDirname, 'MI');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getLanguageMain($language, $module);
+        $content       .= $this->getLanguageMenu($module, $language);
         if (in_array(1, $tableAdmin)) {
             $content .= $this->getLanguageAdmin($language);
         }

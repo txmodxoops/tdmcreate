@@ -38,7 +38,7 @@ if (!function_exists('application_autoloader')) {
     function application_autoloader($class)
     {
         $classFilename = $class . '.php';
-        $cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
+        $cachePath     = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
         if (!is_dir($cachePath)) {
             if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
                 throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
@@ -60,7 +60,7 @@ if (!function_exists('application_autoloader')) {
             $directories = new \RecursiveDirectoryIterator(__DIR__);
             foreach (new \RecursiveIteratorIterator($directories) as $file) {
                 if ($file->getFilename() == $classFilename) {
-                    $fullPath = $file->getRealPath();
+                    $fullPath          = $file->getRealPath();
                     $pathCache[$class] = $fullPath;
                     require_once $fullPath;
                     break;
@@ -73,5 +73,6 @@ if (!function_exists('application_autoloader')) {
             file_put_contents($cacheFile, serialize($pathCache));
         }
     }
+
     spl_autoload_register('application_autoloader');
 }

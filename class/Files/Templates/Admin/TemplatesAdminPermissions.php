@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminPermissions extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return TemplatesAdminPermissions
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     * @param $filename
+     * @public function write
+     * @param string $module
+     * @param        $filename
      */
     public function write($module, $filename)
     {
@@ -68,8 +68,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesAdminPermissionsHeader
-     *  @param string $moduleDirname
+     * @private function getTemplatesAdminPermissionsHeader
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -81,23 +81,23 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesAdminPermissions
-     *  @param null
+     * @private function getTemplatesAdminPermissions
+     * @param null
      * @return string
      */
     private function getTemplatesAdminPermissions()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc   = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $form = $hc->getSmartySingleVar('form');
-        $ret = $hc->getHtmlTag('div', ['class' => 'spacer'], $form) . PHP_EOL;
-        $ret .= $hc->getHtmlTag('br', [], '', false) . PHP_EOL;
+        $ret  = $hc->getHtmlTag('div', ['class' => 'spacer'], $form) . PHP_EOL;
+        $ret  .= $hc->getHtmlTag('br', [], '', false) . PHP_EOL;
 
         return $ret;
     }
 
     /**
-     *  @private function getTemplatesAdminPermissionsFooter
-     *  @param string $moduleDirname
+     * @private function getTemplatesAdminPermissionsFooter
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -109,19 +109,19 @@ class TemplatesAdminPermissions extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'AM');
-        $content = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
-        $content .= $this->getTemplatesAdminPermissions();
-        $content .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
+        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $content       = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
+        $content       .= $this->getTemplatesAdminPermissions();
+        $content       .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

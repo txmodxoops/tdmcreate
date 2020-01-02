@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeNotifications extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class IncludeNotifications extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeNotifications
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class IncludeNotifications extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,20 +70,20 @@ class IncludeNotifications extends Files\CreateFile
     }
 
     /**
-     *  @static function getNotificationsFunction
-     *  @param string $moduleDirname
+     * @static function getNotificationsFunction
+     * @param string $moduleDirname
      *
      * @return string
      */
     public function getNotificationsFunction($moduleDirname)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $table = $this->getTable();
-        $tableName = $table->getVar('table_name');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $tableSoleName = $table->getVar('table_solename');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldParent = 'cid';
+        $table            = $this->getTable();
+        $tableName        = $table->getVar('table_name');
+        $tableFieldname   = $table->getVar('table_fieldname');
+        $tableSoleName    = $table->getVar('table_solename');
+        $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldParent      = 'cid';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
@@ -167,17 +167,17 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getNotificationsFunction($moduleDirname);
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getNotificationsFunction($moduleDirname);
 
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

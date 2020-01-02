@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminAbout extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -67,23 +67,23 @@ class TemplatesAdminAbout extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $hc            = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $hc->getHtmlComment('Header') . PHP_EOL;
-        $content .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
-        $content .= $hc->getHtmlComment('About Page') . PHP_EOL;
-        $single = $hc->getSmartySingleVar('about');
-        $content .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
-        $content .= $hc->getHtmlComment('Footer') . PHP_EOL;
-        $content .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
+        $content       = $hc->getHtmlComment('Header') . PHP_EOL;
+        $content       .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, true) . PHP_EOL;
+        $content       .= $hc->getHtmlComment('About Page') . PHP_EOL;
+        $single        = $hc->getSmartySingleVar('about');
+        $content       .= $hc->getHtmlTag('div', ['class' => 'top'], $single) . PHP_EOL;
+        $content       .= $hc->getHtmlComment('Footer') . PHP_EOL;
+        $content       .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true, true);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

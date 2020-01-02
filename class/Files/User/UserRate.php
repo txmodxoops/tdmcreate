@@ -33,22 +33,22 @@ use XoopsModules\Tdmcreate\Files;
 class UserRate extends Files\CreateFile
 {
     /**
-     *  @public function constructor
+     * @public function constructor
      *
-     *  @param null
+     * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->xc      = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->uc = UserXoopsCode::getInstance();
+        $this->uc      = UserXoopsCode::getInstance();
     }
 
     /**
-     *  @static function getInstance
+     * @static function getInstance
      *
-     *  @param null
+     * @param null
      *
      * @return UserRate
      */
@@ -63,10 +63,10 @@ class UserRate extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -110,7 +110,7 @@ class UserRate extends Files\CreateFile
     private function getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
         $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = [
+        $cases  = [
             'form' => [$this->getUserRateForm($tableName, $language)],
             'save' => [$this->getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
         ];
@@ -145,7 +145,7 @@ class UserRate extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserRateSave
+     * @public function getUserRateSave
      * @param $moduleDirname
      * @param $fields
      * @param $tableName
@@ -156,21 +156,21 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $ucfTableName = ucfirst($tableName);
-        $ret = $this->phpcode->getPhpCodeCommentLine('Security Check');
+        $ucfTableName       = ucfirst($tableName);
+        $ret                = $this->phpcode->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $this->xc->getXcSecurityCheck();
-        $securityError = $this->xc->getXcSecurityErrors();
-        $implode = $this->phpcode->getPhpCodeImplode(',', $securityError);
-        $redirectError = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
-        $ret .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
-        $ret .= $this->xc->getXcObjHandlerCreate($tableName, "\t\t");
+        $securityError      = $this->xc->getXcSecurityErrors();
+        $implode            = $this->phpcode->getPhpCodeImplode(',', $securityError);
+        $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
+        $ret                .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
+        $ret                .= $this->xc->getXcObjHandlerCreate($tableName, "\t\t");
 
         $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, "\t\t");
 
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
-        $insert = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
+        $ret       .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
+        $insert    = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);
         $confirmOk = $this->xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, "\t\t\t");
-        $ret .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t\t");
+        $ret       .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t\t");
 
         $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
         $ret .= $this->xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");
@@ -181,7 +181,7 @@ class UserRate extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserRateFooter
+     * @public function getUserRateFooter
      * @param $moduleDirname
      * @param $language
      * @return string
@@ -189,35 +189,35 @@ class UserRate extends Files\CreateFile
     public function getUserRateFooter($moduleDirname, $language)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
-        $ret .= $this->uc->getUserBreadcrumbs('RATE', $language);
-        $ret .= $this->getInclude('footer');
+        $ret              = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
+        $ret              .= $this->uc->getUserBreadcrumbs('RATE', $language);
+        $ret              .= $this->getInclude('footer');
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $tableId            = $table->getVar('table_id');
+        $tableMid           = $table->getVar('table_mid');
+        $tableName          = $table->getVar('table_name');
+        $tableSoleName      = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
-        $fields = $this->getTableFields($tableMid, $tableId);
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserRateHeader($moduleDirname, $tableName);
-        $content .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        $content .= $this->getUserRateFooter($moduleDirname, $language);
+        $fields             = $this->getTableFields($tableMid, $tableId);
+        $language           = $this->getLanguage($moduleDirname, 'MA');
+        $content            = $this->getHeaderFilesComments($module, $filename);
+        $content            .= $this->getUserRateHeader($moduleDirname, $tableName);
+        $content            .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $content            .= $this->getUserRateFooter($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

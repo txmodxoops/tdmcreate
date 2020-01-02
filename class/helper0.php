@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -57,7 +58,7 @@ class TDMCreateHelper
      */
     public function __construct($debug)
     {
-        $this->debug = $debug;
+        $this->debug   = $debug;
         $this->dirname = basename(dirname(__DIR__));
     }
 
@@ -181,7 +182,7 @@ class TDMCreateHelper
         if (isset($xoopsModule) && is_object($xoopsModule) && $xoopsModule->getVar('dirname') == $this->dirname) {
             $this->module = $xoopsModule;
         } else {
-            $hModule = xoops_getHandler('module');
+            $hModule      = xoops_getHandler('module');
             $this->module = $hModule->getByDirname($this->dirname);
         }
         $this->addLog('INIT MODULE');
@@ -194,7 +195,7 @@ class TDMCreateHelper
     public function initConfig()
     {
         $this->addLog('INIT CONFIG');
-        $hModConfig = xoops_getHandler('config');
+        $hModConfig   = xoops_getHandler('config');
         $this->config = $hModConfig->getConfigsByCat(0, $this->getModule()->getVar('mid'));
     }
 

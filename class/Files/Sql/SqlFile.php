@@ -33,9 +33,9 @@ use XoopsModules\Tdmcreate\Files;
 class SqlFile extends Files\CreateFile
 {
     /**
-     *  @public function constructor
+     * @public function constructor
      *
-     *  @param null
+     * @param null
      */
     public function __construct()
     {
@@ -60,10 +60,10 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @public function write
+     * @public function write
      *
-     *  @param $module
-     *  @param $filename
+     * @param $module
+     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -80,21 +80,21 @@ class SqlFile extends Files\CreateFile
      */
     private function getHeaderSqlComments($moduleName)
     {
-        $date = date('D M d, Y');
-        $time = date('H:i:s');
-        $serverName = $_SERVER['SERVER_NAME'];
+        $date          = date('D M d, Y');
+        $time          = date('H:i:s');
+        $serverName    = $_SERVER['SERVER_NAME'];
         $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
-        $phpVersion = PHP_VERSION;
+        $phpVersion    = PHP_VERSION;
         // Header Sql Comments
-        $ret = null;
+        $ret             = null;
         $arrayServerInfo = [
             "# SQL Dump for {$moduleName} module",
-'# PhpMyAdmin Version: 4.0.4',
+            '# PhpMyAdmin Version: 4.0.4',
             '# http://www.phpmyadmin.net',
-'#',
-"# Host: {$serverName}",
+            '#',
+            "# Host: {$serverName}",
             "# Generated on: {$date} to {$time}",
-"# Server version: {$serverVersion}",
+            "# Server version: {$serverVersion}",
             "# PHP Version: {$phpVersion}\n",
         ];
         foreach ($arrayServerInfo as $serverInfo) {
@@ -105,23 +105,23 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @private function getHeadDatabaseTable
-     *  @param $moduleDirname
-     *  @param $tableName
-     *  @param int $fieldsNumb
+     * @private function getHeadDatabaseTable
+     * @param     $moduleDirname
+     * @param     $tableName
+     * @param int $fieldsNumb
      *
      *  Unused IF NOT EXISTS
      *
-     *  @return string
+     * @return string
      */
     private function getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb)
     {
-        $ret = null;
+        $ret          = null;
         $arrayDbTable = [
             '#',
-"# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
+            "# Structure table for `{$moduleDirname}_{$tableName}` {$fieldsNumb}",
             '#',
-"\nCREATE TABLE `{$moduleDirname}_{$tableName}` (",
+            "\nCREATE TABLE `{$moduleDirname}_{$tableName}` (",
         ];
         foreach ($arrayDbTable as $dbTable) {
             $ret .= $this->getSimpleString($dbTable);
@@ -131,24 +131,24 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @private function getDatabaseTables
+     * @private function getDatabaseTables
      *
-     *  @param $module
+     * @param $module
      *
-     *  @return null|string
+     * @return null|string
      */
     private function getDatabaseTables($module)
     {
-        $ret = null;
+        $ret           = null;
         $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
+        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order ASC, table_id');
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableId            = $tables[$t]->getVar('table_id');
+            $tableMid           = $tables[$t]->getVar('table_mid');
+            $tableName          = $tables[$t]->getVar('table_name');
             $tableAutoincrement = $tables[$t]->getVar('table_autoincrement');
-            $fieldsNumb = $tables[$t]->getVar('table_nbfields');
-            $ret .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
+            $fieldsNumb         = $tables[$t]->getVar('table_nbfields');
+            $ret                .= $this->getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb);
         }
 
         return $ret;
@@ -168,36 +168,36 @@ class SqlFile extends Files\CreateFile
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
         $helper = Tdmcreate\Helper::getInstance();
-        $ret = null;
-        $j = 0;
-        $comma = [];
-        $row = [];
-        $type = '';
+        $ret    = null;
+        $j      = 0;
+        $comma  = [];
+        $row    = [];
+        $type   = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
-            $ret = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
-            $fieldName = $fields[$f]->getVar('field_name');
-            $fieldType = $fields[$f]->getVar('field_type');
-            $fieldValue = $fields[$f]->getVar('field_value');
+            $ret            = $this->getHeadDatabaseTable($moduleDirname, $tableName, $fieldsNumb);
+            $fieldName      = $fields[$f]->getVar('field_name');
+            $fieldType      = $fields[$f]->getVar('field_type');
+            $fieldValue     = $fields[$f]->getVar('field_value');
             $fieldAttribute = $fields[$f]->getVar('field_attribute');
-            $fieldNull = $fields[$f]->getVar('field_null');
-            $fieldDefault = $fields[$f]->getVar('field_default');
-            $fieldKey = $fields[$f]->getVar('field_key');
+            $fieldNull      = $fields[$f]->getVar('field_null');
+            $fieldDefault   = $fields[$f]->getVar('field_default');
+            $fieldKey       = $fields[$f]->getVar('field_key');
             if ($fieldType > 1) {
-                $fType = $helper->getHandler('Fieldtype')->get($fieldType);
+                $fType         = $helper->getHandler('Fieldtype')->get($fieldType);
                 $fieldTypeName = $fType->getVar('fieldtype_name');
             } else {
                 $fieldType = null;
             }
             if ($fieldAttribute > 1) {
-                $fAttribute = $helper->getHandler('Fieldattributes')->get($fieldAttribute);
+                $fAttribute     = $helper->getHandler('Fieldattributes')->get($fieldAttribute);
                 $fieldAttribute = $fAttribute->getVar('fieldattribute_name');
             } else {
                 $fieldAttribute = null;
             }
             if ($fieldNull > 1) {
-                $fNull = $helper->getHandler('Fieldnull')->get($fieldNull);
+                $fNull     = $helper->getHandler('Fieldnull')->get($fieldNull);
                 $fieldNull = $fNull->getVar('fieldnull_name');
             } else {
                 $fieldNull = null;
@@ -228,7 +228,7 @@ class SqlFile extends Files\CreateFile
                     case 9:
                     case 10:
                         $fValues = str_replace(',', "', '", str_replace(' ', '', $fieldValue));
-                        $type = $fieldTypeName . '(\'' . $fValues . '\')'; // Used with comma separator
+                        $type    = $fieldTypeName . '(\'' . $fValues . '\')'; // Used with comma separator
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 11:
@@ -249,21 +249,21 @@ class SqlFile extends Files\CreateFile
                         break;
                     case 13:
                     case 14:
-                        $type = $fieldTypeName . '(' . $fieldValue . ')';
+                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 15:
                     case 16:
                     case 17:
                     case 18:
-                        $type = $fieldTypeName;
+                        $type    = $fieldTypeName;
                         $default = null;
                         break;
                     case 19:
                     case 20:
                     case 21:
                     case 22:
-                        $type = $fieldTypeName . '(' . $fieldValue . ')';
+                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                     case 23:
@@ -275,38 +275,38 @@ class SqlFile extends Files\CreateFile
                         }
                         break;
                     default:
-                        $type = $fieldTypeName . '(' . $fieldValue . ')';
+                        $type    = $fieldTypeName . '(' . $fieldValue . ')';
                         $default = "DEFAULT '{$fieldDefault}'";
                         break;
                 }
                 if ((0 == $f) && (1 == $tableAutoincrement)) {
-                    $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, null, 'AUTO_INCREMENT');
+                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, null, 'AUTO_INCREMENT');
                     $comma[$j] = $this->getKey(2, $fieldName);
                     ++$j;
                 } elseif ((0 == $f) && (0 == $tableAutoincrement)) {
-                    $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                    $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
                     $comma[$j] = $this->getKey(2, $fieldName);
                     ++$j;
                 } else {
                     if (3 == $fieldKey || 4 == $fieldKey || 5 == $fieldKey || 6 == $fieldKey) {
                         switch ($fieldKey) {
                             case 3:
-                                $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
                                 $comma[$j] = $this->getKey(3, $fieldName);
                                 ++$j;
                                 break;
                             case 4:
-                                $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
                                 $comma[$j] = $this->getKey(4, $fieldName);
                                 ++$j;
                                 break;
                             case 5:
-                                $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
                                 $comma[$j] = $this->getKey(5, $fieldName);
                                 ++$j;
                                 break;
                             case 6:
-                                $row[] = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
+                                $row[]     = $this->getFieldRow($fieldName, $type, $fieldAttribute, $fieldNull, $default);
                                 $comma[$j] = $this->getKey(6, $fieldName);
                                 ++$j;
                                 break;
@@ -334,9 +334,9 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @private function getFootDatabaseTable
+     * @private function getFootDatabaseTable
      *
-     *  @param null
+     * @param null
      *
      * @return string
      */
@@ -346,23 +346,23 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @private function getFieldRow
+     * @private function getFieldRow
      *
-     *  @param $fieldName
-     *  @param $fieldTypeValue
-     *  @param $fieldAttribute
-     *  @param $fieldNull
-     *  @param $fieldDefault
-     *  @param $autoincrement
+     * @param $fieldName
+     * @param $fieldTypeValue
+     * @param $fieldAttribute
+     * @param $fieldNull
+     * @param $fieldDefault
+     * @param $autoincrement
      *
-     *  @return string
+     * @return string
      */
     private function getFieldRow($fieldName, $fieldTypeValue, $fieldAttribute = null, $fieldNull = null, $fieldDefault = null, $autoincrement = null)
     {
-        $retAutoincrement = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
+        $retAutoincrement  = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$autoincrement},";
         $retFieldAttribute = "  `{$fieldName}` {$fieldTypeValue} {$fieldAttribute} {$fieldNull} {$fieldDefault},";
-        $fieldDefault = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
-        $retShort = "  `{$fieldName}` {$fieldTypeValue},";
+        $fieldDefault      = "  `{$fieldName}` {$fieldTypeValue} {$fieldNull} {$fieldDefault},";
+        $retShort          = "  `{$fieldName}` {$fieldTypeValue},";
 
         $ret = $retShort;
         if (null != $autoincrement) {
@@ -408,12 +408,12 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @private function getComma
+     * @private function getComma
      *
-     *  @param $row
-     *  @param $comma
+     * @param $row
+     * @param $comma
      *
-     *  @return string
+     * @return string
      */
     private function getComma($row, $comma = null)
     {
@@ -421,12 +421,12 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @private function getCommaCicle
+     * @private function getCommaCicle
      *
-     *  @param $comma
-     *  @param $index
+     * @param $comma
+     * @param $index
      *
-     *  @return string
+     * @return string
      */
     private function getCommaCicle($comma, $index)
     {
@@ -444,20 +444,20 @@ class SqlFile extends Files\CreateFile
     }
 
     /**
-     *  @public function render
+     * @public function render
      *
-     *  @param null
+     * @param null
      *
-     *  @return bool|string
+     * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
-        $moduleName = mb_strtolower($module->getVar('mod_name'));
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleName    = mb_strtolower($module->getVar('mod_name'));
         $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
-        $content = $this->getHeaderSqlComments($moduleName);
-        $content .= $this->getDatabaseTables($module);
+        $content       = $this->getHeaderSqlComments($moduleName);
+        $content       .= $this->getDatabaseTables($module);
 
         $this->create($moduleDirname, 'sql', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

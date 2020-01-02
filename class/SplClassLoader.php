@@ -32,15 +32,15 @@ namespace XoopsModules\Tdmcreate;
  *     $classLoader->register();
  *
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @author Jonathan H. Wage <jonwage@gmail.com>
- * @author Roman S. Borschel <roman@code-factory.org>
- * @author Matthew Weier O'Phinney <matthew@zend.com>
- * @author Kris Wallsmith <kris.wallsmith@gmail.com>
- * @author Fabien Potencier <fabien.potencier@symfony-project.org>
+ * @author  Jonathan H. Wage <jonwage@gmail.com>
+ * @author  Roman S. Borschel <roman@code-factory.org>
+ * @author  Matthew Weier O'Phinney <matthew@zend.com>
+ * @author  Kris Wallsmith <kris.wallsmith@gmail.com>
+ * @author  Fabien Potencier <fabien.potencier@symfony-project.org>
  */
 class SplClassLoader
 {
-    private $_fileExtension = '.php';
+    private $_fileExtension      = '.php';
     private $_namespace;
     private $_includePath;
     private $_namespaceSeparator = '\\';
@@ -49,12 +49,12 @@ class SplClassLoader
      * Creates a new <tt>SplClassLoader</tt> that loads classes of the
      * specified namespace.
      *
-     * @param string $ns          The namespace to use
+     * @param string $ns The namespace to use
      * @param null   $includePath
      */
     public function __construct($ns = null, $includePath = null)
     {
-        $this->_namespace = $ns;
+        $this->_namespace   = $ns;
         $this->_includePath = $includePath;
     }
 
@@ -140,16 +140,16 @@ class SplClassLoader
     public function loadClass($className)
     {
         if (null === $this->_namespace || $this->_namespace . $this->_namespaceSeparator === mb_substr($className, 0, mb_strlen($this->_namespace . $this->_namespaceSeparator))) {
-            $fileName = '';
+            $fileName  = '';
             $namespace = '';
             if (false !== ($lastNsPos = mb_strrpos($className, $this->_namespaceSeparator))) {
                 $namespace = mb_substr($className, 0, $lastNsPos);
                 $className = mb_substr($className, $lastNsPos + 1);
-                $fileName = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
+                $fileName  = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }
             $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . $this->_fileExtension;
 
-            require(null !== $this->_includePath ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
+            require (null !== $this->_includePath ? $this->_includePath . DIRECTORY_SEPARATOR : '') . $fileName;
         }
     }
 }

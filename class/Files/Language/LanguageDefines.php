@@ -37,8 +37,8 @@ class LanguageDefines
     protected $defines;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -46,8 +46,8 @@ class LanguageDefines
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return LanguageDefines
      */
     public static function getInstance()
@@ -61,9 +61,9 @@ class LanguageDefines
     }
 
     /**
-     *  @public function getAboveHeadDefines
-     *  @param string $string
-     *  @return string
+     * @public function getAboveHeadDefines
+     * @param string $string
+     * @return string
      */
     public function getAboveHeadDefines($string)
     {
@@ -71,9 +71,9 @@ class LanguageDefines
     }
 
     /**
-     *  @public function getAboveDefines
-     *  @param string $string
-     *  @return string
+     * @public function getAboveDefines
+     * @param string $string
+     * @return string
      */
     public function getAboveDefines($string)
     {
@@ -81,12 +81,12 @@ class LanguageDefines
     }
 
     /**
-     *  @public function getDefine
-     *  @param string $language
-     *  @param string $defined
-     *  @param string $description
-     *  @param bool   $usedoubleqoute
-     *  @return string
+     * @public function getDefine
+     * @param string $language
+     * @param string $defined
+     * @param string $description
+     * @param bool   $usedoubleqoute
+     * @return string
      */
     public function getDefine($language, $defined, $description, $usedoubleqoute = false)
     {
@@ -102,8 +102,8 @@ class LanguageDefines
     }
 
     /**
-     *  @public function getBelowDefines
-     *  @param string $string
+     * @public function getBelowDefines
+     * @param string $string
      *
      * @return string
      */

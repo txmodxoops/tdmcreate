@@ -52,14 +52,14 @@ class FormTab extends \XoopsFormElementTray
         $ret = '';
         /* @var \XoopsFormElement $ele */
         foreach ($this->getElements() as $ele) {
-            $ret .= NWLINE;
-            $ret .= '<tr>' . NWLINE;
-            $ret .= '<td class="head" width="30%">' . NWLINE;
-            $required = $ele->isRequired() ? '-required' : '';
-            $ret .= '<div class="xoops-form-element-caption' . $required . '">' . NWLINE;
-            $ret .= '<span class="caption-text">' . $ele->getCaption() . '</span>' . NWLINE;
-            $ret .= '<span class="caption-marker">*</span>' . NWLINE;
-            $ret .= '</div>' . NWLINE;
+            $ret         .= NWLINE;
+            $ret         .= '<tr>' . NWLINE;
+            $ret         .= '<td class="head" width="30%">' . NWLINE;
+            $required    = $ele->isRequired() ? '-required' : '';
+            $ret         .= '<div class="xoops-form-element-caption' . $required . '">' . NWLINE;
+            $ret         .= '<span class="caption-text">' . $ele->getCaption() . '</span>' . NWLINE;
+            $ret         .= '<span class="caption-marker">*</span>' . NWLINE;
+            $ret         .= '</div>' . NWLINE;
             $description = $ele->getDescription();
             if ($description) {
                 $ret .= '<div style="font-weight: normal">' . NWLINE;

@@ -32,8 +32,8 @@ use XoopsModules\Tdmcreate\Files;
 class CssAdminStyles extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -41,8 +41,8 @@ class CssAdminStyles extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return CssAdminStyles
      */
     public static function getInstance()
@@ -67,17 +67,17 @@ class CssAdminStyles extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
-        $content .= <<<'EOT'
+        $content       = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
+        $content       .= <<<'EOT'
 img {
 	max-width: 200px;
 }

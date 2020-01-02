@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class UserHeader extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class UserHeader extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserHeader
      */
     public static function getInstance()
@@ -57,11 +57,11 @@ class UserHeader extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param array $tables
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param array  $tables
+     * @param string $filename
      */
     public function write($module, $table, $tables, $filename)
     {
@@ -72,25 +72,25 @@ class UserHeader extends Files\CreateFile
     }
 
     /**
-     *  @private function getUserHeader
-     *  @param $moduleDirname
+     * @private function getUserHeader
+     * @param $moduleDirname
      *
-     *  @return string
+     * @return string
      */
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc = UserXoopsCode::getInstance();
-        $ret = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
-        $ret .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret .= $xc->getXcEqualsOperator('$dirname', 'basename(__DIR__)');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $ret .= $uc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uc               = UserXoopsCode::getInstance();
+        $ret              = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $ret              .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
+        $ret              .= $xc->getXcEqualsOperator('$dirname', 'basename(__DIR__)');
+        $language         = $this->getLanguage($moduleDirname, 'MA');
+        $ret              .= $uc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
 
-        $table = $this->getTable();
+        $table  = $this->getTable();
         $tables = $this->getTables();
         if (is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $xc->getXoopsHandlerInstance($moduleDirname);
@@ -98,14 +98,14 @@ class UserHeader extends Files\CreateFile
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret .= $xc->getXoopsHandlerLine($moduleDirname, $tableName);
+                $ret       .= $xc->getXoopsHandlerLine($moduleDirname, $tableName);
             }
         }
         $ret .= $pc->getPhpCodeCommentLine('Permission');
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true);
 
-        $condIf = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
+        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
         $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");
 
         $ret .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
@@ -128,17 +128,17 @@ class UserHeader extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
+        $module        = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $filename = $this->getFileName();
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserHeader($moduleDirname);
+        $filename      = $this->getFileName();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getUserHeader($moduleDirname);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

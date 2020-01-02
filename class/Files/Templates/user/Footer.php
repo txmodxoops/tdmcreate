@@ -38,8 +38,8 @@ class Footer extends Files\CreateFile
     private $tdmcfile = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -48,8 +48,8 @@ class Footer extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Footer
      */
     public static function getInstance()
@@ -63,10 +63,10 @@ class Footer extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -76,8 +76,8 @@ class Footer extends Files\CreateFile
     }
 
     /**
-     *  @public function getTemplateUserFooterFacebookLikeButton
-     *  @param null
+     * @public function getTemplateUserFooterFacebookLikeButton
+     * @param null
      *
      * @return bool|string
      */
@@ -87,8 +87,8 @@ class Footer extends Files\CreateFile
     }
 
     /**
-     *  @public function getTemplateUserFooterFacebookShareButton
-     *  @param null
+     * @public function getTemplateUserFooterFacebookShareButton
+     * @param null
      *
      * @return bool|string
      */
@@ -98,18 +98,18 @@ class Footer extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = <<<EOT
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = <<<EOT
 <{if \$bookmarks != 0}>
 <{include file="db:system_bookmarks.tpl"}>
 <{/if}>

@@ -30,13 +30,13 @@ use XoopsModules\Tdmcreate;
 // include __DIR__ . '/autoload.php';
 
 /**
- *  @Class TablesHandler
- *  @extends \XoopsPersistableObjectHandler
+ * @Class TablesHandler
+ * @extends \XoopsPersistableObjectHandler
  */
 class TablesHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
      * @param null|\XoopsDatabase|\XoopsMySQLDatabase $db
      */
@@ -58,7 +58,7 @@ class TablesHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i      field id
+     * @param int  $i field id
      * @param null $fields
      *
      * @return mixed reference to the <a href='psi_element://Fields'>Fields</a> object

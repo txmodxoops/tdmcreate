@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageBlocks extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class LanguageBlocks extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return LanguageBlocks
      */
     public static function getInstance()
@@ -58,10 +58,10 @@ class LanguageBlocks extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $tables
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $tables
+     * @param string $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -71,27 +71,27 @@ class LanguageBlocks extends Files\CreateFile
     }
 
     /**
-     *  @private function getLanguageBlock
-     *  @param string $language
-     *  @param string $module
+     * @private function getLanguageBlock
+     * @param string $language
+     * @param string $module
      *
      * @return string
      */
     private function getLanguageBlock($module, $language)
     {
         $tables = $this->getTables();
-        $ret = $this->defines->getAboveDefines('Admin Edit');
-        $ret .= $this->defines->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
-        $ret .= $this->defines->getDefine($language, 'TITLE_LENGTH', 'Title Length');
-        $ret .= $this->defines->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
-        $ret .= $this->defines->getDefine($language, 'ALLCAT', 'All Categories');
+        $ret    = $this->defines->getAboveDefines('Admin Edit');
+        $ret    .= $this->defines->getDefine($language, 'DISPLAY', 'How Many Tables to Display');
+        $ret    .= $this->defines->getDefine($language, 'TITLE_LENGTH', 'Title Length');
+        $ret    .= $this->defines->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
+        $ret    .= $this->defines->getDefine($language, 'ALLCAT', 'All Categories');
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName    = $tables[$t]->getVar('table_name');
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->defines->getAboveDefines($ucfTableName);
-            $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+            $ret          .= $this->defines->getAboveDefines($ucfTableName);
+            $fields       = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
-                $fieldName = $fields[$f]->getVar('field_name');
+                $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = mb_strtoupper($fieldName);
 
                 $rpFieldName = $this->getRightString($fieldName);
@@ -107,8 +107,8 @@ class LanguageBlocks extends Files\CreateFile
     }
 
     /**
-     *  @private function getFooter
-     *  @param null
+     * @private function getFooter
+     * @param null
      * @return string
      */
     private function getLanguageFooter()
@@ -119,19 +119,19 @@ class LanguageBlocks extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MB');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getLanguageBlock($module, $language);
-        $content .= $this->getLanguageFooter();
+        $language      = $this->getLanguage($moduleDirname, 'MB');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getLanguageBlock($module, $language);
+        $content       .= $this->getLanguageFooter();
 
         $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

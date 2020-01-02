@@ -32,8 +32,8 @@ use XoopsModules\Tdmcreate\Files;
 class BlocksFiles extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -41,8 +41,8 @@ class BlocksFiles extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return BlocksFiles
      */
     public static function getInstance()
@@ -82,7 +82,7 @@ class BlocksFiles extends Files\CreateFile
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret = <<<EOT
+        $ret              = <<<EOT
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/include/common.php';
 // Function show block
 function b_{$moduleDirname}_{$tableName}_show(\$options)
@@ -163,7 +163,7 @@ EOT;
             $fieldName = $fields[$f]->getVar('field_name');
             // Verify if table_fieldname is not empty
             //$lpFieldName = !empty($tableFieldname) ? substr($fieldName, 0, strpos($fieldName, '_')) : $tableName;
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName  = $this->getRightString($fieldName);
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
@@ -179,12 +179,12 @@ EOT;
 EOT;
                         break;
                     case 8:
-                    $ret .= <<<EOT
+                        $ret .= <<<EOT
 		\$block[\$i]['{$rpFieldName}'] = \XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
                         break;
                     case 15:
-                    $ret .= <<<EOT
+                        $ret .= <<<EOT
 		\$block[\$i]['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
                         break;
@@ -206,21 +206,21 @@ EOT;
     }
 
     /**
-     *  @public function getBlocksEdit
-     *  @param string $moduleDirname
-     *  @param string $tableName
-     *  @param string $fieldId
-     *  @param string $fieldMain
-     *  @param string $language
+     * @public function getBlocksEdit
+     * @param string $moduleDirname
+     * @param string $tableName
+     * @param string $fieldId
+     * @param string $fieldMain
+     * @param string $language
      *
      * @return string
      */
     private function getBlocksEdit($moduleDirname, $tableName, $fieldId, $fieldMain, $language)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName = mb_strtoupper($tableName);
+        $stuTableName     = mb_strtoupper($tableName);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret = <<<EOT
+        $ret              = <<<EOT
 // Function edit block
 function b_{$moduleDirname}_{$tableName}_edit(\$options)
 {
@@ -256,24 +256,24 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      *
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
-        $table = $this->getTable();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName = $table->getVar('table_name');
+        $module         = $this->getModule();
+        $filename       = $this->getFileName();
+        $table          = $this->getTable();
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $tableName      = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $tableCategory = $table->getVar('table_category');
-        $language = $this->getLanguage($moduleDirname, 'MB');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $tableCategory  = $table->getVar('table_category');
+        $language       = $this->getLanguage($moduleDirname, 'MB');
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName   = $fields[$f]->getVar('field_name');
             $fieldParent = $fields[$f]->getVar('field_parent');
             if (0 == $f) {
                 $fieldId = $fieldName;

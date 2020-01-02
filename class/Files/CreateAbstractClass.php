@@ -72,7 +72,7 @@ abstract class CreateAbstractClass
     }
 
     /**
-     *  @public function getModule
+     * @public function getModule
      *
      * @return mixed
      */
@@ -94,7 +94,7 @@ abstract class CreateAbstractClass
     }
 
     /**
-     *  @public function getTable
+     * @public function getTable
      *
      * @return mixed
      */
@@ -116,7 +116,7 @@ abstract class CreateAbstractClass
     }
 
     /**
-     *  @public function getTables
+     * @public function getTables
      *
      * @return mixed
      */
@@ -138,7 +138,7 @@ abstract class CreateAbstractClass
     }
 
     /**
-     *  @public function getFields
+     * @public function getFields
      *
      * @return mixed
      */

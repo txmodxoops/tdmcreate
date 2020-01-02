@@ -32,8 +32,8 @@ use XoopsModules\Tdmcreate;
 class Fieldkey extends \XoopsObject
 {
     /**
-     *  @public function constructor class
-     *  @param null
+     * @public function constructor class
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class Fieldkey extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Fieldkey
      */
     public static function getInstance()
@@ -68,8 +68,8 @@ class Fieldkey extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('fieldkey_id');
-        $ret['name'] = $this->getVar('fieldkey_name');
+        $ret['id']    = $this->getVar('fieldkey_id');
+        $ret['name']  = $this->getVar('fieldkey_name');
         $ret['value'] = $this->getVar('fieldkey_value');
 
         return $ret;

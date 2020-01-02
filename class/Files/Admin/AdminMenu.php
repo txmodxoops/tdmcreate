@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class AdminMenu extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class AdminMenu extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return AdminMenu
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class AdminMenu extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -77,7 +77,7 @@ class AdminMenu extends Files\CreateFile
      */
     private function getAdminMenuArray($param = [], $adminObject = false, $ref = false)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ret = '';
         foreach ($param as $key => $value) {
             if ($adminObject) {
@@ -95,55 +95,55 @@ class AdminMenu extends Files\CreateFile
     }
 
     /**
-     *  @private function getAdminMenuHeader
-     *  @param null
+     * @private function getAdminMenuHeader
+     * @param null
      * @return string
      */
     private function getAdminMenuHeader()
     {
         $dirname = ['$dirname' => 'basename(dirname(__DIR__))'];
-        $ret = $this->getAdminMenuArray($dirname);
-        $mod = [
+        $ret     = $this->getAdminMenuArray($dirname);
+        $mod     = [
             '$moduleHandler' => "xoops_getHandler('module')",
-            '$xoopsModule' => 'XoopsModule::getByDirname($dirname)',
-            '$moduleInfo' => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
+            '$xoopsModule'   => 'XoopsModule::getByDirname($dirname)',
+            '$moduleInfo'    => "\$moduleHandler->get(\$xoopsModule->getVar('mid'))",
         ];
-        $ret .= $this->getAdminMenuArray($mod);
-        $sys = ['$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')"];
-        $ret .= $this->getAdminMenuArray($sys);
+        $ret     .= $this->getAdminMenuArray($mod);
+        $sys     = ['$sysPathIcon32' => "\$moduleInfo->getInfo('sysicons32')"];
+        $ret     .= $this->getAdminMenuArray($sys);
 
         return $ret;
     }
 
     /**
-     *  @private function getAdminMenuDashboard
-     *  @param string $language
-     *  @param int $menu
+     * @private function getAdminMenuDashboard
+     * @param string $language
+     * @param int    $menu
      *
      * @return string
      */
     private function getAdminMenuDashboard($language, $menu)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $xc    = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $param = ['title' => "{$language}{$menu}", 'link' => "'admin/index.php'", 'icon' => "\$sysPathIcon32.'/dashboard.png'"];
-        $ret = $xc->getXcEqualsOperator('$i', '1');
-        $ret .= $this->getAdminMenuArray($param, true);
-        $ret .= $this->getSimpleString('++$i;');
+        $ret   = $xc->getXcEqualsOperator('$i', '1');
+        $ret   .= $this->getAdminMenuArray($param, true);
+        $ret   .= $this->getSimpleString('++$i;');
 
         return $ret;
     }
 
     /**
-     *  @private function getAdminMenuImagesPath
-     *  @param array $tables
-     *  @param int $t
+     * @private function getAdminMenuImagesPath
+     * @param array $tables
+     * @param int   $t
      *
      * @return string
      */
     private function getAdminMenuImagesPath($tables, $t)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $ret = '';
+        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $ret    = '';
         $fields = $this->getTableFields($tables[$t]->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -165,54 +165,54 @@ class AdminMenu extends Files\CreateFile
      * @param string $module
      * @param string $language
      * @param string $langAbout
-     * @param int $menu
+     * @param int    $menu
      *
      * @return string
      */
     private function getAdminMenuList($module, $language, $langAbout, $menu)
     {
-        $ret = '';
+        $ret    = '';
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {
                 ++$menu;
                 $param1 = ['title' => "{$language}{$menu}", 'link' => "'admin/{$tables[$t]->getVar('table_name')}.php'", 'icon' => "'assets/icons/32/{$tables[$t]->getVar('table_image')}'"];
-                $ret .= $this->getAdminMenuArray($param1, true);
-                $ret .= $this->getSimpleString('++$i;');
+                $ret    .= $this->getAdminMenuArray($param1, true);
+                $ret    .= $this->getSimpleString('++$i;');
             }
         }
         if (in_array(1, $tablePermissions)) {
             ++$menu;
             $param2 = ['title' => "{$language}{$menu}", 'link' => "'admin/permissions.php'", 'icon' => "\$sysPathIcon32.'/permissions.png'"];
-            $ret .= $this->getAdminMenuArray($param2, true);
-            $ret .= $this->getSimpleString('++$i;');
+            $ret    .= $this->getAdminMenuArray($param2, true);
+            $ret    .= $this->getSimpleString('++$i;');
         }
         unset($menu);
         $param3 = ['title' => (string)$langAbout, 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'"];
-        $ret .= $this->getAdminMenuArray($param3, true);
-        $ret .= $this->getSimpleString('unset($i);');
+        $ret    .= $this->getAdminMenuArray($param3, true);
+        $ret    .= $this->getSimpleString('unset($i);');
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
-        $langAbout = $this->getLanguage($moduleDirname, 'MI', 'ABOUT');
-        $menu = 1;
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getAdminMenuHeader();
-        $content .= $this->getAdminMenuDashboard($language, $menu);
-        $content .= $this->getAdminMenuList($module, $language, $langAbout, $menu);
+        $language      = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
+        $langAbout     = $this->getLanguage($moduleDirname, 'MI', 'ABOUT');
+        $menu          = 1;
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getAdminMenuHeader();
+        $content       .= $this->getAdminMenuDashboard($language, $menu);
+        $content       .= $this->getAdminMenuList($module, $language, $langAbout, $menu);
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class JavascriptJQuery extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class JavascriptJQuery extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return JavascriptJQuery
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class JavascriptJQuery extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -68,8 +68,8 @@ class JavascriptJQuery extends Files\CreateFile
     }
 
     /**
-     *  @public function getJavascriptJQueryButtons
-     *  @param null
+     * @public function getJavascriptJQueryButtons
+     * @param null
      *
      * @return string
      */
@@ -88,8 +88,8 @@ EOT;
     }
 
     /**
-     *  @public function getJavascriptJQueryPrint
-     *  @param null
+     * @public function getJavascriptJQueryPrint
+     * @param null
      *
      * @return string
      */
@@ -166,19 +166,19 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      *
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content = $this->getJavascriptJQueryButtons();
-        $content .= $this->getJavascriptJQueryPrint();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getJavascriptJQueryButtons();
+        $content       .= $this->getJavascriptJQueryPrint();
 
         $this->create($moduleDirname, 'assets/js', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

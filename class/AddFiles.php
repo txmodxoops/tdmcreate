@@ -48,8 +48,8 @@ class AddFiles extends \XoopsObject
     private $settings;
 
     /**
-     *  @public function constructor class
-     *  @param null
+     * @public function constructor class
+     * @param null
      */
     public function __construct()
     {
@@ -76,8 +76,8 @@ class AddFiles extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return AddFiles
      */
     public static function getInstance()
@@ -91,8 +91,8 @@ class AddFiles extends \XoopsObject
     }
 
     /**
-     *  @public function getFormMoreFiles
-     *  @param mixed $action
+     * @public function getFormMoreFiles
+     * @param mixed $action
      *
      * @return \XoopsThemeForm
      */
@@ -110,7 +110,7 @@ class AddFiles extends \XoopsObject
         $form = new \XoopsThemeForm($title, 'addfilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modules = $this->helper->getHandler('modules')->getObjects(null);
+        $modules       = $this->helper->getHandler('modules')->getObjects(null);
         $modulesSelect = new \XoopsFormSelect(_AM_TDMCREATE_ADDFILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', _AM_TDMCREATE_ADDFILES_MODULE_SELECT);
         foreach ($modules as $mod) {
@@ -147,11 +147,11 @@ class AddFiles extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('file_id');
-        $ret['mid'] = $this->helper->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
-        $ret['name'] = $this->getVar('file_name');
+        $ret['id']        = $this->getVar('file_id');
+        $ret['mid']       = $this->helper->getHandler('modules')->get($this->getVar('file_mid'))->getVar('mod_name');
+        $ret['name']      = $this->getVar('file_name');
         $ret['extension'] = $this->getVar('file_extension');
-        $ret['infolder'] = $this->getVar('file_infolder');
+        $ret['infolder']  = $this->getVar('file_infolder');
 
         return $ret;
     }

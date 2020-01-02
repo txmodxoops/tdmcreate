@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageMain extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class LanguageMain extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return LanguageMain
      */
     public static function getInstance()
@@ -58,10 +58,10 @@ class LanguageMain extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $tables
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $tables
+     * @param string $filename
      */
     public function write($module, $tables, $filename)
     {
@@ -71,9 +71,9 @@ class LanguageMain extends Files\CreateFile
     }
 
     /**
-     *  @private function geLanguagetMain
-     *  @param string $module
-     *  @param string $language
+     * @private function geLanguagetMain
+     * @param string $module
+     * @param string $language
      *
      * @return string
      */
@@ -83,35 +83,40 @@ class LanguageMain extends Files\CreateFile
         $utility = new \XoopsModules\Tdmcreate\Utility();
 
         $moduleName = $module->getVar('mod_name');
-        $tables = $this->getTables();
-        $ret = $this->defines->getAboveHeadDefines('Main');
-        $ret .= $this->defines->getDefine($language, 'INDEX', 'Home');
-        $ret .= $this->defines->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
-        $ret .= $this->defines->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
-        $ret .= $this->defines->getDefine($language, 'INDEX_DESC', "Welcome to the homepage of your new module {$moduleName}!<br>
-As you can see, you have created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module TDMCreate, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br><br>If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br><br>If you liked the module TDMCreate and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module TDMCreate and make a donation using this button <a href='http://www.txmodxoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' /></a><br>Thanks!<br><br>Use the link below to go to the admin and create content.", true);
-        $ret .= $this->defines->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
-        $ret .= $this->defines->getDefine($language, 'NO', 'No');
-        $ret .= $this->defines->getAboveHeadDefines('Contents');
+        $tables     = $this->getTables();
+        $ret        = $this->defines->getAboveHeadDefines('Main');
+        $ret        .= $this->defines->getDefine($language, 'INDEX', 'Home');
+        $ret        .= $this->defines->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
+        $ret        .= $this->defines->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
+        $ret        .= $this->defines->getDefine(
+            $language,
+            'INDEX_DESC',
+            "Welcome to the homepage of your new module {$moduleName}!<br>
+As you can see, you have created a page with a list of links at the top to navigate between the pages of your module. This description is only visible on the homepage of this module, the other pages you will see the content you created when you built this module with the module TDMCreate, and after creating new content in admin of this module. In order to expand this module with other resources, just add the code you need to extend the functionality of the same. The files are grouped by type, from the header to the footer to see how divided the source code.<br><br>If you see this message, it is because you have not created content for this module. Once you have created any type of content, you will not see this message.<br><br>If you liked the module TDMCreate and thanks to the long process for giving the opportunity to the new module to be created in a moment, consider making a donation to keep the module TDMCreate and make a donation using this button <a href='http://www.txmodxoops.org/modules/xdonations/index.php' title='Donation To Txmod Xoops'><img src='https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif' alt='Button Donations' /></a><br>Thanks!<br><br>Use the link below to go to the admin and create content.",
+            true
+        );
+        $ret        .= $this->defines->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
+        $ret        .= $this->defines->getDefine($language, 'NO', 'No');
+        $ret        .= $this->defines->getAboveHeadDefines('Contents');
         foreach (array_keys($tables) as $i) {
-            $tableName = $tables[$i]->getVar('table_name');
-            $tableSoleName = $tables[$i]->getVar('table_solename');
-            $stuTableName = mb_strtoupper($tableName);
+            $tableName        = $tables[$i]->getVar('table_name');
+            $tableSoleName    = $tables[$i]->getVar('table_solename');
+            $stuTableName     = mb_strtoupper($tableName);
             $stuTableSoleName = mb_strtoupper($tableSoleName);
-            $ucfTableName = $utility::UcFirstAndToLower($tableName);
+            $ucfTableName     = $utility::UcFirstAndToLower($tableName);
             $ucfTableSoleName = $utility::UcFirstAndToLower($tableSoleName);
-            $ret .= $this->defines->getAboveDefines($ucfTableSoleName);
-            $ret .= $this->defines->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
-            $ret .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
-            $ret .= $this->defines->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
-            $ret .= $this->defines->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
-            $ret .= $this->defines->getAboveDefines("Caption of {$ucfTableSoleName}");
-            $fields = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+            $ret              .= $this->defines->getAboveDefines($ucfTableSoleName);
+            $ret              .= $this->defines->getDefine($language, $stuTableSoleName, $ucfTableSoleName);
+            $ret              .= $this->defines->getDefine($language, $stuTableName, $ucfTableName);
+            $ret              .= $this->defines->getDefine($language, "{$stuTableName}_TITLE", "{$ucfTableName} title");
+            $ret              .= $this->defines->getDefine($language, "{$stuTableName}_DESC", "{$ucfTableName} description");
+            $ret              .= $this->defines->getAboveDefines("Caption of {$ucfTableSoleName}");
+            $fields           = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
-                $fieldName = $fields[$f]->getVar('field_name');
-                $rpFieldName = $this->getRightString($fieldName);
+                $fieldName     = $fields[$f]->getVar('field_name');
+                $rpFieldName   = $this->getRightString($fieldName);
                 $fieldNameDesc = ucfirst($rpFieldName);
-                $ret .= $this->defines->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+                $ret           .= $this->defines->getDefine($language, $stuTableSoleName . '_' . $rpFieldName, $fieldNameDesc);
             }
         }
         $ret .= $this->defines->getDefine($language, 'INDEX_THEREARE', "There are %s {$ucfTableName}");
@@ -131,8 +136,8 @@ As you can see, you have created a page with a list of links at the top to navig
     }
 
     /**
-     *  @private function geLanguagetMainFooter
-     *  @param string $language
+     * @private function geLanguagetMainFooter
+     * @param string $language
      *
      * @return string
      */
@@ -146,19 +151,19 @@ As you can see, you have created a page with a list of links at the top to navig
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->geLanguagetMain($module, $language);
-        $content .= $this->geLanguagetMainFooter($language);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->geLanguagetMain($module, $language);
+        $content       .= $this->geLanguagetMainFooter($language);
 
         $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

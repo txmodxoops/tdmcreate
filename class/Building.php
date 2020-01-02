@@ -33,9 +33,9 @@ use XoopsModules\Tdmcreate;
 class Building
 {
     /**
-     *  @static function getInstance
+     * @static function getInstance
      *
-     *  @param null
+     * @param null
      *
      * @return Building
      */
@@ -63,7 +63,7 @@ class Building
         xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm(_AM_TDMCREATE_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        $moduleObj = $tc->getHandler('modules')->getObjects(null);
+        $moduleObj  = $tc->getHandler('modules')->getObjects(null);
         $mod_select = new \XoopsFormSelect(_AM_TDMCREATE_CONST_MODULES, 'mod_id', 'mod_id');
         $mod_select->addOption('', _AM_TDMCREATE_BUILD_MODSELOPT);
         foreach ($moduleObj as $mod) {

@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeFunctions extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class IncludeFunctions extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeFunctions
      */
     public static function getInstance()
@@ -69,8 +69,8 @@ class IncludeFunctions extends Files\CreateFile
     }
 
     /**
-     *  @private function getFunctionBlock
-     *  @param string $moduleDirname
+     * @private function getFunctionBlock
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -102,9 +102,9 @@ EOT;
     }
 
     /**
-     *  @private function getFunctionGetMyItemIds
-     *  @param string $moduleDirname
-     * @param $tableName
+     * @private function getFunctionGetMyItemIds
+     * @param string $moduleDirname
+     * @param        $tableName
      *
      * @return string
      */
@@ -137,12 +137,12 @@ EOT;
     }
 
     /**
-     *  @private function getFunctionNumbersOfEntries
+     * @private function getFunctionNumbersOfEntries
      *
-     *  @param string $moduleDirname
-     * @param $tableMid
-     * @param $tableId
-     * @param $tableName
+     * @param string $moduleDirname
+     * @param        $tableMid
+     * @param        $tableId
+     * @param        $tableName
      *
      * @return string
      */
@@ -188,9 +188,9 @@ EOT;
     }
 
     /**
-     *  @private function getFunctionMetaKeywords
+     * @private function getFunctionMetaKeywords
      *
-     *  @param string $moduleDirname
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -219,9 +219,9 @@ EOT;
     }
 
     /**
-     *  @private function getFunctionDescription
+     * @private function getFunctionDescription
      *
-     *  @param string $moduleDirname
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -250,17 +250,17 @@ EOT;
     }
 
     /**
-     *  @private function getRewriteUrl
+     * @private function getRewriteUrl
      *
-     *  @param string $moduleDirname
-     *  @param string $tableName
+     * @param string $moduleDirname
+     * @param string $tableName
      *
      * @return string
      */
     private function getRewriteUrl($moduleDirname, $tableName)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret = <<<EOT
+        $ret              = <<<EOT
 \n/**
  * Rewrite all url
  *
@@ -356,17 +356,17 @@ EOT;
     }
 
     /**
-     *  @private function getRewriteFilter
+     * @private function getRewriteFilter
      *
-     *  @param string $moduleDirname
-     *  @param string $tableName
+     * @param string $moduleDirname
+     * @param string $tableName
      *
      * @return string
      */
     private function getRewriteFilter($moduleDirname, $tableName)
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret = <<<EOT
+        $ret              = <<<EOT
 \n/**
  * Replace all escape, character, ... for display a correct url
  *
@@ -396,33 +396,33 @@ EOT;
     }
 
     /**
-     *  @public function render
+     * @public function render
      *
-     *  @param null
+     * @param null
      *
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
-        $tableId = null;
-        $tableMid = null;
-        $tableName = null;
-        $tableBlocks = null;
+        $module           = $this->getModule();
+        $tables           = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $tableId          = null;
+        $tableMid         = null;
+        $tableName        = null;
+        $tableBlocks      = null;
         $tablePermissions = null;
-        $tableCategory = null;
+        $tableCategory    = null;
         foreach (array_keys($tables) as $i) {
-            $tableId = $tables[$i]->getVar('table_id');
-            $tableMid = $tables[$i]->getVar('table_mid');
-            $tableName = $tables[$i]->getVar('table_name');
-            $tableBlocks[] = $tables[$i]->getVar('table_blocks');
+            $tableId            = $tables[$i]->getVar('table_id');
+            $tableMid           = $tables[$i]->getVar('table_mid');
+            $tableName          = $tables[$i]->getVar('table_name');
+            $tableBlocks[]      = $tables[$i]->getVar('table_blocks');
             $tablePermissions[] = $tables[$i]->getVar('table_permissions');
-            $tableCategory[] = $tables[$i]->getVar('table_category');
+            $tableCategory[]    = $tables[$i]->getVar('table_category');
         }
-        $filename = $this->getFileName();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module, $filename);
         if (in_array(1, $tableBlocks)) {
             $content .= $this->getFunctionBlock($moduleDirname);
         }

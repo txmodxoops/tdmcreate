@@ -33,7 +33,7 @@ class Migrate extends \Xmf\Database\Migrate
     public function __construct()
     {
         require_once dirname(dirname(__DIR__)) . '/include/config.php';
-        $config = getConfig();
+        $config             = getConfig();
         $this->renameTables = $config->renameTables;
 
         $moduleDirName = basename(dirname(dirname(__DIR__)));
@@ -78,7 +78,7 @@ class Migrate extends \Xmf\Database\Migrate
      */
     private function moveDoColumns()
     {
-        $tableName = 'newbb_posts_text';
+        $tableName    = 'newbb_posts_text';
         $srcTableName = 'newbb_posts';
         if (false !== $this->tableHandler->useTable($tableName)
             && false !== $this->tableHandler->useTable($srcTableName)) {
@@ -86,8 +86,8 @@ class Migrate extends \Xmf\Database\Migrate
             if (false === $attributes) {
                 $this->synchronizeTable($tableName);
                 $updateTable = $GLOBALS['xoopsDB']->prefix($tableName);
-                $joinTable = $GLOBALS['xoopsDB']->prefix($srcTableName);
-                $sql = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
+                $joinTable   = $GLOBALS['xoopsDB']->prefix($srcTableName);
+                $sql         = "UPDATE `$updateTable` t1 INNER JOIN `$joinTable` t2 ON t1.post_id = t2.post_id \n" . "SET t1.dohtml = t2.dohtml,  t1.dosmiley = t2.dosmiley, t1.doxcode = t2.doxcode\n" . '  , t1.doimage = t2.doimage, t1.dobr = t2.dobr';
                 $this->tableHandler->addToQueue($sql);
             }
         }

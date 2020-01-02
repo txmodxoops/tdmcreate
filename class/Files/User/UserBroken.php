@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class UserBroken extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserBroken
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param $module
-     *  @param mixed $table
-     *  @param $filename
+     * @public function write
+     * @param       $module
+     * @param mixed $table
+     * @param       $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,29 +70,29 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserBrokenHeader
+     * @public function getUserBrokenHeader
      * @param $moduleDirname
      * @param $fields
      * @return string
      */
     public function getUserBrokenHeader($moduleDirname, $fields)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc = UserXoopsCode::getInstance();
-        $fieldId = $xc->getXcSaveFieldId($fields);
+        $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uc        = UserXoopsCode::getInstance();
+        $fieldId   = $xc->getXcSaveFieldId($fields);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret = $this->getInclude();
-        $ret .= $xc->getXcXoopsRequest('op', 'op', 'list');
-        $ret .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
-        $ret .= $pc->getPhpCodeCommentLine('Template');
-        $ret .= $uc->getUserTplMain($moduleDirname, 'broken');
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $xc->getXcAddStylesheet();
-        $ret .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
-        $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, "\t");
-        $condIf .= $this->getSimpleString('exit();', "\t");
-        $ret .= $pc->getPhpCodeConditions('$permSubmit', ' === ', 'false', $condIf);
+        $ret       = $this->getInclude();
+        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
+        $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
+        $ret       .= $pc->getPhpCodeCommentLine('Template');
+        $ret       .= $uc->getUserTplMain($moduleDirname, 'broken');
+        $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret       .= $xc->getXcAddStylesheet();
+        $ret       .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
+        $condIf    = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, "\t");
+        $condIf    .= $this->getSimpleString('exit();', "\t");
+        $ret       .= $pc->getPhpCodeConditions('$permSubmit', ' === ', 'false', $condIf);
 
         return $ret;
     }
@@ -105,9 +105,9 @@ class UserBroken extends Files\CreateFile
      */
     public function getUserBrokenForm($tableName, $language)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc = UserXoopsCode::getInstance();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uc  = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation');
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", null, false, "\t\t");
         $ret .= $xc->getXcTplAssign('navigation', '$navigation', true, "\t\t");
@@ -126,7 +126,7 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserBrokenSave
+     * @public function getUserBrokenSave
      * @param $moduleDirname
      * @param $fields
      * @param $tableName
@@ -137,17 +137,17 @@ class UserBroken extends Files\CreateFile
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $fieldId = $xc->getXcSaveFieldId($fields);
-        $ucfTableName = ucfirst($tableName);
-        $ret = $pc->getPhpCodeCommentLine('Security Check');
+        $xc                 = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc                 = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $fieldId            = $xc->getXcSaveFieldId($fields);
+        $ucfTableName       = ucfirst($tableName);
+        $ret                = $pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $xc->getXcSecurityCheck();
-        $securityError = $xc->getXcSecurityErrors();
-        $implode = $pc->getPhpCodeImplode(',', $securityError);
-        $redirectError = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
-        $ret .= $pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
-        $ret .= $xc->getXcObjHandlerCreate($tableName, "\t\t");
+        $securityError      = $xc->getXcSecurityErrors();
+        $implode            = $pc->getPhpCodeImplode(',', $securityError);
+        $redirectError      = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
+        $ret                .= $pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
+        $ret                .= $xc->getXcObjHandlerCreate($tableName, "\t\t");
 
         $ret .= $this->getSimpleString('$error = false;', "\t\t");
         $ret .= $this->getSimpleString("\$errorMessage = '';", "\t\t");
@@ -159,12 +159,12 @@ class UserBroken extends Files\CreateFile
 
         $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, "\t\t");
 
-        $condElse = $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t\t");
-        $insert = $xc->getXcInsert($tableName, $tableName, 'Obj', true);
+        $condElse      = $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t\t");
+        $insert        = $xc->getXcInsert($tableName, $tableName, 'Obj', true);
         $redirctHeader = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, "\t\t\t\t");
-        $condElse .= $pc->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t\t");
-        $assigne = $xc->getXcTplAssign('error_message', '$errorMessage', true, "\t\t\t");
-        $ret .= $pc->getPhpCodeConditions('$error', ' === ', 'true', $assigne, $condElse, "\t\t");
+        $condElse      .= $pc->getPhpCodeConditions($insert, '', '', $redirctHeader, false, "\t\t\t");
+        $assigne       = $xc->getXcTplAssign('error_message', '$errorMessage', true, "\t\t\t");
+        $ret           .= $pc->getPhpCodeConditions('$error', ' === ', 'true', $assigne, $condElse, "\t\t");
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
         $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");
@@ -175,22 +175,22 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-     *  @private function getUserSubmitSwitch
-     *  @param $moduleDirname
-     *  @param $tableName
-     *  @param $tableSoleName
-     *  @param $tableAutoincrement
-     *  @param $language
+     * @private function getUserSubmitSwitch
+     * @param $moduleDirname
+     * @param $tableName
+     * @param $tableSoleName
+     * @param $tableAutoincrement
+     * @param $language
      * @return bool|string
      */
     private function getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $table = $this->getTable();
-        $tableId = $table->getVar('table_id');
+        $xc       = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $table    = $this->getTable();
+        $tableId  = $table->getVar('table_id');
         $tableMid = $table->getVar('table_mid');
-        $fields = $this->getTableFields($tableMid, $tableId);
-        $cases = [
+        $fields   = $this->getTableFields($tableMid, $tableId);
+        $cases    = [
             'form' => [$this->getUserBrokenForm($tableName, $language)],
             'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
         ];
@@ -199,27 +199,27 @@ class UserBroken extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
+        $module             = $this->getModule();
+        $table              = $this->getTable();
+        $filename           = $this->getFileName();
+        $moduleDirname      = $module->getVar('mod_dirname');
+        $tableId            = $table->getVar('table_id');
+        $tableMid           = $table->getVar('table_mid');
+        $tableName          = $table->getVar('table_name');
+        $tableSoleName      = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
-        $fields = $this->getTableFields($tableMid, $tableId);
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserBrokenHeader($moduleDirname, $fields);
-        $content .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        $content .= $this->getInclude('footer');
+        $fields             = $this->getTableFields($tableMid, $tableId);
+        $language           = $this->getLanguage($moduleDirname, 'MA');
+        $content            = $this->getHeaderFilesComments($module, $filename);
+        $content            .= $this->getUserBrokenHeader($moduleDirname, $fields);
+        $content            .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $content            .= $this->getInclude('footer');
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

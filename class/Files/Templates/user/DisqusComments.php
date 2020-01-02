@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class DisqusComments extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class DisqusComments extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return DisqusComments
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class DisqusComments extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      *
      * @return string
      */
@@ -70,7 +70,7 @@ class DisqusComments extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesCommentCode
+     * @private function getTemplatesCommentCode
      * @param null
      *
      * @return string
@@ -83,15 +83,15 @@ class DisqusComments extends Files\CreateFile
     }
 
     /**
-     *  @public function render
+     * @public function render
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getTemplatesCommentCode();
+        $content       = $this->getTemplatesCommentCode();
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

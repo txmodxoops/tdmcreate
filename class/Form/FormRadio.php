@@ -31,17 +31,17 @@ class FormRadio extends \XoopsFormRadio
      */
     public function render()
     {
-        $ret = '';
-        $ele_name = $this->getName();
-        $ele_title = $this->getTitle();
-        $ele_value = $this->getValue();
-        $ele_options = $this->getOptions();
-        $ele_extra = $this->getExtra();
+        $ret           = '';
+        $ele_name      = $this->getName();
+        $ele_title     = $this->getTitle();
+        $ele_value     = $this->getValue();
+        $ele_options   = $this->getOptions();
+        $ele_extra     = $this->getExtra();
         $ele_delimeter = empty($this->columns) ? $this->getDelimeter() : '';
         if (!empty($this->columns)) {
             $ret .= '<table class="table table-bordered"><tr>';
         }
-        $i = 0;
+        $i      = 0;
         $id_ele = 0;
         foreach ($ele_options as $value => $name) {
             ++$id_ele;

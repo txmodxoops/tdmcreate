@@ -34,8 +34,8 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 class PreloadsCore extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -44,8 +44,8 @@ class PreloadsCore extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return PreloadsCore
      */
     public static function getInstance()
@@ -59,9 +59,9 @@ class PreloadsCore extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param $module
-     *  @param $filename
+     * @public function write
+     * @param $module
+     * @param $filename
      */
     public function write($module, $filename)
     {
@@ -70,17 +70,17 @@ class PreloadsCore extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
-     *  @return bool|string
+     * @public function render
+     * @param null
+     * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $moduleDirname    = $module->getVar('mod_dirname');
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $content = $this->getHeaderFilesComments($module, $filename);
+        $content          = $this->getHeaderFilesComments($module, $filename);
 
         $content .= <<<EOT
 /**

@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -35,7 +36,7 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('morefiles_adminpager'));
         // Define main template
-//        $templateMain = 'tdmcreate_morefiles.tpl';
+        //        $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
@@ -51,7 +52,7 @@ switch ($op) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         $morefilesCount = $helper->getHandler('Morefiles')->getCountMoreFiles();
-        $morefilesAll = $helper->getHandler('Morefiles')->getAllMoreFiles($start, $limit);
+        $morefilesAll   = $helper->getHandler('Morefiles')->getAllMoreFiles($start, $limit);
         // Display morefiles list
         if ($morefilesCount > 0) {
             foreach (array_keys($morefilesAll) as $i) {
@@ -70,14 +71,14 @@ switch ($op) {
         break;
     case 'new':
         // Define main template
-//        $templateMain = 'tdmcreate_morefiles.tpl';
+        //        $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->create();
-        $form = $morefilesObj->getFormMoreFiles();
+        $form         = $morefilesObj->getFormMoreFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -90,12 +91,14 @@ switch ($op) {
             $morefilesObj = $helper->getHandler('Morefiles')->create();
         }
         // Form file save
-        $morefilesObj->setVars([
-                                 'file_mid' => $_POST['file_mid'],
-                                 'file_name' => $_POST['file_name'],
-                                 'file_extension' => $_POST['file_extension'],
-                                 'file_infolder' => $_POST['file_infolder'],
-                               ]);
+        $morefilesObj->setVars(
+            [
+                'file_mid'       => $_POST['file_mid'],
+                'file_name'      => $_POST['file_name'],
+                'file_extension' => $_POST['file_extension'],
+                'file_infolder'  => $_POST['file_infolder'],
+            ]
+        );
 
         if ($helper->getHandler('Morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
@@ -111,7 +114,7 @@ switch ($op) {
         break;
     case 'edit':
         // Define main template
-//        $templateMain = 'tdmcreate_morefiles.tpl';
+        //        $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'morefiles.php?op=new', 'add');
@@ -119,7 +122,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $morefilesObj = $helper->getHandler('Morefiles')->get($fileId);
-        $form = $morefilesObj->getFormMoreFiles();
+        $form         = $morefilesObj->getFormMoreFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':

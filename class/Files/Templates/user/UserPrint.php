@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class UserPrint extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class UserPrint extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserPrint
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class UserPrint extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,16 +70,16 @@ class UserPrint extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserPrintHeader
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserPrintHeader
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserPrintHeader($moduleDirname, $table, $language)
     {
-        $ret = <<<EOT
+        $ret    = <<<EOT
 <{include file="db:{$moduleDirname}_header.tpl"}>
 <table class="{$moduleDirname}">
     <thead class="outer">
@@ -87,7 +87,7 @@ class UserPrint extends Files\CreateFile
 EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName        = $fields[$f]->getVar('field_name');
             $langStuFieldName = $language . mb_strtoupper($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 $ret .= <<<EOT
@@ -104,26 +104,26 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserPrintBody
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserPrintBody
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserPrintBody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
+        $ret       = <<<EOT
     <tbody>
         <{foreach item=list from=\${$tableName}}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName  = $this->getRightString($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
@@ -160,24 +160,24 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserPrintBodyFieldnameEmpty
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserPrintBodyFieldnameEmpty
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
+        $ret       = <<<EOT
     <tbody>
         <{foreach item=list from=\${$tableName}}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
@@ -210,8 +210,8 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserPrintFooter
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserPrintFooter
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -225,19 +225,19 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
+        $module         = $this->getModule();
+        $table          = $this->getTable();
+        $filename       = $this->getFileName();
+        $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
+        $language       = $this->getLanguage($moduleDirname, 'MA');
+        $content        = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
             $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table, $language);

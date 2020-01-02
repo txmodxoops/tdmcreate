@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageAdmin extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class LanguageAdmin extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return LanguageAdmin
      */
     public static function getInstance()
@@ -73,10 +73,10 @@ class LanguageAdmin extends Files\CreateFile
     }
 
     /**
-     *  @public function getLanguageAdminIndex
-     *  @param string $language
-     *  @param string $tables
-     *  @return string
+     * @public function getLanguageAdminIndex
+     * @param string $language
+     * @param string $tables
+     * @return string
      */
     public function getLanguageAdminIndex($language, $tables)
     {
@@ -84,30 +84,30 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getDefine($language, 'STATISTICS', 'Statistics');
         $ret .= $this->defines->getAboveDefines('There are');
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = mb_strtoupper($tableName);
             $stlTableName = mb_strtolower($tableName);
-            $ret .= $this->defines->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
+            $ret          .= $this->defines->getDefine($language, "THEREARE_{$stuTableName}", "There are <span class='bold'>%s</span> {$stlTableName} in the database", true);
         }
 
         return $ret;
     }
 
     /**
-     *  @public function getLanguageAdminPages
-     *  @param string $language
-     *  @param string $tables
-     *  @return string
+     * @public function getLanguageAdminPages
+     * @param string $language
+     * @param string $tables
+     * @return string
      */
     public function getLanguageAdminPages($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Files');
         $ret .= $this->defines->getAboveDefines('There aren\'t');
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = mb_strtoupper($tableName);
             $stlTableName = mb_strtolower($tableName);
-            $ret .= $this->defines->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
+            $ret          .= $this->defines->getDefine($language, "THEREARENT_{$stuTableName}", "There aren't {$stlTableName}", true);
         }
         $ret .= $this->defines->getAboveDefines('Save/Delete');
         $ret .= $this->defines->getDefine($language, 'FORM_OK', 'Successfully saved');
@@ -117,42 +117,42 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getAboveDefines('Buttons');
 
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
+            $tableName        = $tables[$t]->getVar('table_name');
+            $tableSoleName    = $tables[$t]->getVar('table_solename');
             $stuTableSoleName = mb_strtoupper($tableSoleName);
             $ucfTableSoleName = ucfirst($tableSoleName);
-            $ret .= $this->defines->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
+            $ret              .= $this->defines->getDefine($language, "ADD_{$stuTableSoleName}", "Add New {$ucfTableSoleName}");
         }
         $ret .= $this->defines->getAboveDefines('Lists');
 
         foreach (array_keys($tables) as $t) {
-            $tableName = $tables[$t]->getVar('table_name');
+            $tableName    = $tables[$t]->getVar('table_name');
             $stuTableName = mb_strtoupper($tableName);
             $ucfTableName = ucfirst($tableName);
-            $ret .= $this->defines->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
+            $ret          .= $this->defines->getDefine($language, "{$stuTableName}_LIST", "List of {$ucfTableName}");
         }
 
         return $ret;
     }
 
     /**
-     *  @public function getLanguageAdminClass
-     *  @param string $language
-     *  @param string $tables
-     *  @return string
+     * @public function getLanguageAdminClass
+     * @param string $language
+     * @param string $tables
+     * @return string
      */
     public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
 
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
+            $tableId          = $tables[$t]->getVar('table_id');
+            $tableMid         = $tables[$t]->getVar('table_mid');
+            $tableName        = $tables[$t]->getVar('table_name');
+            $tableSoleName    = $tables[$t]->getVar('table_solename');
             $ucfTableSoleName = ucfirst($tableSoleName);
 
-            $fields = $this->getTableFields($tableMid, $tableId);
+            $fields      = $this->getTableFields($tableMid, $tableId);
             $fieldInForm = 0;
             foreach (array_keys($fields) as $f) {
                 if ($fieldInForm < $fields[$f]->getVar('field_inform')) {
@@ -167,22 +167,22 @@ class LanguageAdmin extends Files\CreateFile
             $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
 
             foreach (array_keys($fields) as $f) {
-                $fieldName = $fields[$f]->getVar('field_name');
+                $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $stuFieldName = mb_strtoupper($fieldName);
 
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 15) {
-                    $fieldElements = Tdmcreate\Helper::getInstance()->getHandler('fieldelements')->get($fieldElement);
-                    $fieldElementTid = $fieldElements->getVar('fieldelement_tid');
+                    $fieldElements    = Tdmcreate\Helper::getInstance()->getHandler('fieldelements')->get($fieldElement);
+                    $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
-                    $fieldNameDesc = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
-                    $fieldNameDesc = str_replace(': ', '', $fieldNameDesc);
+                    $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
+                    $fieldNameDesc    = str_replace(': ', '', $fieldNameDesc);
                 } else {
                     $fieldNameDesc = false !== mb_strpos($rpFieldName, '_') ? str_replace('_', ' ', ucfirst($rpFieldName)) : ucfirst($rpFieldName);
                 }
 
-                $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
+                $ret          .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
                 $stuTableName = mb_strtoupper($tableName);
 
                 switch ($fieldElement) {
@@ -213,9 +213,9 @@ class LanguageAdmin extends Files\CreateFile
     }
 
     /**
-     *  @public function getLanguageAdminPermissions
-     *  @param string $language
-     *  @return string
+     * @public function getLanguageAdminPermissions
+     * @param string $language
+     * @return string
      */
     public function getLanguageAdminPermissions($language)
     {
@@ -238,9 +238,9 @@ class LanguageAdmin extends Files\CreateFile
     }
 
     /**
-     *  @public function getLanguageAdminFoot
-     *  @param string $language
-     *  @return string
+     * @public function getLanguageAdminFoot
+     * @param string $language
+     * @return string
      */
     public function getLanguageAdminFoot($language)
     {
@@ -252,8 +252,8 @@ class LanguageAdmin extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
@@ -263,11 +263,11 @@ class LanguageAdmin extends Files\CreateFile
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
         }
-        $tables = $this->getTables();
-        $filename = $this->getFileName();
+        $tables        = $this->getTables();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'AM');
-        $content = $this->getHeaderFilesComments($module, $filename);
+        $language      = $this->getLanguage($moduleDirname, 'AM');
+        $content       = $this->getHeaderFilesComments($module, $filename);
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);

@@ -65,7 +65,7 @@ class LogoGenerator
             }
         }
 
-        $dirname = 'tdmcreate';
+        $dirname      = 'tdmcreate';
         $iconFileName = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32/' . basename($logoIcon);
 
         //$dirFonts = TDMC_PATH . "/assets/fonts";
@@ -73,17 +73,17 @@ class LogoGenerator
         $dirFonts = XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/fonts';
         $dirLogos = XOOPS_ROOT_PATH . '/modules/' . $dirname . '/assets/images/logos';
 
-        if (!file_exists($imageBase = $dirLogos . '/empty.png') ||
-            !file_exists($font = $dirFonts . '/VeraBd.ttf') ||
-            !file_exists($iconFile = $iconFileName)) {
+        if (!file_exists($imageBase = $dirLogos . '/empty.png')
+            || !file_exists($font = $dirFonts . '/VeraBd.ttf')
+            || !file_exists($iconFile = $iconFileName)) {
             return false;
         }
 
         $imageModule = imagecreatefrompng($imageBase);
-        $imageIcon = imagecreatefrompng($iconFile);
+        $imageIcon   = imagecreatefrompng($iconFile);
 
         // Write text
-        $textColor = imagecolorallocate($imageModule, 0, 0, 0);
+        $textColor     = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceToBorder = (92 - mb_strlen($moduleName) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceToBorder, 45, $textColor, $font, $moduleName, []);
 

@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeCommentFunctions extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class IncludeCommentFunctions extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeCommentFunctions
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class IncludeCommentFunctions extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     * @param $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param        $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,21 +70,21 @@ class IncludeCommentFunctions extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tableName = $table->getVar('table_name');
+        $module           = $this->getModule();
+        $table            = $this->getTable();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tableName        = $table->getVar('table_name');
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName = ucfirst($tableName);
-        $filename = $this->getFileName();
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
+        $ucfTableName     = ucfirst($tableName);
+        $filename         = $this->getFileName();
+        $content          = $this->getHeaderFilesComments($module, $filename);
+        $content          .= <<<EOT
 \n/**
  * CommentsUpdate
  *

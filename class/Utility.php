@@ -14,6 +14,7 @@ namespace XoopsModules\Tdmcreate;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module:  xSitemap
  *
@@ -24,6 +25,7 @@ namespace XoopsModules\Tdmcreate;
  * @author       Mamba <mambax7@gmail.com>
  * @since        File available since version 1.54
  */
+
 use XoopsModules\Tdmcreate;
 
 /**
@@ -32,7 +34,9 @@ use XoopsModules\Tdmcreate;
 class Utility
 {
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
+
     use Common\ServerStats; // getServerStats Trait
+
     use Common\FilesManagement; // Files Management Trait
 
     /**
@@ -40,11 +44,11 @@ class Utility
      * www.gsdesign.ro/blog/cut-html-string-without-breaking-the-tags
      * www.cakephp.org
      *
-     * @param string  $text         String to truncate.
-     * @param int $length       Length of returned string, including ellipsis.
-     * @param string  $ending       Ending to be appended to the trimmed string.
-     * @param bool $exact        If false, $text will not be cut mid-word
-     * @param bool $considerHtml If true, HTML tags would be handled correctly
+     * @param string $text         String to truncate.
+     * @param int    $length       Length of returned string, including ellipsis.
+     * @param string $ending       Ending to be appended to the trimmed string.
+     * @param bool   $exact        If false, $text will not be cut mid-word
+     * @param bool   $considerHtml If true, HTML tags would be handled correctly
      *
      * @return string Trimmed string.
      */
@@ -58,8 +62,8 @@ class Utility
             // splits all html-tags to scanable lines
             preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
             $total_length = mb_strlen($ending);
-            $open_tags = [];
-            $truncate = '';
+            $open_tags    = [];
+            $truncate     = '';
             foreach ($lines as $line_matchings) {
                 // if there is any html-tag in this line, handle it and add it (uncounted) to the output
                 if (!empty($line_matchings[1])) {
@@ -85,7 +89,7 @@ class Utility
                 $content_length = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
                 if ($total_length + $content_length > $length) {
                     // the number of characters which are left
-                    $left = $length - $total_length;
+                    $left            = $length - $total_length;
                     $entities_length = 0;
                     // search for html entities
                     if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
@@ -104,7 +108,7 @@ class Utility
                     // maximum lenght is reached, so get off the loop
                     break;
                 }
-                $truncate .= $line_matchings[2];
+                $truncate     .= $line_matchings[2];
                 $total_length += $content_length;
 
                 // if the maximum length is reached, get off the loop
@@ -141,19 +145,19 @@ class Utility
 
     /**
      * @param \Xmf\Module\Helper $helper
-     * @param array|null $options
+     * @param array|null         $options
      * @return \XoopsFormDhtmlTextArea|\XoopsFormEditor
      */
     public static function getEditor($helper = null, $options = null)
     {
         /** @var Tdmcreate\Helper $helper */
         if (null === $options) {
-            $options = [];
-            $options['name'] = 'Editor';
-            $options['value'] = 'Editor';
-            $options['rows'] = 10;
-            $options['cols'] = '100%';
-            $options['width'] = '100%';
+            $options           = [];
+            $options['name']   = 'Editor';
+            $options['value']  = 'Editor';
+            $options['rows']   = 10;
+            $options['cols']   = '100%';
+            $options['width']  = '100%';
             $options['height'] = '400px';
         }
 
@@ -183,12 +187,20 @@ class Utility
     public static function MakeDonationForm($about)
     {
         $donationform = [
-            0 => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
-            1 => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">' . _AM_TDMCREATE_ABOUT_MAKE_DONATION . '</th></tr><tr align="left" valign="top"><td class="head"><div class="xoops-form-element-caption-required"><span class="caption-text">' . _AM_TDMCREATE_DONATION_AMOUNT . '</span><span class="caption-marker">*</span></div></td><td class="even"><select size="1" name="item[A][amount]" id="item[A][amount]" title="Donation Amount"><option value="5">5.00 EUR</option><option value="10">10.00 EUR</option><option value="20">20.00 EUR</option><option value="40">40.00 EUR</option><option value="60">60.00 EUR</option><option value="80">80.00 EUR</option><option value="90">90.00 EUR</option><option value="100">100.00 EUR</option><option value="200">200.00 EUR</option></select></td></tr><tr align="left" valign="top"><td class="head"></td><td class="even"><input class="formButton" name="submit" id="submit" value="' . _SUBMIT . '" title="' . _SUBMIT . '" type="submit"></td></tr></tbody></table>',
-            2 => '<input name="op" id="op" value="createinvoice" type="hidden"><input name="plugin" id="plugin" value="donations" type="hidden"><input name="donation" id="donation" value="1" type="hidden"><input name="drawfor" id="drawfor" value="Chronolabs Co-Operative" type="hidden"><input name="drawto" id="drawto" value="%s" type="hidden"><input name="drawto_email" id="drawto_email" value="%s" type="hidden"><input name="key" id="key" value="%s" type="hidden"><input name="currency" id="currency" value="EUR" type="hidden"><input name="weight_unit" id="weight_unit" value="kgs" type="hidden"><input name="item[A][cat]" id="item[A][cat]" value="XDN%s" type="hidden"><input name="item[A][name]" id="item[A][name]" value="Donation for %s" type="hidden"><input name="item[A][quantity]" id="item[A][quantity]" value="1" type="hidden"><input name="item[A][shipping]" id="item[A][shipping]" value="0" type="hidden"><input name="item[A][handling]" id="item[A][handling]" value="0" type="hidden"><input name="item[A][weight]" id="item[A][weight]" value="0" type="hidden"><input name="item[A][tax]" id="item[A][tax]" value="0" type="hidden"><input name="return" id="return" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"><input name="cancel" id="cancel" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"></form>',
-'D' => '',
-            3 => '',
-            4 => '<!-- Start Form Validation JavaScript //-->
+            0   => '<form name="donation" id="donation" action="http://www.txmodxoops.org/modules/xdonations/" method="post" onsubmit="return xoopsFormValidate_donation();">',
+            1   => '<table class="outer" cellspacing="1" width="100%"><tbody><tr><th colspan="2">'
+                   . _AM_TDMCREATE_ABOUT_MAKE_DONATION
+                   . '</th></tr><tr align="left" valign="top"><td class="head"><div class="xoops-form-element-caption-required"><span class="caption-text">'
+                   . _AM_TDMCREATE_DONATION_AMOUNT
+                   . '</span><span class="caption-marker">*</span></div></td><td class="even"><select size="1" name="item[A][amount]" id="item[A][amount]" title="Donation Amount"><option value="5">5.00 EUR</option><option value="10">10.00 EUR</option><option value="20">20.00 EUR</option><option value="40">40.00 EUR</option><option value="60">60.00 EUR</option><option value="80">80.00 EUR</option><option value="90">90.00 EUR</option><option value="100">100.00 EUR</option><option value="200">200.00 EUR</option></select></td></tr><tr align="left" valign="top"><td class="head"></td><td class="even"><input class="formButton" name="submit" id="submit" value="'
+                   . _SUBMIT
+                   . '" title="'
+                   . _SUBMIT
+                   . '" type="submit"></td></tr></tbody></table>',
+            2   => '<input name="op" id="op" value="createinvoice" type="hidden"><input name="plugin" id="plugin" value="donations" type="hidden"><input name="donation" id="donation" value="1" type="hidden"><input name="drawfor" id="drawfor" value="Chronolabs Co-Operative" type="hidden"><input name="drawto" id="drawto" value="%s" type="hidden"><input name="drawto_email" id="drawto_email" value="%s" type="hidden"><input name="key" id="key" value="%s" type="hidden"><input name="currency" id="currency" value="EUR" type="hidden"><input name="weight_unit" id="weight_unit" value="kgs" type="hidden"><input name="item[A][cat]" id="item[A][cat]" value="XDN%s" type="hidden"><input name="item[A][name]" id="item[A][name]" value="Donation for %s" type="hidden"><input name="item[A][quantity]" id="item[A][quantity]" value="1" type="hidden"><input name="item[A][shipping]" id="item[A][shipping]" value="0" type="hidden"><input name="item[A][handling]" id="item[A][handling]" value="0" type="hidden"><input name="item[A][weight]" id="item[A][weight]" value="0" type="hidden"><input name="item[A][tax]" id="item[A][tax]" value="0" type="hidden"><input name="return" id="return" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"><input name="cancel" id="cancel" value="http://www.txmodxoops.org/modules/xdonations/success.php" type="hidden"></form>',
+            'D' => '',
+            3   => '',
+            4   => '<!-- Start Form Validation JavaScript //-->
 <script type="text/javascript">
 <!--//
 function xoopsFormValidate_donation() { var myform = window.document.donation; 
@@ -197,7 +209,7 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
 //--></script>
 <!-- End Form Validation JavaScript //-->',
         ];
-        $paypalform = [
+        $paypalform   = [
             0 => '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">',
             1 => '<input name="cmd" value="_s-xclick" type="hidden">',
             2 => '<input name="hosted_button_id" value="%s" type="hidden">',
@@ -208,13 +220,20 @@ var hasSelected = false; var selectBox = myform.item[A][amount];for (i = 0; i < 
         for ($key = 0; $key <= 4; ++$key) {
             switch ($key) {
                 case 2:
-                    $donationform[$key] = sprintf($donationform[$key], $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')), $GLOBALS['xoopsUser']->getVar('email'), XOOPS_LICENSE_KEY, mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')), mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name'));
+                    $donationform[$key] = sprintf(
+                        $donationform[$key],
+                        $GLOBALS['xoopsConfig']['sitename'] . ' - ' . ('' != $GLOBALS['xoopsUser']->getVar('name') ? $GLOBALS['xoopsUser']->getVar('name') . ' [' . $GLOBALS['xoopsUser']->getVar('uname') . ']' : $GLOBALS['xoopsUser']->getVar('uname')),
+                        $GLOBALS['xoopsUser']->getVar('email'),
+                        XOOPS_LICENSE_KEY,
+                        mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')),
+                        mb_strtoupper($GLOBALS['xoopsModule']->getVar('dirname')) . ' ' . $GLOBALS['xoopsModule']->getVar('name')
+                    );
                     break;
             }
         }
         $aboutRes = '';
-        $istart = mb_strpos($about, $paypalform[0], 1);
-        $iend = mb_strpos($about, $paypalform[5], $istart + 1) + mb_strlen($paypalform[5]) - 1;
+        $istart   = mb_strpos($about, $paypalform[0], 1);
+        $iend     = mb_strpos($about, $paypalform[5], $istart + 1) + mb_strlen($paypalform[5]) - 1;
         $aboutRes .= mb_substr($about, 0, $istart - 1);
         $aboutRes .= implode("\n", $donationform);
         $aboutRes .= mb_substr($about, $iend + 1, mb_strlen($about) - $iend - 1);

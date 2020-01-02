@@ -32,7 +32,7 @@ use XoopsModules\Tdmcreate;
 class FieldElementsHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     *  @public function constructor class
+     * @public function constructor class
      * @param null|\XoopsDatabase|\XoopsMySQLDatabase $db
      */
     public function __construct(\XoopsDatabase $db)

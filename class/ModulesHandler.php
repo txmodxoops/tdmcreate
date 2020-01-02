@@ -27,13 +27,13 @@ namespace XoopsModules\Tdmcreate;
 // include __DIR__ . '/autoload.php';
 
 /**
- *  @Class ModulesHandler
- *  @extends \XoopsPersistableObjectHandler
+ * @Class ModulesHandler
+ * @extends \XoopsPersistableObjectHandler
  */
 class ModulesHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
      * @param null|\XoopsDatabase|\XoopsMySQLDatabase $db
      */
@@ -55,7 +55,7 @@ class ModulesHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i      field id
+     * @param int  $i field id
      * @param null $fields
      *
      * @return mixed reference to the <a href='psi_element://Fields'>Fields</a> object

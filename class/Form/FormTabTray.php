@@ -53,7 +53,7 @@ class FormTabTray extends \XoopsFormElementTray
         $this->setName($name);
         $this->setCaption($caption);
         $this->delimiter = $delimiter;
-        $this->uiTheme = $uiTheme;
+        $this->uiTheme   = $uiTheme;
     }
 
     /**
@@ -72,8 +72,7 @@ class FormTabTray extends \XoopsFormElementTray
         $ret .= '<ul>' . NWLINE;
         foreach ($this->getElements() as $ele) {
             if ($ele instanceof Tdmcreate\Form\FormTab) {
-                $ret .= '<li><a href="#tab_' . $ele->getName() . '"><span>'
-                    . $ele->getCaption() . '</span></a></li>' . NWLINE;
+                $ret .= '<li><a href="#tab_' . $ele->getName() . '"><span>' . $ele->getCaption() . '</span></a></li>' . NWLINE;
             }
         }
         $ret .= '</ul>' . NWLINE;

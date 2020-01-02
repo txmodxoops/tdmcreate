@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -35,7 +36,7 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('addfiles_adminpager'));
         // Define main template
-//        $templateMain = 'tdmcreate_addfiles.tpl';
+        //        $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
@@ -51,7 +52,7 @@ switch ($op) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOT_MODULES);
         }
         $addfilesCount = $helper->getHandler('Addfiles')->getCountAddFiles();
-        $addfilesAll = $helper->getHandler('Addfiles')->getAllAddFiles($start, $limit);
+        $addfilesAll   = $helper->getHandler('Addfiles')->getAllAddFiles($start, $limit);
         // Display addfiles list
         if ($addfilesCount > 0) {
             foreach (array_keys($addfilesAll) as $i) {
@@ -70,14 +71,14 @@ switch ($op) {
         break;
     case 'new':
         // Define main template
-//        $templateMain = 'tdmcreate_addfiles.tpl';
+        //        $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADDFILES_LIST, 'addfiles.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $addfilesObj = $helper->getHandler('Addfiles')->create();
-        $form = $addfilesObj->getFormAddFiles();
+        $form        = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -90,12 +91,14 @@ switch ($op) {
             $addfilesObj = $helper->getHandler('Addfiles')->create();
         }
         // Form file save
-        $addfilesObj->setVars([
-                                 'file_mid' => $_POST['file_mid'],
-                                 'file_name' => $_POST['file_name'],
-                                 'file_extension' => $_POST['file_extension'],
-                                 'file_infolder' => $_POST['file_infolder'],
-                              ]);
+        $addfilesObj->setVars(
+            [
+                'file_mid'       => $_POST['file_mid'],
+                'file_name'      => $_POST['file_name'],
+                'file_extension' => $_POST['file_extension'],
+                'file_infolder'  => $_POST['file_infolder'],
+            ]
+        );
 
         if ($helper->getHandler('Addfiles')->insert($addfilesObj)) {
             if ($addfilesObj->isNew()) {
@@ -111,7 +114,7 @@ switch ($op) {
         break;
     case 'edit':
         // Define main template
-//        $templateMain = 'tdmcreate_addfiles.tpl';
+        //        $templateMain = 'tdmcreate_addfiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('addfiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'addfiles.php?op=new', 'add');
@@ -119,7 +122,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $addfilesObj = $helper->getHandler('Addfiles')->get($fileId);
-        $form = $addfilesObj->getFormAddFiles();
+        $form        = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':

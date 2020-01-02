@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeUpdate extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class IncludeUpdate extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeUpdate
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class IncludeUpdate extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -68,9 +68,9 @@ class IncludeUpdate extends Files\CreateFile
     }
 
     /**
-     *  @private function getIncludeUpdateModule
-     *  @param string $moduleDirname
-     *  @param mixed $moduleVersion
+     * @private function getIncludeUpdateModule
+     * @param string $moduleDirname
+     * @param mixed  $moduleVersion
      *
      * @return string
      */
@@ -105,9 +105,9 @@ EOT;
     }
 
     /**
-     *  @private function getIncludeUpdateVersion
-     *  @param string $moduleDirname
-     *  @param mixed $moduleVersion
+     * @private function getIncludeUpdateVersion
+     * @param string $moduleDirname
+     * @param mixed  $moduleVersion
      *
      * @return string
      */
@@ -180,19 +180,19 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $moduleVersion = str_replace('.', '', $module->getVar('mod_version'));
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getIncludeUpdateModule($moduleDirname, $moduleVersion);
-        $content .= $this->getIncludeUpdateVersion($moduleDirname, $moduleVersion);
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getIncludeUpdateModule($moduleDirname, $moduleVersion);
+        $content       .= $this->getIncludeUpdateVersion($moduleDirname, $moduleVersion);
 
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

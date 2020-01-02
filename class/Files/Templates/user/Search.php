@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class Search extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class Search extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Search
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class Search extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,16 +70,16 @@ class Search extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserSearchHeader
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserSearchHeader
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserSearchHeader($moduleDirname, $table, $language)
     {
-        $ret = <<<EOT
+        $ret    = <<<EOT
 <{include file="db:{$moduleDirname}_header.tpl"}>
 <table class="{$moduleDirname}">
     <thead class="outer">
@@ -87,7 +87,7 @@ class Search extends Files\CreateFile
 EOT;
         $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName        = $fields[$f]->getVar('field_name');
             $langStuFieldName = $language . mb_strtoupper($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 $ret .= <<<EOT
@@ -104,26 +104,26 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserSearchBody
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserSearchBody
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserSearchBody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
+        $ret       = <<<EOT
     <tbody>
         <{foreach item=list from=\${$tableName}}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $rpFieldName = $this->getRightString($fieldName);
+            $rpFieldName  = $this->getRightString($fieldName);
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
@@ -160,24 +160,24 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserSearchBodyFieldnameEmpty
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserSearchBodyFieldnameEmpty
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserSearchBodyFieldnameEmpty($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
+        $ret       = <<<EOT
     <tbody>
         <{foreach item=list from=\${$tableName}}>
             <tr class="<{cycle values='odd, even'}>">\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if ((1 == $table->getVar('table_autoincrement')) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
@@ -210,8 +210,8 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserSearchFooter
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserSearchFooter
+     * @param string $moduleDirname
      * @return string
      */
     private function getTemplatesUserSearchFooter($moduleDirname)
@@ -224,19 +224,19 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
+        $module         = $this->getModule();
+        $table          = $this->getTable();
+        $filename       = $this->getFileName();
+        $moduleDirname  = $module->getVar('mod_dirname');
         $tableFieldname = $table->getVar('table_fieldname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserSearchHeader($moduleDirname, $table, $language);
+        $language       = $this->getLanguage($moduleDirname, 'MA');
+        $content        = $this->getTemplatesUserSearchHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
             $content .= $this->getTemplatesUserSearchBody($moduleDirname, $table, $language);

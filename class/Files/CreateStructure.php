@@ -53,18 +53,18 @@ class CreateStructure
     private $uploadPath;
 
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
-     *  @param null
+     * @param null
      */
     public function __construct()
     {
     }
 
     /**
-     *  @static function getInstance
+     * @static function getInstance
      *
-     *  @param null
+     * @param null
      *
      * @return Tdmcreate\Files\CreateStructure
      */
@@ -108,9 +108,9 @@ class CreateStructure
     }
 
     /**
-     *  @protected function getModuleName
+     * @protected function getModuleName
      *
-     *  @return string $moduleName
+     * @return string $moduleName
      */
     protected function getModuleName()
     {
@@ -128,8 +128,8 @@ class CreateStructure
     }
 
     /**
-     *  @private function getFolderName
-     *  @return string $folderName
+     * @private function getFolderName
+     * @return string $folderName
      */
     private function getFolderName()
     {
@@ -147,9 +147,9 @@ class CreateStructure
     }
 
     /**
-     *  @private function getFileName
+     * @private function getFileName
      *
-     *  @return string $fileName
+     * @return string $fileName
      */
     private function getFileName()
     {
@@ -174,9 +174,9 @@ class CreateStructure
     }
 
     /**
-     *  @protected function makeDir
+     * @protected function makeDir
      *
-     *  @param string $dir
+     * @param string $dir
      */
     protected function makeDir($dir)
     {
@@ -184,16 +184,16 @@ class CreateStructure
     }
 
     /**
-     *  @protected function isDirEmpty
+     * @protected function isDirEmpty
      *
-     *  @param string $dir
+     * @param string $dir
      *
      * @return string
      */
     public function isDirEmpty($dir)
     {
         $content = [];
-        $handle = opendir($dir);
+        $handle  = opendir($dir);
         while (false !== ($entry = readdir($handle))) {
             if ('.' !== $entry && '..' !== $entry) {
                 $content[] = $entry;
@@ -228,9 +228,9 @@ class CreateStructure
     }
 
     /**
-     *  @public function makeDirInModule
+     * @public function makeDirInModule
      *
-     *  @param string $dirName
+     * @param string $dirName
      */
     public function makeDirInModule($dirName)
     {
@@ -239,11 +239,11 @@ class CreateStructure
     }
 
     /**
-     *  @public function makeDir & copy file
+     * @public function makeDir & copy file
      *
-     *  @param string $folderName
-     *  @param string $fromFile
-     *  @param string $toFile
+     * @param string $folderName
+     * @param string $fromFile
+     * @param string $toFile
      */
     public function makeDirAndCopyFile($folderName, $fromFile, $toFile)
     {
@@ -253,11 +253,11 @@ class CreateStructure
     }
 
     /**
-     *  @public function copy file
+     * @public function copy file
      *
-     *  @param string $folderName
-     *  @param string $fromFile
-     *  @param string $toFile
+     * @param string $folderName
+     * @param string $fromFile
+     * @param string $toFile
      */
     public function copyFile($folderName, $fromFile, $toFile)
     {
@@ -267,11 +267,11 @@ class CreateStructure
     }
 
     /**
-     *  @public function setCopy
+     * @public function setCopy
      *
-     *  @param string $dname
-     *  @param string $fromFile
-     *  @param string $fname
+     * @param string $dname
+     * @param string $fromFile
+     * @param string $fname
      */
     public function setCopy($dname, $fromFile, $fname)
     {

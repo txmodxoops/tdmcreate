@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeSearch extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeSearch
      */
     public static function getInstance()
@@ -58,10 +58,10 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -71,9 +71,9 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-     *  @static function getSearchField
-     *  @param string $fieldSearch
-     *  @param string $options
+     * @static function getSearchField
+     * @param string $fieldSearch
+     * @param string $options
      *
      * @return string
      */
@@ -83,7 +83,7 @@ class IncludeSearch extends Files\CreateFile
         $sql = '';
         if (isset($fieldSearch)) {
             $nb_fieldSearch = count($fieldSearch);
-            $sql .= '(';
+            $sql            .= '(';
             for ($i = 0; $i < $nb_fieldSearch; ++$i) {
                 if ($i != $nb_fieldSearch - 1) {
                     $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[' . $options . ']% OR ';
@@ -98,19 +98,19 @@ class IncludeSearch extends Files\CreateFile
     }
 
     /**
-     *  @static function getSearchFunction
+     * @static function getSearchFunction
      * @param $moduleDirname
      *
      * @return string
      */
     public function getSearchFunction($moduleDirname)
     {
-        $table = $this->getTable();
-        $tableName = $table->getVar('table_name');
+        $table          = $this->getTable();
+        $tableName      = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $fieldId = '';
-        $fieldSearch = null;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldId        = '';
+        $fieldSearch    = null;
+        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
@@ -124,7 +124,7 @@ class IncludeSearch extends Files\CreateFile
             }
         }
         $img_search = 'blank.gif';
-        $ret = <<<EOT
+        $ret        = <<<EOT
 \n
 /**
  * search callback functions
@@ -145,8 +145,8 @@ function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$use
     {
         \$sql .= " AND (
 EOT;
-        $ret .= $this->getSearchField($fieldSearch, 0) . '";';
-        $ret .= <<<EOT
+        $ret        .= $this->getSearchField($fieldSearch, 0) . '";';
+        $ret        .= <<<EOT
 
         for(\$i = 1; \$i < \$count; ++\$i)
         {
@@ -174,17 +174,17 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getSearchFunction($moduleDirname);
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getSearchFunction($moduleDirname);
 
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

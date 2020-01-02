@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class DocsChangelog extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class DocsChangelog extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return DocsChangelog
      */
     public static function getInstance()
@@ -68,18 +68,18 @@ class DocsChangelog extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
-        $moduleName = $module->getVar('mod_name');
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleName    = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
-        $date = date('Y/m/d G:i:s');
-        $content = <<<EOT
+        $date          = date('Y/m/d G:i:s');
+        $content       = <<<EOT
 ==============================================================
 Change Log for {$moduleName} - {$date} Version {$module->getVar('mod_version')}
 ==============================================================

@@ -32,16 +32,16 @@ use XoopsModules\Tdmcreate;
 class CreateHtmlSmartyCodes
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Tdmcreate\Files\CreateHtmlSmartyCodes
      */
     public static function getInstance()
@@ -82,8 +82,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @private function setAttributes
-     *  @param array $attributes
+     * @private function setAttributes
+     * @param array $attributes
      *
      * @return string
      */
@@ -100,8 +100,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getHtmlEmpty
-     *  @param string $empty
+     * @public function getHtmlEmpty
+     * @param string $empty
      *
      * @return string
      */
@@ -111,8 +111,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getHtmlComment
-     *  @param string $htmlComment
+     * @public function getHtmlComment
+     * @param string $htmlComment
      *
      * @return string
      */
@@ -132,7 +132,7 @@ class CreateHtmlSmartyCodes
     public function getHtmlBr($brNumb = 1, $htmlClass = '', $t = '')
     {
         $brClass = ('' != $htmlClass) ? " class='{$htmlClass}'" : '';
-        $ret = '';
+        $ret     = '';
         for ($i = 0; $i < $brNumb; ++$i) {
             $ret .= "{$t}<br{$brClass} />\n";
         }
@@ -152,7 +152,7 @@ class CreateHtmlSmartyCodes
     public function getHtmlHNumb($content = '', $n = '1', $htmlHClass = '', $t = '')
     {
         $hClass = ('' != $htmlHClass) ? " class='{$htmlHClass}'" : '';
-        $ret = "{$t}<h{$n}{$hClass}>{$content}</h{$n}>\n";
+        $ret    = "{$t}<h{$n}{$hClass}>{$content}</h{$n}>\n";
 
         return $ret;
     }
@@ -168,9 +168,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlDiv($content = '', $divClass = '', $t = '')
     {
         $rDivClass = ('' != $divClass) ? " class='{$divClass}'" : '';
-        $ret = "{$t}<div{$rDivClass}>\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}</div>\n";
+        $ret       = "{$t}<div{$rDivClass}>\n";
+        $ret       .= "{$t}{$content}";
+        $ret       .= "{$t}</div>\n";
 
         return $ret;
     }
@@ -186,9 +186,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlPre($content = '', $preClass = '', $t = '')
     {
         $rPreClass = ('' != $preClass) ? " class='{$preClass}'" : '';
-        $ret = "{$t}<pre{$rPreClass}>\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}</pre>\n";
+        $ret       = "{$t}<pre{$rPreClass}>\n";
+        $ret       .= "{$t}{$content}";
+        $ret       .= "{$t}</pre>\n";
 
         return $ret;
     }
@@ -204,7 +204,7 @@ class CreateHtmlSmartyCodes
     public function getHtmlSpan($content = '', $spanClass = '', $t = '')
     {
         $rSpanClass = ('' != $spanClass) ? " class='{$spanClass}'" : '';
-        $ret = "{$t}<span{$rSpanClass}>{$content}</span>\n";
+        $ret        = "{$t}<span{$rSpanClass}>{$content}</span>\n";
 
         return $ret;
     }
@@ -220,9 +220,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlParagraph($content = '', $pClass = '', $t = '')
     {
         $rPClass = ('' != $pClass) ? " class='{$pClass}'" : '';
-        $ret = "{$t}<p{$rPClass}>\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}</p>\n";
+        $ret     = "{$t}<p{$rPClass}>\n";
+        $ret     .= "{$t}{$content}";
+        $ret     .= "{$t}</p>\n";
 
         return $ret;
     }
@@ -238,7 +238,7 @@ class CreateHtmlSmartyCodes
     public function getHtmlI($content = '', $iClass = '', $t = '')
     {
         $rIClass = ('' != $iClass) ? " class='{$iClass}'" : '';
-        $ret = "{$t}<i{$rIClass}>{$content}</i>\n";
+        $ret     = "{$t}<i{$rIClass}>{$content}</i>\n";
 
         return $ret;
     }
@@ -254,9 +254,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlUl($content = '', $ulClass = '', $t = '')
     {
         $rUlClass = ('' != $ulClass) ? " class='{$ulClass}'" : '';
-        $ret = "<ul{$rUlClass}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "</ul>\n";
+        $ret      = "<ul{$rUlClass}>\n";
+        $ret      .= "\t{$content}\n";
+        $ret      .= "</ul>\n";
 
         return $ret;
     }
@@ -272,9 +272,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlOl($content = '', $olClass = '', $t = '')
     {
         $rOlClass = ('' != $olClass) ? " class='{$olClass}'" : '';
-        $ret = "<ol{$rOlClass}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "</ol>\n";
+        $ret      = "<ol{$rOlClass}>\n";
+        $ret      .= "\t{$content}\n";
+        $ret      .= "</ol>\n";
 
         return $ret;
     }
@@ -323,9 +323,9 @@ class CreateHtmlSmartyCodes
      */
     public function getHtmlAnchor($url = '#', $content = '&nbsp;', $title = '', $target = '', $aClass = '', $rel = '', $t = '')
     {
-        $target = ('' != $target) ? " target='{$target}'" : '';
+        $target  = ('' != $target) ? " target='{$target}'" : '';
         $rAClass = ('' != $aClass) ? " class='{$aClass}'" : '';
-        $rel = ('' != $rel) ? " rel='{$rel}'" : '';
+        $rel     = ('' != $rel) ? " rel='{$rel}'" : '';
 
         return "<a{$rAClass} href='{$url}' title='{$title}'{$target}{$rel}>{$content}</a>";
     }
@@ -342,7 +342,7 @@ class CreateHtmlSmartyCodes
     public function getHtmlImage($src = 'blank.gif', $alt = 'blank.gif', $imgClass = '', $t = '')
     {
         $rImgClass = ('' != $imgClass) ? " class='{$imgClass}'" : '';
-        $ret = "<img{$rImgClass} src='{$src}' alt='{$alt}' />";
+        $ret       = "<img{$rImgClass} src='{$src}' alt='{$alt}' />";
 
         return $ret;
     }
@@ -358,9 +358,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlTable($content = '', $tableClass = '', $t = '')
     {
         $rTableClass = ('' != $tableClass) ? " class='{$tableClass}'" : '';
-        $ret = "<table{$rTableClass}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "</table>\n";
+        $ret         = "<table{$rTableClass}>\n";
+        $ret         .= "\t{$content}\n";
+        $ret         .= "</table>\n";
 
         return $ret;
     }
@@ -376,9 +376,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlTableThead($content = '', $theadClass = '', $t = '')
     {
         $rTheadClass = ('' != $theadClass) ? " class='{$theadClass}'" : '';
-        $ret = "\t<thead{$rTheadClass}>\n";
-        $ret .= "\t\t{$content}\n";
-        $ret .= "\t</thead>\n";
+        $ret         = "\t<thead{$rTheadClass}>\n";
+        $ret         .= "\t\t{$content}\n";
+        $ret         .= "\t</thead>\n";
 
         return $ret;
     }
@@ -394,9 +394,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlTableTbody($content = '', $tbodyClass = '', $t = '')
     {
         $rTbodyClass = ('' != $tbodyClass) ? " class='{$tbodyClass}'" : '';
-        $ret = "\t<tbody{$rTbodyClass}>\n";
-        $ret .= "\t\t{$content}\n";
-        $ret .= "\t</tbody>\n";
+        $ret         = "\t<tbody{$rTbodyClass}>\n";
+        $ret         .= "\t\t{$content}\n";
+        $ret         .= "\t</tbody>\n";
 
         return $ret;
     }
@@ -412,9 +412,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlTableTfoot($content = '', $tfootClass = '', $t = '')
     {
         $rTfootClass = ('' != $tfootClass) ? " class='{$tfootClass}'" : '';
-        $ret = "\t<tfoot{$rTfootClass}>\n";
-        $ret .= "\t\t{$content}\n";
-        $ret .= "\t</tfoot>\n";
+        $ret         = "\t<tfoot{$rTfootClass}>\n";
+        $ret         .= "\t\t{$content}\n";
+        $ret         .= "\t</tfoot>\n";
 
         return $ret;
     }
@@ -430,9 +430,9 @@ class CreateHtmlSmartyCodes
     public function getHtmlTableRow($content = '', $trClass = '', $t = '')
     {
         $rTrClass = ('' != $trClass) ? " class='{$trClass}'" : '';
-        $ret = "\t<tr{$rTrClass}>\n";
-        $ret .= "\t\t{$content}\n";
-        $ret .= "\t</tr>\n";
+        $ret      = "\t<tr{$rTrClass}>\n";
+        $ret      .= "\t\t{$content}\n";
+        $ret      .= "\t</tr>\n";
 
         return $ret;
     }
@@ -449,13 +449,13 @@ class CreateHtmlSmartyCodes
     public function getHtmlTableHead($content = '', $thClass = '', $colspan = '', $t = '')
     {
         $rThClass = ('' != $thClass) ? " class='{$thClass}'" : '';
-        $colspan = ('' != $colspan) ? " colspan='{$colspan}'" : '';
+        $colspan  = ('' != $colspan) ? " colspan='{$colspan}'" : '';
 
         return "<th{$colspan}{$rThClass}>{$content}</th>";
     }
 
     /**
-     *  @public function getHtmlTableData
+     * @public function getHtmlTableData
      * @param $content
      * @param $tdClass
      * @param $colspan
@@ -465,14 +465,14 @@ class CreateHtmlSmartyCodes
     public function getHtmlTableData($content = '', $tdClass = '', $colspan = '')
     {
         $rTdClass = ('' != $tdClass) ? " class='{$tdClass}'" : '';
-        $colspan = ('' != $colspan) ? " colspan='{$colspan}'" : '';
+        $colspan  = ('' != $colspan) ? " colspan='{$colspan}'" : '';
 
         return "<td{$colspan}{$rTdClass}>{$content}</td>";
     }
 
     /**
-     *  @public function getSmartyComment
-     *  @param string $comment
+     * @public function getSmartyComment
+     * @param string $comment
      *
      * @return string
      */
@@ -482,8 +482,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getSmartyNoSimbol
-     *  @param string $noSimbol
+     * @public function getSmartyNoSimbol
+     * @param string $noSimbol
      *
      * @return string
      */
@@ -493,9 +493,9 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getSmartyConst
-     *  @param string $language
-     *  @param mixed $const
+     * @public function getSmartyConst
+     * @param string $language
+     * @param mixed  $const
      *
      * @return string
      */
@@ -505,8 +505,8 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getSmartySingleVar
-     *  @param string $var
+     * @public function getSmartySingleVar
+     * @param string $var
      *
      * @return string
      */
@@ -516,9 +516,9 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getSmartyDoubleVar
-     *  @param string $leftVar
-     *  @param string $rightVar
+     * @public function getSmartyDoubleVar
+     * @param string $leftVar
+     * @param string $rightVar
      *
      * @return string
      */
@@ -552,7 +552,7 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getSmartyIncludeFileListSection
+     * @public function getSmartyIncludeFileListSection
      * @param $moduleDirname
      * @param $fileName
      * @param $tableFieldName
@@ -565,7 +565,7 @@ class CreateHtmlSmartyCodes
     }
 
     /**
-     *  @public function getSmartyIncludeFileListForeach
+     * @public function getSmartyIncludeFileListForeach
      * @param $moduleDirname
      * @param $fileName
      * @param $tableFieldName
@@ -631,10 +631,10 @@ class CreateHtmlSmartyCodes
     public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '')
     {
         $name = '' != $name ? " name={$name}" : '';
-        $key = '' != $key ? " key={$key}" : '';
-        $ret = "<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "<{/foreach}>\n";
+        $key  = '' != $key ? " key={$key}" : '';
+        $ret  = "<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
+        $ret  .= "\t{$content}\n";
+        $ret  .= "<{/foreach}>\n";
 
         return $ret;
     }
@@ -652,10 +652,10 @@ class CreateHtmlSmartyCodes
     public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '')
     {
         $loop = '' != $loop ? " loop={$loop}" : '';
-        $key = '' != $key ? " key={$key}" : '';
-        $ret = "<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "<{/foreachq}>\n";
+        $key  = '' != $key ? " key={$key}" : '';
+        $ret  = "<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
+        $ret  .= "\t{$content}\n";
+        $ret  .= "<{/foreachq}>\n";
 
         return $ret;
     }
@@ -673,10 +673,10 @@ class CreateHtmlSmartyCodes
     public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0)
     {
         $start = 0 != $start ? " start={$start}" : '';
-        $step = 0 != $step ? " step={$step}" : '';
-        $ret = "<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
-        $ret .= "\t{$content}\n";
-        $ret .= "<{/section}>\n";
+        $step  = 0 != $step ? " step={$step}" : '';
+        $ret   = "<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
+        $ret   .= "\t{$content}\n";
+        $ret   .= "<{/section}>\n";
 
         return $ret;
     }

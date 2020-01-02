@@ -38,8 +38,8 @@ class Header extends Files\CreateFile
     private $tdmcfile = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -49,8 +49,8 @@ class Header extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Header
      */
     public static function getInstance()
@@ -64,9 +64,9 @@ class Header extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -75,7 +75,7 @@ class Header extends Files\CreateFile
     }
 
     /**
-     *  @public function getTemplatesUserHeader
+     * @public function getTemplatesUserHeader
      * @param $moduleDirname
      * @return bool|string
      */
@@ -90,8 +90,8 @@ class Header extends Files\CreateFile
     }
 
     /**
-     *  @public function getTemplateFooterFacebbokSDK
-     *  @param null
+     * @public function getTemplateFooterFacebbokSDK
+     * @param null
      *
      * @return bool|string
      */
@@ -113,14 +113,14 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         //$language = $this->getLanguage($moduleDirname, 'MA');
         $content = $this->getTemplatesUserHeader($moduleDirname);

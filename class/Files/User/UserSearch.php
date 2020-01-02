@@ -43,20 +43,20 @@ class UserSearch extends Files\CreateFile
     private $xoopscode = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
         parent::__construct();
         $this->xoopscode = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->phpcode   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->usercode  = UserXoopsCode::getInstance();
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserSearch
      */
     public static function getInstance()
@@ -70,10 +70,10 @@ class UserSearch extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -105,20 +105,20 @@ class UserSearch extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
-        $ret .= $this->usercode->getUserTplMain($moduleDirname);
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->getCommentLine('Define Stylesheet');
-        $ret .= $this->xoopscode->getXoopsCodeAddStylesheet();
+        $ret       .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret       .= $this->usercode->getUserTplMain($moduleDirname);
+        $ret       .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret       .= $this->getCommentLine('Define Stylesheet');
+        $ret       .= $this->xoopscode->getXoopsCodeAddStylesheet();
 
         return $ret;
     }
 
     /**
-     *  @public function getAdminPagesList
+     * @public function getAdminPagesList
      * @param $moduleDirname
      * @param $tableName
      * @param $language
@@ -146,42 +146,42 @@ EOT;
     private function getUserSearchFooter($moduleDirname, $tableName, $language)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $stuTableName = mb_strtoupper($tableName);
-        $ret = $this->getCommentLine('Breadcrumbs');
-        $ret .= $this->usercode->getUserBreadcrumbs((string)$stuTableName, $language);
-        $ret .= $this->getCommentLine('Keywords');
-        $ret .= $this->usercode->getUserMetaKeywords($moduleDirname);
-        $ret .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret .= $this->getCommentLine('Description');
-        $ret .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
-        $ret .= $this->getInclude('footer');
+        $stuTableName     = mb_strtoupper($tableName);
+        $ret              = $this->getCommentLine('Breadcrumbs');
+        $ret              .= $this->usercode->getUserBreadcrumbs((string)$stuTableName, $language);
+        $ret              .= $this->getCommentLine('Keywords');
+        $ret              .= $this->usercode->getUserMetaKeywords($moduleDirname);
+        $ret              .= $this->phpcode->getPhpCodeUnset('keywords');
+        $ret              .= $this->getCommentLine('Description');
+        $ret              .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
+        $ret              .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $this->getInclude('footer');
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
-        $fields = $this->getTableFields($tableMid, $tableId);
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserSearchHeader($moduleDirname, $table, $fields);
-        $content .= $this->getUserSearch($moduleDirname, $tableName, $language);
-        $content .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
+        $tableId       = $table->getVar('table_id');
+        $tableMid      = $table->getVar('table_mid');
+        $tableName     = $table->getVar('table_name');
+        $fields        = $this->getTableFields($tableMid, $tableId);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getUserSearchHeader($moduleDirname, $table, $fields);
+        $content       .= $this->getUserSearch($moduleDirname, $tableName, $language);
+        $content       .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

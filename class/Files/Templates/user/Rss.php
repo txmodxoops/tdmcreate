@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class Rss extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class Rss extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Rss
      */
     public static function getInstance()
@@ -68,8 +68,8 @@ class Rss extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserRssXml
-     *  @param null
+     * @private function getTemplatesUserRssXml
+     * @param null
      * @return string
      */
     private function getTemplatesUserRssXml()
@@ -114,17 +114,17 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserRssXml();
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getTemplatesUserRssXml();
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

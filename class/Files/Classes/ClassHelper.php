@@ -32,8 +32,8 @@ use XoopsModules\Tdmcreate\Files;
 class ClassHelper extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -41,8 +41,8 @@ class ClassHelper extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return ClassHelper
      */
     public static function getInstance()
@@ -56,9 +56,9 @@ class ClassHelper extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -67,18 +67,18 @@ class ClassHelper extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
-        $module_dirname = $module->getVar('mod_dirname');
+        $module             = $this->getModule();
+        $filename           = $this->getFileName();
+        $module_dirname     = $module->getVar('mod_dirname');
         $ucf_module_dirname = ucfirst($module_dirname);
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= <<<EOT
+        $content            = $this->getHeaderFilesComments($module, $filename);
+        $content            .= <<<EOT
 
 
 class {$ucf_module_dirname}Helper

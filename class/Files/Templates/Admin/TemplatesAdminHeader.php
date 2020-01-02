@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class TemplatesAdminHeader extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -56,9 +56,9 @@ class TemplatesAdminHeader extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -67,23 +67,23 @@ class TemplatesAdminHeader extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $hc            = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
         $navigation = $hc->getSmartySingleVar('navigation');
-        $due = $hc->getHtmlTag('span', ['class' => 'left'], $navigation) . PHP_EOL;
-        $buttons = $hc->getSmartySingleVar('buttons');
-        $right = $hc->getHtmlTag('span', ['class' => 'left'], $buttons . '&nbsp;');
-        $due .= $hc->getSmartyConditions('buttons', '', '', $right) . PHP_EOL;
-        $content = $hc->getHtmlTag('div', ['class' => 'top'], $due);
+        $due        = $hc->getHtmlTag('span', ['class' => 'left'], $navigation) . PHP_EOL;
+        $buttons    = $hc->getSmartySingleVar('buttons');
+        $right      = $hc->getHtmlTag('span', ['class' => 'left'], $buttons . '&nbsp;');
+        $due        .= $hc->getSmartyConditions('buttons', '', '', $right) . PHP_EOL;
+        $content    = $hc->getHtmlTag('div', ['class' => 'top'], $due);
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -35,7 +36,7 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('modules_adminpager'));
         // Define main template
-//        $templateMain = 'tdmcreate_modules.tpl';
+        //        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
@@ -45,7 +46,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('tdmc_upload_imgmod_url', TDMC_UPLOAD_IMGMOD_URL);
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         $modulesCount = $helper->getHandler('Modules')->getCountModules();
-        $modulesAll = $helper->getHandler('Modules')->getAllModules($start, $limit);
+        $modulesAll   = $helper->getHandler('Modules')->getAllModules($start, $limit);
         // Redirect if there aren't modules
         if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
@@ -68,14 +69,14 @@ switch ($op) {
         break;
     case 'new':
         // Define main template
-//        $templateMain = 'tdmcreate_modules.tpl';
+        //        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $modulesObj = $helper->getHandler('Modules')->create();
-        $form = $modulesObj->getFormModules();
+        $form       = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -89,35 +90,33 @@ switch ($op) {
         }
         $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['mod_dirname']));
         //Form module save
-        $modulesObj->setVars([
-                                 'mod_name' => $_POST['mod_name'],
-                                 'mod_dirname' => $moduleDirname,
-                                 'mod_version' => $_POST['mod_version'],
-                                 'mod_since' => $_POST['mod_since'],
-                                 'mod_min_php' => $_POST['mod_min_php'],
-                                 'mod_min_xoops' => $_POST['mod_min_xoops'],
-                                 'mod_min_admin' => $_POST['mod_min_admin'],
-                                 'mod_min_mysql' => $_POST['mod_min_mysql'],
-                                 'mod_description' => $_POST['mod_description'],
-                                 'mod_author' => $_POST['mod_author'],
-                                 'mod_author_mail' => $_POST['mod_author_mail'],
-                                 'mod_author_website_url' => $_POST['mod_author_website_url'],
-                                 'mod_author_website_name' => $_POST['mod_author_website_name'],
-                                 'mod_credits' => $_POST['mod_credits'],
-                                 'mod_license' => $_POST['mod_license'],
-                                 'mod_release_info' => $_POST['mod_release_info'],
-                                 'mod_release_file' => $_POST['mod_release_file'],
-                                 'mod_manual' => $_POST['mod_manual'],
-                                 'mod_manual_file' => $_POST['mod_manual_file'],
-                             ]);
+        $modulesObj->setVars(
+            [
+                'mod_name'                => $_POST['mod_name'],
+                'mod_dirname'             => $moduleDirname,
+                'mod_version'             => $_POST['mod_version'],
+                'mod_since'               => $_POST['mod_since'],
+                'mod_min_php'             => $_POST['mod_min_php'],
+                'mod_min_xoops'           => $_POST['mod_min_xoops'],
+                'mod_min_admin'           => $_POST['mod_min_admin'],
+                'mod_min_mysql'           => $_POST['mod_min_mysql'],
+                'mod_description'         => $_POST['mod_description'],
+                'mod_author'              => $_POST['mod_author'],
+                'mod_author_mail'         => $_POST['mod_author_mail'],
+                'mod_author_website_url'  => $_POST['mod_author_website_url'],
+                'mod_author_website_name' => $_POST['mod_author_website_name'],
+                'mod_credits'             => $_POST['mod_credits'],
+                'mod_license'             => $_POST['mod_license'],
+                'mod_release_info'        => $_POST['mod_release_info'],
+                'mod_release_file'        => $_POST['mod_release_file'],
+                'mod_manual'              => $_POST['mod_manual'],
+                'mod_manual_file'         => $_POST['mod_manual_file'],
+            ]
+        );
         //Form mod_image
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploader = new \XoopsMediaUploader(
-            TDMC_UPLOAD_IMGMOD_PATH,
-            $helper->getConfig('mimetypes'),
-            $helper->getConfig('maxsize'),
-            null,
-            null
+            TDMC_UPLOAD_IMGMOD_PATH, $helper->getConfig('mimetypes'), $helper->getConfig('maxsize'), null, null
         );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
@@ -133,17 +132,17 @@ switch ($op) {
         //Form module save
         $modulesObj->setVars(
             [
-                                 'mod_demo_site_url' => $_POST['mod_demo_site_url'],
-                                 'mod_demo_site_name' => $_POST['mod_demo_site_name'],
-                                 'mod_support_url' => $_POST['mod_support_url'],
-                                 'mod_support_name' => $_POST['mod_support_name'],
-                                 'mod_website_url' => $_POST['mod_website_url'],
-                                 'mod_website_name' => $_POST['mod_website_name'],
-                                 'mod_release' => $_POST['mod_release'],
-                                 'mod_status' => $_POST['mod_status'],
-                                 'mod_donations' => $_POST['mod_donations'],
-                                 'mod_subversion' => $_POST['mod_subversion'],
-                             ]
+                'mod_demo_site_url'  => $_POST['mod_demo_site_url'],
+                'mod_demo_site_name' => $_POST['mod_demo_site_name'],
+                'mod_support_url'    => $_POST['mod_support_url'],
+                'mod_support_name'   => $_POST['mod_support_name'],
+                'mod_website_url'    => $_POST['mod_website_url'],
+                'mod_website_name'   => $_POST['mod_website_name'],
+                'mod_release'        => $_POST['mod_release'],
+                'mod_status'         => $_POST['mod_status'],
+                'mod_donations'      => $_POST['mod_donations'],
+                'mod_subversion'     => $_POST['mod_subversion'],
+            ]
         );
         $moduleOption = \Xmf\Request::getArray('module_option', []);
         $modulesObj->setVar('mod_admin', in_array('admin', $moduleOption));
@@ -169,7 +168,7 @@ switch ($op) {
         break;
     case 'edit':
         // Define main template
-//        $templateMain = 'tdmcreate_modules.tpl';
+        //        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');
@@ -177,7 +176,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $modulesObj = $helper->getHandler('Modules')->get($modId);
-        $form = $modulesObj->getFormModules();
+        $form       = $modulesObj->getFormModules();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':
@@ -197,7 +196,7 @@ switch ($op) {
         break;
     case 'display':
         $modFieldArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
-        $id = \Xmf\Request::getInt('mod_id', 0, 'POST');
+        $id            = \Xmf\Request::getInt('mod_id', 0, 'POST');
         if ($id > 0) {
             $modulesObj = $helper->getHandler('Modules')->get($id);
             foreach ($modFieldArray as $moduleField) {

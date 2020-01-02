@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class Pages extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class Pages extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Pages
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class Pages extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,8 +70,8 @@ class Pages extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserPagesHeader
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserPagesHeader
+     * @param string $moduleDirname
      * @return string
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
@@ -91,58 +91,58 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $tbody = $this->getTemplatesUserPagesTableThead($tableName, $language);
-        $tbody .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language);
-        $tbody .= $this->getTemplatesUserPagesTableTfoot();
+        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $tbody  = $this->getTemplatesUserPagesTableThead($tableName, $language);
+        $tbody  .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language);
+        $tbody  .= $this->getTemplatesUserPagesTableTfoot();
         $single = $hc->getSmartySingleVar('table_type');
 
         return $hc->getHtmlTable($tbody, 'table table-' . $single) . PHP_EOL;
     }
 
     /**
-     *  @private function getTemplatesUserPagesThead
-     *  @param string $language
-     * @param $tableName
+     * @private function getTemplatesUserPagesThead
+     * @param string $language
+     * @param        $tableName
      * @return string
      */
     private function getTemplatesUserPagesTableThead($tableName, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc           = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $stuTableName = mb_strtoupper($tableName);
-        $single = $hc->getSmartySingleVar('divideby');
-        $lang = $hc->getSmartyConst($language, $stuTableName . '_TITLE');
-        $th = $hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
-        $tr = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
+        $single       = $hc->getSmartySingleVar('divideby');
+        $lang         = $hc->getSmartyConst($language, $stuTableName . '_TITLE');
+        $th           = $hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
+        $tr           = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
 
         return $hc->getHtmlTableThead($tr) . PHP_EOL;
     }
 
     /**
-     *  @private function getTemplatesUserPagesTbody
-     *  @param string $moduleDirname
-     *  @param string $language
-     * @param $tableName
-     * @param $tableSoleName
+     * @private function getTemplatesUserPagesTbody
+     * @param string $moduleDirname
+     * @param string $language
+     * @param        $tableName
+     * @param        $tableSoleName
      * @return string
      */
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $single = $hc->getSmartySingleVar('panel_type');
+        $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $single  = $hc->getSmartySingleVar('panel_type');
         $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
-        $div = $hc->getHtmlDiv($include, 'panel panel-' . $single);
-        $cont = $hc->getHtmlTableData($div) . PHP_EOL;
-        $html = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
-        $cont .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
+        $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single);
+        $cont    = $hc->getHtmlTableData($div) . PHP_EOL;
+        $html    = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
+        $cont    .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
         $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
-        $tr = $hc->getHtmlTableRow($foreach) . PHP_EOL;
+        $tr      = $hc->getHtmlTableRow($foreach) . PHP_EOL;
 
         return $hc->getHtmlTableTbody($tr) . PHP_EOL;
     }
 
     /**
-     *  @private function getTemplatesUserPagesTfoot
+     * @private function getTemplatesUserPagesTfoot
      * @param null
      * @return string
      */
@@ -156,7 +156,7 @@ class Pages extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserPages
+     * @private function getTemplatesUserPages
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
@@ -165,16 +165,16 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc    = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language) . PHP_EOL;
-        $div = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
+        $div   = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
 
         return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true) . PHP_EOL;
     }
 
     /**
-     *  @private function getTemplatesUserPagesFooter
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserPagesFooter
+     * @param string $moduleDirname
      *
      * @return string
      */
@@ -186,23 +186,23 @@ class Pages extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      *
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableName = $table->getVar('table_name');
+        $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserPagesHeader($moduleDirname);
-        $content .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language);
-        $content .= $this->getTemplatesUserPagesFooter($moduleDirname);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getTemplatesUserPagesHeader($moduleDirname);
+        $content       .= $this->getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language);
+        $content       .= $this->getTemplatesUserPagesFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

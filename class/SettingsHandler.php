@@ -52,7 +52,7 @@ class SettingsHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i      field id
+     * @param int  $i field id
      * @param null $fields
      *
      * @return mixed reference to the <a href='psi_element://Settings'>Settings</a> object

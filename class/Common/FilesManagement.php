@@ -24,8 +24,8 @@ trait FilesManagement
      *
      * @param string $folder The full path of the directory to check
      *
-     * @throws \RuntimeException
      * @return void
+     * @throws \RuntimeException
      */
     public static function createFolder($folder)
     {
@@ -59,7 +59,7 @@ trait FilesManagement
     public static function recurseCopy($src, $dst)
     {
         $dir = opendir($src);
-//        @mkdir($dst);
+        //        @mkdir($dst);
         if (!@mkdir($dst) && !is_dir($dst)) {
             throw new \RuntimeException('The directory ' . $dst . ' could not be created.');
         }
@@ -77,12 +77,12 @@ trait FilesManagement
 
     /**
      * Copy a file, or recursively copy a folder and its contents
+     * @param string $source Source path
+     * @param string $dest   Destination path
+     * @return      bool     Returns true on success, false on failure
      * @author      Aidan Lister <aidan@php.net>
      * @version     1.0.1
      * @link        http://aidanlister.com/2004/04/recursively-copying-directories-in-php/
-     * @param       string $source Source path
-     * @param       string $dest   Destination path
-     * @return      bool     Returns true on success, false on failure
      */
     public static function xcopy($source, $dest)
     {
@@ -126,10 +126,10 @@ trait FilesManagement
      *
      * @param string $src source directory to delete
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      */
     public static function deleteDirectory($src)
     {
@@ -198,7 +198,7 @@ trait FilesManagement
         foreach ($iterator as $fObj) {
             if ($fObj->isFile()) {
                 $filename = $fObj->getPathname();
-                $fObj = null; // clear this iterator object to close the file
+                $fObj     = null; // clear this iterator object to close the file
                 if (!unlink($filename)) {
                     return false; // couldn't delete the file
                 }
@@ -257,10 +257,10 @@ trait FilesManagement
      * @param string $src  - Source of files being moved
      * @param string $dest - Destination of files being moved
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      */
     public static function rcopy($src, $dest)
     {

@@ -29,14 +29,14 @@ namespace XoopsModules\Tdmcreate\Common;
 class Configurator
 {
     public $name;
-    public $paths = [];
-    public $uploadFolders = [];
-    public $copyBlankFiles = [];
+    public $paths           = [];
+    public $uploadFolders   = [];
+    public $copyBlankFiles  = [];
     public $copyTestFolders = [];
     public $templateFolders = [];
-    public $oldFiles = [];
-    public $oldFolders = [];
-    public $renameTables = [];
+    public $oldFiles        = [];
+    public $oldFolders      = [];
+    public $renameTables    = [];
     public $modCopyright;
 
     /**
@@ -46,16 +46,16 @@ class Configurator
     {
         $config = include dirname(dirname(__DIR__)) . '/config/config.php';
 
-        $this->name = $config->name;
-        $this->paths = $config->paths;
-        $this->uploadFolders = $config->uploadFolders;
-        $this->copyBlankFiles = $config->copyBlankFiles;
+        $this->name            = $config->name;
+        $this->paths           = $config->paths;
+        $this->uploadFolders   = $config->uploadFolders;
+        $this->copyBlankFiles  = $config->copyBlankFiles;
         $this->copyTestFolders = $config->copyTestFolders;
         $this->templateFolders = $config->templateFolders;
-        $this->oldFiles = $config->oldFiles;
-        $this->oldFolders = $config->oldFolders;
-        $this->renameTables = $config->renameTables;
-        $this->moduleStats = $config->moduleStats;
-        $this->modCopyright = $config->modCopyright;
+        $this->oldFiles        = $config->oldFiles;
+        $this->oldFolders      = $config->oldFolders;
+        $this->renameTables    = $config->renameTables;
+        $this->moduleStats     = $config->moduleStats;
+        $this->modCopyright    = $config->modCopyright;
     }
 }

@@ -52,9 +52,9 @@ class Settings extends \XoopsObject
     ];
 
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
-     *  @param null
+     * @param null
      */
     public function __construct()
     {
@@ -115,9 +115,9 @@ class Settings extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
+     * @static function getInstance
      *
-     *  @param null
+     * @param null
      *
      * @return Settings
      */
@@ -165,7 +165,7 @@ class Settings extends \XoopsObject
         $form->addElement(new \XoopsFormText(_AM_TDMCREATE_SETTING_AUTHOR, 'set_author', 50, 255, $this->getVar('set_author')));
         $form->addElement(new \XoopsFormText(_AM_TDMCREATE_SETTING_LICENSE, 'set_license', 50, 255, $this->getVar('set_license')));
         // Check All Settings Options
-        $optionsTray = new \XoopsFormElementTray(_OPTIONS, '<br>');
+        $optionsTray     = new \XoopsFormElementTray(_OPTIONS, '<br>');
         $checkAllOptions = new \XoopsFormCheckBox('', 'settingbox', 1);
         $checkAllOptions->addOption('allbox', _AM_TDMCREATE_SETTING_ALL);
         $checkAllOptions->setExtra(' onclick="xoopsCheckAll(\'settingform\', \'settingbox\');" ');
@@ -173,7 +173,7 @@ class Settings extends \XoopsObject
         $optionsTray->addElement($checkAllOptions);
         // Options
         $settingOption = $this->getOptionsSettings();
-        $checkbox = new \XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br>');
+        $checkbox      = new \XoopsFormCheckbox(' ', 'setting_option', $settingOption, '<br>');
         $checkbox->setDescription(_AM_TDMCREATE_OPTIONS_DESC);
         foreach ($this->options as $option) {
             $checkbox->addOption($option, self::getDefinedLanguage('_AM_TDMCREATE_SETTING_' . mb_strtoupper($option)));
@@ -186,10 +186,10 @@ class Settings extends \XoopsObject
         $modImage = $modImage ?: $set['image'];
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
-        $imgtray = new \XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br>');
-        $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
-        $imageSelect = new \XoopsFormSelect($imgpath, 'set_image', $modImage);
-        $modImage_array = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
+        $imgtray         = new \XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br>');
+        $imgpath         = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
+        $imageSelect     = new \XoopsFormSelect($imgpath, 'set_image', $modImage);
+        $modImage_array  = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImage_array as $image) {
             $imageSelect->addOption($image, $image);
         }
@@ -244,13 +244,13 @@ class Settings extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('set_id');
-        $ret['name'] = $this->getVar('set_name');
+        $ret['id']      = $this->getVar('set_id');
+        $ret['name']    = $this->getVar('set_name');
         $ret['version'] = $this->getVar('set_version');
-        $ret['image'] = $this->getVar('set_image');
+        $ret['image']   = $this->getVar('set_image');
         $ret['release'] = $this->getVar('set_release');
-        $ret['status'] = $this->getVar('set_status');
-        $ret['type'] = $this->getVar('set_type');
+        $ret['status']  = $this->getVar('set_status');
+        $ret['type']    = $this->getVar('set_type');
 
         return $ret;
     }

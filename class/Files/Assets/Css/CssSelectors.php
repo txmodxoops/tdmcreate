@@ -30,8 +30,8 @@ namespace XoopsModules\Tdmcreate\Files\Assets\Css;
 class CssSelectors
 {
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      *
      * @return CssSelectors
      */

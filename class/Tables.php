@@ -59,8 +59,8 @@ class Tables extends \XoopsObject
     ];
 
     /**
-     *  @public function constructor class
-     *  @param null
+     * @public function constructor class
+     * @param null
      */
     public function __construct()
     {
@@ -109,8 +109,8 @@ class Tables extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Tables
      */
     public static function getInstance()
@@ -124,8 +124,8 @@ class Tables extends \XoopsObject
     }
 
     /**
-     *  @static function getFormTables
-     *  @param mixed $action
+     * @static function getFormTables
+     * @param mixed $action
      *
      * @return \XoopsThemeForm
      */
@@ -134,17 +134,17 @@ class Tables extends \XoopsObject
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        $helper = Tdmcreate\Helper::getInstance();
-        $isNew = $this->isNew();
+        $helper    = Tdmcreate\Helper::getInstance();
+        $isNew     = $this->isNew();
         $tableName = $this->getVar('table_name');
-        $tableMid = $this->getVar('table_mid');
-        $title = $isNew ? sprintf(_AM_TDMCREATE_TABLE_NEW) : sprintf(_AM_TDMCREATE_TABLE_EDIT);
+        $tableMid  = $this->getVar('table_mid');
+        $title     = $isNew ? sprintf(_AM_TDMCREATE_TABLE_NEW) : sprintf(_AM_TDMCREATE_TABLE_EDIT);
 
         xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm($title, 'tableform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modules = $helper->getHandler('Modules')->getObjects(null);
+        $modules       = $helper->getHandler('Modules')->getObjects(null);
         $modulesSelect = new \XoopsFormSelect(_AM_TDMCREATE_TABLE_MODULES, 'table_mid', $tableMid);
         $modulesSelect->addOption('', _AM_TDMCREATE_TABLE_MODSELOPT);
         foreach ($modules as $mod) {
@@ -161,7 +161,7 @@ class Tables extends \XoopsObject
         $form->addElement($tableSoleNameText, true);
 
         $radioCategory = $isNew ? 0 : $this->getVar('table_category');
-        $category = new \XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
+        $category      = new \XoopsFormRadioYN(_AM_TDMCREATE_TABLE_CATEGORY, 'table_category', $radioCategory);
         $category->setDescription(_AM_TDMCREATE_TABLE_CATEGORY_DESC);
         $form->addElement($category);
 
@@ -179,16 +179,16 @@ class Tables extends \XoopsObject
             $form->addElement($tableOrder, true);
         }
 
-        $getTableImage = $this->getVar('table_image');
-        $tableImage = $getTableImage ?: 'blank.gif';
+        $getTableImage    = $this->getVar('table_image');
+        $tableImage       = $getTableImage ?: 'blank.gif';
         $icons32Directory = '/Frameworks/moduleclasses/icons/32';
         $uploadsDirectory = '/uploads/tdmcreate/images/tables';
-        $iconsDirectory = is_dir(XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
+        $iconsDirectory   = is_dir(XOOPS_ROOT_PATH . $icons32Directory) ? $icons32Directory : $uploadsDirectory;
 
-        $imgtray1 = new \XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br>');
-        $imgpath1 = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
+        $imgtray1     = new \XoopsFormElementTray(_AM_TDMCREATE_TABLE_IMAGE, '<br>');
+        $imgpath1     = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsDirectory}/");
         $imageSelect1 = new \XoopsFormSelect($imgpath1, 'table_image', $tableImage, 10);
-        $imageArray1 = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $iconsDirectory);
+        $imageArray1  = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $iconsDirectory);
         foreach ($imageArray1 as $image1) {
             $imageSelect1->addOption($image1, $image1);
         }
@@ -202,7 +202,7 @@ class Tables extends \XoopsObject
         $imgtray1->setDescription(_AM_TDMCREATE_TABLE_IMAGE_DESC);
         $form->addElement($imgtray1);
 
-        $tableAutoincrement = $this->isNew() ? 1 : $this->getVar('table_autoincrement');
+        $tableAutoincrement      = $this->isNew() ? 1 : $this->getVar('table_autoincrement');
         $checkTableAutoincrement = new \XoopsFormRadioYN(_AM_TDMCREATE_TABLE_AUTO_INCREMENT, 'table_autoincrement', $tableAutoincrement);
         $checkTableAutoincrement->setDescription(_AM_TDMCREATE_TABLE_AUTO_INCREMENT_DESC);
         $form->addElement($checkTableAutoincrement);
@@ -248,20 +248,20 @@ class Tables extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('table_id');
-        $ret['mid'] = $this->getVar('table_mid');
-        $ret['name'] = ucfirst($this->getVar('table_name'));
-        $ret['image'] = $this->getVar('table_image');
-        $ret['nbfields'] = $this->getVar('table_nbfields');
-        $ret['order'] = $this->getVar('table_order');
-        $ret['blocks'] = $this->getVar('table_blocks');
-        $ret['admin'] = $this->getVar('table_admin');
-        $ret['user'] = $this->getVar('table_user');
-        $ret['submenu'] = $this->getVar('table_submenu');
-        $ret['search'] = $this->getVar('table_search');
-        $ret['comments'] = $this->getVar('table_comments');
+        $ret['id']            = $this->getVar('table_id');
+        $ret['mid']           = $this->getVar('table_mid');
+        $ret['name']          = ucfirst($this->getVar('table_name'));
+        $ret['image']         = $this->getVar('table_image');
+        $ret['nbfields']      = $this->getVar('table_nbfields');
+        $ret['order']         = $this->getVar('table_order');
+        $ret['blocks']        = $this->getVar('table_blocks');
+        $ret['admin']         = $this->getVar('table_admin');
+        $ret['user']          = $this->getVar('table_user');
+        $ret['submenu']       = $this->getVar('table_submenu');
+        $ret['search']        = $this->getVar('table_search');
+        $ret['comments']      = $this->getVar('table_comments');
         $ret['notifications'] = $this->getVar('table_notifications');
-        $ret['permissions'] = $this->getVar('table_permissions');
+        $ret['permissions']   = $this->getVar('table_permissions');
 
         return $ret;
     }

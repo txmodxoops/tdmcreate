@@ -26,8 +26,8 @@ use XoopsModules\Tdmcreate;
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_building.tpl';
 
 include __DIR__ . '/header.php';
-$op = \Xmf\Request::getString('op', 'default');
-$mid = \Xmf\Request::getInt('mod_id');
+$op        = \Xmf\Request::getString('op', 'default');
+$mid       = \Xmf\Request::getInt('mod_id');
 $moduleObj = $helper->getHandler('Modules')->get($mid);
 $cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
 // Clear cache
@@ -40,13 +40,13 @@ if (!file_exists($indexFile = $cachePath . '/index.html')) {
 // Switch option
 switch ($op) {
     case 'build':
-//        $templateMain = 'tdmcreate_building.tpl';
+        //        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
         // Directories for copy from to
         $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname);
-        $toDir = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
+        $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
         // include_once TDMC_CLASS_PATH . '/building.php';
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
@@ -94,7 +94,7 @@ switch ($op) {
         break;
     case 'default':
     default:
-//        $templateMain = 'tdmcreate_building.tpl';
+        //        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Redirect if there aren't modules
         $nbModules = $helper->getHandler('Modules')->getCount();
@@ -104,7 +104,7 @@ switch ($op) {
         unset($nbModules);
         // include_once TDMC_CLASS_PATH . '/building.php';
         $building = Tdmcreate\Building::getInstance();
-        $form = $building->getForm();
+        $form     = $building->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }

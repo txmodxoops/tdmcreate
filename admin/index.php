@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -25,10 +26,10 @@ $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_index.tpl';
 
 include __DIR__ . '/header.php';
 $countSettings = $helper->getHandler('Settings')->getCount();
-$countModules = $helper->getHandler('Modules')->getCount();
-$countTables = $helper->getHandler('Tables')->getCount();
-$countFields = $helper->getHandler('Fields')->getCount();
-$countFiles = $helper->getHandler('Morefiles')->getCount();
+$countModules  = $helper->getHandler('Modules')->getCount();
+$countTables   = $helper->getHandler('Tables')->getCount();
+$countFields   = $helper->getHandler('Fields')->getCount();
+$countFiles    = $helper->getHandler('Morefiles')->getCount();
 unset($criteria);
 
 //$templateMain = 'tdmcreate_index.tpl';
@@ -40,10 +41,10 @@ $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFIELD
 $adminObject->addInfoBoxLine(sprintf('<label>' . _AM_TDMCREATE_THEREARE_NUMFILES . '</label>', $countFiles), 'Red');
 // Upload Folders
 $folder = [
-        TDMC_UPLOAD_PATH,
-        TDMC_UPLOAD_REPOSITORY_PATH,
-        TDMC_UPLOAD_IMGMOD_PATH,
-        TDMC_UPLOAD_IMGTAB_PATH,
+    TDMC_UPLOAD_PATH,
+    TDMC_UPLOAD_REPOSITORY_PATH,
+    TDMC_UPLOAD_IMGMOD_PATH,
+    TDMC_UPLOAD_IMGTAB_PATH,
 ];
 
 // Uploads Folders Created

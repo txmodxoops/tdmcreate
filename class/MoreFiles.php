@@ -45,9 +45,9 @@ class MoreFiles extends \XoopsObject
     private $settings;
 
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
-     *  @param null
+     * @param null
      */
     public function __construct()
     {
@@ -72,9 +72,9 @@ class MoreFiles extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
+     * @static function getInstance
      *
-     *  @param null
+     * @param null
      *
      * @return MoreFiles
      */
@@ -109,7 +109,7 @@ class MoreFiles extends \XoopsObject
         $form = new \XoopsThemeForm($title, 'morefilesform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
 
-        $modules = $helper->getHandler('Modules')->getObjects(null);
+        $modules       = $helper->getHandler('Modules')->getObjects(null);
         $modulesSelect = new \XoopsFormSelect(_AM_TDMCREATE_MORE_FILES_MODULES, 'file_mid', $this->getVar('file_mid'));
         $modulesSelect->addOption('', _AM_TDMCREATE_MORE_FILES_MODULE_SELECT);
         foreach ($modules as $mod) {
@@ -148,13 +148,13 @@ class MoreFiles extends \XoopsObject
     public function getValuesMoreFiles($keys = null, $format = null, $maxDepth = null)
     {
         $helper = Tdmcreate\Helper::getInstance();
-        $ret = $this->getValues($keys, $format, $maxDepth);
+        $ret    = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('file_id');
-        $ret['mid'] = $helper->getHandler('Modules')->get($this->getVar('file_mid'))->getVar('mod_name');
-        $ret['name'] = $this->getVar('file_name');
+        $ret['id']        = $this->getVar('file_id');
+        $ret['mid']       = $helper->getHandler('Modules')->get($this->getVar('file_mid'))->getVar('mod_name');
+        $ret['name']      = $this->getVar('file_name');
         $ret['extension'] = $this->getVar('file_extension');
-        $ret['infolder'] = $this->getVar('file_infolder');
+        $ret['infolder']  = $this->getVar('file_infolder');
 
         return $ret;
     }

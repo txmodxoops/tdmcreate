@@ -37,8 +37,8 @@ class MoreFiles extends Files\CreateFile
     private $extension = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -46,8 +46,8 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return MoreFiles
      */
     public static function getInstance()
@@ -61,23 +61,23 @@ class MoreFiles extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
-     * @param $folder
-     * @param $extension
+     * @public function write
+     * @param string $module
+     * @param string $filename
+     * @param        $folder
+     * @param        $extension
      * @return string
      */
     public function write($module, $folder, $filename, $extension)
     {
         $this->setModule($module);
         $this->setFileName($filename);
-        $this->folder = $folder;
+        $this->folder    = $folder;
         $this->extension = $extension;
     }
 
     /**
-     *  @private function getTemplatesUserMoreFile
+     * @private function getTemplatesUserMoreFile
      * @param null
      *
      * @return string
@@ -94,16 +94,16 @@ EOT;
     }
 
     /**
-     *  @public function render
+     * @public function render
      * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getTemplatesUserMoreFile();
+        $content       = $this->getTemplatesUserMoreFile();
 
         $this->create($moduleDirname, $this->folder, $filename . '.' . $this->extension, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

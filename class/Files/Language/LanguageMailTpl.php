@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageMailTpl extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class LanguageMailTpl extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return LanguageMailTpl
      */
     public static function getInstance()
@@ -74,10 +74,10 @@ class LanguageMailTpl extends Files\CreateFile
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = <<<'EOT'
+        $content       = <<<'EOT'
 // ---------- Templates Mail Content Dummy ---------- //
 Hello {X_UNAME},
 

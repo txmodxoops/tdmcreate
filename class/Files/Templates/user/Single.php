@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class Single extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class Single extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Single
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class Single extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -70,69 +70,69 @@ class Single extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserSingleHeader
+     * @private function getTemplatesUserSingleHeader
      * @param $moduleDirname
      * @return string
      */
     private function getTemplatesUserSingleHeader($moduleDirname)
     {
         $smarty = Tdmcreate\Files\CreateSmartyCode::getInstance();
-        $ret = $smarty->getSmartyIncludeFile($moduleDirname);
+        $ret    = $smarty->getSmartyIncludeFile($moduleDirname);
 
         return $ret;
     }
 
     /**
-     *  @private function getTemplatesUserSingleBody
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserSingleBody
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserSingleBody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $t = "\t";
-        $ret = '';
-        $content = $hc->getHtmlHNumb('Services Panels', '2', 'page-header', $t . "\t");
-        $collg12 = $hc->getHtmlDiv($content, 'col-lg-12', $t);
-        $row = $hc->getHtmlDiv($collg12, 'row', $t);
-        $ret .= $hc->getHtmlDiv($row, 'container');
+        $hc        = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $t         = "\t";
+        $ret       = '';
+        $content   = $hc->getHtmlHNumb('Services Panels', '2', 'page-header', $t . "\t");
+        $collg12   = $hc->getHtmlDiv($content, 'col-lg-12', $t);
+        $row       = $hc->getHtmlDiv($collg12, 'row', $t);
+        $ret       .= $hc->getHtmlDiv($row, 'container');
 
         return $ret;
     }
 
     /**
-     *  @private function getTemplatesUserSingleFooter
-     *  @param string $moduleDirname
+     * @private function getTemplatesUserSingleFooter
+     * @param string $moduleDirname
      *
      * @return string
      */
     private function getTemplatesUserSingleFooter($moduleDirname)
     {
         $smarty = Tdmcreate\Files\CreateSmartyCode::getInstance();
-        $ret = $smarty->getSmartyIncludeFile($moduleDirname, 'footer');
+        $ret    = $smarty->getSmartyIncludeFile($moduleDirname, 'footer');
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getTemplatesUserSingleHeader($moduleDirname);
-        $content .= $this->getTemplatesUserSingleBody($moduleDirname, $table, $language);
-        $content .= $this->getTemplatesUserSingleFooter($moduleDirname);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getTemplatesUserSingleHeader($moduleDirname);
+        $content       .= $this->getTemplatesUserSingleBody($moduleDirname, $table, $language);
+        $content       .= $this->getTemplatesUserSingleFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

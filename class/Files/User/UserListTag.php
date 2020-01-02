@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class UserListTag extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class UserListTag extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserListTag
      */
     public static function getInstance()
@@ -58,9 +58,9 @@ class UserListTag extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -69,8 +69,8 @@ class UserListTag extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserListTag
-     *  @param null
+     * @public function getUserListTag
+     * @param null
      * @return string
      */
     public function getUserListTag()
@@ -82,17 +82,17 @@ class UserListTag extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserListTag();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getUserListTag();
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

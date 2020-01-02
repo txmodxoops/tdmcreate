@@ -48,13 +48,13 @@ class Modules extends \XoopsObject
     ];
 
     /**
-     *  @public function constructor class
-     *  @param null
+     * @public function constructor class
+     * @param null
      */
     public function __construct()
     {
-        $helper = Tdmcreate\Helper::getInstance();
-        $setId = \Xmf\Request::getInt('set_id');
+        $helper   = Tdmcreate\Helper::getInstance();
+        $setId    = \Xmf\Request::getInt('set_id');
         $settings = $helper->getHandler('Settings')->get($setId);
 
         $this->initVar('mod_id', XOBJ_DTYPE_INT);
@@ -112,8 +112,8 @@ class Modules extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Modules
      */
     public static function getInstance()
@@ -127,8 +127,8 @@ class Modules extends \XoopsObject
     }
 
     /**
-     *  @public function getFormModules
-     *  @param mixed $action
+     * @public function getFormModules
+     * @param mixed $action
      *
      * @return \XoopsThemeForm
      */
@@ -138,47 +138,47 @@ class Modules extends \XoopsObject
         if (false === $action) {
             $action = $_SERVER['REQUEST_URI'];
         }
-        $set = [];
+        $set      = [];
         $settings = $helper->getHandler('Settings')->getAllSettings(0, 0, 'set_type');
         foreach ($settings as $setting) {
-            $set['name'] = $setting->getVar('set_name');
-            $set['dirname'] = $setting->getVar('set_dirname');
-            $set['version'] = $setting->getVar('set_version');
-            $set['since'] = $setting->getVar('set_since');
-            $set['min_php'] = $setting->getVar('set_min_php');
-            $set['min_xoops'] = $setting->getVar('set_min_xoops');
-            $set['min_admin'] = $setting->getVar('set_min_admin');
-            $set['min_mysql'] = $setting->getVar('set_min_mysql');
-            $set['description'] = $setting->getVar('set_description');
-            $set['author'] = $setting->getVar('set_author');
-            $set['license'] = $setting->getVar('set_license');
-            $set['admin'] = $setting->getVar('set_admin');
-            $set['user'] = $setting->getVar('set_user');
-            $set['blocks'] = $setting->getVar('set_blocks');
-            $set['search'] = $setting->getVar('set_search');
-            $set['comments'] = $setting->getVar('set_comments');
-            $set['notifications'] = $setting->getVar('set_notifications');
-            $set['permissions'] = $setting->getVar('set_permissions');
-            $set['inroot'] = $setting->getVar('set_inroot_copy');
-            $set['image'] = $setting->getVar('set_image');
-            $set['author_mail'] = $setting->getVar('set_author_mail');
-            $set['author_website_url'] = $setting->getVar('set_author_website_url');
+            $set['name']                = $setting->getVar('set_name');
+            $set['dirname']             = $setting->getVar('set_dirname');
+            $set['version']             = $setting->getVar('set_version');
+            $set['since']               = $setting->getVar('set_since');
+            $set['min_php']             = $setting->getVar('set_min_php');
+            $set['min_xoops']           = $setting->getVar('set_min_xoops');
+            $set['min_admin']           = $setting->getVar('set_min_admin');
+            $set['min_mysql']           = $setting->getVar('set_min_mysql');
+            $set['description']         = $setting->getVar('set_description');
+            $set['author']              = $setting->getVar('set_author');
+            $set['license']             = $setting->getVar('set_license');
+            $set['admin']               = $setting->getVar('set_admin');
+            $set['user']                = $setting->getVar('set_user');
+            $set['blocks']              = $setting->getVar('set_blocks');
+            $set['search']              = $setting->getVar('set_search');
+            $set['comments']            = $setting->getVar('set_comments');
+            $set['notifications']       = $setting->getVar('set_notifications');
+            $set['permissions']         = $setting->getVar('set_permissions');
+            $set['inroot']              = $setting->getVar('set_inroot_copy');
+            $set['image']               = $setting->getVar('set_image');
+            $set['author_mail']         = $setting->getVar('set_author_mail');
+            $set['author_website_url']  = $setting->getVar('set_author_website_url');
             $set['author_website_name'] = $setting->getVar('set_author_website_name');
-            $set['credits'] = $setting->getVar('set_credits');
-            $set['release_info'] = $setting->getVar('set_release_info');
-            $set['release_file'] = $setting->getVar('set_release_file');
-            $set['manual'] = $setting->getVar('set_manual');
-            $set['manual_file'] = $setting->getVar('set_manual_file');
-            $set['demo_site_url'] = $setting->getVar('set_demo_site_url');
-            $set['demo_site_name'] = $setting->getVar('set_demo_site_name');
-            $set['support_url'] = $setting->getVar('set_support_url');
-            $set['support_name'] = $setting->getVar('set_support_name');
-            $set['website_url'] = $setting->getVar('set_website_url');
-            $set['website_name'] = $setting->getVar('set_website_name');
-            $set['release'] = $setting->getVar('set_release');
-            $set['status'] = $setting->getVar('set_status');
-            $set['donations'] = $setting->getVar('set_donations');
-            $set['subversion'] = $setting->getVar('set_subversion');
+            $set['credits']             = $setting->getVar('set_credits');
+            $set['release_info']        = $setting->getVar('set_release_info');
+            $set['release_file']        = $setting->getVar('set_release_file');
+            $set['manual']              = $setting->getVar('set_manual');
+            $set['manual_file']         = $setting->getVar('set_manual_file');
+            $set['demo_site_url']       = $setting->getVar('set_demo_site_url');
+            $set['demo_site_name']      = $setting->getVar('set_demo_site_name');
+            $set['support_url']         = $setting->getVar('set_support_url');
+            $set['support_name']        = $setting->getVar('set_support_name');
+            $set['website_url']         = $setting->getVar('set_website_url');
+            $set['website_name']        = $setting->getVar('set_website_name');
+            $set['release']             = $setting->getVar('set_release');
+            $set['status']              = $setting->getVar('set_status');
+            $set['donations']           = $setting->getVar('set_donations');
+            $set['subversion']          = $setting->getVar('set_subversion');
         }
 
         $isNew = $this->isNew();
@@ -217,12 +217,12 @@ class Modules extends \XoopsObject
         $modMinMysql = $isNew ? $set['min_mysql'] : $this->getVar('mod_min_mysql');
         $form->addElement(new \XoopsFormText(_AM_TDMCREATE_MODULE_MIN_MYSQL, 'mod_min_mysql', 10, 25, $modMinMysql), true);
         // Name description
-        $editorConfigs = [];
-        $editorConfigs['name'] = 'mod_description';
-        $editorConfigs['value'] = $isNew ? $set['description'] : $this->getVar('mod_description', 'e');
-        $editorConfigs['rows'] = 5;
-        $editorConfigs['cols'] = 100;
-        $editorConfigs['width'] = '50%';
+        $editorConfigs           = [];
+        $editorConfigs['name']   = 'mod_description';
+        $editorConfigs['value']  = $isNew ? $set['description'] : $this->getVar('mod_description', 'e');
+        $editorConfigs['rows']   = 5;
+        $editorConfigs['cols']   = 100;
+        $editorConfigs['width']  = '50%';
         $editorConfigs['height'] = '100px';
         $editorConfigs['editor'] = $helper->getConfig('tdmcreate_editor');
         $form->addElement(new \XoopsFormEditor(_AM_TDMCREATE_MODULE_DESCRIPTION, 'mod_description', $editorConfigs), true);
@@ -253,10 +253,10 @@ class Modules extends \XoopsObject
         $modImage = $modImage ?: $set['image'];
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
-        $imgtray = new \XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br>');
-        $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
-        $imageselect = new \XoopsFormSelect($imgpath, 'mod_image', $modImage);
-        $modImageArray = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
+        $imgtray         = new \XoopsFormElementTray(_AM_TDMCREATE_MODULE_IMAGE, '<br>');
+        $imgpath         = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './' . mb_strtolower($uploadDirectory) . '/');
+        $imageselect     = new \XoopsFormSelect($imgpath, 'mod_image', $modImage);
+        $modImageArray   = \XoopsLists::getImgListAsArray(TDMC_UPLOAD_IMGMOD_PATH);
         foreach ($modImageArray as $image) {
             $imageselect->addOption($image, $image);
         }
@@ -271,16 +271,16 @@ class Modules extends \XoopsObject
         $form->addElement($imgtray);
         //---------- START LOGO GENERATOR -----------------
         $tables_img = $this->getVar('table_image') ?: 'about.png';
-        $iconsdir = '/Frameworks/moduleclasses/icons/32';
+        $iconsdir   = '/Frameworks/moduleclasses/icons/32';
         if (is_dir(XOOPS_ROOT_PATH . $iconsdir)) {
             $uploadDirectory = $iconsdir;
-            $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsdir}/");
+            $imgpath         = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, ".{$iconsdir}/");
         } else {
             $uploadDirectory = '/uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables';
-            $imgpath = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
+            $imgpath         = sprintf(_AM_TDMCREATE_FORMIMAGE_PATH, './uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/tables');
         }
-        $createLogoTray = new \XoopsFormElementTray(_AM_TDMCREATE_MODULE_CREATENEWLOGO, '<br>');
-        $iconSelect = new \XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
+        $createLogoTray    = new \XoopsFormElementTray(_AM_TDMCREATE_MODULE_CREATENEWLOGO, '<br>');
+        $iconSelect        = new \XoopsFormSelect($imgpath, 'tables_img', $tables_img, 8);
         $tablesImagesArray = \XoopsLists::getImgListAsArray(XOOPS_ROOT_PATH . $uploadDirectory);
         foreach ($tablesImagesArray as $image) {
             $iconSelect->addOption($image, $image);
@@ -359,9 +359,9 @@ class Modules extends \XoopsObject
     }
 
     /**
-     *  @private static function createLogo
-     *  @param mixed $logoIcon
-     *  @param string $moduleDirname
+     * @private static function createLogo
+     * @param mixed  $logoIcon
+     * @param string $moduleDirname
      *
      * @return bool|string
      */
@@ -377,16 +377,15 @@ class Modules extends \XoopsObject
             }
         }
 
-        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . '/empty.png') ||
-            !file_exists($font = TDMC_FONTS_PATH . '/VeraBd.ttf') ||
-            !file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . basename($logoIcon))
-        ) {
+        if (!file_exists($imageBase = TDMC_IMAGES_LOGOS_PATH . '/empty.png')
+            || !file_exists($font = TDMC_FONTS_PATH . '/VeraBd.ttf')
+            || !file_exists($iconFile = XOOPS_ICONS32_PATH . '/' . basename($logoIcon))) {
             return false;
         }
         $imageModule = imagecreatefrompng($imageBase);
-        $imageIcon = imagecreatefrompng($iconFile);
+        $imageIcon   = imagecreatefrompng($iconFile);
         // Write text
-        $textColor = imagecolorallocate($imageModule, 0, 0, 0);
+        $textColor   = imagecolorallocate($imageModule, 0, 0, 0);
         $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
@@ -411,19 +410,19 @@ class Modules extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('mod_id');
-        $ret['name'] = $this->getVar('mod_name');
-        $ret['version'] = $this->getVar('mod_version');
-        $ret['image'] = $this->getVar('mod_image');
-        $ret['release'] = $this->getVar('mod_release');
-        $ret['status'] = $this->getVar('mod_status');
-        $ret['admin'] = $this->getVar('mod_admin');
-        $ret['user'] = $this->getVar('mod_user');
-        $ret['blocks'] = $this->getVar('mod_blocks');
-        $ret['search'] = $this->getVar('mod_search');
-        $ret['comments'] = $this->getVar('mod_comments');
+        $ret['id']            = $this->getVar('mod_id');
+        $ret['name']          = $this->getVar('mod_name');
+        $ret['version']       = $this->getVar('mod_version');
+        $ret['image']         = $this->getVar('mod_image');
+        $ret['release']       = $this->getVar('mod_release');
+        $ret['status']        = $this->getVar('mod_status');
+        $ret['admin']         = $this->getVar('mod_admin');
+        $ret['user']          = $this->getVar('mod_user');
+        $ret['blocks']        = $this->getVar('mod_blocks');
+        $ret['search']        = $this->getVar('mod_search');
+        $ret['comments']      = $this->getVar('mod_comments');
         $ret['notifications'] = $this->getVar('mod_notifications');
-        $ret['permissions'] = $this->getVar('mod_permissions');
+        $ret['permissions']   = $this->getVar('mod_permissions');
 
         return $ret;
     }

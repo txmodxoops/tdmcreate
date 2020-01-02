@@ -34,9 +34,9 @@ use XoopsModules\Tdmcreate;
 class CreateArchitecture extends CreateStructure
 {
     /**
-     *  @public function constructor class
+     * @public function constructor class
      *
-     *  @param null
+     * @param null
      */
     public function __construct()
     {
@@ -45,9 +45,9 @@ class CreateArchitecture extends CreateStructure
     }
 
     /**
-     *  @static function getInstance
+     * @static function getInstance
      *
-     *  @param null
+     * @param null
      *
      * @return Tdmcreate\Files\CreateArchitecture
      */
@@ -69,7 +69,7 @@ class CreateArchitecture extends CreateStructure
     public function setBaseFoldersFiles($module)
     {
         $helper = Tdmcreate\Helper::getInstance();
-        $tf = Tdmcreate\Files\CreateFile::getInstance();
+        $tf     = Tdmcreate\Files\CreateFile::getInstance();
         // Module
         $modId = $module->getVar('mod_id');
         // Id of tables
@@ -77,12 +77,12 @@ class CreateArchitecture extends CreateStructure
 
         $table = null;
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
+            $tableId   = $tables[$t]->getVar('table_id');
             $tableName = $tables[$t]->getVar('table_name');
-            $table = $helper->getHandler('Tables')->get($tableId);
+            $table     = $helper->getHandler('Tables')->get($tableId);
         }
 
-        $indexFile = XOOPS_UPLOAD_PATH . '/index.html';
+        $indexFile       = XOOPS_UPLOAD_PATH . '/index.html';
         $stlModuleAuthor = str_replace(' ', '', mb_strtolower($module->getVar('mod_author')));
         $this->setModuleName($module->getVar('mod_dirname'));
         $uploadPath = $this->getUploadPath();
@@ -100,8 +100,23 @@ class CreateArchitecture extends CreateStructure
             // Creation of "blocks" folder and index.html file
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
-        $language = ('english' !== $GLOBALS['xoopsConfig']['language']) ? $GLOBALS['xoopsConfig']['language'] : 'english';
-        $copyFiles = ['class' => $indexFile, 'include' => $indexFile, 'language' => $indexFile, 'assets' => $indexFile, 'assets/css' => $indexFile, 'assets/css/admin' => $indexFile, 'assets/icons' => $indexFile, 'assets/icons/16' => $indexFile, 'assets/icons/32' => $indexFile, 'docs' => $indexFile, 'assets/images' => $indexFile, 'assets/js' => $indexFile, 'language/' . $language => $indexFile, 'language/' . $language . '/help' => $indexFile, 'preloads' => $indexFile];
+        $language  = ('english' !== $GLOBALS['xoopsConfig']['language']) ? $GLOBALS['xoopsConfig']['language'] : 'english';
+        $copyFiles = ['class'                           => $indexFile,
+                      'include'                         => $indexFile,
+                      'language'                        => $indexFile,
+                      'assets'                          => $indexFile,
+                      'assets/css'                      => $indexFile,
+                      'assets/css/admin'                => $indexFile,
+                      'assets/icons'                    => $indexFile,
+                      'assets/icons/16'                 => $indexFile,
+                      'assets/icons/32'                 => $indexFile,
+                      'docs'                            => $indexFile,
+                      'assets/images'                   => $indexFile,
+                      'assets/js'                       => $indexFile,
+                      'language/' . $language           => $indexFile,
+                      'language/' . $language . '/help' => $indexFile,
+                      'preloads'                        => $indexFile
+        ];
         foreach ($copyFiles as $k => $v) {
             // Creation of folders and index.html file
             $this->makeDirAndCopyFile($k, $v, 'index.html');
@@ -110,17 +125,17 @@ class CreateArchitecture extends CreateStructure
         $modImage = str_replace(' ', '', mb_strtolower($module->getVar('mod_image')));
         $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $modImage);
         // Copy of 'module_author_logo.png' file in uploads dir
-        $logoPng = $stlModuleAuthor . '_logo.png';
+        $logoPng     = $stlModuleAuthor . '_logo.png';
         $logoGifFrom = TDMC_UPLOAD_IMGMOD_PATH . '/' . $logoPng;
         // If file exists
         if (!file_exists($logoGifFrom)) {
             // Rename file
-            $copyFile = TDMC_IMAGES_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
+            $copyFile    = TDMC_IMAGES_LOGOS_URL . '/xoopsdevelopmentteam_logo.gif';
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         } else {
             // Copy file
-            $copyFile = TDMC_IMAGES_LOGOS_URL . '/' . $logoPng;
+            $copyFile    = TDMC_IMAGES_LOGOS_URL . '/' . $logoPng;
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         }
@@ -128,10 +143,10 @@ class CreateArchitecture extends CreateStructure
         $this->copyFile('assets/images', $copyNewFile, $logoPng);
         $docs = [
             '/credits.txt' => 'credits.txt',
-'/install.txt' => 'install.txt',
-            '/lang.diff' => 'lang.diff',
-'/license.txt' => 'license.txt',
-'/readme.txt' => 'readme.txt',
+            '/install.txt' => 'install.txt',
+            '/lang.diff'   => 'lang.diff',
+            '/license.txt' => 'license.txt',
+            '/readme.txt'  => 'readme.txt',
         ];
         foreach ($docs as $k => $v) {
             // Creation of folder docs and .txt files
@@ -160,64 +175,64 @@ class CreateArchitecture extends CreateStructure
     }
 
     /**
-     *  @public function setFilesToBuilding
+     * @public function setFilesToBuilding
      *
-     *  @param string $module
+     * @param string $module
      *
      * @return array
      */
     public function setFilesToBuilding($module)
     {
         $helper = Tdmcreate\Helper::getInstance();
-        $tf = Tdmcreate\Files\CreateFile::getInstance();
+        $tf     = Tdmcreate\Files\CreateFile::getInstance();
         // Module
-        $modId = $module->getVar('mod_id');
+        $modId         = $module->getVar('mod_id');
         $moduleDirname = $module->getVar('mod_dirname');
-        $icon32 = 'assets/icons/32';
-        $tables = $tf->getTableTables($modId);
-        $files = $tf->getTableMoreFiles($modId);
-        $ret = [];
+        $icon32        = 'assets/icons/32';
+        $tables        = $tf->getTableTables($modId);
+        $files         = $tf->getTableMoreFiles($modId);
+        $ret           = [];
 
-        $table = [];
-        $tableCategory = [];
-        $tableName = [];
-        $tableAdmin = [];
-        $tableUser = [];
-        $tableBlocks = [];
-        $tableSearch = [];
-        $tableComments = [];
+        $table              = [];
+        $tableCategory      = [];
+        $tableName          = [];
+        $tableAdmin         = [];
+        $tableUser          = [];
+        $tableBlocks        = [];
+        $tableSearch        = [];
+        $tableComments      = [];
         $tableNotifications = [];
-        $tablePermissions = [];
-        $tableBroken = [];
-        $tablePdf = [];
-        $tablePrint = [];
-        $tableRate = [];
-        $tableRss = [];
-        $tableSingle = [];
-        $tableSubmit = [];
-        $tableVisit = [];
-        $tableTag = [];
+        $tablePermissions   = [];
+        $tableBroken        = [];
+        $tablePdf           = [];
+        $tablePrint         = [];
+        $tableRate          = [];
+        $tableRss           = [];
+        $tableSingle        = [];
+        $tableSubmit        = [];
+        $tableVisit         = [];
+        $tableTag           = [];
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableCategory[] = $tables[$t]->getVar('table_category');
-            $tableImage = $tables[$t]->getVar('table_image');
-            $tableAdmin[] = $tables[$t]->getVar('table_admin');
-            $tableUser[] = $tables[$t]->getVar('table_user');
-            $tableBlocks[] = $tables[$t]->getVar('table_blocks');
-            $tableSearch[] = $tables[$t]->getVar('table_search');
-            $tableComments[] = $tables[$t]->getVar('table_comments');
+            $tableId              = $tables[$t]->getVar('table_id');
+            $tableName            = $tables[$t]->getVar('table_name');
+            $tableCategory[]      = $tables[$t]->getVar('table_category');
+            $tableImage           = $tables[$t]->getVar('table_image');
+            $tableAdmin[]         = $tables[$t]->getVar('table_admin');
+            $tableUser[]          = $tables[$t]->getVar('table_user');
+            $tableBlocks[]        = $tables[$t]->getVar('table_blocks');
+            $tableSearch[]        = $tables[$t]->getVar('table_search');
+            $tableComments[]      = $tables[$t]->getVar('table_comments');
             $tableNotifications[] = $tables[$t]->getVar('table_notifications');
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-            $tableBroken[] = $tables[$t]->getVar('table_broken');
-            $tablePdf[] = $tables[$t]->getVar('table_pdf');
-            $tablePrint[] = $tables[$t]->getVar('table_print');
-            $tableRate[] = $tables[$t]->getVar('table_rate');
-            $tableRss[] = $tables[$t]->getVar('table_rss');
-            $tableSingle[] = $tables[$t]->getVar('table_single');
-            $tableSubmit[] = $tables[$t]->getVar('table_submit');
-            $tableVisit[] = $tables[$t]->getVar('table_visit');
-            $tableTag[] = $tables[$t]->getVar('table_tag');
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $tableBroken[]        = $tables[$t]->getVar('table_broken');
+            $tablePdf[]           = $tables[$t]->getVar('table_pdf');
+            $tablePrint[]         = $tables[$t]->getVar('table_print');
+            $tableRate[]          = $tables[$t]->getVar('table_rate');
+            $tableRss[]           = $tables[$t]->getVar('table_rss');
+            $tableSingle[]        = $tables[$t]->getVar('table_single');
+            $tableSubmit[]        = $tables[$t]->getVar('table_submit');
+            $tableVisit[]         = $tables[$t]->getVar('table_visit');
+            $tableTag[]           = $tables[$t]->getVar('table_tag');
             // Get Table Object
             $table = $helper->getHandler('Tables')->get($tableId);
             // Copy of tables images file
@@ -284,9 +299,9 @@ class CreateArchitecture extends CreateStructure
             }
         }
         foreach (array_keys($files) as $t) {
-            $fileName = $files[$t]->getVar('file_name');
+            $fileName      = $files[$t]->getVar('file_name');
             $fileExtension = $files[$t]->getVar('file_extension');
-            $fileInfolder = $files[$t]->getVar('file_infolder');
+            $fileInfolder  = $files[$t]->getVar('file_infolder');
             // More File
             $moreFiles = Tdmcreate\MoreFiles::getInstance();
             $moreFiles->write($module, $fileName, $fileInfolder, $fileExtension);
@@ -536,7 +551,7 @@ class CreateArchitecture extends CreateStructure
             if (in_array(1, $tableTag)) {
                 $userListTag = Tdmcreate\Files\User\UserListTag::getInstance();
                 $userListTag->write($module, 'list.tag.php');
-                $ret[] = $userListTag->render();
+                $ret[]       = $userListTag->render();
                 $userViewTag = Tdmcreate\Files\User\UserViewTag::getInstance();
                 $userViewTag->write($module, 'view.tag.php');
                 $ret[] = $userViewTag->render();

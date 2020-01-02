@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -36,8 +37,8 @@ include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
 $op = \Xmf\Request::getString('op', 'list');
 // Get fields Variables
-$fieldMid = \Xmf\Request::getInt('field_mid');
-$fieldTid = \Xmf\Request::getInt('field_tid');
+$fieldMid  = \Xmf\Request::getInt('field_mid');
+$fieldTid  = \Xmf\Request::getInt('field_tid');
 $fieldNumb = \Xmf\Request::getInt('field_numb');
 $fieldName = \Xmf\Request::getString('field_name', '');
 // switch op
@@ -47,7 +48,7 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('tables_adminpager'));
         // Define main template
-//        $templateMain = 'tdmcreate_fields.tpl';
+        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
@@ -78,14 +79,14 @@ switch ($op) {
                 $table = array_merge($table, $talid);
                 // Get the list of fields
                 $fieldsCount = $helper->getHandler('Fields')->getCountFields();
-                $fieldsAll = $helper->getHandler('Fields')->getAllFieldsByModuleAndTableId($table['mid'], $tid);
+                $fieldsAll   = $helper->getHandler('Fields')->getAllFieldsByModuleAndTableId($table['mid'], $tid);
                 // Display fields list
                 $fields = [];
-                $lid = 1;
+                $lid    = 1;
                 if ($fieldsCount > 0) {
                     foreach (array_keys($fieldsAll) as $fid) {
-                        $field = $fieldsAll[$fid]->getValuesFields();
-                        $falid = ['lid' => $lid];
+                        $field    = $fieldsAll[$fid]->getValuesFields();
+                        $falid    = ['lid' => $lid];
                         $fields[] = array_merge($field, $falid);
                         unset($field);
                         ++$lid;
@@ -110,7 +111,7 @@ switch ($op) {
         break;
     case 'new':
         // Define main template
-//        $templateMain = 'tdmcreate_fields.tpl';
+        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
@@ -118,7 +119,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Add
         $fieldsObj = $helper->getHandler('Fields')->create();
-        $form = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
+        $form      = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -127,7 +128,7 @@ switch ($op) {
         }
         $fieldId = \Xmf\Request::getInt('field_id');
         // Fields Handler
-        $fields = $helper->getHandler('Fields');
+        $fields     = $helper->getHandler('Fields');
         $fieldOrder = 1;
         // Set Variables
         foreach ($_POST['field_id'] as $key => $value) {
@@ -167,7 +168,7 @@ switch ($op) {
         }
         unset($fieldOrder);
         // Get table name from field table id
-        $tables = $helper->getHandler('Tables')->get($fieldTid);
+        $tables    = $helper->getHandler('Tables')->get($fieldTid);
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
@@ -184,7 +185,7 @@ switch ($op) {
         break;
     case 'edit':
         // Define main template
-//        $templateMain = 'tdmcreate_fields.tpl';
+        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
@@ -192,9 +193,9 @@ switch ($op) {
         $adminObject->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Edit
-        $fieldId = \Xmf\Request::getInt('field_id');
+        $fieldId   = \Xmf\Request::getInt('field_id');
         $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
-        $form = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
+        $form      = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'order':
@@ -216,7 +217,7 @@ switch ($op) {
             unset($i);
         }
         exit;
-    break;
+        break;
     case 'delete':
         $tablesObj = $helper->getHandler('Tables')->get($fieldTid);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
@@ -234,7 +235,7 @@ switch ($op) {
         break;
     case 'display':
         $fieldsArray = ['parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required'];
-        $fieldId = \Xmf\Request::getInt('field_id', 0, 'POST');
+        $fieldId     = \Xmf\Request::getInt('field_id', 0, 'POST');
         if ($fieldId > 0) {
             $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
             foreach ($fieldsArray as $field) {

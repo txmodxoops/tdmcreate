@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -36,7 +37,7 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('settings_adminpager'));
         // Define main template
-//        $templateMain = 'tdmcreate_settings.tpl';
+        //        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
@@ -47,7 +48,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
         $settingsCount = $helper->getHandler('Settings')->getCountSettings();
-        $settingsAll = $helper->getHandler('Settings')->getAllSettings($start, $limit);
+        $settingsAll   = $helper->getHandler('Settings')->getAllSettings($start, $limit);
         // Display settings list
         if ($settingsCount > 0) {
             foreach (array_keys($settingsAll) as $i) {
@@ -66,14 +67,14 @@ switch ($op) {
         break;
     case 'new':
         // Define main template
-//        $templateMain = 'tdmcreate_settings.tpl';
+        //        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $settingsObj = $helper->getHandler('Settings')->create();
-        $form = $settingsObj->getFormSettings();
+        $form        = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -87,46 +88,48 @@ switch ($op) {
         }
         $setModuleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['set_dirname']));
         //Form module save
-        $settingsObj->setVars([
-                                 'set_name' => $_POST['set_name'],
-                                 'set_dirname' => $setModuleDirname,
-                                 'set_version' => $_POST['set_version'],
-                                 'set_since' => $_POST['set_since'],
-                                 'set_min_php' => $_POST['set_min_php'],
-                                 'set_min_xoops' => $_POST['set_min_xoops'],
-                                 'set_min_admin' => $_POST['set_min_admin'],
-                                 'set_min_mysql' => $_POST['set_min_mysql'],
-                                 'set_description' => $_POST['set_description'],
-                                 'set_author' => $_POST['set_author'],
-                                 'set_author_mail' => $_POST['set_author_mail'],
-                                 'set_author_website_url' => $_POST['set_author_website_url'],
-                                 'set_author_website_name' => $_POST['set_author_website_name'],
-                                 'set_credits' => $_POST['set_credits'],
-                                 'set_license' => $_POST['set_license'],
-                                 'set_release_info' => $_POST['set_release_info'],
-                                 'set_release_file' => $_POST['set_release_file'],
-                                 'set_manual' => $_POST['set_manual'],
-                                 'set_manual_file' => $_POST['set_manual_file'],
-                              ]);
+        $settingsObj->setVars(
+            [
+                'set_name'                => $_POST['set_name'],
+                'set_dirname'             => $setModuleDirname,
+                'set_version'             => $_POST['set_version'],
+                'set_since'               => $_POST['set_since'],
+                'set_min_php'             => $_POST['set_min_php'],
+                'set_min_xoops'           => $_POST['set_min_xoops'],
+                'set_min_admin'           => $_POST['set_min_admin'],
+                'set_min_mysql'           => $_POST['set_min_mysql'],
+                'set_description'         => $_POST['set_description'],
+                'set_author'              => $_POST['set_author'],
+                'set_author_mail'         => $_POST['set_author_mail'],
+                'set_author_website_url'  => $_POST['set_author_website_url'],
+                'set_author_website_name' => $_POST['set_author_website_name'],
+                'set_credits'             => $_POST['set_credits'],
+                'set_license'             => $_POST['set_license'],
+                'set_release_info'        => $_POST['set_release_info'],
+                'set_release_file'        => $_POST['set_release_file'],
+                'set_manual'              => $_POST['set_manual'],
+                'set_manual_file'         => $_POST['set_manual_file'],
+            ]
+        );
         //Form set_image
         $settingsObj->setVar('set_image', $_POST['set_image']);
         //Form module save
         $settingsObj->setVars(
             [
-                                 'set_demo_site_url' => $_POST['set_demo_site_url'],
-                                 'set_demo_site_name' => $_POST['set_demo_site_name'],
-                                 'set_support_url' => $_POST['set_support_url'],
-                                 'set_support_name' => $_POST['set_support_name'],
-                                 'set_website_url' => $_POST['set_website_url'],
-                                 'set_website_name' => $_POST['set_website_name'],
-                                 'set_release' => $_POST['set_release'],
-                                 'set_status' => $_POST['set_status'],
-                                 'set_donations' => $_POST['set_donations'],
-                                 'set_subversion' => $_POST['set_subversion'],
-                              ]
+                'set_demo_site_url'  => $_POST['set_demo_site_url'],
+                'set_demo_site_name' => $_POST['set_demo_site_name'],
+                'set_support_url'    => $_POST['set_support_url'],
+                'set_support_name'   => $_POST['set_support_name'],
+                'set_website_url'    => $_POST['set_website_url'],
+                'set_website_name'   => $_POST['set_website_name'],
+                'set_release'        => $_POST['set_release'],
+                'set_status'         => $_POST['set_status'],
+                'set_donations'      => $_POST['set_donations'],
+                'set_subversion'     => $_POST['set_subversion'],
+            ]
         );
         $settingOption = \Xmf\Request::getArray('setting_option', []);
-$settingsObj->setVar('set_admin', in_array('admin', $settingOption));
+        $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
         $settingsObj->setVar('set_user', in_array('user', $settingOption));
         $settingsObj->setVar('set_blocks', in_array('blocks', $settingOption));
         $settingsObj->setVar('set_search', in_array('search', $settingOption));
@@ -148,13 +151,13 @@ $settingsObj->setVar('set_admin', in_array('admin', $settingOption));
         break;
     case 'edit':
         // Define main template
-//        $templateMain = 'tdmcreate_settings.tpl';
+        //        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $adminObject->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         $settingsObj = $helper->getHandler('Settings')->get($setId);
-        $form = $settingsObj->getFormSettings();
+        $form        = $settingsObj->getFormSettings();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'delete':

@@ -34,8 +34,8 @@ use XoopsModules\Tdmcreate\Files\Templates\User;
 class CategoriesList extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -43,8 +43,8 @@ class CategoriesList extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return User\CategoriesList
      */
     public static function getInstance()
@@ -58,10 +58,10 @@ class CategoriesList extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -71,7 +71,7 @@ class CategoriesList extends Files\CreateFile
     }
 
     /**
-     *  @private function getTemplatesUserCategoriesListHeader
+     * @private function getTemplatesUserCategoriesListHeader
      * @return string
      */
     private function getTemplatesUserCategoriesListStartTable()
@@ -85,14 +85,14 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserCategoriesListThead
-     *  @param string $language
-     * @param $table
+     * @private function getTemplatesUserCategoriesListThead
+     * @param string $language
+     * @param        $table
      * @return string
      */
     private function getTemplatesUserCategoriesListThead($table, $language)
     {
-        $ret = <<<EOT
+        $ret    = <<<EOT
 		<thead>
 			<tr>\n
 EOT;
@@ -100,9 +100,9 @@ EOT;
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_thead')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
+                    $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
-                    $ret .= <<<EOT
+                    $ret         .= <<<EOT
 				<th><{\$list.{$rpFieldName}}></th>\n
 EOT;
                 }
@@ -117,21 +117,21 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserCategoriesListTbody
-     *  @param string $moduleDirname
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserCategoriesListTbody
+     * @param string $moduleDirname
+     * @param string $table
+     * @param string $language
      *
      * @return string
      */
     private function getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $ret = <<<EOT
+        $ret       = <<<EOT
 		<tbody>
 			<tr>\n
 EOT;
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -139,25 +139,25 @@ EOT;
                     switch ($fieldElement) {
                         default:
                         case 10:
-                            $fieldName = $fields[$f]->getVar('field_name');
+                            $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $ret .= <<<EOT
+                            $ret         .= <<<EOT
 				<td class="center pad5"><img src="<{\$xoops_icons32_url}>/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
 EOT;
                             break;
                         case 13:
-                            $fieldName = $fields[$f]->getVar('field_name');
+                            $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $ret .= <<<EOT
+                            $ret         .= <<<EOT
 				<td class="center pad5"><img src="<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\$list.{$rpFieldName}}>" alt="{$tableName}" /></td>\n
 EOT;
                             break;
                         case 2:
                         case 3:
                         case 4:
-                            $fieldName = $fields[$f]->getVar('field_name');
+                            $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $ret .= <<<EOT
+                            $ret         .= <<<EOT
 				<td class="justify pad5"><{\$list.{$rpFieldName}}></td>\n
 EOT;
                             break;
@@ -174,16 +174,16 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserCategoriesListTfoot
-     *  @param string $table
-     *  @param string $language
+     * @private function getTemplatesUserCategoriesListTfoot
+     * @param string $table
+     * @param string $language
      * @return string
      */
     private function getTemplatesUserCategoriesListTfoot($table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $ret = <<<EOT
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $ret       = <<<EOT
 		<tfoot>
 			<tr>\n
 EOT;
@@ -191,9 +191,9 @@ EOT;
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tfoot')) {
-                    $fieldName = $fields[$f]->getVar('field_name');
+                    $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
-                    $ret .= <<<EOT
+                    $ret         .= <<<EOT
 				<td class="center"><{\$list.{$rpFieldName}}></td>\n
 EOT;
                 }
@@ -208,8 +208,8 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserCategoriesListEndTable
-     *  @param null
+     * @private function getTemplatesUserCategoriesListEndTable
+     * @param null
      *
      * @return string
      */
@@ -224,23 +224,23 @@ EOT;
     }
 
     /**
-     *  @private function getTemplatesUserCategoriesListPanel
-     *  @param string $moduleDirname
-     *  @param string $language
-     * @param $tableId
-     * @param $tableMid
-     * @param $tableName
-     * @param $tableSoleName
+     * @private function getTemplatesUserCategoriesListPanel
+     * @param string $moduleDirname
+     * @param string $language
+     * @param        $tableId
+     * @param        $tableMid
+     * @param        $tableName
+     * @param        $tableSoleName
      * @return string
      */
     private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $fields = $this->getTableFields($tableMid, $tableId);
-        $ret = '';
+        $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $fields  = $this->getTableFields($tableMid, $tableId);
+        $ret     = '';
         $retElem = '';
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
+            $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_user')) {
                 if (1 == $fields[$f]->getVar('field_tbody')) {
@@ -248,29 +248,29 @@ EOT;
                         default:
                         case 2:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-2') . PHP_EOL;
+                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-2') . PHP_EOL;
                             break;
                         case 3:
                         case 4:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem .= $hc->getHtmlSpan($doubleVar, 'col-sm-3 justify') . PHP_EOL;
+                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-3 justify') . PHP_EOL;
                             break;
                         case 10:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar = $hc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
+                            $singleVar   = $hc->getSmartySingleVar('xoops_icons32_url');
+                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
+                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                         case 13:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
+                            $singleVar   = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
+                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $img         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
+                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                     }
@@ -283,27 +283,27 @@ EOT;
     }
 
     /**
-     *  @public function render
+     * @public function render
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
-        $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
+        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
         //$tableFieldname = $table->getVar('table_fieldname');
         $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = '';
+        $content  = '';
         foreach (array_keys($tables) as $t) {
-            $tableId = $tables[$t]->getVar('table_id');
-            $tableMid = $tables[$t]->getVar('table_mid');
-            $tableName = $tables[$t]->getVar('table_name');
-            $tableSoleName = $tables[$t]->getVar('table_solename');
+            $tableId         = $tables[$t]->getVar('table_id');
+            $tableMid        = $tables[$t]->getVar('table_mid');
+            $tableName       = $tables[$t]->getVar('table_name');
+            $tableSoleName   = $tables[$t]->getVar('table_solename');
             $tableCategory[] = $tables[$t]->getVar('table_category');
-            $tableFieldname = $tables[$t]->getVar('table_fieldname');
-            $tableIndex = $tables[$t]->getVar('table_index');
+            $tableFieldname  = $tables[$t]->getVar('table_fieldname');
+            $tableIndex      = $tables[$t]->getVar('table_index');
             if (in_array(1, $tableCategory)) {
                 $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }

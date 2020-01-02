@@ -43,19 +43,19 @@ class AdminAbout extends Files\CreateFile
     private $xc = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $this->axc = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return AdminAbout
      */
     public static function getInstance()
@@ -69,9 +69,9 @@ class AdminAbout extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -80,22 +80,22 @@ class AdminAbout extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
+        $module          = $this->getModule();
+        $filename        = $this->getFileName();
+        $moduleDirname   = $module->getVar('mod_dirname');
         $moduleDonations = $module->getVar('mod_donations');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getInclude();
-        $content .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
-        $content .= $this->xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('about.php')");
-        $content .= $this->xc->getXcTplAssign('about', "\$adminObject->renderAbout('{$moduleDonations}', false)");
-        $content .= $this->getInclude('footer');
+        $content         = $this->getHeaderFilesComments($module, $filename);
+        $content         .= $this->getInclude();
+        $content         .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
+        $content         .= $this->xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('about.php')");
+        $content         .= $this->xc->getXcTplAssign('about', "\$adminObject->renderAbout('{$moduleDonations}', false)");
+        $content         .= $this->getInclude('footer');
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -114,13 +115,19 @@ define('_AM_TDMCREATE_MODULE_IMPORTANT', "<span style='color: #FF0000;'>Required
 define('_AM_TDMCREATE_MODULE_NOTIMPORTANT', "<span style='color: #00FF00;'>Optional - Information</span>");
 define('_AM_TDMCREATE_MODULE_ID', 'Id');
 define('_AM_TDMCREATE_MODULE_NAME', 'Name');
-define('_AM_TDMCREATE_MODULE_NAME_DESC', "The module name can contain spaces and special characters such as accents.<br />
-An example would be: <b class='white'>My Simple Module</b>");
+define(
+    '_AM_TDMCREATE_MODULE_NAME_DESC',
+    "The module name can contain spaces and special characters such as accents.<br />
+An example would be: <b class='white'>My Simple Module</b>"
+);
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_DIRNAME', 'Directory Name');
 // ---------------------
-define('_AM_TDMCREATE_MODULE_DIRNAME_DESC', "The module directory can not contain spaces or special characters such as accents.<br />
-An example would be: <b class='white'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted.");
+define(
+    '_AM_TDMCREATE_MODULE_DIRNAME_DESC',
+    "The module directory can not contain spaces or special characters such as accents.<br />
+An example would be: <b class='white'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
+);
 define('_AM_TDMCREATE_MODULE_VERSION', 'Version');
 define('_AM_TDMCREATE_MODULE_SINCE', 'Since');
 define('_AM_TDMCREATE_MODULE_DESCRIPTION', 'Description');
@@ -151,7 +158,10 @@ define('_AM_TDMCREATE_MODULE_USER', 'Visible User');
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_BLOCKS', 'Activate Blocks');
 define('_AM_TDMCREATE_MODULE_ALL', 'Check All');
-define('_AM_TDMCREATE_OPTIONS_DESC', "<b>Select one or all items to add specific addon in this new module</b><br /><i class='red maxi'>Warning: If you have an older operating module with the same name in root/modules, it\'s good to make a copy in another safe folder, otherwise it will be deleted irreversibly.</i>");
+define(
+    '_AM_TDMCREATE_OPTIONS_DESC',
+    "<b>Select one or all items to add specific addon in this new module</b><br /><i class='red maxi'>Warning: If you have an older operating module with the same name in root/modules, it\'s good to make a copy in another safe folder, otherwise it will be deleted irreversibly.</i>"
+);
 // ---------------------
 define('_AM_TDMCREATE_MODULE_SEARCH', 'Activate Search');
 define('_AM_TDMCREATE_MODULE_COMMENTS', 'Activate Comments');
@@ -198,9 +208,15 @@ define('_AM_TDMCREATE_TABLE_NBFIELDS_DESC', 'Number of fields for this table');
 define('_AM_TDMCREATE_TABLE_ORDER', 'Order tables');
 define('_AM_TDMCREATE_TABLE_ORDER_DESC', 'You should order the tables to view them in the right ordered on the menu and index page of your new module');
 define('_AM_TDMCREATE_TABLE_FIELDNAME', 'Prefix Field Name');
-define('_AM_TDMCREATE_TABLE_FIELDNAME_DESC', "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singolar word");
-define('_AM_TDMCREATE_TABLE_OPTIONS_CHECKS_DESC', 'For each table created, a file is created on behalf of this.<br />
-Selecting one or more of these options, deciding whether to enter the name of the file to other files or you define a condition in these other files, need to be created or not.');
+define(
+    '_AM_TDMCREATE_TABLE_FIELDNAME_DESC',
+    "This is the prefix of field name (optional)<br />If you leave the field blank, doesn't appear anything in the fields of the next screen,<br />otherwise you'll see all the fields with a prefix type (i.e.: <span class='bold'>cat</span> of table <span class='bold'>categories</span>).<br /><b class='red bold'>WARNING</b>: It's recommended to use singolar word"
+);
+define(
+    '_AM_TDMCREATE_TABLE_OPTIONS_CHECKS_DESC',
+    'For each table created, a file is created on behalf of this.<br />
+Selecting one or more of these options, deciding whether to enter the name of the file to other files or you define a condition in these other files, need to be created or not.'
+);
 define('_AM_TDMCREATE_TABLE_ALL', 'Check All');
 define('_AM_TDMCREATE_TABLE_IMAGE', 'Table Logo');
 //define('_AM_TDMCREATE_TABLE_IMAGE_DESC', "You can choose an image from the list, or upload a new one from your computer");
@@ -233,7 +249,10 @@ define('_AM_TDMCREATE_TABLE_RSS', 'Add in Rss file');
 define('_AM_TDMCREATE_TABLE_SINGLE', 'Add in Single file');
 define('_AM_TDMCREATE_TABLE_VISIT', 'Add in Visit file');
 // v1.38
-define('_AM_TDMCREATE_TABLE_IMAGE_DESC', "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>.");
+define(
+    '_AM_TDMCREATE_TABLE_IMAGE_DESC',
+    "<span class='red bold'>WARNING</span>: If you want to choose a new image, is best to name it with the module name before and follow with the name of the image so as not to overwrite any images with the same name, in the <span class='bold'>Frameworks/moduleclasses/moduleadmin/icons/32/</span>. Otherwise an other solution, would be to insert the images in the module, a new folder is created, with the creation of the same module - <span class='bold'>assets/icons/32</span>."
+);
 define('_AM_TDMCREATE_TABLE_FORM_CREATED_OK', "The table <b class='green'>%s</b> is successfully created");
 define('_AM_TDMCREATE_TABLE_FORM_UPDATED_OK', "The table <b class='green'>%s</b> is successfully updated");
 // ------------------ Form Fields ------------------
@@ -346,7 +365,10 @@ define('_AM_TDMCREATE_TABLE_PERMISSIONS_LIST', 'Permissions');
 define('_AM_TDMCREATE_EDIT_TABLE', 'Edit Table');
 define('_AM_TDMCREATE_EDIT_FIELDS', 'Edit Fields');
 define('_AM_TDMCREATE_BUILD_INROOT', 'Do you want to install this module in the modules root of your site?');
-define('_AM_TDMCREATE_BUILD_INROOT_DESC', "<b class='red big'>WARNING</b>: If in the modules directory of your site is installed a module with the same name,<br />as the one you are about to create now, this will be erased with the appropriate consequences.<br />We recommend you to first check, in the root/modules of your site, if this module already exists.");
+define(
+    '_AM_TDMCREATE_BUILD_INROOT_DESC',
+    "<b class='red big'>WARNING</b>: If in the modules directory of your site is installed a module with the same name,<br />as the one you are about to create now, this will be erased with the appropriate consequences.<br />We recommend you to first check, in the root/modules of your site, if this module already exists."
+);
 //define('_AM_TDMCREATE_MODULE_PERMISSIONS', "Enable permissions");
 //define('_AM_TDMCREATE_MODULE_INSTALL', "Install this module directly in root/modules?");
 

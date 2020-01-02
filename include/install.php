@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -31,7 +32,7 @@ if (!is_dir($helper)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $helper));
     }
 }
-    chmod($helper, 0777);
+chmod($helper, 0777);
 copy($indexFile, $helper . '/index.html');
 
 // Making of images uploads folder
@@ -41,7 +42,7 @@ if (!is_dir($repository)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $repository));
     }
 }
-    chmod($repository, 0777);
+chmod($repository, 0777);
 copy($indexFile, $repository . '/index.html');
 
 // Making of images uploads folder
@@ -51,7 +52,7 @@ if (!is_dir($images)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $images));
     }
 }
-    chmod($images, 0777);
+chmod($images, 0777);
 copy($indexFile, $images . '/index.html');
 copy($blankFile, $images . '/blank.gif');
 
@@ -62,7 +63,7 @@ if (!is_dir($modules)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $modules));
     }
 }
-    chmod($modules, 0777);
+chmod($modules, 0777);
 copy($indexFile, $modules . '/index.html');
 copy($blankFile, $modules . '/blank.gif');
 copy($emptyFile, $modules . '/empty.png');
@@ -74,6 +75,6 @@ if (!is_dir($tables)) {
         throw new \RuntimeException(sprintf('Directory "%s" was not created', $tables));
     }
 }
-    chmod($tables, 0777);
+chmod($tables, 0777);
 copy($indexFile, $tables . '/index.html');
 copy($blankFile, $tables . '/blank.gif');

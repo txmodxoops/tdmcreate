@@ -24,9 +24,9 @@ use XoopsModules\Tdmcreate;
  * @version         $Id: 1.59 logo.php 11297 2013-03-24 10:58:10Z timgno $
  */
 include __DIR__ . '/header.php';
-$funct = \Xmf\Request::getString('funct', '', 'GET');
+$funct    = \Xmf\Request::getString('funct', '', 'GET');
 $iconName = \Xmf\Request::getString('iconName', '', 'GET');
-$caption = \Xmf\Request::getString('caption', '', 'GET');
+$caption  = \Xmf\Request::getString('caption', '', 'GET');
 if (function_exists($funct)) {
     $ret = Tdmcreate\Logo::getInstance()->createLogo($iconName, $caption);
     phpFunction($ret);

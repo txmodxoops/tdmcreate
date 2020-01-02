@@ -6,13 +6,13 @@ use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
 
 /**
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
  * tdmcreate module.
@@ -43,20 +43,20 @@ class UserRss extends Files\CreateFile
     private $xoopscode = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
         parent::__construct();
         $this->xoopscode = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->usercode = UserXoopsCode::getInstance();
+        $this->phpcode   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->usercode  = UserXoopsCode::getInstance();
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserRss
      */
     public static function getInstance()
@@ -70,10 +70,10 @@ class UserRss extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -83,22 +83,22 @@ class UserRss extends Files\CreateFile
     }
 
     /**
-     *  @public function getUserRss
-     *  @param string $moduleDirname
-     *  @param string $language
+     * @public function getUserRss
+     * @param string $moduleDirname
+     * @param string $language
      *
      * @return string
      */
     public function getUserRss($moduleDirname, $language)
     {
-        $table = $this->getTable();
+        $table     = $this->getTable();
         $tableName = $table->getVar('table_name');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            $fieldMain[] = $fields[$f]->getVar('field_main');
+            $fieldName     = $fields[$f]->getVar('field_name');
+            $fieldMain[]   = $fields[$f]->getVar('field_main');
             $fieldParent[] = $fields[$f]->getVar('field_parent');
-            $rpFieldName = $fieldName;
+            $rpFieldName   = $fieldName;
             if (mb_strpos($fieldName, '_')) {
                 $str = mb_strpos($fieldName, '_');
                 if (false !== $str) {
@@ -203,18 +203,18 @@ EOT;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserRss($moduleDirname, $language);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getUserRss($moduleDirname, $language);
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

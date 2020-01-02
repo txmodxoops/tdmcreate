@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeComments extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class IncludeComments extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeComments
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class IncludeComments extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
      */
     public function write($module, $table)
     {
@@ -68,17 +68,17 @@ class IncludeComments extends Files\CreateFile
     }
 
     /**
-     *  @public function getCommentsIncludes
-     *  @param string $module
-     *  @param string $filename
+     * @public function getCommentsIncludes
+     * @param string $module
+     * @param string $filename
      *
      * @return bool|string
      */
     public function renderCommentsIncludes($module, $filename)
     {
         $moduleDirname = $module->getVar('mod_dirname');
-        $content = $this->getHeaderFilesComments($module, $filename . '.php');
-        $content .= <<<EOT
+        $content       = $this->getHeaderFilesComments($module, $filename . '.php');
+        $content       .= <<<EOT
 include_once __DIR__ . '/../../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/include/{$filename}.php';
 EOT;
@@ -88,18 +88,18 @@ EOT;
     }
 
     /**
-     *  @public function getCommentsNew
-     *  @param string $module
-     *  @param string $filename
+     * @public function getCommentsNew
+     * @param string $module
+     * @param string $filename
      *
      * @return bool|string
      */
     public function renderCommentsNew($module, $filename)
     {
-        $table = $this->getTable();
+        $table         = $this->getTable();
         $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
-        $tableName = $table->getVar('table_name');
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $tableName     = $table->getVar('table_name');
+        $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fpmf = $fields[$f]->getVar('field_name');
@@ -123,9 +123,9 @@ EOT;
     }
 
     /**
-    *  @public function render
-    *  @param null
-    */
+     * @public function render
+     * @param null
+     */
     /*public function render() {
         $module = $this->getModule();
         $table = $this->getTable();

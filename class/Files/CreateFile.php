@@ -26,6 +26,7 @@ use XoopsModules\Tdmcreate;
  * @version         $Id: CreateFile.php 12258 2014-01-02 09:33:29Z timgno $
  */
 xoops_load('XoopsFile');
+
 /**
  * Class CreateFile.
  */
@@ -88,8 +89,8 @@ class CreateFile extends CreateTableFields
     protected $htmlcode;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -98,8 +99,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public static function getInstance
-     *  @param null
+     * @public static function getInstance
+     * @param null
      * @return Tdmcreate\Files\CreateFile
      */
     public static function getInstance()
@@ -126,7 +127,7 @@ class CreateFile extends CreateTableFields
     public function create($moduleDirname, $subdir = null, $fileName = null, $content = '', $created = null, $notCreated = null, $mode = 'w+')
     {
         $this->setFileName($fileName);
-        $this->created = $created;
+        $this->created    = $created;
         $this->notCreated = $notCreated;
         $this->setMode($mode);
         $this->setRepositoryPath($moduleDirname);
@@ -139,7 +140,7 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function write
+     * @public function write
      * @param mixed $moduleDirname
      */
     /*public function write($module, $fileName)
@@ -149,8 +150,8 @@ class CreateFile extends CreateTableFields
     }*/
 
     /**
-     *  @private function setRepositoryPath
-     *  @param string $moduleDirname
+     * @private function setRepositoryPath
+     * @param string $moduleDirname
      */
     private function setRepositoryPath($moduleDirname)
     {
@@ -158,8 +159,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @private function getRepositoryPath
-     *  @param null
+     * @private function getRepositoryPath
+     * @param null
      * @return string
      */
     private function getRepositoryPath()
@@ -197,8 +198,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getFileName
-     *  @param null
+     * @public function getFileName
+     * @param null
      * @return mixed
      */
     public function getFileName()
@@ -226,8 +227,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @private function getFolderName
-     *  @param null
+     * @private function getFolderName
+     * @param null
      * @return string
      */
     private function getFolderName()
@@ -246,8 +247,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getUploadPath
-     *  @param null
+     * @public function getUploadPath
+     * @param null
      * @return string
      */
     private function getUploadPath()
@@ -262,8 +263,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @private function getCreated
-     *  @param null
+     * @private function getCreated
+     * @param null
      * @return bool
      */
     private function getCreated()
@@ -272,8 +273,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @private function getNotCreated
-     *  @param null
+     * @private function getNotCreated
+     * @param null
      * @return bool
      */
     private function getNotCreated()
@@ -301,17 +302,17 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getLanguage
-     *  @param string $moduleDirname
-     *  @param string $prefix
-     *  @param string $suffix
+     * @public function getLanguage
+     * @param string $moduleDirname
+     * @param string $prefix
+     * @param string $suffix
      *
      * @return string
      */
     public function getLanguage($moduleDirname, $prefix = '', $suffix = '')
     {
         $lang = '_' . $prefix . '_' . mb_strtoupper($moduleDirname);
-        $ret = $lang;
+        $ret  = $lang;
         if (!empty($suffix) || '_' !== $suffix) {
             $ret = $lang . '_' . $suffix;
         } elseif ('_' === $suffix) {
@@ -322,8 +323,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getLeftString
-     *  @param string $string
+     * @public function getLeftString
+     * @param string $string
      *
      * @return string
      */
@@ -333,8 +334,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getRightString
-     *  @param $string
+     * @public function getRightString
+     * @param $string
      *
      * @return string
      */
@@ -353,8 +354,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getCamelCase
-     *  @param $string
+     * @public function getCamelCase
+     * @param $string
      * @param $ucfirst
      * @param $lcfirst
      *
@@ -363,7 +364,7 @@ class CreateFile extends CreateTableFields
     public function getCamelCase($string, $ucfirst = false, $lcfirst = false)
     {
         $rightString = $this->getRightString($string);
-        $leftString = $this->getLeftString($string);
+        $leftString  = $this->getLeftString($string);
         if ($ucfirst) {
             return $this->getUcfirst($leftString) . $this->getUcfirst($rightString);
         }
@@ -375,8 +376,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getUcfirst
-     *  @param $string
+     * @public function getUcfirst
+     * @param $string
      *
      * @return string
      */
@@ -408,8 +409,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getStrToLower
-     *  @param $string
+     * @public function getStrToLower
+     * @param $string
      *
      * @return string
      */
@@ -419,8 +420,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getInclude
-     *  @param $filename
+     * @public function getInclude
+     * @param $filename
      * @return string
      */
     public function getInclude($filename = 'header')
@@ -429,8 +430,8 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getIncludeOnce
-     *  @param $filename
+     * @public function getIncludeOnce
+     * @param $filename
      * @return string
      */
     public function getIncludeOnce($filename = 'header')
@@ -463,27 +464,27 @@ class CreateFile extends CreateTableFields
     }
 
     /**
-     *  @public function getHeaderFilesComments
-     *  @param string $module
-     *  @param string $fileName
-     * @param $noPhpFile
+     * @public function getHeaderFilesComments
+     * @param string $module
+     * @param string $fileName
+     * @param        $noPhpFile
      *
      * @return string
      */
     public function getHeaderFilesComments($module, $fileName, $noPhpFile = null)
     {
-        $name = $module->getVar('mod_name');
-        $dirname = $module->getVar('mod_dirname');
-        $version = $module->getVar('mod_version');
-        $since = $module->getVar('mod_since');
-        $minXoops = $module->getVar('mod_min_xoops');
-        $author = $module->getVar('mod_author');
-        $credits = $module->getVar('mod_credits');
-        $authorMail = $module->getVar('mod_author_mail');
+        $name             = $module->getVar('mod_name');
+        $dirname          = $module->getVar('mod_dirname');
+        $version          = $module->getVar('mod_version');
+        $since            = $module->getVar('mod_since');
+        $minXoops         = $module->getVar('mod_min_xoops');
+        $author           = $module->getVar('mod_author');
+        $credits          = $module->getVar('mod_credits');
+        $authorMail       = $module->getVar('mod_author_mail');
         $authorWebsiteUrl = $module->getVar('mod_author_website_url');
-        $license = $module->getVar('mod_license');
-        $subversion = $module->getVar('mod_subversion');
-        $date = date('D Y-m-d H:i:s');
+        $license          = $module->getVar('mod_license');
+        $subversion       = $module->getVar('mod_subversion');
+        $date             = date('D Y-m-d H:i:s');
         if (null === $noPhpFile) {
             $ret = "<?php\n";
             $ret .= "/*\n";
@@ -494,41 +495,41 @@ class CreateFile extends CreateTableFields
             $ret .= "\n/*\n";
         }
         $filename = TDMC_CLASS_PATH . '/files/docs/license.txt';
-        $handle = fopen($filename, 'rb');
-        $data = fread($handle, filesize($filename));
+        $handle   = fopen($filename, 'rb');
+        $data     = fread($handle, filesize($filename));
         fclose($handle);
-        $ret .= $data . "\n";
-        $ret .= "*/\n";
+        $ret       .= $data . "\n";
+        $ret       .= "*/\n";
         $copyright = [
-            $name => 'module for xoops',
-'' => '',
-'@copyright  ' => '   module for xoops',
-'@license   ' => "    {$license}",
-'@package   ' => "    {$dirname}",
-            '@since    ' => "     {$since}",
-'@min_xoops   ' => "  {$minXoops}",
-'@author    ' => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-            '@version    ' => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+            $name           => 'module for xoops',
+            ''              => '',
+            '@copyright  '  => '   module for xoops',
+            '@license   '   => "    {$license}",
+            '@package   '   => "    {$dirname}",
+            '@since    '    => "     {$since}",
+            '@min_xoops   ' => "  {$minXoops}",
+            '@author    '   => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
+            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
         ];
-        $ret .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
+        $ret       .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;
     }
 
     /**
-     *  @public function renderFile
-     *  @param null
+     * @public function renderFile
+     * @param null
      * @return string
      */
     public function renderFile()
     {
-        $fileName = $this->getFileName();
-        $path = $this->getUploadPath() . '/' . $fileName;
-        $created = $this->getCreated();
+        $fileName   = $this->getFileName();
+        $path       = $this->getUploadPath() . '/' . $fileName;
+        $created    = $this->getCreated();
         $notCreated = $this->getNotCreated();
         $folderName = $this->getFolderName();
-        $mode = $this->getMode();
-        $ret = '';
+        $mode       = $this->getMode();
+        $ret        = '';
         if (!$this->xf->__construct($path, true)) {
             // Force to create file if not exist
             if ($this->xf->open($mode, true)) {

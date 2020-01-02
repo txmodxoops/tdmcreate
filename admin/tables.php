@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -29,11 +30,11 @@ $op = \Xmf\Request::getString('op', 'list');
 
 $modId = \Xmf\Request::getInt('mod_id');
 // Request vars
-$tableId = \Xmf\Request::getInt('table_id');
-$tableMid = \Xmf\Request::getInt('table_mid');
-$tableName = \Xmf\Request::getInt('table_name');
+$tableId         = \Xmf\Request::getInt('table_id');
+$tableMid        = \Xmf\Request::getInt('table_mid');
+$tableName       = \Xmf\Request::getInt('table_name');
 $tableNumbFields = \Xmf\Request::getInt('table_nbfields');
-$tableFieldname = \Xmf\Request::getString('table_fieldname', '');
+$tableFieldname  = \Xmf\Request::getString('table_fieldname', '');
 
 switch ($op) {
     case 'list':
@@ -41,7 +42,7 @@ switch ($op) {
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('modules_adminpager'));
         // Define main template
-//        $templateMain = 'tdmcreate_tables.tpl';
+        //        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
@@ -57,7 +58,7 @@ switch ($op) {
         if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 10, _AM_TDMCREATE_NOTMODULES);
         }
-        $modulesAll = $helper->getHandler('Modules')->getAllModules($start, $limit);
+        $modulesAll  = $helper->getHandler('Modules')->getAllModules($start, $limit);
         $tablesCount = $helper->getHandler('Tables')->getObjects(null);
         // Redirect if there aren't tables
         if (0 == $tablesCount) {
@@ -70,14 +71,14 @@ switch ($op) {
                 $module = $modulesAll[$i]->getValuesModules();
                 // Get the list of tables
                 $tablesCount = $helper->getHandler('Tables')->getCountTables();
-                $tablesAll = $helper->getHandler('Tables')->getAllTablesByModuleId($i);
+                $tablesAll   = $helper->getHandler('Tables')->getAllTablesByModuleId($i);
                 // Display tables list
                 $tables = [];
-                $lid = 1;
+                $lid    = 1;
                 if ($tablesCount > 0) {
                     foreach (array_keys($tablesAll) as $t) {
-                        $table = $tablesAll[$t]->getValuesTables();
-                        $alid = ['lid' => $lid];
+                        $table    = $tablesAll[$t]->getValuesTables();
+                        $alid     = ['lid' => $lid];
                         $tables[] = array_merge($table, $alid);
                         unset($table);
                         ++$lid;
@@ -99,13 +100,13 @@ switch ($op) {
         break;
     case 'new':
         // Define main template
-//        $templateMain = 'tdmcreate_tables.tpl';
+        //        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->create();
-        $form = $tablesObj->getFormTables();
+        $form      = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'save':
@@ -130,26 +131,24 @@ switch ($op) {
             $tablesObj = $tables->create();
         }
         $tableOrder = \Xmf\Request::getInt('table_order');
-        $order = $tablesObj->isNew() ? $tableOrder + 1 : $tableOrder;
+        $order      = $tablesObj->isNew() ? $tableOrder + 1 : $tableOrder;
         // Form save tables
-        $tablesObj->setVars([
-                                'table_mid' => $tableMid,
-                                'table_name' => $_POST['table_name'],
-                                'table_solename' => $_POST['table_solename'],
-                                'table_category' => (1 == $_REQUEST['table_category']) ? 1 : 0,
-                                'table_fieldname' => $tableFieldname,
-                                'table_nbfields' => $tableNumbFields,
-                                'table_order' => $order,
-                            ]);
+        $tablesObj->setVars(
+            [
+                'table_mid'       => $tableMid,
+                'table_name'      => $_POST['table_name'],
+                'table_solename'  => $_POST['table_solename'],
+                'table_category'  => (1 == $_REQUEST['table_category']) ? 1 : 0,
+                'table_fieldname' => $tableFieldname,
+                'table_nbfields'  => $tableNumbFields,
+                'table_order'     => $order,
+            ]
+        );
         //Form table_image
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploaddir = is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
-        $uploader = new \XoopsMediaUploader(
-            $uploaddir,
-            $helper->getConfig('mimetypes'),
-            $helper->getConfig('maxsize'),
-            null,
-            null
+        $uploader  = new \XoopsMediaUploader(
+            $uploaddir, $helper->getConfig('mimetypes'), $helper->getConfig('maxsize'), null, null
         );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
@@ -187,7 +186,7 @@ switch ($op) {
 
         if ($tables->insert($tablesObj)) {
             if ($tablesObj->isNew()) {
-                $tableTid = $GLOBALS['xoopsDB']->getInsertId();
+                $tableTid    = $GLOBALS['xoopsDB']->getInsertId();
                 $tableAction = '&field_mid=' . $tableMid . '&field_tid=' . $tableTid . '&field_numb=' . $tableNumbFields . '&field_name=' . $tableFieldname;
                 // Fields Elements Handler
                 $fieldelementObj = $helper->getHandler('Fieldelements')->create();
@@ -211,14 +210,14 @@ switch ($op) {
         break;
     case 'edit':
         // Define main template
-//        $templateMain = 'tdmcreate_tables.tpl';
+        //        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->get($tableId);
-        $form = $tablesObj->getFormTables();
+        $form      = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'order':
@@ -267,7 +266,7 @@ switch ($op) {
         break;
     case 'display':
         $modArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
-        $mid = \Xmf\Request::getInt('mod_id', 0, 'POST');
+        $mid      = \Xmf\Request::getInt('mod_id', 0, 'POST');
         if ($mid > 0) {
             $modulesObj = $helper->getHandler('Modules')->get($mid);
             foreach ($modArray as $modField) {
@@ -282,7 +281,7 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
         }
         $tableArray = ['admin', 'user', 'blocks', 'submenu', 'search', 'comments', 'notifications', 'permissions'];
-        $tid = \Xmf\Request::getInt('table_id', 0, 'POST');
+        $tid        = \Xmf\Request::getInt('table_id', 0, 'POST');
         if ($tid > 0) {
             $tablesObj = $helper->getHandler('Tables')->get($tid);
             foreach ($tableArray as $tableField) {

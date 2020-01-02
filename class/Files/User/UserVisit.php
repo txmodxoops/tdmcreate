@@ -43,20 +43,20 @@ class UserVisit extends Files\CreateFile
     private $xc = null;
 
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->xc      = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->uc = UserXoopsCode::getInstance();
+        $this->uc      = UserXoopsCode::getInstance();
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserVisit
      */
     public static function getInstance()
@@ -70,10 +70,10 @@ class UserVisit extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param mixed $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param mixed  $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -104,10 +104,10 @@ class UserVisit extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xc->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret       .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
 
         return $ret;
     }
@@ -155,27 +155,27 @@ class UserVisit extends Files\CreateFile
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
-        $table = $this->getTable();
-        $filename = $this->getFileName();
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $tableId = $table->getVar('table_id');
-        $tableMid = $table->getVar('table_mid');
-        $tableName = $table->getVar('table_name');
+        $tableId       = $table->getVar('table_id');
+        $tableMid      = $table->getVar('table_mid');
+        $tableName     = $table->getVar('table_name');
         $tableSoleName = $table->getVar('table_solename');
-        $fields = $this->getTableFields($tableMid, $tableId);
-        $language = $this->getLanguage($moduleDirname, 'MA');
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserVisitHeader($table, $fields);
-        $content .= $this->getUserVisitCheckPermissions();
-        $content .= $this->getUserVisitCheckLimit();
-        $content .= $this->getUserVisitCheckHost();
+        $fields        = $this->getTableFields($tableMid, $tableId);
+        $language      = $this->getLanguage($moduleDirname, 'MA');
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getUserVisitHeader($table, $fields);
+        $content       .= $this->getUserVisitCheckPermissions();
+        $content       .= $this->getUserVisitCheckLimit();
+        $content       .= $this->getUserVisitCheckHost();
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

@@ -33,16 +33,16 @@ use  XoopsModules\Tdmcreate\Files;
 class CreateSmartyCode
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Files\CreateSmartyCode
      */
     public static function getInstance()
@@ -71,14 +71,14 @@ class CreateSmartyCode
             $attributes = [];
         }
         $attr = $this->getAttributes($attributes);
-        $ret = "{$t}<{{$tag}{$attr}}>{$content}<{/{$tag}}>";
+        $ret  = "{$t}<{{$tag}{$attr}}>{$content}<{/{$tag}}>";
 
         return $ret;
     }
 
     /**
-     *  @private function setAttributes
-     *  @param array $attributes
+     * @private function setAttributes
+     * @param array $attributes
      *
      * @return string
      */
@@ -95,8 +95,8 @@ class CreateSmartyCode
     }
 
     /**
-     *  @public function getSmartyEmpty
-     *  @param string $empty
+     * @public function getSmartyEmpty
+     * @param string $empty
      *
      * @return string
      */
@@ -276,10 +276,10 @@ class CreateSmartyCode
     public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '', $t = '')
     {
         $name = '' != $name ? " name={$name}" : '';
-        $key = '' != $key ? " key={$key}" : '';
-        $ret = "{$t}<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}<{/foreach}>\n";
+        $key  = '' != $key ? " key={$key}" : '';
+        $ret  = "{$t}<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
+        $ret  .= "{$t}{$content}";
+        $ret  .= "{$t}<{/foreach}>\n";
 
         return $ret;
     }
@@ -298,10 +298,10 @@ class CreateSmartyCode
     public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '', $t = '')
     {
         $loop = '' != $loop ? " loop={$loop}" : '';
-        $key = '' != $key ? " key={$key}" : '';
-        $ret = "{$t}<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}<{/foreachq}>\n";
+        $key  = '' != $key ? " key={$key}" : '';
+        $ret  = "{$t}<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
+        $ret  .= "{$t}{$content}";
+        $ret  .= "{$t}<{/foreachq}>\n";
 
         return $ret;
     }
@@ -320,10 +320,10 @@ class CreateSmartyCode
     public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0, $t = '')
     {
         $start = 0 != $start ? " start={$start}" : '';
-        $step = 0 != $step ? " step={$step}" : '';
-        $ret = "{$t}<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
-        $ret .= "{$t}{$content}";
-        $ret .= "{$t}<{/section}>\n";
+        $step  = 0 != $step ? " step={$step}" : '';
+        $ret   = "{$t}<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
+        $ret   .= "{$t}{$content}";
+        $ret   .= "{$t}<{/section}>\n";
 
         return $ret;
     }

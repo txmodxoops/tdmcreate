@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeCommon extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class IncludeCommon extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return IncludeCommon
      */
     public static function getInstance()
@@ -57,10 +57,10 @@ class IncludeCommon extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param object $table
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param object $table
+     * @param string $filename
      */
     public function write($module, $table, $filename)
     {
@@ -83,22 +83,22 @@ class IncludeCommon extends Files\CreateFile
     }
 
     /**
-     *  @private function getCommonCode
-     *  @param \XoopsObject $module
+     * @private function getCommonCode
+     * @param \XoopsObject $module
      * @return string
      */
     private function getCommonCode($module)
     {
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $table = $this->getTable();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $moduleAuthor = $module->getVar('mod_author');
+        $pc                      = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc                      = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $table                   = $this->getTable();
+        $moduleDirname           = $module->getVar('mod_dirname');
+        $stuModuleDirname        = mb_strtoupper($moduleDirname);
+        $moduleAuthor            = $module->getVar('mod_author');
         $moduleAuthorWebsiteName = $module->getVar('mod_author_website_name');
-        $moduleAuthorWebsiteUrl = $module->getVar('mod_author_website_url');
-        $moduleAuthorImage = str_replace(' ', '', mb_strtolower($moduleAuthor));
-        $ret = <<<'EOT'
+        $moduleAuthorWebsiteUrl  = $module->getVar('mod_author_website_url');
+        $moduleAuthorImage       = str_replace(' ', '', mb_strtolower($moduleAuthor));
+        $ret                     = <<<'EOT'
 if (!defined('XOOPS_ICONS32_PATH')) {
     define('XOOPS_ICONS32_PATH', XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32');
 }
@@ -107,54 +107,54 @@ if (!defined('XOOPS_ICONS32_URL')) {
 }
 
 EOT;
-        $ret .= $this->getCommonDefines($moduleDirname, 'DIRNAME', "'{$moduleDirname}'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'PATH', "XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME");
-        $ret .= $this->getCommonDefines($moduleDirname, 'URL', "XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME");
-        $ret .= $this->getCommonDefines($moduleDirname, 'ICONS_PATH', "{$stuModuleDirname}_PATH.'/assets/icons'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'ICONS_URL', "{$stuModuleDirname}_URL.'/assets/icons'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'IMAGE_PATH', "{$stuModuleDirname}_PATH.'/assets/images'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'IMAGE_URL', "{$stuModuleDirname}_URL.'/assets/images'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_PATH', "XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_URL', "XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'DIRNAME', "'{$moduleDirname}'");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'PATH', "XOOPS_ROOT_PATH.'/modules/'.{$stuModuleDirname}_DIRNAME");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'URL', "XOOPS_URL.'/modules/'.{$stuModuleDirname}_DIRNAME");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'ICONS_PATH', "{$stuModuleDirname}_PATH.'/assets/icons'");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'ICONS_URL', "{$stuModuleDirname}_URL.'/assets/icons'");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'IMAGE_PATH', "{$stuModuleDirname}_PATH.'/assets/images'");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'IMAGE_URL', "{$stuModuleDirname}_URL.'/assets/images'");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_PATH', "XOOPS_UPLOAD_PATH.'/'.{$stuModuleDirname}_DIRNAME");
+        $ret                     .= $this->getCommonDefines($moduleDirname, 'UPLOAD_URL', "XOOPS_UPLOAD_URL.'/'.{$stuModuleDirname}_DIRNAME");
 
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields       = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldElement = [];
         foreach (array_keys($fields) as $f) {
             $fieldElement[] = $fields[$f]->getVar('field_element');
         }
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/files'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_URL', "{$stuModuleDirname}_UPLOAD_URL.'/files'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images/shots'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images/shots'");
-        $ret .= $this->getCommonDefines($moduleDirname, 'ADMIN', "{$stuModuleDirname}_URL . '/admin/index.php'");
-        $ret .= $xc->getXcEqualsOperator('$localLogo', "{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
-        $ret .= $pc->getPhpCodeCommentLine('Module Information');
+        $ret      .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/files'");
+        $ret      .= $this->getCommonDefines($moduleDirname, 'UPLOAD_FILES_URL', "{$stuModuleDirname}_UPLOAD_URL.'/files'");
+        $ret      .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images'");
+        $ret      .= $this->getCommonDefines($moduleDirname, 'UPLOAD_IMAGE_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images'");
+        $ret      .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_PATH', "{$stuModuleDirname}_UPLOAD_PATH.'/images/shots'");
+        $ret      .= $this->getCommonDefines($moduleDirname, 'UPLOAD_SHOTS_URL', "{$stuModuleDirname}_UPLOAD_URL.'/images/shots'");
+        $ret      .= $this->getCommonDefines($moduleDirname, 'ADMIN', "{$stuModuleDirname}_URL . '/admin/index.php'");
+        $ret      .= $xc->getXcEqualsOperator('$localLogo', "{$stuModuleDirname}_IMAGE_URL . '/{$moduleAuthorImage}_logo.png'");
+        $ret      .= $pc->getPhpCodeCommentLine('Module Information');
         $htmlCode = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $img = $htmlCode->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
-        $anchor = $htmlCode->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank');
-        $replace = $xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
-        $ret .= str_replace("\n", '', $replace) . PHP_EOL;
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
-        $ret .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
-        $ret .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
+        $img      = $htmlCode->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
+        $anchor   = $htmlCode->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank');
+        $replace  = $xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
+        $ret      .= str_replace("\n", '', $replace) . PHP_EOL;
+        $ret      .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);
+        $ret      .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'class/helper', true);
+        $ret      .= $pc->getPhpCodeIncludeDir("{$stuModuleDirname}_PATH", 'include/functions', true);
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
+        $module        = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $filename = $this->getFileName();
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getCommonCode($module);
+        $filename      = $this->getFileName();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getCommonCode($module);
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

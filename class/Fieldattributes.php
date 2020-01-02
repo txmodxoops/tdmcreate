@@ -27,8 +27,8 @@ use XoopsModules\Tdmcreate;
  */
 
 /**
- *  @Class Fieldattributes
- *  @extends \XoopsObject
+ * @Class Fieldattributes
+ * @extends \XoopsObject
  */
 
 /**
@@ -37,8 +37,8 @@ use XoopsModules\Tdmcreate;
 class Fieldattributes extends \XoopsObject
 {
     /**
-     *  @public function constructor class
-     *  @param null
+     * @public function constructor class
+     * @param null
      */
     public function __construct()
     {
@@ -48,8 +48,8 @@ class Fieldattributes extends \XoopsObject
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return Fieldattributes
      */
     public static function getInstance()
@@ -73,8 +73,8 @@ class Fieldattributes extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id'] = $this->getVar('fieldattribute_id');
-        $ret['name'] = $this->getVar('fieldattribute_name');
+        $ret['id']    = $this->getVar('fieldattribute_id');
+        $ret['name']  = $this->getVar('fieldattribute_name');
         $ret['value'] = $this->getVar('fieldattribute_value');
 
         return $ret;

@@ -33,8 +33,8 @@ use XoopsModules\Tdmcreate\Files;
 class UserFooter extends Files\CreateFile
 {
     /**
-     *  @public function constructor
-     *  @param null
+     * @public function constructor
+     * @param null
      */
     public function __construct()
     {
@@ -42,8 +42,8 @@ class UserFooter extends Files\CreateFile
     }
 
     /**
-     *  @static function getInstance
-     *  @param null
+     * @static function getInstance
+     * @param null
      * @return UserFooter
      */
     public static function getInstance()
@@ -57,9 +57,9 @@ class UserFooter extends Files\CreateFile
     }
 
     /**
-     *  @public function write
-     *  @param string $module
-     *  @param string $filename
+     * @public function write
+     * @param string $module
+     * @param string $filename
      */
     public function write($module, $filename)
     {
@@ -68,43 +68,43 @@ class UserFooter extends Files\CreateFile
     }
 
     /**
-     *  @private function getUserFooter
-     *  @param $moduleDirname
+     * @private function getUserFooter
+     * @param $moduleDirname
      *
-     *  @return string
+     * @return string
      */
     private function getUserFooter($moduleDirname)
     {
-        $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $xoBreadcrumbs = $xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
-        $ret = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
-        $ret .= $xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
-        $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $xc->getXcTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
-        $ret .= $xc->getXcTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
-        $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $xc->getXcTplAssign('admin', "{$stuModuleDirname}_ADMIN");
-        $ret .= $xc->getXcTplAssign('copyright', '$copyright');
-        $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
+        $xoBreadcrumbs    = $xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
+        $ret              = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
+        $ret              .= $xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
+        $ret              .= $pc->getPhpCodeCommentLine();
+        $ret              .= $xc->getXcTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
+        $ret              .= $xc->getXcTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
+        $ret              .= $pc->getPhpCodeCommentLine();
+        $ret              .= $xc->getXcTplAssign('admin', "{$stuModuleDirname}_ADMIN");
+        $ret              .= $xc->getXcTplAssign('copyright', '$copyright');
+        $ret              .= $pc->getPhpCodeCommentLine();
+        $ret              .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
 
         return $ret;
     }
 
     /**
-     *  @public function render
-     *  @param null
+     * @public function render
+     * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module = $this->getModule();
+        $module        = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
-        $filename = $this->getFileName();
-        $content = $this->getHeaderFilesComments($module, $filename);
-        $content .= $this->getUserFooter($moduleDirname);
+        $filename      = $this->getFileName();
+        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $this->getUserFooter($moduleDirname);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

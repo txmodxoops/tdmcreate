@@ -32,7 +32,7 @@ namespace XoopsModules\Tdmcreate;
 class AddFilesHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     *  @public function constructor class
+     * @public function constructor class
      * @param null|\XoopsDatabase|\XoopsMySQLDatabase $db
      */
     public function __construct(\XoopsDatabase $db)
@@ -53,7 +53,7 @@ class AddFilesHandler extends \XoopsPersistableObjectHandler
     /**
      * retrieve a field.
      *
-     * @param int  $i      field id
+     * @param int  $i field id
      * @param null $fields
      *
      * @return mixed reference to the <a href='psi_element:Fields'>Fields</a> object
@@ -80,7 +80,7 @@ class AddFilesHandler extends \XoopsPersistableObjectHandler
      * insert a new field in the database.
      *
      * @param \XoopsObject $field reference to the {@link Fields} object
-     * @param bool   $force
+     * @param bool         $force
      *
      * @return bool FALSE if failed, TRUE if already present and unchanged or successful
      */
