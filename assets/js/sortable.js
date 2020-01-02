@@ -31,7 +31,7 @@ $(document).ready( function(){
 			},
 			receive: function(event, ui) {
 				var list = $(this).sortable( 'serialize');                    
-				$.post( 'fields.php?op=order', list );                      
+				$.post( 'fields.php?op=order', list );
 			}
 		}
 	).disableSelection();
