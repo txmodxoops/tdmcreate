@@ -425,7 +425,7 @@ class CreateFile extends CreateTableFields
      */
     public function getInclude($filename = 'header')
     {
-        return "include __DIR__ . '/{$filename}.php';\n";
+        return "require __DIR__ . '/{$filename}.php';\n";
     }
 
     /**
@@ -435,7 +435,7 @@ class CreateFile extends CreateTableFields
      */
     public function getIncludeOnce($filename = 'header')
     {
-        return "include_once __DIR__ . '/{$filename}.php';\n";
+        return "require_once __DIR__ . '/{$filename}.php';\n";
     }
 
     /**
@@ -502,13 +502,13 @@ class CreateFile extends CreateTableFields
         $copyright = [
             $name           => 'module for xoops',
             ''              => '',
-            '@copyright  '  => '   module for xoops',
+            '@copyright  '  => '  2020 XOOPS Project (https://xooops.org)',
             '@license   '   => "    {$license}",
             '@package   '   => "    {$dirname}",
             '@since    '    => "     {$since}",
             '@min_xoops   ' => "  {$minXoops}",
             '@author    '   => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
-            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
+//            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
         ];
         $ret       .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
 

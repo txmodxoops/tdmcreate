@@ -108,7 +108,7 @@ switch ($op) {
         }
 
         $GLOBALS['xoopsTpl']->assign('error', $addfilesObj->getHtmlErrors());
-        $form = &$addfilesObj->getFormAddFiles();
+        $form = $addfilesObj->getFormAddFiles();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
