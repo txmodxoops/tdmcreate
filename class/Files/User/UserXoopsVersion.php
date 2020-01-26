@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate\Files;
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: UserXoopsVersion.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 /**
@@ -143,7 +142,7 @@ class UserXoopsVersion extends Files\CreateFile
             'min_xoops'           => "'{$module->getVar('mod_min_xoops')}'",
             'min_admin'           => "'{$module->getVar('mod_min_admin')}'",
             'min_db'              => "array('mysql' => '{$module->getVar('mod_min_mysql')}', 'mysqli' => '{$module->getVar('mod_min_mysql')}')",
-            'image'               => "'assets/images/{$module->getVar('mod_image')}'",
+            'image'               => "'assets/images/logoModule.png'",
             'dirname'             => 'basename(__DIR__)',
             'dirmoduleadmin'      => "'Frameworks/moduleclasses/moduleadmin'",
             'sysicons16'          => "'../../Frameworks/moduleclasses/icons/16'",
@@ -870,28 +869,28 @@ class UserXoopsVersion extends Files\CreateFile
         unset($num);
         $num = 1;
         if (in_array(1, $tableCategory)) {
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global', 'newcategory', 'global_newcategory_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'global', 0, 'global_new_category', $tableSoleName, 'global_newcategory_notify', $num);
             ++$num;
         }
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_modify', 'global', 1, 'global', $tableSoleName . 'modify', 'global_' . $tableSoleName . 'modify_notify', $num);
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'modify', 'global', 1, 'global_modify', $tableSoleName, 'global_' . 'modify_notify', $num);
         if (in_array(1, $tableBroken)) {
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_broken', 'global', 1, 'global', $tableSoleName . 'broken', 'global_' . $tableSoleName . 'broken_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'broken', 'global', 1, 'global_broken', $tableSoleName, 'global_' . 'broken_notify', $num);
         }
         if (in_array(1, $tableSubmit)) {
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_submit', 'global', 1, 'global', $tableSoleName . 'submit', 'global_' . $tableSoleName . 'submit_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'submit', 'global', 1, 'global_submit', $tableSoleName, 'global_' . 'submit_notify', $num);
         }
         ++$num;
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_' . $tableSoleName, 'global', 0, 'global', 'new' . $tableSoleName, 'global_new' . $tableSoleName . '_notify', $num);
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_' . $tableSoleName, 'global', 0, 'global_new', $tableSoleName, 'global_new' . $tableSoleName . '_notify', $num);
         if (in_array(1, $tableCategory)) {
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', $tableSoleName . '_submit', 'category', 1, 'category', $tableSoleName . 'submit', 'category_' . $tableSoleName . 'submit_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'submit', 'category', 1, 'category_submit', $tableSoleName, 'category_' . $tableSoleName . 'submit_notify', $num);
             ++$num;
-            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_' . $tableSoleName, 'category', 0, 'category', 'new' . $tableSoleName, 'category_new' . $tableSoleName . '_notify', $num);
+            $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'new_category', 'category', 0, 'category', $tableSoleName, 'category_new' . $tableSoleName . '_notify', $num);
         }
         ++$num;
-        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', $tableSoleName, 1, $tableSoleName, 'approve', $tableSoleName . '_approve_notify', $num);
+        $ret .= $this->getXoopsVersionNotificationCodeComplete($language, 'event', 'approve', $tableSoleName, 1, $tableSoleName, $tableSoleName, $tableSoleName . '_approve_notify', $num);
         unset($num);
 
         return $ret;
@@ -1017,11 +1016,11 @@ class UserXoopsVersion extends Files\CreateFile
             'name'          => "'{$name}'",
             'category'      => "'{$category}'",
             'admin_only'    => (string)$admin,
-            'title'         => "{$language}{$title}_{$table}_NOTIFY",
-            'caption'       => "{$language}{$title}_{$table}_NOTIFY_CAPTION",
-            'description'   => "{$language}{$title}_{$table}_NOTIFY_DESC",
+            'title'         => "{$language}{$title}_NOTIFY",
+            'caption'       => "{$language}{$title}_NOTIFY_CAPTION",
+            'description'   => "{$language}{$title}_NOTIFY_DESC",
             'mail_template' => "'{$mail}'",
-            'mail_subject'  => "{$language}{$title}_{$table}_NOTIFY_SUBJECT",
+            'mail_subject'  => "{$language}{$title}_NOTIFY_SUBJECT",
         ];
         $ret         .= $uCodeVNCC->getUserModVersion(4, $event, 'notification', "'{$type}'", $num);
 

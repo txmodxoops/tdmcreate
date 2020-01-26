@@ -123,7 +123,9 @@ class CreateArchitecture extends CreateStructure
         }
         //Copy the logo of the module
         $modImage = str_replace(' ', '', mb_strtolower($module->getVar('mod_image')));
-        $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $modImage);
+        $targetImage = 'logoModule.png';
+        $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $targetImage);
+
         // Copy of 'module_author_logo.png' file in uploads dir
         $logoPng     = $stlModuleAuthor . '_logo.png';
         $logoGifFrom = TDMC_UPLOAD_IMGMOD_PATH . '/' . $logoPng;

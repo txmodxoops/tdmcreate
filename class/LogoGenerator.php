@@ -21,26 +21,26 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Xoops Team Developement Modules - https://xoops.org
  *
- * @version         $Id: LogoGenerator.php 12258 2014-01-02 09:33:29Z timgno $
  */
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-//include_once XOOPS_ROOT_PATH . '/modules/TDMCreate/include/common.php';
-
-if (function_exists($_GET['f'])) { // get function name and parameter  $_GET['f']($_GET["p"]);
-    include_once __DIR__ . '/LogoGenerator.php';
-    $ret = LogoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
-    phpFunction($ret);
-} else {
-    echo 'Method Not Exist';
-}
 
 /**
  * @param string $val
  */
 function phpFunction($val = '')
-{      // create php function here
+{ // create php function here
     echo $val;
 }
+
+$myfunction = '\\XoopsModules\\Tdmcreate\\' . $_GET['f'];
+
+if (function_exists($myfunction)) {
+    $ret = \XoopsModules\Tdmcreate\LogoGenerator::createLogo($_GET['iconName'], $_GET['caption']);
+    phpFunction($ret);
+} else {
+    echo 'Method Not Exist';
+}
+
 
 /**
  * Class LogoGenerator.

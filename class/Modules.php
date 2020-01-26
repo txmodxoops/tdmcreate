@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
- * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
 // include __DIR__ . '/autoload.php';
 
@@ -136,7 +135,7 @@ class Modules extends \XoopsObject
     {
         $helper = Tdmcreate\Helper::getInstance();
         if (false === $action) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         $set      = [];
         $settings = $helper->getHandler('Settings')->getAllSettings(0, 0, 'set_type');
@@ -389,7 +388,7 @@ class Modules extends \XoopsObject
         $spaceBorder = (92 - mb_strlen($moduleDirname) * 7.5) / 2;
         imagefttext($imageModule, 8.5, 0, $spaceBorder, 45, $textColor, $font, ucfirst($moduleDirname), []);
         imagecopy($imageModule, $imageIcon, 29, 2, 0, 0, 32, 32);
-        $logoImg = '/' . $moduleDirname . '_logo.png';
+        $logoImg = '/' . 'logoModule.png';
         imagepng($imageModule, TDMC_UPLOAD_IMGMOD_PATH . $logoImg);
         imagedestroy($imageModule);
         imagedestroy($imageIcon);
