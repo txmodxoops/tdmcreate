@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
- * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
 
 // include __DIR__ . '/autoload.php';

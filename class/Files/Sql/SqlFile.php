@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate\Files;
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: SqlFile.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 /**
@@ -82,7 +81,7 @@ class SqlFile extends Files\CreateFile
     {
         $date          = date('D M d, Y');
         $time          = date('H:i:s');
-        $serverName    = $_SERVER['SERVER_NAME'];
+        $serverName    = \Xmf\Request::getString('SERVER_NAME', '', 'SERVER');
         $serverVersion = $GLOBALS['xoopsDB']->getServerVersion();
         $phpVersion    = PHP_VERSION;
         // Header Sql Comments

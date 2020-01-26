@@ -19,7 +19,6 @@ namespace XoopsModules\Tdmcreate\Html;
  *
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  *
- * @version         $Id: Tdmcreate\FormLabel.php 12562 2014-04-03 10:57:12Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 

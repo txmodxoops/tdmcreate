@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: index.php 11084 2013-02-23 15:44:20Z timgno $
  */
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_index.tpl';
 

@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  * @author          trabis <lusopoemas@gmail.com>
  * @author          Harry Fuecks (PHP Anthology Volume II)
  *
- * @version         $Id: 1.91 session.php 12453 2014-03-28 18:34:46Z timgno $
  */
 
 /**

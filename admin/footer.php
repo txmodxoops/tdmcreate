@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: footer.php 12207 2013-10-23 02:46:52Z beckmi $
  */
 $pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
 

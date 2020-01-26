@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: update.php 12258 2014-01-02 09:33:29Z timgno $
  * @param mixed      $module
  * @param null|mixed $prev_version
  */

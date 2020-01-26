@@ -20,7 +20,6 @@
  *
  * @author          trabis <lusopoemas@gmail.com>
  *
- * @version         $Id: helper.php 12258 2014-04-12 23:45:12Z timgno $
  */
 
 /**

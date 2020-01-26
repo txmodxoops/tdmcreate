@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          TDM TEAM DEV MODULE
  *
- * @version         $Id: settings.php 13070 2015-05-19 12:24:20Z timgno $
  */
 // include __DIR__ . '/autoload.php';
 /*
@@ -141,7 +140,7 @@ class Settings extends \XoopsObject
     {
         $helper = Tdmcreate\Helper::getInstance();
         if (false === $action) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $isNew = $this->isNew();

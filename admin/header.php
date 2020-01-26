@@ -19,7 +19,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: header.php 12258 2014-01-02 09:33:29Z timgno $
  */
 include dirname(__DIR__) . '/preloads/autoloader.php';
 

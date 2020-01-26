@@ -22,7 +22,6 @@ namespace XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
- * @version         $Id: 1.91 modules.php 13040 2015-04-25 15:12:12Z timgno $
  */
 // include __DIR__ . '/autoload.php';
 

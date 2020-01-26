@@ -19,7 +19,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: admin.php 11084 2013-02-23 15:44:20Z timgno $
  */
 //Menu
 define('_AM_TDMCREATE_ADMIN_INDEX', 'Index');

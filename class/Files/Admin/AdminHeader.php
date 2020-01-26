@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate\Files;
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: admin_header.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 /**

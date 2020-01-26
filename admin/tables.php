@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: tables.php 12258 2014-01-02 09:33:29Z timgno $
  */
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_tables.tpl';
 
@@ -124,8 +123,8 @@ switch ($op) {
             unset($criteria);
             //unset($criteria);
             foreach (array_keys($tableNameSearch) as $t) {
-                if ($tableNameSearch[$t]->getVar('table_name') === $_POST['table_name']) {
-                    redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, $_POST['table_name']));
+                if ($tableNameSearch[$t]->getVar('table_name') === \Xmf\Request::getString('table_name', '', 'POST')) {
+                    redirect_header('tables.php?op=new', 3, sprintf(_AM_TDMCREATE_ERROR_TABLE_NAME_EXIST, \Xmf\Request::getString('table_name', '', 'POST')));
                 }
             }
             $tablesObj = $tables->create();
@@ -136,8 +135,8 @@ switch ($op) {
         $tablesObj->setVars(
             [
                 'table_mid'       => $tableMid,
-                'table_name'      => $_POST['table_name'],
-                'table_solename'  => $_POST['table_solename'],
+                'table_name'      => \Xmf\Request::getString('table_name', '', 'POST'),
+                'table_solename'  => \Xmf\Request::getString('table_solename', '', 'POST'),
                 'table_category'  => (1 == $_REQUEST['table_category']) ? 1 : 0,
                 'table_fieldname' => $tableFieldname,
                 'table_nbfields'  => $tableNumbFields,
@@ -150,8 +149,8 @@ switch ($op) {
         $uploader  = new \XoopsMediaUploader(
             $uploaddir, $helper->getConfig('mimetypes'), $helper->getConfig('maxsize'), null, null
         );
-        if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
-            $uploader->fetchMedia($_POST['xoops_upload_file'][0]);
+        if ($uploader->fetchMedia(\Xmf\Request::getString('xoops_upload_file', '', 'POST')[0])) {
+            $uploader->fetchMedia(\Xmf\Request::getString('xoops_upload_file', '', 'POST')[0]);
             if (!$uploader->upload()) {
                 $errors = $uploader->getErrors();
                 redirect_header('javascript:history.go(-1)', 3, $errors);
@@ -159,7 +158,7 @@ switch ($op) {
                 $tablesObj->setVar('table_image', $uploader->getSavedFileName());
             }
         } else {
-            $tablesObj->setVar('table_image', $_POST['table_image']);
+            $tablesObj->setVar('table_image', \Xmf\Request::getString('table_image', '', 'POST'));
         }
         $tablesObj->setVar('table_autoincrement', (1 == $_REQUEST['table_autoincrement']) ? 1 : 0);
         // Options
@@ -192,15 +191,15 @@ switch ($op) {
                 $fieldelementObj = $helper->getHandler('Fieldelements')->create();
                 $fieldelementObj->setVar('fieldelement_mid', $tableMid);
                 $fieldelementObj->setVar('fieldelement_tid', $tableTid);
-                $fieldelementObj->setVar('fieldelement_name', 'Table : ' . ucfirst($_POST['table_name']));
-                $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . ucfirst($_POST['table_name']));
+                $fieldelementObj->setVar('fieldelement_name', 'Table : ' . ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
+                $fieldelementObj->setVar('fieldelement_value', 'XoopsFormTables-' . ucfirst(\Xmf\Request::getString('table_name', '', 'POST')));
                 // Insert new field element id for table name
                 if (!$helper->getHandler('Fieldelements')->insert($fieldelementObj)) {
                     $GLOBALS['xoopsTpl']->assign('error', $fieldelementObj->getHtmlErrors() . ' Field element');
                 }
-                redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_TDMCREATE_TABLE_FORM_CREATED_OK, $_POST['table_name']));
+                redirect_header('fields.php?op=new' . $tableAction, 5, sprintf(_AM_TDMCREATE_TABLE_FORM_CREATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             } else {
-                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_TABLE_FORM_UPDATED_OK, $_POST['table_name']));
+                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_TABLE_FORM_UPDATED_OK, \Xmf\Request::getString('table_name', '', 'POST')));
             }
         }
 
@@ -261,7 +260,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $tablesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
+            xoops_confirm(['ok' => 1, 'table_id' => $tableId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
         break;
     case 'display':

@@ -16,21 +16,24 @@
  * @package         tdmcreate
  * @since           2.5.0
  * @author          Txmod Xoops http://www.txmodxoops.org
- * @version         $Id: style.css 12258 2014-01-02 09:33:29Z timgno $
  */
 
 body {
     background: #fafafa;
     color: #444;
-    font-family: verdana, arial, tahoma, helvetica, sans-serif;    
+    font-family: verdana, arial, tahoma, helvetica, sans-serif;
 }
 
-table { margin: 0; padding: 0; width: 100%; }
+table {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
 
 /* Sortable tables & fields */
-tbody tr td.sortable {    
+tbody tr td.sortable {
     text-align: center;
-	width: 100%;
+    width: 100%;
 }
 
 tbody tr td.sortable img.move {
@@ -45,26 +48,26 @@ tr.settings td {
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(100,100,100,0.3);
+    background-color: rgba(100, 100, 100, 0.3);
     vertical-align: middle;
 }
 
 tr.settings td.name {
     min-width: 70px;
-	text-shadow: 1px 1px 1px #fff;
+    text-shadow: 1px 1px 1px #fff;
 }
 
 tr.modules td {
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(200,110,20,0.3);
+    background-color: rgba(200, 110, 20, 0.3);
     vertical-align: middle;
 }
 
 tr.modules td.name {
     min-width: 70px;
-	text-shadow: 1px 1px 1px #fff;
+    text-shadow: 1px 1px 1px #fff;
 }
 
 tr.tables td {
@@ -72,13 +75,13 @@ tr.tables td {
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(230,130,100,0.3);
+    background-color: rgba(230, 130, 100, 0.3);
     vertical-align: middle;
 }
 
 tr.tables td.name {
     min-width: 70px;
-	text-shadow: 1px 1px 1px #fff;
+    text-shadow: 1px 1px 1px #fff;
 }
 
 tr.tables-fields td {
@@ -86,13 +89,13 @@ tr.tables-fields td {
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(230,130,100,0.3);
+    background-color: rgba(230, 130, 100, 0.3);
     vertical-align: middle;
 }
 
 tr.tables-fields td.name {
     min-width: 70px;
-	text-shadow: 1px 1px 1px #fff;
+    text-shadow: 1px 1px 1px #fff;
 }
 
 tr.fields td {
@@ -100,7 +103,7 @@ tr.fields td {
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(10,215,10,0.3);
+    background-color: rgba(10, 215, 10, 0.3);
     vertical-align: middle;
 }
 
@@ -112,7 +115,7 @@ tr.files td {
     margin: 0;
     padding: 5px;
     border-bottom: 1px solid #ccc;
-    background-color:rgba(100,110,80,0.3);
+    background-color: rgba(100, 110, 80, 0.3);
     vertical-align: middle;
 }
 
@@ -136,7 +139,7 @@ img.imageToggle {
     vertical-align: middle;
 }
 
-.odd { 
+.odd {
     border-bottom: 1px solid #ccc;
     background-color: #dcdcdc;
     color: inherit;
@@ -144,11 +147,31 @@ img.imageToggle {
     vertical-align: middle;
 }
 
-.width6{ width:    6%; }
+.width6 {
+    width: 6%;
+}
 
-.bred {background-color:rgba(255,0,0,0.3); padding: 5px; border-bottom: 1px solid #ccc;} /* red */
-.bgreen {background-color:rgba(0,255,0,0.3); padding: 5px; border-bottom: 1px solid #ccc;} /* green */
-.bblue {background-color:rgba(0,0,255,0.3); padding: 5px; border-bottom: 1px solid #ccc;} /* blue */
+.bred {
+    background-color: rgba(255, 0, 0, 0.3);
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* red */
+.bgreen {
+    background-color: rgba(0, 255, 0, 0.3);
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* green */
+.bblue {
+    background-color: rgba(0, 0, 255, 0.3);
+    padding: 5px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* blue */
 
 /* ---- fields parameters ---- */
 .column {
@@ -156,26 +179,31 @@ img.imageToggle {
     float: left;
     padding-bottom: 100px;
 }
+
 .portlet {
     margin: 0 0.1em 1em 0;
     padding: 0 0.3em;
 }
+
 .portlet-header {
     padding: 0.2em 0.3em;
     margin-bottom: 0.5em;
     position: relative;
-    background-color:rgba(255,0,0,0.3);
+    background-color: rgba(255, 0, 0, 0.3);
     border: 2px solid #bbb;
 }
+
 .portlet-toggle {
     position: absolute;
     top: 50%;
     right: 0;
     margin-top: -8px;
 }
+
 .portlet-content {
     padding: 0.4em;
 }
+
 .portlet-placeholder {
     border: 1px dotted black;
     margin: 0 0.1em 1em 0;
@@ -190,13 +218,18 @@ img.imageToggle {
     background-color: #efefef;
 }
 
-.table-list tr { margin: 0; padding: 0; width: 100%; }
+.table-list tr {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
 
 .table-list tr td img.move {
     margin-right: 20px;
     cursor: move;
     vertical-align: middle;
 }
+
 .table-list tr td strong {
     vertical-align: middle;
 }
@@ -319,13 +352,17 @@ tbody.table-list tr td {
     width: 5%;
 }
 
-.field-list tr { margin: 0; padding: 0; width: 100%; }
+.field-list tr {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
 
 .field-list tr td {
     padding: 5px 2px;
-    margin-bottom: 3px;    
+    margin-bottom: 3px;
     text-shadow: 1px 1px 1px #fff;
-    color:#ff8400;
+    color: #ff8400;
 }
 
 .field-list tr td img.move {
@@ -333,6 +370,7 @@ tbody.table-list tr td {
     cursor: move;
     vertical-align: middle;
 }
+
 .field-list tr td strong {
     vertical-align: middle;
 }

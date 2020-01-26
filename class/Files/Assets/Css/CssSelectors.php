@@ -21,7 +21,6 @@ namespace XoopsModules\Tdmcreate\Files\Assets\Css;
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: 1.91 CssSelectors.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 /**

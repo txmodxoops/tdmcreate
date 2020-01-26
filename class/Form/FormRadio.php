@@ -20,7 +20,6 @@ namespace XoopsModules\Tdmcreate\Form;
  * @author      Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  * @author      Taiwen Jiang <phppp@users.sourceforge.net>
  *
- * @version     $Id: Tdmcreate\FormRadio.php 12360 2014-12-06 13:18:22Z timgno $
  */
 class FormRadio extends \XoopsFormRadio
 {

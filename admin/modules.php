@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 modules.php 11297 2013-03-24 10:58:10Z timgno $
  */
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_modules.tpl';
 
@@ -66,6 +65,7 @@ switch ($op) {
         } else {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_MODULES);
         }
+
         break;
     case 'new':
         // Define main template
@@ -88,29 +88,29 @@ switch ($op) {
         } else {
             $modulesObj = $helper->getHandler('Modules')->create();
         }
-        $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower($_POST['mod_dirname']));
+        $moduleDirname = preg_replace('/[^a-zA-Z0-9]\s+/', '', mb_strtolower(\Xmf\Request::getString('mod_dirname', '', 'POST')));
         //Form module save
         $modulesObj->setVars(
             [
-                'mod_name'                => $_POST['mod_name'],
+                'mod_name'                => \Xmf\Request::getString('mod_name', '', 'POST'),
                 'mod_dirname'             => $moduleDirname,
-                'mod_version'             => $_POST['mod_version'],
-                'mod_since'               => $_POST['mod_since'],
-                'mod_min_php'             => $_POST['mod_min_php'],
-                'mod_min_xoops'           => $_POST['mod_min_xoops'],
-                'mod_min_admin'           => $_POST['mod_min_admin'],
-                'mod_min_mysql'           => $_POST['mod_min_mysql'],
-                'mod_description'         => $_POST['mod_description'],
-                'mod_author'              => $_POST['mod_author'],
-                'mod_author_mail'         => $_POST['mod_author_mail'],
-                'mod_author_website_url'  => $_POST['mod_author_website_url'],
-                'mod_author_website_name' => $_POST['mod_author_website_name'],
-                'mod_credits'             => $_POST['mod_credits'],
-                'mod_license'             => $_POST['mod_license'],
-                'mod_release_info'        => $_POST['mod_release_info'],
-                'mod_release_file'        => $_POST['mod_release_file'],
-                'mod_manual'              => $_POST['mod_manual'],
-                'mod_manual_file'         => $_POST['mod_manual_file'],
+                'mod_version'             => \Xmf\Request::getString('mod_version', '', 'POST'),
+                'mod_since'               => \Xmf\Request::getString('mod_since', '', 'POST'),
+                'mod_min_php'             => \Xmf\Request::getString('mod_min_php', '', 'POST'),
+                'mod_min_xoops'           => \Xmf\Request::getString('mod_min_xoops', '', 'POST'),
+                'mod_min_admin'           => \Xmf\Request::getString('mod_min_admin', '', 'POST'),
+                'mod_min_mysql'           => \Xmf\Request::getString('mod_min_mysql', '', 'POST'),
+                'mod_description'         => \Xmf\Request::getString('mod_description', '', 'POST'),
+                'mod_author'              => \Xmf\Request::getString('mod_author', '', 'POST'),
+                'mod_author_mail'         => \Xmf\Request::getString('mod_author_mail', '', 'POST'),
+                'mod_author_website_url'  => \Xmf\Request::getString('mod_author_website_url', '', 'POST'),
+                'mod_author_website_name' => \Xmf\Request::getString('mod_author_website_name', '', 'POST'),
+                'mod_credits'             => \Xmf\Request::getString('mod_credits', '', 'POST'),
+                'mod_license'             => \Xmf\Request::getString('mod_license', '', 'POST'),
+                'mod_release_info'        => \Xmf\Request::getString('mod_release_info', '', 'POST'),
+                'mod_release_file'        => \Xmf\Request::getString('mod_release_file', '', 'POST'),
+                'mod_manual'              => \Xmf\Request::getString('mod_manual', '', 'POST'),
+                'mod_manual_file'         => \Xmf\Request::getString('mod_manual_file', '', 'POST'),
             ]
         );
         //Form mod_image
@@ -127,21 +127,21 @@ switch ($op) {
                 $modulesObj->setVar('mod_image', $uploader->getSavedFileName());
             }
         } else {
-            $modulesObj->setVar('mod_image', $_POST['mod_image']);
+            $modulesObj->setVar('mod_image', \Xmf\Request::getString('mod_image', '', 'POST'));
         }
         //Form module save
         $modulesObj->setVars(
             [
-                'mod_demo_site_url'  => $_POST['mod_demo_site_url'],
-                'mod_demo_site_name' => $_POST['mod_demo_site_name'],
-                'mod_support_url'    => $_POST['mod_support_url'],
-                'mod_support_name'   => $_POST['mod_support_name'],
-                'mod_website_url'    => $_POST['mod_website_url'],
-                'mod_website_name'   => $_POST['mod_website_name'],
-                'mod_release'        => $_POST['mod_release'],
-                'mod_status'         => $_POST['mod_status'],
-                'mod_donations'      => $_POST['mod_donations'],
-                'mod_subversion'     => $_POST['mod_subversion'],
+                'mod_demo_site_url'  => \Xmf\Request::getString('mod_demo_site_url', '', 'POST'),
+                'mod_demo_site_name' => \Xmf\Request::getString('mod_demo_site_name', '', 'POST'),
+                'mod_support_url'    => \Xmf\Request::getString('mod_support_url', '', 'POST'),
+                'mod_support_name'   => \Xmf\Request::getString('mod_support_name', '', 'POST'),
+                'mod_website_url'    => \Xmf\Request::getString('mod_website_url', '', 'POST'),
+                'mod_website_name'   => \Xmf\Request::getString('mod_website_name', '', 'POST'),
+                'mod_release'        => \Xmf\Request::getString('mod_release', '', 'POST'),
+                'mod_status'         => \Xmf\Request::getString('mod_status', '', 'POST'),
+                'mod_donations'      => \Xmf\Request::getString('mod_donations', '', 'POST'),
+                'mod_subversion'     => \Xmf\Request::getString('mod_subversion', '', 'POST'),
             ]
         );
         $moduleOption = \Xmf\Request::getArray('module_option', []);
@@ -156,9 +156,9 @@ switch ($op) {
 
         if ($helper->getHandler('Modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
-                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_CREATED_OK, $_POST['mod_name']));
+                redirect_header('tables.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_CREATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
             } else {
-                redirect_header('modules.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, $_POST['mod_name']));
+                redirect_header('modules.php', 5, sprintf(_AM_TDMCREATE_MODULE_FORM_UPDATED_OK, \Xmf\Request::getString('mod_name', '', 'POST')));
             }
         }
 
@@ -191,8 +191,9 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $modulesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
+            xoops_confirm(['ok' => 1, 'mod_id' => $modId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORMSUREDEL, $modulesObj->getVar('mod_name')));
         }
+
         break;
     case 'display':
         $modFieldArray = ['admin', 'user', 'blocks', 'search', 'comments', 'notifications', 'permissions'];
@@ -214,3 +215,4 @@ switch ($op) {
 }
 
 include __DIR__ . '/footer.php';
+

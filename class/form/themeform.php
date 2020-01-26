@@ -21,7 +21,6 @@ namespace XoopsModules\Tdmcreate\Form;
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 themeform.php 11297 2013-03-24 10:58:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 

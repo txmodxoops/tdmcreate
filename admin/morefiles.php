@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 morefiles.php 11297 2013-03-24 10:58:10Z timgno $
  */
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_morefiles.tpl';
 
@@ -93,18 +92,18 @@ switch ($op) {
         // Form file save
         $morefilesObj->setVars(
             [
-                'file_mid'       => $_POST['file_mid'],
-                'file_name'      => $_POST['file_name'],
-                'file_extension' => $_POST['file_extension'],
-                'file_infolder'  => $_POST['file_infolder'],
+                'file_mid'       => \Xmf\Request::getInt('file_mid', 0, 'POST'),
+                'file_name'      => \Xmf\Request::getString('file_name', '', 'POST'),
+                'file_extension' => \Xmf\Request::getString('file_extension', '', 'POST'),
+                'file_infolder'  => \Xmf\Request::getString('file_infolder', '', 'POST'),
             ]
         );
 
         if ($helper->getHandler('Morefiles')->insert($morefilesObj)) {
             if ($morefilesObj->isNew()) {
-                redirect_header('morefiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_CREATED_OK, $_POST['file_name']));
+                redirect_header('morefiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_CREATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             } else {
-                redirect_header('morefiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_UPDATED_OK, $_POST['file_name']));
+                redirect_header('morefiles.php', 5, sprintf(_AM_TDMCREATE_FILE_FORM_UPDATED_OK, \Xmf\Request::getString('file_name', '', 'POST')));
             }
         }
 
@@ -137,7 +136,7 @@ switch ($op) {
                 $GLOBALS['xoopsTpl']->assign('error', $morefilesObj->getHtmlErrors());
             }
         } else {
-            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
+            xoops_confirm(['ok' => 1, 'file_id' => $fileId, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORM_SURE_DELETE, $morefilesObj->getVar('file_name')));
         }
         break;
 }

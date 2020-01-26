@@ -20,7 +20,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: menu.php 11084 2013-02-23 15:44:20Z timgno $
  */
 include dirname(__DIR__) . '/preloads/autoloader.php';
 

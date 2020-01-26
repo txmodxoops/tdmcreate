@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
- * @version         $Id: morefiles.php 13080 2015-06-12 10:12:32Z timgno $
  */
 //include __DIR__.'/autoload.php';
 /*
@@ -98,7 +97,7 @@ class MoreFiles extends \XoopsObject
     {
         $helper = Tdmcreate\Helper::getInstance();
         if (false === $action) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
 
         $isNew = $this->isNew();

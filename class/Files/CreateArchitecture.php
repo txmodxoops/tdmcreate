@@ -23,7 +23,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: Architecture.php 12258 2014-01-02 09:33:29Z timgno $
  */
 
 //include dirname(__DIR__) . '/autoload.php';
@@ -101,21 +100,22 @@ class CreateArchitecture extends CreateStructure
             $this->makeDirAndCopyFile('blocks', $indexFile, 'index.html');
         }
         $language  = ('english' !== $GLOBALS['xoopsConfig']['language']) ? $GLOBALS['xoopsConfig']['language'] : 'english';
-        $copyFiles = ['class'                           => $indexFile,
-                      'include'                         => $indexFile,
-                      'language'                        => $indexFile,
-                      'assets'                          => $indexFile,
-                      'assets/css'                      => $indexFile,
-                      'assets/css/admin'                => $indexFile,
-                      'assets/icons'                    => $indexFile,
-                      'assets/icons/16'                 => $indexFile,
-                      'assets/icons/32'                 => $indexFile,
-                      'docs'                            => $indexFile,
-                      'assets/images'                   => $indexFile,
-                      'assets/js'                       => $indexFile,
-                      'language/' . $language           => $indexFile,
-                      'language/' . $language . '/help' => $indexFile,
-                      'preloads'                        => $indexFile
+        $copyFiles = [
+            'class'                           => $indexFile,
+            'include'                         => $indexFile,
+            'language'                        => $indexFile,
+            'assets'                          => $indexFile,
+            'assets/css'                      => $indexFile,
+            'assets/css/admin'                => $indexFile,
+            'assets/icons'                    => $indexFile,
+            'assets/icons/16'                 => $indexFile,
+            'assets/icons/32'                 => $indexFile,
+            'docs'                            => $indexFile,
+            'assets/images'                   => $indexFile,
+            'assets/js'                       => $indexFile,
+            'language/' . $language           => $indexFile,
+            'language/' . $language . '/help' => $indexFile,
+            'preloads'                        => $indexFile,
         ];
         foreach ($copyFiles as $k => $v) {
             // Creation of folders and index.html file
@@ -139,6 +139,7 @@ class CreateArchitecture extends CreateStructure
             $copyNewFile = $logoGifFrom;
             copy($copyFile, $copyNewFile);
         }
+
         // Creation of 'module_author_logo.gif' file
         $this->copyFile('assets/images', $copyNewFile, $logoPng);
         $docs = [

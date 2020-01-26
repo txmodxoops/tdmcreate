@@ -19,7 +19,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: install.php 11084 2013-02-23 15:44:20Z timgno $
  */
 $indexFile = XOOPS_UPLOAD_PATH . '/index.html';
 $blankFile = XOOPS_UPLOAD_PATH . '/blank.gif';

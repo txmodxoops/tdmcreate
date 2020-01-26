@@ -9,7 +9,7 @@ php:
   - 7.3
   - 7.4
 env:
-  - DB=mysql 
+  - DB=mysql
 
 before_script:
   - mysql -e 'create database tdmcreate_settings'

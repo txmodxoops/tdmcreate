@@ -19,7 +19,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: common.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 $dirname = $GLOBALS['xoopsModule']->getVar('dirname');

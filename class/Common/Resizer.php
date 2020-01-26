@@ -21,7 +21,6 @@ namespace XoopsModules\Tdmcreate\Common;
  * @since          1.0
  * @min_xoops      2.5.9
  * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com>
- * @version        $Id: 1.0 imagehandler.php 1 Mon 2018-03-19 10:04:49Z XOOPS Project (www.xoops.org) $
  */
 class Resizer
 {

@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <webmaster@txmodxoops.org> - <http://www.txmodxoops.org/>
  *
- * @version         $Id: 1.91 tables.php 11297 2013-03-24 10:58:10Z timgno $
  */
 // include __DIR__ . '/autoload.php';
 
@@ -132,7 +131,7 @@ class Tables extends \XoopsObject
     public function getFormTables($action = false)
     {
         if (false === $action) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         $helper    = Tdmcreate\Helper::getInstance();
         $isNew     = $this->isNew();

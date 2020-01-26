@@ -29,7 +29,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
 $GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_fields.tpl';
 
@@ -230,7 +229,7 @@ switch ($op) {
                 echo $tablesObj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
+            xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
         break;
     case 'display':

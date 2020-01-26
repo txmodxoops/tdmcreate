@@ -65,7 +65,7 @@ class ModuleFeedback extends \XoopsObject
     public function getFormFeedback($action = false)
     {
         if (false === $action) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         $moduleDirName      = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);

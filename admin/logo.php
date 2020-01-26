@@ -21,7 +21,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 logo.php 11297 2013-03-24 10:58:10Z timgno $
  */
 include __DIR__ . '/header.php';
 $funct    = \Xmf\Request::getString('funct', '', 'GET');

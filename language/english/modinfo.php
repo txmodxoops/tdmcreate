@@ -20,8 +20,8 @@
  * @author          Xoops Team Developement Modules - https://xoops.org
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: modinfo.php 11084 2013-02-23 15:44:20Z timgno $
  */
+
 define('_MI_TDMCREATE_NAME', 'TDMCreate');
 define('_MI_TDMCREATE_DESC', 'Creation modules developed by TDM');
 //Menu

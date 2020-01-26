@@ -23,7 +23,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.91 fieldelements.php 11297 2014-03-24 09:11:10Z timgno $
  */
 
 /**

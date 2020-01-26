@@ -24,7 +24,6 @@ use XoopsModules\Tdmcreate;
  *
  * @author          TDM TEAM DEV MODULE
  *
- * @version         $Id: building.php 12425 2014-02-23 22:40:09Z timgno $
  */
 
 /**
@@ -58,7 +57,7 @@ class Building
     {
         $tc = Tdmcreate\Helper::getInstance();
         if (false === $action) {
-            $action = $_SERVER['REQUEST_URI'];
+            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm(_AM_TDMCREATE_ADMIN_CONST, 'buildform', $action, 'post', true);
