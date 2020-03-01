@@ -50,9 +50,11 @@ $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
 // Local Icons
 $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
 $GLOBALS['xoopsTpl']->assign('modPathIcon32', $modPathIcon32);
-// Load languages
-xoops_loadLanguage('admin', $thisDirname);
-xoops_loadLanguage('modinfo', $thisDirname);
+
+// Load language files
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('common');
 
 xoops_cp_header();
 /** @var \Xmf\Module\Admin $adminObject */

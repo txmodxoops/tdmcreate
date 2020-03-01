@@ -20,6 +20,13 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
+
+use XoopsModules\Tdmcreate;
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
+
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 $dirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Root Frameworks icons 32x32 directory
@@ -44,6 +51,7 @@ define('TDMC_IMAGES_LOGOS_PATH', TDMC_PATH . '/assets/images/logos');
 define('TDMC_IMAGES_LOGOS_URL', TDMC_URL . '/assets/images/logos');
 define('TDMC_ICONS_PATH', TDMC_PATH . '/assets/icons');
 define('TDMC_ICONS_URL', TDMC_URL . '/assets/icons');
+define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', TDMC_URL . '/assets/images/logoModule.png');
 // Uploads Directories
 define('TDMC_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $dirname);
 define('TDMC_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $dirname);

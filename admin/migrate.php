@@ -32,8 +32,8 @@
 use Xmf\Request;
 use XoopsModules\Tdmcreate;
 
-require_once __DIR__ . '/admin_header.php';
-xoops_cp_header();
+require_once __DIR__ . '/header.php';
+//xoops_cp_header();
 
 $adminObject->displayNavigation(basename(__FILE__));
 
@@ -97,4 +97,4 @@ switch ($op) {
 
 echo "<div>$message</div>";
 
-require_once __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/footer.php';
