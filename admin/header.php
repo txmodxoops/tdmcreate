@@ -36,6 +36,7 @@ $modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
 
 /** @var \XoopsModules\Tdmcreate\Helper $helper */
 $helper = \XoopsModules\Tdmcreate\Helper::getInstance();
+$utility = new \XoopsModules\Tdmcreate\Utility();
 
 // MyTextSanitizer
 $myts = MyTextSanitizer::getInstance();
