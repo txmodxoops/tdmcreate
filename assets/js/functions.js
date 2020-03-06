@@ -15,9 +15,8 @@ function showImgSelected2(imgId, selectId, imgDir, extra, xoopsUrl) {
     selectDom = xoopsGetElementById(selectId);
     if (selectDom.options[selectDom.selectedIndex].value != "") {
         imgDom.src = xoopsUrl + "/" + imgDir + "/" + selectDom.options[selectDom.selectedIndex].value + extra;
-    }
-    else {
-        imgDom.src = xoopsUrl + "/modules/tdmcreate/assets/icons/blank.gif";
+    } else {
+        imgDom.src = xoopsUrl + "/modules/tdmcreate/assets/images/blank.png";
     }
 }
 
@@ -31,11 +30,11 @@ function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
     moduleImageSelected = moduleImageDom.options[moduleImageDom.selectedIndex].value;
     $.ajax({
         type: 'GET',
-        url: xoopsUrl + "/class/logoGenerator.php?f=phpFunction&iconName=" + iconName + "&caption=" + caption,
+        url: xoopsUrl + "/class/LogoGenerator.php?f=phpFunction&iconName=" + iconName + "&caption=" + caption,
         // call php function , phpFunction=function Name , x= parameter
         data: {},
         dataType: "html",
-        success: function(data1) {
+        success: function (data1) {
             //alert(data1);
             logoDom.src = data1.split('\n')[0]; //the data returned has too many lines. We need only the link to the image
             logoDom.load; //refresh the logo
@@ -44,7 +43,7 @@ function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
             var fileExist;
             elems = moduleImageDom.options;
             for (var i = 0,
-                    max = elems.length; i < max; i++) {
+                     max = elems.length; i < max; i++) {
                 if (moduleImageDom.options[i].text == mycheck) {
                     fileExist = true;
                 }
@@ -61,37 +60,37 @@ function createNewModuleLogo(xoopsUrl) { // this is JavaScript  function
     });
 }
 
-$(document).ready(function() {	
-	// Hide/Show Tables or Fields
-	$('tr.toggleMain td:nth-child(1) img').click(function () {
+$(document).ready(function () {
+    // Hide/Show Tables or Fields
+    $('tr.toggleMain td:nth-child(1) img').click(function () {
         $(this).closest('tr.toggleMain').nextUntil('tr.toggleMain').toggle();
-    });	
-	// Hide/Show Modules Tables
-	$('#modtab').hide();
-	$('td#modtabs').click(function(){
-	   $(this).next('#modtab').slideToggle('slow');
-	});
-	$('.rSetting').click(function () {
+    });
+    // Hide/Show Modules Tables
+    $('#modtab').hide();
+    $('td#modtabs').click(function () {
+        $(this).next('#modtab').slideToggle('slow');
+    });
+    $('.rSetting').click(function () {
         var selValue = $('input[name=rNumber]:checked').val().split(",")[0];
         var rpValue = $('input[name=rNumber]:checked').val().split(",")[1];
-	});
+    });
 });
 
-function tdmcreate_setStatus( data, img, file ) {
+function tdmcreate_setStatus(data, img, file) {
     // Post request
-    $.post( file, data, function( reponse, textStatus ) {
+    $.post(file, data, function (reponse, textStatus) {
         if (textStatus == 'success') {
-			$('img#'+img).hide();
-			$('#loading_'+img).show();
-			setTimeout( function() {
-				$('#loading_'+img).hide();
-				$('img#'+img).fadeIn('fast');
-			}, 500);
+            $('img#' + img).hide();
+            $('#loading_' + img).show();
+            setTimeout(function () {
+                $('#loading_' + img).hide();
+                $('img#' + img).fadeIn('fast');
+            }, 500);
             // Change image src
-            if ($('img#'+img).attr("src") == IMG_ON) {
-                $('img#'+img).attr("src",IMG_OFF);
+            if ($('img#' + img).attr("src") == IMG_ON) {
+                $('img#' + img).attr("src", IMG_OFF);
             } else {
-                $('img#'+img).attr("src",IMG_ON);
+                $('img#' + img).attr("src", IMG_ON);
             }
         }
     });

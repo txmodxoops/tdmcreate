@@ -1,5 +1,7 @@
 <?php
 
+use XoopsModules\Tdmcreate;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,14 +21,13 @@
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 logo.php 11297 2013-03-24 10:58:10Z timgno $
  */
-include __DIR__.'/header.php';
-$funct = XoopsRequest::getString('funct', '', 'GET');
-$iconName = XoopsRequest::getString('iconName', '', 'GET');
-$caption = XoopsRequest::getString('caption', '', 'GET');
+include __DIR__ . '/header.php';
+$funct    = \Xmf\Request::getString('funct', '', 'GET');
+$iconName = \Xmf\Request::getString('iconName', '', 'GET');
+$caption  = \Xmf\Request::getString('caption', '', 'GET');
 if (function_exists($funct)) {
-    $ret = TDMCreateLogo::getInstance()->createLogo($iconName, $caption);
+    $ret = Tdmcreate\Logo::getInstance()->createLogo($iconName, $caption);
     phpFunction($ret);
 } else {
     redirect_header('logo.php', 3, 'Method Not Exist');
@@ -36,6 +37,7 @@ if (function_exists($funct)) {
  * @param string $val
  */
 function phpFunction($val = '')
-{   // create php function here
+{
+    // create php function here
     echo $val;
 }

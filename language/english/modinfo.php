@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -19,8 +20,8 @@
  * @author          Xoops Team Developement Modules - https://xoops.org
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: modinfo.php 11084 2013-02-23 15:44:20Z timgno $
  */
+
 define('_MI_TDMCREATE_NAME', 'TDMCreate');
 define('_MI_TDMCREATE_DESC', 'Creation modules developed by TDM');
 //Menu
@@ -98,7 +99,6 @@ define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER', 'More Files AdminPager');
 define('_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Files');
 define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER', 'Settings AdminPager');
 define('_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC', 'Set how many maximum pages you want to see in Settings');
-
 
 define('_AM_TDMCREATE_FIELD_ORDER_ERROR', 'Error in Field order');
 define('_AM_TDMCREATE_FORM_DELETED_OK', 'Form Deleted');

@@ -19,10 +19,11 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: header.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include_once dirname(dirname(dirname(__DIR__))).'/include/cp_header.php';
-include_once dirname(__DIR__).'/include/common.php';
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
+include_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+include_once dirname(__DIR__) . '/include/common.php';
 
 $thisDirname = $GLOBALS['xoopsModule']->getVar('dirname');
 // Link System Icons
@@ -31,14 +32,17 @@ $sysPathIcon32 = $GLOBALS['xoopsModule']->getInfo('sysicons32');
 // Link Local Icons
 $modPathIcon16 = $GLOBALS['xoopsModule']->getInfo('modicons16');
 $modPathIcon32 = $GLOBALS['xoopsModule']->getInfo('modicons32');
-$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
-// TDMCreate Instance
-$tdmcreate = TDMCreateHelper::getInstance();
+//$pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
+
+/** @var \XoopsModules\Tdmcreate\Helper $helper */
+$helper = \XoopsModules\Tdmcreate\Helper::getInstance();
+$utility = new \XoopsModules\Tdmcreate\Utility();
+
 // MyTextSanitizer
 $myts = MyTextSanitizer::getInstance();
 if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
-    include_once XOOPS_ROOT_PATH.'/class/template.php';
-    $xoopsTpl = new XoopsTpl();
+    include_once XOOPS_ROOT_PATH . '/class/template.php';
+    $xoopsTpl = new \XoopsTpl();
 }
 // System Icons
 $GLOBALS['xoopsTpl']->assign('sysPathIcon16', $sysPathIcon16);
@@ -46,9 +50,12 @@ $GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
 // Local Icons
 $GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
 $GLOBALS['xoopsTpl']->assign('modPathIcon32', $modPathIcon32);
-// Load languages
-xoops_loadLanguage('admin', $thisDirname);
-xoops_loadLanguage('modinfo', $thisDirname);
+
+// Load language files
+$helper->loadLanguage('admin');
+$helper->loadLanguage('modinfo');
+$helper->loadLanguage('common');
 
 xoops_cp_header();
+/** @var \Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();

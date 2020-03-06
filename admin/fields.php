@@ -9,6 +9,16 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
+/*
+ You may not change or alter any portion of this comment or credits
+ of supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit authors.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 /**
  * tdmcreate module.
  *
@@ -19,24 +29,25 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: 1.91 fields.php 12258 2014-01-02 09:33:29Z timgno $
  */
-include __DIR__.'/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_fields.tpl';
+
+include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
-$op = XoopsRequest::getString('op', 'list');
+$op = \Xmf\Request::getString('op', 'list');
 // Get fields Variables
-$fieldMid = XoopsRequest::getInt('field_mid');
-$fieldTid = XoopsRequest::getInt('field_tid');
-$fieldNumb = XoopsRequest::getInt('field_numb');
-$fieldName = XoopsRequest::getString('field_name', '');
+$fieldMid  = \Xmf\Request::getInt('field_mid');
+$fieldTid  = \Xmf\Request::getInt('field_tid');
+$fieldNumb = \Xmf\Request::getInt('field_numb');
+$fieldName = \Xmf\Request::getString('field_name', '');
 // switch op
 switch ($op) {
     case 'list':
     default:
-        $start = XoopsRequest::getInt('start', 0);
-        $limit = XoopsRequest::getInt('limit', $tdmcreate->getConfig('tables_adminpager'));
+        $start = \Xmf\Request::getInt('start', 0);
+        $limit = \Xmf\Request::getInt('limit', $helper->getConfig('tables_adminpager'));
         // Define main template
-        $templateMain = 'tdmcreate_fields.tpl';
+        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
@@ -44,20 +55,20 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
-        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL.'/'.$modPathIcon16);
+        $GLOBALS['xoopsTpl']->assign('modPathIcon16', TDMC_URL . '/' . $modPathIcon16);
         // Redirect if there aren't modules
-        $modulesCount = $tdmcreate->getHandler('modules')->getCountModules();
+        $modulesCount = $helper->getHandler('Modules')->getCountModules();
         if (0 == $modulesCount) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         unset($modulesCount);
         // Redirect if there aren't tables
-        $tablesCount = $tdmcreate->getHandler('tables')->getCountTables();
+        $tablesCount = $helper->getHandler('Tables')->getCountTables();
         if (0 == $tablesCount) {
             redirect_header('tables.php?op=new', 2, _AM_TDMCREATE_NOTTABLES);
         }
         // Get the list of tables
-        $tablesAll = $tdmcreate->getHandler('tables')->getAllTables($start, $limit, 'table_order');
+        $tablesAll = $helper->getHandler('Tables')->getAllTables($start, $limit, 'table_order');
         if ($tablesCount > 0) {
             $tlid = 1;
             foreach (array_keys($tablesAll) as $tid) {
@@ -66,15 +77,15 @@ switch ($op) {
                 $talid = ['lid' => $tlid];
                 $table = array_merge($table, $talid);
                 // Get the list of fields
-                $fieldsCount = $tdmcreate->getHandler('fields')->getCountFields();
-                $fieldsAll = $tdmcreate->getHandler('fields')->getAllFieldsByModuleAndTableId($table['mid'], $tid);
+                $fieldsCount = $helper->getHandler('Fields')->getCountFields();
+                $fieldsAll   = $helper->getHandler('Fields')->getAllFieldsByModuleAndTableId($table['mid'], $tid);
                 // Display fields list
                 $fields = [];
-                $lid = 1;
+                $lid    = 1;
                 if ($fieldsCount > 0) {
                     foreach (array_keys($fieldsAll) as $fid) {
-                        $field = $fieldsAll[$fid]->getValuesFields();
-                        $falid = ['lid' => $lid];
+                        $field    = $fieldsAll[$fid]->getValuesFields();
+                        $falid    = ['lid' => $lid];
                         $fields[] = array_merge($field, $falid);
                         unset($field);
                         ++$lid;
@@ -89,37 +100,34 @@ switch ($op) {
             unset($tlid);
             unset($fields);
             if ($tablesCount > $limit) {
-                include_once XOOPS_ROOT_PATH.'/class/pagenav.php';
-                $pagenav = new XoopsPageNav($tablesCount, $limit, $start, 'start', 'op=list&limit='.$limit);
+                include_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+                $pagenav = new \XoopsPageNav($tablesCount, $limit, $start, 'start', 'op=list&limit=' . $limit);
                 $GLOBALS['xoopsTpl']->assign('pagenav', $pagenav->renderNav(4));
             }
         } else {
             $GLOBALS['xoopsTpl']->assign('error', _AM_TDMCREATE_THEREARENT_FIELDS);
         }
-    break;
-
+        break;
     case 'new':
         // Define main template
-        $templateMain = 'tdmcreate_fields.tpl';
+        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $adminObject->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Add
-        $fieldsObj = $tdmcreate->getHandler('fields')->create();
-        $form = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
+        $fieldsObj = $helper->getHandler('Fields')->create();
+        $form      = $fieldsObj->getFormNew($fieldMid, $fieldTid, $fieldNumb, $fieldName);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
-
+        break;
     case 'save':
-
         if (!$GLOBALS['xoopsSecurity']->check()) {
             redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
         }
-        $fieldId = XoopsRequest::getInt('field_id');
+        $fieldId = \Xmf\Request::getInt('field_id');
         // Fields Handler
-        $fields = $tdmcreate->getHandler('fields');
+        $fields     = $helper->getHandler('Fields');
         $fieldOrder = 1;
         // Set Variables
         foreach ($_POST['field_id'] as $key => $value) {
@@ -154,12 +162,12 @@ switch ($op) {
             $fieldsObj->setVar('field_search', (1 == $_REQUEST['field_search'][$key]) ? 1 : 0);
             $fieldsObj->setVar('field_required', (1 == $_REQUEST['field_required'][$key]) ? 1 : 0);
             // Insert Data
-            $tdmcreate->getHandler('fields')->insert($fieldsObj);
+            $helper->getHandler('Fields')->insert($fieldsObj);
             ++$fieldOrder;
         }
         unset($fieldOrder);
         // Get table name from field table id
-        $tables = $tdmcreate->getHandler('tables')->get($fieldTid);
+        $tables    = $helper->getHandler('Tables')->get($fieldTid);
         $tableName = $tables->getVar('table_name');
         // Set field elements
         if ($fieldsObj->isNew()) {
@@ -173,11 +181,10 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
         $form = $fieldsObj->getFormNew($fieldMid, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
-
+        break;
     case 'edit':
         // Define main template
-        $templateMain = 'tdmcreate_fields.tpl';
+        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
@@ -185,15 +192,14 @@ switch ($op) {
         $adminObject->addItemButton(_AM_TDMCREATE_FIELDS_LIST, 'fields.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
         // Form Edit
-        $fieldId = XoopsRequest::getInt('field_id');
-        $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
-        $form = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
+        $fieldId   = \Xmf\Request::getInt('field_id');
+        $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
+        $form      = $fieldsObj->getFormEdit($fieldMid, $fieldTid);
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
-    break;
-
+        break;
     case 'order':
         // Initialize fields handler
-        $fieldsObj = $tdmcreate->getHandler('fields');
+        $fieldsObj = $helper->getHandler('Fields');
         if (isset($_POST['forder'])) {
             $i = 0;
             foreach ($_POST['forder'] as $order) {
@@ -210,40 +216,38 @@ switch ($op) {
             unset($i);
         }
         exit;
-    break;
-
+        break;
     case 'delete':
-        $tablesObj = $tdmcreate->getHandler('tables')->get($fieldTid);
+        $tablesObj = $helper->getHandler('Tables')->get($fieldTid);
         if (isset($_REQUEST['ok']) && 1 == $_REQUEST['ok']) {
             if (!$GLOBALS['xoopsSecurity']->check()) {
                 redirect_header('fields.php', 3, implode(',', $GLOBALS['xoopsSecurity']->getErrors()));
             }
-            if ($tdmcreate->getHandler('tables')->delete($tablesObj)) {
+            if ($helper->getHandler('Tables')->delete($tablesObj)) {
                 redirect_header('fields.php', 3, _AM_TDMCREATE_FORMDELOK);
             } else {
                 echo $tablesObj->getHtmlErrors();
             }
         } else {
-            xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], $_SERVER['REQUEST_URI'], sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
+            xoops_confirm(['ok' => 1, 'field_tid' => $fieldTid, 'op' => 'delete'], \Xmf\Request::getString('REQUEST_URI', '', 'SERVER'), sprintf(_AM_TDMCREATE_FORMSUREDEL, $tablesObj->getVar('table_name')));
         }
-    break;
-
+        break;
     case 'display':
         $fieldsArray = ['parent', 'inlist', 'inform', 'admin', 'user', 'block', 'main', 'search', 'required'];
-        $fieldId = XoopsRequest::getInt('field_id', 0, 'POST');
+        $fieldId     = \Xmf\Request::getInt('field_id', 0, 'POST');
         if ($fieldId > 0) {
-            $fieldsObj = $tdmcreate->getHandler('fields')->get($fieldId);
+            $fieldsObj = $helper->getHandler('Fields')->get($fieldId);
             foreach ($fieldsArray as $field) {
-                if (isset($_POST['field_'.$field])) {
-                    $fldField = $fieldsObj->getVar('field_'.$field);
-                    $fieldsObj->setVar('field_'.$field, !$fldField);
+                if (isset($_POST['field_' . $field])) {
+                    $fldField = $fieldsObj->getVar('field_' . $field);
+                    $fieldsObj->setVar('field_' . $field, !$fldField);
                 }
             }
-            if ($tdmcreate->getHandler('fields')->insert($fieldsObj)) {
+            if ($helper->getHandler('Fields')->insert($fieldsObj)) {
                 redirect_header('fields.php', 3, _AM_TDMCREATE_TOGGLE_SUCCESS);
             }
             $GLOBALS['xoopsTpl']->assign('error', $fieldsObj->getHtmlErrors());
         }
         break;
 }
-include __DIR__.'/footer.php';
+include __DIR__ . '/footer.php';

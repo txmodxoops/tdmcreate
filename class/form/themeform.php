@@ -1,4 +1,7 @@
 <?php
+
+namespace XoopsModules\Tdmcreate\Form;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -18,18 +21,17 @@
  *
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
- * @version         $Id: 1.59 themeform.php 11297 2013-03-24 10:58:10Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-xoops_load('XoopsFormLoader');
+\XoopsLoad::load('XoopsFormLoader');
 
 /**
  * Form that will output as a theme-enabled HTML table.
  *
  * Also adds JavaScript to validate required fields
  */
-class TDMCreateThemeForm extends XoopsForm
+class ThemeForm extends \XoopsForm
 {
     /**
      * create HTML to output the form as a theme-enabled table with validation.
@@ -38,7 +40,7 @@ class TDMCreateThemeForm extends XoopsForm
      *
      * To use the noColspan simply use the following example:
      *
-     * $colspan = new XoopsFormDhtmlTextArea( '', 'key', $value, '100%', '100%' );
+     * $colspan = new \XoopsFormDhtmlTextArea( '', 'key', $value, '100%', '100%' );
      * $colspan->setNocolspan();
      * $form->addElement( $colspan );
      *
@@ -48,19 +50,21 @@ class TDMCreateThemeForm extends XoopsForm
     {
         $ele_name = $this->getName();
         //$ret = ($this->getTitle() ? '<div class=" center head ">' . $this->getTitle() . '</div>' : '');
-        $ret = NWLINE.'<form name="'.$ele_name.'" id="'.$ele_name.'" action="'.$this->getAction().'" method="'.$this->getMethod().'" onsubmit="return xoopsFormValidate_'.$ele_name.'();"'.$this->getExtra().'>'.NWLINE;
+        $ret    = NWLINE . '<form name="' . $ele_name . '" id="' . $ele_name . '" action="' . $this->getAction() . '" method="' . $this->getMethod() . '" onsubmit="return xoopsFormValidate_' . $ele_name . '();"' . $this->getExtra() . '>' . NWLINE;
         $hidden = '';
-        $class = 'even';
+        $class  = 'even';
         foreach ($this->getElements() as $ele) {
             if (!is_object($ele)) {
                 $ret .= $ele;
-            } elseif (!$ele->isHidden()) {
-                $ret .= $ele->render();
             } else {
-                $hidden .= $ele->render();
+                if (!$ele->isHidden()) {
+                    $ret .= $ele->render();
+                } else {
+                    $hidden .= $ele->render();
+                }
             }
         }
-        $ret .= NWLINE.' '.$hidden.NWLINE.'</form>';
+        $ret .= NWLINE . ' ' . $hidden . NWLINE . '</form>';
         $ret .= $this->renderValidationJS(true);
 
         return $ret;

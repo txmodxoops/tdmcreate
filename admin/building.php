@@ -1,5 +1,7 @@
 <?php
 
+use XoopsModules\Tdmcreate;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,12 +21,13 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: building.php 12258 2014-01-02 09:33:29Z timgno $
  */
+$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_building.tpl';
+
 include __DIR__ . '/header.php';
-$op = XoopsRequest::getString('op', 'default');
-$mid = XoopsRequest::getInt('mod_id');
-$moduleObj = $tdmcreate->getHandler('modules')->get($mid);
+$op        = \Xmf\Request::getString('op', 'default');
+$mid       = \Xmf\Request::getInt('mod_id');
+$moduleObj = $helper->getHandler('Modules')->get($mid);
 $cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
 // Clear cache
 if (file_exists($cache = $cachePath . '/classpaths.cache')) {
@@ -36,24 +39,24 @@ if (!file_exists($indexFile = $cachePath . '/index.html')) {
 // Switch option
 switch ($op) {
     case 'build':
-        $templateMain = 'tdmcreate_building.tpl';
+        //        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
         // Directories for copy from to
         $fromDir = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleDirname);
-        $toDir = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
-        include_once TDMC_CLASS_PATH . '/building.php';
+        $toDir   = XOOPS_ROOT_PATH . '/modules/' . mb_strtolower($moduleDirname);
+        // include_once TDMC_CLASS_PATH . '/building.php';
         if (isset($moduleDirname)) {
             // Clear this module if it's in repository
-            $building = TDMCreateBuilding::getInstance();
+            $building = Tdmcreate\Building::getInstance();
             if (is_dir($fromDir)) {
                 $building->clearDir($fromDir);
             }
         }
         // Structure
-        include_once TDMC_CLASS_PATH . '/files/TDMCreateArchitecture.php';
-        $handler = TDMCreateArchitecture::getInstance();
+        // include_once TDMC_CLASS_PATH . '/files/Architecture.php';
+        $handler = Tdmcreate\Files\CreateArchitecture::getInstance();
         // Creation of the structure of folders and files
         $baseArchitecture = $handler->setBaseFoldersFiles($moduleObj);
         if (false !== $baseArchitecture) {
@@ -75,7 +78,7 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('building_directory', sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname));
         // Copy this module in root modules
         if (1 == $moduleObj->getVar('mod_inroot_copy')) {
-            $building = TDMCreateBuilding::getInstance();
+            $building = Tdmcreate\Building::getInstance();
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
                 // Warning: If you have an older operating module with the same name,
@@ -90,17 +93,17 @@ switch ($op) {
         break;
     case 'default':
     default:
-        $templateMain = 'tdmcreate_building.tpl';
+        //        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Redirect if there aren't modules
-        $nbModules = $tdmcreate->getHandler('modules')->getCount();
+        $nbModules = $helper->getHandler('Modules')->getCount();
         if (0 == $nbModules) {
             redirect_header('modules.php?op=new', 2, _AM_TDMCREATE_NOTMODULES);
         }
         unset($nbModules);
-        include_once TDMC_CLASS_PATH . '/building.php';
-        $building = TDMCreateBuilding::getInstance();
-        $form = $building->getForm();
+        // include_once TDMC_CLASS_PATH . '/building.php';
+        $building = Tdmcreate\Building::getInstance();
+        $form     = $building->getForm();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
 }

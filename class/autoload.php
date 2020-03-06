@@ -1,5 +1,7 @@
 <?php
 
+namespace XoopsModules\Tdmcreate;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -19,7 +21,6 @@
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
- * @version         $Id: autoload.php 12258 2014-01-02 09:33:29Z timgno $
  */
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /*
@@ -35,13 +36,15 @@ if (!function_exists('application_autoloader')) {
      */
     function application_autoloader($class)
     {
-        $classFilename = $class.'.php';
-        $cachePath = XOOPS_VAR_PATH.'/caches/tdmcreate_cache';
+        $classFilename = $class . '.php';
+        $cachePath     = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
         if (!is_dir($cachePath)) {
-            mkdir($cachePath, 0777);
+            if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
+            }
             chmod($cachePath, 0777);
         }
-        $pathCache = file_exists($cacheFile = $cachePath.'/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
+        $pathCache = file_exists($cacheFile = $cachePath . '/classpaths.cache') ? unserialize(file_get_contents($cacheFile)) : [];
         if (!is_array($pathCache)) {
             $pathCache = [];
         }
@@ -53,10 +56,10 @@ if (!function_exists('application_autoloader')) {
             }
         } else {
             /* Determine the location of the file within the $class_root and, if found, load and cache it */
-            $directories = new RecursiveDirectoryIterator(__DIR__);
-            foreach (new RecursiveIteratorIterator($directories) as $file) {
+            $directories = new \RecursiveDirectoryIterator(__DIR__);
+            foreach (new \RecursiveIteratorIterator($directories) as $file) {
                 if ($file->getFilename() == $classFilename) {
-                    $fullPath = $file->getRealPath();
+                    $fullPath          = $file->getRealPath();
                     $pathCache[$class] = $fullPath;
                     require_once $fullPath;
                     break;
@@ -69,5 +72,6 @@ if (!function_exists('application_autoloader')) {
             file_put_contents($cacheFile, serialize($pathCache));
         }
     }
+
     spl_autoload_register('application_autoloader');
 }

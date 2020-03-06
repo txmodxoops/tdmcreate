@@ -9,6 +9,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -18,14 +19,11 @@
  * @since           2.5.0
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
- *
- * @version         $Id: about.php 11084 2013-02-23 15:44:20Z timgno $
  */
-include __DIR__.'/header.php';
-$templateMain = 'tdmcreate_about.tpl';
-$GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('about.php'));
-$about = $adminObject->renderAbout($adminObject->setPaypal('7LFE862PGJN88'), false);
-$aboutRes = TDMCreate_MakeDonationForm($about);
-$GLOBALS['xoopsTpl']->assign('maintained', sprintf(_AM_TDMCREATE_MAINTAINED, $GLOBALS['xoopsModule']->getVar('name')));
-$GLOBALS['xoopsTpl']->assign('about', $aboutRes);
-include __DIR__.'/footer.php';
+include __DIR__ . '/header.php';
+
+$adminObject->displayNavigation(basename(__FILE__));
+$adminObject::setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
+
+include __DIR__ . '/footer.php';

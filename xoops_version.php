@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * tdmcreate module.
  *
@@ -17,57 +18,55 @@
  * @since           2.5.7
  *
  * @author          Txmod Xoops http://www.txmodxoops.org
- *
- * @version         $Id: xoops_version.php 11084 2014-02-07 11:20:25Z timgno $
  */
-if (!defined('XOOPS_ROOT_PATH')) {
-    exit();
-}
-$moduleDirName = basename(__DIR__);
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-$modversion['version'] = 1.91;
-$modversion['module_status'] = 'Alpha 3.7';
-$modversion['release_date'] = '2018/07/07';
-$modversion['name'] = _MI_TDMCREATE_NAME;
-$modversion['description'] = _MI_TDMCREATE_DESC;
-$modversion['author'] = 'Xoops TDM';
-$modversion['author_website_url'] = 'https://xoops.org/';
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
+$modversion['version']             = 3.02;
+$modversion['module_status']       = 'Alpha 1';
+$modversion['release_date']        = '2020/01/01';
+$modversion['name']                = _MI_TDMCREATE_NAME;
+$modversion['description']         = _MI_TDMCREATE_DESC;
+$modversion['author']              = 'Xoops TDM';
+$modversion['author_website_url']  = 'https://xoops.org/';
 $modversion['author_website_name'] = 'Xoops Team Developers Module';
-$modversion['credits'] = 'Mamba(Xoops), Timgno(Txmod Xoops), Goffy(German Xoops)';
-$modversion['help'] = 'page=help';
-$modversion['license'] = 'GNU GPL 2.0 or later';
-$modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
-$modversion['release_info'] = 'README';
-$modversion['release_file'] = 'https://github.com/txmodxoops/tdmcreate-1.91/releases';
-$modversion['manual'] = 'MANUAL';
-$modversion['manual_file'] = XOOPS_URL . "/modules/{$moduleDirName}/docs/manual.txt";
-$modversion['image'] = "assets/images/{$moduleDirName}_logo.png";
-$modversion['dirname'] = "{$moduleDirName}";
+$modversion['credits']             = 'Mamba(Xoops), Timgno(Txmod Xoops), Goffy(German Xoops)';
+$modversion['help']                = 'page=help';
+$modversion['license']             = 'GNU GPL 2.0 or later';
+$modversion['license_url']         = 'www.gnu.org/licenses/gpl-2.0.html/';
+$modversion['release_info']        = 'README';
+$modversion['release_file']        = 'https://github.com/txmodxoops/tdmcreate-1.91/releases';
+$modversion['manual']              = 'MANUAL';
+$modversion['manual_file']         = XOOPS_URL . "/modules/{$moduleDirName}/docs/manual.txt";
+$modversion['image']               = "assets/images/logoModule.png";
+$modversion['dirname']             = $moduleDirName;
 // Frameworks icons
 $modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-$modversion['sysicons16'] = '../../Frameworks/moduleclasses/icons/16';
-$modversion['sysicons32'] = '../../Frameworks/moduleclasses/icons/32';
+$modversion['sysicons16']     = '../../Frameworks/moduleclasses/icons/16';
+$modversion['sysicons32']     = '../../Frameworks/moduleclasses/icons/32';
 // Module icons
-$modversion['modicons16'] = 'assets/icons/16';
-$modversion['modicons32'] = 'assets/icons/32';
-$modversion['targetdir'] = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
-$modversion['module_website_url'] = 'https://github.com/txmodxoops/tdmcreate-1.91';
+$modversion['modicons16']          = 'assets/images/icons/16';
+$modversion['modicons32']          = 'assets/images/icons/32';
+$modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
+$modversion['module_website_url']  = 'https://github.com/txmodxoops/tdmcreate-1.91';
 $modversion['module_website_name'] = 'GitHub Txmodx Xoops';
-$modversion['min_php'] = '5.5';
-$modversion['min_xoops'] = '2.5.9';
-$modversion['min_admin'] = '1.2';
-$modversion['min_db'] = ['mysql' => '5.5'];
+$modversion['min_php']             = '5.5';
+$modversion['min_xoops']           = '2.5.9';
+$modversion['min_admin']           = '1.2';
+$modversion['min_db']              = ['mysql' => '5.5'];
 //about
-$modversion['demo_site_url'] = 'https://xoops.org/';
-$modversion['demo_site_name'] = 'Xoops TDM';
-$modversion['forum_site_url'] = 'https://xoops.org/modules/newbb/viewtopic.php?post_id=358118';
-$modversion['forum_site_name'] = 'TDMCreate 1.91 alpha for Testing';
+$modversion['demo_site_url']       = 'https://xoops.org/';
+$modversion['demo_site_name']      = 'Xoops TDM';
+$modversion['forum_site_url']      = 'https://xoops.org/modules/newbb/viewtopic.php?post_id=358118';
+$modversion['forum_site_name']     = 'TDMCreate 1.91 alpha for Testing';
 $modversion['module_website_name'] = 'Xoops TDM';
 // Admin things
 $modversion['system_menu'] = 1;
-$modversion['hasAdmin'] = 1;
-$modversion['adminindex'] = 'admin/index.php';
-$modversion['adminmenu'] = 'admin/menu.php';
+$modversion['hasAdmin']    = 1;
+$modversion['adminindex']  = 'admin/index.php';
+$modversion['adminmenu']   = 'admin/menu.php';
 // Templates admin
 $modversion['templates'][] = ['file' => 'tdmcreate_about.tpl', 'description' => '', 'type' => 'admin'];
 $modversion['templates'][] = ['file' => 'tdmcreate_building.tpl', 'description' => '', 'type' => 'admin'];
@@ -100,370 +99,501 @@ $modversion['tables'] = [
 ];
 // Scripts to run upon installation or update
 $modversion['onInstall'] = 'include/install.php';
-$modversion['onUpdate'] = 'include/update.php';
+$modversion['onUpdate']  = 'include/update.php';
 // Menu
 $modversion['hasMain'] = 0;
 // Config
 $c = 1;
-$modversion['config'][$c]['name'] = 'break' . $c;
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_BREAK_GENERAL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'line_break';
-$modversion['config'][$c]['valuetype'] = 'textbox';
-$modversion['config'][$c]['default'] = 'head';
-++$c;
-$modversion['config'][$c]['name'] = 'tdmcreate_editor';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_EDITOR';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_EDITOR_DESC';
-$modversion['config'][$c]['formtype'] = 'select';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'dhtml';
+
+$modversion['config'][] = [
+    'name'        => 'break' . $c,
+    'title'       => '_MI_TDMCREATE_CONFIG_BREAK_GENERAL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'head',
+];
+
 xoops_load('xoopseditorhandler');
-$editorHandler = XoopsEditorHandler::getInstance();
-$modversion['config'][$c]['options'] = array_flip($editorHandler->getList());
+$editorHandler = \XoopsEditorHandler::getInstance();
+
+$modversion['config'][] = [
+    'name'        => 'tdmcreate_editor',
+    'title'       => '_MI_TDMCREATE_CONFIG_EDITOR',
+    'description' => '_MI_TDMCREATE_CONFIG_EDITOR_DESC',
+    'formtype'    => 'select',
+    'valuetype'   => 'text',
+    'default'     => 'dhtml',
+    'options'     => array_flip($editorHandler->getList()),
+];
+
+$modversion['config'][] = [
+    //Uploads : mimetypes
+    'name'        => 'mimetypes',
+    'title'       => '_MI_TDMCREATE_CONFIG_MIMETYPES',
+    'description' => '_MI_TDMCREATE_CONFIG_MIMETYPES_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'gif|jpeg|pjpeg|png',
+];
+
+$modversion['config'][] = [
+    //Uploads : maxsize
+    'name'        => 'maxsize',
+    'title'       => '_MI_TDMCREATE_CONFIG_MAXSIZE',
+    'description' => '_MI_TDMCREATE_CONFIG_MAXSIZE_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => '5000000',
+];
+
+$modversion['config'][] = [
+    'name'        => 'settings_adminpager',
+    'title'       => '_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER',
+    'description' => '_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
+
+$modversion['config'][] = [
+    'name'        => 'modules_adminpager',
+    'title'       => '_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER',
+    'description' => '_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
+
+$modversion['config'][] = [
+    'name'        => 'tables_adminpager',
+    'title'       => '_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER',
+    'description' => '_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
+
+$modversion['config'][] = [
+    'name'        => 'fields_adminpager',
+    'title'       => '_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER',
+    'description' => '_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
+
+$modversion['config'][] = [
+    'name'        => 'morefiles_adminpager',
+    'title'       => '_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER',
+    'description' => '_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'int',
+    'default'     => 10,
+];
+
 ++$c;
-//Uploads : mimetypes
-$modversion['config'][$c]['name'] = 'mimetypes';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MIMETYPES';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_MIMETYPES_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'gif|jpeg|pjpeg|png';
+$modversion['config'][] = [
+    'name'        => 'break' . $c,
+    'title'       => '_MI_TDMCREATE_CONFIG_BREAK_REQUIRED',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'head',
+];
+
+$modversion['config'][] = [
+    'name'        => 'name',
+    'title'       => '_MI_TDMCREATE_CONFIG_NAME',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'My Module',
+];
+
+$modversion['config'][] = [
+    'name'        => 'dirname',
+    'title'       => '_MI_TDMCREATE_CONFIG_DIRNAME',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'mymoduledirname',
+];
+
+$modversion['config'][] = [
+    'name'        => 'version',
+    'title'       => '_MI_TDMCREATE_CONFIG_VERSION',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '1.0',
+];
+
+$modversion['config'][] = [
+    'name'        => 'since',
+    'title'       => '_MI_TDMCREATE_CONFIG_SINCE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '1.0',
+];
+
+$modversion['config'][] = [
+    'name'        => 'min_php',
+    'title'       => '_MI_TDMCREATE_CONFIG_MIN_PHP',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '5.5',
+];
+
+$modversion['config'][] = [
+    'name'        => 'min_xoops',
+    'title'       => '_MI_TDMCREATE_CONFIG_MIN_XOOPS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '2.5.9',
+];
+
+$modversion['config'][] = [
+    'name'        => 'min_admin',
+    'title'       => '_MI_TDMCREATE_CONFIG_MIN_ADMIN',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '1.2',
+];
+
+$modversion['config'][] = [
+    'name'        => 'min_mysql',
+    'title'       => '_MI_TDMCREATE_CONFIG_MIN_MYSQL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '5.5',
+];
+
+$modversion['config'][] = [
+    'name'        => 'description',
+    'title'       => '_MI_TDMCREATE_CONFIG_DESCRIPTION',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textarea',
+    'valuetype'   => 'text',
+    'default'     => 'This module is for doing following...',
+];
+
+$modversion['config'][] = [
+    'name'        => 'author',
+    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'XOOPS Development Team',
+];
+
+$modversion['config'][] = [
+    'name'        => 'image',
+    'title'       => '_MI_TDMCREATE_CONFIG_IMAGE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'empty.png',
+];
+
+$modversion['config'][] = [
+    'name'        => 'display_admin',
+    'title'       => '_MI_TDMCREATE_CONFIG_DISPLAY_ADMIN_SIDE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+$modversion['config'][] = [
+    'name'        => 'display_user',
+    'title'       => '_MI_TDMCREATE_CONFIG_DISPLAY_USER_SIDE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+$modversion['config'][] = [
+    'name'        => 'active_blocks',
+    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_BLOCKS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+$modversion['config'][] = [
+    'name'        => 'active_search',
+    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_SEARCH',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'active_comments',
+    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_COMMENTS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'active_notifications',
+    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_NOTIFICATIONS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'active_permissions',
+    'title'       => '_MI_TDMCREATE_CONFIG_ACTIVE_PERMISSIONS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
+$modversion['config'][] = [
+    'name'        => 'inroot_copy',
+    'title'       => '_MI_TDMCREATE_CONFIG_INROOT_COPY',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
+
 ++$c;
-//Uploads : maxsize
-$modversion['config'][$c]['name'] = 'maxsize';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MAXSIZE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_MAXSIZE_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = '5000000';
-++$c;
-$modversion['config'][$c]['name'] = 'settings_adminpager';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_SETTINGS_ADMINPAGER_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 10;
-++$c;
-$modversion['config'][$c]['name'] = 'modules_adminpager';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_MODULES_ADMINPAGER_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 10;
-++$c;
-$modversion['config'][$c]['name'] = 'tables_adminpager';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_TABLES_ADMINPAGER_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 10;
-++$c;
-$modversion['config'][$c]['name'] = 'fields_adminpager';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_FIELDS_ADMINPAGER_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 10;
-++$c;
-$modversion['config'][$c]['name'] = 'morefiles_adminpager';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_MOREFILES_ADMINPAGER_DESC';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 10;
-++$c;
-$modversion['config'][$c]['name'] = 'break' . $c;
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_BREAK_REQUIRED';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'line_break';
-$modversion['config'][$c]['valuetype'] = 'textbox';
-$modversion['config'][$c]['default'] = 'head';
-++$c;
-$modversion['config'][$c]['name'] = 'name';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_NAME';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'My Module';
-++$c;
-$modversion['config'][$c]['name'] = 'dirname';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DIRNAME';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'mymoduledirname';
-++$c;
-$modversion['config'][$c]['name'] = 'version';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_VERSION';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '1.0';
-++$c;
-$modversion['config'][$c]['name'] = 'since';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SINCE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '1.0';
-++$c;
-$modversion['config'][$c]['name'] = 'min_php';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MIN_PHP';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '5.5';
-++$c;
-$modversion['config'][$c]['name'] = 'min_xoops';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MIN_XOOPS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '2.5.9';
-++$c;
-$modversion['config'][$c]['name'] = 'min_admin';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MIN_ADMIN';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '1.2';
-++$c;
-$modversion['config'][$c]['name'] = 'min_mysql';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MIN_MYSQL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '5.5';
-++$c;
-$modversion['config'][$c]['name'] = 'description';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DESCRIPTION';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textarea';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'This module is for doing following...';
-++$c;
-$modversion['config'][$c]['name'] = 'author';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_AUTHOR';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'XOOPS Development Team';
-++$c;
-$modversion['config'][$c]['name'] = 'image';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_IMAGE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'empty.png';
-++$c;
-$modversion['config'][$c]['name'] = 'display_admin';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DISPLAY_ADMIN_SIDE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 1;
-++$c;
-$modversion['config'][$c]['name'] = 'display_user';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DISPLAY_USER_SIDE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 1;
-++$c;
-$modversion['config'][$c]['name'] = 'active_blocks';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_ACTIVE_BLOCKS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 1;
-++$c;
-$modversion['config'][$c]['name'] = 'active_search';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_ACTIVE_SEARCH';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 0;
-++$c;
-$modversion['config'][$c]['name'] = 'active_comments';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_ACTIVE_COMMENTS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 0;
-++$c;
-$modversion['config'][$c]['name'] = 'active_notifications';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_ACTIVE_NOTIFICATIONS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 0;
-++$c;
-$modversion['config'][$c]['name'] = 'active_permissions';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_ACTIVE_PERMISSIONS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 0;
-++$c;
-$modversion['config'][$c]['name'] = 'inroot_copy';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_INROOT_COPY';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'yesno';
-$modversion['config'][$c]['valuetype'] = 'int';
-$modversion['config'][$c]['default'] = 0;
-++$c;
-$modversion['config'][$c]['name'] = 'break' . $c;
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_BREAK_OPTIONAL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'line_break';
-$modversion['config'][$c]['valuetype'] = 'textbox';
-$modversion['config'][$c]['default'] = 'head';
-++$c;
-$modversion['config'][$c]['name'] = 'author_email';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_AUTHOR_EMAIL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'name@site.com';
-++$c;
-$modversion['config'][$c]['name'] = 'author_website_url';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_URL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'https://xoops.org';
-++$c;
-$modversion['config'][$c]['name'] = 'author_website_name';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_NAME';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'XOOPS Project';
-++$c;
-$modversion['config'][$c]['name'] = 'credits';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_CREDITS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'XOOPS Development Team';
-++$c;
-$modversion['config'][$c]['name'] = 'license';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_LICENSE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'GPL 2.0 or later';
-++$c;
-$modversion['config'][$c]['name'] = 'license_url';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_LICENSE_URL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.html';
-++$c;
-$modversion['config'][$c]['name'] = 'repository';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_REPOSITORY';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'https://github.com/txmodxoops/TDMCreate-1.91';
-++$c;
-$modversion['config'][$c]['name'] = 'release_info';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_RELEASE_INFO';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'release_info';
-++$c;
-$modversion['config'][$c]['name'] = 'release_file';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_RELEASE_FILE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'release_info file';
-++$c;
-$modversion['config'][$c]['name'] = 'manual';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MANUAL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'link to manual file';
-++$c;
-$modversion['config'][$c]['name'] = 'manual_file';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_MANUAL_FILE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'install.txt';
-++$c;
-$modversion['config'][$c]['name'] = 'demo_site_url';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DEMO_SITE_URL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'https://xoops.org';
-++$c;
-$modversion['config'][$c]['name'] = 'demo_site_name';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_DEMO_SITE_NAME';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'XOOPS Demo Site';
-++$c;
-$modversion['config'][$c]['name'] = 'support_url';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SUPPORT_URL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'https://xoops.org/modules/newbb';
-++$c;
-$modversion['config'][$c]['name'] = 'support_name';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SUPPORT_NAME';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'Support Forum';
-++$c;
-$modversion['config'][$c]['name'] = 'website_url';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_WEBSITE_URL';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'www.xoops.org';
-++$c;
-$modversion['config'][$c]['name'] = 'website_name';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_WEBSITE_NAME';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'XOOPS Project';
-++$c;
-$modversion['config'][$c]['name'] = 'release_date';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_RELEASE_DATE';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = date(_DBDATESTRING);
-++$c;
-$modversion['config'][$c]['name'] = 'status';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_STATUS';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = 'Beta 1';
-++$c;
-$modversion['config'][$c]['name'] = 'donations';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_PAYPAL_BUTTON';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '6KJ7RW5DR3VTJ';
-++$c;
-$modversion['config'][$c]['name'] = 'subversion';
-$modversion['config'][$c]['title'] = '_MI_TDMCREATE_CONFIG_SUBVERSION';
-$modversion['config'][$c]['description'] = '_MI_TDMCREATE_CONFIG_';
-$modversion['config'][$c]['formtype'] = 'textbox';
-$modversion['config'][$c]['valuetype'] = 'text';
-$modversion['config'][$c]['default'] = '13040';
+$modversion['config'][] = [
+    'name'        => 'break' . $c,
+    'title'       => '_MI_TDMCREATE_CONFIG_BREAK_OPTIONAL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'line_break',
+    'valuetype'   => 'textbox',
+    'default'     => 'head',
+];
+
+$modversion['config'][] = [
+    'name'        => 'author_email',
+    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR_EMAIL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'name@site.com',
+];
+
+$modversion['config'][] = [
+    'name'        => 'author_website_url',
+    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_URL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'https://xoops.org',
+];
+
+$modversion['config'][] = [
+    'name'        => 'author_website_name',
+    'title'       => '_MI_TDMCREATE_CONFIG_AUTHOR_WEBSITE_NAME',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'XOOPS Project',
+];
+
+$modversion['config'][] = [
+    'name'        => 'credits',
+    'title'       => '_MI_TDMCREATE_CONFIG_CREDITS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'XOOPS Development Team',
+];
+
+$modversion['config'][] = [
+    'name'        => 'license',
+    'title'       => '_MI_TDMCREATE_CONFIG_LICENSE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'GPL 2.0 or later',
+];
+
+$modversion['config'][] = [
+    'name'        => 'license_url',
+    'title'       => '_MI_TDMCREATE_CONFIG_LICENSE_URL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.html',
+];
+
+$modversion['config'][] = [
+    'name'        => 'repository',
+    'title'       => '_MI_TDMCREATE_CONFIG_REPOSITORY',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'https://github.com/txmodxoops/TDMCreate-1.91',
+];
+
+$modversion['config'][] = [
+    'name'        => 'release_info',
+    'title'       => '_MI_TDMCREATE_CONFIG_RELEASE_INFO',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'release_info',
+];
+
+$modversion['config'][] = [
+    'name'        => 'release_file',
+    'title'       => '_MI_TDMCREATE_CONFIG_RELEASE_FILE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'release_info file',
+];
+
+$modversion['config'][] = [
+    'name'        => 'manual',
+    'title'       => '_MI_TDMCREATE_CONFIG_MANUAL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'link to manual file',
+];
+
+$modversion['config'][] = [
+    'name'        => 'manual_file',
+    'title'       => '_MI_TDMCREATE_CONFIG_MANUAL_FILE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'install.txt',
+];
+
+$modversion['config'][] = [
+    'name'        => 'demo_site_url',
+    'title'       => '_MI_TDMCREATE_CONFIG_DEMO_SITE_URL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'https://xoops.org',
+];
+
+$modversion['config'][] = [
+    'name'        => 'demo_site_name',
+    'title'       => '_MI_TDMCREATE_CONFIG_DEMO_SITE_NAME',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'XOOPS Demo Site',
+];
+
+$modversion['config'][] = [
+    'name'        => 'support_url',
+    'title'       => '_MI_TDMCREATE_CONFIG_SUPPORT_URL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'https://xoops.org/modules/newbb',
+];
+
+$modversion['config'][] = [
+    'name'        => 'support_name',
+    'title'       => '_MI_TDMCREATE_CONFIG_SUPPORT_NAME',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'Support Forum',
+];
+
+$modversion['config'][] = [
+    'name'        => 'website_url',
+    'title'       => '_MI_TDMCREATE_CONFIG_WEBSITE_URL',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'www.xoops.org',
+];
+
+$modversion['config'][] = [
+    'name'        => 'website_name',
+    'title'       => '_MI_TDMCREATE_CONFIG_WEBSITE_NAME',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'XOOPS Project',
+];
+
+$modversion['config'][] = [
+    'name'        => 'release_date',
+    'title'       => '_MI_TDMCREATE_CONFIG_RELEASE_DATE',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => date(_DBDATESTRING),
+];
+
+$modversion['config'][] = [
+    'name'        => 'status',
+    'title'       => '_MI_TDMCREATE_CONFIG_STATUS',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => 'Beta 1',
+];
+
+$modversion['config'][] = [
+    'name'        => 'donations',
+    'title'       => '_MI_TDMCREATE_CONFIG_PAYPAL_BUTTON',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '6KJ7RW5DR3VTJ',
+];
+
+$modversion['config'][] = [
+    'name'        => 'subversion',
+    'title'       => '_MI_TDMCREATE_CONFIG_SUBVERSION',
+    'description' => '_MI_TDMCREATE_CONFIG_',
+    'formtype'    => 'textbox',
+    'valuetype'   => 'text',
+    'default'     => '13040',
+];
+
 unset($c);
+
+/**
+ * Make Sample button visible?
+ */
+$modversion['config'][] = [
+    'name'        => 'displaySampleButton',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 1,
+];
+
+/**
+ * Show Developer Tools?
+ */
+$modversion['config'][] = [
+    'name'        => 'displayDeveloperTools',
+    'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+    'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+    'formtype'    => 'yesno',
+    'valuetype'   => 'int',
+    'default'     => 0,
+];
