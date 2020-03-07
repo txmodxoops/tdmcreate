@@ -21,7 +21,9 @@
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_morefiles.tpl';
+
+// Define main template
+$templateMain = 'tdmcreate_morefiles.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
@@ -34,8 +36,6 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('morefiles_adminpager'));
-        // Define main template
-        //        $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
@@ -69,8 +69,6 @@ switch ($op) {
         }
         break;
     case 'new':
-        // Define main template
-        //        $templateMain = 'tdmcreate_morefiles.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('morefiles.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_MORE_FILES_LIST, 'morefiles.php', 'list');

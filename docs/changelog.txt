@@ -2,6 +2,7 @@
 <hr>
 - code cosmetics (mamba)
 - added "Build" icons to Modules and Tables tabs - time saver (mamba)
+- cosmetics admin area (goffy)
 
 <h5>3.01 Alpha 1   [2020-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.1
 <hr>

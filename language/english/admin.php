@@ -117,7 +117,7 @@ define('_AM_TDMCREATE_MODULE_NAME', 'Name');
 define(
     '_AM_TDMCREATE_MODULE_NAME_DESC',
     "The module name can contain spaces and special characters such as accents.<br />
-An example would be: <b class='white'>My Simple Module</b>"
+An example would be: <b class='red'>My Simple Module</b>"
 );
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_DIRNAME', 'Directory Name');
@@ -125,7 +125,7 @@ define('_AM_TDMCREATE_MODULE_DIRNAME', 'Directory Name');
 define(
     '_AM_TDMCREATE_MODULE_DIRNAME_DESC',
     "The module directory can not contain spaces or special characters such as accents.<br />
-An example would be: <b class='white'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
+An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
 );
 define('_AM_TDMCREATE_MODULE_VERSION', 'Version');
 define('_AM_TDMCREATE_MODULE_SINCE', 'Since');

@@ -30,7 +30,9 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_fields.tpl';
+
+// Define main template
+$templateMain = 'tdmcreate_fields.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
@@ -46,8 +48,6 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('tables_adminpager'));
-        // Define main template
-        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
@@ -109,8 +109,6 @@ switch ($op) {
         }
         break;
     case 'new':
-        // Define main template
-        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
@@ -183,8 +181,6 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
-        // Define main template
-        //        $templateMain = 'tdmcreate_fields.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('fields.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');

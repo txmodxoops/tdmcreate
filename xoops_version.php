@@ -52,7 +52,7 @@ $modversion['modicons32']          = 'assets/images/icons/32';
 $modversion['targetdir']           = XOOPS_UPLOAD_PATH . "/{$moduleDirName}/repository/";
 $modversion['module_website_url']  = 'https://github.com/txmodxoops/tdmcreate-1.91';
 $modversion['module_website_name'] = 'GitHub Txmodx Xoops';
-$modversion['min_php']             = '5.5';
+$modversion['min_php']             = '7.0';
 $modversion['min_xoops']           = '2.5.9';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];

@@ -22,7 +22,8 @@ use XoopsModules\Tdmcreate;
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_building.tpl';
+
+$templateMain = 'tdmcreate_building.tpl';
 
 include __DIR__ . '/header.php';
 $op        = \Xmf\Request::getString('op', 'default');
@@ -39,7 +40,6 @@ if (!file_exists($indexFile = $cachePath . '/index.html')) {
 // Switch option
 switch ($op) {
     case 'build':
-        //        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Get var module dirname
         $moduleDirname = $moduleObj->getVar('mod_dirname');
@@ -93,7 +93,6 @@ switch ($op) {
         break;
     case 'default':
     default:
-        //        $templateMain = 'tdmcreate_building.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('building.php'));
         // Redirect if there aren't modules
         $nbModules = $helper->getHandler('Modules')->getCount();
