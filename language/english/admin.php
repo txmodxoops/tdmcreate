@@ -195,7 +195,7 @@ define('_AM_TDMCREATE_TABLE_NEW', 'New Table');
 define('_AM_TDMCREATE_TABLE_EDIT', 'Edit Table');
 define('_AM_TDMCREATE_TABLE_MODULES', 'Choose a module');
 define('_AM_TDMCREATE_TABLE_NAME', 'Table Name');
-define('_AM_TDMCREATE_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categorie</span><span class='white bold'>s</span>)");
+define('_AM_TDMCREATE_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categories</span><span class='white bold'>s</span>)");
 // Added in version 1.91
 define('_AM_TDMCREATE_TABLE_SOLENAME', 'Table Singular Name');
 define('_AM_TDMCREATE_TABLE_SOLENAME_DESC', "Singular  Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span> for admin buttons)");
