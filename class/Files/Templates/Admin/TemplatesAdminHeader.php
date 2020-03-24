@@ -78,11 +78,11 @@ class TemplatesAdminHeader extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
 
         $navigation = $hc->getSmartySingleVar('navigation');
-        $due        = $hc->getHtmlTag('span', ['class' => 'left'], $navigation) . PHP_EOL;
+        $due        = $hc->getHtmlSpan($navigation, 'left', "\t") ;
         $buttons    = $hc->getSmartySingleVar('buttons');
-        $right      = $hc->getHtmlTag('span', ['class' => 'left'], $buttons . '&nbsp;');
-        $due        .= $hc->getSmartyConditions('buttons', '', '', $right) . PHP_EOL;
-        $content    = $hc->getHtmlTag('div', ['class' => 'top'], $due);
+        $right      = $hc->getHtmlSpan($buttons, 'left', "\t\t", "\n");
+        $due        .= $hc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");
+        $content    = $hc->getHtmlDiv($due, 'top');
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

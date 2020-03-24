@@ -21,13 +21,14 @@
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_settings.tpl';
+
+// Define main template
+$templateMain = 'tdmcreate_settings.tpl';
 
 include __DIR__ . '/header.php';
 
 // Recovered value of argument op in the URL $
-$op = \Xmf\Request::getString('op', 'list');
-
+$op    = \Xmf\Request::getString('op', 'list');
 $setId = \Xmf\Request::getInt('set_id');
 
 switch ($op) {
@@ -35,8 +36,6 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('settings_adminpager'));
-        // Define main template
-        //        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
@@ -65,8 +64,6 @@ switch ($op) {
         }
         break;
     case 'new':
-        // Define main template
-        //        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');
@@ -135,7 +132,7 @@ switch ($op) {
         $settingsObj->setVar('set_comments', in_array('comments', $settingOption));
         $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption));
         $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption));
-        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
+        //$settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
         if (\Xmf\Request::hasVar('set_type')) {
             $settingsObj->setVar('set_type', \Xmf\Request::getString('set_type', '', 'POST'));
         }
@@ -149,8 +146,6 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
-        // Define main template
-        //        $templateMain = 'tdmcreate_settings.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('settings.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_SETTING, 'settings.php?op=new', 'add');
         $adminObject->addItemButton(_AM_TDMCREATE_SETTINGS_LIST, 'settings.php', 'list');

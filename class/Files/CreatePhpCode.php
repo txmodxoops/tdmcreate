@@ -204,13 +204,13 @@ class CreatePhpCode
         }
         if (false === $once) {
             if (!$isPath) {
-                $ret = "{$t}{$type} {$directory} .'/{$filename}.php';\n";
+                $ret = "{$t}{$type} {$directory} . '/{$filename}.php';\n";
             } else {
                 $ret = "{$t}{$type} {$directory};\n";
             }
         } else {
             if (!$isPath) {
-                $ret = "{$t}{$type}_once {$directory} .'/{$filename}.php';\n";
+                $ret = "{$t}{$type}_once {$directory} . '/{$filename}.php';\n";
             } else {
                 $ret = "{$t}{$type}_once {$directory};\n";
             }

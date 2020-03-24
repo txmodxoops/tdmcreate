@@ -43,7 +43,7 @@ class Modules extends \XoopsObject
         'comments',
         'notifications',
         'permissions',
-        'inroot_copy',
+        //'inroot_copy',
     ];
 
     /**
@@ -92,7 +92,7 @@ class Modules extends \XoopsObject
         $this->initVar('mod_comments', XOBJ_DTYPE_INT, $settings->getVar('set_comments'));
         $this->initVar('mod_notifications', XOBJ_DTYPE_INT, $settings->getVar('set_notifications'));
         $this->initVar('mod_permissions', XOBJ_DTYPE_INT, $settings->getVar('set_permissions'));
-        $this->initVar('mod_inroot_copy', XOBJ_DTYPE_INT, $settings->getVar('set_inroot_copy'));
+        //$this->initVar('mod_inroot_copy', XOBJ_DTYPE_INT, $settings->getVar('set_inroot_copy'));
         $this->initVar('mod_donations', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_donations'));
         $this->initVar('mod_subversion', XOBJ_DTYPE_TXTBOX, $settings->getVar('set_subversion'));
     }
@@ -158,7 +158,7 @@ class Modules extends \XoopsObject
             $set['comments']            = $setting->getVar('set_comments');
             $set['notifications']       = $setting->getVar('set_notifications');
             $set['permissions']         = $setting->getVar('set_permissions');
-            $set['inroot']              = $setting->getVar('set_inroot_copy');
+            //$set['inroot']              = $setting->getVar('set_inroot_copy');
             $set['image']               = $setting->getVar('set_image');
             $set['author_mail']         = $setting->getVar('set_author_mail');
             $set['author_website_url']  = $setting->getVar('set_author_website_url');

@@ -76,8 +76,8 @@ class TemplatesAdminPages extends Files\CreateFile
     private function getTemplatesAdminPagesHeader($moduleDirname)
     {
         $hc  = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $ret = $hc->getHtmlComment('Header') . PHP_EOL;
-        $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true);
+        $ret = $hc->getHtmlComment('Header', "\n");
+        $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
 
         return $ret;
     }
@@ -97,7 +97,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $langHeadId = mb_strtoupper($tableSoleName) . '_ID';
         if (1 == $tableAutoincrement) {
             $lang = $hc->getSmartyConst($language, $langHeadId);
-            $th   .= $hc->getHtmlTag('th', ['class' => 'center'], $lang, false, false, "\t\t\t");
+            $th   .= $hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t\t");
         }
         foreach (array_keys($fields) as $f) {
             $fieldName     = $fields[$f]->getVar('field_name');
@@ -105,14 +105,16 @@ class TemplatesAdminPages extends Files\CreateFile
             $langFieldName = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
             if (1 == $fields[$f]->getVar('field_inlist')) {
                 $lang = $hc->getSmartyConst($language, $langFieldName);
-                $th   .= $hc->getHtmlTag('th', ['class' => 'center'], $lang, false, false, "\t\t\t");
+                $th   .= $hc->getHtmlTag('th', ['class' => 'center'], $lang, false, "\t\t\t\t");
             }
         }
 
         $lang = $hc->getSmartyConst($language, 'FORM_ACTION');
-        $th   .= $hc->getHtmlTag('th', ['class' => 'center width5'], $lang, false, false, "\t\t\t");
-        $tr   = $hc->getHtmlTag('tr', ['class' => 'head'], $th) . PHP_EOL;
-        $ret  = $hc->getHtmlTag('thead', [], $tr);
+        $th   .= $hc->getHtmlTag('th', ['class' => 'center width5'], $lang, false, "\t\t\t\t");
+        //$tr   = $hc->getHtmlTag('tr', ['class' => 'head'], $th, false, "\t\t\t");
+        $tr   = $hc->getHtmlTableRow($th, 'head', "\t\t\t");
+        //$ret  = $hc->getHtmlTag('thead', [], $tr, false, "\t\t");
+        $ret  = $hc->getHtmlTableThead($tr, '', "\t\t");
 
         return $ret;
     }
@@ -133,7 +135,8 @@ class TemplatesAdminPages extends Files\CreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $hc->getSmartyDoubleVar($tableSoleName, 'id');
-            $td     .= $hc->getHtmlTableData($double, 'center');
+            //$td     .= $hc->getHtmlTableData($double, 'center');
+            $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $double, false, "\t\t\t\t");
         }
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -150,7 +153,7 @@ class TemplatesAdminPages extends Files\CreateFile
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $span   = $hc->getHtmlTag('span', [], $double);
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $span);
+                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $span, false, "\t\t\t\t");
                         /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
 EOT;*/
@@ -158,19 +161,19 @@ EOT;*/
                     case 10:
                         $src = $hc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, false);
-                        $td  .= $hc->getHtmlTag('td', ['class' => 'center'], "\n\t" . $img);
+                        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true);
+                        $td  .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
                         break;
                     case 13:
                         $single = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, false);
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, false, "\t\t");
+                        $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
+                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
                         break;
                     default:
                         if (0 != $f) {
                             $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $double);
+                            $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $double, false, "\t\t\t\t");
                         }
                         break;
                 }
@@ -179,20 +182,20 @@ EOT;*/
         $lang    = $hc->getSmartyConst('', '_EDIT');
         $double  = $hc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $hc->getSmartyNoSimbol('xoModuleIcons16 edit.png');
-        $img     = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, false);
-        $anchor  = $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], "\n\t" . $img);
+        $img     = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'', '');
+        $anchor  = $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=edit&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
         $lang    = $hc->getSmartyConst('', '_DELETE');
         $double  = $hc->getSmartyDoubleVar($tableSoleName, 'id');
         $src     = $hc->getSmartyNoSimbol('xoModuleIcons16 delete.png');
-        $img     = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, false);
-        $anchor  .= $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], "\n\t" . $img);
-        $td      .= $hc->getHtmlTag('td', ['class' => 'center  width5'], "\n" . $anchor);
+        $img     = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
+        $anchor  .= $hc->getHtmlTag('a', ['href' => $tableName . ".php?op=delete&amp;{$fieldId}=" . $double, 'title' => $lang], $img, false, "\t\t\t\t\t");
+        $td      .= $hc->getHtmlTag('td', ['class' => 'center  width5'], "\n" . $anchor . "\t\t\t\t", false, "\t\t\t\t");
         $cycle   = $hc->getSmartyNoSimbol('cycle values=\'odd, even\'');
-        $tr      = $hc->getHtmlTag('tr', ['class' => $cycle], $td);
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr);
-        $tbody   = $hc->getHtmlTag('tbody', [], $foreach);
+        $tr      = $hc->getHtmlTableRow($td, $cycle, "\t\t\t");
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName . '_list', $tr, '','', "\t\t\t");
+        $tbody   = $hc->getHtmlTableTbody($foreach,'' , "\t\t");
 
-        return $hc->getSmartyConditions($tableName . '_count', '', '', $tbody);
+        return $hc->getSmartyConditions($tableName . '_count', '', '', $tbody, '', false, false, "\t\t");
     }
 
     /**
@@ -211,7 +214,7 @@ EOT;*/
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
         $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
-        return $hc->getHtmlTable($tbody, 'table table-bordered');
+        return $hc->getHtmlTable($tbody, 'table table-bordered', "\t");
     }
 
     /**
@@ -228,20 +231,21 @@ EOT;*/
     {
         $hc        = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $htmlTable = $this->getTemplatesAdminPagesTable($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
-        $htmlTable .= $hc->getHtmlTag('div', ['class' => 'clear'], '&nbsp;');
+        $htmlTable .= $hc->getHtmlTag('div', ['class' => 'clear'], '&nbsp;', false, "\t");
         $single    = $hc->getSmartySingleVar('pagenav');
-        $div       = $hc->getHtmlTag('div', ['class' => 'xo-pagenav floatright'], $single);
-        $div       .= $hc->getHtmlTag('div', ['class' => 'clear spacer'], '');
-        $htmlTable .= $hc->getSmartyConditions('pagenav', '', '', $div);
+        $div       = $hc->getHtmlTag('div', ['class' => 'xo-pagenav floatright'], $single, false, "\t\t");
+        $div       .= $hc->getHtmlTag('div', ['class' => 'clear spacer'], '', false, "\t\t", "\n");
+        $htmlTable .= $hc->getSmartyConditions('pagenav', '', '', $div, '', '', '', "\t" );
         $ifList    = $hc->getSmartyConditions($tableName . '_list', '', '', $htmlTable);
-        $single    = $hc->getSmartySingleVar('form');
+        $single    = $hc->getSmartySingleVar('form', "\t", "\n");
         $divComm   = $hc->getHtmlComment('Display navigation');
         //$divComm .= $hc->getHtmlTag('div', array('class' => 'errorMsg'), $single);
         $ifList .= $hc->getSmartyConditions('form', '', '', $single);
         $single = $hc->getSmartySingleVar('error');
-        $strong = $hc->getHtmlTag('strong', [], $single);
-        $div    = $hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong);
+        $strong = $hc->getHtmlTag('strong', [], $single, false, '', '');
+        $div    = $hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t", "\n");
         $ifList .= $hc->getSmartyConditions('error', '', '', $div);
+        $ifList .= $hc->getHtmlEmpty('', '', "\n");;
 
         return $ifList;
     }
@@ -254,8 +258,7 @@ EOT;*/
     private function getTemplatesAdminPagesFooter($moduleDirname)
     {
         $hc  = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $ret = $hc->getHtmlTag('br', [], '', true);
-        $ret .= $hc->getHtmlComment('Footer');
+        $ret = $hc->getHtmlComment('Footer', "\n");
         $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'footer', true);
 
         return $ret;

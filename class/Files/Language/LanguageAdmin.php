@@ -246,6 +246,7 @@ class LanguageAdmin extends Files\CreateFile
         $ret = $this->defines->getAboveHeadDefines('Admin Others');
         $ret .= $this->defines->getDefine($language, 'MAINTAINEDBY', ' is maintained by ');
         $ret .= $this->defines->getBelowDefines('End');
+        $ret .= $this->defines->getBlankLine();
 
         return $ret;
     }

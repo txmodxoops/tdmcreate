@@ -77,7 +77,7 @@ class Submit extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header');
     }
 
     /**
@@ -90,22 +90,25 @@ class Submit extends Files\CreateFile
     private function getTemplatesUserSubmit($moduleDirname, $language)
     {
         $hc    = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $const = $hc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
-        $li    = $hc->getHtmlLi($const) . PHP_EOL;
-        $const = $hc->getSmartyConst($language, 'SUBMIT_ALLPENDING');
-        $li    .= $hc->getHtmlLi($const) . PHP_EOL;
-        $const = $hc->getSmartyConst($language, 'SUBMIT_DONTABUSE');
-        $li    .= $hc->getHtmlLi($const) . PHP_EOL;
-        $const = $hc->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
-        $li    .= $hc->getHtmlLi($const) . PHP_EOL;
-        $ul    = $hc->getHtmlUl($li) . PHP_EOL;
-        $ret   = $hc->getHtmlDiv($ul, $moduleDirname . '-tips') . PHP_EOL;
 
-        $single   = $hc->getSmartySingleVar('message_error') . PHP_EOL;
-        $divError = $hc->getHtmlDiv($single, 'errorMsg') . PHP_EOL;
-        $ret      .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError) . PHP_EOL;
-        $single   = $hc->getSmartySingleVar('form') . PHP_EOL;
-        $ret      .= $hc->getHtmlDiv($single, $moduleDirname . '-submitform') . PHP_EOL;
+        $const = $hc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
+        $li    = $hc->getHtmlLi($const, '',"\t\t");
+        $const = $hc->getSmartyConst($language, 'SUBMIT_ALLPENDING');
+        $li    .= $hc->getHtmlLi($const, '',"\t\t");
+        $const = $hc->getSmartyConst($language, 'SUBMIT_DONTABUSE');
+        $li    .= $hc->getHtmlLi($const, '',"\t\t");
+        $const = $hc->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
+        $li    .= $hc->getHtmlLi($const, '',"\t\t");
+        $ul    = $hc->getHtmlUl($li, '', "\t");
+
+        $ret      = $hc->getHtmlEmpty('', '',"\n");
+        $ret     .= $hc->getHtmlDiv($ul, $moduleDirname . '-tips');
+        $single   = $hc->getSmartySingleVar('message_error');
+        $divError = $hc->getHtmlDiv($single, 'errorMsg', "\t", "\n", false);
+        $ret      .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError);
+        $single   = $hc->getSmartySingleVar('form', "\t", "\n");
+        $ret      .= $hc->getHtmlDiv($single, $moduleDirname . '-submitform');
+        $ret      .= $hc->getHtmlEmpty('', '',"\n");
 
         return $ret;
     }

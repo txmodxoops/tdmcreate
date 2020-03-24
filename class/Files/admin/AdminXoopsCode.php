@@ -155,9 +155,11 @@ class AdminXoopsCode
      * @param string $tableName
      * @param string $fieldName
      * @param string $t
+     * @param int    $countUploader
+     * @param string $fieldMain
      * @return string
      */
-    public function getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t = '')
+    public function getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t = '', $countUploader, $fieldMain)
     {
         $pCodeImageList = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeImageList = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -165,7 +167,7 @@ class AdminXoopsCode
         $ret            .= $pCodeImageList->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $xRootPath      = "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
         $ret            .= $xCodeImageList->getXcMediaUploader('uploader', $xRootPath, $moduleDirname, $t);
-        $post           = $pCodeImageList->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[0]';
+        $post           = $pCodeImageList->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
         $ifelse         = $t . "\t//" . $this->getAxcSetPrefix('uploader', "{$fieldName}_") . ";\n";
         $ifelse         .= $t . "\t//{$fetchMedia};\n";
@@ -187,9 +189,10 @@ class AdminXoopsCode
      * @param string $fieldName
      * @param        $fieldMain
      * @param string $t
+     * @param int    $countUploader
      * @return string
      */
-    public function getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '')
+    public function getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '', $countUploader)
     {
         $pCodeUploadImage = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeUploadImage = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -197,14 +200,14 @@ class AdminXoopsCode
         $ret              = $pCodeUploadImage->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret              .= $pCodeUploadImage->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $xUploadImage     = "{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
-        $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . ".'/{$tableName}/'", $moduleDirname, $t);
-        $post             = $pCodeUploadImage->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[0]';
+        $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", $moduleDirname, $t);
+        $post             = $pCodeUploadImage->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia       = $this->getAxcFetchMedia('uploader', $post);
         $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['name']";
         $expr             = '/^.+\.([^.]+)$/sU';
         $ifelse           = $pCodeUploadImage->getPhpCodePregFunzions('extension', $expr, '', $file, 'replace', false, $t . "\t");
 
-        $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']).'.'.\$extension;\n";
+        $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']) . '.' . \$extension;\n";
         $ifelse         .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse         .= $t . "\t{$fetchMedia};\n";
         $contentElseInt = $xCodeUploadImage->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
@@ -225,12 +228,14 @@ class AdminXoopsCode
      * @param        $fieldName
      * @param bool   $formatUrl
      * @param string $t
+     * @param int    $countUploader
+     * @param string $fieldMain
      * @return string
      */
-    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '')
+    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret              = $this->getAxcImageFileSetVar($moduleDirname, $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t);
+        $ret              = $this->getAxcImageFileSetVar($moduleDirname, $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain);
 
         return $ret;
     }
@@ -243,35 +248,41 @@ class AdminXoopsCode
      * @param        $fieldName
      * @param bool   $formatUrl
      * @param string $t
+     * @param int    $countUploader
+     * @param string $fieldMain
      * @return string
      */
-    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '')
+    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain)
     {
         $pCodeFileSetVar = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeFileSetVar = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ret             = '';
         $ifelse          = '';
         $files           = '';
-        $post            = $pCodeFileSetVar->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[0]';
-        $fetchMedia      = $this->getAxcFetchMedia('uploader', $post);
+        $contentIf       = '';
+
         if ($formatUrl) {
             $ret    .= $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])", $t);
-            $ret    .= $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
-            $ifelse .= $t . "\t\t{$fetchMedia};\n";
-        } else {
-            $files  = '/files';
-            $ret    .= $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
-            $ifelse .= $t . "\t//" . $this->getAxcSetPrefix('uploader', "'{$fieldName}_'") . ";\n";
-            $ifelse .= $t . "\t//{$fetchMedia};\n";
         }
-        $ret         .= $pCodeFileSetVar->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
-        $ret         .= $xCodeFileSetVar->getXcMediaUploader('uploader', $dirname . ".'/{$tableName}{$files}'", $moduleDirname, $t);
-        $contentElse = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contentIf   = $xCodeFileSetVar->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
-        $contentIf   .= $xCodeFileSetVar->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t . "\t\t");
-        $ifelse      .= $pCodeFileSetVar->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElse, $t . "\t");
+        $ret            .= $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
+        $ret            .= $pCodeFileSetVar->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $ret            .= $xCodeFileSetVar->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $moduleDirname, $t);
+        $post           = $pCodeFileSetVar->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
+        $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
+        $file           = $pCodeFileSetVar->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
+        $expr           = '/^.+\.([^.]+)$/sU';
+        $ifelse         .= $pCodeFileSetVar->getPhpCodePregFunzions('extension', $expr, '', $file, 'replace', false, $t . "\t");
 
-        $ret .= $pCodeFileSetVar->getPhpCodeConditions($fetchMedia, '', '', $t . "\t" . $fetchMedia . ";\n", $ifelse, $t);
+        $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', \$_POST['{$fieldMain}']) . '.' . \$extension;\n";
+        $ifelse         .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
+        $ifelse         .= $t . "\t{$fetchMedia};\n";
+        $contentElseInt = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
+        $contentIf      .= $xCodeFileSetVar->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $contentIf      .= $xCodeFileSetVar->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t . "\t\t");
+        $ifelse         .= $pCodeFileSetVar->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
+        $contentElseExt = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t . "\t");
+
+        $ret .= $pCodeFileSetVar->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt, $t);
 
         return $ret;
     }
@@ -287,9 +298,10 @@ class AdminXoopsCode
      */
     public function getAxcSetVarsObjects($moduleDirname, $tableName, $tableSoleName, $fields)
     {
-        $xCodeSetVars = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $ret          = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
-        $fieldMain    = '';
+        $xCodeSetVars  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $ret           = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine($comment = 'Set Vars', $var = '');
+        $fieldMain     = '';
+        $countUploader = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -300,7 +312,8 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $this->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $this->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, '', $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 12:
                         $ret .= $xCodeSetVars->getXcUrlFileSetVar($moduleDirname, $tableName, $fieldName);
@@ -309,7 +322,8 @@ class AdminXoopsCode
                         if (1 == $fields[$f]->getVar('field_main')) {
                             $fieldMain = $fieldName;
                         }
-                        $ret .= $this->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= $this->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
+                        $countUploader++;
                         break;
                     case 14:
                         $ret .= $xCodeSetVars->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);

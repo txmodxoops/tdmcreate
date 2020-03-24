@@ -406,9 +406,10 @@ class UserXoopsVersion extends Files\CreateFile
             $tableSoleName    = $tables[$i]->getVar('table_solename');
             $stuTableSoleName = mb_strtoupper($tableSoleName);
             $tableCategory[]  = $tables[$i]->getVar('table_category');
-            if (in_array(1, $tableCategory)) {
-                $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $tableFieldName);
-            } else {
+            //if (in_array(1, $tableCategory)) {
+            //$ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, $stuTableSoleName, $language, $tableFieldName);
+            //} else {
+            if (0 == $tables[$i]->getVar('table_category')) {
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'LAST', $language, 'last');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'NEW', $language, 'new');
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'HITS', $language, 'hits');
@@ -436,7 +437,7 @@ class UserXoopsVersion extends Files\CreateFile
         $uCodeVTBlocks   = UserXoopsCode::getInstance();
         $stuTableName    = mb_strtoupper($tableName);
         $ucfTableName    = ucfirst($tableName);
-        $ret             = $phpCodeVTBlocks->getPhpCodeCommentLine($ucfTableName);
+        $ret             = $phpCodeVTBlocks->getPhpCodeCommentLine($ucfTableName . ' ' . $type);
         $blocks          = [
             'file'        => "'{$tableName}.php'",
             'name'        => "{$language}{$stuTableName}_BLOCK_{$stuTableSoleName}",
@@ -838,9 +839,9 @@ class UserXoopsVersion extends Files\CreateFile
             $tableBroken[]   = $tables[$t]->getVar('table_broken');
             $tableSubmit[]   = $tables[$t]->getVar('table_submit');
             if (1 == $tables[$t]->getVar('table_notifications')) {
-                if ($t <= count($tableName)) {
-                    $notifyFiles[] = $tables[$t]->getVar('table_name');
-                }
+                //if ($t <= count($tableName)) {
+                    $notifyFiles[] = $tableName;
+                //}
             }
             if (1 == $tables[$t]->getVar('table_single')) {
                 $single = $tableName;

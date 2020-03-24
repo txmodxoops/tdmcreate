@@ -47,7 +47,7 @@ class Settings extends \XoopsObject
         'comments',
         'notifications',
         'permissions',
-        'inroot_copy',
+        //'inroot_copy',
     ];
 
     /**
@@ -94,7 +94,7 @@ class Settings extends \XoopsObject
         $this->initVar('set_comments', XOBJ_DTYPE_INT, $helper->getConfig('active_comments'));
         $this->initVar('set_notifications', XOBJ_DTYPE_INT, $helper->getConfig('active_notifications'));
         $this->initVar('set_permissions', XOBJ_DTYPE_INT, $helper->getConfig('active_permissions'));
-        $this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $helper->getConfig('inroot_copy'));
+        //$this->initVar('set_inroot_copy', XOBJ_DTYPE_INT, $helper->getConfig('inroot_copy'));
         $this->initVar('set_donations', XOBJ_DTYPE_TXTBOX, $helper->getConfig('donations'));
         $this->initVar('set_subversion', XOBJ_DTYPE_TXTBOX, $helper->getConfig('subversion'));
         $this->initVar('set_type', XOBJ_DTYPE_TXTBOX);

@@ -130,7 +130,11 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret .= $this->defines->getDefine($language, 'SUBMIT_RECEIVED', "We have received your {$tableSoleName} info. Thank you !");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_SUBMITONCE', "Submit your {$tableSoleName}/script only once.");
         $ret .= $this->defines->getDefine($language, 'SUBMIT_TAKEDAYS', "This will take many days to see your {$tableSoleName}/script added successfully in our database.");
-
+        $ret .= $this->defines->getAboveDefines('Form');
+        $ret .= $this->defines->getDefine($language, 'FORM_OK', 'Successfully saved');
+        $ret .= $this->defines->getDefine($language, 'FORM_DELETE_OK', 'Successfully deleted');
+        $ret .= $this->defines->getDefine($language, 'FORM_SURE_DELETE', "Are you sure to delete: <b><span style='color : Red;'>%s </span></b>", true);
+        $ret .= $this->defines->getDefine($language, 'FORM_SURE_RENEW', "Are you sure to update: <b><span style='color : Red;'>%s </span></b>", true);
         return $ret;
     }
 
@@ -145,6 +149,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret = $this->defines->getAboveDefines('Admin link');
         $ret .= $this->defines->getDefine($language, 'ADMIN', 'Admin');
         $ret .= $this->defines->getBelowDefines('End');
+        $ret .= $this->defines->getBlankLine();
 
         return $ret;
     }

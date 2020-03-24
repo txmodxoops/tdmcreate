@@ -155,8 +155,9 @@ EOT;
     \$criteria->setLimit(\$limit);
     \${$tableName}All = \${$tableName}Handler->getAll(\$criteria);
 	unset(\$criteria);
-    foreach(array_keys(\${$tableName}All) as \$i)
-    {\n
+	if (count(\${$tableName}All) > 0) {
+        foreach(array_keys(\${$tableName}All) as \$i)
+        {\n
 EOT;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -168,34 +169,35 @@ EOT;
                 switch ($fieldElement) {
                     case 2:
                         $ret .= <<<EOT
-        \$block[\$i]['{$rpFieldName}'] = \$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+            \$block[\$i]['{$rpFieldName}'] = \$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
                         break;
                     case 3:
                     case 4:
                         $ret .= <<<EOT
-		\$block[\$i]['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+		    \$block[\$i]['{$rpFieldName}'] = strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
                         break;
                     case 8:
                         $ret .= <<<EOT
-		\$block[\$i]['{$rpFieldName}'] = \XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+		    \$block[\$i]['{$rpFieldName}'] = \XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
                         break;
                     case 15:
                         $ret .= <<<EOT
-		\$block[\$i]['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
+            \$block[\$i]['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'));\n
 EOT;
                         break;
                     default:
                         $ret .= <<<EOT
-        \$block[\$i]['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
+            \$block[\$i]['{$rpFieldName}'] = \${$tableName}All[\$i]->getVar('{$fieldName}');\n
 EOT;
                         break;
                 }
             }
         }
         $ret .= <<<EOT
+        }
     }
     return \$block;
 }\n\n

@@ -86,6 +86,9 @@
                         <a href="modules.php?op=delete&amp;mod_id=<{$module.id}>" title="<{$smarty.const._DELETE}>">
                             <img src="<{xoModuleIcons16 delete.png}>" alt="<{$smarty.const._DELETE}>" alt="<{$smarty.const._DELETE}>"/>
                         </a>
+                        <a href="tables.php?op=new&amp;table_mid=<{$module.id}>" title="<{$smarty.const._ADD}>">
+                            <img src="<{xoModuleIcons16 add.png}>" alt="<{$smarty.const._ADD}>" alt="<{$smarty.const._ADD}>"/>
+                        </a>
                         <a href="building.php?op=build&amp;mod_id=<{$module.id}>"><img src="<{xoModuleIcons16 forward.png}>"
                                                                                        alt="<{$smarty.const._AM_TDMCREATE_ADMIN_CONST}>"
                                                                                        title="<{$smarty.const._AM_TDMCREATE_ADMIN_CONST}>"></a>

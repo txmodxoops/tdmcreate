@@ -200,6 +200,8 @@ class UserIndex extends Files\CreateFile
         $condIf   .= $xc->getXcTplAssign('lang_thereare', $thereare, true, "\t");
         $divideby = $xc->getXcGetConfig($moduleDirname, 'divideby');
         $condIf   .= $xc->getXcTplAssign('divideby', $divideby, true, "\t");
+        $numb_col  = $xc->getXcGetConfig($moduleDirname, 'numb_col');
+        $condIf   .= $xc->getXcTplAssign('numb_col', $numb_col, true, "\t");
 
         $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret       .= $pc->getPhpCodeUnset('count');

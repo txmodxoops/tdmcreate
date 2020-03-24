@@ -76,7 +76,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header', true) . PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
     }
 
     /**
@@ -88,9 +88,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
     {
         $hc   = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $form = $hc->getSmartySingleVar('form');
-        $ret  = $hc->getHtmlTag('div', ['class' => 'spacer'], $form) . PHP_EOL;
-        $ret  .= $hc->getHtmlTag('br', [], '', false) . PHP_EOL;
-
+        $ret  = $hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
         return $ret;
     }
 
@@ -117,7 +115,7 @@ class TemplatesAdminPermissions extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'AM');
+        //$language      = $this->getLanguage($moduleDirname, 'AM');
         $content       = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
         $content       .= $this->getTemplatesAdminPermissions();
         $content       .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);
