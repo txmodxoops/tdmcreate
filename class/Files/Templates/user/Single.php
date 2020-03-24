@@ -75,7 +75,7 @@ class Single extends Files\CreateFile
      */
     private function getTemplatesUserSingleHeader($moduleDirname)
     {
-        $smarty = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $smarty = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $ret    = $smarty->getSmartyIncludeFile($moduleDirname);
 
         return $ret;
@@ -92,13 +92,14 @@ class Single extends Files\CreateFile
     private function getTemplatesUserSingleBody($moduleDirname, $table, $language)
     {
         $tableName = $table->getVar('table_name');
-        $hc        = Tdmcreate\Files\CreateHtmlCode::getInstance();
-        $t         = "\t";
+        $hc        = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $ret       = '';
-        $content   = $hc->getHtmlHNumb('Services Panels', '2', 'page-header', $t . "\t");
-        $collg12   = $hc->getHtmlDiv($content, 'col-lg-12', $t);
-        $row       = $hc->getHtmlDiv($collg12, 'row', $t);
+        $ret       .= $hc->getHtmlEmpty('', '',"\n");
+        $content   = $hc->getHtmlHNumb('Services Panels', '2', 'page-header', "\t\t\t");
+        $collg12   = $hc->getHtmlDiv($content, 'col-lg-12', "\t\t");
+        $row       = $hc->getHtmlDiv($collg12, 'row', "\t");
         $ret       .= $hc->getHtmlDiv($row, 'container');
+        $ret       .= $hc->getHtmlEmpty('', '',"\n");
 
         return $ret;
     }
@@ -111,7 +112,7 @@ class Single extends Files\CreateFile
      */
     private function getTemplatesUserSingleFooter($moduleDirname)
     {
-        $smarty = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $smarty = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $ret    = $smarty->getSmartyIncludeFile($moduleDirname, 'footer');
 
         return $ret;

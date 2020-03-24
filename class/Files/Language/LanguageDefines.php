@@ -110,4 +110,14 @@ class LanguageDefines
     {
         return "// ---------------- {$string} ----------------";
     }
+
+    /**
+     * @public function getBelowDefines
+     *
+     * @return string
+     */
+    public function getBlankLine()
+    {
+        return "\n";
+    }
 }

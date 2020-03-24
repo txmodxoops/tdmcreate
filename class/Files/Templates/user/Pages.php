@@ -77,7 +77,7 @@ class Pages extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $hc->getSmartyIncludeFile($moduleDirname, 'header', '','','',"\n\n");
     }
 
     /**
@@ -96,7 +96,7 @@ class Pages extends Files\CreateFile
         $tbody  .= $this->getTemplatesUserPagesTableTfoot();
         $single = $hc->getSmartySingleVar('table_type');
 
-        return $hc->getHtmlTable($tbody, 'table table-' . $single) . PHP_EOL;
+        return $hc->getHtmlTable($tbody, 'table table-' . $single, "\t");
     }
 
     /**
@@ -111,10 +111,10 @@ class Pages extends Files\CreateFile
         $stuTableName = mb_strtoupper($tableName);
         $single       = $hc->getSmartySingleVar('divideby');
         $lang         = $hc->getSmartyConst($language, $stuTableName . '_TITLE');
-        $th           = $hc->getHtmlTableHead($lang, '', $single) . PHP_EOL;
-        $tr           = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
+        $th           = $hc->getHtmlTableHead($lang, '', $single, "\t\t\t\t");
+        $tr           = $hc->getHtmlTableRow($th, 'head', "\t\t\t");
 
-        return $hc->getHtmlTableThead($tr) . PHP_EOL;
+        return $hc->getHtmlTableThead($tr, '', "\t\t");
     }
 
     /**
@@ -129,15 +129,15 @@ class Pages extends Files\CreateFile
     {
         $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $single  = $hc->getSmartySingleVar('panel_type');
-        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
-        $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single);
-        $cont    = $hc->getHtmlTableData($div) . PHP_EOL;
-        $html    = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
-        $cont    .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
-        $tr      = $hc->getHtmlTableRow($foreach) . PHP_EOL;
+        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, "\t\t\t\t\t\t", "\n");
+        $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
+        $cont    = $hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);
+        $html    = $hc->getHtmlEmpty('</tr><tr>', "\t\t\t\t\t", "\n");
+        $cont    .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t");
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont,'','',"\t\t\t\t");
+        $tr      = $hc->getHtmlTableRow($foreach,'',"\t\t\t");
 
-        return $hc->getHtmlTableTbody($tr) . PHP_EOL;
+        return $hc->getHtmlTableTbody($tr,'',"\t\t");
     }
 
     /**
@@ -148,10 +148,10 @@ class Pages extends Files\CreateFile
     private function getTemplatesUserPagesTableTfoot()
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
-        $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
+        $td = $hc->getHtmlTableData("&nbsp;", '', '', '', '');
+        $tr = $hc->getHtmlTableRow($td, '', '', '');
 
-        return $hc->getHtmlTableTfoot($tr) . PHP_EOL;
+        return $hc->getHtmlTableTfoot($tr, '', "\t\t", "\n", false);
     }
 
     /**
@@ -165,10 +165,10 @@ class Pages extends Files\CreateFile
     private function getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $hc    = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language) . PHP_EOL;
-        $div   = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
+        $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language);
+        $div   = $hc->getHtmlDiv($table, 'table-responsive');
 
-        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true) . PHP_EOL;
+        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true);
     }
 
     /**
@@ -180,8 +180,10 @@ class Pages extends Files\CreateFile
     private function getTemplatesUserPagesFooter($moduleDirname)
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $ret = $hc->getHtmlEmpty('', '', "\n");
+        $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'footer');
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $ret;
     }
 
     /**

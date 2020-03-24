@@ -27,8 +27,7 @@ $templateMain = 'tdmcreate_modules.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
-$op = \Xmf\Request::getString('op', 'list');
-
+$op    = \Xmf\Request::getString('op', 'list');
 $modId = \Xmf\Request::getInt('mod_id');
 
 switch ($op) {
@@ -150,7 +149,7 @@ switch ($op) {
         $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption));
         $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption));
         $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption));
-        $modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
+        //$modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
 
         if ($helper->getHandler('Modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {

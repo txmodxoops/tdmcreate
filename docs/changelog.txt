@@ -4,6 +4,13 @@
 - added "Build" icons to Modules and Tables tabs - time saver (mamba)
 - cosmetics admin area (goffy)
 - fixed problems with test data (goffy)
+- fixed bug with upload file/images in admin pages (goffy)
+- fixed bug with save permissions in admin pages (goffy)
+- fixed bugs in tpl creation (goffy)
+- improved tpl creation (goffy)
+*************************************************************
+THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
+*************************************************************
 
 <h5>3.01 Alpha 1   [2020-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.1
 <hr>
@@ -15,7 +22,6 @@
 - updated Scrutinizer config (mamba)
 - added Config (mamba)
 - moved icons to /images (mamba)
-
 
 =================================================
 2018/03/27: Version 1.91 alpha 3.6 [NOT RELEASED]

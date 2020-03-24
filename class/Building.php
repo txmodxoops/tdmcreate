@@ -55,21 +55,23 @@ class Building
      */
     public function getForm($action = false)
     {
-        $tc = Tdmcreate\Helper::getInstance();
+        $helper = Tdmcreate\Helper::getInstance();
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
         }
         xoops_load('XoopsFormLoader');
         $form = new \XoopsThemeForm(_AM_TDMCREATE_ADMIN_CONST, 'buildform', $action, 'post', true);
         $form->setExtra('enctype="multipart/form-data"');
-        $moduleObj  = $tc->getHandler('modules')->getObjects(null);
+        $moduleObj  = $helper->getHandler('modules')->getObjects(null);
         $mod_select = new \XoopsFormSelect(_AM_TDMCREATE_CONST_MODULES, 'mod_id', 'mod_id');
         $mod_select->addOption('', _AM_TDMCREATE_BUILD_MODSELOPT);
         foreach ($moduleObj as $mod) {
             $mod_select->addOption($mod->getVar('mod_id'), $mod->getVar('mod_name'));
         }
         $form->addElement($mod_select, true);
-
+        
+        $form->addElement(new \XoopsFormRadioYN(_AM_TDMCREATE_MODULE_INROOT_COPY, 'inroot_copy', $helper->getConfig('inroot_copy')));
+        
         $form->addElement(new \XoopsFormHidden('op', 'build'));
         $form->addElement(new \XoopsFormButton(_REQUIRED . ' <sup class="red bold">*</sup>', 'submit', _SUBMIT, 'submit'));
 

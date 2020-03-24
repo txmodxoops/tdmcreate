@@ -32,9 +32,9 @@
     table_id: '2'
     table_mid: '1'
     table_category: '0'
-    table_name: items
-    table_solename: item
-    table_fieldname: it
+    table_name: articles
+    table_solename: article
+    table_fieldname: art
     table_nbfields: '9'
     table_order: '1'
     table_image: penguin.png

@@ -35,6 +35,6 @@
     mod_comments: '1'
     mod_notifications: '1'
     mod_permissions: '1'
-    mod_inroot_copy: '0'
+    mod_inroot_copy: '1'
     mod_donations: 6KJ7RW5DR3VTJ
     mod_subversion: '13070'

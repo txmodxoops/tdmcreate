@@ -26,10 +26,17 @@ use XoopsModules\Tdmcreate;
 $templateMain = 'tdmcreate_building.tpl';
 
 include __DIR__ . '/header.php';
-$op        = \Xmf\Request::getString('op', 'default');
-$mid       = \Xmf\Request::getInt('mod_id');
-$moduleObj = $helper->getHandler('Modules')->get($mid);
-$cachePath = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
+$op          = \Xmf\Request::getString('op', 'default');
+$mid         = \Xmf\Request::getInt('mod_id');
+$inroot_copy = \Xmf\Request::getInt('inroot_copy');
+$moduleObj   = $helper->getHandler('Modules')->get($mid);
+$cachePath   = XOOPS_VAR_PATH . '/caches/tdmcreate_cache';
+if (!is_dir($cachePath)) {
+    if (!mkdir($cachePath, 0777) && !is_dir($cachePath)) {
+        throw new \RuntimeException(sprintf('Directory "%s" was not created', $cachePath));
+    }
+    chmod($cachePath, 0777);
+}
 // Clear cache
 if (file_exists($cache = $cachePath . '/classpaths.cache')) {
     unlink($cache);
@@ -75,9 +82,10 @@ switch ($op) {
         }
         unset($build);
         // Directory to saved all files
-        $GLOBALS['xoopsTpl']->assign('building_directory', sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname));
+		$building_directory = sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname);
+        
         // Copy this module in root modules
-        if (1 == $moduleObj->getVar('mod_inroot_copy')) {
+        if (1 === $inroot_copy) {
             $building = Tdmcreate\Building::getInstance();
             if (isset($moduleDirname)) {
                 // Clear this module if it's in root/modules
@@ -89,7 +97,9 @@ switch ($op) {
                 }
             }
             $building->copyDir($fromDir, $toDir);
+			$building_directory .= sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY_INROOT, $toDir);
         }
+		$GLOBALS['xoopsTpl']->assign('building_directory', $building_directory);
         break;
     case 'default':
     default:

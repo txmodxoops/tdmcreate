@@ -98,5 +98,5 @@
     fieldelement_id: '17'
     fieldelement_mid: '1'
     fieldelement_tid: '2'
-    fieldelement_name: 'Table : Items'
-    fieldelement_value: XoopsFormTables-Items
+    fieldelement_name: 'Table : Articles'
+    fieldelement_value: XoopsFormTables-Articles

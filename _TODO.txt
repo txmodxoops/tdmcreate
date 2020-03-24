@@ -1,0 +1,5 @@
+Notifications:
+there are too much notification, which are not needed/working
+TODO: 
+- reduce xoops_version.php to needed
+- adapt language/modinfo.php

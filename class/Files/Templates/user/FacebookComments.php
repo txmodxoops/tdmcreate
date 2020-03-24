@@ -78,7 +78,7 @@ class FacebookComments extends Files\CreateFile
     {
         $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
-        return $hc->getHtmlEmpty('Pleace! Enter here your comments code');
+        return $hc->getHtmlEmpty('Please! Enter here your comments code');
     }
 
     /**

@@ -128,7 +128,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '1'
-    field_name: it_id
+    field_name: art_id
     field_type: '2'
     field_value: '8'
     field_attribute: '3'
@@ -153,7 +153,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '2'
-    field_name: it_cat
+    field_name: art_cat
     field_type: '2'
     field_value: '8'
     field_attribute: '1'
@@ -178,7 +178,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '3'
-    field_name: it_title
+    field_name: art_title
     field_type: '14'
     field_value: '200'
     field_attribute: '1'
@@ -203,7 +203,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '4'
-    field_name: it_descr
+    field_name: art_descr
     field_type: '17'
     field_value: ''
     field_attribute: '1'
@@ -228,7 +228,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '5'
-    field_name: it_img
+    field_name: art_img
     field_type: '14'
     field_value: '200'
     field_attribute: '1'
@@ -253,7 +253,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '6'
-    field_name: it_online
+    field_name: art_online
     field_type: '3'
     field_value: '1'
     field_attribute: '1'
@@ -278,7 +278,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '7'
-    field_name: it_file
+    field_name: art_file
     field_type: '14'
     field_value: '200'
     field_attribute: '1'
@@ -303,7 +303,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '8'
-    field_name: it_date
+    field_name: art_date
     field_type: '2'
     field_value: '10'
     field_attribute: '1'
@@ -328,7 +328,7 @@
     field_mid: '1'
     field_tid: '2'
     field_order: '9'
-    field_name: it_submitter
+    field_name: art_submitter
     field_type: '2'
     field_value: '10'
     field_attribute: '1'
@@ -345,31 +345,6 @@
     field_tbody: '1'
     field_tfoot: '1'
     field_block: '1'
-    field_main: '0'
-    field_search: '0'
-    field_required: '0'
--
-    field_id: '15'
-    field_mid: '1'
-    field_tid: '2'
-    field_order: '10'
-    field_name: it_
-    field_type: '1'
-    field_value: ''
-    field_attribute: '1'
-    field_null: '2'
-    field_default: ''
-    field_key: '1'
-    field_element: '1'
-    field_parent: '0'
-    field_admin: '0'
-    field_inlist: '0'
-    field_inform: '0'
-    field_user: '0'
-    field_thead: '0'
-    field_tbody: '0'
-    field_tfoot: '0'
-    field_block: '0'
     field_main: '0'
     field_search: '0'
     field_required: '0'

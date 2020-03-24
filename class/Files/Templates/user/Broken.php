@@ -100,12 +100,12 @@ class Broken extends Files\CreateFile
             $stuFieldName = mb_strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 $const = $hc->getSmartyConst($language, $stuFieldName);
-                $th    .= $hc->getHtmlTag('th', ['class' => 'center'], $const) . PHP_EOL;
+                $th    .= $hc->getHtmlTag('th', ['class' => 'center'], $const, '', "\t\t\t");
             }
         }
-        $tr = $hc->getHtmlTag('tr', ['class' => 'head'], $th) . PHP_EOL;
+        $tr = $hc->getHtmlTableRow($th, 'head',"\t\t");
 
-        return $hc->getHtmlTag('thead', ['class' => 'outer'], $tr) . PHP_EOL;
+        return $hc->getHtmlTableThead($tr, 'outer', "\t");
     }
 
     /**
@@ -131,27 +131,27 @@ class Broken extends Files\CreateFile
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
                 switch ($fieldElement) {
                     case 9:
-                        $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", "#<{\${$tableSoleName}.{$rpFieldName}}>") . PHP_EOL;
-                        $ret  .= $hc->getHtmlTableData($span, 'center') . PHP_EOL;
+                        $span = $hc->getHtmlSpan("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", "#<{\${$tableSoleName}.{$rpFieldName}}>");
+                        $ret  .= $hc->getHtmlTableData($span, 'center', '', "\t\t\t");
                         break;
                     case 10:
                         $img = $hc->getHtmlImage("<{xoModuleIcons32}><{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
-                        $ret .= $hc->getHtmlTableData($img, 'center') . PHP_EOL;
+                        $ret .= $hc->getHtmlTableData($img, 'center', '', "\t\t\t");
                         break;
                     case 13:
                         $img = $hc->getHtmlImage("<{\${$moduleDirname}_upload_url}>/images/{$tableName}/<{\${$tableSoleName}.{$rpFieldName}}>", $tableName);
-                        $ret .= $hc->getHtmlTableData($img, 'center') . PHP_EOL;
+                        $ret .= $hc->getHtmlTableData($img, 'center', '', "\t\t\t") ;
                         break;
                     default:
-                        $ret .= $hc->getHtmlTableData("<{\${$tableSoleName}.{$rpFieldName}}>", 'center') . PHP_EOL;
+                        $ret .= $hc->getHtmlTableData("<{\${$tableSoleName}.{$rpFieldName}}>", 'center', '', "\t\t\t") ;
                         break;
                 }
             }
         }
-        $row     = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>') . PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row) . PHP_EOL;
+        $row     = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>',"\t\t") ;
+        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row, '', '', "\t\t");
 
-        return $hc->getHtmlTableTbody($foreach) . PHP_EOL;
+        return $hc->getHtmlTableTbody($foreach, '', "\t");
     }
 
     /**
@@ -184,10 +184,10 @@ class Broken extends Files\CreateFile
         $tableSoleName      = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $language           = $this->getLanguage($moduleDirname, 'MA');
-        $content            = $this->getTemplatesUserBrokenFileHeader($moduleDirname) . PHP_EOL;
+        $content            = $this->getTemplatesUserBrokenFileHeader($moduleDirname);
         $contentTable       = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
         $contentTable       .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language);
-        $content            .= $hc->getHtmlTable($contentTable, 'table table-bordered') . PHP_EOL;
+        $content            .= $hc->getHtmlTable($contentTable, 'table table-bordered');
         $content            .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

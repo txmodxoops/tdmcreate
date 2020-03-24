@@ -132,7 +132,7 @@ switch ($op) {
         $settingsObj->setVar('set_comments', in_array('comments', $settingOption));
         $settingsObj->setVar('set_notifications', in_array('notifications', $settingOption));
         $settingsObj->setVar('set_permissions', in_array('permissions', $settingOption));
-        $settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
+        //$settingsObj->setVar('set_inroot_copy', in_array('inroot', $settingOption));
         if (\Xmf\Request::hasVar('set_type')) {
             $settingsObj->setVar('set_type', \Xmf\Request::getString('set_type', '', 'POST'));
         }

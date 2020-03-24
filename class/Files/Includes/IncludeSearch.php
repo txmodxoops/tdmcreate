@@ -108,7 +108,7 @@ class IncludeSearch extends Files\CreateFile
         $tableName      = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
         $fieldId        = '';
-        $fieldSearch    = null;
+        $fieldSearch    = [];
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -119,7 +119,7 @@ class IncludeSearch extends Files\CreateFile
                 $fieldMain = $fieldName;
             }
             if (1 == $fields[$f]->getVar('field_search')) {
-                $fieldSearch = $fieldName;
+                $fieldSearch[] = $fieldName;
             }
         }
         $img_search = 'blank.gif';
