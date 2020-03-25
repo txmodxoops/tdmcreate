@@ -277,10 +277,14 @@ class ClassXoopsCode
      *
      * @return string
      */
-    public function getClassXoopsFormLabel($var, $param1 = '', $param2 = null, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormLabel($var, $param1 = '', $param2 = null, $isParam = false, $t = "\t\t", $useParam = false)
     {
         $label  = 'new \XoopsFormLabel(';
-        $params = null != $param2 ? "{$param1}, {$param2}" : $param1;
+        if (false === $useParam) {
+            $params = null != $param2 ? "{$param1}, {$param2}" : $param1;
+        } else {
+            $params = null != $param2 ? "{$param1}, \${$param2}" : $param1;
+        }
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$label}{$params});\n";
         } else {
@@ -326,7 +330,7 @@ class ClassXoopsCode
      *
      * @return string
      */
-    public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false, $t = "\t\t")
+    public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false, $t = "\t\t", $useParam = false)
     {
         $hidden       = 'new \XoopsFormHidden( ';
         $getVarHidden = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param2, true);
@@ -337,7 +341,11 @@ class ClassXoopsCode
             if (false === $isForm) {
                 $ret .= "{$hidden}{$param1}, {$param2} )";
             } else {
-                $ret .= "{$hidden}'{$param1}', '{$param2}' )";
+                if (false === $useParam) {
+                    $ret .= "{$hidden}'{$param1}', '{$param2}' )";
+                } else {
+                    $ret .= "{$hidden}'{$param1}', \${$param2} )";
+                }
             }
         }
 

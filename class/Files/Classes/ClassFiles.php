@@ -285,15 +285,16 @@ class ClassFiles extends Files\CreateFile
         $getForm .= $pc->getPhpCodeConditions('false', ' === ', '$action', $action, false, "\t\t");
         $xUser   = $pc->getPhpCodeGlobals('xoopsUser');
         $xModule = $pc->getPhpCodeGlobals('xoopsModule');
+        $permString = 'upload_groups';
         if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm          .= $pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
             $getForm          .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
             $getForm          .= $pc->getPhpCodeTernaryOperator('groups', 'is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
-            $checkRight       = $xc->getXcCheckRight('$gpermHandler', $permString = '', 32, '$groups', $xModule . '->getVar(\'mid\')', true);
-            $ternaryOperator  = $pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t\t");
+            $checkRight       = $xc->getXcCheckRight('$gpermHandler', $permString, 32, '$groups', $xModule . '->getVar(\'mid\')', true);
+            $ternaryOperator  = $pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t");
             $permissionUpload = $xc->getXcEqualsOperator('$permissionUpload', 'true', null, false, "\t\t\t\t");
             $ternOperator     = $pc->getPhpCodeRemoveCarriageReturn($ternaryOperator, '', "\r");
-            $if               = $pc->getPhpCodeConditions('!' . $xUser . '->isAdmin(' . $xModule . '->mid())', '', '', $ternaryOperator, $permissionUpload, "\t\t\t");
+            $if               = $pc->getPhpCodeConditions('!' . $xUser . '->isAdmin(' . $xModule . '->mid())', '', '', "\t" . $ternaryOperator, $permissionUpload, "\t\t\t");
             $getForm          .= $pc->getPhpCodeConditions($xUser, '', '', $if, $ternOperator, "\t\t");
         }
         $getForm .= $pc->getPhpCodeCommentLine('Title', '', "\t\t");
