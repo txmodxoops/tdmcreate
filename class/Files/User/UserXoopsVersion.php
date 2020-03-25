@@ -540,6 +540,7 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
             $group       = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
             $ret         .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
+            $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('General access groups');
             $groups      = [
                 'name'        => "'groups'",
                 'title'       => "'{$language}GROUPS'",
@@ -551,6 +552,22 @@ class UserXoopsVersion extends Files\CreateFile
             ];
             $ret         .= $uCodeVConfig->getUserModVersion(3, $groups, 'config', '$c');
             $ret         .= $this->getSimpleString('++$c;');
+
+            $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Upload groups');
+            $uplgroups   = [
+                'name'        => "'upload_groups'",
+                'title'       => "'{$language}UPLOAD_GROUPS'",
+                'description' => "'{$language}UPLOAD_GROUPS_DESC'",
+                'formtype'    => "'select_multi'",
+                'valuetype'   => "'array'",
+                'default'     => '$groups',
+                'options'     => '$groups',
+            ];
+            $ret         .= $uCodeVConfig->getUserModVersion(3, $uplgroups, 'config', '$c');
+            $ret         .= $this->getSimpleString('++$c;');
+
+
+
             $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Get Admin groups');
             $ret         .= $xCodeVConfig->getXcEqualsOperator('$criteria ', 'new \CriteriaCompo()');
             $ret         .= $this->getSimpleString("\$criteria->add( new \Criteria( 'group_type', 'Admin' ) );");
@@ -560,8 +577,8 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
             $adminGroups = [
                 'name'        => "'admin_groups'",
-                'title'       => "'{$language}GROUPS'",
-                'description' => "'{$language}GROUPS_DESC'",
+                'title'       => "'{$language}ADMIN_GROUPS'",
+                'description' => "'{$language}ADMIN_GROUPS_DESC'",
                 'formtype'    => "'select_multi'",
                 'valuetype'   => "'array'",
                 'default'     => '$adminGroups',

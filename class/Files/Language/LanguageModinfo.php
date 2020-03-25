@@ -405,6 +405,8 @@ class LanguageModinfo extends Files\CreateFile
         $ret .= $df->getDefine($language, 'GROUPS_DESC', 'Select general access permission for groups.');
         $ret .= $df->getDefine($language, 'ADMIN_GROUPS', 'Admin Group Permissions');
         $ret .= $df->getDefine($language, 'ADMIN_GROUPS_DESC', 'Which groups have access to tools and permissions page');
+        $ret .= $df->getDefine($language, 'UPLOAD_GROUPS', 'Upload Group Permissions');
+        $ret .= $df->getDefine($language, 'UPLOAD_GROUPS_DESC', 'Which groups have permissions to upload files');
 
         return $ret;
     }

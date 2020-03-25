@@ -140,7 +140,7 @@ class LanguageAdmin extends Files\CreateFile
      * @param string $tables
      * @return string
      */
-    public function getLanguageAdminClass($language, $tables)
+    public function getLanguageAdminClass($language, $tables, $moduleDirname)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
 
@@ -193,17 +193,18 @@ class LanguageAdmin extends Files\CreateFile
                         $ret .= $this->defines->getDefine($language, 'FORM_URL_UPLOAD', "{$fieldNameDesc} in uploads files");
                         break;
                     case 13:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in uploads images");
+                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in ./uploads/{$moduleDirname}/images/{$tableName}/ :");
                         break;
                     case 14:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_FILE_{$stuTableName}", "{$fieldNameDesc} in uploads files");
+                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_FILE_{$stuTableName}", "{$fieldNameDesc} in ./uploads/{$moduleDirname}/files/{$tableName}/ :");
                         break;
                 }
             }
         }
         $ret .= $this->defines->getAboveDefines('General');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD', 'Upload file');
-        $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_NEW', 'Upload new file: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
         $ret .= $this->defines->getDefine($language, 'FORM_DELETE', 'Clear');
@@ -271,7 +272,7 @@ class LanguageAdmin extends Files\CreateFile
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
-            $content .= $this->getLanguageAdminClass($language, $tables);
+            $content .= $this->getLanguageAdminClass($language, $tables, $moduleDirname);
         }
         if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguageAdminPermissions($language);

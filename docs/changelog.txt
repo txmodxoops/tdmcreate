@@ -8,6 +8,7 @@
 - fixed bug with save permissions in admin pages (goffy)
 - fixed bugs in tpl creation (goffy)
 - improved tpl creation (goffy)
+- added check for upload permission to form class (goffy)
 *************************************************************
 THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
 *************************************************************
