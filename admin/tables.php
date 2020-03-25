@@ -21,7 +21,9 @@
  * @author          Txmod Xoops http://www.txmodxoops.org
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_tables.tpl';
+
+// Define main template
+$templateMain = 'tdmcreate_tables.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of arguments op in the URL $
@@ -40,8 +42,6 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('modules_adminpager'));
-        // Define main template
-        //        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
@@ -98,13 +98,14 @@ switch ($op) {
         }
         break;
     case 'new':
-        // Define main template
-        //        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php', 'list');
         $GLOBALS['xoopsTpl']->assign('buttons', $adminObject->displayButton('left'));
 
         $tablesObj = $helper->getHandler('Tables')->create();
+        if ($tableMid > 0) {
+            $tablesObj->setVar('table_mid', $tableMid);
+        }
         $form      = $tablesObj->getFormTables();
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
@@ -208,8 +209,6 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
-        // Define main template
-        //        $templateMain = 'tdmcreate_tables.tpl';
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('tables.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_TABLE, 'tables.php?op=new', 'add');
         $adminObject->addItemButton(_AM_TDMCREATE_TABLES_LIST, 'tables.php?op=list', 'list');

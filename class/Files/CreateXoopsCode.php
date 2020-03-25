@@ -723,6 +723,7 @@ class CreateXoopsCode
         $axCodeUserSave = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
         $ret            = '';
         $fieldMain      = '';
+        $countUploader  = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -732,7 +733,8 @@ class CreateXoopsCode
             if ((5 == $fieldElement) || (6 == $fieldElement)) {
                 $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
             } elseif (13 == $fieldElement) {
-                $ret .= $axCodeUserSave->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                $ret .= $axCodeUserSave->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
+                $countUploader++;
             } elseif (14 == $fieldElement) {
                 $ret .= $axCodeUserSave->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
             } elseif (15 == $fieldElement) {
@@ -1043,9 +1045,10 @@ class CreateXoopsCode
      */
     public function getXcSetVarsObjects($moduleDirname, $tableName, $tableSoleName, $fields)
     {
-        $axCode    = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
-        $ret       = '';
-        $fieldMain = '';
+        $axCode        = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $ret           = '';
+        $fieldMain     = '';
+        $countUploader = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -1059,16 +1062,20 @@ class CreateXoopsCode
                         $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $axCode->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $axCode->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, '', $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 12:
-                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true);
+                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 13:
-                        $ret .= $axCode->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
+                        $ret .= $axCode->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
+                        $countUploader++;
                         break;
                     case 14:
-                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 15:
                         $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
@@ -1413,25 +1420,47 @@ class CreateXoopsCode
         $axCodeSaveElements = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
         $ret                = '';
         $fieldMain          = '';
+        $countUploader      = 0;
         foreach (array_keys($fields) as $f) {
+
             $fieldName    = $fields[$f]->getVar('field_name');
+            $fieldType    = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName;
             }
-            if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= $t . $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
-            } elseif (13 == $fieldElement) {
-                $ret .= $axCodeSaveElements->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain);
-            } elseif (14 == $fieldElement) {
-                $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
-            } elseif (15 == $fieldElement) {
-                $ret .= $t . $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
-            } else {
-                if ((0 != $f) && 1 == $tableAutoincrement) {
-                    $ret .= $t . $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
-                } elseif ((0 == $f) && 0 == $tableAutoincrement) {
-                    $ret .= $t . $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+            if ($f > 0) { // If we want to hide field id
+                switch ($fieldElement) {
+                    case 5:
+                    case 6:
+                        $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName, $t);
+                        break;
+                    case 10:
+                        $ret .= $axCodeSaveElements->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t, $countUploader, $fieldMain);
+                        $countUploader++;
+                        break;
+                    case 12:
+                        $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
+                        $countUploader++;
+                        break;
+                    case 13:
+                        $ret .= $axCodeSaveElements->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
+                        $countUploader++;
+                        break;
+                    case 14:
+                        $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $countUploader++;
+                        break;
+                    case 15:
+                        $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
+                        break;
+                    default:
+                        if (2 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
+                            $ret .= $this->getXcSetVar($tableName, $fieldName, "isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0", $t);
+                        } else {
+                            $ret .= $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t);
+                        }
+                        break;
                 }
             }
         }

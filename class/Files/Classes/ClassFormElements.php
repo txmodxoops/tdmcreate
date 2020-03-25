@@ -412,17 +412,23 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      */
     private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
     {
-        $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc            = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
-        $ucfFieldName  = $tf->getCamelCase($fieldName, true);
-        $stuTableName  = mb_strtoupper($tableName);
-        $t             = "\t\t";
-        $ret           = $pc->getPhpCodeCommentLine('Form', 'File ' . $ucfFieldName, $t);
-        $getConfig     = $xc->getXcGetConfig($moduleDirname, 'maxsize');
-        $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . '_' . $stuTableName, $fieldName, $getConfig, true, '');
-        $ret           .= $cc->getClassAddElement('form', $xoopsFormFile, $t);
+        $tf             = Tdmcreate\Files\CreateFile::getInstance();
+        $pc             = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc             = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $cc             = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $ucfFieldName   = $tf->getCamelCase($fieldName, true);
+        $stuTableName   = mb_strtoupper($tableName);
+        $t              = "\t\t";
+        $ret            = $pc->getPhpCodeCommentLine('Form', 'File ' . $ucfFieldName, $t);
+        $ret           .= $cc->getClassXoopsFormElementTray('fileUploadTray', $language . 'FORM_UPLOAD_FILE_' . $stuTableName, '<br>', $t);
+        $getVar         = $xc->getXcGetVar('', 'this', $fieldName, true);
+        $xoopsFormLabel = $cc->getClassXoopsFormLabel('', "''", $getVar, true);
+        $condIf         = $cc->getClassAddElement('fileUploadTray', $xoopsFormLabel, $t . "\t");
+        $ret           .= $pc->getPhpCodeConditions('!$this->isNew()', null, null, $condIf, false, "\t\t");
+        $getConfig      = $xc->getXcGetConfig($moduleDirname, 'maxsize');
+        $xoopsFormFile  = $cc->getClassXoopsFormFile('', "''", $fieldName, $getConfig, true, '');
+        $ret            .= $cc->getClassAddElement('fileUploadTray', $xoopsFormFile, $t);
+        $ret            .= $cc->getClassAddElement('form', '$fileUploadTray', $t);
 
         return $ret;
     }
@@ -742,7 +748,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
                         $ret .= $this->getXoopsFormUploadImage($languageFunct, $moduleDirname, $tableName, $tableSoleName, $fieldName, $required);
                         break;
                     case 14:
-                        $ret .= $this->getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required);
+                        $ret .= $this->getXoopsFormUploadFile($languageFunct, $moduleDirname, $tableName, $fieldName, $required);
                         break;
                     case 15:
                         $ret .= $this->getXoopsFormTextDateSelect($language, $fieldName, $required);

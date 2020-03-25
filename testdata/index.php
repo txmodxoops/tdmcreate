@@ -89,6 +89,8 @@ function loadSampleData()
 function saveSampleData()
 {
     global $xoopsConfig;
+    
+    $configurator = new Common\Configurator();
 
     $moduleDirName = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
@@ -110,7 +112,15 @@ function saveSampleData()
     foreach ($tables as $table) {
         \Xmf\Database\TableLoad::saveTableToYamlFile($table, $exportFolder . $table . '.yml');
     }
-
+    
+    //  ---  COPY test folder files ---------------
+    if (is_array($configurator->copyTestFolders) && count($configurator->copyTestFolders) > 0) {
+        foreach (array_keys($configurator->copyTestFolders) as $i) {
+            $src  = $configurator->copyTestFolders[$i][1];
+            $dest = $configurator->copyTestFolders[$i][0];
+            Utility::rcopy($src, $dest);
+        }
+    }
     redirect_header('../admin/index.php', 1, constant('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS'));
 }
 

@@ -77,7 +77,7 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
         return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
     }
@@ -147,7 +147,7 @@ class Index extends Files\CreateFile
      */
     private function getTemplatesUserIndexTableTfoot()
     {
-        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
         $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
         $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
 
@@ -300,7 +300,7 @@ EOT;
      */
     public function getTemplateUserIndexFooter($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
 
         return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
     }

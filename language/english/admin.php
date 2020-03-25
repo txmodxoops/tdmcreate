@@ -100,7 +100,7 @@ define('_AM_TDMCREATE_SETTING_SEARCH', 'Set Activate Search');
 define('_AM_TDMCREATE_SETTING_COMMENTS', 'Set Activate Comments');
 define('_AM_TDMCREATE_SETTING_NOTIFICATIONS', 'Set Activate Notifications');
 define('_AM_TDMCREATE_SETTING_PERMISSIONS', 'Set Activate Permissions');
-define('_AM_TDMCREATE_SETTING_INROOT_COPY', 'Set Create Copy of this module in root/modules');
+//define('_AM_TDMCREATE_SETTING_INROOT_COPY', 'Set Create Copy of this module in root/modules');
 define('_AM_TDMCREATE_SETTING_ALL', 'Set Check All');
 define('_AM_TDMCREATE_SETTING_CHOISE', 'Set Choise Settings');
 //Modules.php
@@ -117,7 +117,7 @@ define('_AM_TDMCREATE_MODULE_NAME', 'Name');
 define(
     '_AM_TDMCREATE_MODULE_NAME_DESC',
     "The module name can contain spaces and special characters such as accents.<br />
-An example would be: <b class='white'>My Simple Module</b>"
+An example would be: <b class='red'>My Simple Module</b>"
 );
 // Added in version 1.91
 define('_AM_TDMCREATE_MODULE_DIRNAME', 'Directory Name');
@@ -125,7 +125,7 @@ define('_AM_TDMCREATE_MODULE_DIRNAME', 'Directory Name');
 define(
     '_AM_TDMCREATE_MODULE_DIRNAME_DESC',
     "The module directory can not contain spaces or special characters such as accents.<br />
-An example would be: <b class='white'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
+An example would be: <b class='red'>mysimplemodule</b>.<br />In case you write the module directory with uppercase characters, they are replaced automatically with lowercase, and if there are spaces they will also be automatically deleted."
 );
 define('_AM_TDMCREATE_MODULE_VERSION', 'Version');
 define('_AM_TDMCREATE_MODULE_SINCE', 'Since');
@@ -159,14 +159,14 @@ define('_AM_TDMCREATE_MODULE_BLOCKS', 'Activate Blocks');
 define('_AM_TDMCREATE_MODULE_ALL', 'Check All');
 define(
     '_AM_TDMCREATE_OPTIONS_DESC',
-    "<b>Select one or all items to add specific addon in this new module</b><br /><i class='red maxi'>Warning: If you have an older operating module with the same name in root/modules, it\'s good to make a copy in another safe folder, otherwise it will be deleted irreversibly.</i>"
+    "<b>Select one or all items to add specific addon in this new module</b>"
 );
 // ---------------------
 define('_AM_TDMCREATE_MODULE_SEARCH', 'Activate Search');
 define('_AM_TDMCREATE_MODULE_COMMENTS', 'Activate Comments');
 define('_AM_TDMCREATE_MODULE_NOTIFICATIONS', 'Activate Notifications');
 define('_AM_TDMCREATE_MODULE_PERMISSIONS', 'Activate Permissions');
-define('_AM_TDMCREATE_MODULE_INROOT_COPY', 'Create copy of this module in root/modules');
+define('_AM_TDMCREATE_MODULE_INROOT_COPY', "Create copy of this module in root/modules<br /><b class='red'>Pay attention: if yes, then an existing module with same name will be overwritten irreversible!</b>");
 // Added in version 1.39
 define('_AM_TDMCREATE_MODULE_NAME_LIST', 'Name');
 define('_AM_TDMCREATE_MODULE_IMAGE_LIST', 'Image');
@@ -195,7 +195,7 @@ define('_AM_TDMCREATE_TABLE_NEW', 'New Table');
 define('_AM_TDMCREATE_TABLE_EDIT', 'Edit Table');
 define('_AM_TDMCREATE_TABLE_MODULES', 'Choose a module');
 define('_AM_TDMCREATE_TABLE_NAME', 'Table Name');
-define('_AM_TDMCREATE_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categorie</span><span class='white bold'>s</span>)");
+define('_AM_TDMCREATE_TABLE_NAME_DESC', "Unique Name: It's recommended to use plural word (i.e.: <span style='text-decoration: underline;'>categories</span><span class='white bold'>s</span>)");
 // Added in version 1.91
 define('_AM_TDMCREATE_TABLE_SOLENAME', 'Table Singular Name');
 define('_AM_TDMCREATE_TABLE_SOLENAME_DESC', "Singular  Name: It's recommended to use singular word (i.e.: <span style='text-decoration: underline;'>category</span> for admin buttons)");
@@ -401,6 +401,7 @@ define('_AM_TDMCREATE_NOTOK_ARCHITECTURE', "<span class='red'>Problems: Creating
 define('_AM_TDMCREATE_FILE_NOTCREATED', "Problems: Creating file <b class='red'>%s</b> in the <span class='red bold'>%s</span> folder");
 
 define('_AM_TDMCREATE_BUILDING_DIRECTORY', "Files created in the directory <span class='bold'>uploads/tdmcreate/repository/</span> of the module <span class='bold green'>%s</span>");
+define('_AM_TDMCREATE_BUILDING_DIRECTORY_INROOT', "<br><span class='bold red'>Created module was also copied to %s</span>");
 define('_AM_TDMCREATE_FIELD_PARAMETERS_LIST', '<b>Parameters List</b>');
 // Added in version v1.91
 define('_AM_TDMCREATE_ABOUT_MAKE_DONATION', 'Make a Donation to support this module');

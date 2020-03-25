@@ -228,7 +228,7 @@ class AdminPages extends Files\CreateFile
      * @param string $t
      * @return string
      */
-    private function getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $t = '')
+    private function getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $tableSoleName, $language, $fields, $fieldId, $fieldMain, $t = '', $tablePerms)
     {
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -247,10 +247,14 @@ class AdminPages extends Files\CreateFile
         $contentElse = $xc->getXcObjHandlerCreate($tableName, "\t\t\t");
         $ret         .= $pc->getPhpCodeConditions($isset, '', '', $contentIf, $contentElse, $t);
         $ret         .= $pc->getPhpCodeCommentLine('Set Vars', null, "\t\t");
+        $countUploader = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldType    = $fields[$f]->getVar('field_type');
             $fieldElement = $fields[$f]->getVar('field_element');
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName;
+            }
             if ($f > 0) { // If we want to hide field id
                 switch ($fieldElement) {
                     case 5:
@@ -258,19 +262,20 @@ class AdminPages extends Files\CreateFile
                         $ret .= $xc->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName, $t);
                         break;
                     case 10:
-                        $ret .= $axc->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t);
+                        $ret .= $axc->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t, $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 12:
-                        $ret .= $axc->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $t);
+                        $ret .= $axc->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 13:
-                        if (1 == $fields[$f]->getVar('field_main')) {
-                            $fieldMain = $fieldName;
-                        }
-                        $ret .= $axc->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t);
+                        $ret .= $axc->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
+                        $countUploader++;
                         break;
                     case 14:
-                        $ret .= $axc->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $t);
+                        $ret .= $axc->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $countUploader++;
                         break;
                     case 15:
                         $ret .= $xc->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
@@ -288,7 +293,8 @@ class AdminPages extends Files\CreateFile
         $ret           .= $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t");
         $insert        = $xc->getXcInsert($tableName, $tableName, 'Obj');
         $contentInsert = '';
-        if (1 == $tableCategory) {
+        //if (1 == $tableCategory) {
+        if (1 == $tablePerms) {
             $ucfTableName  = ucfirst($tableName);
             $contentInsert = $xc->getXcEqualsOperator('$newCatId', "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t . "\t");
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
@@ -384,6 +390,7 @@ class AdminPages extends Files\CreateFile
         $tableName     = $table->getVar('table_name');
         $tableCategory = $table->getVar('table_category');
         $tableSoleName = $table->getVar('table_solename');
+        $tablePerms    = $table->getVar('table_permissions');
         $language      = $this->getLanguage($moduleDirname, 'AM');
         $fields        = $tf->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldInForm   = null;
@@ -402,7 +409,7 @@ class AdminPages extends Files\CreateFile
         $list    = $this->getAdminPagesList($moduleDirname, $table, $language, $fields, $fieldId, $fieldInForm, $fieldMain, "\t\t");
         if (in_array(1, $fieldInForm)) {
             $new  = $this->getAdminPagesNew($moduleDirname, $tableName, $fieldInForm, $language, "\t\t");
-            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $tableSoleName, $language, $fields, $fieldId, $fieldMain, "\t\t");
+            $save = $this->getAdminPagesSave($moduleDirname, $tableName, $tableCategory, $tableSoleName, $language, $fields, $fieldId, $fieldMain, "\t\t", $tablePerms);
             $edit = $this->getAdminPagesEdit($moduleDirname, $table, $language, $fieldId, $fieldInForm, "\t\t");
         }
         $delete = $this->getAdminPagesDelete($tableName, $language, $fieldId, $fieldMain, "\t\t");

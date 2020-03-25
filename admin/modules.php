@@ -21,12 +21,13 @@
  * @author          Txmod Xoops <support@txmodxoops.org>
  *
  */
-$GLOBALS['xoopsOption']['template_main'] = 'tdmcreate_modules.tpl';
+
+// Define main template
+$templateMain = 'tdmcreate_modules.tpl';
 
 include __DIR__ . '/header.php';
 // Recovered value of argument op in the URL $
-$op = \Xmf\Request::getString('op', 'list');
-
+$op    = \Xmf\Request::getString('op', 'list');
 $modId = \Xmf\Request::getInt('mod_id');
 
 switch ($op) {
@@ -34,8 +35,6 @@ switch ($op) {
     default:
         $start = \Xmf\Request::getInt('start', 0);
         $limit = \Xmf\Request::getInt('limit', $helper->getConfig('modules_adminpager'));
-        // Define main template
-        //        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoTheme']->addStylesheet('modules/tdmcreate/assets/css/admin/style.css');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
@@ -68,8 +67,6 @@ switch ($op) {
 
         break;
     case 'new':
-        // Define main template
-        //        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_MODULES_LIST, 'modules.php', 'list');
@@ -152,7 +149,7 @@ switch ($op) {
         $modulesObj->setVar('mod_comments', in_array('comments', $moduleOption));
         $modulesObj->setVar('mod_notifications', in_array('notifications', $moduleOption));
         $modulesObj->setVar('mod_permissions', in_array('permissions', $moduleOption));
-        $modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
+        //$modulesObj->setVar('mod_inroot_copy', in_array('inroot_copy', $moduleOption));
 
         if ($helper->getHandler('Modules')->insert($modulesObj)) {
             if ($modulesObj->isNew()) {
@@ -167,8 +164,6 @@ switch ($op) {
         $GLOBALS['xoopsTpl']->assign('form', $form->render());
         break;
     case 'edit':
-        // Define main template
-        //        $templateMain = 'tdmcreate_modules.tpl';
         $GLOBALS['xoTheme']->addScript('modules/tdmcreate/assets/js/functions.js');
         $GLOBALS['xoopsTpl']->assign('navigation', $adminObject->displayNavigation('modules.php'));
         $adminObject->addItemButton(_AM_TDMCREATE_ADD_MODULE, 'modules.php?op=new', 'add');

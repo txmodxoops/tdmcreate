@@ -110,10 +110,10 @@ class Footer extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = <<<EOT
 <{if \$bookmarks != 0}>
-<{include file="db:system_bookmarks.tpl"}>
+    <{include file="db:system_bookmarks.tpl"}>
 <{/if}>
 \n<{if \$fbcomments != 0}>
-<{include file="db:system_fbcomments.tpl"}>
+    <{include file="db:system_fbcomments.tpl"}>
 <{/if}>
 <div class="pull-left"><{\$copyright}></div>\n
 EOT;

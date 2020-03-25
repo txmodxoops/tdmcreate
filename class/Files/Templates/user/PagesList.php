@@ -96,13 +96,13 @@ class PagesList extends Files\CreateFile
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retNumb     = $hc->getHtmlHNumb($doubleVar, '3', 'panel-title');
+                            $retNumb     = $hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             break;
                     }
                 }
             }
         }
-        $ret     .= $hc->getHtmlDiv($retNumb, 'panel-heading') . PHP_EOL;
+        $ret     .= $hc->getHtmlDiv($retNumb, 'panel-heading');
         $retElem = '';
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -115,7 +115,7 @@ class PagesList extends Files\CreateFile
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
                             $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-9 justify') . PHP_EOL;
+                            $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-9 justify', "\t");
                             break;
                         case 10:
                             $fieldName   = $fields[$f]->getVar('field_name');
@@ -123,7 +123,7 @@ class PagesList extends Files\CreateFile
                             $singleVar   = $hc->getSmartySingleVar('xoops_icons32_url');
                             $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
-                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
+                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3', "\t");
                             unset($img);
                             break;
                         case 13:
@@ -132,14 +132,14 @@ class PagesList extends Files\CreateFile
                             $singleVar   = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
-                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
+                            $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3',"\t");
                             unset($img);
                             break;
                     }
                 }
             }
         }
-        $ret     .= $hc->getHtmlDiv($retElem, 'panel-body') . PHP_EOL;
+        $ret     .= $hc->getHtmlDiv($retElem, 'panel-body');
         $retFoot = '';
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_user')) {
@@ -149,11 +149,11 @@ class PagesList extends Files\CreateFile
                     $langConst   = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
                     $lang        = $hc->getSmartyConst($language, $langConst);
                     $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                    $retFoot     .= $hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify') . PHP_EOL;
+                    $retFoot     .= $hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
                 }
             }
         }
-        $ret .= $hc->getHtmlDiv($retFoot, 'panel-foot') . PHP_EOL;
+        $ret .= $hc->getHtmlDiv($retFoot, 'panel-foot');
 
         return $ret;
     }
@@ -173,18 +173,15 @@ class PagesList extends Files\CreateFile
         $filename      = $this->getFileName();
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = '';
-        //foreach (array_keys($tables) as $t) {
-        $tableId         = $table/*s[$t]*/ ->getVar('table_id');
-        $tableMid        = $table/*s[$t]*/ ->getVar('table_mid');
-        $tableName       = $table/*s[$t]*/ ->getVar('table_name');
-        $tableSoleName   = $table/*s[$t]*/ ->getVar('table_solename');
-        $tableCategory[] = $table/*s[$t]*/ ->getVar('table_category');
-        $tableIndex      = $table/*s[$t]*/ ->getVar('table_index');
+        $tableId         = $table->getVar('table_id');
+        $tableMid        = $table->getVar('table_mid');
+        $tableName       = $table->getVar('table_name');
+        $tableSoleName   = $table->getVar('table_solename');
+        $tableCategory[] = $table->getVar('table_category');
+        $tableIndex      = $table->getVar('table_index');
         if (in_array(0, $tableCategory)) {
             $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         }
-        //}
-        //$content = $this->getTemplatesUserPagesListPanel($moduleDirname, $table);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
