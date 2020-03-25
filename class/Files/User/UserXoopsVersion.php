@@ -735,6 +735,9 @@ class UserXoopsVersion extends Files\CreateFile
         ];
         $ret              .= $uCodeVConfig->getUserModVersion(3, $bookmarks, 'config', '$c');
         $ret              .= $this->getSimpleString('++$c;');
+        /*
+         * removed, as there are no system templates in xoops core for fb or disqus comments
+         * tdmcreate currently is also not creatings tpl files for this
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Facebook Comments');
         $facebookComments = [
             'name'        => "'facebook_comments'",
@@ -757,6 +760,7 @@ class UserXoopsVersion extends Files\CreateFile
         ];
         $ret              .= $uCodeVConfig->getUserModVersion(3, $disqusComments, 'config', '$c');
         $ret              .= $this->getSimpleString('++$c;');
+        */
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Maintained by');
         $maintainedby     = [
             'name'        => "'maintainedby'",

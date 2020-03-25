@@ -123,28 +123,32 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->xc->getXcAddStylesheet();
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
         $ret            .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
+
+        $ret            .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
+        $ret            .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
+
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {
             $ret            .= $this->phpcode->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') == 0 || \${$ccFieldId}->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
+            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') == 0 || \${$tableName}Handler->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'expired')) {
             $ret            .= $this->phpcode->getPhpCodeCommentLine('Expired', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'date')) {
             $ret            .= $this->phpcode->getPhpCodeCommentLine('Date', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'time')) {
             $ret            .= $this->phpcode->getPhpCodeCommentLine('Time', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$ccFieldId}->getVar('{$fieldName}') != 0 && \${$ccFieldId}->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        $ret            .= $this->xc->getXcGet($tableName, $ccFieldId, '', true);
+        $ret            .= $this->xc->getXcGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
         $gperm          = $this->xc->getXcCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
         $noPerm         = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");

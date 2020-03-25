@@ -9,6 +9,9 @@
 - fixed bugs in tpl creation (goffy)
 - improved tpl creation (goffy)
 - added check for upload permission to form class (goffy)
+- removed fb and disqus comments preferences (goffy)
+- fixed bug in print.php (goffy)
+
 *************************************************************
 THIS IS LAST VERSION WHICH CREATES MODULES WITHOUT NAMESPACES
 *************************************************************
