@@ -232,7 +232,7 @@ class AdminXoopsCode
      * @param string $fieldMain
      * @return string
      */
-    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain)
+    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain = '')
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = $this->getAxcImageFileSetVar($moduleDirname, $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain);

@@ -138,7 +138,6 @@ class UserXoopsCode
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
         $pCodeHeaderFile  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xCodeHeaderFile  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
@@ -164,7 +163,7 @@ class UserXoopsCode
     }
 
     /**
-     * @public function getUserModVersion
+     * @public function getUserModVersionArray
      *
      * @param int    $eleArray
      * @param        $descriptions
@@ -175,29 +174,80 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserModVersion($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
+    public function getUserModVersionArray($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
-        $ret = '';
-        $mv  = $t . '$modversion';
+        $ret = $t . '$modversion';
+        $isArray = false;
+        $n = '';
         if (!is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
             $descs = $descriptions;
+            $isArray = true;
+            $n = "\n";
         }
+        if (0 === $eleArray) {
+            $ret .= " = ";
+        } elseif (1 === $eleArray || 11 === $eleArray) {
+            $ret .= "['{$name}'] = ";
+        } elseif (2 === $eleArray) {
+            $ret .= "['{$name}'][{$index}] = ";
+        } elseif (3 === $eleArray) {
+            $ret .= "['{$name}'][{$index}][{$num}] = ";
+        }
+        if ($isArray) {
+            $ret .= "[";
+        }
+        $ret .= $n;
+        //search for longest key
+        $len = 0;
         foreach ($descs as $key => $desc) {
-            $one = (null === $name) ? $key : $name;
-            $two = (null === $index) ? $key : $index;
-            if (1 === $eleArray) {
-                $ret .= $mv . "['{$one}'] = {$desc};\n";
-            } elseif (2 === $eleArray) {
-                $ret .= $mv . "['{$one}'][{$two}] = {$desc};\n";
-            } elseif (3 === $eleArray) {
-                $ret .= $mv . "['{$one}'][{$two}]['{$key}'] = {$desc};\n";
-            } elseif (4 === $eleArray) {
-                $ret .= $mv . "['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
-            }
+            $len = strlen($key) > $len ? strlen($key) : $len;
         }
 
+        foreach ($descs as $key => $desc) {
+            $space = str_repeat (  ' ' , $len - strlen($key));
+            if ($eleArray < 4) {
+                $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
+            } elseif (11 === $eleArray) {
+                $ret .= $t . "\t{$desc},{$n}";
+            }
+        }
+        $ret .= $t;
+        if ($isArray) {
+            $ret .= "]";
+        }
+        $ret .= ";\n";
+        return $ret;
+    }
+
+    /**
+     * @public function getUserModVersionText
+     *
+     * @param int $eleArray
+     * @param $text
+     * @param null $name
+     * @param null $index
+     * @param bool $num
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getUserModVersionText($eleArray, $text, $name = null, $index = null, $num = false, $t = '')
+    {
+        $ret = $t . '$modversion';
+
+        if (0 === $eleArray) {
+            $ret .= " = ";
+        } elseif (1 === $eleArray) {
+            $ret .= "['{$name}'] = ";
+        } elseif (2 === $eleArray) {
+            $ret .= "['{$name}'][{$index}] = ";
+        } elseif (3 === $eleArray) {
+            $ret .= "['{$name}'][{$index}][{$num}] = ";
+        }
+
+        $ret .= $t . "{$text};\n";
         return $ret;
     }
 }

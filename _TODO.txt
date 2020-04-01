@@ -1,5 +1,18 @@
+TODOs:
+
+sample button
+
+
+max image size:
+max image width/height:
+- add preferences to xoops_version.php
+- adapt image upload in xoops form
+- add resizer to op save in admin
+- add resizer to op save in user
+
+
+
 Notifications:
 there are too much notification, which are not needed/working
-TODO: 
 - reduce xoops_version.php to needed
 - adapt language/modinfo.php

@@ -168,7 +168,7 @@ class Pages extends Files\CreateFile
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language);
         $div   = $hc->getHtmlDiv($table, 'table-responsive');
 
-        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true);
+        return $hc->getSmartyConditions($tableName . 'Count', ' > ', '0', $div, false, false, true);
     }
 
     /**

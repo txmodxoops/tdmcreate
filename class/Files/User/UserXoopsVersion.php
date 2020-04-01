@@ -116,7 +116,8 @@ class UserXoopsVersion extends Files\CreateFile
         $date         = date('Y/m/d');
         $ret          = $this->getSimpleString('');
         $ret          .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
-        $ret          .= $xCodeVHeader->getXcEqualsOperator('$dirname ', 'basename(__DIR__)');
+        $ret          .= $xCodeVHeader->getXcEqualsOperator('$moduleDirName ', 'basename(__DIR__)');
+        $ret          .= $xCodeVHeader->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
         $ret          .= $this->getDashComment('Informations');
         $ha           = (1 == $module->getVar('mod_admin')) ? 1 : 0;
         $hm           = (1 == $module->getVar('mod_user')) ? 1 : 0;
@@ -166,7 +167,7 @@ class UserXoopsVersion extends Files\CreateFile
             'onUpdate'            => "'include/update.php'",
         ];
 
-        $ret .= $uCodeVHeader->getUserModVersion(1, $descriptions);
+        $ret .= $uCodeVHeader->getUserModVersionArray(0, $descriptions);
 
         return $ret;
     }
@@ -186,13 +187,15 @@ class UserXoopsVersion extends Files\CreateFile
         $ret         = '';
         if (!empty($tableName)) {
             $ret .= $this->getDashComment('Mysql');
-            $ret .= $uCodeVMySQL->getUserModVersion(2, "'sql/mysql.sql'", 'sqlfile', "'mysql'");
+            $description = "'sql/mysql.sql'";
+            $ret .= $uCodeVMySQL->getUserModVersionText(2, $description, 'sqlfile', "'mysql'");
             $ret .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Tables');
 
             foreach (array_keys($tables) as $t) {
-                $ret .= $uCodeVMySQL->getUserModVersion(2, "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'", 'tables', $n);
+                $items[] = "'{$moduleDirname}_{$tables[$t]->getVar('table_name')}'";
                 ++$n;
             }
+            $ret .= $uCodeVMySQL->getUserModVersionArray(11, $items, 'tables', $n);
             unset($n);
         }
 
@@ -209,9 +212,9 @@ class UserXoopsVersion extends Files\CreateFile
     {
         $uCodeVSearch = UserXoopsCode::getInstance();
         $ret          = $this->getDashComment('Search');
-        $ret          .= $uCodeVSearch->getUserModVersion(1, 1, 'hasSearch');
-        $ret          .= $uCodeVSearch->getUserModVersion(2, "'include/search.inc.php'", 'search', "'file'");
-        $ret          .= $uCodeVSearch->getUserModVersion(2, "'{$moduleDirname}_search'", 'search', "'func'");
+        $ret          .= $uCodeVSearch->getUserModVersionText(1, 1, 'hasSearch');
+        $items        = ['file' => "'include/search.inc.php'", 'func' => "'{$moduleDirname}_search'"];
+        $ret          .= $uCodeVSearch->getUserModVersionArray(1, $items, 'search');
 
         return $ret;
     }
@@ -226,12 +229,12 @@ class UserXoopsVersion extends Files\CreateFile
     {
         $uCodeVComments = UserXoopsCode::getInstance();
         $ret            = $this->getDashComment('Comments');
-        $ret            .= $uCodeVComments->getUserModVersion(2, "'comments.php'", 'comments', "'pageName'");
-        $ret            .= $uCodeVComments->getUserModVersion(2, "'com_id'", 'comments', "'itemName'");
+        $ret            .= $uCodeVComments->getUserModVersionText(2, "'comments.php'", 'comments', "'pageName'");
+        $ret            .= $uCodeVComments->getUserModVersionText(2, "'com_id'", 'comments', "'itemName'");
         $ret            .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Comment callback functions');
-        $ret            .= $uCodeVComments->getUserModVersion(2, "'include/comment_functions.php'", 'comments', "'callbackFile'");
+        $ret            .= $uCodeVComments->getUserModVersionText(2, "'include/comment_functions.php'", 'comments', "'callbackFile'");
         $descriptions   = ['approve' => "'{$moduleDirname}CommentsApprove'", 'update' => "'{$moduleDirname}CommentsUpdate'"];
-        $ret            .= $uCodeVComments->getUserModVersion(3, $descriptions, 'comments', "'callback'");
+        $ret            .= $uCodeVComments->getUserModVersionArray(2, $descriptions, 'comments', "'callback'");
 
         return $ret;
     }
@@ -245,22 +248,25 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionTemplatesAdmin($moduleDirname, $tables)
     {
+        $uCodeTemplate = UserXoopsCode::getInstance();
         $ret = $this->getDashComment('Templates');
         $ret .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Admin');
 
-        $ret              .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
-        $ret              .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '', true);
-        $ret              .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '', true);
+        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
+        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '', true);
+        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '', true);
         $tablePermissions = [];
         foreach (array_keys($tables) as $t) {
             $tableName          = $tables[$t]->getVar('table_name');
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-            $ret                .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '', true);
+            $item[]             .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '', true);
         }
         if (in_array(1, $tablePermissions)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);
         }
-        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '', true);
+        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '', true);
+
+        $ret .= $uCodeTemplate->getUserModVersionArray(11, $item, "template");
 
         return $ret;
     }
@@ -275,17 +281,16 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionTemplatesLine($moduleDirname, $type, $extra = '', $isAdmin = false)
     {
-        $uCodeVTLine = UserXoopsCode::getInstance();
         $ret         = '';
         $desc        = "'description' => ''";
-        $arrayFile   = "array('file' =>";
+        $arrayFile   = "['file' =>";
         if ($isAdmin) {
-            $ret .= $uCodeVTLine->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin')", 'templates', '');
+            $ret .= "{$arrayFile} '{$moduleDirname}_admin_{$type}.tpl', {$desc}, 'type' => 'admin']";
         } else {
             if ('' !== $extra) {
-                $ret .= $uCodeVTLine->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc})", 'templates', '');
+                $ret .= "{$arrayFile} '{$moduleDirname}_{$type}_{$extra}.tpl', {$desc}]";
             } else {
-                $ret .= $uCodeVTLine->getUserModVersion(2, "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc})", 'templates', '');
+                $ret .= "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc}]";
             }
         }
 
@@ -300,10 +305,12 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
     {
+        $uCodeTemplate = UserXoopsCode::getInstance();
+
         $ret = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('User');
 
-        $ret         .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '');
-        $ret         .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '');
+        $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '');
+        $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '');
         $tableBroken = [];
         $tablePdf    = [];
         $tablePrint  = [];
@@ -322,35 +329,37 @@ class UserXoopsVersion extends Files\CreateFile
             $tableSearch[] = $tables[$t]->getVar('table_search');
             $tableSingle[] = $tables[$t]->getVar('table_single');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
-            $ret           .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
-            $ret           .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
+            $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
+            $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
         }
-        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
+        $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
         if (in_array(1, $tableBroken)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '');
         }
         if (in_array(1, $tablePdf)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf', '');
         }
         if (in_array(1, $tablePrint)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'print', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'print', '');
         }
         if (in_array(1, $tableRate)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate', '');
         }
         if (in_array(1, $tableRss)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss', '');
         }
         if (in_array(1, $tableSearch)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'search', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'search', '');
         }
         if (in_array(1, $tableSingle)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'single', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'single', '');
         }
         if (in_array(1, $tableSubmit)) {
-            $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit', '');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit', '');
         }
-        $ret .= $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
+        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
+
+        $ret .= $uCodeTemplate->getUserModVersionArray(11, $item, "template");
 
         return $ret;
     }
@@ -363,27 +372,62 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionSubmenu($language, $tables)
     {
-        $phpCodeVSubmenu = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uCodeVSubmenu   = UserXoopsCode::getInstance();
-        $ret             = $this->getDashComment('Submenu');
-        $i               = 1;
-        $tableSubmit     = [];
+        $cpc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $cxc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $uxc = UserXoopsCode::getInstance();
+        $cf = Tdmcreate\Files\CreateFile::getInstance();
+
+        $ret     = $this->getDashComment('Menu');
+        $xModule = $cpc->getPhpCodeGlobals('xoopsModule');
+        $cond    = 'isset(' . $xModule . ') && is_object(' . $xModule . ')';
+        $one     =  $cpc->getPhpCodeGlobals('xoopsModule') . "->getVar('dirname')";
+        $ret     .= $cpc->getPhpCodeTernaryOperator('currdirname ', $cond, $one, "'system'");
+
+        $i          = 1;
+        $descriptions = [
+            'name' => "{$language}SMNAME{$i}",
+            'url'  => "'index.php'",
+        ];
+        $contentIf  = $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
+
+        $tableSubmit = [];
+        $tableSearch = [];
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
+            $tableSearch[] = $tables[$t]->getVar('table_search');
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret   .= $phpCodeVSubmenu->getPhpCodeCommentLine('Sub', $tableName);
-                $tname = ['name' => "{$language}SMNAME{$i}", 'url' => "'{$tableName}.php'"];
-                $ret   .= $uCodeVSubmenu->getUserModVersion(3, $tname, 'sub', $i);
+                $contentIf .= $cpc->getPhpCodeCommentLine('Sub', $tableName, "\t");
+                $descriptions = [
+                    'name' => "{$language}SMNAME{$i}",
+                    'url'  => "'{$tableName}.php'",
+                ];
+                $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
+                unset($item);
             }
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
-            $ret    .= $phpCodeVSubmenu->getPhpCodeCommentLine('Sub', 'Submit');
-            $submit = ['name' => "{$language}SMNAME{$i}", 'url' => "'submit.php'"];
-            $ret    .= $uCodeVSubmenu->getUserModVersion(3, $submit, 'sub', $i);
+            $contentIf .= $cpc->getPhpCodeCommentLine('Sub', 'Submit', "\t");
+            $descriptions = [
+                'name' => "{$language}SMNAME{$i}",
+                'url'  => "'submit.php'",
+            ];
+            $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
+            ++$i;
         }
+        if (in_array(1, $tableSearch)) {
+            $contentIf .= $cpc->getPhpCodeCommentLine('Sub', 'Search', "\t");
+            $descriptions = [
+                'name' => "{$language}SMNAME{$i}",
+                'url'  => "'search.php'",
+            ];
+            $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
+        }
+
         unset($i);
+
+        $ret .= $cpc->getPhpCodeConditions('$moduleDirName', ' == ', '$currdirname', $contentIf);
 
         return $ret;
     }
@@ -398,7 +442,6 @@ class UserXoopsVersion extends Files\CreateFile
     private function getXoopsVersionBlocks($moduleDirname, $tables, $language)
     {
         $ret           = $this->getDashComment('Blocks');
-        $ret           .= $this->getSimpleString('$b = 1;');
         $tableCategory = [];
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
@@ -417,7 +460,6 @@ class UserXoopsVersion extends Files\CreateFile
                 $ret .= $this->getXoopsVersionTypeBlocks($moduleDirname, $tableName, 'RANDOM', $language, 'random');
             }
         }
-        $ret .= $this->getSimpleString('unset($b);');
 
         return $ret;
     }
@@ -447,8 +489,7 @@ class UserXoopsVersion extends Files\CreateFile
             'template'    => "'{$moduleDirname}_block_{$tableName}.tpl'",
             'options'     => "'{$type}|5|25|0'",
         ];
-        $ret             .= $uCodeVTBlocks->getUserModVersion(3, $blocks, 'blocks', '$b');
-        $ret             .= $this->getSimpleString('++$b;');
+        $ret             .= $uCodeVTBlocks->getUserModVersionArray(2, $blocks, 'blocks');
 
         return $ret;
     }
@@ -468,7 +509,6 @@ class UserXoopsVersion extends Files\CreateFile
         $uCodeVConfig   = UserXoopsCode::getInstance();
         $moduleDirname  = $module->getVar('mod_dirname');
         $ret            = $this->getDashComment('Config');
-        $ret            .= $this->getSimpleString('$c = 1;');
 
         $table_permissions = 0;
         $table_admin       = 0;
@@ -478,10 +518,8 @@ class UserXoopsVersion extends Files\CreateFile
         foreach ($tables as $table) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
-                $fieldElement = $fields[$f]->getVar('field_element');
+                $fieldElement = (int)$fields[$f]->getVar('field_element');
                 switch ($fieldElement) {
-                    case '3':
-                    case '4':
                     case 3:
                     case 4:
                         $fieldName    = $fields[$f]->getVar('field_name');
@@ -500,14 +538,8 @@ class UserXoopsVersion extends Files\CreateFile
                             'default'     => "'dhtml'",
                             'options'     => 'array_flip($editorHandler' . $ucfFieldName . '->getList())',
                         ];
-                        $ret          .= $uCodeVConfig->getUserModVersion(3, $editor, 'config', '$c');
-                        $ret          .= $this->getSimpleString('++$c;');
+                        $ret          .= $uCodeVConfig->getUserModVersionArray(2, $editor, 'config');
                         break;
-                    case '10':
-                    case '11':
-                    case '12':
-                    case '13':
-                    case '14':
                     case 10:
                     case 11:
                     case 12:
@@ -550,8 +582,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'default'     => '$groups',
                 'options'     => '$groups',
             ];
-            $ret         .= $uCodeVConfig->getUserModVersion(3, $groups, 'config', '$c');
-            $ret         .= $this->getSimpleString('++$c;');
+            $ret         .= $uCodeVConfig->getUserModVersionArray(2, $groups, 'config');
 
             $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Upload groups');
             $uplgroups   = [
@@ -563,10 +594,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'default'     => '$groups',
                 'options'     => '$groups',
             ];
-            $ret         .= $uCodeVConfig->getUserModVersion(3, $uplgroups, 'config', '$c');
-            $ret         .= $this->getSimpleString('++$c;');
-
-
+            $ret         .= $uCodeVConfig->getUserModVersionArray(2, $uplgroups, 'config');
 
             $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Get Admin groups');
             $ret         .= $xCodeVConfig->getXcEqualsOperator('$criteria ', 'new \CriteriaCompo()');
@@ -584,8 +612,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'default'     => '$adminGroups',
                 'options'     => '$adminGroups',
             ];
-            $ret         .= $uCodeVConfig->getUserModVersion(3, $adminGroups, 'config', '$c');
-            $ret         .= $this->getSimpleString('++$c;');
+            $ret         .= $uCodeVConfig->getUserModVersionArray(2, $adminGroups, 'config');
         }
         $keyword      = implode(', ', $this->getKeywords());
         $ret          .= $phpCodeVConfig->getPhpCodeCommentLine('Keywords');
@@ -597,8 +624,7 @@ class UserXoopsVersion extends Files\CreateFile
             'valuetype'   => "'text'",
             'default'     => "'{$moduleDirname}, {$keyword}'",
         ];
-        $ret          .= $uCodeVConfig->getUserModVersion(3, $arrayKeyword, 'config', '$c');
-        $ret          .= $this->getSimpleString('++$c;');
+        $ret          .= $uCodeVConfig->getUserModVersionArray(2, $arrayKeyword, 'config');
         unset($this->keywords);
 
         if (1 === $field_images) {
@@ -611,9 +637,8 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '5000000',
             ];
-            $ret       .= $uCodeVConfig->getUserModVersion(3, $maxsize, 'config', '$c');
+            $ret       .= $uCodeVConfig->getUserModVersionArray(2, $maxsize, 'config');
             $ret       .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : mimetypes of image');
-            $ret       .= $this->getSimpleString('++$c;');
             $mimetypes = [
                 'name'        => "'mimetypes'",
                 'title'       => "'{$language}MIMETYPES'",
@@ -623,8 +648,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'default'     => "array('image/gif', 'image/jpeg', 'image/png')",
                 'options'     => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')",
             ];
-            $ret       .= $uCodeVConfig->getUserModVersion(3, $mimetypes, 'config', '$c');
-            $ret       .= $this->getSimpleString('++$c;');
+            $ret       .= $uCodeVConfig->getUserModVersionArray(2, $mimetypes, 'config');
         }
         if (1 === $table_admin) {
             $ret        .= $phpCodeVConfig->getPhpCodeCommentLine('Admin pager');
@@ -636,8 +660,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '10',
             ];
-            $ret        .= $uCodeVConfig->getUserModVersion(3, $adminPager, 'config', '$c');
-            $ret        .= $this->getSimpleString('++$c;');
+            $ret        .= $uCodeVConfig->getUserModVersionArray(2, $adminPager, 'config');
         }
         if (1 === $table_user) {
             $ret       .= $phpCodeVConfig->getPhpCodeCommentLine('User pager');
@@ -649,8 +672,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '10',
             ];
-            $ret       .= $uCodeVConfig->getUserModVersion(3, $userPager, 'config', '$c');
-            $ret       .= $this->getSimpleString('++$c;');
+            $ret       .= $uCodeVConfig->getUserModVersionArray(2, $userPager, 'config');
         }
         if (1 === $table_tag) {
             $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('Use tag');
@@ -662,8 +684,7 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '0',
             ];
-            $ret    .= $uCodeVConfig->getUserModVersion(3, $useTag, 'config', '$c');
-            $ret    .= $this->getSimpleString('++$c;');
+            $ret    .= $uCodeVConfig->getUserModVersionArray(2, $useTag, 'config');
         }
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Number column');
         $numbCol          = [
@@ -675,8 +696,8 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => '1',
             'options'     => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $numbCol, 'config', '$c');
-        $ret              .= $this->getSimpleString('++$c;');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $numbCol, 'config');
+
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Divide by');
         $divideby         = [
             'name'        => "'divideby'",
@@ -687,8 +708,8 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => '1',
             'options'     => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $divideby, 'config', '$c');
-        $ret              .= $this->getSimpleString('++$c;');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $divideby, 'config');
+
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Table type');
         $tableType        = [
             'name'        => "'table_type'",
@@ -699,8 +720,8 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => "'bordered'",
             'options'     => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $tableType, 'config', '$c');
-        $ret              .= $this->getSimpleString('++$c;');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $tableType, 'config');
+
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Panel by');
         $panelType        = [
             'name'        => "'panel_type'",
@@ -711,8 +732,8 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => "'default'",
             'options'     => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $panelType, 'config', '$c');
-        $ret              .= $this->getSimpleString('++$c;');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $panelType, 'config');
+
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Advertise');
         $advertise        = [
             'name'        => "'advertise'",
@@ -722,8 +743,8 @@ class UserXoopsVersion extends Files\CreateFile
             'valuetype'   => "'text'",
             'default'     => "''",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $advertise, 'config', '$c');
-        $ret              .= $this->getSimpleString('++$c;');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $advertise, 'config');
+
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Bookmarks');
         $bookmarks        = [
             'name'        => "'bookmarks'",
@@ -733,8 +754,8 @@ class UserXoopsVersion extends Files\CreateFile
             'valuetype'   => "'int'",
             'default'     => '0',
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $bookmarks, 'config', '$c');
-        $ret              .= $this->getSimpleString('++$c;');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $bookmarks, 'config');
+
         /*
          * removed, as there are no system templates in xoops core for fb or disqus comments
          * tdmcreate currently is also not creatings tpl files for this
@@ -770,8 +791,7 @@ class UserXoopsVersion extends Files\CreateFile
             'valuetype'   => "'text'",
             'default'     => "'{$module->getVar('mod_support_url')}'",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersion(3, $maintainedby, 'config', '$c');
-        $ret              .= $this->getSimpleString('unset($c);');
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $maintainedby, 'config');
 
         return $ret;
     }
@@ -807,7 +827,7 @@ class UserXoopsVersion extends Files\CreateFile
                     'item_name'        => "'{$item}'",
                     "'allow_bookmark'" => '1',
                 ];
-                $ret      .= $uCodeNType->getUserModVersion(3, $category, 'notification', "'{$type}'");
+                $ret      .= $uCodeNType->getUserModVersionArray(2, $category, 'notification', "'{$type}'");
                 break;
             case 'event':
                 $ret   .= $phpCodeNType->getPhpCodeCommentLine('Event Notify');
@@ -821,7 +841,7 @@ class UserXoopsVersion extends Files\CreateFile
                     'mail_template' => "'{$tableName}_{$typeOfNotify}_notify'",
                     'mail_subject'  => "'{$language}{$stuTableName}_{$stuTypeOfNotify}_NOTIFY_SUBJECT'",
                 ];
-                $ret   .= $uCodeNType->getUserModVersion(3, $event, 'notification', "'{$type}'");
+                $ret   .= $uCodeNType->getUserModVersionArray(2, $event, 'notification', "'{$type}'");
                 break;
         }
 
@@ -839,9 +859,9 @@ class UserXoopsVersion extends Files\CreateFile
         $uCodeVN       = UserXoopsCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
         $ret           = $this->getDashComment('Notifications');
-        $ret           .= $uCodeVN->getUserModVersion(1, 1, 'hasNotification');
-        $notifications = ["'lookup_file'" => "'include/notification.inc.php'", "'lookup_func'" => "'{$moduleDirname}_notify_iteminfo'"];
-        $ret           .= $uCodeVN->getUserModVersion(2, $notifications, 'notification');
+        $ret           .= $uCodeVN->getUserModVersionText(1, 1, 'hasNotification');
+        $notifications = ['lookup_file' => "'include/notification.inc.php'", 'lookup_func' => "'{$moduleDirname}_notify_iteminfo'"];
+        $ret           .= $uCodeVN->getUserModVersionArray(1, $notifications, 'notification');
 
         $notifyFiles   = [];
         $single        = 'single';
@@ -942,7 +962,7 @@ class UserXoopsVersion extends Files\CreateFile
             'description'    => "{$language}{$title}_NOTIFY_DESC",
             'subscribe_from' => "array('index.php', '{$implodeFrom}.php')",
         ];
-        $ret         .= $uCodeVNG->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
+        $ret         .= $uCodeVNG->getUserModVersionArray(3, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -974,7 +994,7 @@ class UserXoopsVersion extends Files\CreateFile
             'item_name'      => "'{$item}'",
             'allow_bookmark' => (string)$allow,
         ];
-        $ret        .= $uCodeVNC->getUserModVersion(4, $global, 'notification', "'{$type}'", $num);
+        $ret        .= $uCodeVNC->getUserModVersionArray(3, $global, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -1007,7 +1027,7 @@ class UserXoopsVersion extends Files\CreateFile
             'item_name'      => "'{$item}'",
             'allow_bookmark' => (string)$allow,
         ];
-        $ret         .= $uCodeVNTN->getUserModVersion(4, $table, 'notification', "'{$type}'", $num);
+        $ret         .= $uCodeVNTN->getUserModVersionArray(3, $table, 'notification', "'{$type}'", $num);
 
         return $ret;
     }
@@ -1044,7 +1064,7 @@ class UserXoopsVersion extends Files\CreateFile
             'mail_template' => "'{$mail}'",
             'mail_subject'  => "{$language}{$title}_NOTIFY_SUBJECT",
         ];
-        $ret         .= $uCodeVNCC->getUserModVersion(4, $event, 'notification', "'{$type}'", $num);
+        $ret         .= $uCodeVNCC->getUserModVersionArray(3, $event, 'notification', "'{$type}'", $num);
 
         return $ret;
     }

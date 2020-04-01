@@ -736,7 +736,8 @@ class CreateXoopsCode
                 $ret .= $axCodeUserSave->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
                 $countUploader++;
             } elseif (14 == $fieldElement) {
-                $ret .= $axCodeUserSave->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                $ret .= $axCodeUserSave->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, '', '', $countUploader);
+                $countUploader++;
             } elseif (15 == $fieldElement) {
                 $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
             } else {
@@ -1138,7 +1139,6 @@ class CreateXoopsCode
      */
     public function getXcRedirectHeader($directory, $options, $numb, $var, $isString = true, $t = '')
     {
-        $ret = '';
         if (!$isString) {
             $ret = "{$t}redirect_header({$directory}, {$numb}, {$var});\n";
         } else {
@@ -1217,7 +1217,6 @@ class CreateXoopsCode
      */
     public function getXcHtmlErrors($tableName, $isParam = false, $obj = 'Obj', $t = '')
     {
-        $ret = '';
         if ($isParam) {
             $ret = "\${$tableName}{$obj}->getHtmlErrors()";
         } else {
@@ -1258,7 +1257,6 @@ class CreateXoopsCode
      */
     public function getXcGet($left, $var, $obj = '', $handler = 'Handler', $isParam = false, $t = '')
     {
-        $ret = '';
         if ($isParam) {
             $ret = "\${$left}{$handler}->get(\${$var})";
         } else {

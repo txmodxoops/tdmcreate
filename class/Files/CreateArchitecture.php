@@ -196,9 +196,9 @@ class CreateArchitecture extends CreateStructure
         $files         = $tf->getTableMoreFiles($modId);
         $ret           = [];
 
-        $table              = [];
+        $table              = null;
         $tableCategory      = [];
-        $tableName          = [];
+        //$tableName          = [];
         $tableAdmin         = [];
         $tableUser          = [];
         $tableBlocks        = [];
@@ -604,4 +604,40 @@ class CreateArchitecture extends CreateStructure
         // Return Array
         return $ret;
     }
+
+    /**
+     * @public function setCommonFiles
+     *
+     * @param $module
+     */
+    public function setCommonFiles($module)
+    {
+
+        $moduleName = $module->getVar('mod_dirname');
+        $src_path   = XOOPS_ROOT_PATH . '/modules/tdmcreate/files';
+        $tmp_path   = XOOPS_ROOT_PATH . '/modules/tdmcreate/temp';
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+
+        $patterns = [
+            mb_strtolower('tdmcreate')          => mb_strtolower($moduleName),
+            mb_strtoupper('tdmcreate')          => mb_strtoupper($moduleName),
+            ucfirst(mb_strtolower('tdmcreate')) => ucfirst(mb_strtolower($moduleName)),
+        ];
+
+        $patKeys   = array_keys($patterns);
+        $patValues = array_values($patterns);
+
+        // delete temp folder
+        Tdmcreate\Files\Cloner::deleteFileFolder($tmp_path);
+        @rmdir($tmp_path);
+        // open files to temp folder and replace 'tdmcreate' by new module name
+        Tdmcreate\Files\Cloner::cloneFileFolder($src_path, $tmp_path, true, $patKeys, $patValues,);
+        // copy folders/files from temp to upload repository
+        Tdmcreate\Files\Cloner::cloneFileFolder($tmp_path, $upl_path);
+        // delete temp folder
+        Tdmcreate\Files\Cloner::deleteFileFolder($tmp_path);
+        @rmdir($tmp_path);
+
+    }
+
 }

@@ -171,6 +171,7 @@ class UserIndex extends Files\CreateFile
         $ret              .= $xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
         $ret              .= $pc->getPhpCodeCommentLine();
         $ret              .= $xc->getXcObjHandlerCount($tableName);
+        $ret              .= $xc->getXcTplAssign($tableName . 'Count', "\${$tableName}Count");
         $ret              .= $this->getSimpleString('$count = 1;');
         $condIf           = $xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, "\t");
         $userpager        = $xc->getXcGetConfig($moduleDirname, 'userpager');

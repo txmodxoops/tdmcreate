@@ -148,18 +148,26 @@ class LanguageModinfo extends Files\CreateFile
     {
         $df          = LanguageDefines::getInstance();
         $ret         = $df->getAboveDefines('Submenu');
+        $ret         .= $df->getDefine($language, 'SMNAME1', 'Index page');
         $i           = 1;
         $tableSubmit = [];
+        $tableSearch = [];
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
+            $tableSearch[] = $tables[$t]->getVar('table_search');
+            $desc          = ucfirst(mb_strtolower($tableName));
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= $df->getDefine($language, "SMNAME{$i}", (string)$tableName);
+                $ret .= $df->getDefine($language, "SMNAME{$i}", $desc);
             }
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
             $ret .= $df->getDefine($language, "SMNAME{$i}", 'Submit');
+            ++$i;
+        }
+        if (in_array(1, $tableSearch)) {
+            $ret .= $df->getDefine($language, "SMNAME{$i}", 'Search');
         }
         unset($i, $tableSubmit);
 

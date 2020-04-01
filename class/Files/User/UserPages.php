@@ -110,6 +110,7 @@ class UserPages extends Files\CreateFile
         $ret              .= $xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
         $ret              .= $pc->getPhpCodeCommentLine();
         $ret              .= $xc->getXcObjHandlerCount($tableName);
+        $ret              .= $xc->getXcTplAssign($tableName . 'Count', "\${$tableName}Count");
         $ret              .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit');
         $ret              .= $pc->getPhpCodeArray('keywords', null, false, '');
         $condIf           = $pc->getPhpCodeArray($tableName, null, false, $t);
