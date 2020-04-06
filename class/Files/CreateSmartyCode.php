@@ -185,6 +185,8 @@ class CreateSmartyCode
             $ret = "{$t}<{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
         } elseif ($admin && $q) {
             $ret = "{$t}<{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
+        } else {
+            $ret = '';
         }
 
         return $ret;
@@ -233,7 +235,6 @@ class CreateSmartyCode
      */
     public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '')
     {
-        $ret = '';
         if (!$contentElse) {
             if (!$count) {
                 $ret = "{$t}<{if \${$condition}{$operator}{$type}}>\n";

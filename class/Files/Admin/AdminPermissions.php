@@ -97,7 +97,7 @@ class AdminPermissions extends Files\CreateFile
         }
         $ret           = $this->getInclude('header');
         $ret           .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret           .= $xc->getXoopsHandlerLine($moduleDirname, $tableName);
+        $ret           .= $xc->getXoopsHandlerLine($tableName);
         $ret           .= $pc->getPhpCodeCommentLine('Check admin have access to this page');
         $ret           .= $axc->getAdminTemplateMain($moduleDirname, 'permissions');
         $ret           .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");

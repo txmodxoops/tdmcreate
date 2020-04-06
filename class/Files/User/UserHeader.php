@@ -79,13 +79,13 @@ class UserHeader extends Files\CreateFile
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        //$ucfModuleDirname = ucfirst($moduleDirname);
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $uc               = UserXoopsCode::getInstance();
         $ret              = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
         $ret              .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret              .= $xc->getXcEqualsOperator('$dirname', 'basename(__DIR__)');
+        $ret              .= $xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
         $language         = $this->getLanguage($moduleDirname, 'MA');
         $ret              .= $uc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
 
@@ -97,7 +97,7 @@ class UserHeader extends Files\CreateFile
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret       .= $xc->getXoopsHandlerLine($moduleDirname, $tableName);
+                $ret       .= $xc->getXoopsHandlerLine($tableName);
             }
         }
         $ret .= $pc->getPhpCodeCommentLine('Permission');

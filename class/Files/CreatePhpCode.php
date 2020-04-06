@@ -88,11 +88,19 @@ class CreatePhpCode
      * @param $left
      * @param $right
      *
+     * @param string $t
      * @return string
      */
-    public function getPhpCodeDefine($left, $right)
+    public function getPhpCodeDefine($left, $right, $t = '', $leftstr = true)
     {
-        return "define('{$left}', {$right});\n";
+        $ret = "{$t}define(";
+        if ($leftstr) {
+            $ret .= "'{$left}'";
+        } else {
+            $ret .= "{$left}";
+        }
+        $ret .= ", {$right});\n";
+        return $ret;
     }
 
     /**
@@ -399,8 +407,7 @@ class CreatePhpCode
      */
     public function getPhpCodeSwitch($op = null, $content = null, $t = '')
     {
-        //$ret = "{$t}switch(\${$op}) {\n"; test goffy
-        $ret = "switch(\${$op}) {\n";
+        $ret = "{$t}switch(\${$op}) {\n";
         $ret .= $content;
         $ret .= "}\n";
 
@@ -728,5 +735,51 @@ class CreatePhpCode
         $specialchars = "htmlspecialchars({$specialVar})";
 
         return $specialchars;
+    }
+
+    /**
+     * @public function getPhpCodeNamespace
+     * @param $dimensions
+     * @param string $t
+     * @param string $n
+     * @return string
+     */
+    public function getPhpCodeNamespace($dimensions, $t = '', $n = "\n\n")
+    {
+        $ret  = "\n{$t}namespace ";
+        foreach ($dimensions as $key => $dim) {
+            if ($key > 0) {
+                $ucfDim = ucfirst($dim);
+                $ret .= "\\{$ucfDim}";
+            } else {
+                $ret .= "{$dim}";
+            }
+        }
+        $ret .= ";" . $n;
+
+        return $ret;
+    }
+
+    /**
+     * @public function getPhpCodeUseNamespace
+     * @param $dimensions
+     * @param string $t
+     * @param string $n
+     * @return string
+     */
+    public function getPhpCodeUseNamespace($dimensions, $t = '', $n = "\n\n")
+    {
+        $ret  = "\n{$t}use ";
+        foreach ($dimensions as $key => $dim) {
+            if ($key > 0) {
+                $ucfDim = ucfirst($dim);
+                $ret .= "\\{$ucfDim}";
+            } else {
+                $ret .= "{$dim}";
+            }
+        }
+        $ret .= ";" . $n;
+
+        return $ret;
     }
 }

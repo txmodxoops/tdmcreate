@@ -131,7 +131,7 @@ class AdminPages extends Files\CreateFile
         $ret        = $pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret        .= $xc->getXcAddStylesheet('style', $t);
         $ret        .= $xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, $t);
-        $adminpager = $xc->getXcGetConfig($moduleDirname, 'adminpager');
+        $adminpager = $xc->getXcGetConfig('adminpager');
         $ret        .= $xc->getXcXoopsRequest('limit', 'limit', $adminpager, 'Int', false, $t);
         $ret        .= $axc->getAdminTemplateMain($moduleDirname, $tableName, $t);
         $navigation = $axc->getAdminDisplayNavigation($tableName);

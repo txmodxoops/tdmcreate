@@ -93,8 +93,8 @@ function b_{$moduleDirname}_{$tableName}_show(\$options)
     \$typeBlock   = \$options[0];
     \$limit       = \$options[1];
     \$lenghtTitle = \$options[2];
-    \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-    \${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');
+    \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
+    \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$criteria = new \CriteriaCompo();
     array_shift(\$options);
     array_shift(\$options);
@@ -121,13 +121,13 @@ EOT;
 	{
 		// For the block: {$tableName} last
 		case 'last':
-			\$criteria->add(new \Criteria('{$tableFieldname}_display', 1));
+			//\$criteria->add(new \Criteria('{$tableFieldname}_display', 1));
 			\$criteria->setSort('{$tableFieldname}_created');
 			\$criteria->setOrder('DESC');
 		break;
 		// For the block: {$tableName} new
 		case 'new':
-			\$criteria->add(new \Criteria('{$tableFieldname}_display', 1));
+			//\$criteria->add(new \Criteria('{$tableFieldname}_display', 1));
 			\$criteria->add(new \Criteria('{$tableFieldname}_created', strtotime(date(_SHORTDATESTRING)), '>='));
 			\$criteria->add(new \Criteria('{$tableFieldname}_created', strtotime(date(_SHORTDATESTRING))+86400, '<='));
 			\$criteria->setSort('{$tableFieldname}_created');
@@ -145,7 +145,7 @@ EOT;
         break;
 		// For the block: {$tableName} random
 		case 'random':
-			\$criteria->add(new \Criteria('{$tableFieldname}_display', 1));
+			//\$criteria->add(new \Criteria('{$tableFieldname}_display', 1));
 			\$criteria->setSort('RAND()');
 		break;
 	}\n
@@ -226,8 +226,8 @@ EOT;
 function b_{$moduleDirname}_{$tableName}_edit(\$options)
 {
     include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
-    \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-    \${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');
+    \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
+    \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
     \$form  = {$language}DISPLAY;
     \$form .= "<input type='hidden' name='options[0]' value='".\$options[0]."' />";

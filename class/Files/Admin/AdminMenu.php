@@ -187,6 +187,10 @@ class AdminMenu extends Files\CreateFile
             $ret    .= $this->getAdminMenuArray($param2, true);
             $ret    .= $this->getSimpleString('++$i;');
         }
+        ++$menu;
+        $param3 = ['title' => "{$language}{$menu}", 'link' => "'admin/feedback.php'", 'icon' => "\$sysPathIcon32.'/mail_foward.png'"];
+        $ret    .= $this->getAdminMenuArray($param3, true);
+        $ret    .= $this->getSimpleString('++$i;');
         unset($menu);
         $param3 = ['title' => (string)$langAbout, 'link' => "'admin/about.php'", 'icon' => "\$sysPathIcon32.'/about.png'"];
         $ret    .= $this->getAdminMenuArray($param3, true);

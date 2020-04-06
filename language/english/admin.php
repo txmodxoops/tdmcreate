@@ -282,6 +282,9 @@ define('_AM_TDMCREATE_ADMIN_SUBMIT', 'Send');
 define('_AM_TDMCREATE_FIELD_THEAD', 'User: In Thead');
 define('_AM_TDMCREATE_FIELD_TBODY', 'User: In Tbody');
 define('_AM_TDMCREATE_FIELD_TFOOT', 'User: In Tfoot');
+define('_AM_TDMCREATE_FIELD_RECOMMENDED', 'It is recommended to create following fields:<br>
+- %s_created: for sorting items by date it is necessary to have a field, where date of creation is stored<br>
+- %s_submitter: for sorting items by submitter it is necessary to have a field, where user of creation is stored<br><br>');
 // List in templates
 define('_AM_TDMCREATE_ID_LIST', 'Id');
 define('_AM_TDMCREATE_NAME_LIST', 'Name');
@@ -439,3 +442,5 @@ define('_AM_TDMCREATE_FILE_INFOLDER_LIST', 'In Folder');
 define('_AM_TDMCREATE_FORM_ACTION', 'Action');
 
 define('_AM_TDMCREATE_THEREARENT_SETTINGS', 'There are NO Settings! Please create Settings');
+
+define('_AM_TDMCREATE_BUILDING_COMMON', "Copied common files and created folder for test data");

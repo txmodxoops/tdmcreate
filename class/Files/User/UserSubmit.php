@@ -153,7 +153,7 @@ class UserSubmit extends Files\CreateFile
         $ret                .= $xc->getXcObjHandlerCreate($tableName, $t);
         $autoincrement      = in_array(1, $tableAutoincrement) ? $tableAutoincrement : 0;
         if (in_array(1, $tableSubmit)) {
-            $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $autoincrement, $fields, $t);
+            $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t);
         }
         $ret       .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert    = $xc->getXcInsert($tableName, $tableName, 'Obj', 'Handler');

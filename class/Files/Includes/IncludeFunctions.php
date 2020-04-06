@@ -271,10 +271,10 @@ EOT;
 function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 {
     \$comment = '';
-    \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-    \${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
-    \$lenght_id = \${$moduleDirname}->getConfig('lenght_id');
-    \$rewrite_url = \${$moduleDirname}->getConfig('rewrite_url');
+    \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
+    \${$tableName} = \$helper->getHandler('{$tableName}');
+    \$lenght_id = \$helper->getConfig('lenght_id');
+    \$rewrite_url = \$helper->getConfig('rewrite_url');
 
     if (\$lenght_id != 0) {
         \$id = \$array['content_id'];
@@ -376,9 +376,9 @@ EOT;
 function {$moduleDirname}_Filter(\$url, \$type = '') {
 
     // Get regular expression from module setting. default setting is : `[^a-z0-9]`i
-    \${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();
-    \${$tableName} = \${$moduleDirname}->getHandler('{$tableName}');
-    \$regular_expression = \${$moduleDirname}->getConfig('regular_expression');
+    \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
+    \${$tableName} = \$helper->getHandler('{$tableName}');
+    \$regular_expression = \$helper->getConfig('regular_expression');
 
     \$url = strip_tags(\$url);
     \$url .= preg_replace("`\[.*\]`U", '', \$url);

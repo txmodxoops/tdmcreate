@@ -125,7 +125,7 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
 
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
-        $ret            .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
+        $ret            .= $this->xc->getXoopsHandlerLine($tableName);
 
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {

@@ -73,13 +73,33 @@ class AdminXoopsCode
     {
         $stuType = mb_strtoupper($type);
         $aM      = $t . '$adminObject->addItemButton(';
-        if ('add' === $type) {
-            $ret = $aM . "{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
-        } else {
-            $ret = $aM . "{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
+        switch ($type) {
+            case 'add';
+                $ret = $aM . "{$language}ADD_{$stuTableSoleName}, '{$tableName}.php{$op}', '{$type}');\n";
+            break;
+            case 'samplebutton';
+                $ret = $aM . "{$language}, '{$op}', 'add');\n";
+                break;
+            case 'default':
+            default:
+                $ret = $aM . "{$language}{$stuTableSoleName}_{$stuType}, '{$tableName}.php{$op}', '{$type}');\n";
+            break;
         }
 
         return $ret;
+    }
+
+    /**
+     * @public function getAdminAddNavigation
+     *
+     * @param        $tableName
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getAdminDisplayButton($type, $t = '')
+    {
+        return "{$t}\$adminObject->displayButton('{$type}');\n";
     }
 
     /**
@@ -166,7 +186,7 @@ class AdminXoopsCode
         $ret            = $pCodeImageList->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret            .= $pCodeImageList->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $xRootPath      = "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
-        $ret            .= $xCodeImageList->getXcMediaUploader('uploader', $xRootPath, $moduleDirname, $t);
+        $ret            .= $xCodeImageList->getXcMediaUploader('uploader', $xRootPath, $t);
         $post           = $pCodeImageList->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
         $ifelse         = $t . "\t//" . $this->getAxcSetPrefix('uploader', "{$fieldName}_") . ";\n";
@@ -200,7 +220,7 @@ class AdminXoopsCode
         $ret              = $pCodeUploadImage->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret              .= $pCodeUploadImage->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $xUploadImage     = "{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
-        $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", $moduleDirname, $t);
+        $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", $t);
         $post             = $pCodeUploadImage->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia       = $this->getAxcFetchMedia('uploader', $post);
         $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['name']";
@@ -266,7 +286,7 @@ class AdminXoopsCode
         }
         $ret            .= $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret            .= $pCodeFileSetVar->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
-        $ret            .= $xCodeFileSetVar->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $moduleDirname, $t);
+        $ret            .= $xCodeFileSetVar->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $t);
         $post           = $pCodeFileSetVar->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
         $file           = $pCodeFileSetVar->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";

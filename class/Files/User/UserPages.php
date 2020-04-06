@@ -83,7 +83,7 @@ class UserPages extends Files\CreateFile
         $ret       .= $uc->getUserTplMain($moduleDirname, $tableName);
         $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $xc->getXcXoopsRequest('start', 'start', '0', 'Int');
-        $userpager = $xc->getXcGetConfig($moduleDirname, 'userpager');
+        $userpager = $xc->getXcGetConfig('userpager');
         $ret       .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
         $ret       .= $pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret       .= $xc->getXcAddStylesheet();
@@ -131,11 +131,11 @@ class UserPages extends Files\CreateFile
         $condIf    .= $xc->getXcTplAssign($tableName, "\${$tableName}", true, $t);
         $condIf    .= $pc->getPhpCodeUnset($tableName, $t);
         $condIf    .= $xc->getXcPageNav($tableName, $t);
-        $tableType = $xc->getXcGetConfig($moduleDirname, 'table_type');
+        $tableType = $xc->getXcGetConfig('table_type');
         $condIf    .= $xc->getXcTplAssign('type', $tableType, true, $t);
-        $divideby  = $xc->getXcGetConfig($moduleDirname, 'divideby');
+        $divideby  = $xc->getXcGetConfig('divideby');
         $condIf    .= $xc->getXcTplAssign('divideby', $divideby, true, $t);
-        $numbCol   = $xc->getXcGetConfig($moduleDirname, 'numb_col');
+        $numbCol   = $xc->getXcGetConfig('numb_col');
         $condIf    .= $xc->getXcTplAssign('numb_col', $numbCol, true, $t);
 
         $ret .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);

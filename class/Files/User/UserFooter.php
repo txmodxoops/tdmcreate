@@ -79,10 +79,10 @@ class UserFooter extends Files\CreateFile
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $xoBreadcrumbs    = $xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
         $ret              = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
-        $ret              .= $xc->getXcTplAssign('adv', "\${$moduleDirname}->getConfig('advertise')");
+        $ret              .= $xc->getXcTplAssign('adv', "\$helper->getConfig('advertise')");
         $ret              .= $pc->getPhpCodeCommentLine();
-        $ret              .= $xc->getXcTplAssign('bookmarks', "\${$moduleDirname}->getConfig('bookmarks')");
-        $ret              .= $xc->getXcTplAssign('fbcomments', "\${$moduleDirname}->getConfig('fbcomments')");
+        $ret              .= $xc->getXcTplAssign('bookmarks', "\$helper->getConfig('bookmarks')");
+        $ret              .= $xc->getXcTplAssign('fbcomments', "\$helper->getConfig('fbcomments')");
         $ret              .= $pc->getPhpCodeCommentLine();
         $ret              .= $xc->getXcTplAssign('admin', "{$stuModuleDirname}_ADMIN");
         $ret              .= $xc->getXcTplAssign('copyright', '$copyright');

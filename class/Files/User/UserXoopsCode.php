@@ -92,7 +92,7 @@ class UserXoopsCode
         $pCodeMetaKeywords = Tdmcreate\Files\CreatePhpCode::getInstance();
         $implode           = $pCodeMetaKeywords->getPhpCodeImplode(',', '$keywords');
 
-        return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. {$implode});\n";
+        return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords').', '. {$implode});\n";
     }
 
     /**
@@ -210,7 +210,14 @@ class UserXoopsCode
             if ($eleArray < 4) {
                 $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
             } elseif (11 === $eleArray) {
-                $ret .= $t . "\t{$desc},{$n}";
+                if ('/' === substr($desc, 1, 1)) {
+                    $ret .= $t . "\t{$desc}";
+                } else {
+                    $ret .= $t . "\t{$desc},{$n}";
+                }
+
+            } elseif (12 === $eleArray) {
+                $ret .= $t . "\t{$desc}{$n}";
             }
         }
         $ret .= $t;

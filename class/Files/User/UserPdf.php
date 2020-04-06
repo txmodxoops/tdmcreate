@@ -100,7 +100,7 @@ class UserPdf extends Files\CreateFile
         $redirectHeader = $this->xc->getXcRedirectHeader($tableName, '', $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
         $ret            .= $this->phpcode->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader);
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
-        $ret            .= $this->xc->getXoopsHandlerLine($moduleDirname, $tableName);
+        $ret            .= $this->xc->getXoopsHandlerLine($tableName);
         $ret            .= $this->xc->getXcGetVar($tableName, 'this', $fieldId, false, '');
 
         return $ret;

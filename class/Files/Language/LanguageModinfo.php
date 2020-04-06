@@ -82,7 +82,11 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageMain($language, $module)
     {
         $df  = LanguageDefines::getInstance();
-        $ret = $df->getAboveHeadDefines('Admin Main');
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $df->getBlankLine();
+        $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $df->getBlankLine();
+        $ret .= $df->getAboveHeadDefines('Admin Main');
         $ret .= $df->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
         $ret .= $df->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
 
@@ -115,6 +119,8 @@ class LanguageModinfo extends Files\CreateFile
             ++$menu;
             $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
+        ++$menu;
+        $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Feedback');
         $ret .= $df->getDefine($language, 'ABOUT', 'About');
         unset($menu, $tablePermissions);
 

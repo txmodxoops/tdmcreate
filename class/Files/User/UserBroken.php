@@ -156,7 +156,7 @@ class UserBroken extends Files\CreateFile
 
         $ret .= $pc->getPhpCodeConditions('!$xoopsCaptcha->verify()', '', '', "\t\t\t\$errorMessage .= \$xoopsCaptcha->getMessage().'<br>';\n\t\t\t\$error = true;\n", false, "\t\t");
 
-        $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, "\t\t");
+        $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, "\t\t");
 
         $condElse      = $pc->getPhpCodeCommentLine('Insert Data', null, "\t\t\t");
         $insert        = $xc->getXcInsert($tableName, $tableName, 'Obj', true);

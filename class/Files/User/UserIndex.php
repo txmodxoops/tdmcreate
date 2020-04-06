@@ -139,7 +139,7 @@ class UserIndex extends Files\CreateFile
             $contentIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, $tableFieldname, $foreach, "\t");
             $contentIf .= $xc->getXcTplAssign($tableName, '$' . $tableName, true, "\t");
             $contentIf .= $pc->getPhpCodeUnset($tableName, "\t");
-            $getConfig = $xc->getXcGetConfig($moduleDirname, 'numb_col');
+            $getConfig = $xc->getXcGetConfig('numb_col');
             $contentIf .= $xc->getXcTplAssign('numb_col', $getConfig, true, "\t");
             $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf, false);
             $ret       .= $pc->getPhpCodeUnset('count');
@@ -174,7 +174,7 @@ class UserIndex extends Files\CreateFile
         $ret              .= $xc->getXcTplAssign($tableName . 'Count', "\${$tableName}Count");
         $ret              .= $this->getSimpleString('$count = 1;');
         $condIf           = $xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, "\t");
-        $userpager        = $xc->getXcGetConfig($moduleDirname, 'userpager');
+        $userpager        = $xc->getXcGetConfig('userpager');
         $condIf           .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
         $condIf           .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
         $condIf           .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
@@ -199,14 +199,14 @@ class UserIndex extends Files\CreateFile
         $condIf   .= $xc->getXcPageNav($tableName, "\t");
         $thereare = $pc->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
         $condIf   .= $xc->getXcTplAssign('lang_thereare', $thereare, true, "\t");
-        $divideby = $xc->getXcGetConfig($moduleDirname, 'divideby');
+        $divideby = $xc->getXcGetConfig('divideby');
         $condIf   .= $xc->getXcTplAssign('divideby', $divideby, true, "\t");
-        $numb_col  = $xc->getXcGetConfig($moduleDirname, 'numb_col');
+        $numb_col  = $xc->getXcGetConfig('numb_col');
         $condIf   .= $xc->getXcTplAssign('numb_col', $numb_col, true, "\t");
 
         $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret       .= $pc->getPhpCodeUnset('count');
-        $tableType = $xc->getXcGetConfig($moduleDirname, 'table_type');
+        $tableType = $xc->getXcGetConfig('table_type');
         $ret       .= $xc->getXcTplAssign('table_type', $tableType);
 
         return $ret;
@@ -246,13 +246,15 @@ class UserIndex extends Files\CreateFile
      */
     public function render()
     {
+        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
         $module        = $this->getModule();
         $table         = $this->getTable();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module, $filename, null);
+        $content       .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
         $content       .= $this->getTemplateHeaderFile($moduleDirname);
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');

@@ -284,14 +284,13 @@ class CreateXoopsCode
      * @public function getXcMediaUploader
      * @param $var
      * @param $dirPath
-     * @param $moduleDirname
-     * @param $t
+     * @param string $t
      * @return string
      */
-    public function getXcMediaUploader($var, $dirPath, $moduleDirname, $t = '')
+    public function getXcMediaUploader($var, $dirPath, $t = '')
     {
-        $mimetypes = $this->getXcGetConfig($moduleDirname, 'mimetypes');
-        $maxsize   = $this->getXcGetConfig($moduleDirname, 'maxsize');
+        $mimetypes = $this->getXcGetConfig('mimetypes');
+        $maxsize   = $this->getXcGetConfig('maxsize');
 
         return "{$t}\${$var} = new \XoopsMediaUploader({$dirPath}, 
 													{$mimetypes}, 
@@ -336,13 +335,12 @@ class CreateXoopsCode
 
     /**
      * @public function getXcGetConfig
-     * @param $moduleDirname
      * @param $name
      * @return string
      */
-    public function getXcGetConfig($moduleDirname, $name)
+    public function getXcGetConfig($name)
     {
-        return "\${$moduleDirname}->getConfig('{$name}')";
+        return "\$helper->getConfig('{$name}')";
     }
 
     /**
@@ -381,35 +379,20 @@ class CreateXoopsCode
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = "{$t}// Get instance of module\n";
-        $ret              .= "{$t}\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n";
+        $ret              .= "{$t}\$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();\n";
 
         return $ret;
     }
 
     /**
      * @public function getXoopsHandlerLine
-     * @param $moduleDirname
      * @param $tableName
-     * @param $t
+     * @param string $t
      * @return string
      */
-    public function getXoopsHandlerLine($moduleDirname, $tableName, $t = '')
+    public function getXoopsHandlerLine($tableName, $t = '')
     {
-        return "{$t}\${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');\n";
-    }
-
-    /**
-     * @public function getXoopsClearHandler
-     * @param $left
-     * @param $anchor
-     * @param $var
-     * @param $t
-     *
-     * @return string
-     */
-    public function getXoopsClearHandler($left, $anchor, $var, $t = '')
-    {
-        return "{$t}\${$left}Handler = \${$anchor}->getHandler('{$var}');\n";
+        return "{$t}\${$tableName}Handler = \$helper->getHandler('{$tableName}');\n";
     }
 
     /**
@@ -486,7 +469,6 @@ class CreateXoopsCode
 
     /**
      * @public function getXcParentTopicGetVar
-     * @param        $moduleDirname
      * @param        $lpFieldName
      * @param        $rpFieldName
      * @param        $tableName
@@ -496,11 +478,11 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcParentTopicGetVar($moduleDirname, $lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent, $t = '')
+    public function getXcParentTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent, $t = '')
     {
         $pParentTopic = Tdmcreate\Files\CreatePhpCode::getInstance();
         $parentTopic  = $pParentTopic->getPhpCodeCommentLine('Get', $tableNameTopic . ' Handler', $t . "\t");
-        $parentTopic  .= $this->getXoopsHandlerLine($moduleDirname, $tableNameTopic, $t . "\t");
+        $parentTopic  .= $this->getXoopsHandlerLine($tableNameTopic, $t . "\t");
         $elseGroups   = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
         $ret          = $pParentTopic->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
         $ret          .= $this->getXcGetVarFromID("\${$lpFieldName}['{$rpFieldName}']", $tableNameTopic, $tableSoleNameTopic, $tableName, $fieldNameParent, $t);
@@ -1407,13 +1389,12 @@ class CreateXoopsCode
      * @param        $moduleDirname
      * @param        $tableName
      * @param        $tableSoleName
-     * @param        $tableAutoincrement
      * @param        $fields
      *
      * @param string $t
      * @return string
      */
-    public function getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $t = '')
+    public function getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t = '')
     {
         $axCodeSaveElements = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
         $ret                = '';

@@ -167,8 +167,8 @@ EOT;
 		// Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
-        \$uploader = new \XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes'),
+                                                         \$helper->getConfig('maxsize'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
             \$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);
             if (!\$uploader->upload()) {
@@ -196,8 +196,8 @@ EOT;
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         \$uploaddir = XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32';
-        \$uploader = new \XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes'),
+                                                         \$helper->getConfig('maxsize'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
             //\$uploader->setPrefix('{$fieldName}_');
             //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);
@@ -230,8 +230,8 @@ EOT;
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/images/{$tableName}';
-        \$uploader = new \XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes'),
+                                                         \$helper->getConfig('maxsize'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][0])) {
 			\$extension = preg_replace( '/^.+\.([^.]+)$/sU' , '' , \$_FILES['attachedfile']['name']);
             \$imgName = str_replace(' ', '', \$_POST['{$fpmf}']).'.'.\$extension;
@@ -265,8 +265,8 @@ EOT;
         // Set Var {$fieldName}
         include_once XOOPS_ROOT_PATH.'/class/uploader.php';
         \$uploaddir = {$stuModuleDirname}_UPLOAD_PATH.'/files/{$tableName}';
-        \$uploader = new \XoopsMediaUploader(\$uploaddir, \${$moduleDirname}->getConfig('mimetypes'),
-                                                         \${$moduleDirname}->getConfig('maxsize'), null, null);
+        \$uploader = new \XoopsMediaUploader(\$uploaddir, \$helper->getConfig('mimetypes'),
+                                                         \$helper->getConfig('maxsize'), null, null);
         if (\$uploader->fetchMedia(\$_POST['xoops_upload_file'][])) {
             //\$uploader->setPrefix('{$fieldName}_') ;
             //\$uploader->fetchMedia(\$_POST['xoops_upload_file'][]);

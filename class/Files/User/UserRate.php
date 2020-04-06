@@ -164,7 +164,7 @@ class UserRate extends Files\CreateFile
         $ret                .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
         $ret                .= $this->xc->getXcObjHandlerCreate($tableName, "\t\t");
 
-        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, "\t\t");
+        $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, "\t\t");
 
         $ret       .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
         $insert    = $this->xc->getXcInsert($tableName, $tableName, 'Obj', true);

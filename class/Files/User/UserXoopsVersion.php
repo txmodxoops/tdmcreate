@@ -164,6 +164,7 @@ class UserXoopsVersion extends Files\CreateFile
             'adminindex'          => "'admin/index.php'",
             'adminmenu'           => "'admin/menu.php'",
             'onInstall'           => "'include/install.php'",
+            'onUninstall'         => "'include/uninstall.php'",
             'onUpdate'            => "'include/update.php'",
         ];
 
@@ -240,33 +241,88 @@ class UserXoopsVersion extends Files\CreateFile
     }
 
     /**
-     * @private function getXoopsVersionTemplatesAdmin
+     * @private function getXoopsVersionTemplatesAdminUser
      * @param $moduleDirname
      * @param $tables
      *
      * @return string
      */
-    private function getXoopsVersionTemplatesAdmin($moduleDirname, $tables)
+    private function getXoopsVersionTemplatesAdminUser($moduleDirname, $tables, $admin, $user)
     {
         $uCodeTemplate = UserXoopsCode::getInstance();
         $ret = $this->getDashComment('Templates');
-        $ret .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Admin');
 
-        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
-        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '', true);
-        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '', true);
-        $tablePermissions = [];
-        foreach (array_keys($tables) as $t) {
-            $tableName          = $tables[$t]->getVar('table_name');
-            $tablePermissions[] = $tables[$t]->getVar('table_permissions');
-            $item[]             .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '', true);
+        if ($admin) {
+            $item[] = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Admin templates');
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '', true);
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '', true);
+            $tablePermissions = [];
+            foreach (array_keys($tables) as $t) {
+                $tableName          = $tables[$t]->getVar('table_name');
+                $tablePermissions[] = $tables[$t]->getVar('table_permissions');
+                $item[]             .= $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '', true);
+            }
+            if (in_array(1, $tablePermissions)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);
+            }
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '', true);
         }
-        if (in_array(1, $tablePermissions)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'permissions', '', true);
-        }
-        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '', true);
 
-        $ret .= $uCodeTemplate->getUserModVersionArray(11, $item, "template");
+        if ($user) {
+            $item[]      = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('User templates');
+            $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '');
+            $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '');
+            $tableBroken = [];
+            $tablePdf    = [];
+            $tablePrint  = [];
+            $tableRate   = [];
+            $tableRss    = [];
+            $tableSearch = [];
+            $tableSingle = [];
+            $tableSubmit = [];
+            foreach (array_keys($tables) as $t) {
+                $tableName     = $tables[$t]->getVar('table_name');
+                $tableBroken[] = $tables[$t]->getVar('table_broken');
+                $tablePdf[]    = $tables[$t]->getVar('table_pdf');
+                $tablePrint[]  = $tables[$t]->getVar('table_print');
+                $tableRate[]   = $tables[$t]->getVar('table_rate');
+                $tableRss[]    = $tables[$t]->getVar('table_rss');
+                $tableSearch[] = $tables[$t]->getVar('table_search');
+                $tableSingle[] = $tables[$t]->getVar('table_single');
+                $tableSubmit[] = $tables[$t]->getVar('table_submit');
+                $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
+                $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
+            }
+            $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
+            if (in_array(1, $tableBroken)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '');
+            }
+            if (in_array(1, $tablePdf)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf', '');
+            }
+            if (in_array(1, $tablePrint)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'print', '');
+            }
+            if (in_array(1, $tableRate)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate', '');
+            }
+            if (in_array(1, $tableRss)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss', '');
+            }
+            if (in_array(1, $tableSearch)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'search', '');
+            }
+            if (in_array(1, $tableSingle)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'single', '');
+            }
+            if (in_array(1, $tableSubmit)) {
+                $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit', '');
+            }
+            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
+        }
+
+        $ret .= $uCodeTemplate->getUserModVersionArray(11, $item, "templates");
 
         return $ret;
     }
@@ -293,73 +349,6 @@ class UserXoopsVersion extends Files\CreateFile
                 $ret .= "{$arrayFile} '{$moduleDirname}_{$type}.tpl', {$desc}]";
             }
         }
-
-        return $ret;
-    }
-
-    /**
-     * @private function getXoopsVersionTemplatesUser
-     * @param $moduleDirname
-     * @param $tables
-     * @return string
-     */
-    private function getXoopsVersionTemplatesUser($moduleDirname, $tables)
-    {
-        $uCodeTemplate = UserXoopsCode::getInstance();
-
-        $ret = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('User');
-
-        $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'header', '');
-        $item[]      = $this->getXoopsVersionTemplatesLine($moduleDirname, 'index', '');
-        $tableBroken = [];
-        $tablePdf    = [];
-        $tablePrint  = [];
-        $tableRate   = [];
-        $tableRss    = [];
-        $tableSearch = [];
-        $tableSingle = [];
-        $tableSubmit = [];
-        foreach (array_keys($tables) as $t) {
-            $tableName     = $tables[$t]->getVar('table_name');
-            $tableBroken[] = $tables[$t]->getVar('table_broken');
-            $tablePdf[]    = $tables[$t]->getVar('table_pdf');
-            $tablePrint[]  = $tables[$t]->getVar('table_print');
-            $tableRate[]   = $tables[$t]->getVar('table_rate');
-            $tableRss[]    = $tables[$t]->getVar('table_rss');
-            $tableSearch[] = $tables[$t]->getVar('table_search');
-            $tableSingle[] = $tables[$t]->getVar('table_single');
-            $tableSubmit[] = $tables[$t]->getVar('table_submit');
-            $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, '');
-            $item[]        = $this->getXoopsVersionTemplatesLine($moduleDirname, $tableName, 'list');
-        }
-        $item[]  = $this->getXoopsVersionTemplatesLine($moduleDirname, 'breadcrumbs', '');
-        if (in_array(1, $tableBroken)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'broken', '');
-        }
-        if (in_array(1, $tablePdf)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'pdf', '');
-        }
-        if (in_array(1, $tablePrint)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'print', '');
-        }
-        if (in_array(1, $tableRate)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rate', '');
-        }
-        if (in_array(1, $tableRss)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'rss', '');
-        }
-        if (in_array(1, $tableSearch)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'search', '');
-        }
-        if (in_array(1, $tableSingle)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'single', '');
-        }
-        if (in_array(1, $tableSubmit)) {
-            $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'submit', '');
-        }
-        $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'footer', '');
-
-        $ret .= $uCodeTemplate->getUserModVersionArray(11, $item, "template");
 
         return $ret;
     }
@@ -782,6 +771,18 @@ class UserXoopsVersion extends Files\CreateFile
         $ret              .= $uCodeVConfig->getUserModVersion(3, $disqusComments, 'config', '$c');
         $ret              .= $this->getSimpleString('++$c;');
         */
+
+        $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Make Sample button visible?');
+        $maintainedby     = [
+            'name'        => "'displaySampleButton'",
+            'title'       => "'CO_' . \$moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON'",
+            'description' => "'CO_' . \$moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC'",
+            'formtype'    => "'yesno'",
+            'valuetype'   => "'int'",
+            'default'     => '1',
+        ];
+        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $maintainedby, 'config');
+
         $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Maintained by');
         $maintainedby     = [
             'name'        => "'maintainedby'",
@@ -1084,13 +1085,8 @@ class UserXoopsVersion extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MI');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content       .= $this->getXoopsVersionHeader($module, $language);
-        if (1 == $module->getVar('mod_admin')) {
-            $content .= $this->getXoopsVersionTemplatesAdmin($moduleDirname, $tables);
-        }
-        if (1 == $module->getVar('mod_user')) {
-            $content .= $this->getXoopsVersionTemplatesUser($moduleDirname, $tables);
-        }
-        $content            .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
+        $content       .= $this->getXoopsVersionTemplatesAdminUser($moduleDirname, $tables, $module->getVar('mod_admin'), $module->getVar('mod_user'));
+        $content       .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);
         $tableSearch        = [];
         $tableComments      = [];
         $tableSubmenu       = [];

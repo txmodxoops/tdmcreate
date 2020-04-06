@@ -103,12 +103,12 @@ class AdminHeader extends Files\CreateFile
         $ret              .= $this->xc->getXcEqualsOperator('$modPathIcon32 ', $modicons32);
         if (is_object($table) && '' != $table->getVar('table_name')) {
             $ret .= $this->phpcode->getPhpCodeCommentLine('Get instance of module');
-            $ret .= $this->xc->getXcEqualsOperator("\${$moduleDirname}", "{$ucfModuleDirname}Helper::getInstance()");
+            $ret .= $this->xc->getXcEqualsOperator("\$helper", "\XoopsModules\\{$ucfModuleDirname}\Helper::getInstance()");
         }
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret       .= $this->xc->getXcEqualsOperator("\${$tableName}Handler", "\${$moduleDirname}->getHandler('{$tableName}')", null, true);
+                $ret       .= $this->xc->getXcEqualsOperator("\${$tableName}Handler", "\$helper->getHandler('{$tableName}')", null, true);
             }
         }
         $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, false);
@@ -128,7 +128,7 @@ class AdminHeader extends Files\CreateFile
         $xoopsPathCond  = $this->xc->getXcPath('$pathModuleAdmin', 'moduleadmin', true);
         $fileExists     = $this->phpcode->getPhpCodeFileExists($xoopsPathCond);
         $moduleadmin    = $this->phpcode->getPhpCodeIncludeDir($xoopsPathCond, '', true, true, 'include', "\t");
-        $redirectHeader = $this->xc->getXcRedirectHeader('../../../admin.php', '', '5', '_AM_MODULEADMIN_MISSING', true, "\t");
+        $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '_AM_MODULEADMIN_MISSING', false, "\t");
 
         $ret .= $this->phpcode->getPhpCodeConditions($fileExists, '', '', $moduleadmin, $redirectHeader);
         $ret .= $this->xc->getXcCPHeader();
