@@ -81,7 +81,10 @@ class AdminPages extends Files\CreateFile
         $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       = $this->getInclude();
+        $ret       = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret       .= $this->getInclude();
         $ret       .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
         $ret       .= $pc->getPhpCodeCommentLine("Request {$fieldId}");
@@ -281,11 +284,7 @@ class AdminPages extends Files\CreateFile
                         $ret .= $xc->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        if (2 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
-                            $ret .= $xc->getXcSetVar($tableName, $fieldName, "isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0", $t);
-                        } else {
-                            $ret .= $xc->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t);
-                        }
+                        $ret .= $axc->getAxcMiscSetVar($moduleDirname, $tableName, $fieldName, $fieldType, $t, $countUploader, $fieldMain);
                         break;
                 }
             }

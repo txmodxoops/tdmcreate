@@ -88,6 +88,10 @@ class AdminIndex extends Files\CreateFile
         $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret              .= $pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'preloads/autoloader', true);
         $ret              .= $this->getInclude();
+        $ret              .= $pc->getBlankLine();
+        $ret              .= $pc->getPhpCodeCommentLine('Template Index');
+        $ret              .= $axc->getAdminTemplateMain((string)$moduleDirname, 'index');
+        $ret              .= $pc->getBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Count elements');
         $tableName        = null;
         foreach (array_keys($tables) as $i) {
@@ -95,8 +99,7 @@ class AdminIndex extends Files\CreateFile
             $ucfTableName = ucfirst($tableName);
             $ret          .= $xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
-        $ret .= $pc->getPhpCodeCommentLine('Template Index');
-        $ret .= $axc->getAdminTemplateMain((string)$moduleDirname, 'index');
+        $ret .= $pc->getBlankLine();
         $ret .= $pc->getPhpCodeCommentLine('InfoBox Statistics');
         $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
         $ret .= $pc->getPhpCodeCommentLine('Info elements');
@@ -113,6 +116,7 @@ class AdminIndex extends Files\CreateFile
         }
 
         if (is_array($tables) && in_array(1, $tableInstall)) {
+            $ret       .= $pc->getBlankLine();
             $ret       .= $pc->getPhpCodeCommentLine('Upload Folders');
             $ret       .= $xc->getXcEqualsOperator('$configurator', 'new Common\Configurator()');
             $cond      = '$configurator->uploadFolders && is_array($configurator->uploadFolders)';

@@ -90,6 +90,7 @@ class UserPrint extends Files\CreateFile
      */
     public function getUserPrint($moduleDirname, $language)
     {
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
@@ -117,7 +118,10 @@ class UserPrint extends Files\CreateFile
         }
         $ccFieldId      = $this->getCamelCase($fieldId, false, true);
         $stuLpFieldName = mb_strtoupper($ccFieldId);
-        $ret            = $this->getInclude();
+        $ret            = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret            .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret            .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret            .= $this->getInclude();
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
         $ret            .= $this->xc->getXcAddStylesheet();

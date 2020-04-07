@@ -81,7 +81,10 @@ class UserBroken extends Files\CreateFile
         $uc        = UserXoopsCode::getInstance();
         $fieldId   = $xc->getXcSaveFieldId($fields);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       = $this->getInclude();
+        $ret       = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret       .= $this->getInclude();
         $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
         $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
         $ret       .= $pc->getPhpCodeCommentLine('Template');
@@ -194,7 +197,7 @@ class UserBroken extends Files\CreateFile
             'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
         ];
 
-        return $xc->getXcSwitch('op', $cases, true, false, "\t");
+        return $xc->getXcSwitch('op', $cases, true, false);
     }
 
     /**

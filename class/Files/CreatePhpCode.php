@@ -569,9 +569,9 @@ class CreatePhpCode
         unset($retArray);
 
         if (!$isParam) {
-            $ret = "{$t}\${$var} = array({$arrayContent});\n";
+            $ret = "{$t}\${$var} = [{$arrayContent}];\n";
         } else {
-            $ret = "array({$array})";
+            $ret = "[{$array}]";
         }
 
         return $ret;
@@ -781,5 +781,14 @@ class CreatePhpCode
         $ret .= ";" . $n;
 
         return $ret;
+    }
+    /**
+     * @public function getBlankLine
+     *
+     * @return string
+     */
+    public function getBlankLine()
+    {
+        return "\n";
     }
 }

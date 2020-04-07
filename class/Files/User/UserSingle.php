@@ -80,7 +80,10 @@ class UserSingle extends Files\CreateFile
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $uc  = UserXoopsCode::getInstance();
-        $ret = $this->getInclude();
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getInclude();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {

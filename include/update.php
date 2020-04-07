@@ -32,18 +32,25 @@
  */
 function xoops_module_update_tdmcreate(&$module, $prev_version = null)
 {
-    // irmtfan bug fix: solve templates duplicate issue
+
     $ret = null;
     if ($prev_version < 191) {
-        $ret = update_system_v191($module);
+        update_tdmcreate_v191($module);
     }
+	
+	tdmcreate_check_db($module);
+	
+	//check upload directory
+	include_once __DIR__ . '/install.php';
+    xoops_module_install_tdmcreate($module);
+	
     $errors = $module->getErrors();
     if (!empty($errors)) {
         print_r($errors);
     }
 
     return $ret;
-    // irmtfan bug fix: solve templates duplicate issue
+
 }
 
 // irmtfan bug fix: solve templates duplicate issue
@@ -76,7 +83,7 @@ function update_tdmcreate_v191(&$module)
     }
     $sql = 'SHOW INDEX FROM ' . $xoopsDB->prefix('tplfile') . " WHERE KEY_NAME = 'tpl_refid_module_set_file_type'";
     if (!$result = $xoopsDB->queryF($sql)) {
-        xoops_error($this->db->error() . '<br />' . $sql);
+        xoops_error($xoopsDB->error() . '<br />' . $sql);
 
         return false;
     }
@@ -104,3 +111,17 @@ function update_tdmcreate_v191(&$module)
     return true;
 }
 // irmtfan bug fix: solve templates duplicate issue
+
+/**
+ * function to add code for db checking
+ * @param $module
+ *
+ * @return bool
+ */
+function tdmcreate_check_db($module)
+{
+    $ret = true;
+	//insert here code for database check
+
+    return $ret;
+}

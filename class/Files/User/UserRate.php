@@ -84,7 +84,11 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateHeader($moduleDirname, $tableName)
     {
-        $ret = $this->getInclude();
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getInclude();
         $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'form');
         $ret .= $this->xc->getXcXoopsRequest('lid', 'lid', '', 'Int');
         $ret .= $this->uc->getUserTplMain($moduleDirname, $tableName);

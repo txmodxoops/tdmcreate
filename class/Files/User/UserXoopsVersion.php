@@ -116,8 +116,8 @@ class UserXoopsVersion extends Files\CreateFile
         $date         = date('Y/m/d');
         $ret          = $this->getSimpleString('');
         $ret          .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine();
-        $ret          .= $xCodeVHeader->getXcEqualsOperator('$moduleDirName ', 'basename(__DIR__)');
-        $ret          .= $xCodeVHeader->getXcEqualsOperator('$moduleDirNameUpper ', 'mb_strtoupper($moduleDirName)');
+        $ret          .= $xCodeVHeader->getXcEqualsOperator('$moduleDirName     ', 'basename(__DIR__)');
+        $ret          .= $xCodeVHeader->getXcEqualsOperator('$moduleDirNameUpper', 'mb_strtoupper($moduleDirName)');
         $ret          .= $this->getDashComment('Informations');
         $ha           = (1 == $module->getVar('mod_admin')) ? 1 : 0;
         $hm           = (1 == $module->getVar('mod_user')) ? 1 : 0;

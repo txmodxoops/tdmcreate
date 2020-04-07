@@ -80,7 +80,10 @@ class UserSubmit extends Files\CreateFile
         $pc     = Tdmcreate\Files\CreatePhpCode::getInstance();
         $uc     = UserXoopsCode::getInstance();
         $t      = "\t";
-        $ret    = $this->getInclude();
+        $ret    = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret    .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret    .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret    .= $this->getInclude();
         $ret    .= $xc->getXcLoadLanguage('admin', '', $moduleDirname);
         $ret    .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret    .= $xc->getXcXoopsRequest('op', 'op', 'form');
@@ -208,7 +211,7 @@ class UserSubmit extends Files\CreateFile
             'save' => [$this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tableAutoincrement, $language, $t . "\t")],
         ];
 
-        return $xc->getXcSwitch('op', $cases, true, false, $t);
+        return $xc->getXcSwitch('op', $cases, true, false);
     }
 
     /**

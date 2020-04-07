@@ -2,7 +2,9 @@
 
 namespace XoopsModules\Tdmcreate\Files\Blocks;
 
+use XoopsModules\Tdmcreate;
 use XoopsModules\Tdmcreate\Files;
+
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -79,9 +81,13 @@ class BlocksFiles extends Files\CreateFile
      */
     private function getBlocksShow($moduleDirname, $tableName, $tableFieldname, $fields, $fieldId, $fieldParent = 0)
     {
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfModuleDirname = ucfirst($moduleDirname);
-        $ret              = <<<EOT
+        $ret              = $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Helper'], '', '');
+        $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret              .= <<<EOT
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/include/common.php';
 // Function show block
 function b_{$moduleDirname}_{$tableName}_show(\$options)
@@ -93,7 +99,7 @@ function b_{$moduleDirname}_{$tableName}_show(\$options)
     \$typeBlock   = \$options[0];
     \$limit       = \$options[1];
     \$lenghtTitle = \$options[2];
-    \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
+    \$helper = Helper::getInstance();
     \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$criteria = new \CriteriaCompo();
     array_shift(\$options);
@@ -220,13 +226,13 @@ EOT;
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
-        $ucfModuleDirname = ucfirst($moduleDirname);
+        //$ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = <<<EOT
 // Function edit block
 function b_{$moduleDirname}_{$tableName}_edit(\$options)
 {
     include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
-    \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
+    \$helper = Helper::getInstance();
     \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$GLOBALS['xoopsTpl']->assign('{$moduleDirname}_upload_url', {$stuModuleDirname}_UPLOAD_URL);
     \$form  = {$language}DISPLAY;

@@ -61,7 +61,7 @@ class CreateXoopsCode
     public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
         $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t");
 
         return $pc->getPhpCodeSwitch($op, $contentSwitch, $t);
     }
@@ -277,7 +277,7 @@ class CreateXoopsCode
      */
     public function getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName, $t = '')
     {
-        return $this->getXcSetVar($tableName, $fieldName, "((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0')", $t);
+        return $this->getXcSetVar($tableName, $fieldName, "Request::getInt('{$fieldName}', 0)", $t);
     }
 
     /**
@@ -736,20 +736,20 @@ class CreateXoopsCode
      * @param string $var1
      * @param string $var2
      * @param string $type
-     * @param bool   $metod
+     * @param bool   $method
      * @param string $t
      * @return string
      */
-    public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $metod = false, $t = '')
+    public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $method = false, $t = '')
     {
         $ret     = '';
         $intVars = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
         if ('String' === $type) {
-            $ret .= "{$t}\${$left} = \Xmf\Request::getString('{$var1}', '{$var2}');\n";
+            $ret .= "{$t}\${$left} = Request::getString('{$var1}', '{$var2}');\n";
         } elseif ('Int' === $type) {
-            $ret .= "{$t}\${$left} = \Xmf\Request::getInt({$intVars});\n";
-        } elseif ('Int' === $type && false !== $metod) {
-            $ret .= "{$t}\${$left} = \Xmf\Request::getInt({$intVars}, '{$metod}');\n";
+            $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
+        } elseif ('Int' === $type && false !== $method) {
+            $ret .= "{$t}\${$left} = Request::getInt({$intVars}, '{$method}');\n";
         }
 
         return $ret;
@@ -1434,11 +1434,7 @@ class CreateXoopsCode
                         $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        if (2 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
-                            $ret .= $this->getXcSetVar($tableName, $fieldName, "isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0", $t);
-                        } else {
-                            $ret .= $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t);
-                        }
+                        $ret .= $axCodeSaveElements->getAxcMiscSetVar($moduleDirname, $tableName, $fieldName, $fieldType, $t, $countUploader, $fieldMain);
                         break;
                 }
             }

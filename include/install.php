@@ -7,73 +7,89 @@
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- */
+*/
 
 /**
- * tdmcreate module.
+ * Tdmcreate module for xoops
  *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- *
- * @since           2.5.0
- *
- * @author          Txmod Xoops http://www.txmodxoops.org
- *
+ * @copyright      module for xoops
+ * @license        GPL 2.0 or later
+ * @package        Tdmcreate
+ * @since          1.0
+ * @min_xoops      2.5.9
+ * @author         Wedega - Email:<webmaster@wedega.com> - Website:<https://wedega.com> XOOPS Project (www.xoops.org) $
  */
-$indexFile = XOOPS_UPLOAD_PATH . '/index.html';
-$blankFile = XOOPS_UPLOAD_PATH . '/blank.gif';
-$emptyFile = XOOPS_ROOT_PATH . '/modules/tdmcreate/assets/images/logos/empty.png';
 
-// Making of "uploads" folder
-$helper = XOOPS_UPLOAD_PATH . '/tdmcreate';
-if (!is_dir($helper)) {
-    if (!mkdir($helper, 0777) && !is_dir($helper)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $helper));
-    }
-}
-chmod($helper, 0777);
-copy($indexFile, $helper . '/index.html');
+use XoopsModules\Tdmcreate;
+use XoopsModules\Tdmcreate\Common;
 
-// Making of images uploads folder
-$repository = $helper . '/repository';
-if (!is_dir($repository)) {
-    if (!mkdir($repository, 0777) && !is_dir($repository)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $repository));
-    }
-}
-chmod($repository, 0777);
-copy($indexFile, $repository . '/index.html');
+/**
+ * @param \XoopsModule $module
+ * @return bool
+ */
+function xoops_module_pre_install_tdmcreate(\XoopsModule $module)
+{
+    require dirname(__DIR__) . '/preloads/autoloader.php';
+    /** @var Tdmcreate\Utility $utility */
+    $utility = new Tdmcreate\Utility();
 
-// Making of images uploads folder
-$images = $helper . '/images';
-if (!is_dir($images)) {
-    if (!mkdir($images, 0777) && !is_dir($images)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $images));
-    }
-}
-chmod($images, 0777);
-copy($indexFile, $images . '/index.html');
-copy($blankFile, $images . '/blank.gif');
+    //check for minimum XOOPS version
+    $xoopsSuccess = $utility::checkVerXoops($module);
 
-// Making of "modules" images folder
-$modules = $images . '/modules';
-if (!is_dir($modules)) {
-    if (!mkdir($modules, 0777) && !is_dir($modules)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $modules));
-    }
-}
-chmod($modules, 0777);
-copy($indexFile, $modules . '/index.html');
-copy($blankFile, $modules . '/blank.gif');
-copy($emptyFile, $modules . '/empty.png');
+    // check for minimum PHP version
+    $phpSuccess = $utility::checkVerPhp($module);
 
-// Making of "tables" images folder
-$tables = $images . '/tables';
-if (!is_dir($tables)) {
-    if (!mkdir($tables, 0777) && !is_dir($tables)) {
-        throw new \RuntimeException(sprintf('Directory "%s" was not created', $tables));
+    if (false !== $xoopsSuccess && false !== $phpSuccess) {
+        $moduleTables = &$module->getInfo('tables');
+        foreach ($moduleTables as $table) {
+            $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
+        }
     }
+
+    return $xoopsSuccess && $phpSuccess;
 }
-chmod($tables, 0777);
-copy($indexFile, $tables . '/index.html');
-copy($blankFile, $tables . '/blank.gif');
+
+/**
+ * @param \XoopsModule $module
+ * @return bool|string
+ */
+function xoops_module_install_tdmcreate(\XoopsModule $module)
+{
+    require dirname(__DIR__) . '/preloads/autoloader.php';
+
+    /** @var Tdmcreate\Helper $helper */ 
+    /** @var Tdmcreate\Utility $utility */
+    /** @var Common\Configurator $configurator */
+    $helper       = Tdmcreate\Helper::getInstance();
+    $utility      = new Tdmcreate\Utility();
+    $configurator = new Common\Configurator();
+
+    // Load language files
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('modinfo');
+    $helper->loadLanguage('common');
+
+    //  ---  CREATE FOLDERS ---------------
+    if ($configurator->uploadFolders && is_array($configurator->uploadFolders)) {
+        //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+        foreach (array_keys($configurator->uploadFolders) as $i) {
+            $utility::createFolder($configurator->uploadFolders[$i]);
+        }
+    }
+
+    //  ---  COPY blank.gif FILES ---------------
+    if ($configurator->copyBlankFiles && is_array($configurator->copyBlankFiles)) {
+        $file = dirname(__DIR__) . '/assets/images/blank.gif';
+        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/blank.gif';
+            $utility::copyFile($file, $dest);
+        }
+		$file = dirname(__DIR__) . '/assets/images/blank.png';
+        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
+            $utility::copyFile($file, $dest);
+        }
+    }
+
+    return true;
+}

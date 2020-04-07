@@ -22,7 +22,7 @@
  * @param $val
  * @return float|int
  */
-function wggalleryReturnBytes($val)
+function tdmcreateReturnBytes($val)
 {
     switch (mb_substr($val, -1)) {
         case 'K':

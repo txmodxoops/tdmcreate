@@ -254,7 +254,9 @@ class UserIndex extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename, null);
-        $content       .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
+        $content       .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $content       .= $this->getTemplateHeaderFile($moduleDirname);
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');

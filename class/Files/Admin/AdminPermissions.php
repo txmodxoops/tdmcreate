@@ -95,13 +95,22 @@ class AdminPermissions extends Files\CreateFile
                 $tableName = $tables[$t]->getVar('table_name');
             }
         }
-        $ret           = $this->getInclude('header');
-        $ret           .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret           .= $xc->getXoopsHandlerLine($tableName);
-        $ret           .= $pc->getPhpCodeCommentLine('Check admin have access to this page');
+        $ret           = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret           .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret           .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret           .= $this->getInclude('header');
+        $ret           .= $pc->getBlankLine();
+        $ret           .= $pc->getPhpCodeCommentLine('Template Index');
         $ret           .= $axc->getAdminTemplateMain($moduleDirname, 'permissions');
         $ret           .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
+        $ret           .= $pc->getBlankLine();
         $ret           .= $xc->getXcXoopsRequest('op', 'op', 'global');
+        $ret           .= $pc->getBlankLine();
+        $ret           .= $pc->getPhpCodeCommentLine('Get handler');
+        $ret           .= $xc->getXoopsHandlerLine($tableName);
+        $ret           .= $pc->getBlankLine();
+        $ret           .= $pc->getPhpCodeCommentLine('Get Form');
+        $ret           .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret           .= $xc->getXcLoad('XoopsFormLoader');
         $optionsSelect = [
             'global'  => "{$language}PERMISSIONS_GLOBAL",
