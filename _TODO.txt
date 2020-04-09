@@ -1,21 +1,18 @@
 TODOs:
 
-replace \Xmf\Request by use namespace and Request
-
-
 
 max image size:
 max image width/height:
 - add preferences to xoops_version.php
 - adapt image upload in xoops form
+- max size bei image upload anzeigen
 - add resizer to op save in admin
+    - DONE
+    - redirect mit uploadErrors machen
 - add resizer to op save in user
+- size 0 => nicht berücksichtigen
 
-
-blocks:
-last articles not shown
-
-
+mimetypes file
 
 
 

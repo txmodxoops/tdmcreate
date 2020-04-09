@@ -130,9 +130,9 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     //Uploads : mimetypes
-    'name'        => 'mimetypes',
-    'title'       => '_MI_TDMCREATE_CONFIG_MIMETYPES',
-    'description' => '_MI_TDMCREATE_CONFIG_MIMETYPES_DESC',
+    'name'        => 'mimetypes_image',
+    'title'       => '_MI_TDMCREATE_CONFIG_MIMETYPES_IMAGE',
+    'description' => '_MI_TDMCREATE_CONFIG_MIMETYPES_IMAGE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'gif|jpeg|pjpeg|png',
@@ -140,9 +140,9 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     //Uploads : maxsize
-    'name'        => 'maxsize',
-    'title'       => '_MI_TDMCREATE_CONFIG_MAXSIZE',
-    'description' => '_MI_TDMCREATE_CONFIG_MAXSIZE_DESC',
+    'name'        => 'maxsize_image',
+    'title'       => '_MI_TDMCREATE_CONFIG_MAXSIZE_IMAGE',
+    'description' => '_MI_TDMCREATE_CONFIG_MAXSIZE_IMAGE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => '5000000',

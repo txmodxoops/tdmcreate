@@ -268,6 +268,9 @@ class LanguageModinfo extends Files\CreateFile
                 if (13 == $fieldElement) {
                     $fieldImage = true;
                 }
+				if (14 == $fieldElement) {
+                    $fieldFile = true;
+                }
             }
             if (0 != $tables[$i]->getVar('table_tag')) {
                 $useTag = true;
@@ -282,11 +285,26 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $df->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
             $ret .= $df->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
         }*/
+
+        if ($fieldImage || $fieldFile) {
+            $ret .= $df->getDefine($language, 'SIZE_MB', 'MB');
+        }
         if ($fieldImage) {
-            $ret .= $df->getDefine($language, 'MAXSIZE', 'Max size');
-            $ret .= $df->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads files in byte');
-            $ret .= $df->getDefine($language, 'MIMETYPES', 'Mime Types');
-            $ret .= $df->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
+            $ret .= $df->getDefine($language, 'MAXSIZE_IMAGE', 'Max size image');
+            $ret .= $df->getDefine($language, 'MAXSIZE_IMAGE_DESC', 'Define the max size for uploading images');
+            $ret .= $df->getDefine($language, 'MIMETYPES_IMAGE', 'Mime types image');
+            $ret .= $df->getDefine($language, 'MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
+            $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE', 'Max width image');
+            $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+            $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
+            $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+			//MB define
+        }
+		if ($fieldFile) {
+            $ret .= $df->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
+            $ret .= $df->getDefine($language, 'MAXSIZE_FILE_DESC', 'Define the max size for uploading files');
+            $ret .= $df->getDefine($language, 'MIMETYPES_FILE', 'Mime types file');
+            $ret .= $df->getDefine($language, 'MIMETYPES_FILE_DESC', 'Define the allowed mime types for uploading files');
         }
         if ($useTag) {
             $ret .= $df->getDefine($language, 'USE_TAG', 'Use TAG');

@@ -254,7 +254,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret             .= $cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret             .= $pc->getPhpCodeCommentLine('Form', 'File', $t);
         $ret             .= $cc->getClassXoopsFormElementTray('fileSelectTray', "''", '<br>', $t);
-        $getConfig       = $xc->getXcGetConfig('maxsize');
+        $getConfig       = $xc->getXcGetConfig('maxsize_image');
         $xoopsFormFile   = $cc->getClassXoopsFormFile('', $language . 'FORM_IMAGE_LIST_' . $stuTableName, 'attachedfile', $getConfig, true, '');
         $ret             .= $cc->getClassAddElement('fileSelectTray', $xoopsFormFile, $t);
         $xoopsFormLabel1 = $cc->getClassXoopsFormLabel('', "''", null, true, $t);
@@ -340,7 +340,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret           .= $pc->getPhpCodeTernaryOperator('formUrl', '$this->isNew()', "'{$fieldDefault}'", "\$this->getVar('{$fieldName}')", $t);
         $ret           .= $cc->getClassXoopsFormText('formText', $language, $fieldName, 75, 255, 'formUrl', false, $t);
         $ret           .= $cc->getClassAddElement('formUrlFile', '$formText' . $required, $t);
-        $getConfig     = $xc->getXcGetConfig('maxsize');
+        $getConfig     = $xc->getXcGetConfig('maxsize_file');
         $xoopsFormFile = $cc->getClassXoopsFormFile('', $language . 'UPLOAD', 'attachedfile', $getConfig, true, '');
         $ret           .= $cc->getClassAddElement('formUrlFile', $xoopsFormFile . $required, $t);
         $ret           .= $cc->getClassAddElement('form', '$formUrlFile', $t);
@@ -388,7 +388,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $xoopsFormLabel  = $cc->getClassXoopsFormLabel('', "''", $paramLabel, true, '');
         $ret             .= $cc->getClassAddElement('imageTray', $xoopsFormLabel, $t);
         $ret             .= $pc->getPhpCodeCommentLine("Form Image {$ucfFieldName}:", 'Upload Image', $t);
-        $getConfig       = $xc->getXcGetConfig('maxsize');
+        $getConfig       = $xc->getXcGetConfig('maxsize_image');
         $xoopsFormFile   = $cc->getClassXoopsFormFile('imageTray', $language . 'FORM_UPLOAD_NEW', 'attachedfile', $getConfig, true, '');
         $contIf          = $cc->getClassAddElement('imageTray', $xoopsFormFile, $t . "\t");
         $formHidden      = $cc->getClassXoopsFormHidden('', $fieldName, $ccFieldName, true, true, $t, true);
@@ -428,7 +428,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $xoopsFormLabel = $cc->getClassXoopsFormLabel('', $language . 'FORM_UPLOAD_FILE_' . $stuTableName, $ccFieldName, true, "\t\t", true);
         $condIf         = $cc->getClassAddElement('fileUploadTray', $xoopsFormLabel, $t . "\t");
         $uForm          .= $pc->getPhpCodeConditions('!$this->isNew()', null, null, $condIf, false, "\t\t\t");
-        $getConfig      = $xc->getXcGetConfig('maxsize');
+        $getConfig      = $xc->getXcGetConfig('maxsize_file');
         $xoopsFormFile  = $cc->getClassXoopsFormFile('', "''", $fieldName, $getConfig, true, '');
         $uForm          .= $cc->getClassAddElement('fileUploadTray', $xoopsFormFile, $t);
         $uForm          .= $cc->getClassAddElement('form', '$fileUploadTray', $t);
@@ -515,7 +515,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ucfFieldName    = $tf->getCamelCase($fieldName, true);
         $t               = "\t\t";
         $ret             = $pc->getPhpCodeCommentLine('Form Select', 'User ' . $ucfFieldName, $t);
-        $getConfig       = $xc->getXcGetConfig('maxsize');
+        //$getConfig       = $xc->getXcGetConfig('maxsize');
         $xoopsSelectUser = $cc->getClassXoopsFormSelectUser('', $language, $fieldName, 'false', $fieldName, true, $t);
         $ret             .= $cc->getClassAddElement('form', $xoopsSelectUser . $required, $t);
 

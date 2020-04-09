@@ -313,11 +313,11 @@ class CreatePhpCode
     public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '')
     {
         if (false === $contentElse) {
-            $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
+            $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
             $ret .= $contentIf;
             $ret .= "{$t}}\n";
         } else {
-            $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
+            $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
             $ret .= $contentIf;
             $ret .= "{$t}} else {\n";
             $ret .= $contentElse;
@@ -389,7 +389,7 @@ class CreatePhpCode
      */
     public function getPhpCodeWhile($var = null, $content = null, $value = null, $operator = null, $t = '')
     {
-        $ret = "{$t}while(\${$var} {$operator} {$value}) {\n";
+        $ret = "{$t}while (\${$var} {$operator} {$value}) {\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}}\n";
 

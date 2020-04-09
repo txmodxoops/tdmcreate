@@ -287,14 +287,14 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcMediaUploader($var, $dirPath, $t = '')
+    public function getXcMediaUploader($var, $dirPath, $mimetype, $maxsize, $t = '')
     {
-        $mimetypes = $this->getXcGetConfig('mimetypes');
-        $maxsize   = $this->getXcGetConfig('maxsize');
+        $mimetypes_file = $this->getXcGetConfig($mimetype);
+        $maxsize_file   = $this->getXcGetConfig($maxsize);
 
         return "{$t}\${$var} = new \XoopsMediaUploader({$dirPath}, 
-													{$mimetypes}, 
-													{$maxsize}, null, null);\n";
+													{$mimetypes_file}, 
+													{$maxsize_file}, null, null);\n";
     }
 
     /**

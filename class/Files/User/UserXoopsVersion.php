@@ -533,8 +533,9 @@ class UserXoopsVersion extends Files\CreateFile
                     case 11:
                     case 12:
                     case 13:
+                        $table_uploadimage = 1;
                     case 14:
-                        $field_images = 1;
+                        $table_uploadfile = 1;
                         break;
                     case 'else':
                     default:
@@ -556,13 +557,13 @@ class UserXoopsVersion extends Files\CreateFile
         }
 
         if (1 === $table_permissions) {
-            $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
-            $ret         .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_getHandler('member')", '', false);
-            $ret         .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
-            $group       = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
-            $ret         .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
-            $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('General access groups');
-            $groups      = [
+            $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
+            $ret    .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_getHandler('member')", '', false);
+            $ret    .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
+            $group  = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
+            $ret    .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
+            $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('General access groups');
+            $groups = [
                 'name'        => "'groups'",
                 'title'       => "'{$language}GROUPS'",
                 'description' => "'{$language}GROUPS_DESC'",
@@ -571,10 +572,9 @@ class UserXoopsVersion extends Files\CreateFile
                 'default'     => '$groups',
                 'options'     => '$groups',
             ];
-            $ret         .= $uCodeVConfig->getUserModVersionArray(2, $groups, 'config');
-
-            $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Upload groups');
-            $uplgroups   = [
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $groups, 'config');
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Upload groups');
+            $uplgroups  = [
                 'name'        => "'upload_groups'",
                 'title'       => "'{$language}UPLOAD_GROUPS'",
                 'description' => "'{$language}UPLOAD_GROUPS_DESC'",
@@ -613,34 +613,80 @@ class UserXoopsVersion extends Files\CreateFile
             'valuetype'   => "'text'",
             'default'     => "'{$moduleDirname}, {$keyword}'",
         ];
-        $ret          .= $uCodeVConfig->getUserModVersionArray(2, $arrayKeyword, 'config');
+        $ret .= $uCodeVConfig->getUserModVersionArray(2, $arrayKeyword, 'config');
         unset($this->keywords);
 
-        if (1 === $field_images) {
-            $ret       .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : maxsize of image');
-            $maxsize   = [
-                'name'        => "'maxsize'",
-                'title'       => "'{$language}MAXSIZE'",
-                'description' => "'{$language}MAXSIZE_DESC'",
-                'formtype'    => "'textbox'",
+        if (1 === $table_uploadimage || 1 === $table_uploadfile) {
+            $ret       .= $this->getXoopsVersionSelectSizeMB($moduleDirname);
+        }
+        if (1 === $table_uploadimage) {
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : maxsize of image');
+            $maxsize_image    = [
+                'name'        => "'maxsize_image'",
+                'title'       => "'{$language}MAXSIZE_IMAGE'",
+                'description' => "'{$language}MAXSIZE_IMAGE_DESC'",
+                'formtype'    => "'select'",
                 'valuetype'   => "'int'",
-                'default'     => '5000000',
+                'default'     => '3145728',
+                'options'     => '$optionMaxsize',
             ];
-            $ret       .= $uCodeVConfig->getUserModVersionArray(2, $maxsize, 'config');
-            $ret       .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : mimetypes of image');
-            $mimetypes = [
-                'name'        => "'mimetypes'",
-                'title'       => "'{$language}MIMETYPES'",
-                'description' => "'{$language}MIMETYPES_DESC'",
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $maxsize_image, 'config');
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : mimetypes of image');
+            $mimetypes_image  = [
+                'name'        => "'mimetypes_image'",
+                'title'       => "'{$language}MIMETYPES_IMAGE'",
+                'description' => "'{$language}MIMETYPES_IMAGE_DESC'",
                 'formtype'    => "'select_multi'",
                 'valuetype'   => "'array'",
                 'default'     => "array('image/gif', 'image/jpeg', 'image/png')",
                 'options'     => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')",
             ];
-            $ret       .= $uCodeVConfig->getUserModVersionArray(2, $mimetypes, 'config');
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $mimetypes_image, 'config');
+            $maxwidth_image   = [
+                'name'        => "'maxwidth_image'",
+                'title'       => "'{$language}MAXWIDTH_IMAGE'",
+                'description' => "'{$language}MAXWIDTH_IMAGE_DESC'",
+                'formtype'    => "'textbox'",
+                'valuetype'   => "'int'",
+                'default'     => '8000',
+            ];
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $maxwidth_image, 'config');
+            $maxheight_image   = [
+                'name'        => "'maxheight_image'",
+                'title'       => "'{$language}MAXHEIGHT_IMAGE'",
+                'description' => "'{$language}MAXHEIGHT_IMAGE_DESC'",
+                'formtype'    => "'textbox'",
+                'valuetype'   => "'int'",
+                'default'     => '8000',
+            ];
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $maxheight_image, 'config');
+        }
+        if (1 === $table_uploadfile) {
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : maxsize of file');
+            $maxsize_file     = [
+                'name'        => "'maxsize_file'",
+                'title'       => "'{$language}MAXSIZE_FILE'",
+                'description' => "'{$language}MAXSIZE_FILE_DESC'",
+                'formtype'    => "'select'",
+                'valuetype'   => "'int'",
+                'default'     => '3145728',
+                'options'     => '$optionMaxsize',
+            ];
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $maxsize_file, 'config');
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Uploads : mimetypes of file');
+            $mimetypes_file   = [
+                'name'        => "'mimetypes_file'",
+                'title'       => "'{$language}MIMETYPES_FILE'",
+                'description' => "'{$language}MIMETYPES_FILE_DESC'",
+                'formtype'    => "'select_multi'",
+                'valuetype'   => "'array'",
+                'default'     => "array('image/gif', 'image/jpeg', 'image/png')",
+                'options'     => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')",
+            ];
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $mimetypes_file, 'config');
         }
         if (1 === $table_admin) {
-            $ret        .= $phpCodeVConfig->getPhpCodeCommentLine('Admin pager');
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Admin pager');
             $adminPager = [
                 'name'        => "'adminpager'",
                 'title'       => "'{$language}ADMIN_PAGER'",
@@ -649,10 +695,10 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '10',
             ];
-            $ret        .= $uCodeVConfig->getUserModVersionArray(2, $adminPager, 'config');
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $adminPager, 'config');
         }
         if (1 === $table_user) {
-            $ret       .= $phpCodeVConfig->getPhpCodeCommentLine('User pager');
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('User pager');
             $userPager = [
                 'name'        => "'userpager'",
                 'title'       => "'{$language}USER_PAGER'",
@@ -661,10 +707,10 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '10',
             ];
-            $ret       .= $uCodeVConfig->getUserModVersionArray(2, $userPager, 'config');
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $userPager, 'config');
         }
         if (1 === $table_tag) {
-            $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('Use tag');
+            $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Use tag');
             $useTag = [
                 'name'        => "'usetag'",
                 'title'       => "'{$language}USE_TAG'",
@@ -673,9 +719,9 @@ class UserXoopsVersion extends Files\CreateFile
                 'valuetype'   => "'int'",
                 'default'     => '0',
             ];
-            $ret    .= $uCodeVConfig->getUserModVersionArray(2, $useTag, 'config');
+            $ret .= $uCodeVConfig->getUserModVersionArray(2, $useTag, 'config');
         }
-        $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Number column');
+        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Number column');
         $numbCol          = [
             'name'        => "'numb_col'",
             'title'       => "'{$language}NUMB_COL'",
@@ -685,9 +731,9 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => '1',
             'options'     => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $numbCol, 'config');
+        $ret .= $uCodeVConfig->getUserModVersionArray(2, $numbCol, 'config');
 
-        $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Divide by');
+        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Divide by');
         $divideby         = [
             'name'        => "'divideby'",
             'title'       => "'{$language}DIVIDEBY'",
@@ -697,9 +743,9 @@ class UserXoopsVersion extends Files\CreateFile
             'default'     => '1',
             'options'     => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
         ];
-        $ret              .= $uCodeVConfig->getUserModVersionArray(2, $divideby, 'config');
+        $ret .= $uCodeVConfig->getUserModVersionArray(2, $divideby, 'config');
 
-        $ret              .= $phpCodeVConfig->getPhpCodeCommentLine('Table type');
+        $ret .= $phpCodeVConfig->getPhpCodeCommentLine('Table type');
         $tableType        = [
             'name'        => "'table_type'",
             'title'       => "'{$language}TABLE_TYPE'",
@@ -1066,6 +1112,58 @@ class UserXoopsVersion extends Files\CreateFile
             'mail_subject'  => "{$language}{$title}_NOTIFY_SUBJECT",
         ];
         $ret         .= $uCodeVNCC->getUserModVersionArray(3, $event, 'notification', "'{$type}'", $num);
+
+        return $ret;
+    }
+
+    /**
+     * @private function getXoopsVersionNotifications
+     * @param $language
+     * @param $type
+     * @param $name
+     * @param $category
+     * @param $admin
+     * @param $title
+     * @param $table
+     * @param $mail
+     *
+     * @param $num
+     * @return string
+     */
+    private function getXoopsVersionSelectSizeMB($moduleDirname, $t = '')
+    {
+        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $ucModuleDirname       = mb_strtoupper($moduleDirname);
+
+        $ret  = $pc->getPhpCodeCommentLine('create increment steps for file size');
+        $ret  .= $pc->getPhpCodeIncludeDir("__DIR__ . '/include/xoops_version.inc.php'", '',true,true);
+        $ret  .= $xc->getXcEqualsOperator('$iniPostMaxSize      ', "{$moduleDirname}ReturnBytes(ini_get('post_max_size'))", null, false);
+        $ret  .= $xc->getXcEqualsOperator('$iniUploadMaxFileSize', "{$moduleDirname}ReturnBytes(ini_get('upload_max_filesize'))", null, false);
+        $ret  .= $xc->getXcEqualsOperator('$maxSize             ', "min(\$iniPostMaxSize, \$iniUploadMaxFileSize)", null, false);
+        $cond = $xc->getXcEqualsOperator('$increment', '500', null, false,$t . "\t");
+        $ret  .= $pc->getPhpCodeConditions('$maxSize', ' > ', '10000 * 1048576', $cond, false, $t);
+        $cond = $xc->getXcEqualsOperator('$increment', '200', null, false,$t . "\t");
+        $ret  .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '10000 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '100', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '5000 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '50', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '2500 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '10', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '1000 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '5', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '500 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '2', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '100 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '1', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '50 * 1048576', $cond, false, $t);
+        $cond  = $xc->getXcEqualsOperator('$increment', '0.5', null, false,$t . "\t");
+        $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '25 * 1048576', $cond, false, $t);
+        $ret   .= $xc->getXcEqualsOperator('$optionMaxsize', '[]');
+        $ret   .= $xc->getXcEqualsOperator('$i', '$increment');
+        $while = $xc->getXcEqualsOperator("\$optionMaxsize[\$i . ' ' . _MI_{$ucModuleDirname}_SIZE_MB]", '$i * 1048576', null, false,$t . "\t");
+        $while .= $xc->getXcEqualsOperator('$i', '$increment', '+',false ,$t . "\t");
+        $ret   .= $pc->getPhpCodeWhile('i * 1048576', $while, '$maxSize', ' <= ');
 
         return $ret;
     }

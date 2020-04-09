@@ -160,7 +160,24 @@ class UserSubmit extends Files\CreateFile
         }
         $ret       .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert    = $xc->getXcInsert($tableName, $tableName, 'Obj', 'Handler');
-        $confirmOk = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t");
+        $countUploader = 0;
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId = $fieldName;
+                $ccFieldId = $this->getCamelCase($fieldId, false, true);
+            }
+            if ($fields[$f]->getVar('field_type') == 13 || $fields[$f]->getVar('field_type') == 14) {
+                $countUploader++;
+            }
+        }
+        if ($countUploader > 0) {
+            $errIf = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
+            $errElse = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
+            $confirmOk = $pc->getPhpCodeConditions("''", ' !== ', '$uploaderErrors', $errIf, $errElse, $t . "\t");
+        } else {
+            $confirmOk = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t");
+        }
         $ret       .= $pc->getPhpCodeConditions($insert, '', '', $confirmOk, false, $t);
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, $t);

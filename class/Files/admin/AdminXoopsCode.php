@@ -186,7 +186,7 @@ class AdminXoopsCode
         $ret            = $pCodeImageList->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret            .= $pCodeImageList->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $xRootPath      = "XOOPS_ROOT_PATH . '/Frameworks/moduleclasses/icons/32'";
-        $ret            .= $xCodeImageList->getXcMediaUploader('uploader', $xRootPath, $t);
+        $ret            .= $xCodeImageList->getXcMediaUploader('uploader', $xRootPath, 'mimetypes_image', 'maxsize_image', $t);
         $post           = $pCodeImageList->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
         $ifelse         = $t . "\t//" . $this->getAxcSetPrefix('uploader', "{$fieldName}_") . ";\n";
@@ -217,24 +217,44 @@ class AdminXoopsCode
         $pCodeUploadImage = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeUploadImage = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
+        $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = $pCodeUploadImage->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret              .= $pCodeUploadImage->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['name']";
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$filename      ', $file, null, false, $t);
+        $mimetype         = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['type']";
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgMimetype   ', $mimetype, null, false, $t);
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, false, $t);
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', "''", null, false, $t);
         $xUploadImage     = "{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
-        $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", $t);
+        $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", 'mimetypes_image', 'maxsize_image', $t);
         $post             = $pCodeUploadImage->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia       = $this->getAxcFetchMedia('uploader', $post);
-        $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['name']";
         $expr             = '/^.+\.([^.]+)$/sU';
-        $ifelse           = $pCodeUploadImage->getPhpCodePregFunzions('extension', $expr, '', $file, 'replace', false, $t . "\t");
-
-        $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', Request::getString('{$fieldMain}')) . '.' . \$extension;\n";
-        $ifelse         .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
-        $ifelse         .= $t . "\t{$fetchMedia};\n";
-        $contentElseInt = $xCodeUploadImage->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contentIf      = $xCodeUploadImage->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
-        $contentIf      .= $xCodeUploadImage->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t . "\t\t");
+        $ifelse           = $pCodeUploadImage->getPhpCodePregFunzions('extension', $expr, '', "\$filename", 'replace', false, $t . "\t");
+        $ifelse           .= $t . "\t\$imgName = str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
+        $ifelse           .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
+        $ifelse           .= $t . "\t{$fetchMedia};\n";
+        $contentElseInt   = $xCodeUploadImage->getXcEqualsOperator('$savedFilename', '$uploader->getSavedFileName()', null, false, $t . "\t\t");
+        $config           = $xCodeUploadImage->getXcGetConfig('maxwidth_image');
+        $contentElseInt   .= $xCodeUploadImage->getXcEqualsOperator('$maxwidth ', "(int){$config}", null, false, $t . "\t\t");
+        $config           = $xCodeUploadImage->getXcGetConfig('maxheight_image');
+        $contentElseInt   .= $xCodeUploadImage->getXcEqualsOperator('$maxheight', "(int){$config}", null, false, $t . "\t\t");
+        $resizer = $pCodeUploadImage->getPhpCodeCommentLine('Resize image', '', $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler               ', "new {$ucfModuleDirname}\Common\Resizer()", null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->sourceFile   ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->endFile      ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->imageMimetype', '$imgMimetype', null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->maxWidth     ', '$maxwidth', null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->maxHeight    ', '$maxheight', null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$result                   ', '$imgHandler->resizeImage()', null, false, $t . "\t\t\t");
+        $contentElseInt .= $pCodeUploadImage->getPhpCodeConditions('$maxwidth > 0 && $maxheight > 0', '', '', $resizer, false, $t . "\t\t");
+        $contentElseInt .= $xCodeUploadImage->getXcSetVar($tableName, $fieldName, '$savedFilename', $t . "\t\t");
+        $contentIf       = $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, false, $t . "\t\t");
         $ifelse         .= $pCodeUploadImage->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
-        $contentElseExt = $xCodeUploadImage->getXcSetVar($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
+        $ifelseExt       = $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $contentElseExt  = $pCodeUploadImage->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
+        $contentElseExt .= $xCodeUploadImage->getXcSetVar($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
         $ret .= $pCodeUploadImage->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt, $t);
 
@@ -255,7 +275,7 @@ class AdminXoopsCode
     public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain = '')
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret              = $this->getAxcImageFileSetVar($moduleDirname, $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain);
+        $ret              = $this->getAxcImageFileSetVar($moduleDirname, $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain, 'mimetypes_file', 'maxsize_file');
 
         return $ret;
     }
@@ -272,37 +292,40 @@ class AdminXoopsCode
      * @param string $fieldMain
      * @return string
      */
-    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain)
+    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain, $mimetype = 'mimetypes_image', $maxsize = 'maxsize_image')
     {
-        $pCodeFileSetVar = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xCodeFileSetVar = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $ret             = '';
-        $ifelse          = '';
-        $files           = '';
-        $contentIf       = '';
+        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $ret       = '';
+        $ifelse    = '';
+        $files     = '';
+        $contentIf = '';
 
         if ($formatUrl) {
-            $ret    .= $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])", $t);
+            $ret    .= $xc->getXcSetVar($tableName, $fieldName, "formatUrl(\$_REQUEST['{$fieldName}'])", $t);
         }
-        $ret            .= $pCodeFileSetVar->getPhpCodeCommentLine('Set Var', $fieldName, $t);
-        $ret            .= $pCodeFileSetVar->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
-        $ret            .= $xCodeFileSetVar->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $t);
-        $post           = $pCodeFileSetVar->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
+        $ret            .= $pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
+        $ret            .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
+        $file           = $pc->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
+        $ret            .= $xc->getXcEqualsOperator('$filename      ', $file, null, false, $t);
+        $ret            .= $xc->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, false, $t);
+        $ret            .= $xc->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $mimetype, $maxsize, $t);
+        $post           = $pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
-        $file           = $pCodeFileSetVar->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
-        $expr           = '/^.+\.([^.]+)$/sU';
-        $ifelse         .= $pCodeFileSetVar->getPhpCodePregFunzions('extension', $expr, '', $file, 'replace', false, $t . "\t");
+        $expr             = '/^.+\.([^.]+)$/sU';
+        $ifelse           = $pc->getPhpCodePregFunzions('extension', $expr, '', "\$filename", 'replace', false, $t . "\t");
+        $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
 
-        $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', Request::getString('{$fieldMain}')) . '.' . \$extension;\n";
         $ifelse         .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse         .= $t . "\t{$fetchMedia};\n";
-        $contentElseInt = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contentIf      .= $xCodeFileSetVar->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
-        $contentIf      .= $xCodeFileSetVar->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t . "\t\t");
-        $ifelse         .= $pCodeFileSetVar->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
-        $contentElseExt = $xCodeFileSetVar->getXcSetVar($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
+        $contentElseInt = $xc->getXcSetVar($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
+        $contentIf      .= $xc->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $ifelse         .= $pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
+        $ifelseExt       = $xc->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $contentElseExt  = $pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
+        $contentElseExt .= $xc->getXcSetVar($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
-        $ret .= $pCodeFileSetVar->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt, $t);
+        $ret .= $pc->getPhpCodeConditions($fetchMedia, '', '', $ifelse, $contentElseExt, $t);
 
         return $ret;
     }
