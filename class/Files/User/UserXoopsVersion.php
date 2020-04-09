@@ -638,8 +638,8 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}MIMETYPES_IMAGE_DESC'",
                 'formtype'    => "'select_multi'",
                 'valuetype'   => "'array'",
-                'default'     => "array('image/gif', 'image/jpeg', 'image/png')",
-                'options'     => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')",
+                'default'     => "['image/gif', 'image/jpeg', 'image/png']",
+                'options'     => "['bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png']",
             ];
             $ret .= $uCodeVConfig->getUserModVersionArray(2, $mimetypes_image, 'config');
             $maxwidth_image   = [
@@ -680,8 +680,11 @@ class UserXoopsVersion extends Files\CreateFile
                 'description' => "'{$language}MIMETYPES_FILE_DESC'",
                 'formtype'    => "'select_multi'",
                 'valuetype'   => "'array'",
-                'default'     => "array('image/gif', 'image/jpeg', 'image/png')",
-                'options'     => "array('bmp' => 'image/bmp','gif' => 'image/gif','pjpeg' => 'image/pjpeg', 'jpeg' => 'image/jpeg','jpg' => 'image/jpg','jpe' => 'image/jpe', 'png' => 'image/png')",
+                'default'     => "['pdf' => 'application/pdf','zip' => 'application/zip','csv' => 'text/comma-separated-values', 'txt' => 'text/plain']",
+                'options'     => "[
+                                  'pdf' => 'application/pdf','zip' => 'application/zip','csv' => 'text/comma-separated-values', 'txt' => 'text/plain', 'xml' => 'application/xml',
+                                  'xlsx' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                                  ]",
             ];
             $ret .= $uCodeVConfig->getUserModVersionArray(2, $mimetypes_file, 'config');
         }
@@ -729,7 +732,7 @@ class UserXoopsVersion extends Files\CreateFile
             'formtype'    => "'select'",
             'valuetype'   => "'int'",
             'default'     => '1',
-            'options'     => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
+            'options'     => "[1 => '1', 2 => '2', 3 => '3', 4 => '4']",
         ];
         $ret .= $uCodeVConfig->getUserModVersionArray(2, $numbCol, 'config');
 
@@ -741,7 +744,7 @@ class UserXoopsVersion extends Files\CreateFile
             'formtype'    => "'select'",
             'valuetype'   => "'int'",
             'default'     => '1',
-            'options'     => "array(1 => '1', 2 => '2', 3 => '3', 4 => '4')",
+            'options'     => "[1 => '1', 2 => '2', 3 => '3', 4 => '4']",
         ];
         $ret .= $uCodeVConfig->getUserModVersionArray(2, $divideby, 'config');
 
@@ -753,7 +756,7 @@ class UserXoopsVersion extends Files\CreateFile
             'formtype'    => "'select'",
             'valuetype'   => "'int'",
             'default'     => "'bordered'",
-            'options'     => "array('bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed')",
+            'options'     => "['bordered' => 'bordered', 'striped' => 'striped', 'hover' => 'hover', 'condensed' => 'condensed']",
         ];
         $ret              .= $uCodeVConfig->getUserModVersionArray(2, $tableType, 'config');
 
@@ -765,7 +768,7 @@ class UserXoopsVersion extends Files\CreateFile
             'formtype'    => "'select'",
             'valuetype'   => "'text'",
             'default'     => "'default'",
-            'options'     => "array('default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger')",
+            'options'     => "['default' => 'default', 'primary' => 'primary', 'success' => 'success', 'info' => 'info', 'warning' => 'warning', 'danger' => 'danger']",
         ];
         $ret              .= $uCodeVConfig->getUserModVersionArray(2, $panelType, 'config');
 
@@ -870,7 +873,7 @@ class UserXoopsVersion extends Files\CreateFile
                     'name'             => "'category'",
                     'title'            => "'{$language}{$stuTableName}_NOTIFY'",
                     'description'      => "'{$language}{$stuTableName}_NOTIFY_DESC'",
-                    'subscribe_from'   => "array('index.php',{$notifyFile})",
+                    'subscribe_from'   => "['index.php',{$notifyFile}]",
                     'item_name'        => "'{$item}'",
                     "'allow_bookmark'" => '1',
                 ];
@@ -1007,7 +1010,7 @@ class UserXoopsVersion extends Files\CreateFile
             'name'           => "'{$name}'",
             'title'          => "{$language}{$title}_NOTIFY",
             'description'    => "{$language}{$title}_NOTIFY_DESC",
-            'subscribe_from' => "array('index.php', '{$implodeFrom}.php')",
+            'subscribe_from' => "['index.php', '{$implodeFrom}.php']",
         ];
         $ret         .= $uCodeVNG->getUserModVersionArray(3, $global, 'notification', "'{$type}'", $num);
 
@@ -1037,7 +1040,7 @@ class UserXoopsVersion extends Files\CreateFile
             'name'           => "'{$name}'",
             'title'          => "{$language}{$title}_NOTIFY",
             'description'    => "{$language}{$title}_NOTIFY_DESC",
-            'subscribe_from' => "array('{$impFile}.php')",
+            'subscribe_from' => "['{$impFile}.php']",
             'item_name'      => "'{$item}'",
             'allow_bookmark' => (string)$allow,
         ];

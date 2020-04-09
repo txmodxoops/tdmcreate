@@ -208,6 +208,10 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getAboveDefines('General');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD', 'Upload file');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_NEW', 'Upload new file: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE', 'Max file size: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE_MB', 'MB');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_WIDTH', 'Max image width: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_HEIGHT', 'Max image height: ');
         $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
