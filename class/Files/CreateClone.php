@@ -4,9 +4,9 @@ namespace XoopsModules\Tdmcreate\Files;
 use XoopsModules\Tdmcreate;
 
 /**
- * Class Cloner
+ * Class CreateClone
  */
-class Cloner
+class CreateClone
 {
     /**
      * Delete a file or recursively delete a directory

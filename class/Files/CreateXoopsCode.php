@@ -261,7 +261,7 @@ class CreateXoopsCode
         $tf            = Tdmcreate\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
         $ucfRightFiled = ucfirst($rightField);
-        $value         = "date_create_from_format(_SHORTDATESTRING, \$_POST['{$fieldName}'])";
+        $value         = "date_create_from_format(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
         $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightFiled}", $value, null, false, $t);
         $ret           .= $this->getXcSetVar($tableName, $fieldName, "\${$tableSoleName}{$ucfRightFiled}->getTimestamp()", $t);
 

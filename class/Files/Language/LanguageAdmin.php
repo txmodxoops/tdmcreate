@@ -190,17 +190,16 @@ class LanguageAdmin extends Files\CreateFile
 
                 switch ($fieldElement) {
                     case 10:
-                        $ret .= $this->defines->getDefine($language, "FORM_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in frameworks images: %s");
                         break;
                     case 12:
-                        $ret .= $this->defines->getDefine($language, "FORM_URL_{$stuTableName}", "{$fieldNameDesc} in text url");
-                        $ret .= $this->defines->getDefine($language, 'FORM_URL_UPLOAD', "{$fieldNameDesc} in uploads files");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in uploads");
                         break;
                     case 13:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in ./uploads/{$moduleDirname}/images/{$tableName}/ :");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
                     case 14:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_FILE_{$stuTableName}", "{$fieldNameDesc} in ./uploads/{$moduleDirname}/files/{$tableName}/ :");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
                 }
             }
@@ -212,6 +211,7 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE_MB', 'MB');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_WIDTH', 'Max image width: ');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_HEIGHT', 'Max image height: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_URL', 'Upload new file from url: ');
         $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');

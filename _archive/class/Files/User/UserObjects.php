@@ -30,7 +30,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class UserObjects.
  */
-class UserObjects extends Files\CreateFile
+class UserObjects_old extends Files\CreateFile
 {
     /**
      * @public function constructor

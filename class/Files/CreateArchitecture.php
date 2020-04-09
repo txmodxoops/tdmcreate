@@ -663,7 +663,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFolders as $folder) {
-            Tdmcreate\Files\Cloner::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            Tdmcreate\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
         }
         unset($cloneFolders);
 
@@ -691,7 +691,7 @@ class CreateArchitecture extends CreateStructure
                 'rcode' => false
             ];
             foreach ($cloneFolders as $folder) {
-                Tdmcreate\Files\Cloner::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+                Tdmcreate\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
             }
             unset($cloneFolders);
         }
@@ -716,7 +716,7 @@ class CreateArchitecture extends CreateStructure
             'rcode' => true
         ];
         foreach ($cloneFiles as $file) {
-            Tdmcreate\Files\Cloner::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
+            Tdmcreate\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
         }
         unset($cloneFiles);
     }

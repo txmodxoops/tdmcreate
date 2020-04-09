@@ -220,9 +220,9 @@ class AdminXoopsCode
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = $pCodeUploadImage->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret              .= $pCodeUploadImage->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
-        $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['name']";
+        $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
         $ret              .= $xCodeUploadImage->getXcEqualsOperator('$filename      ', $file, null, false, $t);
-        $mimetype         = $pCodeUploadImage->getPhpCodeGlobalsVariables('attachedfile', 'FILES') . "['type']";
+        $mimetype         = $pCodeUploadImage->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['type']";
         $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgMimetype   ', $mimetype, null, false, $t);
         $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, false, $t);
         $ret              .= $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', "''", null, false, $t);

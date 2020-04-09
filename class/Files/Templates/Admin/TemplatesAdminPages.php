@@ -153,7 +153,8 @@ class TemplatesAdminPages extends Files\CreateFile
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $span   = $hc->getHtmlTag('span', [], $double);
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $span, false, "\t\t\t\t");
+                        $color  = "<span style='background-color:{$double};'>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
+                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $color, false, "\t\t\t\t");
                         /*$ret .= <<<EOT
                     <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
 EOT;*/
