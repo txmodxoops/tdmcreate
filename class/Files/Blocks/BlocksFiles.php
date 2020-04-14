@@ -83,7 +83,6 @@ class BlocksFiles extends Files\CreateFile
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Helper'], '', '');
         $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -276,9 +275,11 @@ EOT;
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableName      = $table->getVar('table_name');
         $tableFieldname = $table->getVar('table_fieldname');
-        $tableCategory  = $table->getVar('table_category');
         $language       = $this->getLanguage($moduleDirname, 'MB');
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldId        = null;
+        $fieldParent    = null;
+        $fieldMain      = null;
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             $fieldParent = $fields[$f]->getVar('field_parent');

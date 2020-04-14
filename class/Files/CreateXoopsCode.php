@@ -284,6 +284,8 @@ class CreateXoopsCode
      * @public function getXcMediaUploader
      * @param $var
      * @param $dirPath
+     * @param $mimetype
+     * @param $maxsize
      * @param string $t
      * @return string
      */
@@ -626,7 +628,7 @@ class CreateXoopsCode
         $phpCodePHeader = Tdmcreate\Files\CreatePhpCode::getInstance();
         $ret            = $phpCodePHeader->getPhpCodeCommentLine('Permission');
         $ret            .= $phpCodePHeader->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret            .= $this->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", true);
+        $ret            .= $this->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", true);
         $groups         = $this->getXcEqualsOperator('$groups', '$xoopsUser->getGroups()');
         $elseGroups     = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
         $ret            .= $phpCodePHeader->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
@@ -913,6 +915,28 @@ class CreateXoopsCode
     }
 
     /**
+     * @public function getXcAddRight
+     *
+     * @param        $anchor
+     * @param string $permString
+     * @param string $mid
+     * @param string $var
+     * @param bool $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcDeleteRight($anchor, $permString = '', $mid = '', $var = '', $isParam = false, $t = '')
+    {
+        if (!$isParam) {
+            $ret = "{$t}\${$anchor}->deleteByModule({$mid}, '{$permString}', {$var});\n";
+        } else {
+            $ret = "\${$anchor}->deleteByModule({$mid}, '{$permString}', {$var})";
+        }
+        return $ret;
+    }
+
+    /**
      * @public function getXcObjHandlerCreate
      *
      * @param        $tableName
@@ -1045,7 +1069,7 @@ class CreateXoopsCode
                         $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $axCode->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, '', $countUploader, $fieldMain);
+                        $ret .= $axCode->getAxcImageListSetVar($tableName, $fieldName, '', $countUploader);
                         $countUploader++;
                         break;
                     case 12:
@@ -1415,7 +1439,7 @@ class CreateXoopsCode
                         $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName, $t);
                         break;
                     case 10:
-                        $ret .= $axCodeSaveElements->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t, $countUploader, $fieldMain);
+                        $ret .= $axCodeSaveElements->getAxcImageListSetVar($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
                     case 12:
@@ -1434,7 +1458,7 @@ class CreateXoopsCode
                         $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        $ret .= $axCodeSaveElements->getAxcMiscSetVar($moduleDirname, $tableName, $fieldName, $fieldType, $t, $countUploader, $fieldMain);
+                        $ret .= $axCodeSaveElements->getAxcMiscSetVar($tableName, $fieldName, $fieldType, $t);
                         break;
                 }
             }
@@ -1459,6 +1483,27 @@ class CreateXoopsCode
         $condition      .= $classXCode->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', 'start', "'op=list&limit=' . \$limit", false, $t . "\t");
         $condition      .= $this->getXcTplAssign('pagenav', '$pagenav->renderNav(4)', true, $t . "\t");
         $ret            .= $phpCodePageNav->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
+
+        return $ret;
+    }
+
+    /* @public function getXcGetGlobal
+     * @param        $globals
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcGetGlobal($globals, $t = '')
+    {
+        $ret    = $t . "global ";
+        $detail = '';
+        foreach ($globals as $global) {
+            if ($detail !== '') {
+                $detail .= ', ';
+            }
+            $detail .= '$' . $global;
+        }
+       $ret .= $detail . ";\n";
 
         return $ret;
     }

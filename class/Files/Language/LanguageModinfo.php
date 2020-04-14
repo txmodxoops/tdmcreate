@@ -62,13 +62,15 @@ class LanguageModinfo extends Files\CreateFile
      * @param $table
      * @param $filename
      *
-     * @return string
+     * @return null
      */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
         $this->setFileName($filename);
+
+        return null;
     }
 
     /**
@@ -465,7 +467,6 @@ class LanguageModinfo extends Files\CreateFile
     public function render()
     {
         $module             = $this->getModule();
-        $table              = $this->getTable();
         $tables             = $this->getTableTables($module->getVar('mod_id'));
         $tableAdmin         = [];
         $tableUser          = [];

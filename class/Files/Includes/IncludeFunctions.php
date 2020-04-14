@@ -126,8 +126,8 @@ function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
 	\$moduleHandler = xoops_getHandler('module');
 	\${$moduleDirname}Module = \$moduleHandler->getByDirname(\$dirname);
 	\$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-	\$gpermHandler = xoops_getHandler('groupperm');
-	\${$tableName} = \$gpermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
+	\$grouppermHandler = xoops_getHandler('groupperm');
+	\${$tableName} = \$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
     return \${$tableName};
 }\n
 EOT;

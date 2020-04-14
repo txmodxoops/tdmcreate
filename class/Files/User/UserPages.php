@@ -100,10 +100,9 @@ class UserPages extends Files\CreateFile
      * @private function getUserPages
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSoleName
      * @return string
      */
-    private function getUserPages($moduleDirname, $tableName, $tableSoleName)
+    private function getUserPages($moduleDirname, $tableName)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -152,12 +151,11 @@ class UserPages extends Files\CreateFile
      * @private function getUserPagesFooter
      * @param $moduleDirname
      * @param $tableName
-     * @param $tableSoleName
      * @param $language
      *
      * @return string
      */
-    private function getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getUserPagesFooter($moduleDirname, $tableName, $language)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -192,14 +190,13 @@ class UserPages extends Files\CreateFile
         $module        = $this->getModule();
         $table         = $this->getTable();
         $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content       .= $this->getUserPagesHeader($moduleDirname, $tableName);
-        $content       .= $this->getUserPages($moduleDirname, $tableName, $tableSoleName);
-        $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $tableSoleName, $language);
+        $content       .= $this->getUserPages($moduleDirname, $tableName);
+        $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

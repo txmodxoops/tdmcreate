@@ -98,14 +98,7 @@ class UserRss extends Files\CreateFile
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldMain[]   = $fields[$f]->getVar('field_main');
             $fieldParent[] = $fields[$f]->getVar('field_parent');
-            $rpFieldName   = $fieldName;
-            if (mb_strpos($fieldName, '_')) {
-                $str = mb_strpos($fieldName, '_');
-                if (false !== $str) {
-                    $rpFieldName = mb_substr($fieldName, $str + 1, mb_strlen($fieldName));
-                }
-            }
-            $lpFieldName = mb_substr($fieldName, 0, mb_strpos($fieldName, '_'));
+
             if (0 == $f) {
                 $fieldId = $fieldName;
             }

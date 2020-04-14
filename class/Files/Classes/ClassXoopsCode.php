@@ -271,10 +271,11 @@ class ClassXoopsCode
      *
      * @param        $var
      * @param string $param1
-     * @param null   $param2
-     * @param bool   $isParam
+     * @param null $param2
+     * @param bool $isParam
      * @param string $t
      *
+     * @param bool $useParam
      * @return string
      */
     public function getClassXoopsFormLabel($var, $param1 = '', $param2 = null, $isParam = false, $t = "\t\t", $useParam = false)
@@ -324,10 +325,11 @@ class ClassXoopsCode
      * @param        $var
      * @param        $param1
      * @param        $param2
-     * @param bool   $isForm
-     * @param bool   $isParam
+     * @param bool $isForm
+     * @param bool $isParam
      * @param string $t
      *
+     * @param bool $useParam
      * @return string
      */
     public function getClassXoopsFormHidden($var, $param1, $param2, $isForm = false, $isParam = false, $t = "\t\t", $useParam = false)

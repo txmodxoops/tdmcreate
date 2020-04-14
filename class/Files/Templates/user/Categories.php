@@ -232,13 +232,10 @@ EOT;*/
         $moduleDirname  = $module->getVar('mod_dirname');
         $tableName      = $table->getVar('table_name');
         $tableSoleName  = $table->getVar('table_solename');
-        $tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
         $content        = $this->getTemplatesUserCategoriesHeader($moduleDirname);
         $content        .= $this->getTemplatesUserCategoriesPanel($moduleDirname, $tableName, $tableSoleName, $language);
-        /*
-        $content .= $this->getTemplatesUserCategories($moduleDirname, $tableName, $tableSoleName, $language);*/
-        $content .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
+        $content        .= $this->getTemplatesUserCategoriesFooter($moduleDirname);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

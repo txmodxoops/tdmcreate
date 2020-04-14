@@ -89,6 +89,7 @@ class CreatePhpCode
      * @param $right
      *
      * @param string $t
+     * @param bool $leftstr
      * @return string
      */
     public function getPhpCodeDefine($left, $right, $t = '', $leftstr = true)
@@ -790,5 +791,18 @@ class CreatePhpCode
     public function getBlankLine()
     {
         return "\n";
+    }
+
+    /**
+     * @public function getPhpCodeConstant
+     *
+     * @param $const
+     * @param $value
+     * @param string $t
+     * @return string
+     */
+    public function getPhpCodeConstant($const, $value, $t ='')
+    {
+        return "{$t}const {$const} = {$value};\n";
     }
 }

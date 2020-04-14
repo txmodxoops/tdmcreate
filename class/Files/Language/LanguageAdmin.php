@@ -83,7 +83,7 @@ class LanguageAdmin extends Files\CreateFile
         $ret = $this->defines->getBlankLine();
         $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
         $ret .= $this->defines->getBlankLine();
-        $ret = $this->defines->getAboveHeadDefines('Admin Index');
+        $ret .= $this->defines->getAboveHeadDefines('Admin Index');
         $ret .= $this->defines->getDefine($language, 'STATISTICS', 'Statistics');
         $ret .= $this->defines->getAboveDefines('There are');
         foreach (array_keys($tables) as $t) {
@@ -120,7 +120,6 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getAboveDefines('Buttons');
 
         foreach (array_keys($tables) as $t) {
-            $tableName        = $tables[$t]->getVar('table_name');
             $tableSoleName    = $tables[$t]->getVar('table_solename');
             $stuTableSoleName = mb_strtoupper($tableSoleName);
             $ucfTableSoleName = ucfirst($tableSoleName);
@@ -144,14 +143,13 @@ class LanguageAdmin extends Files\CreateFile
      * @param string $tables
      * @return string
      */
-    public function getLanguageAdminClass($language, $tables, $moduleDirname)
+    public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
 
         foreach (array_keys($tables) as $t) {
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
-            $tableName        = $tables[$t]->getVar('table_name');
             $tableSoleName    = $tables[$t]->getVar('table_solename');
             $ucfTableSoleName = ucfirst($tableSoleName);
 
@@ -172,12 +170,10 @@ class LanguageAdmin extends Files\CreateFile
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
-                $stuFieldName = mb_strtoupper($fieldName);
 
                 $rpFieldName = $this->getRightString($fieldName);
                 if ($fieldElement > 15) {
                     $fieldElements    = Tdmcreate\Helper::getInstance()->getHandler('fieldelements')->get($fieldElement);
-                    $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                     $fieldNameDesc    = str_replace(': ', '', $fieldNameDesc);
@@ -186,7 +182,6 @@ class LanguageAdmin extends Files\CreateFile
                 }
 
                 $ret          .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
-                $stuTableName = mb_strtoupper($tableName);
 
                 switch ($fieldElement) {
                     case 10:
@@ -211,7 +206,6 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE_MB', 'MB');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_WIDTH', 'Max image width: ');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_HEIGHT', 'Max image height: ');
-        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_URL', 'Upload new file from url: ');
         $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
@@ -280,7 +274,7 @@ class LanguageAdmin extends Files\CreateFile
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
-            $content .= $this->getLanguageAdminClass($language, $tables, $moduleDirname);
+            $content .= $this->getLanguageAdminClass($language, $tables);
         }
         if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguageAdminPermissions($language);

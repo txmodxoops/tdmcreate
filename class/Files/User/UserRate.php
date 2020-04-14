@@ -159,7 +159,6 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $ucfTableName       = ucfirst($tableName);
         $ret                = $this->phpcode->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $this->xc->getXcSecurityCheck();
         $securityError      = $this->xc->getXcSecurityErrors();
@@ -191,7 +190,6 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateFooter($moduleDirname, $language)
     {
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $this->uc->getUserBreadcrumbs('RATE', $language);
         $ret              .= $this->getInclude('footer');
@@ -215,7 +213,6 @@ class UserRate extends Files\CreateFile
         $tableName          = $table->getVar('table_name');
         $tableSoleName      = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
-        $fields             = $this->getTableFields($tableMid, $tableId);
         $language           = $this->getLanguage($moduleDirname, 'MA');
         $content            = $this->getHeaderFilesComments($module, $filename);
         $content            .= $this->getUserRateHeader($moduleDirname, $tableName);

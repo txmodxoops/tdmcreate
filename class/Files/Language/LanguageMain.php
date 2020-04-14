@@ -80,13 +80,10 @@ class LanguageMain extends Files\CreateFile
     {
         /** @var \XoopsModules\Tdmcreate\Utility $utility */
         $utility = new \XoopsModules\Tdmcreate\Utility();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
 
         $moduleName = $module->getVar('mod_name');
         $tables     = $this->getTables();
         $ret        = $this->defines->getBlankLine();
-        //$ret        .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
-        //$ret        .= $this->defines->getBlankLine();
         $ret        .= $this->defines->getAboveHeadDefines('Main');
         $ret        .= $this->defines->getDefine($language, 'INDEX', 'Home');
         $ret        .= $this->defines->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));

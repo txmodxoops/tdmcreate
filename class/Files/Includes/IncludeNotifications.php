@@ -79,7 +79,6 @@ class IncludeNotifications extends Files\CreateFile
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
-        $tableFieldname   = $table->getVar('table_fieldname');
         $tableSoleName    = $table->getVar('table_solename');
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldParent      = 'cid';

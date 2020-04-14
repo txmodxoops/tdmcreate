@@ -9,7 +9,10 @@ I moved files, where I do not know whether they are still needed into folder _ar
 
 TODOs:
 
+check getXoopsFormSelectFile
+check getClassGetTableSolenameById
 
+Class PreloadsCore - still needed?
 
 Notifications:
 there are too much notification, which are not needed/working

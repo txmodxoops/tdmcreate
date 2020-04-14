@@ -102,7 +102,7 @@ class UserHeader extends Files\CreateFile
         }
         $ret .= $pc->getPhpCodeCommentLine('Permission');
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true);
+        $ret .= $xc->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", null, true);
 
         $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
         $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");

@@ -44,9 +44,7 @@ class ClassHandlerFiles extends Files\CreateFile
     /**
      * @static function getInstance
      *
-     * @param null
-     *
-     * @return ClassFiles
+     * @return bool|ClassHandlerFiles
      */
     public static function getInstance()
     {
@@ -82,23 +80,16 @@ class ClassHandlerFiles extends Files\CreateFile
      * @param string $fieldId
      * @param        $fieldName
      * @param string $fieldMain
-     *
-     * @param        $fieldParent
      * @param        $fieldParentId
      * @param        $fieldElement
      * @return string
      */
-    private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldParentId, $fieldElement)
+    private function getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $tableName        = $table->getVar('table_name');
-        $tableCategory    = $table->getVar('table_category');
-        $tableSoleName    = $table->getVar('table_solename');
         $tableFieldName   = $table->getVar('table_fieldname');
-        $ucfModuleDirname = ucfirst($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
-        $ucfTableSoleName = ucfirst($tableSoleName);
-        $ucfModuleTable   = $ucfModuleDirname . $ucfTableName;
         $multiLineCom     = ['Class Object Handler' => $ucfTableName];
         $ret              = $pc->getPhpCodeCommentMultiLine($multiLineCom);
 
@@ -113,8 +104,8 @@ class ClassHandlerFiles extends Files\CreateFile
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);
         if ($fieldElement > 15 && in_array(1, $fieldParentId)) {
-            $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement);
-            $cClh .= $this->getClassGetTableSolenameById($moduleDirname, $table, $fieldMain);
+            $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement);
+            $cClh .= $this->getClassGetTableSolenameById($table, $fieldMain);
         }
 
         $ret .= $pc->getPhpCodeClass("{$ucfTableName}Handler", $cClh, '\XoopsPersistableObjectHandler');
@@ -235,12 +226,10 @@ class ClassHandlerFiles extends Files\CreateFile
      * @param $fieldId
      * @param $fieldName
      * @param $fieldMain
-     * @param $fieldParent
-     *
      * @param $fieldElement
      * @return string
      */
-    private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldElement)
+    private function getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement)
     {
         $tc                = Tdmcreate\Helper::getInstance();
         $pc                = Tdmcreate\Files\CreatePhpCode::getInstance();
@@ -248,8 +237,6 @@ class ClassHandlerFiles extends Files\CreateFile
         $cc                = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTableName      = ucfirst($tableName);
         $fieldElements     = $tc->getHandler('fieldelements')->get($fieldElement);
-        $fieldElementMid   = $fieldElements->getVar('fieldelement_mid');
-        $fieldElementTid   = $fieldElements->getVar('fieldelement_tid');
         $fieldElementName  = $fieldElements->getVar('fieldelement_name');
         $fieldNameDesc     = ucfirst(mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName)));
         $topicTableName    = str_replace(': ', '', $fieldNameDesc);
@@ -257,11 +244,11 @@ class ClassHandlerFiles extends Files\CreateFile
 
         $ret = $pc->getPhpCodeCommentMultiLine(["Get All {$ucfTableName} By" => "{$fieldNameDesc} Id", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
-        $critAll = $xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
+        $critAll = $xc->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
         $param1  = "'{$moduleDirname}_view'";
         $param2  = "\$GLOBALS['xoopsUser']->getGroups()";
         $param3  = "\$GLOBALS['xoopsModule']->getVar('mid')";
-        $critAll .= $xc->getXcGetItemIds($lcfTopicTableName, 'gpermHandler', $param1, $param2, $param3, "\t\t");
+        $critAll .= $xc->getXcGetItemIds($lcfTopicTableName, 'grouppermHandler', $param1, $param2, $param3, "\t\t");
         $critAll .= $cc->getClassCriteriaCompo('crAll' . $ucfTableName, "\t\t");
 
         if (false !== mb_strpos($fieldName, 'status')) {
@@ -308,13 +295,11 @@ class ClassHandlerFiles extends Files\CreateFile
     /**
      * @public function getClassGetTableSolenameById
      *
-     * @param $moduleDirname
      * @param $table
-     *
      * @param $fieldMain
      * @return string
      */
-    private function getClassGetTableSolenameById($moduleDirname, $table, $fieldMain)
+    private function getClassGetTableSolenameById($table, $fieldMain)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -352,15 +337,15 @@ class ClassHandlerFiles extends Files\CreateFile
         $module         = $this->getModule();
         $table          = $this->getTable();
         $filename       = $this->getFileName();
-        $tableName      = $table->getVar('table_name');
-        $tableFieldName = $table->getVar('table_fieldname');
-        $tableCategory  = $table->getVar('table_category');
         $moduleDirname  = $module->getVar('mod_dirname');
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $fieldInForm    = [];
         $fieldParentId  = [];
         $fieldElementId = [];
-        $fieldParent    = null;
+        $fieldId        = null;
+        $fieldName      = null;
+        $fieldMain      = null;
+        $fieldElement   = null;
         foreach (array_keys($fields) as $f) {
             $fieldName       = $fields[$f]->getVar('field_name');
             $fieldInForm[]   = $fields[$f]->getVar('field_inform');
@@ -371,9 +356,6 @@ class ClassHandlerFiles extends Files\CreateFile
             if (1 == $fields[$f]->getVar('field_main')) {
                 $fieldMain = $fieldName; // $fieldMain = fields parameter main field
             }
-            if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldParent = $fieldName; // $fieldParent = fields parameter parent field
-            }
             $fieldElement = $fields[$f]->getVar('field_element');
 
             $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
@@ -382,7 +364,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $namespace = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
         $content   = $this->getHeaderFilesComments($module, $filename,null, $namespace);
         $content   .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
-        $content   .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParent, $fieldParentId, $fieldElement);
+        $content   .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement);
 
         $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

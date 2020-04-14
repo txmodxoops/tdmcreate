@@ -92,6 +92,8 @@ class UserVisit extends Files\CreateFile
     private function getUserVisitHeader($table, $fields)
     {
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $module        = $this->getModule();
+        $moduleDirname = $module->getVar('mod_dirname');
         $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -170,10 +172,7 @@ class UserVisit extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $tableId       = $table->getVar('table_id');
         $tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
         $fields        = $this->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content       .= $this->getUserVisitHeader($table, $fields);
         $content       .= $this->getUserVisitCheckPermissions();

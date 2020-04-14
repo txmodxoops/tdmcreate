@@ -35,6 +35,10 @@ class AdminHeader extends Files\CreateFile
      * @var mixed
      */
     private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
 
     /**
      * @public function constructor

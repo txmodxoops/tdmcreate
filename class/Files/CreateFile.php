@@ -468,6 +468,7 @@ class CreateFile extends CreateTableFields
      * @param string $fileName
      * @param        $noPhpFile
      *
+     * @param string $namespace
      * @return string
      */
     public function getHeaderFilesComments($module, $fileName, $noPhpFile = null, $namespace = '')

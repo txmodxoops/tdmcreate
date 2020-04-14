@@ -79,7 +79,6 @@ class UserIndex extends Files\CreateFile
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $uc  = UserXoopsCode::getInstance();
-        $cc  = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $ret = $this->getInclude();
         $ret .= $uc->getUserTplMain($moduleDirname);
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
@@ -92,7 +91,6 @@ class UserIndex extends Files\CreateFile
 
     /**
      * @private  function getBodyCategoriesIndex
-     * @param $moduleDirname
      * @param $tableMid
      * @param $tableId
      * @param $tableName
@@ -100,29 +98,17 @@ class UserIndex extends Files\CreateFile
      * @param $tableFieldname
      * @return string
      */
-    private function getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
+    private function getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname)
     {
-        $ucfTableName = ucfirst($tableName);
         // Fields
         $fields        = $this->getTableFields($tableMid, $tableId);
         $fieldParentId = [];
         foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            if (0 == $f) {
-                $fieldId = $fieldName; // fieldMain = fields parameters main field
-            }
             $fieldParentId[] = $fields[$f]->getVar('field_parent');
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName; // fieldMain = fields parameters main field
-            }
-            if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldParent = $fieldName; // fieldMain = fields parameters main field
-            }
         }
         $ret = '';
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc  = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         if (in_array(1, $fieldParentId)) {
             $ret .= $xc->getXcObjHandlerCount($tableName);
             $ret .= $pc->getPhpCodeCommentLine('If there are ', $tableName);
@@ -154,16 +140,13 @@ class UserIndex extends Files\CreateFile
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
-     * @param $tableFieldname
      * @param $language
      * @return string
      */
-    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language)
+    private function getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
         $ret              = $pc->getPhpCodeCommentLine();
@@ -248,7 +231,6 @@ class UserIndex extends Files\CreateFile
     {
         $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
         $module        = $this->getModule();
-        $table         = $this->getTable();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
@@ -267,10 +249,10 @@ class UserIndex extends Files\CreateFile
             $tableFieldname  = $tables[$t]->getVar('table_fieldname');
             $tableIndex[]    = $tables[$t]->getVar('table_index');
             if (in_array(1, $tableCategory, true) && in_array(1, $tableIndex)) {
-                $content .= $this->getBodyCategoriesIndex($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
+                $content .= $this->getBodyCategoriesIndex($tableMid, $tableId, $tableName, $tableSoleName, $tableFieldname);
             }
             if (in_array(0, $tableCategory, true) && in_array(1, $tableIndex)) {
-                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $tableFieldname, $language);
+                $content .= $this->getBodyPagesIndex($moduleDirname, $tableName, $tableSoleName, $language);
             }
         }
         $content .= $this->getUserIndexFooter($moduleDirname, $language);

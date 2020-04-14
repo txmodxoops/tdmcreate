@@ -72,11 +72,10 @@ class LanguageBlocks extends Files\CreateFile
     /**
      * @private function getLanguageBlock
      * @param string $language
-     * @param string $module
      *
      * @return string
      */
-    private function getLanguageBlock($module, $language)
+    private function getLanguageBlock($language)
     {
         $tables = $this->getTables();
         $ret    = $this->defines->getAboveDefines('Admin Edit');
@@ -95,12 +94,8 @@ class LanguageBlocks extends Files\CreateFile
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = mb_strtoupper($fieldName);
-
                 $rpFieldName = $this->getRightString($fieldName);
-                $lpFieldName = mb_substr($fieldName, 0, mb_strpos($fieldName, '_'));
-
                 $fieldNameDesc = ucfirst($rpFieldName);
-
                 $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
             }
         }
@@ -133,7 +128,7 @@ class LanguageBlocks extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MB');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->getLanguageBlock($module, $language);
+        $content       .= $this->getLanguageBlock($language);
         $content       .= $this->getLanguageFooter();
 
         $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

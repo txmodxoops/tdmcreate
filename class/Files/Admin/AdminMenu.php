@@ -144,7 +144,7 @@ class AdminMenu extends Files\CreateFile
     {
         $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ret    = '';
-        $fields = $this->getTableFields($tables[$t]->getVar('table_id'));
+        $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldElement = $fields[$f]->getVar('field_element');
             switch ($fieldElement) {
@@ -173,6 +173,7 @@ class AdminMenu extends Files\CreateFile
     {
         $ret    = '';
         $tables = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        $tablePermissions = [];
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
             if (1 == $tables[$t]->getVar('table_admin')) {

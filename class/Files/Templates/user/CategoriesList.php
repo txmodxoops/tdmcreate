@@ -180,7 +180,6 @@ EOT;
      */
     private function getTemplatesUserCategoriesListTfoot($table, $language)
     {
-        $tableName = $table->getVar('table_name');
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $ret       = <<<EOT
 		<tfoot>
@@ -288,11 +287,9 @@ EOT;
     public function render()
     {
         $module        = $this->getModule();
-        $table         = $this->getTable();
         $filename      = $this->getFileName();
         $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
-        //$tableFieldname = $table->getVar('table_fieldname');
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content  = '';
         foreach (array_keys($tables) as $t) {
@@ -301,18 +298,10 @@ EOT;
             $tableName       = $tables[$t]->getVar('table_name');
             $tableSoleName   = $tables[$t]->getVar('table_solename');
             $tableCategory[] = $tables[$t]->getVar('table_category');
-            $tableFieldname  = $tables[$t]->getVar('table_fieldname');
-            $tableIndex      = $tables[$t]->getVar('table_index');
             if (in_array(1, $tableCategory)) {
                 $content .= $this->getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
             }
         }
-        /*$content        = $this->getTemplatesUserCategoriesListStartTable();
-        $content .= $this->getTemplatesUserCategoriesListThead($table, $language);
-        $content .= $this->getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language);
-        $content .= $this->getTemplatesUserCategoriesListTfoot($table, $language);
-        $content .= $this->getTemplatesUserCategoriesListEndTable();*/
-        //$content = $this->getTemplatesUserCategoriesListPanel($moduleDirname, $table);
 
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

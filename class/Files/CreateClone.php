@@ -29,7 +29,11 @@ class CreateClone
 
     // recursive cloning script
     /**
-     * @param $path
+     * @param $src_path
+     * @param $dst_path
+     * @param bool $replace_code
+     * @param array $patKeys
+     * @param array $patValues
      */
     public static function cloneFileFolder($src_path, $dst_path, $replace_code = false, $patKeys = [], $patValues =[])
     {
@@ -52,7 +56,11 @@ class CreateClone
     }
 
     /**
-     * @param $path
+     * @param $src_file
+     * @param $dst_file
+     * @param bool $replace_code
+     * @param array $patKeys
+     * @param array $patValues
      */
     public static function cloneFile($src_file, $dst_file, $replace_code = false, $patKeys = [], $patValues =[])
     {

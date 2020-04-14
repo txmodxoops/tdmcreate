@@ -90,7 +90,6 @@ class UserViewTag extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content       .= $this->getUserViewTag();
 

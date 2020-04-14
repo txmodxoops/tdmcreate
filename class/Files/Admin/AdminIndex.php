@@ -103,16 +103,17 @@ class AdminIndex extends Files\CreateFile
         $ret .= $pc->getPhpCodeCommentLine('InfoBox Statistics');
         $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
         $ret .= $pc->getPhpCodeCommentLine('Info elements');
+        $tableInstall = [];
         foreach (array_keys($tables) as $i) {
             $tableName      = $tables[$i]->getVar('table_name');
             $tableInstall[] = $tables[$i]->getVar('table_install');
             $stuTableName   = $languageThereAre . mb_strtoupper($tableName);
             $ucfTableName   = ucfirst($tableName);
-            $ret            .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', $stuTableName, "\$count{$ucfTableName}");
+            $ret            .= $axc->getAxcAddInfoBoxLine($stuTableName, "\$count{$ucfTableName}");
         }
 
         if (null === $tableName) {
-            $ret .= $axc->getAxcAddInfoBoxLine($language . 'STATISTICS', 'No statistics', '0');
+            $ret .= $axc->getAxcAddInfoBoxLine('No statistics', '0');
         }
 
         if (is_array($tables) && in_array(1, $tableInstall)) {

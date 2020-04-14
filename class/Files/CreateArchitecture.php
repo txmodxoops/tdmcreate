@@ -234,6 +234,7 @@ class CreateArchitecture extends CreateStructure
             $tableComments[]      = $tables[$t]->getVar('table_comments');
             $tableNotifications[] = $tables[$t]->getVar('table_notifications');
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $permTables[]         = $tables[$t]->getVar('table_name');
             $tableBroken[]        = $tables[$t]->getVar('table_broken');
             $tablePdf[]           = $tables[$t]->getVar('table_pdf');
             $tablePrint[]         = $tables[$t]->getVar('table_print');
@@ -315,6 +316,28 @@ class CreateArchitecture extends CreateStructure
                 }
             }
         }
+
+        // Creation of constants
+        $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+        $classSpecialFiles->write($module, [], $tables, ucfirst('constants') . '.php');
+        $classSpecialFiles->className = 'Constants';
+        $ret[] = $classSpecialFiles->renderConstants();
+
+        // Creation of permissions
+        if (in_array(1, $tablePermissions)) {
+            // Creation of classes
+            $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+            $classSpecialFiles->write($module, [], [], ucfirst('permissions') . '.php');
+            $classSpecialFiles->className = 'Permissions';
+            $ret[] = $classSpecialFiles->renderClass();
+
+            // Creation of classhandlers
+            $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+            $classSpecialFiles->write($module, [], $permTables, ucfirst('permissionshandler') . '.php');
+            $classSpecialFiles->className = 'Permissionshandler';
+            $ret[] = $classSpecialFiles->renderPermissionsHandler();
+
+        }
         foreach (array_keys($files) as $t) {
             $fileName      = $files[$t]->getVar('file_name');
             $fileExtension = $files[$t]->getVar('file_extension');
@@ -372,16 +395,16 @@ class CreateArchitecture extends CreateStructure
         }
 
 
-        // Class Helper File: setCommonFiles
+        // Class Helper File ==> setCommonFiles
 
         // Include Functions File
         $includeFunctions = Tdmcreate\Files\Includes\IncludeFunctions::getInstance();
         $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
 
-        // Include Install File: setCommonFiles
-        // Include Uninstall File: setCommonFiles
-        // Include Update File: setCommonFiles
+        // Include Install File  ==>  setCommonFiles
+        // Include Uninstall File  ==>  setCommonFiles
+        // Include Update File  ==>  setCommonFiles
 
         // Creation of blocks language file
         if (null != $table->getVar('table_name')) {

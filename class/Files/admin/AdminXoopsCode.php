@@ -92,8 +92,7 @@ class AdminXoopsCode
     /**
      * @public function getAdminAddNavigation
      *
-     * @param        $tableName
-     *
+     * @param $type
      * @param string $t
      * @return string
      */
@@ -129,14 +128,13 @@ class AdminXoopsCode
 
     /**
      * @public function getAxcAddInfoBoxLine
-     * @param        $language
      * @param string $label
      * @param string $var
      *
      * @param string $t
      * @return string
      */
-    public function getAxcAddInfoBoxLine($language, $label = '', $var = '', $t = '')
+    public function getAxcAddInfoBoxLine($label = '', $var = '', $t = '')
     {
         $aMenu = $t . '$adminObject->addInfoBoxLine(sprintf(';
         if ('' != $var) {
@@ -171,15 +169,13 @@ class AdminXoopsCode
 
     /**
      * @public function getAxcImageListSetVar
-     * @param string $moduleDirname
      * @param string $tableName
      * @param string $fieldName
      * @param string $t
-     * @param int    $countUploader
-     * @param string $fieldMain
+     * @param int $countUploader
      * @return string
      */
-    public function getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t = '', $countUploader, $fieldMain)
+    public function getAxcImageListSetVar($tableName, $fieldName, $t = '', $countUploader = 0)
     {
         $pCodeImageList = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeImageList = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -212,7 +208,7 @@ class AdminXoopsCode
      * @param int    $countUploader
      * @return string
      */
-    public function getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '', $countUploader)
+    public function getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t = '', $countUploader = 0)
     {
         $pCodeUploadImage = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeUploadImage = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -272,32 +268,32 @@ class AdminXoopsCode
      * @param string $fieldMain
      * @return string
      */
-    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain = '')
+    public function getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader = 0, $fieldMain = '')
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret              = $this->getAxcImageFileSetVar($moduleDirname, $stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain, 'mimetypes_file', 'maxsize_file');
+        $ret              = $this->getAxcImageFileSetVar($stuModuleDirname . '_UPLOAD_FILES_PATH', $tableName, $fieldName, $formatUrl, $t, $countUploader, $fieldMain, 'mimetypes_file', 'maxsize_file');
 
         return $ret;
     }
 
     /**
      * @private function getAxcImageFileSetVar
-     * @param        $moduleDirname
      * @param        $dirname
      * @param        $tableName
      * @param        $fieldName
-     * @param bool   $formatUrl
+     * @param bool $formatUrl
      * @param string $t
-     * @param int    $countUploader
+     * @param int $countUploader
      * @param string $fieldMain
+     * @param string $mimetype
+     * @param string $maxsize
      * @return string
      */
-    private function getAxcImageFileSetVar($moduleDirname, $dirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader, $fieldMain, $mimetype = 'mimetypes_image', $maxsize = 'maxsize_image')
+    private function getAxcImageFileSetVar($dirname, $tableName, $fieldName, $formatUrl = false, $t = '', $countUploader = 0, $fieldMain = '', $mimetype = 'mimetypes_image', $maxsize = 'maxsize_image')
     {
         $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ret       = '';
-        $ifelse    = '';
         $files     = '';
         $contentIf = '';
 
@@ -312,8 +308,8 @@ class AdminXoopsCode
         $ret            .= $xc->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $mimetype, $maxsize, $t);
         $post           = $pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
-        $expr             = '/^.+\.([^.]+)$/sU';
-        $ifelse           = $pc->getPhpCodePregFunzions('extension', $expr, '', "\$filename", 'replace', false, $t . "\t");
+        $expr           = '/^.+\.([^.]+)$/sU';
+        $ifelse         = $pc->getPhpCodePregFunzions('extension', $expr, '', "\$filename", 'replace', false, $t . "\t");
         $ifelse         .= $t . "\t\$imgName = str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
 
         $ifelse         .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
@@ -355,7 +351,7 @@ class AdminXoopsCode
                         $ret .= $xCodeSetVars->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $this->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, '', $countUploader, $fieldMain);
+                        $ret .= $this->getAxcImageListSetVar($tableName, $fieldName, '', $countUploader);
                         $countUploader++;
                         break;
                     case 12:
@@ -386,16 +382,13 @@ class AdminXoopsCode
 
     /**
      * @public function getAxcMiscSetVar
-     * @param        $moduleDirname
      * @param        $tableName
      * @param        $fieldName
-     * @param bool   $formatUrl
+     * @param $fieldType
      * @param string $t
-     * @param int    $countUploader
-     * @param string $fieldMain
      * @return string
      */
-    public function getAxcMiscSetVar($moduleDirname, $tableName, $fieldName, $fieldType, $t = '', $countUploader, $fieldMain = '')
+    public function getAxcMiscSetVar($tableName, $fieldName, $fieldType, $t = '')
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         switch ((int)$fieldType){

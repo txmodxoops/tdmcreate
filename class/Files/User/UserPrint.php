@@ -95,18 +95,9 @@ class UserPrint extends Files\CreateFile
         $table            = $this->getTable();
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
-            $rpFieldName = $fieldName;
-            if (mb_strpos($fieldName, '_')) {
-                $str = mb_strpos($fieldName, '_');
-                if (false !== $str) {
-                    $rpFieldName = mb_substr($fieldName, $str + 1, mb_strlen($fieldName));
-                }
-            }
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
             } else {
@@ -153,7 +144,7 @@ class UserPrint extends Files\CreateFile
             $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         $ret            .= $this->xc->getXcGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
-        $gperm          = $this->xc->getXcCheckRight('!$gpermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
+        $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
         $noPerm         = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
         $noPerm         .= $this->getSimpleString('exit();', "\t");

@@ -166,12 +166,13 @@ class SqlFile extends Files\CreateFile
      */
     private function getDatabaseFields($moduleDirname, $tableMid, $tableId, $tableName, $tableAutoincrement, $fieldsNumb)
     {
-        $helper = Tdmcreate\Helper::getInstance();
-        $ret    = null;
-        $j      = 0;
-        $comma  = [];
-        $row    = [];
-        $type   = '';
+        $helper        = Tdmcreate\Helper::getInstance();
+        $ret           = null;
+        $j             = 0;
+        $comma         = [];
+        $row           = [];
+        $type          = '';
+        $fieldTypeName = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {
             // Creation of database table
@@ -417,29 +418,6 @@ class SqlFile extends Files\CreateFile
     private function getComma($row, $comma = null)
     {
         return " {$row}{$comma}";
-    }
-
-    /**
-     * @private function getCommaCicle
-     *
-     * @param $comma
-     * @param $index
-     *
-     * @return string
-     */
-    private function getCommaCicle($comma, $index)
-    {
-        $ret = null;
-        // Comma issue
-        for ($i = 1; $i <= $index; ++$i) {
-            if ($i != $index - 1) {
-                $ret = $this->getComma(isset($comma[$i]), ',') . "\n";
-            } else {
-                $ret = $this->getComma(isset($comma[$i])) . "\n";
-            }
-        }
-
-        return $ret;
     }
 
     /**

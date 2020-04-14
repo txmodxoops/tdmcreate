@@ -42,6 +42,11 @@ class UserPdf extends Files\CreateFile
     private $xc = null;
 
     /**
+     * @var string
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -118,7 +123,6 @@ class UserPdf extends Files\CreateFile
      */
     public function getUserPdfTcpdf($moduleDirname, $fields)
     {
-        $fieldId          = $this->xc->getXcSaveFieldId($fields);
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = '';
         foreach (array_keys($fields) as $f) {

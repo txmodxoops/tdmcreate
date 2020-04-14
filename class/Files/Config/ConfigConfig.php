@@ -42,8 +42,7 @@ class ConfigConfig extends Files\CreateFile
 
     /**
      * @static function getInstance
-     * @param null
-     * @return IncludeCommon
+     * @return bool|ConfigConfig
      */
     public static function getInstance()
     {
@@ -58,7 +57,7 @@ class ConfigConfig extends Files\CreateFile
     /**
      * @public function write
      * @param string $module
-     * @param object $table
+     * @param $tables
      * @param string $filename
      */
     public function write($module, $tables, $filename)
@@ -70,17 +69,12 @@ class ConfigConfig extends Files\CreateFile
 
     /**
      * @private function getConfigCode
-     * @param \XoopsObject $module
      * @return string
      */
-    private function getConfigCode($module)
+    private function getConfigCode()
     {
-        $pc                      = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc                      = Tdmcreate\Files\CreateXoopsCode::getInstance();
-
-        $tables                  = $this->getTables();
-        //$moduleDirname           = $module->getVar('mod_dirname');
-        //$stuModuleDirname        = mb_strtoupper($moduleDirname);
+        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $tables = $this->getTables();
 
         $ret    = $this->getSimpleString('');
         $ret    .= $xc->getXcEqualsOperator('$moduleDirName ', 'basename(dirname(__DIR__))');
@@ -153,7 +147,7 @@ class ConfigConfig extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $filename      = $this->getFileName();
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->getConfigCode($module);
+        $content       .= $this->getConfigCode();
         $this->create($moduleDirname, 'config', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

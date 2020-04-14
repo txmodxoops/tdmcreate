@@ -133,16 +133,13 @@ class UserBroken extends Files\CreateFile
      * @param $fields
      * @param $tableName
      * @param $tableSoleName
-     * @param $tableAutoincrement
      * @param $language
      * @return string
      */
-    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $language)
     {
         $xc                 = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc                 = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $fieldId            = $xc->getXcSaveFieldId($fields);
-        $ucfTableName       = ucfirst($tableName);
         $ret                = $pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $xc->getXcSecurityCheck();
         $securityError      = $xc->getXcSecurityErrors();
@@ -181,11 +178,10 @@ class UserBroken extends Files\CreateFile
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
-     * @param $tableAutoincrement
      * @param $language
      * @return bool|string
      */
-    private function getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    private function getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $language)
     {
         $xc       = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $table    = $this->getTable();
@@ -194,7 +190,7 @@ class UserBroken extends Files\CreateFile
         $fields   = $this->getTableFields($tableMid, $tableId);
         $cases    = [
             'form' => [$this->getUserBrokenForm($tableName, $language)],
-            'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)],
+            'save' => [$this->getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $language)],
         ];
 
         return $xc->getXcSwitch('op', $cases, true, false);
@@ -215,12 +211,11 @@ class UserBroken extends Files\CreateFile
         $tableMid           = $table->getVar('table_mid');
         $tableName          = $table->getVar('table_name');
         $tableSoleName      = $table->getVar('table_solename');
-        $tableAutoincrement = $table->getVar('table_autoincrement');
         $fields             = $this->getTableFields($tableMid, $tableId);
         $language           = $this->getLanguage($moduleDirname, 'MA');
         $content            = $this->getHeaderFilesComments($module, $filename);
         $content            .= $this->getUserBrokenHeader($moduleDirname, $fields);
-        $content            .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $content            .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $language);
         $content            .= $this->getInclude('footer');
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
