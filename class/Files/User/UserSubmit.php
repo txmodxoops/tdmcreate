@@ -168,7 +168,7 @@ class UserSubmit extends Files\CreateFile
                 $fieldId = $fieldName;
                 $ccFieldId = $this->getCamelCase($fieldId, false, true);
             }
-            if ($fields[$f]->getVar('field_type') == 13 || $fields[$f]->getVar('field_type') == 14) {
+            if ($fields[$f]->getVar('field_type') >= 10 && $fields[$f]->getVar('field_type') <= 14) {
                 $countUploader++;
             }
         }

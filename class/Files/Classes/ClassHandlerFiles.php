@@ -307,17 +307,16 @@ class ClassHandlerFiles extends Files\CreateFile
         $tableSoleName    = $table->getVar('table_solename');
         $ucfTableSoleName = ucfirst($tableSoleName);
         $ccTableSoleName  = $this->getCamelCase($tableSoleName, true);
+
         $ret              = $pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
         $soleName         = $xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
         $soleName         .= $xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
-
-        $contentIf = $xc->getXoopsHandlerLine($tableName, "\t\t\t");
-        $contentIf .= $xc->getXcGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
-        $getVar    = $xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
-        $contentIf .= $pc->getPhpCodeConditions("is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
-
-        $soleName .= $pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf = null, false, "\t\t");
-        $soleName .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
+        $contentIf        = $xc->getXoopsHandlerLine($tableName, "\t\t\t");
+        $contentIf        .= $xc->getXcGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
+        $getVar           = $xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
+        $contentIf        .= $pc->getPhpCodeConditions("is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
+        $soleName         .= $pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf, false, "\t\t");
+        $soleName         .= $this->getSimpleString("return \${$tableSoleName};", "\t\t");
 
         $ret .= $pc->getPhpCodeFunction("get{$ucfTableSoleName}FromId", "\${$tableSoleName}Id", $soleName, 'public ', false, "\t");
 

@@ -279,6 +279,27 @@ class CreatePhpCode
     }
 
     /**
+     * @public function getPhpCodeInstance
+     * @param $name
+     * @param $content
+     * @param $extends
+     * @param $type
+     *
+     * @return string
+     */
+    public function getPhpCodeInterface($name = null, $content = null, $extends = null, $type = null)
+    {
+        $typ = (null != $type) ? "{$type} " : '';
+        $ext = (null != $extends) ? " extends {$extends}" : '';
+        $ret = "{$typ}interface {$name}{$ext}\n";
+        $ret .= '{';
+        $ret .= $content;
+        $ret .= "}\n";
+
+        return $ret;
+    }
+
+    /**
      * @public function getPhpCodeFunction
      * @param        $name
      * @param        $params
@@ -801,8 +822,22 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeConstant($const, $value, $t ='')
+    public function getPhpCodeConstant($const, $value, $t = '', $type = 'const')
     {
-        return "{$t}const {$const} = {$value};\n";
+        return  "{$t}{$type} {$const} = {$value};\n";
+    }
+
+    /**
+     * @public function getPhpCodeTriggerError
+     *
+     * @param $msg
+     * @param $type
+     * @param string $t
+     * @return string
+     */
+    public function getPhpCodeTriggerError($msg, $type, $t ='')
+    {
+        $ret = "{$t}trigger_error($msg, {$type});\n";
+        return $ret;
     }
 }

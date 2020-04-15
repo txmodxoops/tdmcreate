@@ -249,4 +249,47 @@ class ClassSpecialFiles extends Files\CreateFile
 
         return $this->renderFile();
     }
+    /*
+    public function renderConstantsTestInterface()
+    {
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $tables           = $this->getTables();
+        $tablePermissions = [];
+        foreach (array_keys($tables) as $t) {
+            $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+        }
+        $moduleDirname  = $module->getVar('mod_dirname');
+        $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
+        $contentFile    = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
+        $contentFile        .= $pc->getPhpCodeDefined();
+        $contentFile        .= $pc->getPhpCodeCommentMultiLine(['Interface ' => $this->className]);
+        $contentClass = '';
+        if (in_array(1, $tablePermissions)) {
+            $constPerm = $pc->getBlankLine();
+            $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, 'protected static',"\t");
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, 'protected static',"\t");
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, 'protected static',"\t");
+            $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, 'protected static',"\t");
+            $contentClass .= $constPerm;
+        }
+        $contentClass        .= $pc->getBlankLine();
+        $func = $pc->getPhpCodeCommentLine('trigger a warning if invalid "constant" requested', '', "\t\t");
+        $if  = $pc->getPhpCodeTriggerError("\"Invalid Constant requested ('{\$val}')\"", 'E_USER_WARNING', "\t\t\t");
+        $if  .= $this->getSimpleString("return false;", "\t\t\t");
+        $func     .= $pc->getPhpCodeConditions('!isset($$val)', null, null, $if, false, "\t\t");
+        $func  .= $this->getSimpleString('return self::$$val;', "\t");
+        $contentClass         .= $pc->getPhpCodeFunction('getConstant', '$val', $func, 'final public static ', false, "\t");
+
+        $contentFile   .= $pc->getPhpCodeInterface($this->className, $contentClass);
+
+        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+
+        return $this->renderFile();
+    }
+    */
 }

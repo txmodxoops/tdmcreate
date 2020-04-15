@@ -1442,6 +1442,10 @@ class CreateXoopsCode
                         $ret .= $axCodeSaveElements->getAxcImageListSetVar($tableName, $fieldName, $t, $countUploader);
                         $countUploader++;
                         break;
+                    case 11:
+                        $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $countUploader++;
+                        break;
                     case 12:
                         $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
