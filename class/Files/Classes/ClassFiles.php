@@ -179,12 +179,12 @@ class ClassFiles extends Files\CreateFile
             $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
             $rpFieldName      = $this->getRightString($fieldName);
-                        if (in_array(5, $fieldElementId)) {
-                if (count($rpFieldName) % 5) {
-                    $optionsFieldName[] = "'" . $rpFieldName . "'";
-                } else {
+            if (in_array(5, $fieldElementId)) {
+                //if (count($rpFieldName) % 5) {
+                    //$optionsFieldName[] = "'" . $rpFieldName . "'";
+                //} else {
                     $optionsFieldName[] = "'" . $rpFieldName . "'\n";
-                }
+                //}
             }
             if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
                 $fieldId = $fieldName;
