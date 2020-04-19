@@ -54,6 +54,7 @@ class Testfields extends \XoopsObject
 		$this->initVar('tf_uplfile', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_textdateselect', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_selectfile', XOBJ_DTYPE_TXTBOX);
+		$this->initVar('tf_status', XOBJ_DTYPE_INT);
 	}
 
 	/**
@@ -140,7 +141,7 @@ class Testfields extends \XoopsObject
 		// Form Select User TfUser
 		$form->addElement(new \XoopsFormSelectUser( _AM_MYMODULE2_TESTFIELD_USER, 'tf_user', false, $this->getVar('tf_user') ));
 		// Form Color Picker TfColor
-		$form->addElement(new \XoopsFormColorPicker( _AM_MYMODULE2_TESTFIELD_COLOR, 'tf_color', $this->getVar('tf_color') ));
+		$form->addElement(new \XoopsFormColorPicker( _AM_MYMODULE2_TESTFIELD_COLOR, 'tf_color', $this->getVar('tf_color') ), true);
 		// Form Frameworks Image Files TfImagelist
 		$getTfImagelist = $this->getVar('tf_imagelist');
 		$tfImagelist = $getTfImagelist ? $getTfImagelist : 'blank.gif';
@@ -231,6 +232,13 @@ class Testfields extends \XoopsObject
 			$fileTray->addElement(new \XoopsFormHidden( 'tf_selectfile', $tfSelectfile ));
 		}
 		$form->addElement($fileTray, );
+		// Form Select Testfields
+		$tfStatusSelect = new \XoopsFormSelect( _AM_MYMODULE2_TESTFIELD_STATUS, 'tf_status', $this->getVar('tf_status'));
+		$tfStatusSelect->addOption(Constants::STATUS_NONE, _AM_MYMODULE2_STATUS_NONE);
+		$tfStatusSelect->addOption(Constants::STATUS_OFFLINE, _AM_MYMODULE2_STATUS_OFFLINE);
+		$tfStatusSelect->addOption(Constants::STATUS_SUBMITTED, _AM_MYMODULE2_STATUS_SUBMITTED);
+		$tfStatusSelect->addOption(Constants::STATUS_APPROVED, _AM_MYMODULE2_STATUS_APPROVED);
+		$form->addElement($tfStatusSelect);
 		// Permissions
 		$memberHandler = xoops_getHandler('member');
 		$groupList = $memberHandler->getGroupList();
@@ -283,6 +291,7 @@ class Testfields extends \XoopsObject
 		$ret['dhtml'] = strip_tags($this->getVar('tf_dhtml'));
 		$ret['checkbox'] = $this->getVar('tf_checkbox');
 		$ret['yesno'] = $this->getVar('tf_yesno');
+		$ret['yesno_text'] = (int)$this->getVar('tf_yesno') > 0 ? _YES : _NO;
 		$ret['selectbox'] = $this->getVar('tf_selectbox');
 		$ret['user'] = \XoopsUser::getUnameFromId($this->getVar('tf_user'));
 		$ret['color'] = $this->getVar('tf_color');
@@ -292,6 +301,7 @@ class Testfields extends \XoopsObject
 		$ret['uplfile'] = $this->getVar('tf_uplfile');
 		$ret['textdateselect'] = formatTimeStamp($this->getVar('tf_textdateselect'), 's');
 		$ret['selectfile'] = $this->getVar('tf_selectfile');
+		$ret['status'] = $this->getVar('tf_status');
 		return $ret;
 	}
 

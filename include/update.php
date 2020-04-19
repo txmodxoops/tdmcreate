@@ -37,6 +37,9 @@ function xoops_module_update_tdmcreate(&$module, $prev_version = null)
     if ($prev_version < 191) {
         update_tdmcreate_v191($module);
     }
+    if ($prev_version < 303) {
+        update_tdmcreate_v303($module);
+    }
 	
 	tdmcreate_check_db($module);
 	
@@ -111,6 +114,39 @@ function update_tdmcreate_v191(&$module)
     return true;
 }
 // irmtfan bug fix: solve templates duplicate issue
+
+/**
+ * @param $module
+ *
+ * @return bool
+ */
+function update_tdmcreate_v303(&$module)
+{
+    global $xoopsDB;
+    $result = $xoopsDB->query(
+        'SELECT * FROM ' . $xoopsDB->prefix('tdmcreate_fieldelements') . ' as fe WHERE fe.fieldelement_id = 16'
+    );
+    $num_rows = $GLOBALS['xoopsDB']->getRowsNum($result);
+    if ($num_rows > 0) {
+        list($fe_id, $fe_mid, $fe_tid, $fe_name, $fe_value) = $xoopsDB->fetchRow($result);
+        //add existing element at end of table
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '{$fe_mid}', '{$fe_tid}', '{$fe_name}', '{$fe_value}')";
+        $result = $xoopsDB->query($sql);
+        // update table fields to new id of previous 16
+        $newId = $xoopsDB->getInsertId();
+        $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fields') . "` SET `field_element` = '{$newId}' WHERE `" . $xoopsDB->prefix('tdmcreate_fields') . "`.`field_element` = '16';";
+        $result = $xoopsDB->query($sql);
+        // update 16 to new element
+        $sql = 'UPDATE `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` SET `fieldelement_mid` = '0', `fieldelement_tid` = '0', `fieldelement_name` = 'SelectStatus', `fieldelement_value` = 'XoopsFormSelectStatus' WHERE `fieldelement_id` = 16;";
+        $result = $xoopsDB->query($sql);
+    } else {
+        //add missing element
+        $sql = 'INSERT INTO `' . $xoopsDB->prefix('tdmcreate_fieldelements') . "` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`) VALUES (NULL, '0', '0', 'SelectStatus', 'XoopsFormSelectStatus')";
+        $result = $xoopsDB->query($sql);
+    }
+
+    return true;
+}
 
 /**
  * function to add code for db checking

@@ -118,7 +118,7 @@ class UserIndex extends Files\CreateFile
             $contentIf .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $pc->getPhpCodeArray($tableName, "\t");
-            $foreach   = $xc->getXcGetValues($tableName, $tableSoleName . 'Values', $tableFieldname, false, "\t");
+            $foreach   = $xc->getXcGetValues($tableName, $tableSoleName . 'Values', $tableFieldname, false, "\t\t");
             $foreach   .= $pc->getPhpCodeArray('acount', ["'count'", '$count']);
             $foreach   .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName . 'Values', '$acount');
             $foreach   .= $this->getSimpleString('++$count;', "\t\t");
@@ -162,7 +162,7 @@ class UserIndex extends Files\CreateFile
         $condIf           .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
         $condIf           .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
         $condIf           .= $pc->getPhpCodeArray($tableName, null, false, "\t");
-        $foreach          = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t");
+        $foreach          = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t\t");
         $foreach          .= $pc->getPhpCodeArray('acount', ["'count'", '$count']);
         $foreach          .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
         $table            = $this->getTable();

@@ -12,8 +12,9 @@
     tf_urlfile: ''
     tf_uplimage: blank.gif
     tf_uplfile: ''
-    tf_textdateselect: '1586937996'
+    tf_textdateselect: '1586959592'
     tf_selectfile: ''
+    tf_status: '3'
 -
     tf_id: '2'
     tf_text: 'Item 2 test field'
@@ -30,3 +31,4 @@
     tf_uplfile: ''
     tf_textdateselect: '1586938009'
     tf_selectfile: ''
+    tf_status: '0'

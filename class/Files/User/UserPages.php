@@ -119,7 +119,7 @@ class UserPages extends Files\CreateFile
         $ret              .= $pc->getPhpCodeArray('keywords', null, false, '');
         $condIf           = $pc->getPhpCodeArray($tableName, null, false, $t);
         $condIf           .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t);
-        $foreach          = $xc->getXcGetValues($tableName, $tableName . '[]', 'i', false, $t);
+        $foreach          = $xc->getXcGetValues($tableName, $tableName . '[]', 'i', false, $t . "\t");
 
         $table = $this->getTable();
         // Fields

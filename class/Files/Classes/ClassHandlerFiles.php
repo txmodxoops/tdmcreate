@@ -103,7 +103,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $cClh .= $this->getClassCounter($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassAll($tableName, $fieldId, $fieldMain);
         $cClh .= $this->getClassCriteria($tableName);
-        if ($fieldElement > 15 && in_array(1, $fieldParentId)) {
+        if ($fieldElement > 16 && in_array(1, $fieldParentId)) {
             $cClh .= $this->getClassByCategory($moduleDirname, $tableName, $tableFieldName, $fieldId, $fieldName, $fieldMain, $fieldElement);
             $cClh .= $this->getClassGetTableSolenameById($table, $fieldMain);
         }
@@ -178,7 +178,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $ucfTableName = ucfirst($tableName);
         $ret          = $pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
-        $critCount  = $cc->getClassCriteriaCompo('crCount' . $ucfTableName, "\t\t");
+        $critCount  = $xc->getXcCriteriaCompo('crCount' . $ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
         $critCount  .= $xc->getXcEqualsOperator('$crCount' . $ucfTableName, $paramsCrit, null, false, "\t\t");
         $critCount  .= $this->getSimpleString("return parent::getCount(\$crCount{$ucfTableName});", "\t\t");
@@ -206,7 +206,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $ucfTableName = ucfirst($tableName);
         $ret          = $pc->getPhpCodeCommentMultiLine(['Get All ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
-        $critAll    = $cc->getClassCriteriaCompo('crAll' . $ucfTableName, "\t\t");
+        $critAll    = $xc->getXcCriteriaCompo('crAll' . $ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
         $critAll    .= $xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCrit, null, false, "\t\t");
         $critAll    .= $this->getSimpleString("return parent::getAll(\$crAll{$ucfTableName});", "\t\t");
@@ -249,11 +249,11 @@ class ClassHandlerFiles extends Files\CreateFile
         $param2  = "\$GLOBALS['xoopsUser']->getGroups()";
         $param3  = "\$GLOBALS['xoopsModule']->getVar('mid')";
         $critAll .= $xc->getXcGetItemIds($lcfTopicTableName, 'grouppermHandler', $param1, $param2, $param3, "\t\t");
-        $critAll .= $cc->getClassCriteriaCompo('crAll' . $ucfTableName, "\t\t");
+        $critAll .= $xc->getXcCriteriaCompo('crAll' . $ucfTableName, "\t\t");
 
         if (false !== mb_strpos($fieldName, 'status')) {
-            $crit    = $cc->getClassCriteria('', "'{$fieldName}'", '0', "'!='", true);
-            $critAll .= $cc->getClassAdd('crAll' . $ucfTableName, $crit, "\t\t");
+            $crit    = $xc->getXcCriteria('', "'{$fieldName}'", '0', "'!='", true);
+            $critAll .= $xc->getXcCriteriaAdd('crAll' . $ucfTableName, $crit, "\t\t");
         }
         $paramsCritAll = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
         $critAll       .= $xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCritAll, null, false, "\t\t");
@@ -275,16 +275,16 @@ class ClassHandlerFiles extends Files\CreateFile
     private function getClassCriteria($tableName)
     {
         $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $cc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+		$xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
         $ret          = $pc->getPhpCodeCommentMultiLine(['Get' => 'Criteria ' . $ucfTableName, '@param       ' => "\$cr{$ucfTableName}", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
         $paramsAllCriteria = "\$cr{$ucfTableName}, \$start, \$limit, \$sort, \$order";
 
-        $critSets = $cc->getClassSetStart('cr' . $ucfTableName, 'start', "\t\t");
-        $critSets .= $cc->getClassSetLimit('cr' . $ucfTableName, 'limit', "\t\t");
-        $critSets .= $cc->getClassSetSort('cr' . $ucfTableName, 'sort', "\t\t");
-        $critSets .= $cc->getClassSetOrder('cr' . $ucfTableName, 'order', "\t\t");
+        $critSets = $xc->getXcCriteriaSetStart('cr' . $ucfTableName, '$start', "\t\t");
+        $critSets .= $xc->getXcCriteriaSetLimit('cr' . $ucfTableName, '$limit', "\t\t");
+        $critSets .= $xc->getXcCriteriaSetSort('cr' . $ucfTableName, '$sort', "\t\t");
+        $critSets .= $xc->getXcCriteriaSetOrder('cr' . $ucfTableName, '$order', "\t\t");
         $critSets .= $this->getSimpleString("return \$cr{$ucfTableName};", "\t\t");
 
         $ret .= $pc->getPhpCodeFunction("get{$ucfTableName}Criteria", $paramsAllCriteria, $critSets, 'private ', false, "\t");

@@ -10,7 +10,7 @@
 				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_TITLE}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_DESCR}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_IMG}></th>
-				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_ONLINE}></th>
+				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_STATUS}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_FILE}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_CREATED}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_ARTICLE_SUBMITTER}></th>
@@ -26,7 +26,7 @@
 				<td class="center"><{$article.title}></td>
 				<td class="center"><{$article.descr}></td>
 				<td class="center"><img src="<{$mymodule2_upload_url}>/images/articles/<{$article.img}>" alt="articles" style="max-width:100px" /></td>
-				<td class="center"><{$article.online}></td>
+				<td class="center"><img src="<{$modPathIcon16}>/status<{$article.status}>.png" alt="articles" /></td>
 				<td class="center"><{$article.file}></td>
 				<td class="center"><{$article.created}></td>
 				<td class="center"><{$article.submitter}></td>

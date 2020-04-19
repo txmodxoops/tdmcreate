@@ -148,7 +148,7 @@ class AdminPages extends Files\CreateFile
         $ret .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL", true, $t);
 
         $ret            .= $pc->getPhpCodeCommentLine('Table view', $tableName, $t);
-        $contentForeach = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t");
+        $contentForeach = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, $t . "\t\t");
         $contentForeach .= $xc->getXcXoopsTplAppend("{$tableName}_list", "\${$tableSoleName}", $t . "\t\t");
         $contentForeach .= $pc->getPhpCodeUnset($tableSoleName, $t . "\t\t");
         $condIf         = $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, $t . "\t");
@@ -205,7 +205,7 @@ class AdminPages extends Files\CreateFile
 
         $ret     = $pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
         $ret     .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
-        $content = $xc->getXcAddRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$permId', '$onegroupId', '$mid', false, "\t");
+        $content = $xc->getXcAddRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$permId', '$onegroupId', '$mid', false, "\t\t\t\t\t");
         $foreach = $pc->getPhpCodeForeach("_POST['groups_{$perm}']", false, false, 'onegroupId', $content, "\t\t\t\t");
         $ret     .= $pc->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", null, null, $foreach, false, "\t\t\t");
 

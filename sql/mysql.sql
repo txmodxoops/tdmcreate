@@ -332,7 +332,8 @@ INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `f
   (12, 0, 0, 'UrlFile', 'XoopsFormUrlFile'),
   (13, 0, 0, 'UploadImage', 'XoopsFormUploadImage'),
   (14, 0, 0, 'UploadFile', 'XoopsFormUploadFile'),
-  (15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect');
+  (15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect'),
+  (16, 0, 0, 'SelectStatus', 'XoopsFormSelectStatus');
 
 #
 # Table structure for table `tdmcreate_morefiles` 5

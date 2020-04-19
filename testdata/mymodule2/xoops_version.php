@@ -38,7 +38,7 @@ $modversion = [
 	'help'                => 'page=help',
 	'release_info'        => 'release_info',
 	'release_file'        => XOOPS_URL . '/modules/mymodule2/docs/release_info file',
-	'release_date'        => '2020/04/15',
+	'release_date'        => '2020/04/16',
 	'manual'              => 'link to manual file',
 	'manual_file'         => XOOPS_URL . '/modules/mymodule2/docs/install.txt',
 	'min_php'             => '7.0',

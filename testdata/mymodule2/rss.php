@@ -43,7 +43,7 @@ $criteria->add(new \Criteria('cid', '(' . implode(',', $categories) . ')','IN'))
 if ($cid != 0){
     $criteria->add(new \Criteria('cid', $cid));
     $testfields = $testfieldsHandler->get($cid);
-    $title = $xoopsConfig['sitename'] . ' - ' . $xoopsModule->getVar('name') . ' - ' . $testfields->getVar('tf_selectfile');
+    $title = $xoopsConfig['sitename'] . ' - ' . $xoopsModule->getVar('name') . ' - ' . $testfields->getVar('tf_status');
 } else {
     $title = $xoopsConfig['sitename'] . ' - ' . $xoopsModule->getVar('name');
 }
@@ -61,7 +61,7 @@ if (!$tpl->is_cached('db:mymodule2_rss.tpl', $cid)) {
     $tpl->assign('channel_webmaster', $xoopsConfig['adminmail']);
     $tpl->assign('channel_editor', $xoopsConfig['adminmail']);
     $tpl->assign('channel_category', 'Event');
-    $tpl->assign('channel_generator', 'XOOPS - ' . htmlspecialchars($xoopsModule->getVar('tf_selectfile'), ENT_QUOTES));
+    $tpl->assign('channel_generator', 'XOOPS - ' . htmlspecialchars($xoopsModule->getVar('tf_status'), ENT_QUOTES));
     $tpl->assign('channel_language', _LANGCODE);
     if ( _LANGCODE == 'fr' ) {
         $tpl->assign('docs', 'http://www.scriptol.fr/rss/RSS-2.0.html');
@@ -90,7 +90,7 @@ if (!$tpl->is_cached('db:mymodule2_rss.tpl', $cid)) {
         } else {
             $description_short = substr($description,0,strpos($description,'[pagebreak]'));
         }
-        $tpl->append('items', array('title' => htmlspecialchars($testfieldsArr[$i]->getVar('tf_selectfile'), ENT_QUOTES),
+        $tpl->append('items', array('title' => htmlspecialchars($testfieldsArr[$i]->getVar('tf_status'), ENT_QUOTES),
                                     'link' => XOOPS_URL . '/modules/mymodule2/single.php?cid=' . $testfieldsArr[$i]->getVar('cid') . '&amp;tf_id=' . $testfieldsArr[$i]->getVar('tf_id'),
                                     'guid' => XOOPS_URL . '/modules/mymodule2/single.php?cid=' . $testfieldsArr[$i]->getVar('cid') . '&amp;tf_id=' . $testfieldsArr[$i]->getVar('tf_id'),
                                     'pubdate' => formatTimestamp($testfieldsArr[$i]->getVar('date'), 'rss'),

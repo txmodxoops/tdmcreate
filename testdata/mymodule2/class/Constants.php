@@ -29,10 +29,16 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  */
 class Constants
 {
+	// Constants for status
+	const STATUS_NONE      = 0;
+	const STATUS_OFFLINE   = 1;
+	const STATUS_SUBMITTED = 2;
+	const STATUS_APPROVED  = 3;
+
 	// Constants for permissions
 	const PERM_GLOBAL_NONE    = 0;
 	const PERM_GLOBAL_VIEW    = 1;
 	const PERM_GLOBAL_SUBMIT  = 2;
 	const PERM_GLOBAL_APPROVE = 3;
-}
 
+}

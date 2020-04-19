@@ -190,7 +190,7 @@ class AdminPermissions extends Files\CreateFile
         $ret      = $xc->getXcGetVar('moduleId', 'xoopsModule', 'mid');
         $ret      .= $xc->getXcGroupPermForm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
         $ret      .= $xc->getXcEqualsOperator('$permFound', 'false');
-        $foreach1 = $xc->getXcAddItem('permform', '$gPermId', '$gPermName', "\t");
+        $foreach1 = $xc->getXcAddItem('permform', '$gPermId', '$gPermName', "\t\t");
         $if1      = $pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
         $if1      .= $xc->getXcTplAssign('form', '$permform->render()', true, "\t");
         $if1      .= $xc->getXcEqualsOperator('$permFound', 'true', null, false, "\t");
@@ -216,7 +216,7 @@ class AdminPermissions extends Files\CreateFile
                 $if_count   = $xc->getXcObjHandlerAll($tableName, $fieldMain, 0, 0, "\t\t");
                 $getVar1    = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldId, true);
                 $getVar2    = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
-                $fe_content = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t");
+                $fe_content = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t\t\t");
                 $if_table   = $xc->getXcObjHandlerCount($tableName, "\t");
                 $if_count   .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $fe_content, "\t\t");
                 $if_count   .= $xc->getXcTplAssign('form', '$permform->render()', true, "\t\t");

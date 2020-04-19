@@ -20,6 +20,7 @@
 				<th class="center"><{$smarty.const._AM_MYMODULE2_TESTFIELD_UPLFILE}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_TESTFIELD_TEXTDATESELECT}></th>
 				<th class="center"><{$smarty.const._AM_MYMODULE2_TESTFIELD_SELECTFILE}></th>
+				<th class="center"><{$smarty.const._AM_MYMODULE2_TESTFIELD_STATUS}></th>
 				<th class="center width5"><{$smarty.const._AM_MYMODULE2_FORM_ACTION}></th>
 			</tr>
 		</thead>
@@ -31,18 +32,18 @@
 				<td class="center"><{$testfield.text}></td>
 				<td class="center"><{$testfield.textarea}></td>
 				<td class="center"><{$testfield.dhtml}></td>
-				<td class="center"><{$testfield.checkbox}></td>
-				<td class="center"><{$testfield.yesno}></td>
+				<td class="center"><img src="<{xoModuleIcons16}><{$testfield.checkbox}>.png" alt="testfields" /></td>
+				<td class="center"><{$testfield.yesno_text}></td>
 				<td class="center"><{$testfield.selectbox}></td>
 				<td class="center"><{$testfield.user}></td>
 				<td class="center"><span style='background-color:<{$testfield.color}>;'>&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-				<td class="center"><img src="<{xoModuleIcons32}><{$testfield.imagelist}>" alt="testfields" />
-</td>
+				<td class="center"><img src="<{xoModuleIcons32}><{$testfield.imagelist}>" alt="testfields" /></td>
 				<td class="center"><{$testfield.urlfile}></td>
 				<td class="center"><img src="<{$mymodule2_upload_url}>/images/testfields/<{$testfield.uplimage}>" alt="testfields" style="max-width:100px" /></td>
 				<td class="center"><{$testfield.uplfile}></td>
 				<td class="center"><{$testfield.textdateselect}></td>
 				<td class="center"><{$testfield.selectfile}></td>
+				<td class="center"><img src="<{$modPathIcon16}>/status<{$testfield.status}>.png" alt="testfields" /></td>
 				<td class="center  width5">
 					<a href="testfields.php?op=edit&amp;tf_id=<{$testfield.id}>" title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons16 edit.png}>" alt="testfields" /></a>
 					<a href="testfields.php?op=delete&amp;tf_id=<{$testfield.id}>" title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons16 delete.png}>" alt="testfields" /></a>

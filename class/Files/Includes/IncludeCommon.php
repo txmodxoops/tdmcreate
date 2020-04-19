@@ -132,7 +132,7 @@ EOT;
         $ret      .= $pc->getPhpCodeCommentLine('Module Information');
         $htmlCode = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $img      = $htmlCode->getHtmlImage('".$localLogo."', $moduleAuthorWebsiteName);
-        $anchor   = $htmlCode->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank');
+        $anchor   = $htmlCode->getHtmlAnchor($moduleAuthorWebsiteUrl, $img, $moduleAuthorWebsiteName, '_blank', '', '', '', "\n");
         $replace  = $xc->getXcEqualsOperator('$copyright', '"' . $anchor . '"');
         $ret      .= str_replace("\n", '', $replace) . PHP_EOL;
         $ret      .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsrequest', true);

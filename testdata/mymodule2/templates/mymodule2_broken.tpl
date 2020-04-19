@@ -17,6 +17,7 @@
 			<th class="center"><{$smarty.const._MA_MYMODULE2_TF_UPLFILE}></th>
 			<th class="center"><{$smarty.const._MA_MYMODULE2_TF_TEXTDATESELECT}></th>
 			<th class="center"><{$smarty.const._MA_MYMODULE2_TF_SELECTFILE}></th>
+			<th class="center"><{$smarty.const._MA_MYMODULE2_TF_STATUS}></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -38,6 +39,7 @@
 			<td class='center'><{$testfield.uplfile}></td>
 			<td class='center'><{$testfield.textdateselect}></td>
 			<td class='center'><{$testfield.selectfile}></td>
+			<td class='center'><{$testfield.status}></td>
 		</tr>
 		<{/foreach}>
 	</tbody>

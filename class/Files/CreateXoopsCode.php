@@ -1511,4 +1511,113 @@ class CreateXoopsCode
 
         return $ret;
     }
+
+    /**
+     * @public function getXcGetCriteriaCompo
+     *
+     * @param        $var
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaCompo($var, $t = '')
+    {
+        return "{$t}\${$var} = new \CriteriaCompo();\n";
+    }
+
+    /**
+     * @public function getXcCriteria
+     *
+     * @param        $var
+     * @param        $param1
+     * @param string $param2
+     * @param string $param3
+     * @param bool   $isParam
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteria($var, $param1, $param2 = '', $param3 = '', $isParam = false, $t = '')
+    {
+        $params = ('' != $param2) ? ', ' . $param2 : '';
+        $params .= ('' != $param3) ? ', ' . $param3 : '';
+
+        if (false === $isParam) {
+            $ret = "{$t}\${$var} = new \Criteria( {$param1}{$params} );\n";
+        } else {
+            $ret = "new \Criteria( {$param1}{$params} )";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcCriteriaAdd
+     *
+     * @param        $var
+     * @param        $param
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaAdd($var, $param, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->add( {$param} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetStart
+     *
+     * @param        $var
+     * @param        $start
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaSetStart($var, $start, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setStart( {$start} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetLimit
+     *
+     * @param        $var
+     * @param        $limit
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaSetLimit($var, $limit, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setLimit( {$limit} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetSort
+     *
+     * @param        $var
+     * @param        $sort
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaSetSort($var, $sort, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setSort( {$sort} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetOrder
+     *
+     * @param        $var
+     * @param        $order
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaSetOrder($var, $order, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setOrder( {$order} );{$n}";
+    }
 }

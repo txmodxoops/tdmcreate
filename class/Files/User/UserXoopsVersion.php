@@ -938,7 +938,7 @@ class UserXoopsVersion extends Files\CreateFile
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
-            if ($fieldElement > 15) {
+            if ($fieldElement > 16) {
                 $fieldParent = $fieldName;
             }
         }

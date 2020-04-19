@@ -76,7 +76,7 @@ class FacebookComments extends Files\CreateFile
      */
     private function getTemplatesCommentCode()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
 
         return $hc->getHtmlEmpty('Please! Enter here your comments code');
     }

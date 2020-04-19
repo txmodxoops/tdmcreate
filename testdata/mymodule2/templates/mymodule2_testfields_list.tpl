@@ -5,6 +5,7 @@
 	<span class='col-sm-9 justify'><{$testfield.textarea}></span>
 	<span class='col-sm-9 justify'><{$testfield.dhtml}></span>
 	<span class='col-sm-3'><img src='<{$mymodule2_upload_url}>/images/testfields/<{$testfield.uplimage}>' alt='testfields' /></span>
+	<span class='col-sm-9 justify'><{$testfield.status}></span>
 </div>
 <div class='panel-foot'>
 </div>

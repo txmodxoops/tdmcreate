@@ -52,10 +52,10 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeCommentLine($comment = null, $var = null, $t = '')
+    public function getPhpCodeCommentLine($comment = null, $var = null, $t = '', $n = "\n")
     {
         $value = !empty($var) ? ' ' . $var : '';
-        $ret   = "{$t}// {$comment}{$value}\n";
+        $ret   = "{$t}// {$comment}{$value}{$n}";
 
         return $ret;
     }
@@ -373,7 +373,7 @@ class CreatePhpCode
         }
 
         $ret = "{$t}foreach({$vars}) {\n";
-        $ret .= "{$t}{$content}";
+        $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -431,7 +431,7 @@ class CreatePhpCode
     {
         $ret = "{$t}switch(\${$op}) {\n";
         $ret .= $content;
-        $ret .= "}\n";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -620,6 +620,22 @@ class CreatePhpCode
         }
 
         return $ret;
+    }
+
+    /**
+     * @public function getPhpCodeArrayType
+     * @param        $var
+     * @param        $type
+     * @param        $left
+     * @param        $right
+     * @param bool   $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getPhpCodeArrayShift($var, $t = '')
+    {
+        return "{$t}array_shift({$var});\n";
     }
 
     /**

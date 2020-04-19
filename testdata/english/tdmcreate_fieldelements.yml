@@ -92,17 +92,23 @@
     fieldelement_id: '16'
     fieldelement_mid: '1'
     fieldelement_tid: '1'
+    fieldelement_name: 'SelectStatus'
+    fieldelement_value: XoopsFormSelectStatus
+-
+    fieldelement_id: '17'
+    fieldelement_mid: '1'
+    fieldelement_tid: '1'
     fieldelement_name: 'Table : Categories'
     fieldelement_value: XoopsFormTables-Categories
 -
-    fieldelement_id: '17'
+    fieldelement_id: '18'
     fieldelement_mid: '1'
     fieldelement_tid: '2'
     fieldelement_name: 'Table : Articles'
     fieldelement_value: XoopsFormTables-Articles
 -
-    fieldelement_id: '18'
+    fieldelement_id: '19'
     fieldelement_mid: '1'
     fieldelement_tid: '3'
-    fieldelement_name: 'Table : Miscfields'
-    fieldelement_value: XoopsFormTables-Miscfields
+    fieldelement_name: 'Table : Testfields'
+    fieldelement_value: XoopsFormTables-Testfields

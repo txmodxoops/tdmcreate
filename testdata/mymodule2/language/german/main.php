@@ -51,7 +51,7 @@ define('_MA_MYMODULE2_ARTICLE_CAT', 'Cat');
 define('_MA_MYMODULE2_ARTICLE_TITLE', 'Title');
 define('_MA_MYMODULE2_ARTICLE_DESCR', 'Descr');
 define('_MA_MYMODULE2_ARTICLE_IMG', 'Img');
-define('_MA_MYMODULE2_ARTICLE_ONLINE', 'Online');
+define('_MA_MYMODULE2_ARTICLE_STATUS', 'Status');
 define('_MA_MYMODULE2_ARTICLE_FILE', 'File');
 define('_MA_MYMODULE2_ARTICLE_CREATED', 'Created');
 define('_MA_MYMODULE2_ARTICLE_SUBMITTER', 'Submitter');
@@ -76,6 +76,7 @@ define('_MA_MYMODULE2_TESTFIELD_UPLIMAGE', 'Uplimage');
 define('_MA_MYMODULE2_TESTFIELD_UPLFILE', 'Uplfile');
 define('_MA_MYMODULE2_TESTFIELD_TEXTDATESELECT', 'Textdateselect');
 define('_MA_MYMODULE2_TESTFIELD_SELECTFILE', 'Selectfile');
+define('_MA_MYMODULE2_TESTFIELD_STATUS', 'Status');
 define('_MA_MYMODULE2_INDEX_THEREARE', 'There are %s Testfields');
 define('_MA_MYMODULE2_INDEX_LATEST_LIST', 'Last My Module 2');
 // Submit

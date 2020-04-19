@@ -233,7 +233,8 @@ EOT;
      */
     private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
-        $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
         $retElem = '';
@@ -246,27 +247,27 @@ EOT;
                         default:
                         case 2:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-2') . PHP_EOL;
                             break;
                         case 3:
                         case 4:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-3 justify') . PHP_EOL;
                             break;
                         case 10:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $hc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $sc->getSmartySingleVar('xoops_icons32_url');
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
                             $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);
                             break;
                         case 13:
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
                             $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3') . PHP_EOL;
                             unset($img);

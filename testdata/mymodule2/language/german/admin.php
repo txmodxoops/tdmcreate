@@ -67,7 +67,7 @@ define('_AM_MYMODULE2_ARTICLE_TITLE', 'Title');
 define('_AM_MYMODULE2_ARTICLE_DESCR', 'Descr');
 define('_AM_MYMODULE2_ARTICLE_IMG', 'Img');
 define('_AM_MYMODULE2_ARTICLE_IMG_UPLOADS', 'Img in %s :');
-define('_AM_MYMODULE2_ARTICLE_ONLINE', 'Online');
+define('_AM_MYMODULE2_ARTICLE_STATUS', 'Status');
 define('_AM_MYMODULE2_ARTICLE_FILE', 'File');
 define('_AM_MYMODULE2_ARTICLE_FILE_UPLOADS', 'File in %s :');
 define('_AM_MYMODULE2_ARTICLE_CREATED', 'Created');
@@ -96,6 +96,7 @@ define('_AM_MYMODULE2_TESTFIELD_UPLFILE_UPLOADS', 'Uplfile in %s :');
 define('_AM_MYMODULE2_TESTFIELD_TEXTDATESELECT', 'Textdateselect');
 define('_AM_MYMODULE2_TESTFIELD_SELECTFILE', 'Selectfile');
 define('_AM_MYMODULE2_TESTFIELD_SELECTFILE_UPLOADS', 'Selectfile in %s :');
+define('_AM_MYMODULE2_TESTFIELD_STATUS', 'Status');
 // General
 define('_AM_MYMODULE2_FORM_UPLOAD', 'Upload file');
 define('_AM_MYMODULE2_FORM_UPLOAD_NEW', 'Upload new file: ');
@@ -107,6 +108,11 @@ define('_AM_MYMODULE2_FORM_IMAGE_PATH', 'Files in %s :');
 define('_AM_MYMODULE2_FORM_ACTION', 'Action');
 define('_AM_MYMODULE2_FORM_EDIT', 'Modification');
 define('_AM_MYMODULE2_FORM_DELETE', 'Clear');
+// Status
+define('_AM_MYMODULE2_STATUS_NONE', 'No status');
+define('_AM_MYMODULE2_STATUS_OFFLINE', 'Offline');
+define('_AM_MYMODULE2_STATUS_SUBMITTED', 'Submitted');
+define('_AM_MYMODULE2_STATUS_APPROVED', 'Approved');
 // ---------------- Admin Permissions ----------------
 // Permissions
 define('_AM_MYMODULE2_PERMISSIONS_GLOBAL', 'Permissions global');

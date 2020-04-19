@@ -394,6 +394,10 @@ class ClassFiles extends Files\CreateFile
                 case 4:
                     $getValues .= $pc->getPhpCodeStripTags("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", false, "\t\t");
                     break;
+                case 6:
+                    $getValues .= $xc->getXcGetVar("ret['{$rpFieldName}']", 'this', $fieldName, false, "\t\t");
+                    $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, '',"\t\t");
+                    break;
                 case 8:
                     $getValues .= $xc->getXcUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
                     break;
@@ -401,7 +405,7 @@ class ClassFiles extends Files\CreateFile
                     $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");
                     break;
                 default:
-                    if ($fieldElement > 15) {
+                    if ($fieldElement > 16) {
                         $fieldElements    = $tc->getHandler('fieldelements')->get($fieldElement);
                         $fieldElementMid  = $fieldElements->getVar('fieldelement_mid');
                         $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
@@ -452,7 +456,7 @@ class ClassFiles extends Files\CreateFile
 
         $getToArray = $pc->getPhpCodeArray('ret', [], false, "\t\t");
         $getToArray .= $xc->getXcEqualsOperator('$vars', '$this->getVars()', null, false, "\t\t");
-        $foreach    = $xc->getXcGetVar('ret[$var]', 'this', '"{$var}"', false, "\t");
+        $foreach    = $xc->getXcGetVar('ret[$var]', 'this', '"{$var}"', false, "\t\t\t");
         $getToArray .= $pc->getPhpCodeForeach('vars', true, false, 'var', $foreach, "\t\t");
         $getToArray .= $this->getSimpleString('return $ret;', "\t\t");
 

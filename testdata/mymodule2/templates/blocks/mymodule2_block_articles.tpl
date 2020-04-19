@@ -6,7 +6,7 @@
 			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_TITLE}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_DESCR}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_IMG}></th>
-			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_ONLINE}></th>
+			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_STATUS}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_FILE}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_CREATED}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_ART_SUBMITTER}></th>
@@ -20,7 +20,7 @@
 			<td class="center"><{$article.title}></td>
 			<td class="center"><{$article.descr}></td>
 			<td class="center"><img src="<{$mymodule2_upload_url}>/images/articles/<{$article.img}>" alt="articles" /></td>
-			<td class="center"><{$article.online}></td>
+			<td class="center"><{$article.status}></td>
 			<td class="center"><{$article.file}></td>
 			<td class="center"><{$article.created}></td>
 			<td class="center"><{$article.submitter}></td>

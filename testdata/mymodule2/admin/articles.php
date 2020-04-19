@@ -126,7 +126,7 @@ switch($op) {
 			}
 			$articlesObj->setVar('art_img', Request::getString('art_img'));
 		}
-		$articlesObj->setVar('art_online', Request::getInt('art_online', 0));
+		$articlesObj->setVar('art_status', Request::getInt('art_status', 0));
 		// Set Var art_file
 		include_once XOOPS_ROOT_PATH . '/class/uploader.php';
 		$filename       = $_FILES['art_file']['name'];

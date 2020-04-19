@@ -155,6 +155,7 @@ class LanguageAdmin extends Files\CreateFile
 
             $fields      = $this->getTableFields($tableMid, $tableId);
             $fieldInForm = 0;
+
             foreach (array_keys($fields) as $f) {
                 if ($fieldInForm < $fields[$f]->getVar('field_inform')) {
                     $fieldInForm = $fields[$f]->getVar('field_inform');
@@ -167,12 +168,13 @@ class LanguageAdmin extends Files\CreateFile
             }
             $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
 
+            $fieldStatus = 0;
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
 
                 $rpFieldName = $this->getRightString($fieldName);
-                if ($fieldElement > 15) {
+                if ($fieldElement > 16) {
                     $fieldElements    = Tdmcreate\Helper::getInstance()->getHandler('fieldelements')->get($fieldElement);
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
@@ -196,6 +198,9 @@ class LanguageAdmin extends Files\CreateFile
                         $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
                 }
+                if (16 === (int)$fieldElement) {
+                    $fieldStatus++;
+                }
             }
         }
         $ret .= $this->defines->getAboveDefines('General');
@@ -209,6 +214,14 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
         $ret .= $this->defines->getDefine($language, 'FORM_DELETE', 'Clear');
+
+        if ($fieldStatus > 0) {
+            $ret .= $this->defines->getAboveDefines('Status');
+            $ret .= $this->defines->getDefine($language, 'STATUS_NONE', 'No status');
+            $ret .= $this->defines->getDefine($language, 'STATUS_OFFLINE', 'Offline');
+            $ret .= $this->defines->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
+            $ret .= $this->defines->getDefine($language, 'STATUS_APPROVED', 'Approved');
+        }
 
         return $ret;
     }

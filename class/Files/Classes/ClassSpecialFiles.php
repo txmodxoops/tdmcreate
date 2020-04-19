@@ -232,9 +232,17 @@ class ClassSpecialFiles extends Files\CreateFile
         }
         $moduleDirname  = $module->getVar('mod_dirname');
         $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content        = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
-        $content        .= $pc->getPhpCodeDefined();
-        $content        .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
+        $contentFile    = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
+        $contentFile    .= $pc->getPhpCodeDefined();
+        $contentFile    .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
+
+        $contentClass   = $pc->getBlankLine();
+        $contentClass .= $pc->getPhpCodeCommentLine('Constants for status', '', "\t");
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t");
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t");
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_SUBMITTED", 2, "\t");
+        $contentClass .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t");
+
         if (in_array(1, $tablePermissions)) {
             $constPerm = $pc->getBlankLine();
             $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
@@ -242,14 +250,16 @@ class ClassSpecialFiles extends Files\CreateFile
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, "\t");
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_SUBMIT ", 2, "\t");
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t");
-            $content   .= $pc->getPhpCodeClass($this->className, $constPerm);
+            $contentClass .= $constPerm;
         }
-        $content        .= $pc->getBlankLine();
-        $this->create($moduleDirname, 'class', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
+        $contentClass        .= $pc->getBlankLine();
+        $contentFile   .= $pc->getPhpCodeClass($this->className, $contentClass);
+
+        $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();
     }
-    /*
+
     public function renderConstantsTestInterface()
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
@@ -291,5 +301,5 @@ class ClassSpecialFiles extends Files\CreateFile
 
         return $this->renderFile();
     }
-    */
+
 }

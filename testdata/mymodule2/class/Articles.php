@@ -44,7 +44,7 @@ class Articles extends \XoopsObject
 		$this->initVar('art_title', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('art_descr', XOBJ_DTYPE_TXTAREA);
 		$this->initVar('art_img', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('art_online', XOBJ_DTYPE_INT);
+		$this->initVar('art_status', XOBJ_DTYPE_INT);
 		$this->initVar('art_file', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('art_created', XOBJ_DTYPE_INT);
 		$this->initVar('art_submitter', XOBJ_DTYPE_INT);
@@ -151,9 +151,13 @@ class Articles extends \XoopsObject
 			$imageTray->addElement(new \XoopsFormHidden( 'art_img', $artImg ));
 		}
 		$form->addElement($imageTray, );
-		// Form Radio Yes/No ArtOnline
-		$artOnline = $this->isNew() ? 0 : $this->getVar('art_online');
-		$form->addElement(new \XoopsFormRadioYN( _AM_MYMODULE2_ARTICLE_ONLINE, 'art_online', $artOnline), true);
+		// Form Select Articles
+		$artStatusSelect = new \XoopsFormSelect( _AM_MYMODULE2_ARTICLE_STATUS, 'art_status', $this->getVar('art_status'));
+		$artStatusSelect->addOption(Constants::STATUS_NONE, _AM_MYMODULE2_STATUS_NONE);
+		$artStatusSelect->addOption(Constants::STATUS_OFFLINE, _AM_MYMODULE2_STATUS_OFFLINE);
+		$artStatusSelect->addOption(Constants::STATUS_SUBMITTED, _AM_MYMODULE2_STATUS_SUBMITTED);
+		$artStatusSelect->addOption(Constants::STATUS_APPROVED, _AM_MYMODULE2_STATUS_APPROVED);
+		$form->addElement($artStatusSelect, true);
 		// Form File ArtFile
 		$artFile = $this->isNew() ? '' : $this->getVar('art_file');
 		if ($permissionUpload) {
@@ -227,7 +231,7 @@ class Articles extends \XoopsObject
 		$ret['title'] = $this->getVar('art_title');
 		$ret['descr'] = strip_tags($this->getVar('art_descr'));
 		$ret['img'] = $this->getVar('art_img');
-		$ret['online'] = $this->getVar('art_online');
+		$ret['status'] = $this->getVar('art_status');
 		$ret['file'] = $this->getVar('art_file');
 		$ret['created'] = formatTimeStamp($this->getVar('art_created'), 's');
 		$ret['submitter'] = \XoopsUser::getUnameFromId($this->getVar('art_submitter'));

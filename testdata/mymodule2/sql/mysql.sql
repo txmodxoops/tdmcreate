@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net
 #
 # Host: localhost
-# Generated on: Wed Apr 15, 2020 to 08:21:46
+# Generated on: Thu Apr 16, 2020 to 20:35:36
 # Server version: 5.5.5-10.4.10-MariaDB
 # PHP Version: 7.3.12
 
@@ -30,7 +30,7 @@ CREATE TABLE `mymodule2_articles` (
   `art_title` VARCHAR(200) NOT NULL DEFAULT '',
   `art_descr` MEDIUMTEXT NOT NULL ,
   `art_img` VARCHAR(200) NULL DEFAULT '&#039;&#039;',
-  `art_online` TINYINT(1) NOT NULL DEFAULT '0',
+  `art_status` TINYINT(1) NOT NULL DEFAULT '0',
   `art_file` VARCHAR(200) NOT NULL DEFAULT '',
   `art_created` INT(10) NOT NULL DEFAULT '0',
   `art_submitter` INT(10) NOT NULL DEFAULT '0',
@@ -38,7 +38,7 @@ CREATE TABLE `mymodule2_articles` (
 ) ENGINE=InnoDB;
 
 #
-# Structure table for `mymodule2_testfields` 15
+# Structure table for `mymodule2_testfields` 16
 #
 
 CREATE TABLE `mymodule2_testfields` (
@@ -57,6 +57,7 @@ CREATE TABLE `mymodule2_testfields` (
   `tf_uplfile` VARCHAR(100) NOT NULL DEFAULT '',
   `tf_textdateselect` VARCHAR(100) NOT NULL DEFAULT '',
   `tf_selectfile` VARCHAR(100) NOT NULL DEFAULT '',
+  `tf_status` INT(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tf_id`)
 ) ENGINE=InnoDB;
 

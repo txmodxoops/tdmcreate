@@ -44,7 +44,7 @@ class Header extends Files\CreateFile
     {
         parent::__construct();
         $this->tdmcfile = Tdmcreate\Files\CreateFile::getInstance();
-        $this->htmlcode = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $this->htmlcode = Tdmcreate\Files\CreateHtmlCode::getInstance();
     }
 
     /**
@@ -80,10 +80,12 @@ class Header extends Files\CreateFile
      */
     public function getTemplatesUserHeader($moduleDirname)
     {
-        $ret = $this->htmlcode->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
-        $var = $this->htmlcode->getSmartySingleVar('ads', '', '');
-        $div = $this->htmlcode->getHtmlDiv($var, 'center', "\t","\n", false) ;
-        $ret .= $this->htmlcode->getSmartyConditions('ads', ' != ', '\'\'', $div);
+        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+		$ret = $sc->getSmartyIncludeFile($moduleDirname, 'breadcrumbs', false, true, '', "\n\n");
+        $var = $sc->getSmartySingleVar('ads', '', '');
+        $div = $hc->getHtmlDiv($var, 'center', "\t","\n", false) ;
+        $ret .= $sc->getSmartyConditions('ads', ' != ', '\'\'', $div);
 
         return $ret;
     }

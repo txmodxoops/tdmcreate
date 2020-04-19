@@ -40,7 +40,7 @@ define('_MB_MYMODULE2_ART_CAT', 'Cat');
 define('_MB_MYMODULE2_ART_TITLE', 'Title');
 define('_MB_MYMODULE2_ART_DESCR', 'Descr');
 define('_MB_MYMODULE2_ART_IMG', 'Img');
-define('_MB_MYMODULE2_ART_ONLINE', 'Online');
+define('_MB_MYMODULE2_ART_STATUS', 'Status');
 define('_MB_MYMODULE2_ART_FILE', 'File');
 define('_MB_MYMODULE2_ART_CREATED', 'Created');
 define('_MB_MYMODULE2_ART_SUBMITTER', 'Submitter');
@@ -62,4 +62,5 @@ define('_MB_MYMODULE2_TF_UPLIMAGE', 'Uplimage');
 define('_MB_MYMODULE2_TF_UPLFILE', 'Uplfile');
 define('_MB_MYMODULE2_TF_TEXTDATESELECT', 'Textdateselect');
 define('_MB_MYMODULE2_TF_SELECTFILE', 'Selectfile');
+define('_MB_MYMODULE2_TF_STATUS', 'Status');
 // ---------------- End ----------------

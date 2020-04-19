@@ -190,6 +190,7 @@ $GLOBALS['xoTheme']->addStylesheet( $style, null );
 			}
 			$testfieldsObj->setVar('tf_selectfile', Request::getString('tf_selectfile'));
 		}
+		$testfieldsObj->setVar('tf_status', Request::getInt('tf_status', 0));
 		// Insert Data
 		if ($testfields1->insert($testfieldsObj)) {
 			redirect_header('index.php', 2, _MA_MYMODULE2_FORM_OK);

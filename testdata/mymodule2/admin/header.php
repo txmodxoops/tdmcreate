@@ -25,8 +25,8 @@ include_once dirname(__DIR__) . '/include/common.php';
 $sysPathIcon16   = '../' . $GLOBALS['xoopsModule']->getInfo('sysicons16');
 $sysPathIcon32   = '../' . $GLOBALS['xoopsModule']->getInfo('sysicons32');
 $pathModuleAdmin = $GLOBALS['xoopsModule']->getInfo('dirmoduleadmin');
-$modPathIcon16   = $GLOBALS['xoopsModule']->getInfo('modicons16');
-$modPathIcon32   = $GLOBALS['xoopsModule']->getInfo('modicons32');
+$modPathIcon16   = MYMODULE2_URL . '/' . $GLOBALS['xoopsModule']->getInfo('modicons16') . '/';
+$modPathIcon32   = MYMODULE2_URL . '/' . $GLOBALS['xoopsModule']->getInfo('modicons32') . '/';
 
 // Get instance of module
 $helper = \XoopsModules\Mymodule2\Helper::getInstance();
@@ -39,11 +39,6 @@ if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
 	include_once XOOPS_ROOT_PATH . '/class/template.php';
 	$xoopsTpl = new \XoopsTpl();
 }
-// System icons path
-$GLOBALS['xoopsTpl']->assign('sysPathIcon16', $sysPathIcon16);
-$GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
-$GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
-$GLOBALS['xoopsTpl']->assign('modPathIcon32', $modPathIcon32);
 
 // Load languages
 xoops_loadLanguage('admin');
@@ -57,5 +52,12 @@ if (file_exists($GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php'))) {
 }
 
 xoops_cp_header();
+
+// System icons path
+$GLOBALS['xoopsTpl']->assign('sysPathIcon16', $sysPathIcon16);
+$GLOBALS['xoopsTpl']->assign('sysPathIcon32', $sysPathIcon32);
+$GLOBALS['xoopsTpl']->assign('modPathIcon16', $modPathIcon16);
+$GLOBALS['xoopsTpl']->assign('modPathIcon32', $modPathIcon32);
+
 $adminObject = \Xmf\Module\Admin::getInstance();
 $style = MYMODULE2_URL . '/assets/css/admin/style.css';

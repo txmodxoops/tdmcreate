@@ -27,5 +27,7 @@
 
 <span class='col-sm-3'><img src='<{$mymodule2_upload_url}>/images/testfields/<{$testfield.uplimage}>' alt='testfields' /></span>
 
+<span class='col-sm-2'><{$testfield.status}></span>
+
 </div>
 

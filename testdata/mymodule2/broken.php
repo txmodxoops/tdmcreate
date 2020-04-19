@@ -204,6 +204,7 @@ switch($op) {
 			}
 			$testfieldsObj->setVar('tf_selectfile', Request::getString('tf_selectfile'));
 		}
+		$testfieldsObj->setVar('tf_status', Request::getInt('tf_status', 0));
 		if ($error === true) {
 			$GLOBALS['xoopsTpl']->assign('error_message', $errorMessage);
 		} else {

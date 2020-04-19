@@ -115,5 +115,40 @@ function tdmcreate_check_db($module)
     $ret = true;
 	//insert here code for database check
 
+    /*
+    // Example: update table (add new field)
+    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_images');
+    $field   = 'img_exif';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` TEXT NULL AFTER `img_state`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
+
+    // Example: create new table
+    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_categories');
+    $check   = $GLOBALS['xoopsDB']->queryF("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='$table'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        // create new table 'tdmcreate_categories'
+        $sql = "CREATE TABLE `$table` (
+                  `cat_id`        INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+                  `cat_text`      VARCHAR(100)    NOT NULL DEFAULT '',
+                  `cat_date`      INT(8)          NOT NULL DEFAULT '0',
+                  `cat_submitter` INT(8)          NOT NULL DEFAULT '0',
+                  PRIMARY KEY (`cat_id`)
+                ) ENGINE=InnoDB;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when creating table '$table'.");
+            $ret = false;
+        }
+    }
+    */
     return $ret;
 }

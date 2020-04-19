@@ -77,9 +77,9 @@ class Index extends Files\CreateFile
      */
     public function getTemplateUserIndexHeader($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
+        return $sc->getSmartyIncludeFile($moduleDirname, 'header') . PHP_EOL;
     }
 
     /**
@@ -92,8 +92,9 @@ class Index extends Files\CreateFile
      */
     private function getTemplatesUserIndexTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $single = $hc->getSmartySingleVar('table_type');
+        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $single = $sc->getSmartySingleVar('table_type');
         $table  = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table  .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
 
@@ -108,10 +109,11 @@ class Index extends Files\CreateFile
      */
     private function getTemplatesUserIndexTableThead($tableName, $language)
     {
-        $hc           = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc           = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc           = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
-        $lang         = $hc->getSmartyConst($language, $stuTableName);
-        $col          = $hc->getSmartySingleVar('numb_col');
+        $lang         = $sc->getSmartyConst($language, $stuTableName);
+        $col          = $sc->getSmartySingleVar('numb_col');
         $th           = $hc->getHtmlTableHead($lang, '', $col) . PHP_EOL;
         $tr           = $hc->getHtmlTableRow($th, 'head') . PHP_EOL;
 
@@ -128,14 +130,15 @@ class Index extends Files\CreateFile
      */
     private function getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $type    = $hc->getSmartySingleVar('panel_type');
-        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
+        $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $type    = $sc->getSmartySingleVar('panel_type');
+        $include = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName);
         $div     = $hc->getHtmlDiv($include, 'panel panel-' . $type);
         $cont    = $hc->getHtmlTableData($div) . PHP_EOL;
         $html    = $hc->getHtmlEmpty('</tr><tr>') . PHP_EOL;
-        $cont    .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
+        $cont    .= $sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html) . PHP_EOL;
+        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName, $cont) . PHP_EOL;
         $tr      = $hc->getHtmlTableRow($foreach) . PHP_EOL;
 
         return $hc->getHtmlTableTbody($tr) . PHP_EOL;
@@ -147,7 +150,7 @@ class Index extends Files\CreateFile
      */
     private function getTemplatesUserIndexTableTfoot()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $td = $hc->getHtmlTableData('&nbsp;') . PHP_EOL;
         $tr = $hc->getHtmlTableRow($td) . PHP_EOL;
 
@@ -248,14 +251,15 @@ EOT;
 </div>
 <{/if}>\n
 EOT;
-        $hc           = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $single       = $hc->getSmartySingleVar('table_type');
+        $hc           = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc           = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $single       = $sc->getSmartySingleVar('table_type');
         $table        = $this->getTemplatesUserIndexTableThead($tableName, $language);
         $table        .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
         $table        .= $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
         $div          = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
 
-        return $ret/*$hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true)*/ . PHP_EOL;
+        return $ret/*$sc->getSmartyConditions($tableName, ' > ', '0', $div, false, true)*/ . PHP_EOL;
     }
 
     /**
@@ -300,9 +304,9 @@ EOT;
      */
     public function getTemplateUserIndexFooter($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /**

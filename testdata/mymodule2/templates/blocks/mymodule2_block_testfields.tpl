@@ -16,6 +16,7 @@
 			<th class='center'><{$smarty.const._MB_MYMODULE2_TF_UPLFILE}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_TF_TEXTDATESELECT}></th>
 			<th class='center'><{$smarty.const._MB_MYMODULE2_TF_SELECTFILE}></th>
+			<th class='center'><{$smarty.const._MB_MYMODULE2_TF_STATUS}></th>
 		</tr>
 	</thead>
 	<{if count($block)}>
@@ -37,6 +38,7 @@
 			<td class="center"><{$testfield.uplfile}></td>
 			<td class="center"><{$testfield.textdateselect}></td>
 			<td class="center"><{$testfield.selectfile}></td>
+			<td class="center"><{$testfield.status}></td>
 			<td class="center">
 				<a href="testfields.php?op=edit&amp;tf_id=<{$testfield.id}>" title="<{$smarty.const._EDIT}>"><img src="<{xoModuleIcons32 edit.png}>" alt="testfields" /></a>
 				<a href="testfields.php?op=delete&amp;tf_id=<{$testfield.id}>" title="<{$smarty.const._DELETE}>"><img src="<{xoModuleIcons32 delete.png}><{$testfield.id}>" alt="testfields" /></a>

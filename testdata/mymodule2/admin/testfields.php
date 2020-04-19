@@ -220,6 +220,7 @@ switch($op) {
 			}
 			$testfieldsObj->setVar('tf_selectfile', Request::getString('tf_selectfile'));
 		}
+		$testfieldsObj->setVar('tf_status', Request::getInt('tf_status', 0));
 		// Insert Data
 		if ($testfieldsHandler->insert($testfieldsObj)) {
 			$newTfId = $testfieldsObj->getNewInsertedIdTestfields();
