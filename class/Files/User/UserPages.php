@@ -85,13 +85,13 @@ class UserPages extends Files\CreateFile
         $ret       .= $this->getInclude();
         $ret       .= $uc->getUserTplMain($moduleDirname, $tableName);
         $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret       .= $pc->getBlankLine();
+        $ret       .= $pc->getPhpCodeBlankLine();
         $ret       .= $xc->getXcXoopsRequest('start', 'start', '0', 'Int');
         $userpager = $xc->getXcGetConfig('userpager');
         $ret       .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
-        $ret       .= $pc->getBlankLine();
+        $ret       .= $pc->getPhpCodeBlankLine();
         $ret       .= $pc->getPhpCodeCommentLine('Define Stylesheet');
-        $ret       .= $xc->getXcAddStylesheet();
+        $ret       .= $xc->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
@@ -109,13 +109,13 @@ class UserPages extends Files\CreateFile
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
         $t                = "\t";
-        $ret              = $pc->getBlankLine();
-        $ret              .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret              .= $pc->getBlankLine();
-        $ret              .= $xc->getXcObjHandlerCount($tableName);
-        $ret              .= $xc->getXcTplAssign($tableName . 'Count', "\${$tableName}Count");
-        $ret              .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit');
+        $ret              = $pc->getPhpCodeBlankLine();
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret              .= $pc->getPhpCodeBlankLine();
+        $ret              .= $xc->getXcHandlerCountObj($tableName);
+        $ret              .= $xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
+        $ret              .= $xc->getXcHandlerAllObj($tableName, '', '$start', '$limit');
         $ret              .= $pc->getPhpCodeArray('keywords', null, false, '');
         $condIf           = $pc->getPhpCodeArray($tableName, null, false, $t);
         $condIf           .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t);
@@ -132,15 +132,15 @@ class UserPages extends Files\CreateFile
         }
         $foreach   .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, $t . "\t");
         $condIf    .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t);
-        $condIf    .= $xc->getXcTplAssign($tableName, "\${$tableName}", true, $t);
+        $condIf    .= $xc->getXcXoopsTplAssign($tableName, "\${$tableName}", true, $t);
         $condIf    .= $pc->getPhpCodeUnset($tableName, $t);
         $condIf    .= $xc->getXcPageNav($tableName, $t);
         $tableType = $xc->getXcGetConfig('table_type');
-        $condIf    .= $xc->getXcTplAssign('type', $tableType, true, $t);
+        $condIf    .= $xc->getXcXoopsTplAssign('type', $tableType, true, $t);
         $divideby  = $xc->getXcGetConfig('divideby');
-        $condIf    .= $xc->getXcTplAssign('divideby', $divideby, true, $t);
+        $condIf    .= $xc->getXcXoopsTplAssign('divideby', $divideby, true, $t);
         $numbCol   = $xc->getXcGetConfig('numb_col');
-        $condIf    .= $xc->getXcTplAssign('numb_col', $numbCol, true, $t);
+        $condIf    .= $xc->getXcXoopsTplAssign('numb_col', $numbCol, true, $t);
 
         $ret .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
 
@@ -163,18 +163,18 @@ class UserPages extends Files\CreateFile
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
         //$stuTableSoleName = mb_strtoupper($tableSoleName);
-        $ret              = $pc->getBlankLine();
+        $ret              = $pc->getPhpCodeBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $uc->getUserBreadcrumbs($language, $stuTableName);
-        $ret              .= $pc->getBlankLine();
+        $ret              .= $pc->getPhpCodeBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Keywords');
         $ret              .= $uc->getUserMetaKeywords($moduleDirname);
         $ret              .= $pc->getPhpCodeUnset('keywords');
-        $ret              .= $pc->getBlankLine();
+        $ret              .= $pc->getPhpCodeBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Description');
         $ret              .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
-        $ret              .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
-        $ret              .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/{$tableName}.php'");
+        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getInclude('footer');
 
         return $ret;

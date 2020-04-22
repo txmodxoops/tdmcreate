@@ -101,16 +101,16 @@ class AdminPermissions extends Files\CreateFile
         $ret           .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret           .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret           .= $this->getInclude('header');
-        $ret           .= $pc->getBlankLine();
+        $ret           .= $pc->getPhpCodeBlankLine();
         $ret           .= $pc->getPhpCodeCommentLine('Template Index');
         $ret           .= $axc->getAdminTemplateMain($moduleDirname, 'permissions');
-        $ret           .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
-        $ret           .= $pc->getBlankLine();
+        $ret           .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('permissions.php')");
+        $ret           .= $pc->getPhpCodeBlankLine();
         $ret           .= $xc->getXcXoopsRequest('op', 'op', 'global');
-        $ret           .= $pc->getBlankLine();
+        $ret           .= $pc->getPhpCodeBlankLine();
         $ret           .= $pc->getPhpCodeCommentLine('Get Form');
         $ret           .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret           .= $xc->getXcLoad('XoopsFormLoader');
+        $ret           .= $xc->getXcXoopsLoad('XoopsFormLoader');
         $optionsSelect['global'] = "{$language}PERMISSIONS_GLOBAL";
         foreach ($tableNames as $tableName) {
             $ucfTablename = ucfirst($tableName);
@@ -137,34 +137,35 @@ class AdminPermissions extends Files\CreateFile
 
         $moduleDirname = $module->getVar('mod_dirname');
         $tables        = $this->getTableTables($module->getVar('mod_id'));
-
+        $t = "\t\t";
+        $n = "\n";
         $cases['global']= [
-                "\$formTitle = {$language}PERMISSIONS_GLOBAL;",
-                "\$permName = '{$moduleDirname}_ac';",
-                "\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;",
-                "\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );",
+                "{$t}\$formTitle = {$language}PERMISSIONS_GLOBAL;{$n}",
+                "{$t}\$permName = '{$moduleDirname}_ac';{$n}",
+                "{$t}\$permDesc = {$language}PERMISSIONS_GLOBAL_DESC;{$n}",
+                "{$t}\$globalPerms = array( '4' => {$language}PERMISSIONS_GLOBAL_4, '8' => {$language}PERMISSIONS_GLOBAL_8, '16' => {$language}PERMISSIONS_GLOBAL_16 );{$n}",
                 ];
-        foreach (array_keys($tables) as $t) {
-            if (1 == $tables[$t]->getVar('table_permissions')) {
-                $tableName = $tables[$t]->getVar('table_name');
+        foreach (array_keys($tables) as $i) {
+            if (1 == $tables[$i]->getVar('table_permissions')) {
+                $tableName = $tables[$i]->getVar('table_name');
                 $ucfTablename = ucfirst($tableName);
                 $cases["approve_{$tableName}"] = [
-                    "\$formTitle = {$language}PERMISSIONS_APPROVE;",
-                    "\$permName = '{$moduleDirname}_approve_{$tableName}';",
-                    "\$permDesc = {$language}PERMISSIONS_APPROVE_DESC . ' {$ucfTablename}';",
-                    "\$handler = \$helper->getHandler('{$tableName}');",
+                    "{$t}\$formTitle = {$language}PERMISSIONS_APPROVE;{$n}",
+                    "{$t}\$permName = '{$moduleDirname}_approve_{$tableName}';{$n}",
+                    "{$t}\$permDesc = {$language}PERMISSIONS_APPROVE_DESC . ' {$ucfTablename}';{$n}",
+                    "{$t}\$handler = \$helper->getHandler('{$tableName}');{$n}",
                 ];
                 $cases["submit_{$tableName}"] = [
-                    "\$formTitle = {$language}PERMISSIONS_SUBMIT;",
-                    "\$permName = '{$moduleDirname}_submit_{$tableName}';",
-                    "\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC . ' {$ucfTablename}';",
-                    "\$handler = \$helper->getHandler('{$tableName}');",
+                    "{$t}\$formTitle = {$language}PERMISSIONS_SUBMIT;{$n}",
+                    "{$t}\$permName = '{$moduleDirname}_submit_{$tableName}';{$n}",
+                    "{$t}\$permDesc = {$language}PERMISSIONS_SUBMIT_DESC . ' {$ucfTablename}';{$n}",
+                    "{$t}\$handler = \$helper->getHandler('{$tableName}');{$n}",
                 ];
                 $cases["view_{$tableName}"] = [
-                    "\$formTitle = {$language}PERMISSIONS_VIEW;",
-                    "\$permName = '{$moduleDirname}_view_{$tableName}';",
-                    "\$permDesc = {$language}PERMISSIONS_VIEW_DESC . ' {$ucfTablename}';",
-                    "\$handler = \$helper->getHandler('{$tableName}');",
+                    "{$t}\$formTitle = {$language}PERMISSIONS_VIEW;{$n}",
+                    "{$t}\$permName = '{$moduleDirname}_view_{$tableName}';{$n}",
+                    "{$t}\$permDesc = {$language}PERMISSIONS_VIEW_DESC . ' {$ucfTablename}';{$n}",
+                    "{$t}\$handler = \$helper->getHandler('{$tableName}');{$n}",
                 ];
             }
         }
@@ -188,11 +189,11 @@ class AdminPermissions extends Files\CreateFile
         $tables   = $this->getTableTables($module->getVar('mod_id'));
 
         $ret      = $xc->getXcGetVar('moduleId', 'xoopsModule', 'mid');
-        $ret      .= $xc->getXcGroupPermForm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
+        $ret      .= $xc->getXcXoopsFormGroupPerm('permform', '$formTitle', '$moduleId', '$permName', '$permDesc', "'admin/permissions.php'");
         $ret      .= $xc->getXcEqualsOperator('$permFound', 'false');
         $foreach1 = $xc->getXcAddItem('permform', '$gPermId', '$gPermName', "\t\t");
         $if1      = $pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
-        $if1      .= $xc->getXcTplAssign('form', '$permform->render()', true, "\t");
+        $if1      .= $xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t");
         $if1      .= $xc->getXcEqualsOperator('$permFound', 'true', null, false, "\t");
         $ret      .= $pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, false);
 
@@ -213,13 +214,13 @@ class AdminPermissions extends Files\CreateFile
                         $fieldMain = $fieldName;
                     }
                 }
-                $if_count   = $xc->getXcObjHandlerAll($tableName, $fieldMain, 0, 0, "\t\t");
+                $if_count   = $xc->getXcHandlerAllObj($tableName, $fieldMain, 0, 0, "\t\t");
                 $getVar1    = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldId, true);
                 $getVar2    = $xc->getXcGetVar('', "{$tableName}All[\$i]", $fieldMain, true);
                 $fe_content = $xc->getXcAddItem('permform', $getVar1, $getVar2, "\t\t\t");
-                $if_table   = $xc->getXcObjHandlerCount($tableName, "\t");
+                $if_table   = $xc->getXcHandlerCountObj($tableName, "\t");
                 $if_count   .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $fe_content, "\t\t");
-                $if_count   .= $xc->getXcTplAssign('form', '$permform->render()', true, "\t\t");
+                $if_count   .= $xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t\t");
                 $if_table   .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if_count, false, "\t");
                 $if_table   .= $xc->getXcEqualsOperator('$permFound', 'true', null, false, "\t");
                 $cond       = "\$op === 'approve_{$tableName}' || \$op === 'submit_{$tableName}' || \$op === 'view_{$tableName}'";

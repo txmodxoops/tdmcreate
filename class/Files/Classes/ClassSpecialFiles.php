@@ -132,9 +132,9 @@ class ClassSpecialFiles extends Files\CreateFile
         $contIf         = $pc->getPhpCodeConditions("\$xoopsUser->isAdmin(\$xoopsModule->mid())", '', '', "\t" . $returnTrue, false, "\t\t\t");
         $contIf         .= $xc->getXcEqualsOperator('$currentuid', '$xoopsUser->uid()', null, false, "\t\t\t");
         $globalContent  .= $pc->getPhpCodeConditions('isset($xoopsUser)', ' && ', 'is_object($xoopsUser)', $contIf, false, "\t\t");
-        $globalContent  .= $xc->getXcEqualsOperator('$grouppermHandler', 'xoops_getHandler(\'groupperm\')', null, false, "\t\t");
+        $globalContent  .= $xc->getXcXoopsHandler('groupperm', "\t\t");
         $globalContent  .= $xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, false, "\t\t");
-        $globalContent  .= $xc->getXcEqualsOperator('$memberHandler', "xoops_getHandler('member')", null, false, "\t\t");
+        $globalContent  .= $xc->getXcXoopsHandler('member', "\t\t");
 
         $contIfInt      = $xc->getXcEqualsOperator('$my_group_ids', '[XOOPS_GROUP_ANONYMOUS]', null, false, "\t\t\t");
         $contElseInt    = $xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid);', null, false, "\t\t\t");
@@ -236,7 +236,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentFile    .= $pc->getPhpCodeDefined();
         $contentFile    .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
 
-        $contentClass   = $pc->getBlankLine();
+        $contentClass   = $pc->getPhpCodeBlankLine();
         $contentClass .= $pc->getPhpCodeCommentLine('Constants for status', '', "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_NONE     ", 0, "\t");
         $contentClass .= $pc->getPhpCodeConstant("STATUS_OFFLINE  ", 1, "\t");
@@ -244,7 +244,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentClass .= $pc->getPhpCodeConstant("STATUS_APPROVED ", 3, "\t");
 
         if (in_array(1, $tablePermissions)) {
-            $constPerm = $pc->getBlankLine();
+            $constPerm = $pc->getPhpCodeBlankLine();
             $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, "\t");
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, "\t");
@@ -252,7 +252,7 @@ class ClassSpecialFiles extends Files\CreateFile
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, "\t");
             $contentClass .= $constPerm;
         }
-        $contentClass        .= $pc->getBlankLine();
+        $contentClass        .= $pc->getPhpCodeBlankLine();
         $contentFile   .= $pc->getPhpCodeClass($this->className, $contentClass);
 
         $this->create($moduleDirname, 'class', $filename, $contentFile, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
@@ -279,7 +279,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $contentFile        .= $pc->getPhpCodeCommentMultiLine(['Interface ' => $this->className]);
         $contentClass = '';
         if (in_array(1, $tablePermissions)) {
-            $constPerm = $pc->getBlankLine();
+            $constPerm = $pc->getPhpCodeBlankLine();
             $constPerm .= $pc->getPhpCodeCommentLine('Constants for permissions', '', "\t");
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_NONE   ", 0, 'protected static',"\t");
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_VIEW   ", 1, 'protected static',"\t");
@@ -287,7 +287,7 @@ class ClassSpecialFiles extends Files\CreateFile
             $constPerm .= $pc->getPhpCodeConstant("PERM_GLOBAL_APPROVE", 3, 'protected static',"\t");
             $contentClass .= $constPerm;
         }
-        $contentClass        .= $pc->getBlankLine();
+        $contentClass        .= $pc->getPhpCodeBlankLine();
         $func = $pc->getPhpCodeCommentLine('trigger a warning if invalid "constant" requested', '', "\t\t");
         $if  = $pc->getPhpCodeTriggerError("\"Invalid Constant requested ('{\$val}')\"", 'E_USER_WARNING', "\t\t\t");
         $if  .= $this->getSimpleString("return false;", "\t\t\t");

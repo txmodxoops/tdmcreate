@@ -102,7 +102,7 @@ class UserSingle extends Files\CreateFile
         $ret       .= $uc->getUserTplMain($moduleDirname, 'single');
         $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $pc->getPhpCodeCommentLine('Define Stylesheet');
-        $ret       .= $xc->getXcAddStylesheet();
+        $ret       .= $xc->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
@@ -147,9 +147,9 @@ EOT;
         $ret              .= $pc->getPhpCodeUnset('keywords');
         $ret              .= $pc->getPhpCodeCommentLine('Description');
         $ret              .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
-        $ret              .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getInclude('footer');
 
         return $ret;

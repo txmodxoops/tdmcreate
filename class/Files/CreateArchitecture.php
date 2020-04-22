@@ -429,7 +429,7 @@ class CreateArchitecture extends CreateStructure
             if (in_array(1, $tableNotifications)) {
                 // Include Notifications File
                 $includeNotifications = Tdmcreate\Files\Includes\IncludeNotifications::getInstance();
-                $includeNotifications->write($module, $table, 'notifications.inc.php');
+                $includeNotifications->write($module, $tables, 'notifications.inc.php');
                 $ret[] = $includeNotifications->render();
                 // Language Mail Template Category File
                 $languageMailTpl = Tdmcreate\Files\Language\LanguageMailTpl::getInstance();

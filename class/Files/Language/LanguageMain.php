@@ -83,7 +83,7 @@ class LanguageMain extends Files\CreateFile
 
         $moduleName = $module->getVar('mod_name');
         $tables     = $this->getTables();
-        $ret        = $this->defines->getBlankLine();
+        $ret        = $this->defines->getPhpCodeBlankLine();
         $ret        .= $this->defines->getAboveHeadDefines('Main');
         $ret        .= $this->defines->getDefine($language, 'INDEX', 'Home');
         $ret        .= $this->defines->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
@@ -150,7 +150,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret = $this->defines->getAboveDefines('Admin link');
         $ret .= $this->defines->getDefine($language, 'ADMIN', 'Admin');
         $ret .= $this->defines->getBelowDefines('End');
-        $ret .= $this->defines->getBlankLine();
+        $ret .= $this->defines->getPhpCodeBlankLine();
 
         return $ret;
     }

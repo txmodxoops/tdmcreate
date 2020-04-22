@@ -108,9 +108,9 @@ class UserPdf extends Files\CreateFile
         $redirectHeader = $this->xc->getXcRedirectHeader($tableName, '', $numb = '2', "{$language}NO_PDF_LIBRARY", true, "\t");
         $ret            .= $this->pc->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader);
         $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
-        $ret            .= $this->xc->getXoopsHandlerLine($tableName);
+        $ret            .= $this->xc->getXcHandlerLine($tableName);
         $ret            .= $this->xc->getXcGetVar($tableName, 'this', $fieldId, false, '');
-        $ret            .= $this->pc->getBlankLine();
+        $ret            .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
     }
@@ -141,14 +141,14 @@ class UserPdf extends Files\CreateFile
                     $ret .= $this->pc->getPhpCodeStripTags("pdfData['content']", $getVar);
                     break;
                 case 8:
-                    $ret .= $this->xc->getXcUnameFromId("pdfData['author'] ", $getVar);
+                    $ret .= $this->xc->getXcXoopsUserUnameFromId("pdfData['author'] ", $getVar);
                     break;
                 case 15:
                     $ret .= $this->xc->getXcFormatTimeStamp("pdfData['date']   ", $getVar);
                     break;
             }
         }
-        $ret       .= $this->pc->getBlankLine();
+        $ret       .= $this->pc->getPhpCodeBlankLine();
         $ret       .= $this->pc->getPhpCodeCommentLine('Get Config');
         $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['creator']  ", "\$GLOBALS['xoopsConfig']['xoops_sitename']");
         $ret       .= $this->xc->getXcEqualsOperator("\$pdfData['subject']  ", "\$GLOBALS['xoopsConfig']['slogan']");
@@ -217,8 +217,8 @@ class UserPdf extends Files\CreateFile
         $ret .= $this->getSimpleString("\$pdf->writeHTMLCell(\$w=0, \$h=0, \$x='', \$y='', \$content, \$border=0, \$ln=1, \$fill=0, \$reseth=true, \$align='', \$autopadding=true);");
         $ret .= $this->pc->getPhpCodeCommentLine('Pdf Filename');
         $ret .= $this->pc->getPhpCodeCommentLine('Output');
-        $ret .= $this->xc->getXcTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
-        $ret .= $this->xc->getXcTplDisplay($moduleDirname . '_pdf.tpl', '', false);
+        $ret .= $this->xc->getXcXoopsTplAssign('pdfoutput', "\$pdf->Output('{$tableName}.pdf', 'I')");
+        $ret .= $this->xc->getXcXoopsTplDisplay($moduleDirname . '_pdf.tpl', '', false);
 
         return $ret;
     }

@@ -80,9 +80,9 @@ class LanguageAdmin extends Files\CreateFile
     public function getLanguageAdminIndex($language, $tables)
     {
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret = $this->defines->getBlankLine();
+        $ret = $this->defines->getPhpCodeBlankLine();
         $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
-        $ret .= $this->defines->getBlankLine();
+        $ret .= $this->defines->getPhpCodeBlankLine();
         $ret .= $this->defines->getAboveHeadDefines('Admin Index');
         $ret .= $this->defines->getDefine($language, 'STATISTICS', 'Statistics');
         $ret .= $this->defines->getAboveDefines('There are');
@@ -261,7 +261,7 @@ class LanguageAdmin extends Files\CreateFile
         $ret = $this->defines->getAboveHeadDefines('Admin Others');
         $ret .= $this->defines->getDefine($language, 'MAINTAINEDBY', ' is maintained by ');
         $ret .= $this->defines->getBelowDefines('End');
-        $ret .= $this->defines->getBlankLine();
+        $ret .= $this->defines->getPhpCodeBlankLine();
 
         return $ret;
     }

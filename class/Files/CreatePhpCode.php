@@ -459,7 +459,7 @@ class CreatePhpCode
                 }
                 if (is_array($value)) {
                     foreach ($value as $content) {
-                        $ret .= "{$t}{$t}{$content}\n";
+                        $ret .= "{$content}";
                     }
                 }
                 $ret .= "{$t}break;\n";
@@ -821,11 +821,11 @@ class CreatePhpCode
         return $ret;
     }
     /**
-     * @public function getBlankLine
+     * @public function getPhpCodeBlankLine
      *
      * @return string
      */
-    public function getBlankLine()
+    public function getPhpCodeBlankLine()
     {
         return "\n";
     }

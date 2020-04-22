@@ -244,7 +244,7 @@ class ClassHandlerFiles extends Files\CreateFile
 
         $ret = $pc->getPhpCodeCommentMultiLine(["Get All {$ucfTableName} By" => "{$fieldNameDesc} Id", '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
-        $critAll = $xc->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
+        $critAll = $xc->getXcXoopsHandler('groupperm', "\t\t");
         $param1  = "'{$moduleDirname}_view'";
         $param2  = "\$GLOBALS['xoopsUser']->getGroups()";
         $param3  = "\$GLOBALS['xoopsModule']->getVar('mid')";
@@ -311,8 +311,8 @@ class ClassHandlerFiles extends Files\CreateFile
         $ret              = $pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
         $soleName         = $xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
         $soleName         .= $xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
-        $contentIf        = $xc->getXoopsHandlerLine($tableName, "\t\t\t");
-        $contentIf        .= $xc->getXcGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
+        $contentIf        = $xc->getXcHandlerLine($tableName, "\t\t\t");
+        $contentIf        .= $xc->getXcHandlerGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
         $getVar           = $xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");
         $contentIf        .= $pc->getPhpCodeConditions("is_object( \${$tableSoleName}Obj )", '', '', $getVar, false, "\t\t\t");
         $soleName         .= $pc->getPhpCodeConditions("\${$tableSoleName}Id", ' > ', '0', $contentIf, false, "\t\t");

@@ -279,7 +279,7 @@ class ClassFiles extends Files\CreateFile
         $permString = 'upload_groups';
         if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm          .= $pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
-            $getForm          .= $xc->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", null, true, "\t\t");
+            $getForm          .= $xc->getXcXoopsHandler('groupperm', "\t\t");
             $getForm          .= $pc->getPhpCodeTernaryOperator('groups', 'is_object(' . $xUser . ')', $xUser . '->getGroups()', 'XOOPS_GROUP_ANONYMOUS', "\t\t");
             $checkRight       = $xc->getXcCheckRight('$grouppermHandler', $permString, 32, '$groups', $xModule . '->getVar(\'mid\')', true);
             $ternaryOperator  = $pc->getPhpCodeTernaryOperator('permissionUpload', $checkRight, 'true', 'false', "\t\t\t");
@@ -291,7 +291,7 @@ class ClassFiles extends Files\CreateFile
         $getForm .= $pc->getPhpCodeCommentLine('Title', '', "\t\t");
         $getForm .= $pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "sprintf({$language}{$stuTableSoleName}_ADD)", "sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");
         $getForm .= $pc->getPhpCodeCommentLine('Get Theme', 'Form', "\t\t");
-        $getForm .= $xc->getXcLoad('XoopsFormLoader', "\t\t");
+        $getForm .= $xc->getXcXoopsLoad('XoopsFormLoader', "\t\t");
         $getForm .= $cc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
         $getForm .= $cc->getClassSetExtra('form', "'enctype=\"multipart/form-data\"'");
         $getForm .= $fe->renderElements();
@@ -331,9 +331,9 @@ class ClassFiles extends Files\CreateFile
         $permissionSubmit  = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
         $permissionView    = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
         $ret               = $pc->getPhpCodeCommentLine('Permissions', '', "\t\t");
-        $ret               .= $xc->getXcEqualsOperator('$memberHandler', "xoops_getHandler('member')", null, false, "\t\t");
+        $ret               .= $xc->getXcXoopsHandler('member', "\t\t");
         $ret               .= $xc->getXcEqualsOperator('$groupList', '$memberHandler->getGroupList()', null, false, "\t\t");
-        $ret               .= $xc->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", null, false, "\t\t");
+        $ret               .= $xc->getXcXoopsHandler('groupperm',  "\t\t");
         $ret               .= $pc->getPhpCodeArrayType('fullList', 'keys', 'groupList', null, false, "\t\t");
         $fId               = $xc->getXcGetVar('', 'this', $fieldId, true);
         $mId               = $xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
@@ -399,7 +399,7 @@ class ClassFiles extends Files\CreateFile
                     $getValues .= $xc->getXcEqualsOperator("\$ret['{$rpFieldName}_text']", "(int)\$this->getVar('{$fieldName}') > 0 ? _YES : _NO", false, '',"\t\t");
                     break;
                 case 8:
-                    $getValues .= $xc->getXcUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
+                    $getValues .= $xc->getXcXoopsUserUnameFromId("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", "\t\t");
                     break;
                 case 15:
                     $getValues .= $xc->getXcFormatTimeStamp("ret['{$rpFieldName}']", "\$this->getVar('{$fieldName}')", 's', "\t\t");

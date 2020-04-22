@@ -85,15 +85,15 @@ class UserSubmit extends Files\CreateFile
         $ret    .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret    .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret    .= $this->getInclude();
-        $ret    .= $xc->getXcLoadLanguage('admin', '', $moduleDirname);
+        $ret    .= $xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
         $ret    .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
         $ret    .= $xc->getXcXoopsRequest('op', 'op', 'form');
         $ret    .= $pc->getPhpCodeCommentLine('Template');
         $ret    .= $uc->getUserTplMain($moduleDirname, 'submit');
         $ret    .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret    .= $xc->getXcAddStylesheet();
+        $ret    .= $xc->getXcXoThemeAddStylesheet();
         if (1 == $tablePermissions) {
-            $ret    .= $xc->getXoopsHandlerLine('permissions');
+            $ret    .= $xc->getXcHandlerLine('permissions');
             $ret    .= $xc->getXcEqualsOperator('$permSubmit', '$permissionsHandler->getPermGlobalSubmit()');
             $ret    .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
             $condIf = $xc->getXcRedirectHeader('index', '', '2', '_NOPERM', true, $t);
@@ -116,19 +116,19 @@ class UserSubmit extends Files\CreateFile
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $uc  = UserXoopsCode::getInstance();
-        $ret = $pc->getPhpCodeCommentLine('Navigation');
-        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', false, $t . "\t");
-        $ret .= $xc->getXcTplAssign('navigation', '$navigation', true, $t . "\t");
-        $ret .= $pc->getPhpCodeCommentLine('Title of page', null, $t . "\t");
-        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", '', false, $t . "\t");
-        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, $t . "\t");
-        $ret .= $xc->getXcTplAssign('xoops_pagetitle', '$title', true, $t . "\t");
-        $ret .= $pc->getPhpCodeCommentLine('Description', null, $t . "\t");
-        $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t . "\t");
-        $ret .= $pc->getPhpCodeCommentLine('Form Create', null, $t . "\t");
-        $ret .= $xc->getXcObjHandlerCreate($tableName, $t . "\t");
-        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t . "\t");
-        $ret .= $xc->getXcTplAssign('form', '$form->render()', true, $t . "\t");
+        $ret = $pc->getPhpCodeCommentLine('Navigation', '', $t);
+        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', false, $t);
+        $ret .= $xc->getXcXoopsTplAssign('navigation', '$navigation', true, $t);
+        $ret .= $pc->getPhpCodeCommentLine('Title of page', null, $t);
+        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", '', false, $t );
+        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, $t);
+        $ret .= $xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, $t);
+        $ret .= $pc->getPhpCodeCommentLine('Description', null, $t);
+        $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);
+        $ret .= $pc->getPhpCodeCommentLine('Form Create', null, $t);
+        $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
 
         return $ret;
     }
@@ -149,18 +149,18 @@ class UserSubmit extends Files\CreateFile
     {
         $xc                 = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc                 = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret                = $pc->getPhpCodeCommentLine('Security Check');
-        $xoopsSecurityCheck = $xc->getXcSecurityCheck();
-        $securityError      = $xc->getXcSecurityErrors();
+        $ret                = $pc->getPhpCodeCommentLine('Security Check', '', $t);
+        $xoopsSecurityCheck = $xc->getXcXoopsSecurityCheck();
+        $securityError      = $xc->getXcXoopsSecurityErrors();
         $implode            = $pc->getPhpCodeImplode(',', $securityError);
         $redirectError      = $xc->getXcRedirectHeader($tableName, '', '3', $implode, true, $t . "\t");
         $ret                .= $pc->getPhpCodeConditions('!' . $xoopsSecurityCheck, '', '', $redirectError, false, $t);
-        $ret                .= $xc->getXcObjHandlerCreate($tableName, $t);
+        $ret                .= $xc->getXcHandlerCreateObj($tableName, $t);
         if (in_array(1, $tableSubmit)) {
             $ret .= $xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t);
         }
         $ret       .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
-        $insert    = $xc->getXcInsert($tableName, $tableName, 'Obj', 'Handler');
+        $insert    = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
         $countUploader = 0;
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
@@ -178,7 +178,7 @@ class UserSubmit extends Files\CreateFile
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
             $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t . "\t");
             $contentInsert .= $pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
-            $contentInsert .= $xc->getXcEqualsOperator('$grouppermHandler', "xoops_getHandler('groupperm')", null, false, $t . "\t");
+            $contentInsert .= $xc->getXcXoopsHandler('groupperm', $t . "\t");
             $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, false, $t . "\t");
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'view_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'submit_' . $tableName);
@@ -196,9 +196,9 @@ class UserSubmit extends Files\CreateFile
         $ret       .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, $t);
-        $ret .= $xc->getXcTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
+        $ret .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
         $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret .= $xc->getXcTplAssign('form', '$form->display()', true, $t);
+        $ret .= $xc->getXcXoopsTplAssign('form', '$form->display()', true, $t);
 
         return $ret;
     }
@@ -237,7 +237,7 @@ class UserSubmit extends Files\CreateFile
         $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $fields = $this->getTableFields($tableMid, $tableId);
         $cases  = [
-            'form' => [$this->getUserSubmitForm($tableName, $language, $t)],
+            'form' => [$this->getUserSubmitForm($tableName, $language, $t . "\t")],
             'save' => [$this->getUserSubmitSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, $t . "\t")],
         ];
 

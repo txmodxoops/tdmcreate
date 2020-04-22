@@ -116,7 +116,7 @@ class LanguageDefines
      *
      * @return string
      */
-    public function getBlankLine()
+    public function getPhpCodeBlankLine()
     {
         return "\n";
     }

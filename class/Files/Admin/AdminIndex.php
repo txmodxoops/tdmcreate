@@ -88,10 +88,10 @@ class AdminIndex extends Files\CreateFile
         $ret              .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Common']);
         $ret              .= $pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'preloads/autoloader', true);
         $ret              .= $this->getInclude();
-        $ret              .= $pc->getBlankLine();
+        $ret              .= $pc->getPhpCodeBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Template Index');
         $ret              .= $axc->getAdminTemplateMain((string)$moduleDirname, 'index');
-        $ret              .= $pc->getBlankLine();
+        $ret              .= $pc->getPhpCodeBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Count elements');
         $tableName        = null;
         foreach (array_keys($tables) as $i) {
@@ -99,7 +99,7 @@ class AdminIndex extends Files\CreateFile
             $ucfTableName = ucfirst($tableName);
             $ret          .= $xc->getXcEqualsOperator("\$count{$ucfTableName}", "\${$tableName}Handler->getCount()");
         }
-        $ret .= $pc->getBlankLine();
+        $ret .= $pc->getPhpCodeBlankLine();
         $ret .= $pc->getPhpCodeCommentLine('InfoBox Statistics');
         $ret .= $axc->getAxcAddInfoBox($language . 'STATISTICS');
         $ret .= $pc->getPhpCodeCommentLine('Info elements');
@@ -117,7 +117,7 @@ class AdminIndex extends Files\CreateFile
         }
 
         if (is_array($tables) && in_array(1, $tableInstall)) {
-            $ret       .= $pc->getBlankLine();
+            $ret       .= $pc->getPhpCodeBlankLine();
             $ret       .= $pc->getPhpCodeCommentLine('Upload Folders');
             $ret       .= $xc->getXcEqualsOperator('$configurator', 'new Common\Configurator()');
             $cond      = '$configurator->uploadFolders && is_array($configurator->uploadFolders)';
@@ -131,10 +131,10 @@ class AdminIndex extends Files\CreateFile
             $ret       .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
         }
         $ret .= $pc->getPhpCodeCommentLine('Render Index');
-        $ret .= $xc->getXcTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
+        $ret .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
 
         $ret    .= $pc->getPhpCodeCommentLine('Test Data');
-        $condIf = $xc->getXcLoadLanguage('admin/modulesadmin',"\t", 'system');
+        $condIf = $xc->getXcXoopsLoadLanguage('admin/modulesadmin',"\t", 'system');
         $condIf .= $pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'testdata/index', true, '','',"\t");
         $condIf .= $axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_ADD_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=load', $type = 'samplebutton', $t = "\t");
         $condIf .= $axc->getAdminItemButton("constant('CO_' . \$moduleDirNameUpper . '_SAVE_SAMPLEDATA')", '', '', $op = '__DIR__ . /../../testdata/index.php?op=save', $type = 'samplebutton', $t = "\t");
@@ -143,7 +143,7 @@ class AdminIndex extends Files\CreateFile
         $cond   = $xc->getXcGetConfig('displaySampleButton');
         $ret    .= $pc->getPhpCodeConditions($cond, '', '', $condIf, false);
 
-        $ret .= $xc->getXcTplAssign('index', '$adminObject->displayIndex()');
+        $ret .= $xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
 
         $ret    .= $pc->getPhpCodeCommentLine('End Test Data');
 

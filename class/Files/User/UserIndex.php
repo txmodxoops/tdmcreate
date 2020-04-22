@@ -83,7 +83,7 @@ class UserIndex extends Files\CreateFile
         $ret .= $uc->getUserTplMain($moduleDirname);
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $pc->getPhpCodeCommentLine('Define Stylesheet');
-        $ret .= $xc->getXcAddStylesheet();
+        $ret .= $xc->getXcXoThemeAddStylesheet();
         $ret .= $pc->getPhpCodeArray('keywords', null, false, '');
 
         return $ret;
@@ -110,11 +110,11 @@ class UserIndex extends Files\CreateFile
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         if (in_array(1, $fieldParentId)) {
-            $ret .= $xc->getXcObjHandlerCount($tableName);
+            $ret .= $xc->getXcHandlerCountObj($tableName);
             $ret .= $pc->getPhpCodeCommentLine('If there are ', $tableName);
             $ret .= $this->getSimpleString('$count = 1;');
 
-            $contentIf = $xc->getXcObjHandlerAll($tableName, '', 0, 0, "\t");
+            $contentIf = $xc->getXcHandlerAllObj($tableName, '', 0, 0, "\t");
             $contentIf .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', "\t");
             //$contentIf .= $cc->getClassXoopsObjectTree('mytree', $tableName, $fieldId, $fieldParent, "\t");
             $contentIf .= $pc->getPhpCodeArray($tableName, "\t");
@@ -123,10 +123,10 @@ class UserIndex extends Files\CreateFile
             $foreach   .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName . 'Values', '$acount');
             $foreach   .= $this->getSimpleString('++$count;', "\t\t");
             $contentIf .= $pc->getPhpCodeForeach("{$tableName}All", true, false, $tableFieldname, $foreach, "\t");
-            $contentIf .= $xc->getXcTplAssign($tableName, '$' . $tableName, true, "\t");
+            $contentIf .= $xc->getXcXoopsTplAssign($tableName, '$' . $tableName, true, "\t");
             $contentIf .= $pc->getPhpCodeUnset($tableName, "\t");
             $getConfig = $xc->getXcGetConfig('numb_col');
-            $contentIf .= $xc->getXcTplAssign('numb_col', $getConfig, true, "\t");
+            $contentIf .= $xc->getXcXoopsTplAssign('numb_col', $getConfig, true, "\t");
             $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $contentIf, false);
             $ret       .= $pc->getPhpCodeUnset('count');
         }
@@ -150,16 +150,16 @@ class UserIndex extends Files\CreateFile
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
         $ret              = $pc->getPhpCodeCommentLine();
-        $ret              .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $xc->getXcTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
         $ret              .= $pc->getPhpCodeCommentLine();
-        $ret              .= $xc->getXcObjHandlerCount($tableName);
-        $ret              .= $xc->getXcTplAssign($tableName . 'Count', "\${$tableName}Count");
+        $ret              .= $xc->getXcHandlerCountObj($tableName);
+        $ret              .= $xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
         $ret              .= $this->getSimpleString('$count = 1;');
         $condIf           = $xc->getXcXoopsRequest('start', 'start', '0', 'Int', false, "\t");
         $userpager        = $xc->getXcGetConfig('userpager');
         $condIf           .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int', false, "\t");
-        $condIf           .= $xc->getXcObjHandlerAll($tableName, '', '$start', '$limit', "\t");
+        $condIf           .= $xc->getXcHandlerAllObj($tableName, '', '$start', '$limit', "\t");
         $condIf           .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, "\t");
         $condIf           .= $pc->getPhpCodeArray($tableName, null, false, "\t");
         $foreach          = $xc->getXcGetValues($tableName, $tableSoleName, 'i', false, "\t\t");
@@ -177,20 +177,20 @@ class UserIndex extends Files\CreateFile
         $foreach  .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, "\t\t");
         $foreach  .= $this->getSimpleString('++$count;', "\t\t");
         $condIf   .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, "\t");
-        $condIf   .= $xc->getXcTplAssign($tableName, '$' . $tableName, true, "\t");
+        $condIf   .= $xc->getXcXoopsTplAssign($tableName, '$' . $tableName, true, "\t");
         $condIf   .= $pc->getPhpCodeUnset($tableName, "\t");
         $condIf   .= $xc->getXcPageNav($tableName, "\t");
         $thereare = $pc->getPhpCodeSprintf("{$language}INDEX_THEREARE", "\${$tableName}Count");
-        $condIf   .= $xc->getXcTplAssign('lang_thereare', $thereare, true, "\t");
+        $condIf   .= $xc->getXcXoopsTplAssign('lang_thereare', $thereare, true, "\t");
         $divideby = $xc->getXcGetConfig('divideby');
-        $condIf   .= $xc->getXcTplAssign('divideby', $divideby, true, "\t");
+        $condIf   .= $xc->getXcXoopsTplAssign('divideby', $divideby, true, "\t");
         $numb_col  = $xc->getXcGetConfig('numb_col');
-        $condIf   .= $xc->getXcTplAssign('numb_col', $numb_col, true, "\t");
+        $condIf   .= $xc->getXcXoopsTplAssign('numb_col', $numb_col, true, "\t");
 
         $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
         $ret       .= $pc->getPhpCodeUnset('count');
         $tableType = $xc->getXcGetConfig('table_type');
-        $ret       .= $xc->getXcTplAssign('table_type', $tableType);
+        $ret       .= $xc->getXcXoopsTplAssign('table_type', $tableType);
 
         return $ret;
     }
@@ -214,9 +214,9 @@ class UserIndex extends Files\CreateFile
         $ret              .= $pc->getPhpCodeUnset('keywords');
         $ret              .= $pc->getPhpCodeCommentLine('Description');
         $ret              .= $uc->getUserMetaDesc($moduleDirname, $language);
-        $ret              .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getInclude('footer');
 
         return $ret;

@@ -105,13 +105,15 @@ EOT;
             }
         }
         $content = $this->getHeaderFilesComments($module, $filename . '.php');
+        $content .= '';
+
         $content .= <<<EOT
 include __DIR__ . '/../../../mainfile.php';
 include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
 \$com_itemid = isset(\$_REQUEST['com_itemid']) ? (int)\$_REQUEST['com_itemid'] : 0;
 if (\$com_itemid > 0) {
     \${$tableName}Handler = xoops_getModuleHandler('{$tableName}', '{$moduleDirname}');
-    \${$tableName} = \${$tableName}handler->get(\$com_itemid);
+    \${$tableName} = \${$tableName}Handler->get(\$com_itemid);
     \$com_replytitle = \${$tableName}->getVar('{$fpmf}');
     include XOOPS_ROOT_PATH.'/include/{$filename}.php';
 }

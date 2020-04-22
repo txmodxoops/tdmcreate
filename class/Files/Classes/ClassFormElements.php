@@ -239,7 +239,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret             .= $cc->getClassXoopsFormElementTray('imageTray', $language, '<br>', $t);
         $sprintf         = $pc->getPhpCodeSprintf($language . '_UPLOADS', '".{$imageDirectory}/"');
         $ret             .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
-        $ret             .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
+        $ret             .= $xc->getXcXoopsListImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
         $contForeach     = $cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t . "\t");
         $ret             .= $pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
         $setExtraParam   = "\"onchange='showImgSelected(\\\"imglabel_{$fieldName}\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
@@ -293,7 +293,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret             .= $cc->getClassXoopsFormElementTray('fileTray', $language, '<br>', $t);
         $sprintf         = $pc->getPhpCodeSprintf($language . '_UPLOADS', '".{$fileDirectory}/"');
         $ret             .= $cc->getClassXoopsFormSelect('fileSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
-        $ret             .= $xc->getXcXoopsImgListArray('fileArray', 'XOOPS_ROOT_PATH . $fileDirectory', $t);
+        $ret             .= $xc->getXcXoopsListImgListArray('fileArray', 'XOOPS_ROOT_PATH . $fileDirectory', $t);
         $contForeach     = $cc->getClassAddOption('fileSelect', '"{$file1}", $file1', $t . "\t");
         $ret             .= $pc->getPhpCodeForeach('fileArray', false, false, 'file1', $contForeach, $t);
         //TODO: make preview for images or show "no preview possible"
@@ -383,7 +383,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ret             .= $cc->getClassXoopsFormElementTray('imageTray', $language, '<br>', $t);
         $sprintf         = $pc->getPhpCodeSprintf($language . '_UPLOADS', '".{$imageDirectory}/"');
         $ret             .= $cc->getClassXoopsFormSelect('imageSelect', $sprintf, $fieldName, $ccFieldName, 5, 'false', false, $t);
-        $ret             .= $xc->getXcXoopsImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
+        $ret             .= $xc->getXcXoopsListImgListArray('imageArray', 'XOOPS_ROOT_PATH . $imageDirectory', $t);
         $contForeach     = $cc->getClassAddOption('imageSelect', '"{$image1}", $image1', $t . "\t");
         $ret             .= $pc->getPhpCodeForeach('imageArray', false, false, 'image1', $contForeach, $t);
         $setExtraParam   = "\"onchange='showImgSelected(\\\"imglabel_{$fieldName}\\\", \\\"{$fieldName}\\\", \\\"\".\$imageDirectory.\"\\\", \\\"\\\", \\\"\".XOOPS_URL.\"\\\")'\"";
@@ -503,7 +503,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ccFieldName  = $tf->getCamelCase($fieldName, false, true);
         $t            = "\t\t";
         $ret          = $pc->getPhpCodeCommentLine($ucfTableName, 'handler', $t);
-        $ret          .= $xc->getXoopsHandlerLine($tableName, $t);
+        $ret          .= $xc->getXcHandlerLine($tableName, $t);
         $ret          .= $pc->getPhpCodeCommentLine('Form', 'Select ' . $ucfTableName, $t);
         $ret          .= $cc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
         $ret          .= $cc->getClassAddOption($ccFieldName . 'Select', "'Empty'", $t);
@@ -639,7 +639,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
             $rpFieldelementName = mb_strtolower(str_replace('Table : ', '', $fElement->getVar('fieldelement_name')));
             $ret                .= $pc->getPhpCodeCommentLine('Form Table', $rpFieldelementName, $t);
             $ccFieldName        = $tf->getCamelCase($fieldName, false, true);
-            $ret                .= $xc->getXoopsHandlerLine($rpFieldelementName, $t);
+            $ret                .= $xc->getXcHandlerLine($rpFieldelementName, $t);
             $ret                .= $cc->getClassXoopsFormSelect($ccFieldName . 'Select', $language, $fieldName, "this->getVar('{$fieldName}')", null, '', false, $t);
             $ret                .= $cc->getClassAddOptionArray($ccFieldName . 'Select', "\${$rpFieldelementName}Handler->getList()", $t);
             $ret                .= $cc->getClassAddElement('form', "\${$ccFieldName}Select{$required}", $t);
@@ -669,11 +669,11 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
         $ccFieldPid        = $tf->getCamelCase($fieldPid, false, true);
         $t                 = "\t\t";
         $ret               = $pc->getPhpCodeCommentLine('Form Table', $ucfTopicTableName, $t);
-        $ret               .= $xc->getXoopsHandlerLine($stlTopicTableName, $t);
+        $ret               .= $xc->getXcHandlerLine($stlTopicTableName, $t);
         $ret               .= $xc->getXcCriteriaCompo('criteria', $t);
-        $ret               .= $xc->getXcClearHandlerCount($stlTopicTableName . 'Count', $stlTopicTableName, '$criteria', $t);
+        $ret               .= $xc->getXcHandlerCountClear($stlTopicTableName . 'Count', $stlTopicTableName, '$criteria', $t);
         $contIf            = $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/tree', true, false, 'include', $t . "\t");
-        $contIf            .= $xc->getXcClearHandlerAll($stlTopicTableName . 'All', $stlTopicTableName, '$criteria', $t . "\t");
+        $contIf            .= $xc->getXcHandlerAllClear($stlTopicTableName . 'All', $stlTopicTableName, '$criteria', $t . "\t");
         $contIf            .= $cc->getClassXoopsObjectTree($stlTopicTableName . 'Tree', $stlTopicTableName . 'All', $fieldId, $fieldPid, $t . "\t");
         $contIf            .= $cc->getClassXoopsMakeSelBox($ccFieldPid, $stlTopicTableName . 'Tree', $fieldPid, $fieldMain, '--', $fieldPid, $t . "\t");
         $formLabel         = $cc->getClassXoopsFormLabel('', $language, "\${$ccFieldPid}", true, '');

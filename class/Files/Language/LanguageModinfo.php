@@ -85,9 +85,9 @@ class LanguageModinfo extends Files\CreateFile
     {
         $df  = LanguageDefines::getInstance();
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret = $df->getBlankLine();
+        $ret = $df->getPhpCodeBlankLine();
         $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
-        $ret .= $df->getBlankLine();
+        $ret .= $df->getPhpCodeBlankLine();
         $ret .= $df->getAboveHeadDefines('Admin Main');
         $ret .= $df->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
         $ret .= $df->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
@@ -454,7 +454,7 @@ class LanguageModinfo extends Files\CreateFile
     {
         $df  = LanguageDefines::getInstance();
         $ret = $df->getBelowDefines('End');
-        $ret .= $df->getBlankLine();
+        $ret .= $df->getPhpCodeBlankLine();
 
         return $ret;
     }

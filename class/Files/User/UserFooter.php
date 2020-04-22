@@ -77,15 +77,15 @@ class UserFooter extends Files\CreateFile
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $xoBreadcrumbs    = $xc->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
+        $xoBreadcrumbs    = $xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs', true, "\t");
         $ret              = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $xoBreadcrumbs);
-        $ret              .= $xc->getXcTplAssign('adv', "\$helper->getConfig('advertise')");
+        $ret              .= $xc->getXcXoopsTplAssign('adv', "\$helper->getConfig('advertise')");
         $ret              .= $pc->getPhpCodeCommentLine();
-        $ret              .= $xc->getXcTplAssign('bookmarks', "\$helper->getConfig('bookmarks')");
-        $ret              .= $xc->getXcTplAssign('fbcomments', "\$helper->getConfig('fbcomments')");
+        $ret              .= $xc->getXcXoopsTplAssign('bookmarks', "\$helper->getConfig('bookmarks')");
+        $ret              .= $xc->getXcXoopsTplAssign('fbcomments', "\$helper->getConfig('fbcomments')");
         $ret              .= $pc->getPhpCodeCommentLine();
-        $ret              .= $xc->getXcTplAssign('admin', "{$stuModuleDirname}_ADMIN");
-        $ret              .= $xc->getXcTplAssign('copyright', '$copyright');
+        $ret              .= $xc->getXcXoopsTplAssign('admin', "{$stuModuleDirname}_ADMIN");
+        $ret              .= $xc->getXcXoopsTplAssign('copyright', '$copyright');
         $ret              .= $pc->getPhpCodeCommentLine();
         $ret              .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'footer', true);
 

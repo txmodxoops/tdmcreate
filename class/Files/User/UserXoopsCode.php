@@ -156,7 +156,7 @@ class UserXoopsCode
     {
         $pCodeFooterFile = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xCodeFooterFile = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cond            = $xCodeFooterFile->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $cond            = $xCodeFooterFile->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
         $ret             = $pCodeFooterFile->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;

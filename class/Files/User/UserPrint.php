@@ -115,12 +115,12 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->getInclude();
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
-        $ret            .= $this->xc->getXcAddStylesheet();
+        $ret            .= $this->xc->getXcXoThemeAddStylesheet();
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
         $ret            .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
 
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
-        $ret            .= $this->xc->getXoopsHandlerLine($tableName);
+        $ret            .= $this->xc->getXcHandlerLine($tableName);
 
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {
@@ -143,7 +143,7 @@ class UserPrint extends Files\CreateFile
             $redirectHeader .= $this->getSimpleString('exit();');
             $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
-        $ret            .= $this->xc->getXcGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
+        $ret            .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
         $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
         $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
         $noPerm         = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
@@ -152,11 +152,11 @@ class UserPrint extends Files\CreateFile
         $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
         $contentForeach = $this->xc->getXcXoopsTplAppend('"{$k}"', '$v', "\t");
         $ret            .= $this->phpcode->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
-        $ret            .= $this->xc->getXcTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
+        $ret            .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
         $getVar         = $this->xc->getXcGetVar('', $tableSoleName, $fieldMain, true);
         $stripTags      = $this->phpcode->getPhpCodeStripTags('', $getVar . ' - ' . "{$language}PRINT" . ' - ' . "\$GLOBALS['xoopsModule']->name()", true);
-        $ret            .= $this->xc->getXcTplAssign('xoops_pagetitle', $stripTags);
-        $ret            .= $this->xc->getXcTplDisplay($tableName . '_print.tpl', '', false);
+        $ret            .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags);
+        $ret            .= $this->xc->getXcXoopsTplDisplay($tableName . '_print.tpl', '', false);
 
         return $ret;
     }

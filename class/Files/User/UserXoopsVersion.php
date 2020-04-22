@@ -509,7 +509,7 @@ class UserXoopsVersion extends Files\CreateFile
                         $ucfFieldName = ucfirst($rpFieldName);
                         $stuFieldName = mb_strtoupper($rpFieldName);
                         $ret          .= $phpCodeVConfig->getPhpCodeCommentLine('Editor', $rpFieldName);
-                        $ret          .= $xCodeVConfig->getXcLoad('xoopseditorhandler');
+                        $ret          .= $xCodeVConfig->getXcXoopsLoad('xoopseditorhandler');
                         $ret          .= $xCodeVConfig->getXcEqualsOperator('$editorHandler' . $ucfFieldName, 'XoopsEditorHandler::getInstance()');
                         $editor       = [
                             'name'        => "'editor_{$rpFieldName}'",
@@ -552,7 +552,7 @@ class UserXoopsVersion extends Files\CreateFile
 
         if (1 === $table_permissions) {
             $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
-            $ret    .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_getHandler('member')", '', false);
+            $ret    .= $xCodeVConfig->getXcXoopsHandler('member');
             $ret    .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
             $group  = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
             $ret    .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
@@ -582,7 +582,7 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $phpCodeVConfig->getPhpCodeCommentLine('Get Admin groups');
             $ret         .= $xCodeVConfig->getXcEqualsOperator('$criteria ', 'new \CriteriaCompo()');
             $ret         .= $this->getSimpleString("\$criteria->add( new \Criteria( 'group_type', 'Admin' ) );");
-            $ret         .= $xCodeVConfig->getXcEqualsOperator('$memberHandler ', "xoops_getHandler('member')", '', false);
+            $ret         .= $xCodeVConfig->getXcXoopsHandler('member');
             $ret         .= $xCodeVConfig->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
             $adminGroup  = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key', null, false, "\t");
             $ret         .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
