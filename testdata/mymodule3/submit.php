@@ -67,7 +67,7 @@ switch($op) {
 		$testfieldsObj->setVar('tf_dhtml', Request::getString('tf_dhtml', ''));
 		$testfieldsObj->setVar('tf_checkbox', Request::getInt('tf_checkbox', 0));
 		$testfieldsObj->setVar('tf_yesno', Request::getInt('tf_yesno', 0));
-		$testfieldsObj->setVar('tf_selectbox', Request::getString('tf_selectbox', ''));
+		$testfieldsObj->setVar('tf_selectbox', Request::getInt('tf_selectbox', 0));
 		$testfieldsObj->setVar('tf_user', Request::getInt('tf_user', 0));
 		$testfieldsObj->setVar('tf_color', Request::getString('tf_color', ''));
 		// Set Var tf_imagelist
@@ -197,11 +197,14 @@ switch($op) {
 			}
 			$testfieldsObj->setVar('tf_selectfile', Request::getString('tf_selectfile'));
 		}
-		$testfieldsObj->setVar('tf_password', password_hash(Request::getString('tf_password', ''), PASSWORD_DEFAULT));
+		$tfPassword = Request::getString('tf_password', '');
+		if ('' !== $tfPassword) {
+			$testfieldsObj->setVar('tf_password', password_hash($tfPassword, PASSWORD_DEFAULT));
+		}
 		$testfieldsObj->setVar('tf_country_list', Request::getString('tf_country_list', ''));
 		$testfieldsObj->setVar('tf_language', Request::getString('tf_language', ''));
-		$testfieldsObj->setVar('tf_radio', Request::getString('tf_radio', ''));
-		$testfieldsObj->setVar('tf_status', Request::getString('tf_status', ''));
+		$testfieldsObj->setVar('tf_radio', Request::getInt('tf_radio', 0));
+		$testfieldsObj->setVar('tf_status', Request::getInt('tf_status', 0));
 		$testfieldDatetimeArr = Request::getArray('tf_datetime');
 		$testfieldDatetime = strtotime($testfieldDatetimeArr['date']) + (int)$testfieldDatetimeArr['time'];
 		$testfieldsObj->setVar('tf_datetime', $testfieldDatetime);

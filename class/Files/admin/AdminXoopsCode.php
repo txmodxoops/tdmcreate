@@ -330,14 +330,18 @@ class AdminXoopsCode
      * @public function getAxcSetVarPassword
      * @param        $tableName
      * @param        $fieldName
-     * @param $fieldType
      * @param string $t
      * @return string
      */
-    public function getAxcSetVarPassword($tableName, $fieldName, $fieldType, $t = '')
+    public function getAxcSetVarPassword($tableName, $fieldName, $t = '')
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $ret = $xc->getXcSetVarObj($tableName, $fieldName, "password_hash(Request::getString('{$fieldName}', ''), PASSWORD_DEFAULT)", $t);
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $cf  = Tdmcreate\Files\CreateFile::getInstance();
+        $ccFieldId = $cf->getCamelCase($fieldName, false, true);
+        $ret = $xc->getXcEqualsOperator("\${$ccFieldId}", "Request::getString('{$fieldName}', '')", '',$t);
+        $contIf = $xc->getXcSetVarObj($tableName, $fieldName, "password_hash(\${$ccFieldId}, PASSWORD_DEFAULT)", $t . "\t");
+        $ret .= $pc->getPhpCodeConditions("''", ' !== ', "\${$ccFieldId}",$contIf, false, $t);
 
         return $ret;
     }

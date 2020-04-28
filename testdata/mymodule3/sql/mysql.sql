@@ -3,7 +3,7 @@
 # http://www.phpmyadmin.net
 #
 # Host: localhost
-# Generated on: Tue Apr 28, 2020 to 15:13:17
+# Generated on: Tue Apr 28, 2020 to 21:04:20
 # Server version: 5.5.5-10.4.10-MariaDB
 # PHP Version: 7.3.12
 
@@ -43,25 +43,25 @@ CREATE TABLE `mymodule3_articles` (
 
 CREATE TABLE `mymodule3_testfields` (
   `tf_id` INT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `tf_text` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_textarea` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_dhtml` VARCHAR(100) NOT NULL DEFAULT '',
+  `tf_text` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_textarea` TEXT NOT NULL ,
+  `tf_dhtml` TEXT NOT NULL ,
   `tf_checkbox` INT(10) NOT NULL DEFAULT '0',
   `tf_yesno` INT(1) NOT NULL DEFAULT '0',
-  `tf_selectbox` VARCHAR(100) NOT NULL DEFAULT '',
+  `tf_selectbox` INT(10) NOT NULL DEFAULT '0',
   `tf_user` INT(10) NOT NULL DEFAULT '0',
-  `tf_color` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_imagelist` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_urlfile` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_uplimage` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_uplfile` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_textdateselect` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_selectfile` VARCHAR(100) NOT NULL DEFAULT '',
-  `tf_password` VARCHAR(200) NOT NULL DEFAULT '',
-  `tf_country_list` VARCHAR(200) NOT NULL DEFAULT '',
-  `tf_language` VARCHAR(200) NOT NULL DEFAULT '',
-  `tf_radio` VARCHAR(200) NOT NULL DEFAULT '',
-  `tf_status` VARCHAR(100) NOT NULL DEFAULT '',
+  `tf_color` VARCHAR(7) NOT NULL DEFAULT '',
+  `tf_imagelist` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_urlfile` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_uplimage` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_uplfile` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_textdateselect` INT(10) NOT NULL DEFAULT '0',
+  `tf_selectfile` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_password` VARCHAR(255) NOT NULL DEFAULT '',
+  `tf_country_list` VARCHAR(3) NOT NULL DEFAULT '',
+  `tf_language` VARCHAR(100) NOT NULL DEFAULT '',
+  `tf_radio` INT(10) NOT NULL DEFAULT '0',
+  `tf_status` INT(1) NOT NULL DEFAULT '0',
   `tf_datetime` INT(10) NOT NULL DEFAULT '0',
   `tf_combobox` INT(10) NOT NULL DEFAULT '0',
   PRIMARY KEY (`tf_id`)

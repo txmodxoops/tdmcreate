@@ -380,7 +380,7 @@
     field_order: '2'
     field_name: tf_text
     field_type: '14'
-    field_value: '100'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -404,8 +404,8 @@
     field_tid: '3'
     field_order: '3'
     field_name: tf_textarea
-    field_type: '14'
-    field_value: '100'
+    field_type: '15'
+    field_value: '0'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -429,8 +429,8 @@
     field_tid: '3'
     field_order: '4'
     field_name: tf_dhtml
-    field_type: '14'
-    field_value: '100'
+    field_type: '15'
+    field_value: '0'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -504,8 +504,8 @@
     field_tid: '3'
     field_order: '7'
     field_name: tf_selectbox
-    field_type: '14'
-    field_value: '100'
+    field_type: '2'
+    field_value: '10'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -555,7 +555,7 @@
     field_order: '9'
     field_name: tf_color
     field_type: '14'
-    field_value: '100'
+    field_value: '7'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -580,7 +580,7 @@
     field_order: '10'
     field_name: tf_imagelist
     field_type: '14'
-    field_value: '100'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -605,7 +605,7 @@
     field_order: '11'
     field_name: tf_urlfile
     field_type: '14'
-    field_value: '100'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -630,7 +630,7 @@
     field_order: '12'
     field_name: tf_uplimage
     field_type: '14'
-    field_value: '100'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -655,7 +655,7 @@
     field_order: '13'
     field_name: tf_uplfile
     field_type: '14'
-    field_value: '100'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -679,8 +679,8 @@
     field_tid: '3'
     field_order: '14'
     field_name: tf_textdateselect
-    field_type: '14'
-    field_value: '100'
+    field_type: '2'
+    field_value: '10'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -705,7 +705,7 @@
     field_order: '15'
     field_name: tf_selectfile
     field_type: '14'
-    field_value: '100'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -730,7 +730,7 @@
     field_order: '16'
     field_name: tf_password
     field_type: '14'
-    field_value: '200'
+    field_value: '255'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -755,7 +755,7 @@
     field_order: '17'
     field_name: tf_country_list
     field_type: '14'
-    field_value: '200'
+    field_value: '3'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -780,7 +780,7 @@
     field_order: '18'
     field_name: tf_language
     field_type: '14'
-    field_value: '200'
+    field_value: '100'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -804,8 +804,8 @@
     field_tid: '3'
     field_order: '19'
     field_name: tf_radio
-    field_type: '14'
-    field_value: '200'
+    field_type: '2'
+    field_value: '10'
     field_attribute: '1'
     field_null: '2'
     field_default: ''
@@ -829,8 +829,8 @@
     field_tid: '3'
     field_order: '20'
     field_name: tf_status
-    field_type: '14'
-    field_value: '100'
+    field_type: '2'
+    field_value: '1'
     field_attribute: '1'
     field_null: '2'
     field_default: ''

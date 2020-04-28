@@ -95,3 +95,14 @@ function tdmcreate_setStatus(data, img, file) {
         }
     });
 }
+
+function presetField(typeId) {
+
+    eleSelected = xoopsGetElementById('field_element[' + typeId + ']');
+    vselected = eleSelected.value;
+    defaultType = xoopsGetElementById('fe_defaulttype[' + vselected +  ']').value;
+    defaultValue = xoopsGetElementById('fe_defaultvalue[' + vselected +  ']').value;
+    eleType = xoopsGetElementById('field_type[' + typeId + ']').value = defaultType;
+    eleValue = xoopsGetElementById('field_value[' + typeId + ']').value = defaultValue;
+
+}

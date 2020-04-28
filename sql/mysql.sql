@@ -306,41 +306,43 @@ INSERT INTO `tdmcreate_fieldkey` (`fieldkey_id`, `fieldkey_name`, `fieldkey_valu
 #
 
 CREATE TABLE `tdmcreate_fieldelements` (
-  `fieldelement_id`    INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
-  `fieldelement_mid`   INT(11)      UNSIGNED NOT NULL DEFAULT '0',
-  `fieldelement_tid`   INT(11)      UNSIGNED NOT NULL DEFAULT '0',
-  `fieldelement_name`  VARCHAR(100)          NOT NULL DEFAULT '',
-  `fieldelement_value` VARCHAR(100)          NOT NULL DEFAULT '',
-  `fieldelement_sort`  INT(5)      UNSIGNED NOT NULL DEFAULT '0',
+  `fieldelement_id`       INT(5)       UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fieldelement_mid`      INT(11)      UNSIGNED NOT NULL DEFAULT '0',
+  `fieldelement_tid`      INT(11)      UNSIGNED NOT NULL DEFAULT '0',
+  `fieldelement_name`     VARCHAR(100)          NOT NULL DEFAULT '',
+  `fieldelement_value`    VARCHAR(100)          NOT NULL DEFAULT '',
+  `fieldelement_sort`     INT(1)       UNSIGNED NOT NULL DEFAULT '0',
+  `fieldelement_deftype`  INT(10)      UNSIGNED NOT NULL DEFAULT '0',
+  `fieldelement_defvalue` INT(10)      UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`fieldelement_id`),
   KEY `fieldelement_mid` (`fieldelement_mid`),
   KEY `fieldelement_tid` (`fieldelement_tid`)
 )
   ENGINE = InnoDB;
 
-INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`) VALUES
-(1, 0, 0, '...', '', 0),
-(2, 0, 0, 'Text', 'XoopsFormText', 1),
-(3, 0, 0, 'TextArea', 'XoopsFormTextArea', 2),
-(4, 0, 0, 'DhtmlTextArea', 'XoopsFormDhtmlTextArea', 3),
-(5, 0, 0, 'CheckBox', 'XoopsFormCheckBox', 4),
-(6, 0, 0, 'RadioYN', 'XoopsFormRadioYN', 6),
-(7, 0, 0, 'SelectBox', 'XoopsFormSelect', 7),
-(8, 0, 0, 'SelectUser', 'XoopsFormSelectUser', 8),
-(9, 0, 0, 'ColorPicker', 'XoopsFormColorPicker', 19),
-(10, 0, 0, 'ImageList', 'XoopsFormImageList', 13),
-(11, 0, 0, 'SelectFile', 'XoopsFormSelectFile', 10),
-(12, 0, 0, 'UrlFile', 'XoopsFormUrlFile', 16),
-(13, 0, 0, 'UploadImage', 'XoopsFormUploadImage', 14),
-(14, 0, 0, 'UploadFile', 'XoopsFormUploadFile', 15),
-(15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect', 17),
-(16, 0, 0, 'SelectStatus', 'XoopsFormSelectStatus', 20),
-(17, 0, 0, 'Password', 'XoopsFormPassword', 21),
-(18, 0, 0, 'SelectCountry', 'XoopsFormSelectCountry', 11),
-(19, 0, 0, 'SelectLang', 'XoopsFormSelectLang', 12),
-(20, 0, 0, 'Radio', 'XoopsFormRadio', 5),
-(21, 0, 0, 'DateTime', 'XoopsFormDateTime', 18),
-(22, 0, 0, 'SelectCombo', 'XoopsFormSelectCombo', 8);
+INSERT INTO `tdmcreate_fieldelements` (`fieldelement_id`, `fieldelement_mid`, `fieldelement_tid`, `fieldelement_name`, `fieldelement_value`, `fieldelement_sort`, `fieldelement_deftype`, `fieldelement_defvalue`) VALUES
+(1, 0, 0, '...', '', 0, 0, 0),
+(2, 0, 0, 'Text', 'XoopsFormText', 1, 14, 255),
+(3, 0, 0, 'TextArea', 'XoopsFormTextArea', 2, 15, 0),
+(4, 0, 0, 'DhtmlTextArea', 'XoopsFormDhtmlTextArea', 3, 15, 0),
+(5, 0, 0, 'CheckBox', 'XoopsFormCheckBox', 4, 2, 10),
+(6, 0, 0, 'RadioYN', 'XoopsFormRadioYN', 6, 2, 1),
+(7, 0, 0, 'SelectBox', 'XoopsFormSelect', 7, 2, 10),
+(8, 0, 0, 'SelectUser', 'XoopsFormSelectUser', 9, 2, 10),
+(9, 0, 0, 'ColorPicker', 'XoopsFormColorPicker', 19, 14, 7),
+(10, 0, 0, 'ImageList', 'XoopsFormImageList', 13, 14, 255),
+(11, 0, 0, 'SelectFile', 'XoopsFormSelectFile', 10, 14, 255),
+(12, 0, 0, 'UrlFile', 'XoopsFormUrlFile', 16, 14, 255),
+(13, 0, 0, 'UploadImage', 'XoopsFormUploadImage', 14, 14, 255),
+(14, 0, 0, 'UploadFile', 'XoopsFormUploadFile', 15, 14, 255),
+(15, 0, 0, 'TextDateSelect', 'XoopsFormTextDateSelect', 17, 2, 10),
+(16, 0, 0, 'SelectStatus', 'XoopsFormSelectStatus', 20, 2, 1),
+(17, 0, 0, 'Password', 'XoopsFormPassword', 21, 14, 255),
+(18, 0, 0, 'SelectCountry', 'XoopsFormSelectCountry', 11, 14, 3),
+(19, 0, 0, 'SelectLang', 'XoopsFormSelectLang', 12, 14, 100),
+(20, 0, 0, 'Radio', 'XoopsFormRadio', 5, 2, 10),
+(21, 0, 0, 'DateTime', 'XoopsFormDateTime', 18, 2, 10),
+(22, 0, 0, 'SelectCombo', 'XoopsFormSelectCombo', 8, 2, 10);
 
 #
 # Table structure for table `tdmcreate_morefiles` 5

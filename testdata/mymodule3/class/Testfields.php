@@ -41,24 +41,24 @@ class Testfields extends \XoopsObject
 	{
 		$this->initVar('tf_id', XOBJ_DTYPE_INT);
 		$this->initVar('tf_text', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('tf_textarea', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('tf_dhtml', XOBJ_DTYPE_TXTBOX);
+		$this->initVar('tf_textarea', XOBJ_DTYPE_TXTAREA);
+		$this->initVar('tf_dhtml', XOBJ_DTYPE_TXTAREA);
 		$this->initVar('tf_checkbox', XOBJ_DTYPE_INT);
 		$this->initVar('tf_yesno', XOBJ_DTYPE_INT);
-		$this->initVar('tf_selectbox', XOBJ_DTYPE_TXTBOX);
+		$this->initVar('tf_selectbox', XOBJ_DTYPE_INT);
 		$this->initVar('tf_user', XOBJ_DTYPE_INT);
 		$this->initVar('tf_color', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_imagelist', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_urlfile', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_uplimage', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_uplfile', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('tf_textdateselect', XOBJ_DTYPE_TXTBOX);
+		$this->initVar('tf_textdateselect', XOBJ_DTYPE_INT);
 		$this->initVar('tf_selectfile', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_password', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_country_list', XOBJ_DTYPE_TXTBOX);
 		$this->initVar('tf_language', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('tf_radio', XOBJ_DTYPE_TXTBOX);
-		$this->initVar('tf_status', XOBJ_DTYPE_TXTBOX);
+		$this->initVar('tf_radio', XOBJ_DTYPE_INT);
+		$this->initVar('tf_status', XOBJ_DTYPE_INT);
 		$this->initVar('tf_datetime', XOBJ_DTYPE_INT);
 		$this->initVar('tf_combobox', XOBJ_DTYPE_INT);
 	}

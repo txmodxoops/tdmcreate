@@ -282,7 +282,7 @@ class AdminPages extends Files\CreateFile
                         $ret .= $xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     case 17:
-                        $ret .= $axc->getAxcSetVarPassword($tableName, $fieldName, $fieldName, $t);
+                        $ret .= $axc->getAxcSetVarPassword($tableName, $fieldName, $t);
                         break;
                     case 21:
                         $ret .= $xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);

@@ -115,10 +115,11 @@ class Fields extends \XoopsObject
         $form->addElement(new Tdmcreate\Html\FormLabel(str_replace('%s', $prefix, _AM_TDMCREATE_FIELD_RECOMMENDED)));
         $form->addElement(new Tdmcreate\Html\FormLabel('<table cellspacing="1" class="outer width100">'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<thead class="center">'));
-        $form->addElement(new Tdmcreate\Html\FormLabel('<tr class="head"><th colspan="9">' . $title . '</th></tr>'));
+        $form->addElement(new Tdmcreate\Html\FormLabel('<tr class="head"><th colspan="10">' . $title . '</th></tr>'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<tr class="head width5">'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<td>' . _AM_TDMCREATE_FIELD_ID . '</td>'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<td>' . _AM_TDMCREATE_FIELD_NAME . '</td>'));
+        $form->addElement(new Tdmcreate\Html\FormLabel('<td>' . _AM_TDMCREATE_FIELD_ELEMENT . '</td>'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<td>' . _AM_TDMCREATE_FIELD_TYPE . '</td>'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<td>' . _AM_TDMCREATE_FIELD_VALUE . '</th>'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<td>' . _AM_TDMCREATE_FIELD_ATTRIBUTE . '</th>'));
@@ -178,6 +179,11 @@ class Fields extends \XoopsObject
     private function getFormNewLine($form, $class, $i, $fieldMid, $fieldTid, $fName, $tableAutoincrement)
     {
         $helper = Tdmcreate\Helper::getInstance();
+        $fieldElements = $helper->getHandler('Fieldelements')->getAll();
+        foreach ($fieldElements as $fe) {
+            $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+        }
         $form->addElement(new \XoopsFormHidden('field_id[' . $i . ']', 0));
         $form->addElement(new \XoopsFormHidden('field_mid', $fieldMid));
         $form->addElement(new \XoopsFormHidden('field_tid', $fieldTid));
@@ -189,6 +195,23 @@ class Fields extends \XoopsObject
         $thisFieldName = (!empty($fName) ? ((1 == $i) ? $fName . '_id' : $fName . '_') : '');
         $fieldName     = new \XoopsFormText(_AM_TDMCREATE_FIELD_NAME, 'field_name[' . $i . ']', 15, 255, $thisFieldName);
         $form->addElement(new Tdmcreate\Html\FormLabel('<td class="center">' . $fieldName->render() . '</td>'));
+        // Field Element
+        if ((1 == $i) && (1 == $tableAutoincrement)) {
+            $form->addElement(new Tdmcreate\Html\FormLabel('<td>&nbsp;</td>'));
+        } else {
+            // Field Elements
+            $crElement = new \CriteriaCompo();
+            $crElement->add(new \Criteria('fieldelement_tid', 0));
+            $crTable = new \CriteriaCompo();
+            $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
+            $fieldElementsSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
+            $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldElementsList($crElement));
+            $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
+            $fieldElementsSelect->setExtra(" onchange='presetField(". $i . ")' ");
+            unset($crElement, $crTable);
+            $form->addElement(new Tdmcreate\Html\FormLabel('<td class="center">' . $fieldElementsSelect->render() . '</td>'));
+            unset($fieldElementsSelect);
+        }
         // Field Type
         $value           = (1 == $i) && (1 == $tableAutoincrement) ? '2' : '';
         $fieldTypeSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_type[' . $i . ']', $value);
@@ -222,16 +245,6 @@ class Fields extends \XoopsObject
         } else {
             // Box header row
             $parametersTray = new \XoopsFormElementTray('', '<br>');
-            // Field Elements
-            $crElement = new \CriteriaCompo();
-            $crElement->add(new \Criteria('fieldelement_tid', 0));
-            $crTable = new \CriteriaCompo();
-            $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
-            $fieldElementsSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
-            $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldElementsList($crElement));
-            $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
-            unset($crElement, $crTable);
-            $parametersTray->addElement($fieldElementsSelect);
 
             $field_parent     = 0;
             $checkFieldParent = new \XoopsFormCheckBox(' ', 'field_parent[' . $i . ']', $field_parent);
@@ -327,6 +340,11 @@ class Fields extends \XoopsObject
         $cr->setSort('field_order');
         $fields = $helper->getHandler('Fields')->getObjects($cr);
         unset($cr);
+        $fieldElements = $helper->getHandler('Fieldelements')->getAll();
+        foreach ($fieldElements as $fe) {
+            $form->addElement(new \XoopsFormHidden('fe_defaulttype[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_deftype')));
+            $form->addElement(new \XoopsFormHidden('fe_defaultvalue[' . $fe->getVar('fieldelement_id') . ']', $fe->getVar('fieldelement_defvalue')));
+        }
         $id = 1;
         foreach ($fields as $field) {
             $class   = ('even' === $class) ? 'odd' : 'even';
@@ -344,6 +362,23 @@ class Fields extends \XoopsObject
                 // Field Name
                 $fieldName = new \XoopsFormText(_AM_TDMCREATE_FIELD_NAME, 'field_name[' . $id . ']', 15, 255, $field->getVar('field_name'));
                 $form->addElement(new Tdmcreate\Html\FormLabel('<td class="center">' . $fieldName->render() . '</td>'));
+                // Field Element
+                if ((1 == $id) && (1 == $tableAutoincrement)) {
+                    $form->addElement(new Tdmcreate\Html\FormLabel('<td>&nbsp;</td>'));
+                } else {
+                    // Field Elements
+                    $crElement = new \CriteriaCompo();
+                    $crElement->add(new \Criteria('fieldelement_tid', 0));
+                    $crTable = new \CriteriaCompo();
+                    $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
+                    $fieldElementsSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
+                    $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldElementsList($crElement));
+                    $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
+                    $fieldElementsSelect->setExtra(" onchange='presetField(". $id . ")' ");
+                    unset($crElement, $crTable);
+                    $form->addElement(new Tdmcreate\Html\FormLabel('<td class="center">' . $fieldElementsSelect->render() . '</td>'));
+                    unset($fieldElementsSelect);
+                }
                 // Field Type
                 $fieldTypeSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_TYPE, 'field_type[' . $id . ']', $field->getVar('field_type'));
                 $fieldTypeSelect->addOptionArray($helper->getHandler('Fieldtype')->getList());
@@ -372,17 +407,6 @@ class Fields extends \XoopsObject
                 } else {
                     // Box header row
                     $parametersTray = new \XoopsFormElementTray('', '<br>');
-                    // Field Elements
-                    $crElement = new \CriteriaCompo();
-                    $crElement->add(new \Criteria('fieldelement_tid', 0));
-                    $crTable = new \CriteriaCompo();
-                    $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
-                    $fieldElementsSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
-                    //$fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crElement));
-                    $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldElementsList($crElement));
-                    $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
-                    unset($crElement, $crTable);
-                    $parametersTray->addElement($fieldElementsSelect);
 
                     $checkFieldParent = new \XoopsFormCheckBox(' ', 'field_parent[' . $id . ']', $field->getVar('field_parent'));
                     $checkFieldParent->addOption(1, _AM_TDMCREATE_FIELD_PARENT);

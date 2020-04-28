@@ -1188,7 +1188,7 @@ class CreateXoopsCode
                         $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     case 17:
-                        $ret .= $axCodeSaveElements->getAxcSetVarPassword($tableName, $fieldName, $fieldName, $t);
+                        $ret .= $axCodeSaveElements->getAxcSetVarPassword($tableName, $fieldName, $t);
                         $countUploader++;
                         break;
                     case 21:

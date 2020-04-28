@@ -362,5 +362,43 @@ function tdmcreate_check_db($module)
         }
     }
 
+    // update table 'tdmcreate_fieldelements'
+    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_fieldelements');
+    $field   = 'fieldelement_deftype';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` INT(10) NOT NULL DEFAULT '0' AFTER `fieldelement_sort`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
+
+    // update table 'tdmcreate_fieldelements'
+    $table   = $GLOBALS['xoopsDB']->prefix('tdmcreate_fieldelements');
+    $field   = 'fieldelement_defvalue';
+    $check   = $GLOBALS['xoopsDB']->queryF('SHOW COLUMNS FROM `' . $table . "` LIKE '" . $field . "'");
+    $numRows = $GLOBALS['xoopsDB']->getRowsNum($check);
+    if (!$numRows) {
+        $sql = "ALTER TABLE `$table` ADD `$field` int(10) NULL DEFAULT '0' AFTER `fieldelement_deftype`;";
+        if (!$result = $GLOBALS['xoopsDB']->queryF($sql)) {
+            xoops_error($GLOBALS['xoopsDB']->error() . '<br>' . $sql);
+            $module->setErrors("Error when adding '$field' to table '$table'.");
+            $ret = false;
+        }
+    }
+
+    // set default values for form elements
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '255' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(2, 10, 11, 12, 13, 14, 17)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 15, `fieldelement_defvalue` = '0' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in (3, 4)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(5, 7, 8, 15, 20, 21, 22)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '1' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(6, 16)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '7' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(9)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '3' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(18)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 14, `fieldelement_defvalue` = '100' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_id` in(19)");
+    $result = $xoopsDB->query('UPDATE ' . $xoopsDB->prefix('tdmcreate_fieldelements') . " SET `fieldelement_deftype` = 2, `fieldelement_defvalue` = '10' WHERE `xc_tdmcreate_fieldelements`.`fieldelement_mid` > 0");
+
     return $ret;
 }
