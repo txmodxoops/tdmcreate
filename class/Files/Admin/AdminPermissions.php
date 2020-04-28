@@ -194,7 +194,7 @@ class AdminPermissions extends Files\CreateFile
         $foreach1 = $xc->getXcAddItem('permform', '$gPermId', '$gPermName', "\t\t");
         $if1      = $pc->getPhpCodeForeach('globalPerms', false, 'gPermId', 'gPermName', $foreach1, "\t");
         $if1      .= $xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t");
-        $if1      .= $xc->getXcEqualsOperator('$permFound', 'true', null, false, "\t");
+        $if1      .= $xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
         $ret      .= $pc->getPhpCodeConditions('$op', ' === ', "'global'", $if1, false);
 
         foreach (array_keys($tables) as $t) {
@@ -222,7 +222,7 @@ class AdminPermissions extends Files\CreateFile
                 $if_count   .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $fe_content, "\t\t");
                 $if_count   .= $xc->getXcXoopsTplAssign('form', '$permform->render()', true, "\t\t");
                 $if_table   .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $if_count, false, "\t");
-                $if_table   .= $xc->getXcEqualsOperator('$permFound', 'true', null, false, "\t");
+                $if_table   .= $xc->getXcEqualsOperator('$permFound', 'true', null, "\t");
                 $cond       = "\$op === 'approve_{$tableName}' || \$op === 'submit_{$tableName}' || \$op === 'view_{$tableName}'";
                 $ret        .= $pc->getPhpCodeConditions($cond, '', '', $if_table, false);
             }

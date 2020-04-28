@@ -121,7 +121,7 @@ class AdminIndex extends Files\CreateFile
             $ret       .= $pc->getPhpCodeCommentLine('Upload Folders');
             $ret       .= $xc->getXcEqualsOperator('$configurator', 'new Common\Configurator()');
             $cond      = '$configurator->uploadFolders && is_array($configurator->uploadFolders)';
-            $fe_action = $xc->getXcEqualsOperator('$folder[]', '$configurator->uploadFolders[$i]', '','', "\t\t");
+            $fe_action = $xc->getXcEqualsOperator('$folder[]', '$configurator->uploadFolders[$i]', '',"\t\t");
             $condIf    = $pc->getPhpCodeForeach('configurator->uploadFolders', true, false, 'i', $fe_action, "\t");
             $ret       .= $pc->getPhpCodeConditions($cond, '', '', $condIf, false);
 

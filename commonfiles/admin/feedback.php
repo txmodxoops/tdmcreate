@@ -86,7 +86,7 @@ switch ($op) {
         $feedback->site    = $your_site;
         $feedback->type    = $fb_type;
         $feedback->content = $fb_content;
-        echo '<div align="center" style="width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
+        echo '<div style="text-align:center;width: 80%; padding: 10px; border: 2px solid #ff0000; color: #ff0000; margin-right:auto;margin-left:auto;">
             <h3>' . constant('CO_' . $moduleDirNameUpper . '_' . 'FB_SEND_ERROR') . '</h3>
             </div>';
         $form = $feedback->getFormFeedback();

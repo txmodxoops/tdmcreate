@@ -101,20 +101,20 @@ class ClassSpecialFiles extends Files\CreateFile
         $comment   = '';
         switch ($permId) {
             case 4:
-                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalApprove', 'returns' => 'right for global approve', '' => '', '@param' => 'null', 'return' => 'bool'], "\t");
+                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalApprove', 'returns' => 'right for global approve', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
                 $right    .= $xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 4, '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalApprove';
                 break;
             case 8:
-                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@param' => 'null', 'return' => 'bool'], "\t");
+                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalSubmit', 'returns' => 'right for global submit', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
                 $cond     .= $pc->getPhpCodeConditions('$this->getGlobalApprove()', '', '', $returnTrue, false, "\t\t");
                 $right    .= $xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 8, '$my_group_ids', '$mid', true, "\t\t\t");
                 $cond     .= $pc->getPhpCodeConditions($right, '', '', $returnTrue, false, "\t\t");
                 $funcname .= 'getPermGlobalSubmit';
                 break;
             case 16:
-                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@param' => 'null', 'return' => 'bool'], "\t");
+                $comment  .= $pc->getPhpCodeCommentMultiLine(['@public' => 'function permGlobalView', 'returns' => 'right for global view', '' => '', '@param' => 'null', '@return' => 'bool'], "\t");
                 $cond     .= $pc->getPhpCodeConditions('$this->getGlobalApprove()', '', '', $returnTrue, false, "\t\t");
                 $cond     .= $pc->getPhpCodeConditions('$this->getGlobalSubmit()', '', '', $returnTrue, false, "\t\t");
                 $right    .= $xc->getXcCheckRight('$grouppermHandler', $moduleDirname . '_ac', 16, '$my_group_ids', '$mid', true, "\t\t\t");
@@ -127,17 +127,17 @@ class ClassSpecialFiles extends Files\CreateFile
         }
         $functions      = $comment;
         $globalContent  = $xc->getXcGetGlobal(['xoopsUser', 'xoopsModule'], "\t\t");
-        $globalContent  .= $xc->getXcEqualsOperator('$currentuid', '0', null, false, "\t\t");
+        $globalContent  .= $xc->getXcEqualsOperator('$currentuid', '0', null, "\t\t");
 
         $contIf         = $pc->getPhpCodeConditions("\$xoopsUser->isAdmin(\$xoopsModule->mid())", '', '', "\t" . $returnTrue, false, "\t\t\t");
-        $contIf         .= $xc->getXcEqualsOperator('$currentuid', '$xoopsUser->uid()', null, false, "\t\t\t");
+        $contIf         .= $xc->getXcEqualsOperator('$currentuid', '$xoopsUser->uid()', null, "\t\t\t");
         $globalContent  .= $pc->getPhpCodeConditions('isset($xoopsUser)', ' && ', 'is_object($xoopsUser)', $contIf, false, "\t\t");
         $globalContent  .= $xc->getXcXoopsHandler('groupperm', "\t\t");
-        $globalContent  .= $xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, false, "\t\t");
+        $globalContent  .= $xc->getXcEqualsOperator('$mid', '$xoopsModule->mid()', null, "\t\t");
         $globalContent  .= $xc->getXcXoopsHandler('member', "\t\t");
 
-        $contIfInt      = $xc->getXcEqualsOperator('$my_group_ids', '[XOOPS_GROUP_ANONYMOUS]', null, false, "\t\t\t");
-        $contElseInt    = $xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid);', null, false, "\t\t\t");
+        $contIfInt      = $xc->getXcEqualsOperator('$my_group_ids', '[XOOPS_GROUP_ANONYMOUS]', null, "\t\t\t");
+        $contElseInt    = $xc->getXcEqualsOperator('$my_group_ids', '$memberHandler->getGroupsByUser($currentuid);', null, "\t\t\t");
         $globalContent  .= $pc->getPhpCodeConditions('0', ' == ', '$currentuid', $contIfInt, $contElseInt, "\t\t");
         $globalContent  .= $cond;
         $globalContent  .= $this->getSimpleString("return false;", "\t\t");
@@ -170,7 +170,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $arrGetInstance = ['@static function' => '&getInstance', '' => '', '@param' => 'null'];
         $cCl            .= $pc->getPhpCodeCommentMultiLine($arrGetInstance, "\t");
         $getInstance    = $pc->getPhpCodeVariableClass('static', 'instance', 'false', "\t\t");
-        $instance       = $xc->getXcEqualsOperator('$instance', 'new self()', null, false, "\t\t\t");
+        $instance       = $xc->getXcEqualsOperator('$instance', 'new self()', null, "\t\t\t");
         $getInstance    .= $pc->getPhpCodeConditions('!$instance', '', '', $instance, false, "\t\t");
         $cCl            .= $pc->getPhpCodeFunction('getInstance', '', $getInstance, 'public static ', false, "\t");
         $content        .= $pc->getPhpCodeClass($this->className, $cCl, '\XoopsObject');

@@ -65,7 +65,7 @@
     table_name: testfields
     table_solename: testfield
     table_fieldname: tf
-    table_nbfields: '15'
+    table_nbfields: '22'
     table_order: '1'
     table_image: alert.png
     table_autoincrement: '1'

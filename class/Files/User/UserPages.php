@@ -74,11 +74,12 @@ class UserPages extends Files\CreateFile
      * @param $tableName
      * @return string
      */
-    private function getUserPagesHeader($moduleDirname, $tableName)
+    private function getUserPagesHeader($moduleDirname, $tableName, $fieldId)
     {
         $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $uc        = UserXoopsCode::getInstance();
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $ret       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
@@ -86,6 +87,8 @@ class UserPages extends Files\CreateFile
         $ret       .= $uc->getUserTplMain($moduleDirname, $tableName);
         $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $pc->getPhpCodeBlankLine();
+        $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list', 'String');
+        $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '0', 'Int');
         $ret       .= $xc->getXcXoopsRequest('start', 'start', '0', 'Int');
         $userpager = $xc->getXcGetConfig('userpager');
         $ret       .= $xc->getXcXoopsRequest('limit', 'limit', $userpager, 'Int');
@@ -102,34 +105,32 @@ class UserPages extends Files\CreateFile
      * @param $tableName
      * @return string
      */
-    private function getUserPages($moduleDirname, $tableName)
+    private function getUserPages($moduleDirname, $tableName, $fieldId, $fieldMain)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ucfTableName     = ucfirst($tableName);
-        $t                = "\t";
-        $ret              = $pc->getPhpCodeBlankLine();
-        $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
-        $ret              .= $pc->getPhpCodeBlankLine();
-        $ret              .= $xc->getXcHandlerCountObj($tableName);
-        $ret              .= $xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
-        $ret              .= $xc->getXcHandlerAllObj($tableName, '', '$start', '$limit');
-        $ret              .= $pc->getPhpCodeArray('keywords', null, false, '');
-        $condIf           = $pc->getPhpCodeArray($tableName, null, false, $t);
-        $condIf           .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t);
-        $foreach          = $xc->getXcGetValues($tableName, $tableName . '[]', 'i', false, $t . "\t");
+        $ccFieldId = $this->getCamelCase($fieldId, false, true);
 
-        $table = $this->getTable();
-        // Fields
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName; // fieldMain = fields parameters main field
-            }
-        }
+        $t         = "\t";
+        $ret       = $pc->getPhpCodeBlankLine();
+        $ret       .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret       .= $xc->getXcXoopsTplAssign("{$moduleDirname}_url", "{$stuModuleDirname}_URL");
+        $ret       .= $pc->getPhpCodeBlankLine();
+        $ret       .= $xc->getXcCriteriaCompo('crit' . $ucfTableName);
+        $crit      = $xc->getXcCriteria('', "'{$fieldId}'", "\${$ccFieldId}",'',true);
+        $contIf    = $xc->getXcCriteriaAdd('crit' . $ucfTableName, $crit, "\t");
+        $ret       .= $pc->getPhpCodeConditions("\${$ccFieldId}", ' > ', '0', $contIf);
+        $ret       .= $xc->getXcHandlerCountClear($tableName . 'Count', $tableName, '$crit' . $ucfTableName);
+        $ret       .= $xc->getXcXoopsTplAssign($tableName . 'Count', "\${$tableName}Count");
+        $ret       .= $xc->getXcCriteriaSetStart('crit' . $ucfTableName, '$start');
+        $ret       .= $xc->getXcCriteriaSetLimit('crit' . $ucfTableName, '$limit');
+        $ret       .= $xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$crit' . $ucfTableName);
+        $ret       .= $pc->getPhpCodeArray('keywords', null, false, '');
+        $condIf    = $pc->getPhpCodeArray($tableName, null, false, $t);
+        $condIf    .= $pc->getPhpCodeCommentLine('Get All', $ucfTableName, $t);
+        $foreach   = $xc->getXcGetValues($tableName, $tableName . '[]', 'i', false, $t . "\t");
         $foreach   .= $xc->getXcGetVar('keywords[]', "{$tableName}All[\$i]", $fieldMain, false, $t . "\t");
         $condIf    .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $foreach, $t);
         $condIf    .= $xc->getXcXoopsTplAssign($tableName, "\${$tableName}", true, $t);
@@ -142,7 +143,7 @@ class UserPages extends Files\CreateFile
         $numbCol   = $xc->getXcGetConfig('numb_col');
         $condIf    .= $xc->getXcXoopsTplAssign('numb_col', $numbCol, true, $t);
 
-        $ret .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
+        $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '0', $condIf);
 
         return $ret;
     }
@@ -162,7 +163,6 @@ class UserPages extends Files\CreateFile
         $uc               = UserXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
-        //$stuTableSoleName = mb_strtoupper($tableSoleName);
         $ret              = $pc->getPhpCodeBlankLine();
         $ret              .= $pc->getPhpCodeCommentLine('Breadcrumbs');
         $ret              .= $uc->getUserBreadcrumbs($language, $stuTableName);
@@ -193,9 +193,22 @@ class UserPages extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
+        // Fields
+        $fieldId   = '';
+        $fieldMain = '';
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        foreach (array_keys($fields) as $f) {
+            $fieldName = $fields[$f]->getVar('field_name');
+            if (0 == $f) {
+                $fieldId = $fieldName;
+            }
+            if (1 == $fields[$f]->getVar('field_main')) {
+                $fieldMain = $fieldName; // fieldMain = fields parameters main field
+            }
+        }
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->getUserPagesHeader($moduleDirname, $tableName);
-        $content       .= $this->getUserPages($moduleDirname, $tableName);
+        $content       .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId);
+        $content       .= $this->getUserPages($moduleDirname, $tableName, $fieldId, $fieldMain);
         $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

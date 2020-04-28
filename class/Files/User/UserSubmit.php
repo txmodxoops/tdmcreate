@@ -117,11 +117,11 @@ class UserSubmit extends Files\CreateFile
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $uc  = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation', '', $t);
-        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', false, $t);
+        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', $t);
         $ret .= $xc->getXcXoopsTplAssign('navigation', '$navigation', true, $t);
         $ret .= $pc->getPhpCodeCommentLine('Title of page', null, $t);
-        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", '', false, $t );
-        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, $t);
+        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", '', $t );
+        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', $t);
         $ret .= $xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, $t);
         $ret .= $pc->getPhpCodeCommentLine('Description', null, $t);
         $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);
@@ -176,10 +176,10 @@ class UserSubmit extends Files\CreateFile
         if (1 == $tablePermissions) {
             $ucfTableName  = ucfirst($tableName);
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
-            $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t . "\t");
+            $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
             $contentInsert .= $pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
             $contentInsert .= $xc->getXcXoopsHandler('groupperm', $t . "\t");
-            $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, false, $t . "\t");
+            $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, $t . "\t");
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'view_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'submit_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'approve_' . $tableName);

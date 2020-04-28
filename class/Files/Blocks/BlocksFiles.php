@@ -87,17 +87,17 @@ class BlocksFiles extends Files\CreateFile
         $ucfTableName     = ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
-        $ret  = $pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'form']);
+        $ret  = $pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
         $func = $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
         $func .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '','', "\t");
         $func .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
-        $func .= $xc->getXcEqualsOperator('$block      ', '[]', '','', "\t");
-        $func .= $xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','','', "\t");
-        $func .= $xc->getXcEqualsOperator('$limit      ', '$options[1]','','', "\t");
-        $func .= $xc->getXcEqualsOperator('$lenghtTitle', '$options[2]','','', "\t");
-        $func .= $xc->getXcEqualsOperator('$helper     ', 'Helper::getInstance()','','', "\t");
-        $func .= $xc->getXcEqualsOperator("\${$tableName}Handler", "\$helper->getHandler('{$tableName}')", null, true, "\t");
+        $func .= $xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
+        $func .= $xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
+        $func .= $xc->getXcEqualsOperator('$limit      ', '$options[1]','',"\t");
+        $func .= $xc->getXcEqualsOperator('$lenghtTitle', '$options[2]','',"\t");
+        $func .= $xc->getXcEqualsOperator('$helper     ', 'Helper::getInstance()','',"\t");
+        $func .= $xc->getXcHandlerLine($tableName, "\t");
         $func .= $xc->getXcCriteriaCompo($critName, "\t");
         $func .= $pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $pc->getPhpCodeArrayShift('$options', "\t");
@@ -105,7 +105,7 @@ class BlocksFiles extends Files\CreateFile
         $func .= $pc->getPhpCodeBlankLine();
 
         //content if: parent
-        $contIf  = $xc->getXcEqualsOperator("\${$tableName}", "{$moduleDirname}_getMyItemIds('{$moduleDirname}_view', '{$moduleDirname}')", null, false, "\t");
+        $contIf  = $xc->getXcEqualsOperator("\${$tableName}", "{$moduleDirname}_getMyItemIds('{$moduleDirname}_view', '{$moduleDirname}')", null, "\t");
         $crit    = $xc->getXcCriteria('', "'cid'", "'(' . implode(',', \${$tableName}) . ')'", "'IN'", true);
         $contIf  .= $xc->getXcCriteriaAdd($critName, $crit, "\t");
         $crit    = $xc->getXcCriteria('', "'{$fieldId}'", "{$moduleDirname}_block_addCatSelect(\$options)", "'IN'", true);
@@ -135,17 +135,17 @@ class BlocksFiles extends Files\CreateFile
         if ('' !== $fieldStatus) {
             $case1[] = $critStatus;
         }
-        $case1[] = $xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_created'","\t\t\t");
+        $case1[] = $xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_date'","\t\t\t");
         $case1[] = $xc->getXcCriteriaSetOrder($critName, "'DESC'","\t\t\t");
         $case2[] = $pc->getPhpCodeCommentLine("For the block: {$tableName} new",'',"\t\t\t");
         if ('' !== $fieldStatus) {
             $case2[] = $critStatus;
         }
-        $crit    = $xc->getXcCriteria('', "'{$tableFieldname}_created'", 'strtotime(date(_SHORTDATESTRING))', "'>='", true);
+        $crit    = $xc->getXcCriteria('', "'{$tableFieldname}_date'", 'strtotime(date(_SHORTDATESTRING))', "'>='", true);
         $case2[] = $xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $crit    = $xc->getXcCriteria('', "'{$tableFieldname}_created'", 'strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
+        $crit    = $xc->getXcCriteria('', "'{$tableFieldname}_date'", 'strtotime(date(_SHORTDATESTRING))+86400', "'<='", true);
         $case2[] = $xc->getXcCriteriaAdd($critName, $crit,"\t\t\t");
-        $case2[] = $xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_created'","\t\t\t");
+        $case2[] = $xc->getXcCriteriaSetSort($critName, "'{$tableFieldname}_date'","\t\t\t");
         $case2[] = $xc->getXcCriteriaSetOrder($critName, "'ASC'","\t\t\t");
         $case3[] = $pc->getPhpCodeCommentLine("For the block: {$tableName} hits",'',"\t\t\t");
         if ('' !== $fieldStatus) {
@@ -196,20 +196,20 @@ class BlocksFiles extends Files\CreateFile
             if (1 == $fields[$f]->getVar('field_block')) {
                 switch ($fieldElement) {
                     case 2:
-                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, false, "\t\t\t");
+                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\$myts->htmlSpecialChars(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 3:
                     case 4:
-                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, false, "\t\t\t");
+                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "strip_tags(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 8:
-                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, false, "\t\t\t");
+                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']", "\XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     case 15:
-                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, false, "\t\t\t");
+                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'))", null, "\t\t\t");
                         break;
                     default:
-                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\${$tableName}All[\$i]->getVar('{$fieldName}')", null, false, "\t\t\t");
+                        $contentForeach .= $xc->getXcEqualsOperator("\$block[\$i]['{$rpFieldName}']","\${$tableName}All[\$i]->getVar('{$fieldName}')", null, "\t\t\t");
                         break;
                 }
             }
@@ -245,15 +245,15 @@ class BlocksFiles extends Files\CreateFile
         $ucfTableName     = ucfirst($tableName);
         $critName         = 'cr' . $ucfTableName;
 
-        $ret  = $pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'form']);
+        $ret  = $pc->getPhpCodeCommentMultiLine(['Function' => 'edit block', '@param  $options' => '', '@return' => 'string']);
         $func = $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
-        $func .= $xc->getXcEqualsOperator('$helper', 'Helper::getInstance()', '','', "\t");
-        $func .= $xc->getXcEqualsOperator("\${$tableName}Handler", "\$helper->getHandler('{$tableName}')", null, true, "\t");
+        $func .= $xc->getXcEqualsOperator('$helper', 'Helper::getInstance()', '',"\t");
+		$func .= $xc->getXcHandlerLine($tableName, "\t");
         $func .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
-        $func .= $xc->getXcEqualsOperator('$form', "{$language}DISPLAY", '','', "\t");
-        $func .= $xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' />\"", '.',false, "\t");
-        $func .= $xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' />&nbsp;<br>\"", '.',false, "\t");
-        $func .= $xc->getXcEqualsOperator('$form', "{$language}TITLE_LENGTH . \" : <input type='text' name='options[2]' size='5' maxlength='255' value='\" . \$options[2] . \"' /><br><br>\"", '.',false, "\t");
+        $func .= $xc->getXcEqualsOperator('$form', "{$language}DISPLAY", '',"\t");
+        $func .= $xc->getXcEqualsOperator('$form', "\"<input type='hidden' name='options[0]' value='\".\$options[0].\"' />\"", '.',"\t");
+        $func .= $xc->getXcEqualsOperator('$form', "\"<input type='text' name='options[1]' size='5' maxlength='255' value='\" . \$options[1] . \"' />&nbsp;<br>\"", '.',"\t");
+        $func .= $xc->getXcEqualsOperator('$form', "{$language}TITLE_LENGTH . \" : <input type='text' name='options[2]' size='5' maxlength='255' value='\" . \$options[2] . \"' /><br><br>\"", '.',"\t");
         $func .= $pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $pc->getPhpCodeArrayShift('$options', "\t");
         $func .= $pc->getPhpCodeArrayShift('$options', "\t");
@@ -265,12 +265,12 @@ class BlocksFiles extends Files\CreateFile
         $func .= $xc->getXcCriteriaSetOrder($critName, "'ASC'","\t","\n");
         $func .= $xc->getXcHandlerAllClear("{$tableName}All", $tableName, "\${$critName}", "\t");
         $func .= $pc->getPhpCodeUnset($critName, "\t");
-        $func .= $xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',false, "\t");
-        $func .= $xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',false, "\t");
-        $contentForeach = $xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '','', "\t\t");
-        $contentForeach .= $xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',false, "\t\t");
+        $func .= $xc->getXcEqualsOperator('$form', "{$language}{$stuTableName}_TO_DISPLAY . \"<br><select name='options[]' multiple='multiple' size='5'>\"", '.',"\t");
+        $func .= $xc->getXcEqualsOperator('$form', "\"<option value='0' \" . (in_array(0, \$options) == false ? '' : \"selected='selected'\") . '>' . {$language}ALL_{$stuTableName} . '</option>'", '.',"\t");
+        $contentForeach = $xc->getXcEqualsOperator("\${$fieldId}", "\${$tableName}All[\$i]->getVar('{$fieldId}')", '',"\t\t");
+        $contentForeach .= $xc->getXcEqualsOperator('$form', "\"<option value='\" . \${$fieldId} . \"' \" . (in_array(\${$fieldId}, \$options) == false ? '' : \"selected='selected'\") . '>' . \${$tableName}All[\$i]->getVar('{$fieldMain}') . '</option>'", '.',"\t\t");
         $func .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
-        $func .= $xc->getXcEqualsOperator('$form', "'</select>'", '.',false, "\t");
+        $func .= $xc->getXcEqualsOperator('$form', "'</select>'", '.',"\t");
         $func .= $pc->getPhpCodeBlankLine();
         $func .= $this->getSimpleString('return $form;', "\t");
         $func .= $pc->getPhpCodeBlankLine();

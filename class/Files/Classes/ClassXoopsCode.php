@@ -374,6 +374,32 @@ class ClassXoopsCode
     }
 
     /**
+     * @public function getClassXoopsFormDateTime
+     *
+     * @param        $var
+     * @param        $param1
+     * @param        $param2
+     * @param string $param3
+     * @param        $param4
+     * @param bool   $isParam
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getClassXoopsFormDateTime($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
+    {
+        $tdate                = 'new \XoopsFormDateTime( ';
+        $getVarTextDateSelect = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
+        if (false === $isParam) {
+            $ret = "{$t}\${$var} = {$tdate}{$param1}, '{$param2}', '', {$getVarTextDateSelect} );\n";
+        } else {
+            $ret = "{$tdate}{$param1}, '{$param2}', '', \${$param4} )";
+        }
+
+        return $ret;
+    }
+
+    /**
      * @public function getClassXoopsFormEditor
      *
      * @param        $var
@@ -436,6 +462,30 @@ class ClassXoopsCode
     public function getClassXoopsFormRadioYN($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
     {
         $radioYN = 'new \XoopsFormRadioYN( ';
+        if (false === $isParam) {
+            $ret = "{$t}\${$var} = {$radioYN}{$param1}, '{$param2}', \${$param3});\n";
+        } else {
+            $ret = "{$radioYN}{$param1}, '{$param2}', \${$param3})";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getClassXoopsFormRadioYN
+     *
+     * @param        $var
+     * @param        $param1
+     * @param        $param2
+     * @param        $param3
+     * @param bool   $isParam
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getClassXoopsFormRadio($var, $param1, $param2, $param3, $isParam = false, $t = "\t\t")
+    {
+        $radioYN = 'new \XoopsFormRadio( ';
         if (false === $isParam) {
             $ret = "{$t}\${$var} = {$radioYN}{$param1}, '{$param2}', \${$param3});\n";
         } else {
@@ -518,6 +568,59 @@ class ClassXoopsCode
             $ret = "{$t}\${$var} = {$button}'{$param1}', '{$param2}', {$param3}, '{$param4}');\n";
         } else {
             $ret = "{$button}'{$param1}', '{$param2}', {$param3}, '{$param4}')";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getClassXoopsFormPassword
+     *
+     * @param        $var
+     * @param        $param1
+     * @param        $param2
+     * @param string $param3
+     * @param        $param4
+     * @param bool   $isParam
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getClassXoopsFormPassword($var, $param1, $param2, $param3, $param4, $isParam = false, $t = "\t\t")
+    {
+        $tpassword                = 'new \XoopsFormPassword( ';
+        $getVarPassword = Tdmcreate\Files\CreateXoopsCode::getInstance()->getXcGetVar('', 'this', $param3, true);
+        if (false === $isParam) {
+            $ret = "{$t}\${$var} = {$tpassword}{$param1}, '{$param2}', '', {$getVarPassword} );\n";
+        } else {
+            $ret = "{$tpassword}{$param1}, '{$param2}', {$param3}, {$param4} )";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getClassXoopsFormSelectCountry
+     *
+     * @param        $var
+     * @param        $param1
+     * @param        $param2
+     * @param        $param3
+     * @param null   $param4
+     * @param null   $param5
+     * @param bool   $isParam
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getClassXoopsFormSelectCountry($var, $param1, $param2, $param3, $param4 = null, $param5 = null, $isParam = false, $t = "\t\t")
+    {
+        $otherParam = null != $param4 ? ", {$param4}" : (null != $param5 ? ", {$param5}" : '');
+        $select     = 'new \XoopsFormSelectCountry( ';
+        if (false === $isParam) {
+            $ret = "{$t}\${$var} = {$select}{$param1}, '{$param2}', \${$param3}{$otherParam});\n";
+        } else {
+            $ret = "{$select}{$param1}, '{$param2}', \${$param3}{$otherParam})";
         }
 
         return $ret;

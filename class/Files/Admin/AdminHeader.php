@@ -114,13 +114,13 @@ class AdminHeader extends Files\CreateFile
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret       .= $this->xc->getXcEqualsOperator("\${$tableName}Handler", "\$helper->getHandler('{$tableName}')", null, true);
+                $ret       .= $this->xc->getXcHandlerLine($tableName);
             }
         }
-        $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, false);
+        $ret            .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret            .= $this->pc->getPhpCodeCommentLine();
         $template       = $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/template', true, false, 'include', "\t");
-        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null, false, "\t");
+        $template       .= $this->xc->getXcEqualsOperator('$xoopsTpl', 'new \XoopsTpl()', null,"\t");
         $ret            .= $this->pc->getPhpCodeConditions('!isset($xoopsTpl)', ' || ', '!is_object($xoopsTpl)', $template, false);
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('Load languages');

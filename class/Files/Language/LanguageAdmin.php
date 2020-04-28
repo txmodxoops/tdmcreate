@@ -168,7 +168,8 @@ class LanguageAdmin extends Files\CreateFile
             }
             $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
 
-            $fieldStatus = 0;
+            $fieldStatus          = 0;
+            $fieldSampleListValue = 0;
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
@@ -197,9 +198,19 @@ class LanguageAdmin extends Files\CreateFile
                     case 14:
                         $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
+                    case 16:
+                        $fieldStatus++;
+                        break;
+                    case 20:
+                    case 22:
+                        $fieldSampleListValue++;
+                        break;
                 }
                 if (16 === (int)$fieldElement) {
                     $fieldStatus++;
+                }
+                if (20 === (int)$fieldElement || 20 === (int)$fieldElement) {
+                    $fieldSampleListValue++;
                 }
             }
         }
@@ -221,6 +232,12 @@ class LanguageAdmin extends Files\CreateFile
             $ret .= $this->defines->getDefine($language, 'STATUS_OFFLINE', 'Offline');
             $ret .= $this->defines->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
             $ret .= $this->defines->getDefine($language, 'STATUS_APPROVED', 'Approved');
+        }
+        if ($fieldSampleListValue > 0) {
+            $ret .= $this->defines->getAboveDefines('Sample List Values');
+            $ret .= $this->defines->getDefine($language, 'LIST_1', 'Sample List Value 1');
+            $ret .= $this->defines->getDefine($language, 'LIST_2', 'Sample List Value 2');
+            $ret .= $this->defines->getDefine($language, 'LIST_3', 'Sample List Value 3');
         }
 
         return $ret;

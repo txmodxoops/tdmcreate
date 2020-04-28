@@ -59,14 +59,10 @@ class ModuleFeedback extends \XoopsObject
     /**
      * @public function getFormFeedback:
      * provide form for sending a feedback to module author
-     * @param bool $action
      * @return \XoopsThemeForm
      */
-    public function getFormFeedback($action = false)
+    public function getFormFeedback()
     {
-        if (false === $action) {
-            $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
-        }
         $moduleDirName      = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         // Get Theme Form

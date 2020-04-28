@@ -74,7 +74,7 @@ class AdminMenu extends Files\CreateFile
      *
      * @return string
      */
-    private function getAdminMenuArray($param = [], $adminObject = false, $ref = false)
+    private function getAdminMenuArray($param = [], $adminObject = false)
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $ret = '';
@@ -86,11 +86,7 @@ class AdminMenu extends Files\CreateFile
             $ret .= $this->getSimpleString("];");
         } else {
             foreach ($param as $key => $value) {
-                if ($ref) {
-                    $ret .= $xc->getXcEqualsOperator((string)$key, (string)$value, null, true);
-                } else {
-                    $ret .= $xc->getXcEqualsOperator((string)$key, (string)$value);
-                }
+                $ret .= $xc->getXcEqualsOperator((string)$key, (string)$value);
             }
         }
 

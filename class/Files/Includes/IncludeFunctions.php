@@ -75,27 +75,20 @@ class IncludeFunctions extends Files\CreateFile
      */
     private function getFunctionBlock($moduleDirname)
     {
-        $ret = <<<EOT
-\n/***************Blocks***************/
-\n/**
- * add selected cats
- * @param \$cats
- * @return string
- */
-function {$moduleDirname}_block_addCatSelect(\$cats) {
-    if(is_array(\$cats))
-    {
-        \$cat_sql = '('.current(\$cats);
-        array_shift(\$cats);
-        foreach(\$cats as \$cat)
-        {
-            \$cat_sql .= ','.\$cat;
-        }
-        \$cat_sql .= ')';
-    }
-    return \$cat_sql;
-}\n
-EOT;
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+
+        $t      = "\t";
+        $ret    = $pc->getPhpCodeCommentMultiLine(['function' => 'add selected cats to block', '' => '', '@param  $cats' => '', '@return' => 'string']);
+        $func   = $xc->getXcEqualsOperator('$cat_sql', "'('", '', $t);
+        $contIf = $xc->getXcEqualsOperator('$cat_sql', "current(\$cats)", '.',$t. "\t");
+        $contIf .= $this->getSimpleString("array_shift(\$cats);", $t. "\t");
+        $contFe = $this->getSimpleString("\$cat_sql .= ',' . \$cat;", $t . "\t\t");
+        $contIf .= $pc->getPhpCodeForeach('cats', false,false,'cat', $contFe, $t. "\t");
+        $func .= $pc->getPhpCodeConditions('is_array($cats)','','', $contIf, false, $t);
+        $func   .= $xc->getXcEqualsOperator('$cat_sql', "')'", '.', $t);
+        $func .= $this->getSimpleString('return $cat_sql;', $t);
+        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}_block_addCatSelect", '$cats', $func);
 
         return $ret;
     }
@@ -109,28 +102,22 @@ EOT;
      */
     private function getFunctionGetMyItemIds($moduleDirname, $tableName)
     {
-        $ret = <<<EOT
-\n/**
- * Get the permissions ids
- * @param \$permtype
- * @param \$dirname
- * @return mixed \${$tableName}
- */
-function {$moduleDirname}GetMyItemIds(\$permtype, \$dirname)
-{
-    global \$xoopsUser;
-    static \$permissions = array();
-    if(is_array(\$permissions) && array_key_exists(\$permtype, \$permissions)) {
-        return \$permissions[\$permtype];
-    }
-	\$moduleHandler = xoops_getHandler('module');
-	\${$moduleDirname}Module = \$moduleHandler->getByDirname(\$dirname);
-	\$groups = is_object(\$xoopsUser) ? \$xoopsUser->getGroups() : XOOPS_GROUP_ANONYMOUS;
-	\$grouppermHandler = xoops_getHandler('groupperm');
-	\${$tableName} = \$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'));
-    return \${$tableName};
-}\n
-EOT;
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+
+        $t      = "\t";
+        $ret    = $pc->getPhpCodeCommentMultiLine(['Get the permissions ids' => '', '' => '', '@param  $permtype' => '', '@param  $dirname' => '', '@return' => 'mixed $itemIds']);
+        $func = $xc->getXcGetGlobal(['xoopsUser'], $t);
+        $func .= $xc->getXcEqualsOperator('static $permissions', "[]", '', $t);
+        $contIf = $this->getSimpleString('return $permissions[$permtype];', $t . "\t");
+        $func .= $pc->getPhpCodeConditions('is_array($permissions) && array_key_exists($permtype, $permissions)','','', $contIf, false, $t);
+        $func .= $xc->getXcXoopsHandler('module', $t);
+        $func .= $xc->getXcEqualsOperator("\${$moduleDirname}Module", '$moduleHandler->getByDirname($dirname)', '', $t);
+        $func .= $pc->getPhpCodeTernaryOperator('groups', 'is_object($xoopsUser)', '$xoopsUser->getGroups()', 'XOOPS_GROUP_ANONYMOUS', $t);
+        $func .= $xc->getXcXoopsHandler('groupperm', $t);
+        $func .= $xc->getXcEqualsOperator('$itemIds', "\$grouppermHandler->getItemIds(\$permtype, \$groups, \${$moduleDirname}Module->getVar('mid'))", '', $t);
+        $func .= $this->getSimpleString('return $itemIds;', $t);
+        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}GetMyItemIds", '$permtype, $dirname', $func);
 
         return $ret;
     }
@@ -272,7 +259,7 @@ function {$moduleDirname}_RewriteUrl(\$module, \$array, \$type = 'content')
 {
     \$comment = '';
     \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
-    \${$tableName} = \$helper->getHandler('{$tableName}');
+    \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$lenght_id = \$helper->getConfig('lenght_id');
     \$rewrite_url = \$helper->getConfig('rewrite_url');
 
@@ -377,7 +364,7 @@ function {$moduleDirname}_Filter(\$url, \$type = '') {
 
     // Get regular expression from module setting. default setting is : `[^a-z0-9]`i
     \$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();
-    \${$tableName} = \$helper->getHandler('{$tableName}');
+    \${$tableName}Handler = \$helper->getHandler('{$tableName}');
     \$regular_expression = \$helper->getConfig('regular_expression');
 
     \$url = strip_tags(\$url);

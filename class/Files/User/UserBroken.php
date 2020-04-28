@@ -111,11 +111,11 @@ class UserBroken extends Files\CreateFile
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $uc  = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation','', $t);
-        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", null, false, $t);
+        $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", null, $t);
         $ret .= $xc->getXcXoopsTplAssign('navigation', '$navigation', true, $t);
         $ret .= $pc->getPhpCodeCommentLine('Title of page', null, $t);
-        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", null, false, $t);
-        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, $t);
+        $ret .= $xc->getXcEqualsOperator('$title', "{$language}SUBMIT_PROPOSER . '&nbsp;-&nbsp;'", null, $t);
+        $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', $t);
         $ret .= $xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, $t);
         $ret .= $pc->getPhpCodeCommentLine('Description', null, $t);
         $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);

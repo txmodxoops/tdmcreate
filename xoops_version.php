@@ -24,8 +24,8 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 $moduleDirName      = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-$modversion['version']             = 3.03;
-$modversion['module_status']       = 'Alpha 1';
+$modversion['version']             = 3.02;
+$modversion['module_status']       = 'Alpha 2';
 $modversion['release_date']        = '2020/01/01';
 $modversion['name']                = _MI_TDMCREATE_NAME;
 $modversion['description']         = _MI_TDMCREATE_DESC;

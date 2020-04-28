@@ -93,7 +93,8 @@ class AdminAbout extends Files\CreateFile
         $content         .= $this->getInclude();
         $content         .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
         $content         .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('about.php')");
-        $content         .= $this->xc->getXcXoopsTplAssign('about', "\$adminObject->renderAbout('{$moduleDonations}', false)");
+        $content         .= $this->getSimpleString("\$adminObject->setPaypal('{$moduleDonations}');");
+        $content         .= $this->xc->getXcXoopsTplAssign('about', "\$adminObject->renderAbout(false)");
         $content         .= $this->getInclude('footer');
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

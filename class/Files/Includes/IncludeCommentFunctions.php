@@ -85,15 +85,18 @@ class IncludeCommentFunctions extends Files\CreateFile
         $ucfTableName     = ucfirst($tableName);
 
         $ret    = $pc->getPhpCodeCommentMultiLine(['CommentsUpdate' => '', '' => '', '@param mixed  $itemId' => '', '@param mixed  $itemNumb' => '', '@return' => 'bool']);
-        $func1  = $xc->getXcEqualsOperator('$itemId', '(int)$itemId', '', '',"\t");
-        $func1  .= $xc->getXcEqualsOperator('$itemNumb', '(int)$itemNumb', '', '',"\t");
-        $func1  .= $xc->getXcEqualsOperator('$article', "new {$ucfModuleDirname}{$ucfTableName}(\$itemId)", '', '',"\t");
+        $func1  = $xc->getXcEqualsOperator('$itemId', '(int)$itemId', '', "\t");
+        $func1  .= $xc->getXcEqualsOperator('$itemNumb', '(int)$itemNumb', '', "\t");
+        $func1  .= $xc->getXcEqualsOperator('$article', "new {$ucfModuleDirname}{$ucfTableName}(\$itemId)", '', "\t");
         $contIf = $this->getSimpleString('return false;',"\t\t");
         $func1  .= $pc->getPhpCodeConditions('!$article->updateComments($itemNumb)','','',$contIf, false,"\t");
         $func1  .= $this->getSimpleString('return true;',"\t");
         $ret    .= $pc->getPhpCodeFunction($moduleDirname . 'CommentsUpdate', '$itemId, $itemNumb', $func1);
-        $ret    .= $pc->getPhpCodeCommentMultiLine(['CommentsApprove' => '', '' => '', '@param mixed' => '$itemId', '@param mixed' => '$itemNumb', '@return' => 'bool']);
-        $func2  = $pc->getPhpCodeCommentLine('// notification mail here','',"\t");
+        $ret    .= $pc->getPhpCodeCommentMultiLine(['CommentsApprove' => '', '' => '', '@param mixed' => '$comment', '@return' => 'bool']);
+        $func2  = $pc->getPhpCodeCommentLine('notification mail here','',"\t");
+        $func2  .= $pc->getPhpCodeBlankLine();
+        $func2  .= $this->getSimpleString('return false;',"\t");
+        $func2  .= $pc->getPhpCodeBlankLine();
         $ret    .= $pc->getPhpCodeFunction($moduleDirname . 'CommentsApprove', '&$comment', $func2);
 
         return $ret;

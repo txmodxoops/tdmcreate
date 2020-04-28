@@ -332,7 +332,7 @@ class CreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '')
+    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '', $conditionElse = '')
     {
         if (false === $contentElse) {
             $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
@@ -341,7 +341,12 @@ class CreatePhpCode
         } else {
             $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
             $ret .= $contentIf;
-            $ret .= "{$t}} else {\n";
+            if ('' !== $conditionElse) {
+                $ret .= "{$t}} elseif ({$conditionElse}) {\n";
+            } else {
+                $ret .= "{$t}} else {\n";
+            }
+
             $ret .= $contentElse;
             $ret .= "{$t}}\n";
         }
@@ -392,8 +397,8 @@ class CreatePhpCode
      */
     public function getPhpCodeFor($var = null, $content = null, $value = null, $initVal = null, $operator = null, $t = '')
     {
-        $ret = "{$t}for(\${$var} = {$initVal}; {$var} {$operator} \${$value}; \${$var}++) {\n";
-        $ret .= "{$t}{$content}";
+        $ret = "{$t}for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {\n";
+        $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;

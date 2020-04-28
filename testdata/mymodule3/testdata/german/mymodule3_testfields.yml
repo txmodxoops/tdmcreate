@@ -1,0 +1,69 @@
+-
+    tf_id: '1'
+    tf_text: 'Testfields 1'
+    tf_textarea: 'This is to demonstrate all possible fields provided by Tdmcreate'
+    tf_dhtml: ''
+    tf_checkbox: '1'
+    tf_yesno: '1'
+    tf_selectbox: Empty
+    tf_user: '1'
+    tf_color: '#ff8000'
+    tf_imagelist: album.png
+    tf_urlfile: ''
+    tf_uplimage: blank.gif
+    tf_uplfile: ''
+    tf_textdateselect: '1588087355'
+    tf_selectfile: ''
+    tf_password: $2y$10$NkJX3k5BgZDVyFfkWdiNhe10UEahZ77zp7K6exuxPgjsW2eLXU33G
+    tf_country_list: AT
+    tf_language: german
+    tf_radio: '1'
+    tf_status: '2'
+    tf_datetime: '1588087200'
+    tf_combobox: '2'
+-
+    tf_id: '2'
+    tf_text: 'Testfields 2'
+    tf_textarea: ''
+    tf_dhtml: ''
+    tf_checkbox: '0'
+    tf_yesno: '0'
+    tf_selectbox: '1'
+    tf_user: '1'
+    tf_color: '#000000'
+    tf_imagelist: administration.png
+    tf_urlfile: ''
+    tf_uplimage: blank.gif
+    tf_uplfile: ''
+    tf_textdateselect: '1588087440'
+    tf_selectfile: ''
+    tf_password: $2y$10$erR4j28n8TJsXc5w9uu6luq9XFz0G/cuDvDALq6OR6RpHaGTmfB1C
+    tf_country_list: ''
+    tf_language: ''
+    tf_radio: '0'
+    tf_status: '1'
+    tf_datetime: '1588087800'
+    tf_combobox: '0'
+-
+    tf_id: '3'
+    tf_text: 'Approved Line'
+    tf_textarea: ''
+    tf_dhtml: ''
+    tf_checkbox: '0'
+    tf_yesno: '0'
+    tf_selectbox: Empty
+    tf_user: '1'
+    tf_color: '#000000'
+    tf_imagelist: blank.gif
+    tf_urlfile: ''
+    tf_uplimage: blank.gif
+    tf_uplfile: ''
+    tf_textdateselect: '1588087466'
+    tf_selectfile: ''
+    tf_password: $2y$10$WggQPKbXHPphRS3ymTaYge4a3xI34g91jIL0V5xF4s7n/lbgD63bO
+    tf_country_list: ''
+    tf_language: ''
+    tf_radio: '0'
+    tf_status: '3'
+    tf_datetime: '1588087800'
+    tf_combobox: '0'

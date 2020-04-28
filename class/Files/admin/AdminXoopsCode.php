@@ -188,7 +188,7 @@ class AdminXoopsCode
         $ifelse         = $t . "\t//" . $this->getAxcSetPrefix('uploader', "{$fieldName}_") . ";\n";
         $ifelse         .= $t . "\t//{$fetchMedia};\n";
         $contentElseInt = $xCodeImageList->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contentIf      = $xCodeImageList->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $contentIf      = $xCodeImageList->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, $t . "\t\t");
         $contentIf      .= $xCodeImageList->getXcRedirectHeader('javascript:history.go(-1)', '', '3', '$errors', true, $t . "\t\t");
         $ifelse         .= $pCodeImageList->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
         $contentElseExt = $xCodeImageList->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
@@ -217,11 +217,11 @@ class AdminXoopsCode
         $ret              = $pCodeUploadImage->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret              .= $pCodeUploadImage->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $file             = $pCodeUploadImage->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
-        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$filename      ', $file, null, false, $t);
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$filename      ', $file, null, $t);
         $mimetype         = $pCodeUploadImage->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['type']";
-        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgMimetype   ', $mimetype, null, false, $t);
-        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, false, $t);
-        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', "''", null, false, $t);
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgMimetype   ', $mimetype, null, $t);
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, $t);
+        $ret              .= $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', "''", null, $t);
         $xUploadImage     = "{$stuModuleDirname}_UPLOAD_IMAGE_PATH";
         $ret              .= $xCodeUploadImage->getXcMediaUploader('uploader', $xUploadImage . " . '/{$tableName}/'", 'mimetypes_image', 'maxsize_image', $t);
         $post             = $pCodeUploadImage->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
@@ -231,24 +231,24 @@ class AdminXoopsCode
         $ifelse           .= $t . "\t\$imgName = str_replace(' ', '', \$imgNameDef) . '.' . \$extension;\n";
         $ifelse           .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse           .= $t . "\t{$fetchMedia};\n";
-        $contentElseInt   = $xCodeUploadImage->getXcEqualsOperator('$savedFilename', '$uploader->getSavedFileName()', null, false, $t . "\t\t");
+        $contentElseInt   = $xCodeUploadImage->getXcEqualsOperator('$savedFilename', '$uploader->getSavedFileName()', null, $t . "\t\t");
         $config           = $xCodeUploadImage->getXcGetConfig('maxwidth_image');
-        $contentElseInt   .= $xCodeUploadImage->getXcEqualsOperator('$maxwidth ', "(int){$config}", null, false, $t . "\t\t");
+        $contentElseInt   .= $xCodeUploadImage->getXcEqualsOperator('$maxwidth ', "(int){$config}", null, $t . "\t\t");
         $config           = $xCodeUploadImage->getXcGetConfig('maxheight_image');
-        $contentElseInt   .= $xCodeUploadImage->getXcEqualsOperator('$maxheight', "(int){$config}", null, false, $t . "\t\t");
+        $contentElseInt   .= $xCodeUploadImage->getXcEqualsOperator('$maxheight', "(int){$config}", null, $t . "\t\t");
         $resizer = $pCodeUploadImage->getPhpCodeCommentLine('Resize image', '', $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler               ', "new {$ucfModuleDirname}\Common\Resizer()", null, false, $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->sourceFile   ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, false, $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->endFile      ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, false, $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->imageMimetype', '$imgMimetype', null, false, $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->maxWidth     ', '$maxwidth', null, false, $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->maxHeight    ', '$maxheight', null, false, $t . "\t\t\t");
-        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$result                   ', '$imgHandler->resizeImage()', null, false, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler               ', "new {$ucfModuleDirname}\Common\Resizer()", null, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->sourceFile   ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->endFile      ', $xUploadImage . " . '/{$tableName}/' . \$savedFilename", null, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->imageMimetype', '$imgMimetype', null, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->maxWidth     ', '$maxwidth', null, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$imgHandler->maxHeight    ', '$maxheight', null, $t . "\t\t\t");
+        $resizer .= $xCodeUploadImage->getXcEqualsOperator('$result                   ', '$imgHandler->resizeImage()', null, $t . "\t\t\t");
         $contentElseInt .= $pCodeUploadImage->getPhpCodeConditions('$maxwidth > 0 && $maxheight > 0', '', '', $resizer, false, $t . "\t\t");
         $contentElseInt .= $xCodeUploadImage->getXcSetVarObj($tableName, $fieldName, '$savedFilename', $t . "\t\t");
-        $contentIf       = $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $contentIf       = $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, $t . "\t\t");
         $ifelse         .= $pCodeUploadImage->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
-        $ifelseExt       = $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $ifelseExt       = $xCodeUploadImage->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, $t . "\t\t");
         $contentElseExt  = $pCodeUploadImage->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
         $contentElseExt .= $xCodeUploadImage->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
@@ -303,8 +303,8 @@ class AdminXoopsCode
         $ret            .= $pc->getPhpCodeCommentLine('Set Var', $fieldName, $t);
         $ret            .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/uploader', true, false, '', $t);
         $file           = $pc->getPhpCodeGlobalsVariables($fieldName, 'FILES') . "['name']";
-        $ret            .= $xc->getXcEqualsOperator('$filename      ', $file, null, false, $t);
-        $ret            .= $xc->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, false, $t);
+        $ret            .= $xc->getXcEqualsOperator('$filename      ', $file, null, $t);
+        $ret            .= $xc->getXcEqualsOperator('$imgNameDef    ', "Request::getString('{$fieldMain}')", null, $t);
         $ret            .= $xc->getXcMediaUploader('uploader', $dirname . " . '/{$tableName}{$files}/'", $mimetype, $maxsize, $t);
         $post           = $pc->getPhpCodeGlobalsVariables('xoops_upload_file', 'POST') . '[' . $countUploader . ']';
         $fetchMedia     = $this->getAxcFetchMedia('uploader', $post);
@@ -315,9 +315,9 @@ class AdminXoopsCode
         $ifelse         .= $this->getAxcSetPrefix('uploader', '$imgName', $t . "\t") . ";\n";
         $ifelse         .= $t . "\t{$fetchMedia};\n";
         $contentElseInt = $xc->getXcSetVarObj($tableName, $fieldName, '$uploader->getSavedFileName()', $t . "\t\t");
-        $contentIf      .= $xc->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $contentIf      .= $xc->getXcEqualsOperator('$errors', '$uploader->getErrors()', null, $t . "\t\t");
         $ifelse         .= $pc->getPhpCodeConditions('!$uploader->upload()', '', '', $contentIf, $contentElseInt, $t . "\t");
-        $ifelseExt       = $xc->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, false, $t . "\t\t");
+        $ifelseExt       = $xc->getXcEqualsOperator('$uploaderErrors', '$uploader->getErrors()', null, $t . "\t\t");
         $contentElseExt  = $pc->getPhpCodeConditions("\$filename", ' > ', "''", $ifelseExt, false, $t . "\t");
         $contentElseExt .= $xc->getXcSetVarObj($tableName, $fieldName, "Request::getString('{$fieldName}')", $t . "\t");
 
@@ -325,6 +325,23 @@ class AdminXoopsCode
 
         return $ret;
     }
+
+    /**
+     * @public function getAxcSetVarPassword
+     * @param        $tableName
+     * @param        $fieldName
+     * @param $fieldType
+     * @param string $t
+     * @return string
+     */
+    public function getAxcSetVarPassword($tableName, $fieldName, $fieldType, $t = '')
+    {
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $ret = $xc->getXcSetVarObj($tableName, $fieldName, "password_hash(Request::getString('{$fieldName}', ''), PASSWORD_DEFAULT)", $t);
+
+        return $ret;
+    }
+
 
     /**
      * @public function getAxcSetVarMisc

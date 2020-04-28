@@ -109,7 +109,7 @@ class UserPdf extends Files\CreateFile
         $ret            .= $this->pc->getPhpCodeConditions($fileExist, '', '', $requireOnce, $redirectHeader);
         $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
         $ret            .= $this->xc->getXcHandlerLine($tableName);
-        $ret            .= $this->xc->getXcGetVar($tableName, 'this', $fieldId, false, '');
+        //$ret            .= $this->xc->getXcGetVar($tableName, 'this', $fieldId, false, '');
         $ret            .= $this->pc->getPhpCodeBlankLine();
 
         return $ret;
@@ -121,7 +121,7 @@ class UserPdf extends Files\CreateFile
      * @param $fields
      * @return string
      */
-    public function getUserPdfTcpdf($moduleDirname, $fields)
+    public function getUserPdfTcpdf($moduleDirname, $tableName, $fields)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = '';
@@ -129,7 +129,7 @@ class UserPdf extends Files\CreateFile
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldDefault = $fields[$f]->getVar('field_default');
             $fieldElement = $fields[$f]->getVar('field_element');
-            $getVar       = $this->xc->getXcGetVar('', 'pdfContent', $fieldName, true);
+            $getVar       = $this->xc->getXcGetVar('', $tableName . 'Handler', $fieldName, true);
             switch ($fieldElement) {
                 case 2:
                     if (false !== mb_strpos($fieldName, 'title') || false !== mb_strpos($fieldName, 'name') && '' == $fieldDefault) {
@@ -160,7 +160,7 @@ class UserPdf extends Files\CreateFile
         $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_STRING", "\$pdfData['subject']");
         $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_HEADER_LOGO", "'logo.gif'");
         $ret       .= $this->pc->getPhpCodeDefine("{$stuModuleDirname}_IMAGES_PATH", "XOOPS_ROOT_PATH.'/images/'");
-        $ret       .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret       .= $this->xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret       .= $this->xc->getXcEqualsOperator('$content', "''");
         $ret       .= $this->xc->getXcEqualsOperator('$content', "\$myts->undoHtmlSpecialChars(\$pdfData['content'])", '.');
         $ret       .= $this->xc->getXcEqualsOperator('$content', '$myts->displayTarea($content)');
@@ -192,9 +192,10 @@ class UserPdf extends Files\CreateFile
         $elseLang  .= $this->getSimpleString("\$pdf->setFooterFont(array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));", "\t");
         $ret       .= $this->pc->getPhpCodeConditions('_LANGCODE', ' == ', "'cn'", $ifLang, $elseLang);
         $ret       .= $this->pc->getPhpCodeCommentLine('Set some language-dependent strings (optional)');
-        $fileExist = $this->pc->getPhpCodeFileExists("\$lang = XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php'");
-        $contIf    = $this->pc->getPhpCodeIncludeDir('$lang', '', true, false, 'require', "\t");
-        $contIf    .= $this->getSimpleString('$pdf->setLanguageArray($l);', "\t");
+        $ret       .= $this->xc->getXcEqualsOperator('$lang', "XOOPS_ROOT_PATH.'/Frameworks/tcpdf/lang/eng.php'");
+        $fileExist = $this->pc->getPhpCodeFileExists('$lang');
+        $contIf    = $this->pc->getPhpCodeIncludeDir('$lang', '', true, true, 'require', "\t");
+        $contIf    .= $this->getSimpleString('$pdf->setLanguageArray($lang);', "\t");
         $ret       .= $this->pc->getPhpCodeConditions("@{$fileExist}", '', '', $contIf);
 
         return $ret;
@@ -241,7 +242,7 @@ class UserPdf extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content       .= $this->getUserPdfHeader($moduleDirname, $tableName, $fields, $language);
-        $content       .= $this->getUserPdfTcpdf($moduleDirname, $fields);
+        $content       .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $fields);
         $content       .= $this->getUserPdfFooter($moduleDirname, $tableName);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

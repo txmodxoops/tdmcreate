@@ -71,20 +71,13 @@ class CreateXoopsCode
      * @param $var
      * @param $value
      * @param $interlock
-     * @param $ref
      * @param $t - Indentation
      *
      * @return string
      */
-    public function getXcEqualsOperator($var, $value, $interlock = null, $ref = false, $t = '')
+    public function getXcEqualsOperator($var, $value, $interlock = null, $t = '')
     {
-        if (false === $ref) {
-            $ret = "{$t}{$var} {$interlock}= {$value};\n";
-        } else {
-            $ret = "{$t}{$var} = {$value};\n";
-        }
-
-        return $ret;
+        return "{$t}{$var} {$interlock}= {$value};\n";
     }
 
     /**
@@ -193,10 +186,37 @@ class CreateXoopsCode
     {
         $tf            = Tdmcreate\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
-        $ucfRightFiled = ucfirst($rightField);
+        $ucfRightField = ucfirst($rightField);
         $value         = "date_create_from_format(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
-        $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightFiled}", $value, null, false, $t);
-        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightFiled}->getTimestamp()", $t);
+        $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}", $value, null, $t);
+        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightField}->getTimestamp()", $t);
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcSetVarDateTime
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $fieldName
+     * @param string $t
+     * @return string
+     */
+    public function getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t = '')
+    {
+        $tf            = Tdmcreate\Files\CreateFile::getInstance();
+        $rightField    = $tf->getRightString($fieldName);
+        $ucfRightField = ucfirst($rightField);
+        $request       = "Request::getArray('{$fieldName}')";
+        $var           = "\${$tableSoleName}{$ucfRightField}";
+        $varArr           = "\${$tableSoleName}{$ucfRightField}Arr";
+        $ret     = $this->getXcEqualsOperator($varArr, $request, null, $t);
+
+        //$ret     .= $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}Date",  "strtotime({$varArr}['date'])", null, $t);
+        //$ret     .= $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}Time", "(int){$varArr}['time']", null, $t);
+        $value         = "strtotime({$varArr}['date']) + (int){$varArr}['time']";
+        $ret     .= $this->getXcEqualsOperator($var, $value, null, $t);
+        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, $var, $t);
 
         return $ret;
     }
@@ -370,7 +390,7 @@ class CreateXoopsCode
         $ret          = $pVarFromID->getPhpCodeCommentLine('Get Var', $fieldName, $t);
         $getVarFromID = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
         $rightGet     = $this->getXcAnchorFunction($anchor . 'Handler', 'get' . $var . 'FromId', $getVarFromID);
-        $ret          .= $this->getXcEqualsOperator($left, $rightGet, null, false, $t);
+        $ret          .= $this->getXcEqualsOperator($left, $rightGet, null, $t);
 
         return $ret;
     }
@@ -1070,7 +1090,7 @@ class CreateXoopsCode
         $ret          = $pImageGetVar->getPhpCodeCommentLine('Get Var', $fieldName, $t);
         $ret          .= $this->getXcGetVar($fieldName, "\${$tableName}All[\$i]", $fieldName, false, '');
         $ret          .= $pImageGetVar->getPhpCodeTernaryOperator('uploadImage', "\${$fieldName}", "\${$fieldName}", "'blank.gif'", $t);
-        $ret          .= $this->getXcEqualsOperator("${$lpFieldName}['{$rpFieldName}']", '$uploadImage', null, false, $t);
+        $ret          .= $this->getXcEqualsOperator("${$lpFieldName}['{$rpFieldName}']", '$uploadImage', null, $t);
 
         return $ret;
     }
@@ -1166,6 +1186,13 @@ class CreateXoopsCode
                         break;
                     case 15:
                         $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
+                        break;
+                    case 17:
+                        $ret .= $axCodeSaveElements->getAxcSetVarPassword($tableName, $fieldName, $fieldName, $t);
+                        $countUploader++;
+                        break;
+                    case 21:
+                        $ret .= $this->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
                         $ret .= $axCodeSaveElements->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t);
@@ -1263,12 +1290,16 @@ class CreateXoopsCode
      * @param        $var
      * @param        $param
      * @param string $t
-     *
+     * @param string $n
+     * @param string $condition
      * @return string
      */
-    public function getXcCriteriaAdd($var, $param, $t = '', $n = "\n")
+    public function getXcCriteriaAdd($var, $param, $t = '', $n = "\n", $condition = '')
     {
-        return "{$t}\${$var}->add( {$param} );{$n}";
+        if ('' !== $condition) {
+            $condition = ", {$condition}";
+        }
+        return "{$t}\${$var}->add( {$param}{$condition} );{$n}";
     }
 
     /**
@@ -1450,6 +1481,32 @@ class CreateXoopsCode
     public function getXcXoopsListImgListArray($return, $var, $t = '')
     {
         return "{$t}\${$return} = \XoopsLists::getImgListAsArray( {$var} );\n";
+    }
+
+    /**
+     * @public function getXcXoopsListLangList
+     * @param $return
+     * @param $var
+     * @param $t
+     *
+     * @return string
+     */
+    public function getXcXoopsListLangList($return, $t = '')
+    {
+        return "{$t}\${$return} = \XoopsLists::getLangList();\n";
+    }
+
+    /**
+     * @public function getXcXoopsListCountryList
+     * @param $return
+     * @param $var
+     * @param $t
+     *
+     * @return string
+     */
+    public function getXcXoopsListCountryList($return, $t = '')
+    {
+        return "{$t}\${$return} = \XoopsLists::getCountryList();\n";
     }
 
     /**

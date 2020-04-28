@@ -125,4 +125,28 @@ class FieldElementsHandler extends \XoopsPersistableObjectHandler
 
         return $crFieldElemsCriteria;
     }
+
+    /**
+     * Get FieldElements Criteria.
+     * @param $crFieldElemsCriteria
+     * @param $start
+     * @param $limit
+     * @param $sort
+     * @param $order
+     * @return mixed
+     */
+    public function getFieldElementsList($crFieldElemsCriteria, $start = 0, $limit = 0, $sort = 'fieldelement_sort', $order = 'ASC')
+    {
+        $crFieldElems = $this->getFieldElementsCriteria($crFieldElemsCriteria, $start, $limit, $sort, $order);
+        $fieldeleArr = $this->getAll($crFieldElems);
+        foreach (array_keys($fieldeleArr) as $i) {
+            $stuFeName = mb_strtoupper($fieldeleArr[$i]->getVar('fieldelement_name'));
+            if (1 == $i) {
+                $fieldele[$i] = '...';
+            } else {
+                $fieldele[$i] = constant ('_AM_TDMCREATE_FIELD_ELE_' . $stuFeName);
+            }
+        }
+        return $fieldele;
+    }
 }

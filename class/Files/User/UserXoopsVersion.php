@@ -405,6 +405,8 @@ class UserXoopsVersion extends Files\CreateFile
             $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
             ++$i;
         }
+        //TODO: after finalizing creation of search.php by User/UserSearch.php this sub menu item can be activated
+        /*
         if (in_array(1, $tableSearch)) {
             $contentIf .= $cpc->getPhpCodeCommentLine('Sub', 'Search', "\t");
             $descriptions = [
@@ -413,7 +415,7 @@ class UserXoopsVersion extends Files\CreateFile
             ];
             $contentIf  .= $uxc->getUserModVersionArray(2, $descriptions, 'sub', '','', "\t");
         }
-
+        */
         unset($i);
 
         $ret .= $cpc->getPhpCodeConditions('$moduleDirName', ' == ', '$currdirname', $contentIf);
@@ -554,7 +556,8 @@ class UserXoopsVersion extends Files\CreateFile
             $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('Get groups');
             $ret    .= $xCodeVConfig->getXcXoopsHandler('member');
             $ret    .= $xCodeVConfig->getXcEqualsOperator('$xoopsGroups ', '$memberHandler->getGroupList()');
-            $group  = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, false, "\t");
+            $ret    .= $xCodeVConfig->getXcEqualsOperator('$groups', '[]');
+            $group  = $xCodeVConfig->getXcEqualsOperator('$groups[$group] ', '$key', null, "\t");
             $ret    .= $phpCodeVConfig->getPhpCodeForeach('xoopsGroups', false, 'key', 'group', $group);
             $ret    .= $phpCodeVConfig->getPhpCodeCommentLine('General access groups');
             $groups = [
@@ -584,7 +587,8 @@ class UserXoopsVersion extends Files\CreateFile
             $ret         .= $this->getSimpleString("\$criteria->add( new \Criteria( 'group_type', 'Admin' ) );");
             $ret         .= $xCodeVConfig->getXcXoopsHandler('member');
             $ret         .= $xCodeVConfig->getXcEqualsOperator('$adminXoopsGroups ', '$memberHandler->getGroupList($criteria)');
-            $adminGroup  = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key', null, false, "\t");
+            $ret         .= $xCodeVConfig->getXcEqualsOperator('$adminGroups', '[]');
+            $adminGroup  = $xCodeVConfig->getXcEqualsOperator('$adminGroups[$adminGroup] ', '$key', null, "\t");
             $ret         .= $phpCodeVConfig->getPhpCodeForeach('adminXoopsGroups', false, 'key', 'adminGroup', $adminGroup);
             $adminGroups = [
                 'name'        => "'admin_groups'",
@@ -1122,31 +1126,31 @@ class UserXoopsVersion extends Files\CreateFile
 
         $ret  = $pc->getPhpCodeCommentLine('create increment steps for file size');
         $ret  .= $pc->getPhpCodeIncludeDir("__DIR__ . '/include/xoops_version.inc.php'", '',true,true);
-        $ret  .= $xc->getXcEqualsOperator('$iniPostMaxSize      ', "{$moduleDirname}ReturnBytes(ini_get('post_max_size'))", null, false);
-        $ret  .= $xc->getXcEqualsOperator('$iniUploadMaxFileSize', "{$moduleDirname}ReturnBytes(ini_get('upload_max_filesize'))", null, false);
-        $ret  .= $xc->getXcEqualsOperator('$maxSize             ', "min(\$iniPostMaxSize, \$iniUploadMaxFileSize)", null, false);
-        $cond = $xc->getXcEqualsOperator('$increment', '500', null, false,$t . "\t");
+        $ret  .= $xc->getXcEqualsOperator('$iniPostMaxSize      ', "{$moduleDirname}ReturnBytes(ini_get('post_max_size'))");
+        $ret  .= $xc->getXcEqualsOperator('$iniUploadMaxFileSize', "{$moduleDirname}ReturnBytes(ini_get('upload_max_filesize'))");
+        $ret  .= $xc->getXcEqualsOperator('$maxSize             ', "min(\$iniPostMaxSize, \$iniUploadMaxFileSize)");
+        $cond = $xc->getXcEqualsOperator('$increment', '500', null, $t . "\t");
         $ret  .= $pc->getPhpCodeConditions('$maxSize', ' > ', '10000 * 1048576', $cond, false, $t);
-        $cond = $xc->getXcEqualsOperator('$increment', '200', null, false,$t . "\t");
+        $cond = $xc->getXcEqualsOperator('$increment', '200', null, $t . "\t");
         $ret  .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '10000 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '100', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '100', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '5000 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '50', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '50', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '2500 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '10', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '10', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '1000 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '5', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '5', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '500 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '2', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '2', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '100 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '1', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '1', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '50 * 1048576', $cond, false, $t);
-        $cond  = $xc->getXcEqualsOperator('$increment', '0.5', null, false,$t . "\t");
+        $cond  = $xc->getXcEqualsOperator('$increment', '0.5', null, $t . "\t");
         $ret   .= $pc->getPhpCodeConditions('$maxSize', ' <= ', '25 * 1048576', $cond, false, $t);
         $ret   .= $xc->getXcEqualsOperator('$optionMaxsize', '[]');
         $ret   .= $xc->getXcEqualsOperator('$i', '$increment');
-        $while = $xc->getXcEqualsOperator("\$optionMaxsize[\$i . ' ' . _MI_{$ucModuleDirname}_SIZE_MB]", '$i * 1048576', null, false,$t . "\t");
-        $while .= $xc->getXcEqualsOperator('$i', '$increment', '+',false ,$t . "\t");
+        $while = $xc->getXcEqualsOperator("\$optionMaxsize[\$i . ' ' . _MI_{$ucModuleDirname}_SIZE_MB]", '$i * 1048576', null, $t . "\t");
+        $while .= $xc->getXcEqualsOperator('$i', '$increment', '+',$t . "\t");
         $ret   .= $pc->getPhpCodeWhile('i * 1048576', $while, '$maxSize', ' <= ');
 
         return $ret;

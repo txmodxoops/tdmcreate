@@ -104,12 +104,12 @@ class UserHeader extends Files\CreateFile
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
         $ret .= $xc->getXcXoopsHandler('groupperm');
 
-        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
-        $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");
+        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, "\t");
+        $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, "\t");
 
         $ret .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
         $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret .= $pc->getPhpCodeCommentLine('Default Css Style');
         $ret .= $xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
         $ret .= $pc->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");

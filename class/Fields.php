@@ -228,7 +228,7 @@ class Fields extends \XoopsObject
             $crTable = new \CriteriaCompo();
             $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
             $fieldElementsSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $i . ']');
-            $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crElement));
+            $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldElementsList($crElement));
             $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
             unset($crElement, $crTable);
             $parametersTray->addElement($fieldElementsSelect);
@@ -378,7 +378,8 @@ class Fields extends \XoopsObject
                     $crTable = new \CriteriaCompo();
                     $crTable->add(new \Criteria('fieldelement_mid', $fieldMid));
                     $fieldElementsSelect = new \XoopsFormSelect(_AM_TDMCREATE_FIELD_ELEMENT_NAME, 'field_element[' . $id . ']', $field->getVar('field_element'));
-                    $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crElement));
+                    //$fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crElement));
+                    $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getFieldElementsList($crElement));
                     $fieldElementsSelect->addOptionArray($helper->getHandler('Fieldelements')->getList($crTable));
                     unset($crElement, $crTable);
                     $parametersTray->addElement($fieldElementsSelect);

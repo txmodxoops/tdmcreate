@@ -281,6 +281,12 @@ class AdminPages extends Files\CreateFile
                     case 15:
                         $ret .= $xc->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
                         break;
+                    case 17:
+                        $ret .= $axc->getAxcSetVarPassword($tableName, $fieldName, $fieldName, $t);
+                        break;
+                    case 21:
+                        $ret .= $xc->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
+                        break;
                     default:
                         $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t);
                         break;
@@ -294,10 +300,10 @@ class AdminPages extends Files\CreateFile
         if (1 == $tablePerms) {
             $ucfTableName  = ucfirst($tableName);
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
-            $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, false, $t . "\t");
+            $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
             $contentInsert .= $pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
             $contentInsert .= $xc->getXcXoopsHandler('groupperm', $t . "\t");
-            $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, false, $t . "\t");
+            $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, $t . "\t");
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'view_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'submit_' . $tableName);
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'approve_' . $tableName);

@@ -93,7 +93,7 @@ class ClassHandlerFiles extends Files\CreateFile
         $multiLineCom     = ['Class Object Handler' => $ucfTableName];
         $ret              = $pc->getPhpCodeCommentMultiLine($multiLineCom);
 
-        $cClh   = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => 'null|XoopsDatabase $db'], "\t");
+        $cClh   = $pc->getPhpCodeCommentMultiLine(['Constructor' => '', '' => '', '@param' => '\XoopsDatabase $db'], "\t");
         $constr = "\t\tparent::__construct(\$db, '{$moduleDirname}_{$tableName}', {$ucfTableName}::class, '{$fieldId}', '{$fieldMain}');\n";
 
         $cClh .= $pc->getPhpCodeFunction('__construct', '\XoopsDatabase $db', $constr, 'public ', false, "\t");
@@ -180,7 +180,7 @@ class ClassHandlerFiles extends Files\CreateFile
 
         $critCount  = $xc->getXcCriteriaCompo('crCount' . $ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crCount{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
-        $critCount  .= $xc->getXcEqualsOperator('$crCount' . $ucfTableName, $paramsCrit, null, false, "\t\t");
+        $critCount  .= $xc->getXcEqualsOperator('$crCount' . $ucfTableName, $paramsCrit, null, "\t\t");
         $critCount  .= $this->getSimpleString("return parent::getCount(\$crCount{$ucfTableName});", "\t\t");
         $params     = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
@@ -208,7 +208,7 @@ class ClassHandlerFiles extends Files\CreateFile
 
         $critAll    = $xc->getXcCriteriaCompo('crAll' . $ucfTableName, "\t\t");
         $paramsCrit = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
-        $critAll    .= $xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCrit, null, false, "\t\t");
+        $critAll    .= $xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCrit, null, "\t\t");
         $critAll    .= $this->getSimpleString("return parent::getAll(\$crAll{$ucfTableName});", "\t\t");
         $params     = "\$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
 
@@ -256,7 +256,7 @@ class ClassHandlerFiles extends Files\CreateFile
             $critAll .= $xc->getXcCriteriaAdd('crAll' . $ucfTableName, $crit, "\t\t");
         }
         $paramsCritAll = "\$this->get{$ucfTableName}Criteria(\$crAll{$ucfTableName}, \$start, \$limit, \$sort, \$order)";
-        $critAll       .= $xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCritAll, null, false, "\t\t");
+        $critAll       .= $xc->getXcEqualsOperator('$crAll' . $ucfTableName, $paramsCritAll, null, "\t\t");
 
         $critAll .= $this->getSimpleString("return parent::getAll(\$crAll{$ucfTableName});", "\t\t");
         $params  = "\${$tableFieldName}Id, \$start = 0, \$limit = 0, \$sort = '{$fieldId} ASC, {$fieldMain}', \$order = 'ASC'";
@@ -309,8 +309,8 @@ class ClassHandlerFiles extends Files\CreateFile
         $ccTableSoleName  = $this->getCamelCase($tableSoleName, true);
 
         $ret              = $pc->getPhpCodeCommentMultiLine(['Returns the' => $ucfTableSoleName . ' from id', '' => '', '@return' => 'string'], "\t");
-        $soleName         = $xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, false, "\t\t");
-        $soleName         .= $xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, false, "\t\t");
+        $soleName         = $xc->getXcEqualsOperator("\${$tableSoleName}Id", "(int)( \${$tableSoleName}Id )", null, "\t\t");
+        $soleName         .= $xc->getXcEqualsOperator("\${$tableSoleName}", "''", null, "\t\t");
         $contentIf        = $xc->getXcHandlerLine($tableName, "\t\t\t");
         $contentIf        .= $xc->getXcHandlerGet($tableName, "\${$tableSoleName}Id", 'Obj', true, false, "\t\t\t");
         $getVar           = $xc->getXcGetVar($ccTableSoleName, "{$tableSoleName}Obj", $fieldMain, false, "\t\t\t\t");

@@ -156,10 +156,6 @@ class TemplatesAdminPages extends Files\CreateFile
                         $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
                         $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
                         break;
-                    case 6:
-                        $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName . '_text');
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $double, false, "\t\t\t\t");
-                        break;
                     case 9:
                         // This is to be reviewed, as it was initially to style = "backgroung-color: #"
                         // Now with HTML5 is not supported inline style in the parameters of the HTML tag

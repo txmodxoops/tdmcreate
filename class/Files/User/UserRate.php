@@ -131,11 +131,11 @@ class UserRate extends Files\CreateFile
     public function getUserRateForm($tableName, $language)
     {
         $ret = $this->phpcode->getPhpCodeCommentLine('Navigation');
-        $ret .= $this->xc->getXcEqualsOperator('$navigation', "{$language}RATE", null, false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$navigation', "{$language}RATE", null, "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('navigation', '$navigation', true, "\t\t");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page', null, "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'", null, false, "\t\t");
-        $ret .= $this->xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', false, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'", null, "\t\t");
+        $ret .= $this->xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, "\t\t");
         $ret .= $this->phpcode->getPhpCodeCommentLine('Description', null, "\t\t");
         $ret .= $this->uc->getUserAddMeta('description', $language, 'RATE', "\t\t");
