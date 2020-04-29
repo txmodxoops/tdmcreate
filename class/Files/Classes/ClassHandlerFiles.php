@@ -174,7 +174,6 @@ class ClassHandlerFiles extends Files\CreateFile
     {
         $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
         $ret          = $pc->getPhpCodeCommentMultiLine(['Get Count ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'int'], "\t");
 
@@ -202,7 +201,6 @@ class ClassHandlerFiles extends Files\CreateFile
     {
         $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc           = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc           = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTableName = ucfirst($tableName);
         $ret          = $pc->getPhpCodeCommentMultiLine(['Get All ' . $ucfTableName => 'in the database', '@param int    $start' => '', '@param int    $limit' => '', '@param string $sort' => '', '@param string $order' => '', '@return' => 'array'], "\t");
 
@@ -234,7 +232,6 @@ class ClassHandlerFiles extends Files\CreateFile
         $tc                = Tdmcreate\Helper::getInstance();
         $pc                = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc                = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc                = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $ucfTableName      = ucfirst($tableName);
         $fieldElements     = $tc->getHandler('fieldelements')->get($fieldElement);
         $fieldElementName  = $fieldElements->getVar('fieldelement_name');

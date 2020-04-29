@@ -77,21 +77,21 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitHeader($moduleDirname, $tablePermissions)
     {
-        $xc     = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $pc     = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc     = UserXoopsCode::getInstance();
-        $t      = "\t";
-        $ret    = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
-        $ret    .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
-        $ret    .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
-        $ret    .= $this->getInclude();
-        $ret    .= $xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
-        $ret    .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
-        $ret    .= $xc->getXcXoopsRequest('op', 'op', 'form');
-        $ret    .= $pc->getPhpCodeCommentLine('Template');
-        $ret    .= $uc->getUserTplMain($moduleDirname, 'submit');
-        $ret    .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret    .= $xc->getXcXoThemeAddStylesheet();
+        $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uxc = UserXoopsCode::getInstance();
+        $t   = "\t";
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getInclude();
+        $ret .= $xc->getXcXoopsLoadLanguage('admin', '', $moduleDirname);
+        $ret .= $pc->getPhpCodeCommentLine('It recovered the value of argument op in URL$');
+        $ret .= $xc->getXcXoopsRequest('op', 'op', 'form');
+        $ret .= $pc->getPhpCodeCommentLine('Template');
+        $ret .= $uxc->getUserTplMain($moduleDirname, 'submit');
+        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $xc->getXcXoThemeAddStylesheet();
         if (1 == $tablePermissions) {
             $ret    .= $xc->getXcHandlerLine('permissions');
             $ret    .= $xc->getXcEqualsOperator('$permSubmit', '$permissionsHandler->getPermGlobalSubmit()');
@@ -115,7 +115,7 @@ class UserSubmit extends Files\CreateFile
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc  = UserXoopsCode::getInstance();
+        $uxc = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation', '', $t);
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", '', $t);
         $ret .= $xc->getXcXoopsTplAssign('navigation', '$navigation', true, $t);
@@ -124,7 +124,7 @@ class UserSubmit extends Files\CreateFile
         $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', $t);
         $ret .= $xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, $t);
         $ret .= $pc->getPhpCodeCommentLine('Description', null, $t);
-        $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);
+        $ret .= $uxc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);
         $ret .= $pc->getPhpCodeCommentLine('Form Create', null, $t);
         $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
         $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
@@ -186,14 +186,14 @@ class UserSubmit extends Files\CreateFile
         }
 
         if ($countUploader > 0) {
-            $errIf = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
+            $errIf     = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
+            $errElse   = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
             $confirmOk = $pc->getPhpCodeConditions("''", ' !== ', '$uploaderErrors', $errIf, $errElse, $t . "\t");
         } else {
             $confirmOk = $xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, $t . "\t");
         }
         $contentInsert .= $confirmOk;
-        $ret       .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
+        $ret .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
 
         $ret .= $pc->getPhpCodeCommentLine('Get Form Error', null, $t);
         $ret .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
@@ -210,11 +210,11 @@ class UserSubmit extends Files\CreateFile
      */
     public function getUserSubmitFooter($language)
     {
-        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc               = UserXoopsCode::getInstance();
-        $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $uc->getUserBreadcrumbs($language, 'SUBMIT');
-        $ret              .= $this->getInclude('footer');
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $uxc = UserXoopsCode::getInstance();
+        $ret = $pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret .= $uxc->getUserBreadcrumbs($language, 'SUBMIT');
+        $ret .= $this->getInclude('footer');
 
         return $ret;
     }
@@ -257,7 +257,7 @@ class UserSubmit extends Files\CreateFile
         $xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
 
         $ret     = $pc->getPhpCodeCommentLine('Permission to', $perm, "\t\t\t");
-        $ret .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
+        $ret     .= $xc->getXcDeleteRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$mid', '$permId', false, "\t\t\t");
         $content = $xc->getXcAddRight('grouppermHandler', "{$moduleDirname}_{$perm}", '$permId', '$onegroupId', '$mid', false, "\t\t\t\t\t");
         $foreach = $pc->getPhpCodeForeach("_POST['groups_{$perm}']", false, false, 'onegroupId', $content, "\t\t\t\t");
         $ret     .= $pc->getPhpCodeConditions("isset(\$_POST['groups_{$perm}'])", null, null, $foreach, false, "\t\t\t");
@@ -272,19 +272,19 @@ class UserSubmit extends Files\CreateFile
      */
     public function render()
     {
-        $module             = $this->getModule();
-        $filename           = $this->getFileName();
-        $moduleDirname      = $module->getVar('mod_dirname');
-        $tables             = $this->getTableTables($module->getVar('mod_id'));
-        $tableSoleName      = '';
-        $tableSubmit        = [];
+        $module        = $this->getModule();
+        $filename      = $this->getFileName();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $tables        = $this->getTableTables($module->getVar('mod_id'));
+        $tableSoleName = '';
+        $tableSubmit   = [];
         foreach (array_keys($tables) as $t) {
-            $tableId              = $tables[$t]->getVar('table_id');
-            $tableMid             = $tables[$t]->getVar('table_mid');
-            $tableName            = $tables[$t]->getVar('table_name');
-            $tableSoleName        = $tables[$t]->getVar('table_solename');
-            $tableSubmit[]        = $tables[$t]->getVar('table_submit');
-            $tablePermissions     = $tables[$t]->getVar('table_permissions');
+            $tableId          = $tables[$t]->getVar('table_id');
+            $tableMid         = $tables[$t]->getVar('table_mid');
+            $tableName        = $tables[$t]->getVar('table_name');
+            $tableSoleName    = $tables[$t]->getVar('table_solename');
+            $tableSubmit[]    = $tables[$t]->getVar('table_submit');
+            $tablePermissions = $tables[$t]->getVar('table_permissions');
         }
         $language = $this->getLanguage($moduleDirname, 'MA');
         $content  = $this->getHeaderFilesComments($module, $filename);

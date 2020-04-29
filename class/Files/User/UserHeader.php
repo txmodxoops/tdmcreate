@@ -79,15 +79,14 @@ class UserHeader extends Files\CreateFile
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        //$ucfModuleDirname = ucfirst($moduleDirname);
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc               = UserXoopsCode::getInstance();
+        $uxc              = UserXoopsCode::getInstance();
         $ret              = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
         $ret              .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
         $ret              .= $xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
         $language         = $this->getLanguage($moduleDirname, 'MA');
-        $ret              .= $uc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
+        $ret              .= $uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
 
         $table  = $this->getTable();
         $tables = $this->getTables();

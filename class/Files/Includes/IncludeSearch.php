@@ -126,8 +126,8 @@ class IncludeSearch extends Files\CreateFile
                     $func   .= $xc->getXcHandlerLine($tableName, $t);
                     $contIf = $xc->getXcEqualsOperator('$elementCount', 'count($queryarray)', '', $t . "\t");
                     $func   .= $pc->getPhpCodeConditions('is_array($queryarray)', '', '', $contIf, false, $t);
-                    $contIf = $xc->getXcCriteriaCompo('criteriaKeywords', $t . "\t");
-                    $for    = $xc->getXcCriteriaCompo('criteriaKeyword', $t . "\t\t");
+                    $contIf = $xc->getXcCriteriaCompo('crKeywords', $t . "\t");
+                    $for    = $xc->getXcCriteriaCompo('crKeyword', $t . "\t\t");
 
                     $fields    = $this->getTableFields($tableMid, $tableId);
                     $fieldId   = '';
@@ -147,41 +147,41 @@ class IncludeSearch extends Files\CreateFile
                         }
                         if (1 === (int)$fields[$f]->getVar('field_search')) {
                             $crit = $xc->getXcCriteria('', "'{$fieldName}'", "'%' . \$queryarray[\$i] . '%'", "'LIKE'", true, $t . "\t");
-                            $for  .= $xc->getXcCriteriaAdd('criteriaKeyword', $crit, $t . "\t\t", "\n", "'OR'");
+                            $for  .= $xc->getXcCriteriaAdd('crKeyword', $crit, $t . "\t\t", "\n", "'OR'");
                             $countField++;
                         }
                     }
                     if ($countField > 0) {
-                        $for .= $xc->getXcCriteriaAdd('criteriaKeywords', '$criteriaKeyword', $t . "\t\t", "\n", '$andor');
+                        $for .= $xc->getXcCriteriaAdd('crKeywords', '$crKeyword', $t . "\t\t", "\n", '$andor');
                     }
-                    $for      .= $pc->getPhpCodeUnset('criteriaKeyword', $t . "\t\t");
+                    $for      .= $pc->getPhpCodeUnset('crKeyword', $t . "\t\t");
                     $contIf   .= $pc->getPhpCodeFor( 'i', $for, 'elementCount', '0', ' < ', $t . "\t");
                     $func     .= $pc->getPhpCodeConditions('$elementCount', ' > ', '0', $contIf, false, $t);
                     $func     .= $pc->getPhpCodeCommentLine('search user(s)', '', $t);
                     $contIf   = $xc->getXcEqualsOperator('$userid', "array_map('intval', \$userid)", '', $t . "\t");
-                    $contIf   .= $xc->getXcCriteriaCompo('criteriaUser', $t . "\t");
+                    $contIf   .= $xc->getXcCriteriaCompo('crUser', $t . "\t");
                     $crit     = $xc->getXcCriteria('', "'{$tableFieldname}_submitter'", "'(' . implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
-                    $contIf   .= $xc->getXcCriteriaAdd('criteriaUser', $crit, $t . "\t", "\n", "'OR'");
-                    $contElse = $xc->getXcCriteriaCompo('criteriaUser', $t . "\t");
+                    $contIf   .= $xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
+                    $contElse = $xc->getXcCriteriaCompo('crUser', $t . "\t");
                     $crit     = $xc->getXcCriteria('', "'{$tableFieldname}_submitter'", '$userid', '', true, $t . "\t");
-                    $contElse .= $xc->getXcCriteriaAdd('criteriaUser', $crit, $t . "\t", "\n", "'OR'");
+                    $contElse .= $xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
                     $func     .= $pc->getPhpCodeConditions('$userid && is_array($userid)', '', '', $contIf, $contElse, $t, 'is_numeric($userid) && $userid > 0');
-                    $func     .= $xc->getXcCriteriaCompo('criteriaSearch', $t);
-                    $contIf   = $xc->getXcCriteriaAdd('criteriaSearch', '$criteriaKeywords', $t . "\t", "\n", "'AND'");
-                    $cond     = $pc->getPhpCodeIsset('criteriaKeywords');
+                    $func     .= $xc->getXcCriteriaCompo('crSearch', $t);
+                    $contIf   = $xc->getXcCriteriaAdd('crSearch', '$crKeywords', $t . "\t", "\n", "'AND'");
+                    $cond     = $pc->getPhpCodeIsset('crKeywords');
                     $func     .= $pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
-                    $contIf   = $xc->getXcCriteriaAdd('criteriaSearch', '$criteriaUser', $t . "\t", "\n", "'AND'");
-                    $cond     = $pc->getPhpCodeIsset('criteriaUser');
+                    $contIf   = $xc->getXcCriteriaAdd('crSearch', '$crUser', $t . "\t", "\n", "'AND'");
+                    $cond     = $pc->getPhpCodeIsset('crUser');
                     $func     .= $pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
-                    $func     .= $xc->getXcCriteriaSetStart( 'criteriaSearch', '$offset', $t);
-                    $func     .= $xc->getXcCriteriaSetLimit( 'criteriaSearch', '$limit', $t);
+                    $func     .= $xc->getXcCriteriaSetStart( 'crSearch', '$offset', $t);
+                    $func     .= $xc->getXcCriteriaSetLimit( 'crSearch', '$limit', $t);
                     if ('' !== $fieldDate) {
-                        $func .= $xc->getXcCriteriaSetSort( 'criteriaSearch', "'{$fieldDate}'", $t);
+                        $func .= $xc->getXcCriteriaSetSort( 'crSearch', "'{$fieldDate}'", $t);
                     } else {
-                        $func .= $xc->getXcCriteriaSetSort( 'criteriaSearch', "'{$fieldId}_date'", $t);
+                        $func .= $xc->getXcCriteriaSetSort( 'crSearch', "'{$fieldId}_date'", $t);
                     }
-                    $func .= $xc->getXcCriteriaSetOrder( 'criteriaSearch', "'DESC'", $t);
-                    $func .= $xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$criteriaSearch', $t);
+                    $func .= $xc->getXcCriteriaSetOrder( 'crSearch', "'DESC'", $t);
+                    $func .= $xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$crSearch', $t);
                     $contentForeach = $t . "\t\$ret[] = [\n";
                     $contentForeach .= $t . "\t\t'image'  => 'assets/icons/16/{$tableName}.png',\n";
                     $contentForeach .= $t . "\t\t'link'   => '{$tableName}.php?op=show&amp;{$fieldId}=' . \${$tableName}All[\$i]->getVar('{$fieldId}'),\n";
@@ -191,10 +191,10 @@ class IncludeSearch extends Files\CreateFile
                     }
                     $contentForeach .= $t . "\t];\n";
                     $func .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
-                    $func .= $pc->getPhpCodeUnset('criteriaKeywords', $t);
-                    $func .= $pc->getPhpCodeUnset('criteriaKeyword', $t);
-                    $func .= $pc->getPhpCodeUnset('criteriaUser', $t);
-                    $func .= $pc->getPhpCodeUnset('criteriaSearch', $t);
+                    $func .= $pc->getPhpCodeUnset('crKeywords', $t);
+                    $func .= $pc->getPhpCodeUnset('crKeyword', $t);
+                    $func .= $pc->getPhpCodeUnset('crUser', $t);
+                    $func .= $pc->getPhpCodeUnset('crSearch', $t);
                 }
                 $func .= $pc->getPhpCodeBlankLine();
             }

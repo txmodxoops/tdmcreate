@@ -78,7 +78,7 @@ class UserBroken extends Files\CreateFile
     {
         $xc        = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc        = UserXoopsCode::getInstance();
+        $uxc       = UserXoopsCode::getInstance();
         $fieldId   = $xc->getXcSaveFieldId($fields);
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
@@ -88,7 +88,7 @@ class UserBroken extends Files\CreateFile
         $ret       .= $xc->getXcXoopsRequest('op', 'op', 'list');
         $ret       .= $xc->getXcXoopsRequest($ccFieldId, $fieldId, '', 'Int');
         $ret       .= $pc->getPhpCodeCommentLine('Template');
-        $ret       .= $uc->getUserTplMain($moduleDirname, 'broken');
+        $ret       .= $uxc->getUserTplMain($moduleDirname, 'broken');
         $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $xc->getXcXoThemeAddStylesheet();
         $ret       .= $pc->getPhpCodeCommentLine('Redirection if not permissions');
@@ -109,7 +109,7 @@ class UserBroken extends Files\CreateFile
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc  = UserXoopsCode::getInstance();
+        $uxc = UserXoopsCode::getInstance();
         $ret = $pc->getPhpCodeCommentLine('Navigation','', $t);
         $ret .= $xc->getXcEqualsOperator('$navigation', "{$language}SUBMIT_PROPOSER", null, $t);
         $ret .= $xc->getXcXoopsTplAssign('navigation', '$navigation', true, $t);
@@ -118,7 +118,7 @@ class UserBroken extends Files\CreateFile
         $ret .= $xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', $t);
         $ret .= $xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, $t);
         $ret .= $pc->getPhpCodeCommentLine('Description', null, $t);
-        $ret .= $uc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);
+        $ret .= $uxc->getUserAddMeta('description', $language, 'SUBMIT_PROPOSER', $t);
         $ret .= $pc->getPhpCodeCommentLine('Form Create', null, $t);
         $ret .= $xc->getXcHandlerCreateObj($tableName, $t);
         $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);

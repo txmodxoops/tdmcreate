@@ -86,10 +86,10 @@ class TemplatesBlocks extends Files\CreateFile
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             if (1 === (int)$fields[$f]->getVar('field_block')) {
-                $fieldName = $fields[$f]->getVar('field_name');
+                $fieldName    = $fields[$f]->getVar('field_name');
                 $stuFieldName = mb_strtoupper($fieldName);
-                $lang = $sc->getSmartyConst($language, $stuFieldName);
-                $th .= $hc->getHtmlTableHead($lang, 'center', '', "\t\t\t");
+                $lang         = $sc->getSmartyConst($language, $stuFieldName);
+                $th           .= $hc->getHtmlTableHead($lang, 'center', '', "\t\t\t");
             }
         }
         $tr = $hc->getHtmlTableRow($th, 'head', "\t\t");
@@ -120,9 +120,9 @@ class TemplatesBlocks extends Files\CreateFile
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             if (1 === (int)$fields[$f]->getVar('field_block')) {
-                $fieldName = $fields[$f]->getVar('field_name');
+                $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
-                $rpFieldName = $this->getRightString($fieldName);
+                $rpFieldName  = $this->getRightString($fieldName);
                 if (0 == $f) {
                     $fieldId = $fieldName;
                 }
@@ -133,8 +133,8 @@ class TemplatesBlocks extends Files\CreateFile
                             // Now with HTML5 is not supported inline style in the parameters of the HTML tag
                             // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                             $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $span = $hc->getHtmlTag('span', [], $double);
-                            $td .= $hc->getHtmlTableData($span, 'center',  '', "\t\t\t");
+                            $span   = $hc->getHtmlTag('span', [], $double);
+                            $td     .= $hc->getHtmlTableData($span, 'center',  '', "\t\t\t");
                             /*$ret .= <<<EOT
                         <td class="center"><span style="background-color: #<{\$list.{$rpFieldName}}>;">&nbsp;&nbsp;&nbsp;&nbsp;</span></td>\n
     EOT;*/
@@ -143,18 +143,18 @@ class TemplatesBlocks extends Files\CreateFile
                             $src = $sc->getSmartyNoSimbol('xoModuleIcons32');
                             $src .= $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true, '', '');
-                            $td .= $hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
+                            $td  .= $hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
                             break;
                         case 13:
                             $single = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
                             $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $img = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true, '', '');
-                            $td .= $hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
+                            $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName], '', true, '', '');
+                            $td     .= $hc->getHtmlTableData($img, 'center',  '', "\t\t\t");
                             break;
                         default:
                             if (0 != $f) {
                                 $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                                $td .= $hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
+                                $td     .= $hc->getHtmlTableData($double, 'center',  '', "\t\t\t");
                             }
                             break;
                     }
@@ -187,7 +187,7 @@ class TemplatesBlocks extends Files\CreateFile
      */
     private function getTemplatesBlocksTableTfoot()
     {
-        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $td = $hc->getHtmlTag('td', [], "&nbsp;", false, '', '');
         $tr = $hc->getHtmlTag('tr', [], $td, false, '', '');
 

@@ -84,9 +84,9 @@ class ClassFiles extends Files\CreateFile
      */
     private function getInitVar($fieldName, $type = 'INT')
     {
-        $cc = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $cxc = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
 
-        return $cc->getClassInitVar($fieldName, $type);
+        return $cxc->getClassInitVar($fieldName, $type);
     }
 
     /**
@@ -258,7 +258,7 @@ class ClassFiles extends Files\CreateFile
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc               = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $cxc              = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $fe               = ClassFormElements::getInstance();
         $moduleDirname    = $module->getVar('mod_dirname');
         $tableName        = $table->getVar('table_name');
@@ -272,10 +272,9 @@ class ClassFiles extends Files\CreateFile
         $action           = $xc->getXcEqualsOperator('$action', "\$_SERVER['REQUEST_URI']", null, "\t\t\t");
         $ucfModuleDirname = ucfirst($moduleDirname);
         $getForm          = $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", "\t\t");
-        //$getForm .= $pc->getPhpCodeConditions('$action', ' === ', 'false', $action, false, "\t\t");
-        $getForm .= $pc->getPhpCodeConditions('false', ' === ', '$action', $action, false, "\t\t");
-        $xUser   = $pc->getPhpCodeGlobals('xoopsUser');
-        $xModule = $pc->getPhpCodeGlobals('xoopsModule');
+        $getForm          .= $pc->getPhpCodeConditions('false', ' === ', '$action', $action, false, "\t\t");
+        $xUser            = $pc->getPhpCodeGlobals('xoopsUser');
+        $xModule          = $pc->getPhpCodeGlobals('xoopsModule');
         $permString = 'upload_groups';
         if (1 != $tableCategory/* && (1 == $tablePermissions)*/) {
             $getForm          .= $pc->getPhpCodeCommentLine('Permissions for', 'uploader', "\t\t");
@@ -292,8 +291,8 @@ class ClassFiles extends Files\CreateFile
         $getForm .= $pc->getPhpCodeTernaryOperator('title', '$this->isNew()', "sprintf({$language}{$stuTableSoleName}_ADD)", "sprintf({$language}{$stuTableSoleName}_EDIT)", "\t\t");
         $getForm .= $pc->getPhpCodeCommentLine('Get Theme', 'Form', "\t\t");
         $getForm .= $xc->getXcXoopsLoad('XoopsFormLoader', "\t\t");
-        $getForm .= $cc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
-        $getForm .= $cc->getClassSetExtra('form', "'enctype=\"multipart/form-data\"'");
+        $getForm .= $cxc->getClassXoopsThemeForm('form', 'title', 'form', 'action', 'post');
+        $getForm .= $cxc->getClassSetExtra('form', "'enctype=\"multipart/form-data\"'");
         $getForm .= $fe->renderElements();
 
         if (in_array(1, $fieldInForm)) {
@@ -303,9 +302,8 @@ class ClassFiles extends Files\CreateFile
         }
         $getForm .= $pc->getPhpCodeCommentLine('To Save', '', "\t\t");
         //$hiddenSave = $cc->getClassXoopsFormHidden('', "'op'", "'save'", true, false);
-        $getForm .= $cc->getClassAddElement('form', "new \XoopsFormHidden('op', 'save')");
-        //$buttonSend = $cc->getClassXoopsFormButton('', '', 'submit', '_SUBMIT', 'submit', true);
-        $getForm .= $cc->getClassAddElement('form', "new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false)");
+        $getForm .= $cxc->getClassAddElement('form', "new \XoopsFormHidden('op', 'save')");
+        $getForm .= $cxc->getClassAddElement('form', "new \XoopsFormButtonTray('', _SUBMIT, 'submit', '', false)");
         $getForm .= $this->getSimpleString('return $form;', "\t\t");
 
         $ret .= $pc->getPhpCodeFunction('getForm' . $ucfTableName, '$action = false', $getForm, 'public ', false, "\t");
@@ -326,7 +324,7 @@ class ClassFiles extends Files\CreateFile
     {
         $pc                = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc                = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cc                = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $cxc               = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
         $permissionApprove = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_APPROVE');
         $permissionSubmit  = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_SUBMIT');
         $permissionView    = $this->getLanguage($moduleDirname, 'AM', 'PERMISSIONS_VIEW');
@@ -339,28 +337,28 @@ class ClassFiles extends Files\CreateFile
         $mId               = $xc->getXcGetVar('', "GLOBALS['xoopsModule']", 'mid', true);
         $ifGroups          = $xc->getXcGetGroupIds('groupsIdsApprove', 'grouppermHandler', "'{$moduleDirname}_approve_{$tableName}'", $fId, $mId, "\t\t\t");
         $ifGroups          .= $pc->getPhpCodeArrayType('groupsIdsApprove', 'values', 'groupsIdsApprove', null, false, "\t\t\t");
-        $ifGroups          .= $cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', $permissionApprove, "groups_approve_{$tableName}[]", '$groupsIdsApprove', false, "\t\t\t");
+        $ifGroups          .= $cxc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', $permissionApprove, "groups_approve_{$tableName}[]", '$groupsIdsApprove', false, "\t\t\t");
         $ifGroups          .= $xc->getXcGetGroupIds('groupsIdsSubmit', 'grouppermHandler', "'{$moduleDirname}_submit_{$tableName}'", $fId, $mId, "\t\t\t");
         $ifGroups          .= $pc->getPhpCodeArrayType('groupsIdsSubmit', 'values', 'groupsIdsSubmit', null, false, "\t\t\t");
-        $ifGroups          .= $cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$groupsIdsSubmit', false, "\t\t\t");
+        $ifGroups          .= $cxc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$groupsIdsSubmit', false, "\t\t\t");
         $ifGroups          .= $xc->getXcGetGroupIds('groupsIdsView', 'grouppermHandler', "'{$moduleDirname}_view_{$tableName}'", $fId, $mId, "\t\t\t");
         $ifGroups          .= $pc->getPhpCodeArrayType('groupsIdsView', 'values', 'groupsIdsView', null, false, "\t\t\t");
-        $ifGroups          .= $cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$groupsIdsView', false, "\t\t\t");
+        $ifGroups          .= $cxc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$groupsIdsView', false, "\t\t\t");
 
-        $else = $cc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', $permissionApprove, "groups_approve_{$tableName}[]", '$fullList', false, "\t\t\t");
-        $else .= $cc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$fullList', false, "\t\t\t");
-        $else .= $cc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$fullList', false, "\t\t\t");
+        $else = $cxc->getClassXoopsFormCheckBox('groupsCanApproveCheckbox', $permissionApprove, "groups_approve_{$tableName}[]", '$fullList', false, "\t\t\t");
+        $else .= $cxc->getClassXoopsFormCheckBox('groupsCanSubmitCheckbox', $permissionSubmit, "groups_submit_{$tableName}[]", '$fullList', false, "\t\t\t");
+        $else .= $cxc->getClassXoopsFormCheckBox('groupsCanViewCheckbox', $permissionView, "groups_view_{$tableName}[]", '$fullList', false, "\t\t\t");
 
         $ret .= $pc->getPhpCodeConditions('!$this->isNew()', null, null, $ifGroups, $else, "\t\t");
         $ret .= $pc->getPhpCodeCommentLine('To Approve', '', "\t\t");
-        $ret .= $cc->getClassAddOptionArray('groupsCanApproveCheckbox', '$groupList');
-        $ret .= $cc->getClassAddElement('form', '$groupsCanApproveCheckbox');
+        $ret .= $cxc->getClassAddOptionArray('groupsCanApproveCheckbox', '$groupList');
+        $ret .= $cxc->getClassAddElement('form', '$groupsCanApproveCheckbox');
         $ret .= $pc->getPhpCodeCommentLine('To Submit', '', "\t\t");
-        $ret .= $cc->getClassAddOptionArray('groupsCanSubmitCheckbox', '$groupList');
-        $ret .= $cc->getClassAddElement('form', '$groupsCanSubmitCheckbox');
+        $ret .= $cxc->getClassAddOptionArray('groupsCanSubmitCheckbox', '$groupList');
+        $ret .= $cxc->getClassAddElement('form', '$groupsCanSubmitCheckbox');
         $ret .= $pc->getPhpCodeCommentLine('To View', '', "\t\t");
-        $ret .= $cc->getClassAddOptionArray('groupsCanViewCheckbox', '$groupList');
-        $ret .= $cc->getClassAddElement('form', '$groupsCanViewCheckbox');
+        $ret .= $cxc->getClassAddOptionArray('groupsCanViewCheckbox', '$groupList');
+        $ret .= $cxc->getClassAddElement('form', '$groupsCanViewCheckbox');
 
         return $ret;
     }

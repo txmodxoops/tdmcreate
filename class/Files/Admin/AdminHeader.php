@@ -132,10 +132,9 @@ class AdminHeader extends Files\CreateFile
         $fileExists     = $this->pc->getPhpCodeFileExists($xoopsPathCond);
         $moduleadmin    = $this->pc->getPhpCodeIncludeDir($xoopsPathCond, '', true, true, 'include', "\t");
         $redirectHeader = $this->xc->getXcRedirectHeader("'../../../admin.php'", '', '5', '_AM_MODULEADMIN_MISSING', false, "\t");
-
-        $ret .= $this->pc->getPhpCodeConditions($fileExists, '', '', $moduleadmin, $redirectHeader);
-        $ret .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->xc->getXcXoopsCPHeader();
+        $ret            .= $this->pc->getPhpCodeConditions($fileExists, '', '', $moduleadmin, $redirectHeader);
+        $ret            .= $this->pc->getPhpCodeBlankLine();
+        $ret            .= $this->xc->getXcXoopsCPHeader();
         $ret            .= $this->pc->getPhpCodeBlankLine();
         $ret            .= $this->pc->getPhpCodeCommentLine('System icons path');
         $ret            .= $this->xc->getXcXoopsTplAssign('sysPathIcon16', '$sysPathIcon16');
@@ -143,8 +142,8 @@ class AdminHeader extends Files\CreateFile
         $ret            .= $this->xc->getXcXoopsTplAssign('modPathIcon16', '$modPathIcon16');
         $ret            .= $this->xc->getXcXoopsTplAssign('modPathIcon32', '$modPathIcon32');
         $ret            .= $this->pc->getPhpCodeBlankLine();
-        $ret .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
-        $ret .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
+        $ret            .= $this->xc->getXcEqualsOperator('$adminObject', '\Xmf\Module\Admin::getInstance()');
+        $ret            .= $this->getSimpleString("\$style = {$stuModuleDirname}_URL . '/assets/css/admin/style.css';");
 
         return $ret;
     }

@@ -454,6 +454,8 @@ class CreateArchitecture extends CreateStructure
         }
         // Creation of comments files
         if (in_array(1, $tableComments)) {
+            /*
+             * TODO: are this comment files required?
             // Include Comments File
             $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
@@ -474,6 +476,8 @@ class CreateArchitecture extends CreateStructure
             $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
             $includeComments->write($module, $table);
             $ret[] = $includeComments->renderCommentsNew($module, 'comment_new');
+            */
+
             // Include Comment Functions File
             $includeCommentFunctions = Tdmcreate\Files\Includes\IncludeCommentFunctions::getInstance();
             $includeCommentFunctions->write($module, $table, 'comment_functions.php');

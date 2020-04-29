@@ -34,7 +34,7 @@ class UserPdf extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $uc = null;
+    private $uxc = null;
 
     /**
      * @var string
@@ -53,9 +53,9 @@ class UserPdf extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->uc = UserXoopsCode::getInstance();
+        $this->xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**

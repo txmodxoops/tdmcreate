@@ -34,12 +34,12 @@ class UserRss extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $usercode = null;
+    private $uxc = null;
 
     /**
      * @var string
      */
-    private $xoopscode = null;
+    private $xc = null;
 
     /**
      * @public function constructor
@@ -48,9 +48,9 @@ class UserRss extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode   = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->usercode  = UserXoopsCode::getInstance();
+        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->uxc  = UserXoopsCode::getInstance();
     }
 
     /**

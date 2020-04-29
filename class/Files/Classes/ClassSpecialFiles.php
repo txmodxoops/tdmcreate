@@ -263,7 +263,6 @@ class ClassSpecialFiles extends Files\CreateFile
     public function renderConstantsTestInterface()
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
 
         $module           = $this->getModule();
         $filename         = $this->getFileName();

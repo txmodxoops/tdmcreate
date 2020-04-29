@@ -34,12 +34,17 @@ class UserPrint extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $uc = null;
+    private $uxc = null;
 
     /**
      * @var string
      */
     private $xc = null;
+	
+	/**
+     * @var string
+     */
+    private $pc = null;
 
     /**
      * @public function constructor
@@ -49,8 +54,8 @@ class UserPrint extends Files\CreateFile
     {
         parent::__construct();
         $this->xc      = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->uc      = UserXoopsCode::getInstance();
+        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->uxc      = UserXoopsCode::getInstance();
     }
 
     /**
@@ -114,47 +119,47 @@ class UserPrint extends Files\CreateFile
         $ret            .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
         $ret            .= $this->getInclude();
         $ret            .= $this->xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '', 'Int');
-        $ret            .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
+        $ret            .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret            .= $this->xc->getXcXoThemeAddStylesheet();
         $redirectHeader = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '2', "{$language}NO{$stuLpFieldName}", false, "\t");
-        $ret            .= $this->phpcode->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
+        $ret            .= $this->pc->getPhpCodeConditions("empty(\${$ccFieldId})", '', '', $redirectHeader);
 
-        $ret            .= $this->phpcode->getPhpCodeCommentLine('Get Instance of Handler');
+        $ret            .= $this->pc->getPhpCodeCommentLine('Get Instance of Handler');
         $ret            .= $this->xc->getXcHandlerLine($tableName);
 
-        $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify that the article is published');
+        $ret            .= $this->pc->getPhpCodeCommentLine('Verify that the article is published');
         if (false !== mb_strpos($fieldName, 'published')) {
-            $ret            .= $this->phpcode->getPhpCodeCommentLine('Not yet', $fieldName);
+            $ret            .= $this->pc->getPhpCodeCommentLine('Not yet', $fieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') == 0 || \${$tableName}Handler->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') == 0 || \${$tableName}Handler->getVar('{$fieldName}') > time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'expired')) {
-            $ret            .= $this->phpcode->getPhpCodeCommentLine('Expired', $ucfFieldName);
+            $ret            .= $this->pc->getPhpCodeCommentLine('Expired', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'date')) {
-            $ret            .= $this->phpcode->getPhpCodeCommentLine('Date', $ucfFieldName);
+            $ret            .= $this->pc->getPhpCodeCommentLine('Date', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         if (false !== mb_strpos($fieldName, 'time')) {
-            $ret            .= $this->phpcode->getPhpCodeCommentLine('Time', $ucfFieldName);
+            $ret            .= $this->pc->getPhpCodeCommentLine('Time', $ucfFieldName);
             $redirectHeader .= $this->getSimpleString('exit();');
-            $ret            .= $this->phpcode->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
+            $ret            .= $this->pc->getPhpCodeConditions("\${$tableName}Handler->getVar('{$fieldName}') != 0 && \${$tableName}Handler->getVar('{$fieldName}') < time()", '', '', $redirectHeader);
         }
         $ret            .= $this->xc->getXcHandlerGet($tableName, $ccFieldId, '', $tableName . 'Handler',false);
         $gperm          = $this->xc->getXcCheckRight('!$grouppermHandler', "{$moduleDirname}_view", "\${$ccFieldId}->getVar('{$fieldId}')", '$groups', "\$GLOBALS['xoopsModule']->getVar('mid')", true);
-        $ret            .= $this->phpcode->getPhpCodeCommentLine('Verify permissions');
+        $ret            .= $this->pc->getPhpCodeCommentLine('Verify permissions');
         $noPerm         = $this->xc->getXcRedirectHeader("{$stuModuleDirname}_URL . '/index.php'", '', '3', '_NOPERM', false, "\t");
         $noPerm         .= $this->getSimpleString('exit();', "\t");
-        $ret            .= $this->phpcode->getPhpCodeConditions($gperm, '', '', $noPerm);
+        $ret            .= $this->pc->getPhpCodeConditions($gperm, '', '', $noPerm);
         $ret            .= $this->xc->getXcGetValues($tableName, $tableSoleName, '', true);
         $contentForeach = $this->xc->getXcXoopsTplAppend('"{$k}"', '$v', "\t");
-        $ret            .= $this->phpcode->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
+        $ret            .= $this->pc->getPhpCodeForeach($tableSoleName, false, 'k', 'v', $contentForeach);
         $ret            .= $this->xc->getXcXoopsTplAssign('xoops_sitename', "\$GLOBALS['xoopsConfig']['sitename']");
         $getVar         = $this->xc->getXcGetVar('', $tableSoleName, $fieldMain, true);
-        $stripTags      = $this->phpcode->getPhpCodeStripTags('', $getVar . ' - ' . "{$language}PRINT" . ' - ' . "\$GLOBALS['xoopsModule']->name()", true);
+        $stripTags      = $this->pc->getPhpCodeStripTags('', $getVar . ' - ' . "{$language}PRINT" . ' - ' . "\$GLOBALS['xoopsModule']->name()", true);
         $ret            .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', $stripTags);
         $ret            .= $this->xc->getXcXoopsTplDisplay($tableName . '_print.tpl', '', false);
 

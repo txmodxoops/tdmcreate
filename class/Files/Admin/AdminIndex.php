@@ -130,9 +130,8 @@ class AdminIndex extends Files\CreateFile
             $boxLine   .= $axc->getAxcAddConfigBoxLine("array(\$folder[\$i], '777')", 'chmod', '', "\t");
             $ret       .= $pc->getPhpCodeForeach('folder', true, false, 'i', $boxLine, '') . PHP_EOL;
         }
-        $ret .= $pc->getPhpCodeCommentLine('Render Index');
-        $ret .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
-
+        $ret    .= $pc->getPhpCodeCommentLine('Render Index');
+        $ret    .= $xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('index.php')");
         $ret    .= $pc->getPhpCodeCommentLine('Test Data');
         $condIf = $xc->getXcXoopsLoadLanguage('admin/modulesadmin',"\t", 'system');
         $condIf .= $pc->getPhpCodeIncludeDir('dirname(__DIR__)', 'testdata/index', true, '','',"\t");
@@ -142,12 +141,10 @@ class AdminIndex extends Files\CreateFile
         $condIf .= $axc->getAdminDisplayButton('left', "\t");
         $cond   = $xc->getXcGetConfig('displaySampleButton');
         $ret    .= $pc->getPhpCodeConditions($cond, '', '', $condIf, false);
-
-        $ret .= $xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
-
+        $ret    .= $xc->getXcXoopsTplAssign('index', '$adminObject->displayIndex()');
         $ret    .= $pc->getPhpCodeCommentLine('End Test Data');
 
-        $ret .= $this->getInclude('footer');
+        $ret    .= $this->getInclude('footer');
 
         return $ret;
     }

@@ -309,17 +309,17 @@ class AdminPages extends Files\CreateFile
             $contentInsert .= $this->getPermissionsSave($moduleDirname, 'approve_' . $tableName);
         }
         if ($countUploader > 0) {
-            $errIf = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
-            $errElse = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
+            $errIf         = $xc->getXcRedirectHeader("'{$tableName}.php?op=edit&{$fieldId}=' . \${$ccFieldId}", '', '5', '$uploaderErrors', false, $t . "\t\t");
+            $errElse       = $xc->getXcRedirectHeader($tableName, '?op=list', '2', "{$language}FORM_OK", true, $t . "\t\t");
             $contentInsert .= $pc->getPhpCodeConditions("''", ' !== ', '$uploaderErrors', $errIf, $errElse, $t . "\t");
         } else {
             $contentInsert .= $xc->getXcRedirectHeader($tableName . '', '?op=list', '2', "{$language}FORM_OK", true, $t . "\t");
         }
-        $ret           .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
-        $ret           .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
-        $ret           .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
-        $ret           .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
-        $ret           .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
+        $ret .= $pc->getPhpCodeConditions($insert, '', '', $contentInsert, false, $t);
+        $ret .= $pc->getPhpCodeCommentLine('Get Form', null, "\t\t");
+        $ret .= $xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, $t);
+        $ret .= $xc->getXcGetForm('form', $tableName, 'Obj', $t);
+        $ret .= $xc->getXcXoopsTplAssign('form', '$form->render()', true, $t);
 
         return $ret;
     }

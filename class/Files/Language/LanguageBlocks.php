@@ -115,7 +115,7 @@ class LanguageBlocks extends Files\CreateFile
     private function getLanguageFooter()
     {
         $ret = $this->defines->getBelowDefines('End');
-        $ret .= $this->defines->getPhpCodeBlankLine();
+        $ret .= $this->defines->getBlankLine();
 
         return $ret;
     }

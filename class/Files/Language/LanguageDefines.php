@@ -30,10 +30,6 @@ use XoopsModules\Tdmcreate;
  */
 class LanguageDefines
 {
-    /**
-     * @var mixed
-     */
-    protected $defines;
 
     /**
      * @public function constructor
@@ -41,7 +37,6 @@ class LanguageDefines
      */
     public function __construct()
     {
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -89,12 +84,14 @@ class LanguageDefines
      */
     public function getDefine($language, $defined, $description, $usedoubleqoute = false)
     {
+        $pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+
         $defined = mb_strtoupper($defined);
 
         if ($usedoubleqoute) {
-            $ret = $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");
+            $ret = $pc->getPhpCodeDefine("{$language}{$defined}", "\"{$description}\"");
         } else {
-            $ret = $this->phpcode->getPhpCodeDefine("{$language}{$defined}", "'" . $description . "'");
+            $ret = $pc->getPhpCodeDefine("{$language}{$defined}", "'" . $description . "'");
         }
 
         return $ret;
@@ -112,11 +109,11 @@ class LanguageDefines
     }
 
     /**
-     * @public function getBelowDefines
+     * @public function getBlankLine
      *
      * @return string
      */
-    public function getPhpCodeBlankLine()
+    public function getBlankLine()
     {
         return "\n";
     }

@@ -78,9 +78,9 @@ class UserIndex extends Files\CreateFile
     {
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $uc  = UserXoopsCode::getInstance();
+        $uxc = UserXoopsCode::getInstance();
         $ret = $this->getInclude();
-        $ret .= $uc->getUserTplMain($moduleDirname);
+        $ret .= $uxc->getUserTplMain($moduleDirname);
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret .= $pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $xc->getXcXoThemeAddStylesheet();
@@ -205,15 +205,15 @@ class UserIndex extends Files\CreateFile
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $uc               = UserXoopsCode::getInstance();
+        $uxc              = UserXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $uc->getUserBreadcrumbs($language);
+        $ret              .= $uxc->getUserBreadcrumbs($language);
         $ret              .= $pc->getPhpCodeCommentLine('Keywords');
-        $ret              .= $uc->getUserMetaKeywords($moduleDirname);
+        $ret              .= $uxc->getUserMetaKeywords($moduleDirname);
         $ret              .= $pc->getPhpCodeUnset('keywords');
         $ret              .= $pc->getPhpCodeCommentLine('Description');
-        $ret              .= $uc->getUserMetaDesc($moduleDirname, $language);
+        $ret              .= $uxc->getUserMetaDesc($moduleDirname, $language);
         $ret              .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
         $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
         $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");

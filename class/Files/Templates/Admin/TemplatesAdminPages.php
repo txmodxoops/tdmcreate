@@ -113,9 +113,7 @@ class TemplatesAdminPages extends Files\CreateFile
 
         $lang = $sc->getSmartyConst($language, 'FORM_ACTION');
         $th   .= $hc->getHtmlTag('th', ['class' => 'center width5'], $lang, false, "\t\t\t\t");
-        //$tr   = $hc->getHtmlTag('tr', ['class' => 'head'], $th, false, "\t\t\t");
         $tr   = $hc->getHtmlTableRow($th, 'head', "\t\t\t");
-        //$ret  = $hc->getHtmlTag('thead', [], $tr, false, "\t\t");
         $ret  = $hc->getHtmlTableThead($tr, '', "\t\t");
 
         return $ret;
@@ -138,8 +136,7 @@ class TemplatesAdminPages extends Files\CreateFile
         $td = '';
         if (1 == $tableAutoincrement) {
             $double = $sc->getSmartyDoubleVar($tableSoleName, 'id');
-            //$td     .= $hc->getHtmlTableData($double, 'center');
-            $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $double, false, "\t\t\t\t");
+            $td     .= $hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
         }
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -152,9 +149,9 @@ class TemplatesAdminPages extends Files\CreateFile
                 switch ($fieldElement) {
                     case 5:
                         $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                        $src = $sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';
-                        $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
+                        $src    = $sc->getSmartyNoSimbol('xoModuleIcons16') . $double . '.png';
+                        $img    = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
+                        $td     .= $hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case 9:
                         // This is to be reviewed, as it was initially to style = "backgroung-color: #"
@@ -162,30 +159,30 @@ class TemplatesAdminPages extends Files\CreateFile
                         // Old code was <span style="background-color: #<{\$list.{$rpFieldName}}>;">...
                         $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $color  = "<span style='background-color:{$double};'>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $color, false, "\t\t\t\t");
+                        $td     .= $hc->getHtmlTableData($color, 'center', '',"\t\t\t\t");
                         break;
                     case 10:
                         $src = $sc->getSmartyNoSimbol('xoModuleIcons32');
                         $src .= $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td  .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
+                        $td  .= $hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case 13:
                         $single = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
                         $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $img    = $hc->getHtmlTag('img', ['src' => $single . "/images/{$tableName}/" . $double, 'alt' => $tableName, 'style' => 'max-width:100px'], '', true, '', '');
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
+                        $td     .= $hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     case 16:
                         $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                         $src = $sc->getSmartyNoSimbol('$modPathIcon16') . '/status' . $double . '.png';
                         $img = $hc->getHtmlTag('img', ['src' => $src, 'alt' => $tableName], '', true,'','');
-                        $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $img, false, "\t\t\t\t");
+                        $td     .= $hc->getHtmlTableData($img, 'center', '',"\t\t\t\t");
                         break;
                     default:
                         if (0 != $f) {
                             $double = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
-                            $td     .= $hc->getHtmlTag('td', ['class' => 'center'], $double, false, "\t\t\t\t");
+                            $td     .= $hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
                         }
                         break;
                 }

@@ -32,6 +32,22 @@ use XoopsModules\Tdmcreate\Files;
 class UserRate extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $xc = null;
+	
+	/**
+     * @var string
+     */
+    private $pc = null;
+	
+	/**
+     * @var string
+     */
+    private $uxc = null;
+	
+	
+	/**
      * @public function constructor
      *
      * @param null
@@ -40,8 +56,8 @@ class UserRate extends Files\CreateFile
     {
         parent::__construct();
         $this->xc      = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->uc      = UserXoopsCode::getInstance();
+        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->uxc      = UserXoopsCode::getInstance();
     }
 
     /**
@@ -91,9 +107,9 @@ class UserRate extends Files\CreateFile
         $ret .= $this->getInclude();
         $ret .= $this->xc->getXcXoopsRequest('op', 'op', 'form');
         $ret .= $this->xc->getXcXoopsRequest('lid', 'lid', '', 'Int');
-        $ret .= $this->uc->getUserTplMain($moduleDirname, $tableName);
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Define Stylesheet');
+        $ret .= $this->uxc->getUserTplMain($moduleDirname, $tableName);
+        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $ret .= $this->pc->getPhpCodeCommentLine('Define Stylesheet');
         $ret .= $this->xc->getXcXoThemeAddStylesheet();
 
         return $ret;
@@ -130,16 +146,16 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateForm($tableName, $language)
     {
-        $ret = $this->phpcode->getPhpCodeCommentLine('Navigation');
+        $ret = $this->pc->getPhpCodeCommentLine('Navigation');
         $ret .= $this->xc->getXcEqualsOperator('$navigation', "{$language}RATE", null, "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('navigation', '$navigation', true, "\t\t");
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Title of page', null, "\t\t");
+        $ret .= $this->pc->getPhpCodeCommentLine('Title of page', null, "\t\t");
         $ret .= $this->xc->getXcEqualsOperator('$title', "{$language}RATE . '&nbsp;-&nbsp;'", null, "\t\t");
         $ret .= $this->xc->getXcEqualsOperator('$title', "\$GLOBALS['xoopsModule']->name()", '.', "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('xoops_pagetitle', '$title', true, "\t\t");
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Description', null, "\t\t");
-        $ret .= $this->uc->getUserAddMeta('description', $language, 'RATE', "\t\t");
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Form Create', null, "\t\t");
+        $ret .= $this->pc->getPhpCodeCommentLine('Description', null, "\t\t");
+        $ret .= $this->uxc->getUserAddMeta('description', $language, 'RATE', "\t\t");
+        $ret .= $this->pc->getPhpCodeCommentLine('Form Create', null, "\t\t");
         $ret .= $this->xc->getXcHandlerCreateObj($tableName, "\t\t");
         $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('form', '$form->render()', true, "\t\t");
@@ -159,22 +175,22 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateSave($moduleDirname, $fields, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $ret                = $this->phpcode->getPhpCodeCommentLine('Security Check');
+        $ret                = $this->pc->getPhpCodeCommentLine('Security Check');
         $xoopsSecurityCheck = $this->xc->getXcXoopsSecurityCheck();
         $securityError      = $this->xc->getXcXoopsSecurityErrors();
-        $implode            = $this->phpcode->getPhpCodeImplode(',', $securityError);
+        $implode            = $this->pc->getPhpCodeImplode(',', $securityError);
         $redirectError      = $this->xc->getXcRedirectHeader($tableName, '', '3', $implode, true, "\t\t\t");
-        $ret                .= $this->phpcode->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
+        $ret                .= $this->pc->getPhpCodeConditions($xoopsSecurityCheck, '', '', $redirectError, false, "\t\t");
         $ret                .= $this->xc->getXcHandlerCreateObj($tableName, "\t\t");
 
         $ret .= $this->xc->getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, "\t\t");
 
-        $ret       .= $this->phpcode->getPhpCodeCommentLine('Insert Data', null, "\t\t");
+        $ret       .= $this->pc->getPhpCodeCommentLine('Insert Data', null, "\t\t");
         $insert    = $this->xc->getXcHandlerInsert($tableName, $tableName, 'Obj', true);
         $confirmOk = $this->xc->getXcRedirectHeader('index', '', '2', "{$language}FORM_OK", true, "\t\t\t");
-        $ret       .= $this->phpcode->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t\t");
+        $ret       .= $this->pc->getPhpCodeConditions($insert, '', '', $confirmOk, false, "\t\t");
 
-        $ret .= $this->phpcode->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
+        $ret .= $this->pc->getPhpCodeCommentLine('Get Form Error', null, "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('error', "\${$tableName}Obj->getHtmlErrors()", true, "\t\t");
         $ret .= $this->xc->getXcGetForm('form', $tableName, 'Obj', "\t\t");
         $ret .= $this->xc->getXcXoopsTplAssign('form', '$form->display()', true, "\t\t");
@@ -190,8 +206,8 @@ class UserRate extends Files\CreateFile
      */
     public function getUserRateFooter($moduleDirname, $language)
     {
-        $ret              = $this->phpcode->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $this->uc->getUserBreadcrumbs('RATE', $language);
+        $ret              = $this->pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret              .= $this->uxc->getUserBreadcrumbs('RATE', $language);
         $ret              .= $this->getInclude('footer');
 
         return $ret;
