@@ -421,6 +421,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @param $tableName
      * @param $fieldName
      *
+     * @param string $required
      * @return string
      */
     private function getXoopsFormUploadFile($language, $moduleDirname, $tableName, $fieldName, $required = 'false')
@@ -462,6 +463,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @param $language
      * @param $fieldName
      *
+     * @param string $required
      * @return string
      */
     private function getXoopsFormColorPicker($language, $fieldName, $required = 'false')
@@ -608,9 +610,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @private function getXoopsFormSelectStatus
      *
      * @param $language
-     * @param $tableName
+     * @param $moduleDirname
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
@@ -660,9 +662,8 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @private function getXoopsFormSelectCountry
      *
      * @param $language
-     * @param $tableName
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
@@ -688,9 +689,8 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @private function getXoopsFormSelectLang
      *
      * @param $language
-     * @param $tableName
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
@@ -716,8 +716,9 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @private function getXoopsFormRadio
      *
      * @param $language
+     * @param $moduleDirname
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
@@ -745,9 +746,10 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
      * @private function getXoopsFormSelectCombo
      *
      * @param $language
+     * @param $moduleDirname
      * @param $tableName
      * @param $fieldName
-     * @param $required
+     * @param string $required
      *
      * @return string
      */
@@ -1012,7 +1014,7 @@ class ClassFormElements extends Tdmcreate\Files\CreateAbstractClass
                                 $fieldMainTopic = $fieldNameTopic;
                             }
                         }
-                        $ret .= $this->getXoopsFormTopic($language, $topicTableName, $fieldIdTopic, $fieldPidTopic, $fieldMainTopic, $required);
+                        $ret .= $this->getXoopsFormTopic($language, $topicTableName, $fieldIdTopic, $fieldPidTopic, $fieldMainTopic);
                     } else {
                         $ret .= $this->getXoopsFormTable($language, $fieldName, $fieldElement, $required);
                     }

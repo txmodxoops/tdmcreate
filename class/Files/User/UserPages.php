@@ -72,6 +72,7 @@ class UserPages extends Files\CreateFile
      * @private function getUserPagesHeader
      * @param $moduleDirname
      * @param $tableName
+     * @param $fieldId
      * @return string
      */
     private function getUserPagesHeader($moduleDirname, $tableName, $fieldId)
@@ -103,6 +104,8 @@ class UserPages extends Files\CreateFile
      * @private function getUserPages
      * @param $moduleDirname
      * @param $tableName
+     * @param $fieldId
+     * @param $fieldMain
      * @return string
      */
     private function getUserPages($moduleDirname, $tableName, $fieldId, $fieldMain)
@@ -207,7 +210,7 @@ class UserPages extends Files\CreateFile
                 $fieldMain = $fieldName; // fieldMain = fields parameters main field
             }
         }
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserPagesHeader($moduleDirname, $tableName, $fieldId);
         $content       .= $this->getUserPages($moduleDirname, $tableName, $fieldId, $fieldMain);
         $content       .= $this->getUserPagesFooter($moduleDirname, $tableName, $language);

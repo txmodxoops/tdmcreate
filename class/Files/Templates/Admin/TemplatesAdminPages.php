@@ -129,7 +129,7 @@ class TemplatesAdminPages extends Files\CreateFile
      * @return string
      * @internal param string $language
      */
-    private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language)
+    private function getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields)
     {
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
@@ -138,6 +138,7 @@ class TemplatesAdminPages extends Files\CreateFile
             $double = $sc->getSmartyDoubleVar($tableSoleName, 'id');
             $td     .= $hc->getHtmlTableData($double, 'center', '',"\t\t\t\t");
         }
+        $fieldId = '';
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $fieldElement = $fields[$f]->getVar('field_element');
@@ -221,7 +222,7 @@ class TemplatesAdminPages extends Files\CreateFile
     {
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $tbody = $this->getTemplatesAdminPagesTableThead($tableSoleName, $tableAutoincrement, $fields, $language);
-        $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $language);
+        $tbody .= $this->getTemplatesAdminPagesTableTBody($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields);
 
         return $hc->getHtmlTable($tbody, 'table table-bordered', "\t");
     }
@@ -248,14 +249,12 @@ class TemplatesAdminPages extends Files\CreateFile
         $htmlTable .= $sc->getSmartyConditions('pagenav', '', '', $div, '', '', '', "\t" );
         $ifList    = $sc->getSmartyConditions($tableName . '_list', '', '', $htmlTable);
         $single    = $sc->getSmartySingleVar('form', "\t", "\n");
-        $divComm   = $hc->getHtmlComment('Display navigation');
-        //$divComm .= $hc->getHtmlTag('div', array('class' => 'errorMsg'), $single);
-        $ifList .= $sc->getSmartyConditions('form', '', '', $single);
-        $single = $sc->getSmartySingleVar('error');
-        $strong = $hc->getHtmlTag('strong', [], $single, false, '', '');
-        $div    = $hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t", "\n");
-        $ifList .= $sc->getSmartyConditions('error', '', '', $div);
-        $ifList .= $hc->getHtmlEmpty('', '', "\n");;
+        $ifList    .= $sc->getSmartyConditions('form', '', '', $single);
+        $single    = $sc->getSmartySingleVar('error');
+        $strong    = $hc->getHtmlTag('strong', [], $single, false, '', '');
+        $div       = $hc->getHtmlTag('div', ['class' => 'errorMsg'], $strong, false, "\t", "\n");
+        $ifList    .= $sc->getSmartyConditions('error', '', '', $div);
+        $ifList    .= $hc->getHtmlEmpty('', '', "\n");;
 
         return $ifList;
     }

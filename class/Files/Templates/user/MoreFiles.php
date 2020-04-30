@@ -65,7 +65,6 @@ class MoreFiles extends Files\CreateFile
      * @param string $filename
      * @param        $folder
      * @param        $extension
-     * @return string
      */
     public function write($module, $folder, $filename, $extension)
     {

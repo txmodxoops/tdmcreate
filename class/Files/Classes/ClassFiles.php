@@ -518,7 +518,7 @@ class ClassFiles extends Files\CreateFile
         $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
 
         $namespace = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content   = $this->getHeaderFilesComments($module, $filename, null, $namespace);
+        $content   = $this->getHeaderFilesComments($module, null, $namespace);
         $content   .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content   .= $this->getClassObject($module, $table, $fields);
 

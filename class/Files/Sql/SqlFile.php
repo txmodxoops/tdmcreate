@@ -171,7 +171,7 @@ class SqlFile extends Files\CreateFile
         $j             = 0;
         $comma         = [];
         $row           = [];
-        $type          = '';
+        //$type          = '';
         $fieldTypeName = '';
         $fields = $this->getTableFields($tableMid, $tableId, 'field_id ASC, field_name');
         foreach (array_keys($fields) as $f) {

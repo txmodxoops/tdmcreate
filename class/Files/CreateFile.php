@@ -465,13 +465,12 @@ class CreateFile extends CreateTableFields
     /**
      * @public function getHeaderFilesComments
      * @param string $module
-     * @param string $fileName
      * @param        $noPhpFile
      *
      * @param string $namespace
      * @return string
      */
-    public function getHeaderFilesComments($module, $fileName, $noPhpFile = null, $namespace = '')
+    public function getHeaderFilesComments($module, $noPhpFile = null, $namespace = '')
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $name             = $module->getVar('mod_name');

@@ -175,7 +175,7 @@ EOT;
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       = $this->getJavascriptJQueryButtons();
         $content       .= $this->getJavascriptJQueryPrint();
 

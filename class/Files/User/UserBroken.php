@@ -103,6 +103,7 @@ class UserBroken extends Files\CreateFile
      * @public function getAdminPagesList
      * @param $tableName
      * @param $language
+     * @param $t
      * @return string
      */
     public function getUserBrokenForm($tableName, $language, $t)
@@ -134,6 +135,7 @@ class UserBroken extends Files\CreateFile
      * @param $tableName
      * @param $tableSoleName
      * @param $language
+     * @param $t
      * @return string
      */
     public function getUserBrokenSave($moduleDirname, $fields, $tableName, $tableSoleName, $language, $t)
@@ -213,7 +215,7 @@ class UserBroken extends Files\CreateFile
         $tableSoleName      = $table->getVar('table_solename');
         $fields             = $this->getTableFields($tableMid, $tableId);
         $language           = $this->getLanguage($moduleDirname, 'MA');
-        $content            = $this->getHeaderFilesComments($module, $filename);
+        $content            = $this->getHeaderFilesComments($module);
         $content            .= $this->getUserBrokenHeader($moduleDirname, $fields);
         $content            .= $this->getUserBrokenSwitch($moduleDirname, $tableName, $tableSoleName, $language);
         $content            .= $this->getInclude('footer');

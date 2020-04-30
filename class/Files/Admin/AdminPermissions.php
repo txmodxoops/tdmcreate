@@ -249,7 +249,7 @@ class AdminPermissions extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'AM');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getPermissionsHeader($module, $language);
         $content       .= $this->getPermissionsSwitch($module, $language);
         $content       .= $this->getPermissionsBody($module, $language);

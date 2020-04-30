@@ -59,8 +59,6 @@ class FacebookComments extends Files\CreateFile
      * @public function write
      * @param string $module
      * @param string $filename
-     *
-     * @return string
      */
     public function write($module, $filename)
     {

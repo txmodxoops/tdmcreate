@@ -412,7 +412,7 @@ class AdminPages extends Files\CreateFile
                 $fieldMain = $fieldName;
             }
         }
-        $content = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module);
         $content .= $this->getAdminPagesHeader($moduleDirname, $fieldId);
         $list    = $this->getAdminPagesList($moduleDirname, $table, $language, $fieldInForm, "\t\t");
         if (in_array(1, $fieldInForm)) {

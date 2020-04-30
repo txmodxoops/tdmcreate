@@ -117,10 +117,9 @@ class Broken extends Files\CreateFile
      * @param $tableName
      * @param $tableSoleName
      * @param $tableAutoincrement
-     * @param $language
      * @return string
      */
-    private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement)
     {
         $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
@@ -188,7 +187,7 @@ class Broken extends Files\CreateFile
         $language           = $this->getLanguage($moduleDirname, 'MA');
         $content            = $this->getTemplatesUserBrokenFileHeader($moduleDirname);
         $contentTable       = $this->getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language);
-        $contentTable       .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $contentTable       .= $this->getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement);
         $content            .= $hc->getHtmlTable($contentTable, 'table table-bordered');
         $content            .= $this->getTemplatesUserBrokenFileFooter($moduleDirname);
 

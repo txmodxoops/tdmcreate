@@ -96,11 +96,10 @@ class IncludeFunctions extends Files\CreateFile
     /**
      * @private function getFunctionGetMyItemIds
      * @param string $moduleDirname
-     * @param        $tableName
      *
      * @return string
      */
-    private function getFunctionGetMyItemIds($moduleDirname, $tableName)
+    private function getFunctionGetMyItemIds($moduleDirname)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -408,12 +407,12 @@ EOT;
         }
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         if (in_array(1, $tableBlocks)) {
             $content .= $this->getFunctionBlock($moduleDirname);
         }
         if (in_array(1, $tablePermissions)) {
-            $content .= $this->getFunctionGetMyItemIds($moduleDirname, $tableName);
+            $content .= $this->getFunctionGetMyItemIds($moduleDirname);
         }
         if (in_array(1, $tableCategory)) {
             $content .= $this->getFunctionNumbersOfEntries($moduleDirname, $tableMid, $tableId, $tableName);

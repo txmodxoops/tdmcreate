@@ -50,6 +50,7 @@ class CreatePhpCode
      * @param        $comment
      * @param        $var
      * @param string $t
+     * @param string $n
      * @return string
      */
     public function getPhpCodeCommentLine($comment = null, $var = null, $t = '', $n = "\n")
@@ -327,9 +328,10 @@ class CreatePhpCode
      * @param string $operator
      * @param string $type
      * @param string $contentIf
-     * @param mixed  $contentElse
-     * @param        $t - Indentation
+     * @param mixed $contentElse
+     * @param string $t - Indentation
      *
+     * @param string $conditionElse
      * @return string
      */
     public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '', $conditionElse = '')
@@ -630,11 +632,6 @@ class CreatePhpCode
     /**
      * @public function getPhpCodeArrayType
      * @param        $var
-     * @param        $type
-     * @param        $left
-     * @param        $right
-     * @param bool   $isParam
-     *
      * @param string $t
      * @return string
      */
@@ -841,6 +838,7 @@ class CreatePhpCode
      * @param $const
      * @param $value
      * @param string $t
+     * @param string $type
      * @return string
      */
     public function getPhpCodeConstant($const, $value, $t = '', $type = 'const')

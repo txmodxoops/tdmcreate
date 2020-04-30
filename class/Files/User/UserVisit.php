@@ -178,7 +178,7 @@ class UserVisit extends Files\CreateFile
         $tableId       = $table->getVar('table_id');
         $tableMid      = $table->getVar('table_mid');
         $fields        = $this->getTableFields($tableMid, $tableId);
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserVisitHeader($table, $fields);
         $content       .= $this->getUserVisitCheckPermissions();
         $content       .= $this->getUserVisitCheckLimit();

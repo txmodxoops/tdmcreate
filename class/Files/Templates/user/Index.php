@@ -96,7 +96,7 @@ class Index extends Files\CreateFile
         $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $single = $sc->getSmartySingleVar('table_type');
         $table  = $this->getTemplatesUserIndexTableThead($tableName, $language);
-        $table  .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
+        $table  .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName);
 
         return $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
     }
@@ -125,10 +125,9 @@ class Index extends Files\CreateFile
      * @param $moduleDirname
      * @param $tableName
      * @param $tableSoleName
-     * @param $language
      * @return string
      */
-    private function getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName)
     {
         $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
@@ -255,7 +254,7 @@ EOT;
         $sc           = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $single       = $sc->getSmartySingleVar('table_type');
         $table        = $this->getTemplatesUserIndexTableThead($tableName, $language);
-        $table        .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName, $language);
+        $table        .= $this->getTemplatesUserIndexTableTBody($moduleDirname, $tableName, $tableSoleName);
         $table        .= $hc->getHtmlTable($table, 'table table-' . $single) . PHP_EOL;
         $div          = $hc->getHtmlDiv($table, 'table-responsive') . PHP_EOL;
 

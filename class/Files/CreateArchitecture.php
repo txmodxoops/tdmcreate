@@ -212,6 +212,7 @@ class CreateArchitecture extends CreateStructure
         $tableSearch        = [];
         $tableComments      = [];
         $tableNotifications = [];
+        $permTables         = [];
         $tablePermissions   = [];
         $tableBroken        = [];
         $tablePdf           = [];
@@ -317,7 +318,7 @@ class CreateArchitecture extends CreateStructure
 
         // Creation of constants
         $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
-        $classSpecialFiles->write($module, [], $tables, ucfirst('constants') . '.php');
+        $classSpecialFiles->write($module, '', $tables, ucfirst('constants') . '.php');
         $classSpecialFiles->className = 'Constants';
         $ret[] = $classSpecialFiles->renderConstants();
 
@@ -325,13 +326,13 @@ class CreateArchitecture extends CreateStructure
         if (in_array(1, $tablePermissions)) {
             // Creation of classes
             $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
-            $classSpecialFiles->write($module, [], [], ucfirst('permissions') . '.php');
+            $classSpecialFiles->write($module, '', null, ucfirst('permissions') . '.php');
             $classSpecialFiles->className = 'Permissions';
             $ret[] = $classSpecialFiles->renderClass();
 
             // Creation of classhandlers
             $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
-            $classSpecialFiles->write($module, [], $permTables, ucfirst('permissionshandler') . '.php');
+            $classSpecialFiles->write($module, '', $permTables, ucfirst('permissionshandler') . '.php');
             $classSpecialFiles->className = 'Permissionshandler';
             $ret[] = $classSpecialFiles->renderPermissionsHandler();
 

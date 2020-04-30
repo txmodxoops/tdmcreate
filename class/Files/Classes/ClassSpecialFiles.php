@@ -160,7 +160,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
         $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content        = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
+        $content        = $this->getHeaderFilesComments($module, null, $namespace);
         $content        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content        .= $pc->getPhpCodeDefined();
         $content        .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
@@ -195,7 +195,7 @@ class ClassSpecialFiles extends Files\CreateFile
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
         $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content        = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
+        $content        = $this->getHeaderFilesComments($module, null, $namespace);
         $content        .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content        .= $pc->getPhpCodeDefined();
         $content        .= $pc->getPhpCodeCommentMultiLine(['Class Object' => $this->className]);
@@ -232,7 +232,7 @@ class ClassSpecialFiles extends Files\CreateFile
         }
         $moduleDirname  = $module->getVar('mod_dirname');
         $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $contentFile    = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
+        $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
         $contentFile    .= $pc->getPhpCodeDefined();
         $contentFile    .= $pc->getPhpCodeCommentMultiLine(['Class ' => $this->className]);
 
@@ -273,7 +273,7 @@ class ClassSpecialFiles extends Files\CreateFile
         }
         $moduleDirname  = $module->getVar('mod_dirname');
         $namespace      = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $contentFile    = $this->getHeaderFilesComments($module, $this->className, null, $namespace);
+        $contentFile    = $this->getHeaderFilesComments($module, null, $namespace);
         $contentFile        .= $pc->getPhpCodeDefined();
         $contentFile        .= $pc->getPhpCodeCommentMultiLine(['Interface ' => $this->className]);
         $contentClass = '';

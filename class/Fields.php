@@ -97,9 +97,10 @@ class Fields extends \XoopsObject
      * @private function getHeaderForm
      *
      * @param bool $action
+     * @param $prefix
      * @return Tdmcreate\Form\ThemeForm
      */
-    private function getHeaderForm($action = false, $prefix)
+    private function getHeaderForm($prefix, $action = false)
     {
         if (false === $action) {
             $action = \Xmf\Request::getString('REQUEST_URI', '', 'SERVER');
@@ -113,7 +114,7 @@ class Fields extends \XoopsObject
 
         // New Object HtmlTable
         $form->addElement(new Tdmcreate\Html\FormLabel(str_replace('%s', $prefix, _AM_TDMCREATE_FIELD_RECOMMENDED)));
-        $form->addElement(new Tdmcreate\Html\FormLabel('<table cellspacing="1" class="outer width100">'));
+        $form->addElement(new Tdmcreate\Html\FormLabel('<table style="border-spacing:5px;" class="outer width100">'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<thead class="center">'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<tr class="head"><th colspan="10">' . $title . '</th></tr>'));
         $form->addElement(new Tdmcreate\Html\FormLabel('<tr class="head width5">'));
@@ -147,11 +148,11 @@ class Fields extends \XoopsObject
     {
         $helper = Tdmcreate\Helper::getInstance();
         // Get handler tables
-        $tableObj           = $helper->getHandler('Tables');
+        $tableObj   = $helper->getHandler('Tables');
         // Header function class
         $fieldsForm = self::getInstance();
         $prefix     = $tableObj->get($fieldTid)->getVar('table_fieldname');
-        $form       = $fieldsForm->getHeaderForm($action, $prefix);
+        $form       = $fieldsForm->getHeaderForm($prefix, $action);
         $tableAutoincrement = $tableObj->get($fieldTid)->getVar('table_autoincrement');
         // Loop for fields number
         $class = 'even';
@@ -320,13 +321,13 @@ class Fields extends \XoopsObject
      */
     public function getFormEdit($fieldMid = null, $fieldTid = null, $action = false)
     {
-        $helper = Tdmcreate\Helper::getInstance();
-        $tablesHandler      = $helper->getHandler('Tables');
-        $tables             = $tablesHandler->get($fieldTid);
-        $prefix     = $tables->getVar('table_fieldname');
+        $helper        = Tdmcreate\Helper::getInstance();
+        $tablesHandler = $helper->getHandler('Tables');
+        $tables        = $tablesHandler->get($fieldTid);
+        $prefix        = $tables->getVar('table_fieldname');
         // Header function class
         $fieldsForm = self::getInstance();
-        $form       = $fieldsForm->getHeaderForm($action, $prefix);
+        $form       = $fieldsForm->getHeaderForm($prefix, $action);
 
         $class = 'even';
         $tableAutoincrement = $tables->getVar('table_autoincrement');

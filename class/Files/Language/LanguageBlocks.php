@@ -32,6 +32,11 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageBlocks extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $defines = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -131,7 +136,7 @@ class LanguageBlocks extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MB');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageBlock($language);
         $content       .= $this->getLanguageFooter();
 

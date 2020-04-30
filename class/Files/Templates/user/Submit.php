@@ -135,10 +135,10 @@ class Submit extends Files\CreateFile
     public function render()
     {
         $module         = $this->getModule();
-        $table          = $this->getTable();
+        //$table          = $this->getTable();
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableFieldname = $table->getVar('table_fieldname');
+        //$tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
         $content        = $this->getTemplatesUserSubmitHeader($moduleDirname);
         $content        .= $this->getTemplatesUserSubmit($moduleDirname, $language);

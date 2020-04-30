@@ -75,7 +75,7 @@ class CssAdminStyles extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename, '@charset "UTF-8";');
+        $content       = $this->getHeaderFilesComments($module, '@charset "UTF-8";');
         $content       .= <<<'EOT'
 img {
 	max-width: 200px;

@@ -33,6 +33,11 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class IncludeJquery extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $tdmcfile = null;
+
+    /**
      * @public function constructor
      * @param null
      */

@@ -102,6 +102,8 @@ class IncludeNotifications extends Files\CreateFile
                 $tableName   = $tables[$i]->getVar('table_name');
                 $fieldParent = false;
                 $fields      = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+                $fieldId     = '';
+                $fieldMain   = '';
                 foreach (array_keys($fields) as $f) {
                     $fieldName = $fields[$f]->getVar('field_name');
                     if ((0 == $f) && (1 == $tables[$i]->getVar('table_autoincrement'))) {
@@ -155,7 +157,7 @@ class IncludeNotifications extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getNotificationsFunction($moduleDirname);
 
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

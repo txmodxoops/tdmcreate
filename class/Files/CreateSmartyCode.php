@@ -195,6 +195,7 @@ class CreateSmartyCode
      * @public function getSmartyIncludeFileListSection
      * @param $moduleDirname
      * @param $fileName
+     * @param $tableFieldName
      * @param string $t
      * @param string $n
      * @return string

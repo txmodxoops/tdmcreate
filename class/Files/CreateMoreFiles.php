@@ -71,7 +71,6 @@ class MoreFiles extends Files\CreateFile
      *
      * @param        $folder
      * @param        $extension
-     * @return string
      */
     public function write($module, $filename, $folder, $extension)
     {
@@ -108,7 +107,7 @@ class MoreFiles extends Files\CreateFile
     private function getMoreFilesTpl()
     {
         $ret = "<div class=\"panel\">\n";
-        $ret .= "\tPleace! put your template code here\n";
+        $ret .= "\tPlease! put your template code here\n";
         $ret .= "</div>\n";
 
         return $ret;
@@ -121,7 +120,7 @@ class MoreFiles extends Files\CreateFile
     private function getMoreFilesHtml()
     {
         $ret = "<div class=\"panel\">\n";
-        $ret .= "\tPleace! put your Html code here\n";
+        $ret .= "\tPlease! put your Html code here\n";
         $ret .= "</div>\n";
 
         return $ret;
@@ -135,7 +134,7 @@ class MoreFiles extends Files\CreateFile
      */
     private function getMoreFilesText()
     {
-        return "# Pleace! put your text code here\n";
+        return "# Please! put your text code here\n";
     }
 
     /**
@@ -146,7 +145,7 @@ class MoreFiles extends Files\CreateFile
      */
     private function getMoreFilesSql()
     {
-        return "# Pleace! put your sql code here\n";
+        return "# Please! put your sql code here\n";
     }
 
     /**
@@ -158,7 +157,7 @@ class MoreFiles extends Files\CreateFile
     private function getMoreFilesCss($header = '')
     {
         $ret = "@charset \"UTF-8\"\n";
-        $ret .= "{$header}\n\nPleace! put your css code here\n";
+        $ret .= "{$header}\n\nPlease! put your css code here\n";
 
         return $ret;
     }
@@ -183,7 +182,7 @@ class MoreFiles extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $header        = $this->getHeaderFilesComments($module, $filename, 0);
+        $header        = $this->getHeaderFilesComments($module, 0);
         switch ($this->extension) {
             case 'php':
                 $content = $this->getMoreFilesPhp($header);

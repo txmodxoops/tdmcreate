@@ -298,6 +298,7 @@ class LanguageAdmin extends Files\CreateFile
     {
         $module = $this->getModule();
         $tables = $this->getTableTables($module->getVar('mod_id'));
+        $tablePermissions = [];
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
         }
@@ -305,7 +306,7 @@ class LanguageAdmin extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'AM');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);

@@ -167,7 +167,8 @@ class UserIndex extends Files\CreateFile
         $foreach          .= $pc->getPhpCodeArrayType($tableName, 'merge', $tableSoleName, '$acount');
         $table            = $this->getTable();
         // Fields
-        $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldMain = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (1 == $fields[$f]->getVar('field_main')) {
@@ -235,7 +236,7 @@ class UserIndex extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename, null);
+        $content       = $this->getHeaderFilesComments($module, null);
         $content       .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
         $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
