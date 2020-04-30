@@ -102,7 +102,7 @@ class UserFooter extends Files\CreateFile
         $module        = $this->getModule();
         $moduleDirname = $module->getVar('mod_dirname');
         $filename      = $this->getFileName();
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserFooter($moduleDirname);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

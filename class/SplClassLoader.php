@@ -143,7 +143,7 @@ class SplClassLoader
             $fileName  = '';
             $namespace = '';
             if (false !== ($lastNsPos = mb_strrpos($className, $this->_namespaceSeparator))) {
-                $namespace = mb_substr($className, 0, $lastNsPos);
+                $namespace .= mb_substr($className, 0, $lastNsPos);
                 $className = mb_substr($className, $lastNsPos + 1);
                 $fileName  = str_replace($this->_namespaceSeparator, DIRECTORY_SEPARATOR, $namespace) . DIRECTORY_SEPARATOR;
             }

@@ -68,10 +68,8 @@ class AdminMenu extends Files\CreateFile
 
     /**
      * @private function getAdminMenuArray
-     * @param $param
-     * @param $adminObject
-     * @param $ref
-     *
+     * @param array $param
+     * @param bool $adminObject
      * @return string
      */
     private function getAdminMenuArray($param = [], $adminObject = false)
@@ -206,7 +204,7 @@ class AdminMenu extends Files\CreateFile
         $language      = $this->getLanguage($moduleDirname, 'MI', 'ADMENU');
         $langAbout     = $this->getLanguage($moduleDirname, 'MI', 'ABOUT');
         $menu          = 1;
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getAdminMenuHeader();
         $content       .= $this->getAdminMenuDashboard($language, $menu);
         $content       .= $this->getAdminMenuList($module, $language, $langAbout, $menu);

@@ -1306,6 +1306,7 @@ class CreateXoopsCode
      * @param        $start
      * @param string $t
      *
+     * @param string $n
      * @return string
      */
     public function getXcCriteriaSetStart($var, $start, $t = '', $n = "\n")
@@ -1320,6 +1321,7 @@ class CreateXoopsCode
      * @param        $limit
      * @param string $t
      *
+     * @param string $n
      * @return string
      */
     public function getXcCriteriaSetLimit($var, $limit, $t = '', $n = "\n")
@@ -1334,6 +1336,7 @@ class CreateXoopsCode
      * @param        $sort
      * @param string $t
      *
+     * @param string $n
      * @return string
      */
     public function getXcCriteriaSetSort($var, $sort, $t = '', $n = "\n")
@@ -1348,6 +1351,7 @@ class CreateXoopsCode
      * @param        $order
      * @param string $t
      *
+     * @param string $n
      * @return string
      */
     public function getXcCriteriaSetOrder($var, $order, $t = '', $n = "\n")
@@ -1483,8 +1487,7 @@ class CreateXoopsCode
     /**
      * @public function getXcXoopsListLangList
      * @param $return
-     * @param $var
-     * @param $t
+     * @param string $t
      *
      * @return string
      */
@@ -1496,8 +1499,7 @@ class CreateXoopsCode
     /**
      * @public function getXcXoopsListCountryList
      * @param $return
-     * @param $var
-     * @param $t
+     * @param string $t
      *
      * @return string
      */

@@ -55,7 +55,7 @@ class CreateHtmlCode
      * @param bool $noClosed
      * @param string $t
      * @param string $n
-	 * @param bool   $noBreak
+     * @param bool $multiLine
      * @return string
      */
     public function getHtmlTag($tag = '', $attributes = [], $content = '', $noClosed = false, $t = '', $n = "\n", $multiLine = false)

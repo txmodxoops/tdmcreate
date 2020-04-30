@@ -90,7 +90,7 @@ class BlocksFiles extends Files\CreateFile
         $ret  = $pc->getPhpCodeCommentMultiLine(['Function' => 'show block', '@param  $options' => '', '@return' => 'array']);
 
         $func = $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH . '/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true, '', "\t");
-        $func .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '','', "\t");
+        $func .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', '',"\t");
         $func .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url","{$stuModuleDirname}_UPLOAD_URL",'',"\t");
         $func .= $xc->getXcEqualsOperator('$block      ', '[]', '',"\t");
         $func .= $xc->getXcEqualsOperator('$typeBlock  ', '$options[0]','',"\t");
@@ -311,7 +311,7 @@ class BlocksFiles extends Files\CreateFile
                 $fieldMain = $fieldName;
             }
         }
-        $content = $this->getHeaderFilesComments($module, $filename);
+        $content = $this->getHeaderFilesComments($module);
         $content .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
         $content .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Helper'], '', '');
         $content .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);

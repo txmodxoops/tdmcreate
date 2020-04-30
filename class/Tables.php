@@ -193,7 +193,7 @@ class Tables extends \XoopsObject
         }
         $imageSelect1->setExtra("onchange='showImgSelected(\"image1\", \"table_image\", \"" . $iconsDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray1->addElement($imageSelect1, false);
-        $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' name='image1' id='image1' alt='' />"));
+        $imgtray1->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $iconsDirectory . '/' . $tableImage . "' id='image1' alt='' />"));
         $fileseltray1 = new \XoopsFormElementTray('', '<br>');
         $fileseltray1->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray1->addElement(new \XoopsFormLabel(''));

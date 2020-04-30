@@ -118,6 +118,7 @@ class UserPdf extends Files\CreateFile
     /**
      * @public function getAdminPagesList
      * @param $moduleDirname
+     * @param $tableName
      * @param $fields
      * @return string
      */
@@ -240,7 +241,7 @@ class UserPdf extends Files\CreateFile
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserPdfHeader($moduleDirname, $tableName, $fields, $language);
         $content       .= $this->getUserPdfTcpdf($moduleDirname, $tableName, $fields);
         $content       .= $this->getUserPdfFooter($moduleDirname, $tableName);

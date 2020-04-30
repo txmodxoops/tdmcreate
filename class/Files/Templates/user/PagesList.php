@@ -169,7 +169,7 @@ class PagesList extends Files\CreateFile
         $module = $this->getModule();
         $table  = $this->getTable();
         //$tables = $this->getTables();
-        $tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
+        //$tables        = $this->getTableTables($module->getVar('mod_id'), 'table_order');
         $moduleDirname = $module->getVar('mod_dirname');
         $filename      = $this->getFileName();
         $language      = $this->getLanguage($moduleDirname, 'MA');
@@ -179,7 +179,7 @@ class PagesList extends Files\CreateFile
         $tableName       = $table->getVar('table_name');
         $tableSoleName   = $table->getVar('table_solename');
         $tableCategory[] = $table->getVar('table_category');
-        $tableIndex      = $table->getVar('table_index');
+        //$tableIndex      = $table->getVar('table_index');
         if (in_array(0, $tableCategory)) {
             $content .= $this->getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language);
         }

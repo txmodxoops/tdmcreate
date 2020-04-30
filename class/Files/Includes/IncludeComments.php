@@ -77,7 +77,7 @@ class IncludeComments extends Files\CreateFile
     {
         $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename . '.php');
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
         $content       .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
 
@@ -107,7 +107,7 @@ class IncludeComments extends Files\CreateFile
                 $fieldMain = $fields[$f]->getVar('field_name');
             }
         }
-        $content = $this->getHeaderFilesComments($module, $filename . '.php');
+        $content = $this->getHeaderFilesComments($module);
         $content .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
         $content .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
         $content .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true);

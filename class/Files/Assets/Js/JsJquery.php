@@ -33,6 +33,11 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 class JsJquery extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $tdmcfile = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -78,7 +83,7 @@ class JsJquery extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename, 0);
+        $content       = $this->getHeaderFilesComments($module, 0);
         $content       .= <<<'EOT'
 $(document).ready(function(){
     $( "button, input:button, input:submit, input:file, input:reset" ).css("color","inherit").button();

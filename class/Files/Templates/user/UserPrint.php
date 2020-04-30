@@ -106,11 +106,9 @@ EOT;
      * @private function getTemplatesUserPrintBody
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
-     *
      * @return string
      */
-    private function getTemplatesUserPrintBody($moduleDirname, $table, $language)
+    private function getTemplatesUserPrintBody($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -161,12 +159,10 @@ EOT;
     /**
      * @private function getTemplatesUserPrintBodyFieldnameEmpty
      * @param string $moduleDirname
-     * @param string $table
-     * @param string $language
-     *
+     * @param $table
      * @return string
      */
-    private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table, $language)
+    private function getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -239,9 +235,9 @@ EOT;
         $content        = $this->getTemplatesUserPrintHeader($moduleDirname, $table, $language);
         // Verify if table_fieldname is not empty
         if (!empty($tableFieldname)) {
-            $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserPrintBody($moduleDirname, $table);
         } else {
-            $content .= $this->getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table, $language);
+            $content .= $this->getTemplatesUserPrintBodyFieldnameEmpty($moduleDirname, $table);
         }
         $content .= $this->getTemplatesUserPrintFooter($moduleDirname);
 

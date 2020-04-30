@@ -230,7 +230,7 @@ class UserRate extends Files\CreateFile
         $tableSoleName      = $table->getVar('table_solename');
         $tableAutoincrement = $table->getVar('table_autoincrement');
         $language           = $this->getLanguage($moduleDirname, 'MA');
-        $content            = $this->getHeaderFilesComments($module, $filename);
+        $content            = $this->getHeaderFilesComments($module);
         //$content            .= $this->getUserRateHeader($moduleDirname, $tableName);
         //$content            .= $this->getUserRateSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
         //$content            .= $this->getUserRateFooter($moduleDirname, $language);

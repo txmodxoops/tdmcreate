@@ -103,6 +103,10 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret        .= $this->defines->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
         $ret        .= $this->defines->getDefine($language, 'NO', 'No');
         $ret        .= $this->defines->getAboveHeadDefines('Contents');
+        $ucfTableName     = '';
+        $ucfTableSoleName = '';
+        $stuTableSoleName = '';
+        $tableSoleName    = '';
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             $tableSoleName    = $tables[$i]->getVar('table_solename');
@@ -171,7 +175,7 @@ As you can see, you have created a page with a list of links at the top to navig
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageMain($module, $language);
         $content       .= $this->getLanguageMainFooter($language);
 

@@ -122,12 +122,11 @@ class Categories extends Files\CreateFile
     /**
      * @private function getTemplatesUserCategoriesTbody
      * @param string $moduleDirname
-     * @param string $language
      * @param        $tableName
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategoriesTbody($moduleDirname, $tableName, $tableSoleName)
     {
         $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();

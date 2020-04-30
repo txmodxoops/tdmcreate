@@ -32,6 +32,11 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageHelp extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $defines = null;
+
+    /**
      * @public function constructor
      * @param null
      */

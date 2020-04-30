@@ -93,7 +93,7 @@ class Pages extends Files\CreateFile
         $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $tbody  = $this->getTemplatesUserPagesTableThead($tableName, $language);
-        $tbody  .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language);
+        $tbody  .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName);
         $tbody  .= $this->getTemplatesUserPagesTableTfoot();
         $single = $sc->getSmartySingleVar('table_type');
 
@@ -122,12 +122,11 @@ class Pages extends Files\CreateFile
     /**
      * @private function getTemplatesUserPagesTbody
      * @param string $moduleDirname
-     * @param string $language
      * @param        $tableName
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName)
     {
         $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();

@@ -32,6 +32,11 @@ use XoopsModules\Tdmcreate\Files;
 class IncludeSearch extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $tdmcfile = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -67,33 +72,6 @@ class IncludeSearch extends Files\CreateFile
         $this->setModule($module);
         $this->setFileName($filename);
         $this->setTables($tables);
-    }
-
-    /**
-     * @static function getSearchField
-     * @param string $fieldSearch
-     * @param string $options
-     *
-     * @return string
-     */
-    public function getSearchField($fieldSearch, $options)
-    {
-        // fieldSearch = fields parameters search field
-        $sql = '';
-        if (isset($fieldSearch)) {
-            $nb_fieldSearch = count($fieldSearch);
-            $sql            .= '(';
-            for ($i = 0; $i < $nb_fieldSearch; ++$i) {
-                if ($i != $nb_fieldSearch - 1) {
-                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[' . $options . ']% OR ';
-                } else {
-                    $sql .= '' . $fieldSearch[$i] . ' LIKE %$queryarray[0]%';
-                }
-            }
-            $sql .= ')';
-        }
-
-        return $sql;
     }
 
     /**
@@ -217,7 +195,7 @@ class IncludeSearch extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content       .= $this->getSearchFunction($moduleDirname);
 

@@ -73,6 +73,7 @@ class TemplatesBlocks extends Files\CreateFile
      * @param        $tableId
      * @param        $tableMid
      * @param string $language
+     * @param $tableAutoincrement
      * @return string
      */
     private function getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement)
@@ -105,10 +106,9 @@ class TemplatesBlocks extends Files\CreateFile
      * @param        $tableName
      * @param        $tableSoleName
      * @param        $tableAutoincrement
-     * @param string $language
      * @return string
      */
-    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language)
+    private function getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement)
     {
         $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
@@ -123,9 +123,6 @@ class TemplatesBlocks extends Files\CreateFile
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
                 $rpFieldName  = $this->getRightString($fieldName);
-                if (0 == $f) {
-                    $fieldId = $fieldName;
-                }
                 if (1 == $fields[$f]->getVar('field_inlist')) {
                     switch ($fieldElement) {
                         case 9:
@@ -210,7 +207,7 @@ class TemplatesBlocks extends Files\CreateFile
         $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $tbody  = $this->getTemplatesBlocksTableThead($tableId, $tableMid, $language, $tableAutoincrement);
-        $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement, $language);
+        $tbody  .= $this->getTemplatesBlocksTableTbody($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableAutoincrement);
         $tbody  .= $this->getTemplatesBlocksTableTfoot();
         $single = $sc->getSmartySingleVar('table_type');
 

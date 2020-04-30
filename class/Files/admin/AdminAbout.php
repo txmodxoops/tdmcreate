@@ -89,7 +89,7 @@ class AdminAbout extends Files\CreateFile
         $filename        = $this->getFileName();
         $moduleDirname   = $module->getVar('mod_dirname');
         $moduleDonations = $module->getVar('mod_donations');
-        $content         = $this->getHeaderFilesComments($module, $filename);
+        $content         = $this->getHeaderFilesComments($module);
         $content         .= $this->getInclude();
         $content         .= $this->axc->getAdminTemplateMain($moduleDirname, 'about');
         $content         .= $this->xc->getXcXoopsTplAssign('navigation', "\$adminObject->displayNavigation('about.php')");

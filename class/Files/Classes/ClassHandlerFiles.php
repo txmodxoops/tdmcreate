@@ -358,7 +358,7 @@ class ClassHandlerFiles extends Files\CreateFile
             $fieldElementId[] = $fieldElements->getVar('fieldelement_id');
         }
         $namespace = $pc->getPhpCodeNamespace(['XoopsModules', $moduleDirname]);
-        $content   = $this->getHeaderFilesComments($module, $filename,null, $namespace);
+        $content   = $this->getHeaderFilesComments($module, null, $namespace);
         $content   .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content   .= $this->getClassObjectHandler($moduleDirname, $table, $fieldId, $fieldName, $fieldMain, $fieldParentId, $fieldElement);
 

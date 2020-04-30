@@ -42,6 +42,11 @@ class UserRss extends Files\CreateFile
     private $xc = null;
 
     /**
+     * @var string
+     */
+    private $pc = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -84,11 +89,9 @@ class UserRss extends Files\CreateFile
     /**
      * @public function getUserRss
      * @param string $moduleDirname
-     * @param string $language
-     *
      * @return string
      */
-    public function getUserRss($moduleDirname, $language)
+    public function getUserRss($moduleDirname)
     {
         $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
         $table     = $this->getTable();
@@ -208,8 +211,8 @@ EOT;
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->getUserRss($moduleDirname, $language);
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getUserRss($moduleDirname);
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

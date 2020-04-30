@@ -162,6 +162,8 @@ class UserSubmit extends Files\CreateFile
         $ret       .= $pc->getPhpCodeCommentLine('Insert Data', null, $t);
         $insert    = $xc->getXcHandlerInsert($tableName, $tableName, 'Obj', 'Handler');
         $countUploader = 0;
+        $fieldId          = '';
+        $ccFieldId        = '';
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -172,11 +174,11 @@ class UserSubmit extends Files\CreateFile
                 $countUploader++;
             }
         }
-
+        $contentInsert = '';
         if (1 == $tablePermissions) {
             $ucfTableName  = ucfirst($tableName);
             $ucfFieldId    = $this->getCamelCase($fieldId, true);
-            $contentInsert = $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
+            $contentInsert .= $xc->getXcEqualsOperator("\$new{$ucfFieldId}", "\${$tableName}Obj->getNewInsertedId{$ucfTableName}()", null, $t . "\t");
             $contentInsert .= $pc->getPhpCodeTernaryOperator('permId', "isset(\$_REQUEST['{$fieldId}'])", "\${$ccFieldId}", "\$new{$ucfFieldId}", $t . "\t");
             $contentInsert .= $xc->getXcXoopsHandler('groupperm', $t . "\t");
             $contentInsert .= $xc->getXcEqualsOperator('$mid', "\$GLOBALS['xoopsModule']->getVar('mid')", null, $t . "\t");
@@ -272,12 +274,16 @@ class UserSubmit extends Files\CreateFile
      */
     public function render()
     {
-        $module        = $this->getModule();
-        $filename      = $this->getFileName();
-        $moduleDirname = $module->getVar('mod_dirname');
-        $tables        = $this->getTableTables($module->getVar('mod_id'));
-        $tableSoleName = '';
-        $tableSubmit   = [];
+        $module           = $this->getModule();
+        $filename         = $this->getFileName();
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tables           = $this->getTableTables($module->getVar('mod_id'));
+        $tableSoleName    = '';
+        $tableSubmit      = [];
+        $tablePermissions = [];
+        $tableId          = '';
+        $tableMid         = '';
+        $tableName        = '';
         foreach (array_keys($tables) as $t) {
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
@@ -287,7 +293,7 @@ class UserSubmit extends Files\CreateFile
             $tablePermissions = $tables[$t]->getVar('table_permissions');
         }
         $language = $this->getLanguage($moduleDirname, 'MA');
-        $content  = $this->getHeaderFilesComments($module, $filename);
+        $content  = $this->getHeaderFilesComments($module);
         $content  .= $this->getUserSubmitHeader($moduleDirname, $tablePermissions);
         $content  .= $this->getUserSubmitSwitch($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $tableSubmit, $tablePermissions, $language, "\t");
         $content  .= $this->getUserSubmitFooter($language);

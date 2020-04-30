@@ -86,7 +86,7 @@ class FormTabTray extends \XoopsFormElementTray
                 if (!$ele instanceof Tdmcreate\Form\FormRaw) {
                     if ($ele instanceof Tdmcreate\Form\FormTab) {
                         $ret .= '<div id="tab_' . $ele->getName() . '">' . NWLINE;
-                        $ret .= '<table class="outer" cellspacing="1">' . NWLINE;
+                        $ret .= '<table class="outer" style="border-spacing:5px;">' . NWLINE;
                         $ret .= $ele->render();
                         $ret .= '</table>' . NWLINE;
                         $ret .= '</div>' . NWLINE;

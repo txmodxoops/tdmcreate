@@ -253,6 +253,7 @@ class LanguageModinfo extends Files\CreateFile
         $df         = LanguageDefines::getInstance();
         $ret        = $df->getAboveDefines('Config');
         $fieldImage = false;
+        $fieldFile  = false;
         $useTag     = false;
         // $usePermissions = false;
         foreach (array_keys($tables) as $i) {
@@ -474,6 +475,7 @@ class LanguageModinfo extends Files\CreateFile
         $tableBlocks        = [];
         $tableNotifications = [];
         $tablePermissions   = [];
+        $tableSoleName      = '';
         foreach (array_keys($tables) as $t) {
             $tableSoleName        = $tables[$t]->getVar('table_solename');
             $tableAdmin[]         = $tables[$t]->getVar('table_admin');
@@ -486,7 +488,7 @@ class LanguageModinfo extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MI');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getLanguageMain($language, $module);
         $content       .= $this->getLanguageMenu($module, $language);
         if (in_array(1, $tableAdmin)) {

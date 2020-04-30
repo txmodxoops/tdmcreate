@@ -101,6 +101,9 @@ class UserPrint extends Files\CreateFile
         $tableName        = $table->getVar('table_name');
         $tableSoleName    = $table->getVar('table_solename');
         $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldId          = '';
+        $fieldMain        = '';
+        $ucfFieldName     = '';
         foreach (array_keys($fields) as $f) {
             $fieldName   = $fields[$f]->getVar('field_name');
             if ((0 == $f) && (1 == $this->table->getVar('table_autoincrement'))) {
@@ -177,7 +180,7 @@ class UserPrint extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserPrint($moduleDirname, $language);
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

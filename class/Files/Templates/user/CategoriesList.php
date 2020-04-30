@@ -85,11 +85,10 @@ EOT;
 
     /**
      * @private function getTemplatesUserCategoriesListThead
-     * @param string $language
      * @param        $table
      * @return string
      */
-    private function getTemplatesUserCategoriesListThead($table, $language)
+    private function getTemplatesUserCategoriesListThead($table)
     {
         $ret    = <<<EOT
 		<thead>
@@ -119,11 +118,10 @@ EOT;
      * @private function getTemplatesUserCategoriesListTbody
      * @param string $moduleDirname
      * @param string $table
-     * @param string $language
      *
      * @return string
      */
-    private function getTemplatesUserCategoriesListTbody($moduleDirname, $table, $language)
+    private function getTemplatesUserCategoriesListTbody($moduleDirname, $table)
     {
         $tableName = $table->getVar('table_name');
         $ret       = <<<EOT
@@ -175,10 +173,9 @@ EOT;
     /**
      * @private function getTemplatesUserCategoriesListTfoot
      * @param string $table
-     * @param string $language
      * @return string
      */
-    private function getTemplatesUserCategoriesListTfoot($table, $language)
+    private function getTemplatesUserCategoriesListTfoot($table)
     {
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
         $ret       = <<<EOT
@@ -224,14 +221,13 @@ EOT;
     /**
      * @private function getTemplatesUserCategoriesListPanel
      * @param string $moduleDirname
-     * @param string $language
      * @param        $tableId
      * @param        $tableMid
      * @param        $tableName
      * @param        $tableSoleName
      * @return string
      */
-    private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
+    private function getTemplatesUserCategoriesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName)
     {
         $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();

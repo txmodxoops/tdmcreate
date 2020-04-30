@@ -171,7 +171,7 @@ EOT;
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserSingleHeader($moduleDirname, $table, $fields);
         $content       .= $this->getUserSingleBody($module, $tableName, $language);
         $content       .= $this->getUserSingleFooter($moduleDirname, $tableName, $language);

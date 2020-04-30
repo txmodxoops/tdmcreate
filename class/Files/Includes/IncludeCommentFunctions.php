@@ -71,10 +71,10 @@ class IncludeCommentFunctions extends Files\CreateFile
     /**
      * @public function getCommentBody
      * @param string $module
-     * @param mixed  $table
-     * @param        $filename
+     * @param mixed $table
+     * @return string
      */
-    public function getCommentBody($module, $table, $filename)
+    public function getCommentBody($module, $table)
     {
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
@@ -114,8 +114,8 @@ class IncludeCommentFunctions extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
 
         $filename      = $this->getFileName();
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->getCommentBody($module, $table, $filename);
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getCommentBody($module, $table);
 
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

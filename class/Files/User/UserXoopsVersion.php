@@ -186,6 +186,7 @@ class UserXoopsVersion extends Files\CreateFile
         $tableName = $table->getVar('table_name');
         $n         = 1;
         $ret       = '';
+        $items     = [];
         if (!empty($tableName)) {
             $ret         .= $this->getDashComment('Mysql');
             $description = "'sql/mysql.sql'";
@@ -251,10 +252,10 @@ class UserXoopsVersion extends Files\CreateFile
      */
     private function getXoopsVersionTemplatesAdminUser($moduleDirname, $tables, $admin, $user)
     {
-        $uxc = UserXoopsCode::getInstance();
-        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret = $this->getDashComment('Templates');
-
+        $uxc  = UserXoopsCode::getInstance();
+        $pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret  = $this->getDashComment('Templates');
+        $item = [];
         if ($admin) {
             $item[] = $pc->getPhpCodeCommentLine('Admin templates');
             $item[] = $this->getXoopsVersionTemplatesLine($moduleDirname, 'about', '', true);
@@ -500,6 +501,8 @@ class UserXoopsVersion extends Files\CreateFile
         $table_admin       = 0;
         $table_user        = 0;
         $table_tag         = 0;
+        $table_uploadimage = 0;
+        $table_uploadfile  = 0;
         foreach ($tables as $table) {
             $fields = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
             foreach (array_keys($fields) as $f) {
@@ -919,6 +922,7 @@ class UserXoopsVersion extends Files\CreateFile
         $tableSubmit   = [];
         $tableId       = null;
         $tableMid      = null;
+        $tableSoleName = '';
         foreach (array_keys($tables) as $t) {
             $tableId         = $tables[$t]->getVar('table_id');
             $tableMid        = $tables[$t]->getVar('table_mid');
@@ -1172,7 +1176,7 @@ class UserXoopsVersion extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MI');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getXoopsVersionHeader($module, $language);
         $content       .= $this->getXoopsVersionTemplatesAdminUser($moduleDirname, $tables, $module->getVar('mod_admin'), $module->getVar('mod_user'));
         $content       .= $this->getXoopsVersionMySQL($moduleDirname, $table, $tables);

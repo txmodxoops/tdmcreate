@@ -54,7 +54,7 @@ class FormTab extends \XoopsFormElementTray
         foreach ($this->getElements() as $ele) {
             $ret         .= NWLINE;
             $ret         .= '<tr>' . NWLINE;
-            $ret         .= '<td class="head" width="30%">' . NWLINE;
+            $ret         .= '<td class="head" style="width:30%">' . NWLINE;
             $required    = $ele->isRequired() ? '-required' : '';
             $ret         .= '<div class="xoops-form-element-caption' . $required . '">' . NWLINE;
             $ret         .= '<span class="caption-text">' . $ele->getCaption() . '</span>' . NWLINE;

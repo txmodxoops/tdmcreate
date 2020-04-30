@@ -54,8 +54,10 @@ class Resizer
                 return 'Unsupported format';
         }
 
-        $width  = imagesx($img);
-        $height = imagesy($img);
+        $width      = imagesx($img);
+        $height     = imagesy($img);
+        $new_width  = 0;
+        $new_height = 0;
 
         if ($width > $this->maxWidth || $height > $this->maxHeight) {
             // recalc image size based on this->maxWidth/this->maxHeight

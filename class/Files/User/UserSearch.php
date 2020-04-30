@@ -181,7 +181,7 @@ EOT;
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($tableMid, $tableId);
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserSearchHeader($moduleDirname, $table, $fields);
         $content       .= $this->getUserSearch($moduleDirname, $tableName, $language);
         $content       .= $this->getUserSearchFooter($moduleDirname, $tableName, $language);
