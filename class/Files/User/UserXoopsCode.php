@@ -73,9 +73,9 @@ class UserXoopsCode
      */
     public function getUserAddMeta($type, $language, $tableName, $t = '')
     {
-        $pCodeAddMeta = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
-        $stripTags    = $pCodeAddMeta->getPhpCodeStripTags('', $language . $stuTableName, true);
+        $stripTags    = $pc->getPhpCodeStripTags('', $language . $stuTableName, true);
 
         return "{$t}\$GLOBALS['xoTheme']->addMeta( 'meta', '{$type}', {$stripTags});\n";
     }
@@ -89,10 +89,10 @@ class UserXoopsCode
      */
     public function getUserMetaKeywords($moduleDirname)
     {
-        $pCodeMetaKeywords = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $implode           = $pCodeMetaKeywords->getPhpCodeImplode(',', '$keywords');
+        $pc      = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $implode = $pc->getPhpCodeImplode(',', '$keywords');
 
-        return "{$moduleDirname}MetaKeywords(\${$moduleDirname}->getConfig('keywords').', '. {$implode});\n";
+        return "{$moduleDirname}MetaKeywords(\$helper->getConfig('keywords').', '. {$implode});\n";
     }
 
     /**
@@ -120,11 +120,11 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbs($language, $tableName = 'index', $t = '')
     {
-        $stuTableName     = mb_strtoupper($tableName);
-        $title            = ["'title'" => "{$language}{$stuTableName}"];
-        $pCodeBreadcrumbs = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $stuTableName = mb_strtoupper($tableName);
+        $title        = ["'title'" => "{$language}{$stuTableName}"];
 
-        return $pCodeBreadcrumbs->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
+        return $pc->getPhpCodeArray('xoBreadcrumbs[]', $title, false, $t);
     }
 
     /**
@@ -137,13 +137,12 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsHeaderFile($moduleDirname, $language)
     {
-        $pCodeHeaderFile  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xCodeHeaderFile  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ret              = $pCodeHeaderFile->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs', null, false, '');
+        $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
+        $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs', null, false, '');
         $titleLink        = ["'title'" => $language . 'TITLE', "'link'" => "{$stuModuleDirname}_URL . '/'"];
-        $ret              .= $pCodeHeaderFile->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
+        $ret              .= $pc->getPhpCodeArray('xoBreadcrumbs[]', $titleLink, false, '');
 
         return $ret;
     }
@@ -155,16 +154,16 @@ class UserXoopsCode
      */
     public function getUserBreadcrumbsFooterFile()
     {
-        $pCodeFooterFile = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $xCodeFooterFile = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $cond            = $xCodeFooterFile->getXcTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
-        $ret             = $pCodeFooterFile->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
+        $pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc   = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $cond = $xc->getXcXoopsTplAssign('xoBreadcrumbs', '$xoBreadcrumbs');
+        $ret  = $pc->getPhpCodeConditions('count($xoBreadcrumbs)', ' > ', '1', $cond, false, "\t\t");
 
         return $ret;
     }
 
     /**
-     * @public function getUserModVersion
+     * @public function getUserModVersionArray
      *
      * @param int    $eleArray
      * @param        $descriptions
@@ -175,29 +174,87 @@ class UserXoopsCode
      *
      * @return string
      */
-    public function getUserModVersion($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
+    public function getUserModVersionArray($eleArray, $descriptions, $name = null, $index = null, $num = false, $t = '')
     {
-        $ret = '';
-        $mv  = $t . '$modversion';
+        $ret = $t . '$modversion';
+        $isArray = false;
+        $n = '';
         if (!is_array($descriptions)) {
             $descs = [$descriptions];
         } else {
             $descs = $descriptions;
+            $isArray = true;
+            $n = "\n";
         }
+        if (0 === $eleArray) {
+            $ret .= " = ";
+        } elseif (1 === $eleArray || 11 === $eleArray) {
+            $ret .= "['{$name}'] = ";
+        } elseif (2 === $eleArray) {
+            $ret .= "['{$name}'][{$index}] = ";
+        } elseif (3 === $eleArray) {
+            $ret .= "['{$name}'][{$index}][{$num}] = ";
+        }
+        if ($isArray) {
+            $ret .= "[";
+        }
+        $ret .= $n;
+        //search for longest key
+        $len = 0;
         foreach ($descs as $key => $desc) {
-            $one = (null === $name) ? $key : $name;
-            $two = (null === $index) ? $key : $index;
-            if (1 === $eleArray) {
-                $ret .= $mv . "['{$one}'] = {$desc};\n";
-            } elseif (2 === $eleArray) {
-                $ret .= $mv . "['{$one}'][{$two}] = {$desc};\n";
-            } elseif (3 === $eleArray) {
-                $ret .= $mv . "['{$one}'][{$two}]['{$key}'] = {$desc};\n";
-            } elseif (4 === $eleArray) {
-                $ret .= $mv . "['{$one}'][{$two}][{$num}]['{$key}'] = {$desc};\n";
-            }
+            $len = strlen($key) > $len ? strlen($key) : $len;
         }
 
+        foreach ($descs as $key => $desc) {
+            $space = str_repeat (  ' ' , $len - strlen($key));
+            if ($eleArray < 4) {
+                $ret .= $t . "\t'{$key}'{$space} => {$desc},{$n}";
+            } elseif (11 === $eleArray) {
+                if ('/' === substr($desc, 1, 1)) {
+                    $ret .= $t . "\t{$desc}";
+                } else {
+                    $ret .= $t . "\t{$desc},{$n}";
+                }
+
+            } elseif (12 === $eleArray) {
+                $ret .= $t . "\t{$desc}{$n}";
+            }
+        }
+        $ret .= $t;
+        if ($isArray) {
+            $ret .= "]";
+        }
+        $ret .= ";\n";
+        return $ret;
+    }
+
+    /**
+     * @public function getUserModVersionText
+     *
+     * @param int $eleArray
+     * @param $text
+     * @param null $name
+     * @param null $index
+     * @param bool $num
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getUserModVersionText($eleArray, $text, $name = null, $index = null, $num = false, $t = '')
+    {
+        $ret = $t . '$modversion';
+
+        if (0 === $eleArray) {
+            $ret .= " = ";
+        } elseif (1 === $eleArray) {
+            $ret .= "['{$name}'] = ";
+        } elseif (2 === $eleArray) {
+            $ret .= "['{$name}'][{$index}] = ";
+        } elseif (3 === $eleArray) {
+            $ret .= "['{$name}'][{$index}][{$num}] = ";
+        }
+
+        $ret .= $t . "{$text};\n";
         return $ret;
     }
 }

@@ -77,10 +77,10 @@ define('_MI_TDMCREATE_CONFIG_INROOT_COPY', 'Copy this module also in root/module
 define('_MI_TDMCREATE_CONFIG_PAYPAL_BUTTON', 'Paypal Button');
 define('_MI_TDMCREATE_CONFIG_SUBVERSION', 'Subversion');
 define('_MI_TDMCREATE_CONFIG_DESCRIPTION', 'Module Description');
-define('_MI_TDMCREATE_CONFIG_MIMETYPES', 'Mimetypes of images');
-define('_MI_TDMCREATE_CONFIG_MIMETYPES_DESC', 'Set mimetypes of images and files separated by <b>|</b>');
-define('_MI_TDMCREATE_CONFIG_MAXSIZE', 'Maximum size of images');
-define('_MI_TDMCREATE_CONFIG_MAXSIZE_DESC', 'Set maximum size of images in Bytes');
+define('_MI_TDMCREATE_CONFIG_MIMETYPES_IMAGE', 'Mimetypes of images');
+define('_MI_TDMCREATE_CONFIG_MIMETYPES_IMAGE_DESC', 'Set mimetypes of images and files separated by <b>|</b>');
+define('_MI_TDMCREATE_CONFIG_MAXSIZE_IMAGE', 'Maximum size of images');
+define('_MI_TDMCREATE_CONFIG_MAXSIZE_IMAGE_DESC', 'Set maximum size of images in Bytes');
 //1.39
 define('_MI_TDMCREATE_CONFIG_BREAK_GENERAL', 'General preferences');
 define('_MI_TDMCREATE_CONFIG_BREAK_REQUIRED', 'Module required');

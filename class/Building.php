@@ -97,7 +97,9 @@ class Building
                 unlink($file);
             }
         }
-        rmdir($dir);
+        if (is_dir($dir)) {
+            rmdir($dir);
+        }
     }
 
     /**

@@ -43,7 +43,6 @@ class Footer extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->htmlcode = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
     }
 
     /**

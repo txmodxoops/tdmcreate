@@ -32,6 +32,11 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageBlocks extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $defines = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -72,11 +77,10 @@ class LanguageBlocks extends Files\CreateFile
     /**
      * @private function getLanguageBlock
      * @param string $language
-     * @param string $module
      *
      * @return string
      */
-    private function getLanguageBlock($module, $language)
+    private function getLanguageBlock($language)
     {
         $tables = $this->getTables();
         $ret    = $this->defines->getAboveDefines('Admin Edit');
@@ -85,23 +89,23 @@ class LanguageBlocks extends Files\CreateFile
         $ret    .= $this->defines->getDefine($language, 'CATTODISPLAY', 'Categories to Display');
         $ret    .= $this->defines->getDefine($language, 'ALLCAT', 'All Categories');
         foreach (array_keys($tables) as $t) {
-            $tableName        = $tables[$t]->getVar('table_name');
-            $ucfTableName     = ucfirst($tableName);
-            $ret             .= $this->defines->getAboveDefines($ucfTableName);
-            $fields           = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
-            $stuTableName = mb_strtoupper($tableName);
-            $ret              .= $this->defines->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
-            $ret              .= $this->defines->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
-            foreach (array_keys($fields) as $f) {
-                $fieldName    = $fields[$f]->getVar('field_name');
-                $stuFieldName = mb_strtoupper($fieldName);
-
-                $rpFieldName = $this->getRightString($fieldName);
-                $lpFieldName = mb_substr($fieldName, 0, mb_strpos($fieldName, '_'));
-
-                $fieldNameDesc = ucfirst($rpFieldName);
-
-                $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
+            if (1 === (int)$tables[$t]->getVar('table_blocks')) {
+                $tableName = $tables[$t]->getVar('table_name');
+                $ucfTableName = ucfirst($tableName);
+                $ret .= $this->defines->getAboveDefines($ucfTableName);
+                $fields = $this->getTableFields($tables[$t]->getVar('table_mid'), $tables[$t]->getVar('table_id'));
+                $stuTableName = mb_strtoupper($tableName);
+                $ret .= $this->defines->getDefine($language, $stuTableName . '_TO_DISPLAY', $ucfTableName . ' to Display');
+                $ret .= $this->defines->getDefine($language, 'ALL_' . $stuTableName, 'All ' . $ucfTableName);
+                foreach (array_keys($fields) as $f) {
+                    if (1 === (int)$fields[$f]->getVar('field_block')) {
+                        $fieldName = $fields[$f]->getVar('field_name');
+                        $stuFieldName = mb_strtoupper($fieldName);
+                        $rpFieldName = $this->getRightString($fieldName);
+                        $fieldNameDesc = ucfirst($rpFieldName);
+                        $ret .= $this->defines->getDefine($language, $stuFieldName, $fieldNameDesc);
+                    }
+                }
             }
         }
 
@@ -132,8 +136,8 @@ class LanguageBlocks extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MB');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->getLanguageBlock($module, $language);
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getLanguageBlock($language);
         $content       .= $this->getLanguageFooter();
 
         $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

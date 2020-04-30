@@ -75,9 +75,9 @@ class Submit extends Files\CreateFile
      */
     private function getTemplatesUserSubmitHeader($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header');
+        return $sc->getSmartyIncludeFile($moduleDirname, 'header');
     }
 
     /**
@@ -89,24 +89,25 @@ class Submit extends Files\CreateFile
      */
     private function getTemplatesUserSubmit($moduleDirname, $language)
     {
-        $hc    = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc    = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        $const = $hc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
+        $const = $sc->getSmartyConst($language, 'SUBMIT_SUBMITONCE');
         $li    = $hc->getHtmlLi($const, '',"\t\t");
-        $const = $hc->getSmartyConst($language, 'SUBMIT_ALLPENDING');
+        $const = $sc->getSmartyConst($language, 'SUBMIT_ALLPENDING');
         $li    .= $hc->getHtmlLi($const, '',"\t\t");
-        $const = $hc->getSmartyConst($language, 'SUBMIT_DONTABUSE');
+        $const = $sc->getSmartyConst($language, 'SUBMIT_DONTABUSE');
         $li    .= $hc->getHtmlLi($const, '',"\t\t");
-        $const = $hc->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
+        $const = $sc->getSmartyConst($language, 'SUBMIT_TAKEDAYS');
         $li    .= $hc->getHtmlLi($const, '',"\t\t");
         $ul    = $hc->getHtmlUl($li, '', "\t");
 
         $ret      = $hc->getHtmlEmpty('', '',"\n");
         $ret     .= $hc->getHtmlDiv($ul, $moduleDirname . '-tips');
-        $single   = $hc->getSmartySingleVar('message_error');
+        $single   = $sc->getSmartySingleVar('message_error');
         $divError = $hc->getHtmlDiv($single, 'errorMsg', "\t", "\n", false);
-        $ret      .= $hc->getSmartyConditions('message_error', ' != ', '\'\'', $divError);
-        $single   = $hc->getSmartySingleVar('form', "\t", "\n");
+        $ret      .= $sc->getSmartyConditions('message_error', ' != ', '\'\'', $divError);
+        $single   = $sc->getSmartySingleVar('form', "\t", "\n");
         $ret      .= $hc->getHtmlDiv($single, $moduleDirname . '-submitform');
         $ret      .= $hc->getHtmlEmpty('', '',"\n");
 
@@ -121,9 +122,9 @@ class Submit extends Files\CreateFile
      */
     private function getTemplatesUserSubmitFooter($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /**
@@ -134,10 +135,10 @@ class Submit extends Files\CreateFile
     public function render()
     {
         $module         = $this->getModule();
-        $table          = $this->getTable();
+        //$table          = $this->getTable();
         $filename       = $this->getFileName();
         $moduleDirname  = $module->getVar('mod_dirname');
-        $tableFieldname = $table->getVar('table_fieldname');
+        //$tableFieldname = $table->getVar('table_fieldname');
         $language       = $this->getLanguage($moduleDirname, 'MA');
         $content        = $this->getTemplatesUserSubmitHeader($moduleDirname);
         $content        .= $this->getTemplatesUserSubmit($moduleDirname, $language);

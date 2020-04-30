@@ -32,6 +32,12 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageAdmin extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $defines = null;
+
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -79,7 +85,11 @@ class LanguageAdmin extends Files\CreateFile
      */
     public function getLanguageAdminIndex($language, $tables)
     {
-        $ret = $this->defines->getAboveHeadDefines('Admin Index');
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $this->defines->getBlankLine();
+        $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $this->defines->getBlankLine();
+        $ret .= $this->defines->getAboveHeadDefines('Admin Index');
         $ret .= $this->defines->getDefine($language, 'STATISTICS', 'Statistics');
         $ret .= $this->defines->getAboveDefines('There are');
         foreach (array_keys($tables) as $t) {
@@ -116,7 +126,6 @@ class LanguageAdmin extends Files\CreateFile
         $ret .= $this->defines->getAboveDefines('Buttons');
 
         foreach (array_keys($tables) as $t) {
-            $tableName        = $tables[$t]->getVar('table_name');
             $tableSoleName    = $tables[$t]->getVar('table_solename');
             $stuTableSoleName = mb_strtoupper($tableSoleName);
             $ucfTableSoleName = ucfirst($tableSoleName);
@@ -140,19 +149,19 @@ class LanguageAdmin extends Files\CreateFile
      * @param string $tables
      * @return string
      */
-    public function getLanguageAdminClass($language, $tables, $moduleDirname)
+    public function getLanguageAdminClass($language, $tables)
     {
         $ret = $this->defines->getAboveHeadDefines('Admin Classes');
 
         foreach (array_keys($tables) as $t) {
             $tableId          = $tables[$t]->getVar('table_id');
             $tableMid         = $tables[$t]->getVar('table_mid');
-            $tableName        = $tables[$t]->getVar('table_name');
             $tableSoleName    = $tables[$t]->getVar('table_solename');
             $ucfTableSoleName = ucfirst($tableSoleName);
 
             $fields      = $this->getTableFields($tableMid, $tableId);
             $fieldInForm = 0;
+
             foreach (array_keys($fields) as $f) {
                 if ($fieldInForm < $fields[$f]->getVar('field_inform')) {
                     $fieldInForm = $fields[$f]->getVar('field_inform');
@@ -165,15 +174,15 @@ class LanguageAdmin extends Files\CreateFile
             }
             $ret .= $this->defines->getAboveDefines("Elements of {$ucfTableSoleName}");
 
+            $fieldStatus          = 0;
+            $fieldSampleListValue = 0;
             foreach (array_keys($fields) as $f) {
                 $fieldName    = $fields[$f]->getVar('field_name');
                 $fieldElement = $fields[$f]->getVar('field_element');
-                $stuFieldName = mb_strtoupper($fieldName);
 
                 $rpFieldName = $this->getRightString($fieldName);
-                if ($fieldElement > 15) {
+                if ($fieldElement > 16) {
                     $fieldElements    = Tdmcreate\Helper::getInstance()->getHandler('fieldelements')->get($fieldElement);
-                    $fieldElementTid  = $fieldElements->getVar('fieldelement_tid');
                     $fieldElementName = $fieldElements->getVar('fieldelement_name');
                     $fieldNameDesc    = mb_substr($fieldElementName, mb_strrpos($fieldElementName, ':'), mb_strlen($fieldElementName));
                     $fieldNameDesc    = str_replace(': ', '', $fieldNameDesc);
@@ -182,32 +191,60 @@ class LanguageAdmin extends Files\CreateFile
                 }
 
                 $ret          .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName, $fieldNameDesc);
-                $stuTableName = mb_strtoupper($tableName);
 
                 switch ($fieldElement) {
                     case 10:
-                        $ret .= $this->defines->getDefine($language, "FORM_IMAGE_LIST_{$stuTableName}", "{$fieldNameDesc} in frameworks images");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in frameworks images: %s");
                         break;
                     case 12:
-                        $ret .= $this->defines->getDefine($language, "FORM_URL_{$stuTableName}", "{$fieldNameDesc} in text url");
-                        $ret .= $this->defines->getDefine($language, 'FORM_URL_UPLOAD', "{$fieldNameDesc} in uploads files");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in uploads");
                         break;
+                    case 11:
                     case 13:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_IMAGE_{$stuTableName}", "{$fieldNameDesc} in ./uploads/{$moduleDirname}/images/{$tableName}/ :");
-                        break;
                     case 14:
-                        $ret .= $this->defines->getDefine($language, "FORM_UPLOAD_FILE_{$stuTableName}", "{$fieldNameDesc} in ./uploads/{$moduleDirname}/files/{$tableName}/ :");
+                        $ret .= $this->defines->getDefine($language, $tableSoleName . '_' . $rpFieldName . '_UPLOADS', "{$fieldNameDesc} in %s :");
                         break;
+                    case 16:
+                        $fieldStatus++;
+                        break;
+                    case 20:
+                    case 22:
+                        $fieldSampleListValue++;
+                        break;
+                }
+                if (16 === (int)$fieldElement) {
+                    $fieldStatus++;
+                }
+                if (20 === (int)$fieldElement || 20 === (int)$fieldElement) {
+                    $fieldSampleListValue++;
                 }
             }
         }
         $ret .= $this->defines->getAboveDefines('General');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD', 'Upload file');
         $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_NEW', 'Upload new file: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE', 'Max file size: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_SIZE_MB', 'MB');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_WIDTH', 'Max image width: ');
+        $ret .= $this->defines->getDefine($language, 'FORM_UPLOAD_IMG_HEIGHT', 'Max image height: ');
         $ret .= $this->defines->getDefine($language, 'FORM_IMAGE_PATH', 'Files in %s :');
         $ret .= $this->defines->getDefine($language, 'FORM_ACTION', 'Action');
         $ret .= $this->defines->getDefine($language, 'FORM_EDIT', 'Modification');
         $ret .= $this->defines->getDefine($language, 'FORM_DELETE', 'Clear');
+
+        if ($fieldStatus > 0) {
+            $ret .= $this->defines->getAboveDefines('Status');
+            $ret .= $this->defines->getDefine($language, 'STATUS_NONE', 'No status');
+            $ret .= $this->defines->getDefine($language, 'STATUS_OFFLINE', 'Offline');
+            $ret .= $this->defines->getDefine($language, 'STATUS_SUBMITTED', 'Submitted');
+            $ret .= $this->defines->getDefine($language, 'STATUS_APPROVED', 'Approved');
+        }
+        if ($fieldSampleListValue > 0) {
+            $ret .= $this->defines->getAboveDefines('Sample List Values');
+            $ret .= $this->defines->getDefine($language, 'LIST_1', 'Sample List Value 1');
+            $ret .= $this->defines->getDefine($language, 'LIST_2', 'Sample List Value 2');
+            $ret .= $this->defines->getDefine($language, 'LIST_3', 'Sample List Value 3');
+        }
 
         return $ret;
     }
@@ -261,6 +298,7 @@ class LanguageAdmin extends Files\CreateFile
     {
         $module = $this->getModule();
         $tables = $this->getTableTables($module->getVar('mod_id'));
+        $tablePermissions = [];
         foreach (array_keys($tables) as $t) {
             $tablePermissions[] = $tables[$t]->getVar('table_permissions');
         }
@@ -268,11 +306,11 @@ class LanguageAdmin extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'AM');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         if (is_array($tables)) {
             $content .= $this->getLanguageAdminIndex($language, $tables);
             $content .= $this->getLanguageAdminPages($language, $tables);
-            $content .= $this->getLanguageAdminClass($language, $tables, $moduleDirname);
+            $content .= $this->getLanguageAdminClass($language, $tables);
         }
         if (in_array(1, $tablePermissions)) {
             $content .= $this->getLanguageAdminPermissions($language);

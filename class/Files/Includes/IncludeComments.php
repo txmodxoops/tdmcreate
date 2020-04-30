@@ -75,15 +75,15 @@ class IncludeComments extends Files\CreateFile
      */
     public function renderCommentsIncludes($module, $filename)
     {
+        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename . '.php');
-        $content       .= <<<EOT
-include_once __DIR__ . '/../../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/include/{$filename}.php';
-EOT;
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
+        $content       .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true);
+
         $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
-        return $this->render();
+        return $this->renderFile();
     }
 
     /**
@@ -95,27 +95,29 @@ EOT;
      */
     public function renderCommentsNew($module, $filename)
     {
+        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc            = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $table         = $this->getTable();
         $moduleDirname = mb_strtolower($module->getVar('mod_dirname'));
         $tableName     = $table->getVar('table_name');
         $fields        = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
+        $fieldMain     = '';
         foreach (array_keys($fields) as $f) {
             if (1 == $fields[$f]->getVar('field_main')) {
-                $fpmf = $fields[$f]->getVar('field_name');
+                $fieldMain = $fields[$f]->getVar('field_name');
             }
         }
-        $content = $this->getHeaderFilesComments($module, $filename . '.php');
-        $content .= <<<EOT
-include __DIR__ . '/../../../mainfile.php';
-include_once XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php';
-\$com_itemid = isset(\$_REQUEST['com_itemid']) ? (int)\$_REQUEST['com_itemid'] : 0;
-if (\$com_itemid > 0) {
-    \${$tableName}Handler = xoops_getModuleHandler('{$tableName}', '{$moduleDirname}');
-    \${$tableName} = \${$tableName}handler->get(\$com_itemid);
-    \$com_replytitle = \${$tableName}->getVar('{$fpmf}');
-    include XOOPS_ROOT_PATH.'/include/{$filename}.php';
-}
-EOT;
+        $content = $this->getHeaderFilesComments($module);
+        $content .= $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
+        $content .= $pc->getPhpCodeIncludeDir("__DIR__ . '/../../../mainfile.php'",'',true, true);
+        $content .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/modules/{$moduleDirname}/class/{$tableName}.php'",'',true, true);
+        $content .= $xc->getXcXoopsRequest('com_itemid', 'com_itemid', '0', 'Int');
+        $contIf  = $xc->getXcEqualsOperator("\${$tableName}Handler", "xoops_getModuleHandler('{$tableName}', '{$moduleDirname}')",'',"\t");
+        $contIf  .= $xc->getXcHandlerGet("{$tableName}", 'com_itemid','Obj', "{$tableName}Handler", false, "\t");
+        $contIf  .= $xc->getXcGetVar('com_replytitle', "{$tableName}Obj", $fieldMain,false, "\t");
+        $contIf  .= $pc->getPhpCodeIncludeDir("XOOPS_ROOT_PATH.'/include/{$filename}.php'",'',true, true, '',"\t");
+        $content .= $pc->getPhpCodeConditions('$com_itemid',' > ', '0', $contIf);
+
         $this->create($moduleDirname, 'include', $filename . '.php', $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

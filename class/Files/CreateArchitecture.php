@@ -103,6 +103,7 @@ class CreateArchitecture extends CreateStructure
         $copyFiles = [
             'class'                           => $indexFile,
             'include'                         => $indexFile,
+            'config'                          => $indexFile,
             'language'                        => $indexFile,
             'assets'                          => $indexFile,
             'assets/css'                      => $indexFile,
@@ -125,6 +126,12 @@ class CreateArchitecture extends CreateStructure
         $modImage = str_replace(' ', '', mb_strtolower($module->getVar('mod_image')));
         $targetImage = 'logoModule.png';
         $this->copyFile('assets/images', TDMC_UPLOAD_IMGMOD_PATH . '/' . $modImage, $targetImage);
+
+        //Copy blank files
+        $targetImage = 'blank.gif';
+        $this->copyFile('assets/images', TDMC_IMAGE_PATH . '/' . $targetImage, $targetImage);
+        $targetImage = 'blank.png';
+        $this->copyFile('assets/images', TDMC_IMAGE_PATH . '/' . $targetImage , $targetImage);
 
         // Copy of 'module_author_logo.png' file in uploads dir
         $logoPng     = $stlModuleAuthor . '_logo.png';
@@ -196,15 +203,16 @@ class CreateArchitecture extends CreateStructure
         $files         = $tf->getTableMoreFiles($modId);
         $ret           = [];
 
-        $table              = [];
+        $table              = null;
         $tableCategory      = [];
-        $tableName          = [];
+        //$tableName          = [];
         $tableAdmin         = [];
         $tableUser          = [];
         $tableBlocks        = [];
         $tableSearch        = [];
         $tableComments      = [];
         $tableNotifications = [];
+        $permTables         = [];
         $tablePermissions   = [];
         $tableBroken        = [];
         $tablePdf           = [];
@@ -227,6 +235,7 @@ class CreateArchitecture extends CreateStructure
             $tableComments[]      = $tables[$t]->getVar('table_comments');
             $tableNotifications[] = $tables[$t]->getVar('table_notifications');
             $tablePermissions[]   = $tables[$t]->getVar('table_permissions');
+            $permTables[]         = $tables[$t]->getVar('table_name');
             $tableBroken[]        = $tables[$t]->getVar('table_broken');
             $tablePdf[]           = $tables[$t]->getVar('table_pdf');
             $tablePrint[]         = $tables[$t]->getVar('table_print');
@@ -245,7 +254,7 @@ class CreateArchitecture extends CreateStructure
                 $this->copyFile($icon32, $uploadTableImage, $tableImage);
             }
             // Creation of admin files
-            if (in_array(1, $tableAdmin)) {
+            if (1 === (int)$tables[$t]->getVar('table_admin')) {
                 // Admin Pages File
                 $adminPages = Tdmcreate\Files\Admin\AdminPages::getInstance();
                 $adminPages->write($module, $table, $tableName . '.php');
@@ -256,7 +265,7 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $adminTemplatesPages->render();
             }
             // Creation of blocks
-            if (in_array(1, $tableBlocks)) {
+            if (1 === (int)$tables[$t]->getVar('table_blocks')) {
                 // Blocks Files
                 $blocksFiles = Tdmcreate\Files\Blocks\BlocksFiles::getInstance();
                 $blocksFiles->write($module, $table, $tableName . '.php');
@@ -267,29 +276,34 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $templatesBlocks->render();
             }
             // Creation of classes
-            if (in_array(1, $tableAdmin, true) || in_array(1, $tableUser)) {
+            if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
                 // Class Files
                 $classFiles = Tdmcreate\Files\Classes\ClassFiles::getInstance();
-                $classFiles->write($module, $table, $tables, $tableName . '.php');
+                $classFiles->write($module, $table, $tables, ucfirst($tableName) . '.php');
+                $ret[] = $classFiles->render();
+            }
+            // Creation of classhandlers
+            if (1 === (int)$tables[$t]->getVar('table_admin') || 1 === (int)$tables[$t]->getVar('table_user')) {
+                // Class Files
+                $classFiles = Tdmcreate\Files\Classes\ClassHandlerFiles::getInstance();
+                $classFiles->write($module, $table, $tables, ucfirst($tableName) . 'handler.php');
                 $ret[] = $classFiles->render();
             }
             // Creation of user files
-            if (in_array(1, $tableUser)) {
+            if (1 === (int)$tables[$t]->getVar('table_user')) {
                 // User Pages File
                 $userPages = Tdmcreate\Files\User\UserPages::getInstance();
                 $userPages->write($module, $table, $tableName . '.php');
                 $ret[] = $userPages->render();
-                if (in_array(0, $tableCategory)) {
-                    // User Templates File
-                    $userTemplatesPages = Tdmcreate\Files\Templates\User\Pages::getInstance();
-                    $userTemplatesPages->write($module, $table, $moduleDirname . '_' . $tableName . '.tpl');
-                    $ret[] = $userTemplatesPages->render();
-                    // User List Templates File
-                    $userTemplatesPagesList = Tdmcreate\Files\Templates\User\PagesList::getInstance();
-                    $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_list' . '.tpl');
-                    $ret[] = $userTemplatesPagesList->render();
-                }
-                if (in_array(1, $tableCategory)) {
+                // User Templates File
+                $userTemplatesPages = Tdmcreate\Files\Templates\User\Pages::getInstance();
+                $userTemplatesPages->write($module, $table, $moduleDirname . '_' . $tableName . '.tpl');
+                $ret[] = $userTemplatesPages->render();
+                // User List Templates File
+                $userTemplatesPagesList = Tdmcreate\Files\Templates\User\PagesList::getInstance();
+                $userTemplatesPagesList->write($module, $table, $tables, $moduleDirname . '_' . $tableName . '_list' . '.tpl');
+                $ret[] = $userTemplatesPagesList->render();
+                if (1 === (int)$tables[$t]->getVar('table_category')) {
                     // User List Templates File
                     $userTemplatesCategories = Templates\User\Categories::getInstance();
                     $userTemplatesCategories->write($module, $table, $moduleDirname . '_' . $tableName . '_cat.tpl');
@@ -300,6 +314,28 @@ class CreateArchitecture extends CreateStructure
                     $ret[] = $userTemplatesCategoriesList->render();
                 }
             }
+        }
+
+        // Creation of constants
+        $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+        $classSpecialFiles->write($module, '', $tables, ucfirst('constants') . '.php');
+        $classSpecialFiles->className = 'Constants';
+        $ret[] = $classSpecialFiles->renderConstants();
+
+        // Creation of permissions
+        if (in_array(1, $tablePermissions)) {
+            // Creation of classes
+            $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+            $classSpecialFiles->write($module, '', null, ucfirst('permissions') . '.php');
+            $classSpecialFiles->className = 'Permissions';
+            $ret[] = $classSpecialFiles->renderClass();
+
+            // Creation of classhandlers
+            $classSpecialFiles = Tdmcreate\Files\Classes\ClassSpecialFiles::getInstance();
+            $classSpecialFiles->write($module, '', $permTables, ucfirst('permissionshandler') . '.php');
+            $classSpecialFiles->className = 'Permissionshandler';
+            $ret[] = $classSpecialFiles->renderPermissionsHandler();
+
         }
         foreach (array_keys($files) as $t) {
             $fileName      = $files[$t]->getVar('file_name');
@@ -356,96 +392,101 @@ class CreateArchitecture extends CreateStructure
             $languageAdmin->write($module, $table, $tables, 'admin.php');
             $ret[] = $languageAdmin->render();
         }
-        // Class Helper File
-        $classHelper = Tdmcreate\Files\Classes\ClassHelper::getInstance();
-        $classHelper->write($module, 'helper.php');
-        $ret[] = $classHelper->render();
+
+        // Class Helper File ==> setCommonFiles
+
         // Include Functions File
         $includeFunctions = Tdmcreate\Files\Includes\IncludeFunctions::getInstance();
         $includeFunctions->write($module, 'functions.php');
         $ret[] = $includeFunctions->render();
-        // Creation of blocks language file
-        if (null != $table->getVar('table_name')) {
-            // Include Install File
-            $includeInstall = Tdmcreate\Files\Includes\IncludeInstall::getInstance();
-            $includeInstall->write($module, $table, $tables, 'install.php');
-            $ret[] = $includeInstall->render();
-            if (in_array(1, $tableBlocks)) {
-                // Language Blocks File
-                $languageBlocks = Tdmcreate\Files\Language\LanguageBlocks::getInstance();
-                $languageBlocks->write($module, $tables, 'blocks.php');
-                $ret[] = $languageBlocks->render();
-            }
-            // Creation of admin permission files
-            if (in_array(1, $tablePermissions)) {
-                // Admin Permissions File
-                $adminPermissions = Tdmcreate\Files\Admin\AdminPermissions::getInstance();
-                $adminPermissions->write($module, $tables, 'permissions.php');
-                $ret[] = $adminPermissions->render();
-                // Templates Admin Permissions File
-                $adminTemplatesPermissions = Tdmcreate\Files\Templates\Admin\TemplatesAdminPermissions::getInstance();
-                $adminTemplatesPermissions->write($module, $moduleDirname . '_admin_permissions.tpl');
-                $ret[] = $adminTemplatesPermissions->render();
-            }
-            // Creation of notifications files
-            if (in_array(1, $tableNotifications)) {
-                // Include Notifications File
-                $includeNotifications = Tdmcreate\Files\Includes\IncludeNotifications::getInstance();
-                $includeNotifications->write($module, $table, 'notifications.inc.php');
-                $ret[] = $includeNotifications->render();
-                // Language Mail Template Category File
-                $languageMailTpl = Tdmcreate\Files\Language\LanguageMailTpl::getInstance();
-                $languageMailTpl->write($module, 'category_new_notify.tpl');
-                $ret[] = $languageMailTpl->render();
-            }
-            // Creation of sql file
-            if (null != $table->getVar('table_name')) {
-                // Sql File
-                $sqlFile = Tdmcreate\Files\Sql\SqlFile::getInstance();
-                $sqlFile->write($module, 'mysql.sql');
-                $ret[] = $sqlFile->render();
-                // Include Update File
-                $includeUpdate = Tdmcreate\Files\Includes\IncludeUpdate::getInstance();
-                $includeUpdate->write($module, 'update.php');
-                $ret[] = $includeUpdate->render();
-            }
-            // Creation of search file
-            if (in_array(1, $tableSearch)) {
-                // Include Search File
-                $includeSearch = Tdmcreate\Files\Includes\IncludeSearch::getInstance();
-                $includeSearch->write($module, $table, 'search.inc.php');
-                $ret[] = $includeSearch->render();
-            }
-            // Creation of comments files
-            if (in_array(1, $tableComments)) {
-                // Include Comments File
-                $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
-                $includeComments->write($module, $table);
-                $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_edit');
-                // Include Comments File
-                $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
-                $includeComments->write($module, $table);
-                $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_delete');
-                // Include Comments File
-                $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
-                $includeComments->write($module, $table);
-                $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_post');
-                // Include Comments File
-                $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
-                $includeComments->write($module, $table);
-                $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_reply');
-                // Include Comments File
-                $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
-                $includeComments->write($module, $table);
-                $ret[] = $includeComments->renderCommentsNew($module, 'comment_new');
-                // Include Comment Functions File
-                $includeCommentFunctions = Tdmcreate\Files\Includes\IncludeCommentFunctions::getInstance();
-                $includeCommentFunctions->write($module, $table, 'comment_functions.php');
-                $ret[] = $includeCommentFunctions->render();
-            }
+
+        // Include Install File  ==>  setCommonFiles
+        // Include Uninstall File  ==>  setCommonFiles
+        // Include Update File  ==>  setCommonFiles
+
+        if (in_array(1, $tableBlocks)) {
+            // Language Blocks File
+            $languageBlocks = Tdmcreate\Files\Language\LanguageBlocks::getInstance();
+            $languageBlocks->write($module, $tables, 'blocks.php');
+            $ret[] = $languageBlocks->render();
         }
-        // Creation of admin files
-        if (1 == $module->getVar('mod_admin')) {
+        // Creation of admin permission files
+        if (in_array(1, $tablePermissions)) {
+            // Admin Permissions File
+            $adminPermissions = Tdmcreate\Files\Admin\AdminPermissions::getInstance();
+            $adminPermissions->write($module, $tables, 'permissions.php');
+            $ret[] = $adminPermissions->render();
+            // Templates Admin Permissions File
+            $adminTemplatesPermissions = Tdmcreate\Files\Templates\Admin\TemplatesAdminPermissions::getInstance();
+            $adminTemplatesPermissions->write($module, $moduleDirname . '_admin_permissions.tpl');
+            $ret[] = $adminTemplatesPermissions->render();
+        }
+        // Creation of notifications files
+        if (in_array(1, $tableNotifications)) {
+            // Include Notifications File
+            $includeNotifications = Tdmcreate\Files\Includes\IncludeNotifications::getInstance();
+            $includeNotifications->write($module, $tables, 'notifications.inc.php');
+            $ret[] = $includeNotifications->render();
+            // Language Mail Template Category File
+            $languageMailTpl = Tdmcreate\Files\Language\LanguageMailTpl::getInstance();
+            $languageMailTpl->write($module, 'category_new_notify.tpl');
+            $ret[] = $languageMailTpl->render();
+        }
+        // Creation of sql file
+        if (null != $table->getVar('table_name')) {
+            // Sql File
+            $sqlFile = Tdmcreate\Files\Sql\SqlFile::getInstance();
+            $sqlFile->write($module, 'mysql.sql');
+            $ret[] = $sqlFile->render();
+        }
+        // Creation of search file
+        if (in_array(1, $tableSearch)) {
+            // Search File
+            //TODO: UserSearch has to be adapted
+            /*
+            $userSearch = Tdmcreate\Files\User\UserSearch::getInstance();
+            $userSearch->write($module, $table, 'search.php');
+            $ret[] = $userSearch->render();
+            */
+            // Include Search File
+            $includeSearch = Tdmcreate\Files\Includes\IncludeSearch::getInstance();
+            $includeSearch->write($module, $tables, 'search.inc.php');
+            $ret[] = $includeSearch->render();
+        }
+        // Creation of comments files
+        if (in_array(1, $tableComments)) {
+            /*
+             * TODO: are this comment files required?
+            // Include Comments File
+            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments->write($module, $table);
+            $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_edit');
+            // Include Comments File
+            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments->write($module, $table);
+            $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_delete');
+            // Include Comments File
+            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments->write($module, $table);
+            $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_post');
+            // Include Comments File
+            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments->write($module, $table);
+            $ret[] = $includeComments->renderCommentsIncludes($module, 'comment_reply');
+            // Include Comments File
+            $includeComments = Tdmcreate\Files\Includes\IncludeComments::getInstance();
+            $includeComments->write($module, $table);
+            $ret[] = $includeComments->renderCommentsNew($module, 'comment_new');
+            */
+
+            // Include Comment Functions File
+            $includeCommentFunctions = Tdmcreate\Files\Includes\IncludeCommentFunctions::getInstance();
+            $includeCommentFunctions->write($module, $table, 'comment_functions.php');
+            $ret[] = $includeCommentFunctions->render();
+        }
+
+        if ((1 == $module->getVar('mod_user')) && in_array(1, $tableUser)) {
+            // Creation of user template files
             // Templates Index File
             $userTemplatesIndex = Tdmcreate\Files\Templates\User\Index::getInstance();
             $userTemplatesIndex->write($module, $table, $tables, $moduleDirname . '_index.tpl');
@@ -458,9 +499,8 @@ class CreateArchitecture extends CreateStructure
             $userTemplatesHeader = Tdmcreate\Files\Templates\User\Header::getInstance();
             $userTemplatesHeader->write($module, $moduleDirname . '_header.tpl');
             $ret[] = $userTemplatesHeader->render();
-        }
-        // Creation of user files
-        if ((1 == $module->getVar('mod_user')) && in_array(1, $tableUser)) {
+
+            // Creation of user files
             // User Footer File
             $userFooter = Tdmcreate\Files\User\UserFooter::getInstance();
             $userFooter->write($module, 'footer.php');
@@ -506,6 +546,7 @@ class CreateArchitecture extends CreateStructure
                 $ret[] = $userTemplatesPrint->render();
             }
             // User Rate File
+            //TODO: UserSearch has to be adapted
             if (in_array(1, $tableRate)) {
                 $userRate = Tdmcreate\Files\User\UserRate::getInstance();
                 $userRate->write($module, $table, 'rate.php');
@@ -515,6 +556,7 @@ class CreateArchitecture extends CreateStructure
                 $userTemplatesRate->write($module, $table, $moduleDirname . '_rate.tpl');
                 $ret[] = $userTemplatesRate->render();
             }
+
             // User Rss File
             if (in_array(1, $tableRss)) {
                 $userRss = Tdmcreate\Files\User\UserRss::getInstance();
@@ -535,6 +577,7 @@ class CreateArchitecture extends CreateStructure
                 $userTemplatesSingle->write($module, $table, $moduleDirname . '_single.tpl');
                 $ret[] = $userTemplatesSingle->render();
             }
+
             // User Submit File
             if (in_array(1, $tableSubmit)) {
                 $userSubmit = Tdmcreate\Files\User\UserSubmit::getInstance();
@@ -544,12 +587,14 @@ class CreateArchitecture extends CreateStructure
                 $userTemplatesSubmit = Tdmcreate\Files\Templates\User\Submit::getInstance();
                 $userTemplatesSubmit->write($module, $table, $moduleDirname . '_submit.tpl');
                 $ret[] = $userTemplatesSubmit->render();
-            }// User Visit File
+            }
+            // User Visit File
             if (in_array(1, $tableVisit)) {
                 $userVisit = Tdmcreate\Files\User\UserVisit::getInstance();
                 $userVisit->write($module, $table, 'visit.php');
                 $ret[] = $userVisit->render();
             }
+
             // User Tag Files
             if (in_array(1, $tableTag)) {
                 $userListTag = Tdmcreate\Files\User\UserListTag::getInstance();
@@ -588,6 +633,10 @@ class CreateArchitecture extends CreateStructure
         $includeCommon = Tdmcreate\Files\Includes\IncludeCommon::getInstance();
         $includeCommon->write($module, $table, 'common.php');
         $ret[] = $includeCommon->render();
+        // Common Config File
+        $includeConfig = Tdmcreate\Files\Config\ConfigConfig::getInstance();
+        $includeConfig->write($module, $tables, 'config.php');
+        $ret[] = $includeConfig->render();
         // Docs Changelog File
         $docsChangelog = Tdmcreate\Files\Docs\DocsChangelog::getInstance();
         $docsChangelog->write($module, 'changelog.txt');
@@ -603,5 +652,92 @@ class CreateArchitecture extends CreateStructure
 
         // Return Array
         return $ret;
+    }
+
+    /**
+     * @public function setCommonFiles
+     *
+     * @param $module
+     */
+    public function setCommonFiles($module)
+    {
+
+        $moduleName = $module->getVar('mod_dirname');
+        //$src_path   = XOOPS_ROOT_PATH . '/modules/tdmcreate/files';
+        //$tmp_path   = XOOPS_UPLOAD_PATH . '/tdmcreate/temp';
+        $upl_path   = TDMC_UPLOAD_REPOSITORY_PATH . '/' . mb_strtolower($moduleName);
+
+        $patterns = [
+            mb_strtolower('tdmcreate')          => mb_strtolower($moduleName),
+            mb_strtoupper('tdmcreate')          => mb_strtoupper($moduleName),
+            ucfirst(mb_strtolower('tdmcreate')) => ucfirst(mb_strtolower($moduleName)),
+        ];
+
+        $patKeys   = array_keys($patterns);
+        $patValues = array_values($patterns);
+
+        /* clone complete missing folders */
+        $cloneFolders[] = [
+            'src'   => TDMC_PATH . '/commonfiles',
+            'dst'   => $upl_path,
+            'rcode' => true
+        ];
+        foreach ($cloneFolders as $folder) {
+            Tdmcreate\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+        }
+        unset($cloneFolders);
+
+        /* create missing folders for common files */
+        $createFolders[] = $upl_path . '/testdata/' . $GLOBALS['xoopsConfig']['language'];
+        if ('english' !== $GLOBALS['xoopsConfig']['language']) {
+            $createFolders[] = $upl_path . '/testdata/english';
+            $createFolders[] = $upl_path . '/language/english';
+        }
+        foreach ($createFolders as $folder) {
+            @mkdir($folder);
+        }
+        unset($createFolders);
+
+        if ('english' !== $GLOBALS['xoopsConfig']['language']) {
+            $cloneFolders[] = [
+                'src'   => TDMC_PATH . '/commonfiles/language/english',
+                'dst'   => $upl_path . '/language/' . $GLOBALS['xoopsConfig']['language'],
+                'rcode' => true
+            ];
+            //copy back all language files to english language folder
+            $cloneFolders[] = [
+                'src'   => $upl_path . '/language/' . $GLOBALS['xoopsConfig']['language'],
+                'dst'   => $upl_path . '/language/english',
+                'rcode' => false
+            ];
+            foreach ($cloneFolders as $folder) {
+                Tdmcreate\Files\CreateClone::cloneFileFolder($folder['src'], $folder['dst'], $folder['rcode'], $patKeys, $patValues);
+            }
+            unset($cloneFolders);
+        }
+
+        /* clone single missing files*/
+        $cloneFiles[] = [
+            'src'   => TDMC_PATH . '/config/',
+            'dst'   => $upl_path . '/config/',
+            'file'  => 'admin.yml',
+            'rcode' => true
+        ];
+        $cloneFiles[] = [
+            'src'   => TDMC_PATH . '/config/',
+            'dst'   => $upl_path . '/config/',
+            'file'  => 'icons.php',
+            'rcode' => true
+        ];
+        $cloneFiles[] = [
+            'src'   => TDMC_PATH . '/config/',
+            'dst'   => $upl_path . '/config/',
+            'file'  => 'paths.php',
+            'rcode' => true
+        ];
+        foreach ($cloneFiles as $file) {
+            Tdmcreate\Files\CreateClone::cloneFile($file['src'] . $file['file'], $file['dst'] . $file['file'], $file['rcode'], $patKeys, $patValues);
+        }
+        unset($cloneFiles);
     }
 }

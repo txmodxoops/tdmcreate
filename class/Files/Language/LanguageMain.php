@@ -32,6 +32,11 @@ use XoopsModules\Tdmcreate\Files;
 class LanguageMain extends Files\CreateFile
 {
     /**
+     * @var mixed
+     */
+    private $defines = null;
+
+    /**
      * @public function constructor
      * @param null
      */
@@ -70,20 +75,21 @@ class LanguageMain extends Files\CreateFile
     }
 
     /**
-     * @private function geLanguagetMain
+     * @private function getLanguageMain
      * @param string $module
      * @param string $language
      *
      * @return string
      */
-    private function geLanguagetMain($module, $language)
+    private function getLanguageMain($module, $language)
     {
         /** @var \XoopsModules\Tdmcreate\Utility $utility */
         $utility = new \XoopsModules\Tdmcreate\Utility();
 
         $moduleName = $module->getVar('mod_name');
         $tables     = $this->getTables();
-        $ret        = $this->defines->getAboveHeadDefines('Main');
+        $ret        = $this->defines->getBlankLine();
+        $ret        .= $this->defines->getAboveHeadDefines('Main');
         $ret        .= $this->defines->getDefine($language, 'INDEX', 'Home');
         $ret        .= $this->defines->getDefine($language, 'TITLE', (string)$module->getVar('mod_name'));
         $ret        .= $this->defines->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
@@ -97,6 +103,10 @@ As you can see, you have created a page with a list of links at the top to navig
         $ret        .= $this->defines->getDefine($language, 'NO_PDF_LIBRARY', 'Libraries TCPDF not there yet, upload them in root/Frameworks');
         $ret        .= $this->defines->getDefine($language, 'NO', 'No');
         $ret        .= $this->defines->getAboveHeadDefines('Contents');
+        $ucfTableName     = '';
+        $ucfTableSoleName = '';
+        $stuTableSoleName = '';
+        $tableSoleName    = '';
         foreach (array_keys($tables) as $i) {
             $tableName        = $tables[$i]->getVar('table_name');
             $tableSoleName    = $tables[$i]->getVar('table_solename');
@@ -139,12 +149,12 @@ As you can see, you have created a page with a list of links at the top to navig
     }
 
     /**
-     * @private function geLanguagetMainFooter
+     * @private function getLanguageMainFooter
      * @param string $language
      *
      * @return string
      */
-    private function geLanguagetMainFooter($language)
+    private function getLanguageMainFooter($language)
     {
         $ret = $this->defines->getAboveDefines('Admin link');
         $ret .= $this->defines->getDefine($language, 'ADMIN', 'Admin');
@@ -165,9 +175,9 @@ As you can see, you have created a page with a list of links at the top to navig
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->geLanguagetMain($module, $language);
-        $content       .= $this->geLanguagetMainFooter($language);
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getLanguageMain($module, $language);
+        $content       .= $this->getLanguageMainFooter($language);
 
         $this->create($moduleDirname, 'language/' . $GLOBALS['xoopsConfig']['language'], $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

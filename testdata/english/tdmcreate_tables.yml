@@ -58,3 +58,33 @@
     table_rss: '1'
     table_single: '1'
     table_visit: '1'
+-
+    table_id: '3'
+    table_mid: '1'
+    table_category: '0'
+    table_name: testfields
+    table_solename: testfield
+    table_fieldname: tf
+    table_nbfields: '22'
+    table_order: '1'
+    table_image: alert.png
+    table_autoincrement: '1'
+    table_install: '1'
+    table_index: '1'
+    table_blocks: '1'
+    table_admin: '1'
+    table_user: '1'
+    table_submenu: '1'
+    table_submit: '1'
+    table_tag: '1'
+    table_broken: '1'
+    table_search: '1'
+    table_comments: '1'
+    table_notifications: '1'
+    table_permissions: '1'
+    table_rate: '1'
+    table_print: '1'
+    table_pdf: '1'
+    table_rss: '1'
+    table_single: '1'
+    table_visit: '1'

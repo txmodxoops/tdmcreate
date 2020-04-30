@@ -34,12 +34,17 @@ class UserVisit extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $uc = null;
+    private $uxc = null;
 
     /**
      * @var string
      */
     private $xc = null;
+	
+	/**
+     * @var string
+     */
+    private $pc = null;
 
     /**
      * @public function constructor
@@ -48,9 +53,9 @@ class UserVisit extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc      = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->uc      = UserXoopsCode::getInstance();
+        $this->xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->uxc = UserXoopsCode::getInstance();
     }
 
     /**
@@ -91,7 +96,13 @@ class UserVisit extends Files\CreateFile
      */
     private function getUserVisitHeader($table, $fields)
     {
-        $ret = $this->getInclude();
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $module        = $this->getModule();
+        $moduleDirname = $module->getVar('mod_dirname');
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getInclude();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -166,11 +177,8 @@ class UserVisit extends Files\CreateFile
         $moduleDirname = $module->getVar('mod_dirname');
         $tableId       = $table->getVar('table_id');
         $tableMid      = $table->getVar('table_mid');
-        $tableName     = $table->getVar('table_name');
-        $tableSoleName = $table->getVar('table_solename');
         $fields        = $this->getTableFields($tableMid, $tableId);
-        $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       = $this->getHeaderFilesComments($module);
         $content       .= $this->getUserVisitHeader($table, $fields);
         $content       .= $this->getUserVisitCheckPermissions();
         $content       .= $this->getUserVisitCheckLimit();

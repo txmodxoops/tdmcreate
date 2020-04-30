@@ -72,16 +72,17 @@ class TemplatesAdminHeader extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc            = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc            = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
 
-        $navigation = $hc->getSmartySingleVar('navigation');
+        $navigation = $sc->getSmartySingleVar('navigation');
         $due        = $hc->getHtmlSpan($navigation, 'left', "\t") ;
-        $buttons    = $hc->getSmartySingleVar('buttons');
+        $buttons    = $sc->getSmartySingleVar('buttons');
         $right      = $hc->getHtmlSpan($buttons, 'left', "\t\t", "\n");
-        $due        .= $hc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");
+        $due        .= $sc->getSmartyConditions('buttons', '', '', $right, '', '', '', "\t", "\n");
         $content    = $hc->getHtmlDiv($due, 'top');
 
         $this->create($moduleDirname, 'templates/admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

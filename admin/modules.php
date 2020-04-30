@@ -113,7 +113,7 @@ switch ($op) {
         //Form mod_image
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploader = new \XoopsMediaUploader(
-            TDMC_UPLOAD_IMGMOD_PATH, $helper->getConfig('mimetypes'), $helper->getConfig('maxsize'), null, null
+            TDMC_UPLOAD_IMGMOD_PATH, $helper->getConfig('mimetypes_image'), $helper->getConfig('maxsize_image'), null, null
         );
         if ($uploader->fetchMedia($_POST['xoops_upload_file'][0])) {
             $uploader->fetchMedia($_POST['xoops_upload_file'][0]);

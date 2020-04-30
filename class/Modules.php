@@ -261,10 +261,10 @@ class Modules extends \XoopsObject
         }
         $imageselect->setExtra("onchange='showImgSelected(\"image3\", \"mod_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageselect);
-        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' name='image3' id='image3' alt='' /><br>"));
+        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' id='image3' alt='' /><br>"));
 
         $fileseltray = new \XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize')));
+        $fileseltray->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray->addElement(new \XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);
@@ -286,7 +286,7 @@ class Modules extends \XoopsObject
         }
         $iconSelect->setExtra(" onchange='showImgSelected2(\"image4\", \"tables_img\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")' ");
         $createLogoTray->addElement($iconSelect);
-        $createLogoTray->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadDirectory . '/' . $tables_img . "' name='image4' id='image4' alt='' />"));
+        $createLogoTray->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadDirectory . '/' . $tables_img . "' id='image4' alt='' />"));
         // Create preview and submit buttons
         $buttonLogoGenerator4 = new \XoopsFormButton('', 'button4', _AM_TDMCREATE_MODULE_CREATENEWLOGO, 'button');
         $buttonLogoGenerator4->setExtra(" onclick='createNewModuleLogo(\"" . TDMC_URL . "\")' ");

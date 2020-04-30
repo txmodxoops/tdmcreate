@@ -182,7 +182,7 @@ class Settings extends \XoopsObject
         $form->addElement($optionsTray);
 
         $modImage = $this->getVar('set_image');
-        $modImage = $modImage ?: $set['image'];
+        //$modImage = $modImage ?: $set['image'];
 
         $uploadDirectory = 'uploads/' . $GLOBALS['xoopsModule']->dirname() . '/images/modules';
         $imgtray         = new \XoopsFormElementTray(_AM_TDMCREATE_SETTING_IMAGE, '<br>');
@@ -194,10 +194,10 @@ class Settings extends \XoopsObject
         }
         $imageSelect->setExtra("onchange='showImgSelected(\"image3\", \"set_image\", \"" . $uploadDirectory . '", "", "' . XOOPS_URL . "\")'");
         $imgtray->addElement($imageSelect);
-        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' name='image3' id='image3' alt='' /><br>"));
+        $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' id='image3' alt='' /><br>"));
 
         $fileseltray = new \XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize')));
+        $fileseltray->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray->addElement(new \XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);

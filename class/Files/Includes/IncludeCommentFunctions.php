@@ -69,47 +69,54 @@ class IncludeCommentFunctions extends Files\CreateFile
     }
 
     /**
+     * @public function getCommentBody
+     * @param string $module
+     * @param mixed $table
+     * @return string
+     */
+    public function getCommentBody($module, $table)
+    {
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+
+        $moduleDirname    = $module->getVar('mod_dirname');
+        $tableName        = $table->getVar('table_name');
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $ucfTableName     = ucfirst($tableName);
+
+        $ret    = $pc->getPhpCodeCommentMultiLine(['CommentsUpdate' => '', '' => '', '@param mixed  $itemId' => '', '@param mixed  $itemNumb' => '', '@return' => 'bool']);
+        $func1  = $xc->getXcEqualsOperator('$itemId', '(int)$itemId', '', "\t");
+        $func1  .= $xc->getXcEqualsOperator('$itemNumb', '(int)$itemNumb', '', "\t");
+        $func1  .= $xc->getXcEqualsOperator('$article', "new {$ucfModuleDirname}{$ucfTableName}(\$itemId)", '', "\t");
+        $contIf = $this->getSimpleString('return false;',"\t\t");
+        $func1  .= $pc->getPhpCodeConditions('!$article->updateComments($itemNumb)','','',$contIf, false,"\t");
+        $func1  .= $this->getSimpleString('return true;',"\t");
+        $ret    .= $pc->getPhpCodeFunction($moduleDirname . 'CommentsUpdate', '$itemId, $itemNumb', $func1);
+        $ret    .= $pc->getPhpCodeCommentMultiLine(['CommentsApprove' => '', '' => '', '@param mixed' => '$comment', '@return' => 'bool']);
+        $func2  = $pc->getPhpCodeCommentLine('notification mail here','',"\t");
+        $func2  .= $pc->getPhpCodeBlankLine();
+        $func2  .= $this->getSimpleString('return false;',"\t");
+        $func2  .= $pc->getPhpCodeBlankLine();
+        $ret    .= $pc->getPhpCodeFunction($moduleDirname . 'CommentsApprove', '&$comment', $func2);
+
+        return $ret;
+    }
+
+    /**
      * @public function render
      * @param null
      * @return bool|string
      */
     public function render()
     {
-        $module           = $this->getModule();
-        $table            = $this->getTable();
-        $moduleDirname    = $module->getVar('mod_dirname');
-        $tableName        = $table->getVar('table_name');
-        $ucfModuleDirname = ucfirst($moduleDirname);
-        $ucfTableName     = ucfirst($tableName);
-        $filename         = $this->getFileName();
-        $content          = $this->getHeaderFilesComments($module, $filename);
-        $content          .= <<<EOT
-\n/**
- * CommentsUpdate
- *
- * @param mixed \$itemId
- * @param mixed \$itemNumb
- * @return bool
- */
-function {$moduleDirname}CommentsUpdate(\$itemId, \$itemNumb) {
-    \$itemId = (int)\$itemId;
-    \$itemNumb = (int)\$itemNumb;
-    \$article = new {$ucfModuleDirname}{$ucfTableName}(\$itemId);
-    if (!\$article->updateComments(\$itemNumb)) {
-        return false;
-    }
-    return true;
-}
-\n/**
- * CommentsApprove
- *
- * @param string  \$comment
- * @return void
- */
-function {$moduleDirname}CommentsApprove(&\$comment){
-    // notification mail here
-}
-EOT;
+        $module        = $this->getModule();
+        $table         = $this->getTable();
+        $moduleDirname = $module->getVar('mod_dirname');
+
+        $filename      = $this->getFileName();
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->getCommentBody($module, $table);
+
         $this->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

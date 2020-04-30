@@ -78,19 +78,20 @@ class Breadcrumbs extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $tf            = Tdmcreate\Files\CreateFile::getInstance();
-        $hsc           = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $title         = $hsc->getSmartyDoubleVar('itm', 'title');
-        $titleElse     = $hsc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n") ;
-        $link          = $hsc->getSmartyDoubleVar('itm', 'link');
-        $glyph         = $hsc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, '', '');
-        $anchor        = $hsc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
-        $into          = $hsc->getHtmlLi($anchor, 'bc-item', "\t");
-        $anchorIf      = $hsc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
-        $breadcrumb    = $hsc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
-        $foreach       = $hsc->getHtmlLi($breadcrumb, 'bc-item',  "\t", "\n", true);
-        $into          .= $hsc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
+        $hc            = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc            = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $title         = $sc->getSmartyDoubleVar('itm', 'title');
+        $titleElse     = $sc->getSmartyDoubleVar('itm', 'title', "\t\t\t", "\n") ;
+        $link          = $sc->getSmartyDoubleVar('itm', 'link');
+        $glyph         = $hc->getHtmlTag('i', ['class' => 'glyphicon glyphicon-home'], '', false, '', '');
+        $anchor        = $hc->getHtmlAnchor('<{xoAppUrl index.php}>', $glyph, 'home');
+        $into          = $hc->getHtmlLi($anchor, 'bc-item', "\t");
+        $anchorIf      = $hc->getHtmlAnchor($link, $title, $title, '', '', '', "\t\t\t", "\n");
+        $breadcrumb    = $sc->getSmartyConditions('itm.link', '', '', $anchorIf, $titleElse, false, false, "\t\t", "\n");
+        $foreach       = $hc->getHtmlLi($breadcrumb, 'bc-item',  "\t", "\n", true);
+        $into          .= $sc->getSmartyForeach('itm', 'xoBreadcrumbs', $foreach, 'bcloop', '', "\t");
 
-        $content = $hsc->getHtmlOl($into,  'breadcrumb');
+        $content = $hc->getHtmlOl($into,  'breadcrumb');
 
         $tf->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

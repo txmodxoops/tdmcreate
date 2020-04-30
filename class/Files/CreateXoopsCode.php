@@ -61,7 +61,7 @@ class CreateXoopsCode
     public function getXcSwitch($op = '', $cases = [], $defaultAfterCase = false, $default = false, $t = '')
     {
         $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t);
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, $defaultAfterCase, $default, $t . "\t");
 
         return $pc->getPhpCodeSwitch($op, $contentSwitch, $t);
     }
@@ -71,70 +71,13 @@ class CreateXoopsCode
      * @param $var
      * @param $value
      * @param $interlock
-     * @param $ref
      * @param $t - Indentation
      *
      * @return string
      */
-    public function getXcEqualsOperator($var, $value, $interlock = null, $ref = false, $t = '')
+    public function getXcEqualsOperator($var, $value, $interlock = null, $t = '')
     {
-        if (false === $ref) {
-            $ret = "{$t}{$var} {$interlock}= {$value};\n";
-        } else {
-            $ret = "{$t}{$var} = {$value};\n";
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @public function getXcCPHeader
-     * @param null
-     * @return string
-     */
-    public function getXcCPHeader()
-    {
-        return "xoops_cp_header();\n";
-    }
-
-    /**
-     * @public function getXcCPFooter
-     * @param null
-     * @return string
-     */
-    public function getXcCPFooter()
-    {
-        return "xoops_cp_footer();\n";
-    }
-
-    /**
-     * @public function getXcLoad
-     *
-     * @param $var
-     * @param $t
-     * @return string
-     */
-    public function getXcLoad($var = '', $t = '')
-    {
-        return "{$t}xoops_load('{$var}');\n";
-    }
-
-    /**
-     * @public function getXcLoadLanguage
-     *
-     * @param $lang
-     * @param $t
-     * @param $domain
-     *
-     * @return string
-     */
-    public function getXcLoadLanguage($lang, $t = '', $domain = '')
-    {
-        if ('' === $domain) {
-            return "{$t}xoops_loadLanguage('{$lang}');\n";
-        }
-
-        return "{$t}xoops_loadLanguage('{$lang}', '{$domain}');\n";
+        return "{$t}{$var} {$interlock}= {$value};\n";
     }
 
     /**
@@ -154,14 +97,14 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcSetVar
+     * @public function getXcSetVarObj
      * @param $tableName
      * @param $fieldName
      * @param $var
      * @param $t
      * @return string
      */
-    public function getXcSetVar($tableName, $fieldName, $var, $t = '')
+    public function getXcSetVarObj($tableName, $fieldName, $var, $t = '')
     {
         return "{$t}\${$tableName}Obj->setVar('{$fieldName}', {$var});\n";
     }
@@ -185,23 +128,6 @@ class CreateXoopsCode
         }
 
         return $ret;
-    }
-
-    /**
-     * @public function getXcGroupPermForm
-     * @param $varLeft
-     * @param $formTitle
-     * @param $moduleId
-     * @param $permName
-     * @param $permDesc
-     * @param $filename
-     * @param $t
-     *
-     * @return string
-     */
-    public function getXcGroupPermForm($varLeft = '', $formTitle = '', $moduleId = '', $permName = '', $permDesc = '', $filename = '', $t = '')
-    {
-        return "{$t}\${$varLeft} = new \XoopsGroupPermForm({$formTitle}, {$moduleId}, {$permName}, {$permDesc}, {$filename});\n";
     }
 
     /**
@@ -249,53 +175,78 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcTextDateSelectSetVar
+     * @public function getXcSetVarTextDateSelect
      * @param        $tableName
      * @param        $tableSoleName
      * @param        $fieldName
      * @param string $t
      * @return string
      */
-    public function getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t = '')
+    public function getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t = '')
     {
         $tf            = Tdmcreate\Files\CreateFile::getInstance();
         $rightField    = $tf->getRightString($fieldName);
-        $ucfRightFiled = ucfirst($rightField);
-        $value         = "date_create_from_format(_SHORTDATESTRING, \$_POST['{$fieldName}'])";
-        $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightFiled}", $value, null, false, $t);
-        $ret           .= $this->getXcSetVar($tableName, $fieldName, "\${$tableSoleName}{$ucfRightFiled}->getTimestamp()", $t);
+        $ucfRightField = ucfirst($rightField);
+        $value         = "date_create_from_format(_SHORTDATESTRING, Request::getString('{$fieldName}'))";
+        $ret           = $this->getXcEqualsOperator("\${$tableSoleName}{$ucfRightField}", $value, null, $t);
+        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, "\${$tableSoleName}{$ucfRightField}->getTimestamp()", $t);
 
         return $ret;
     }
 
     /**
-     * @public function getXcCheckBoxOrRadioYNSetVar
+     * @public function getXcSetVarDateTime
+     * @param        $tableName
+     * @param        $tableSoleName
+     * @param        $fieldName
+     * @param string $t
+     * @return string
+     */
+    public function getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t = '')
+    {
+        $tf            = Tdmcreate\Files\CreateFile::getInstance();
+        $rightField    = $tf->getRightString($fieldName);
+        $ucfRightField = ucfirst($rightField);
+        $request       = "Request::getArray('{$fieldName}')";
+        $var           = "\${$tableSoleName}{$ucfRightField}";
+        $varArr        = "\${$tableSoleName}{$ucfRightField}Arr";
+        $ret           = $this->getXcEqualsOperator($varArr, $request, null, $t);
+        $value         = "strtotime({$varArr}['date']) + (int){$varArr}['time']";
+        $ret           .= $this->getXcEqualsOperator($var, $value, null, $t);
+        $ret           .= $this->getXcSetVarObj($tableName, $fieldName, $var, $t);
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcSetVarCheckBoxOrRadioYN
      * @param $tableName
      * @param $fieldName
      * @param $t
      * @return string
      */
-    public function getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName, $t = '')
+    public function getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t = '')
     {
-        return $this->getXcSetVar($tableName, $fieldName, "((1 == \$_REQUEST['{$fieldName}']) ? '1' : '0')", $t);
+        return $this->getXcSetVarObj($tableName, $fieldName, "Request::getInt('{$fieldName}', 0)", $t);
     }
 
     /**
      * @public function getXcMediaUploader
      * @param $var
      * @param $dirPath
-     * @param $moduleDirname
-     * @param $t
+     * @param $mimetype
+     * @param $maxsize
+     * @param string $t
      * @return string
      */
-    public function getXcMediaUploader($var, $dirPath, $moduleDirname, $t = '')
+    public function getXcMediaUploader($var, $dirPath, $mimetype, $maxsize, $t = '')
     {
-        $mimetypes = $this->getXcGetConfig($moduleDirname, 'mimetypes');
-        $maxsize   = $this->getXcGetConfig($moduleDirname, 'maxsize');
+        $mimetypes_file = $this->getXcGetConfig($mimetype);
+        $maxsize_file   = $this->getXcGetConfig($maxsize);
 
         return "{$t}\${$var} = new \XoopsMediaUploader({$dirPath}, 
-													{$mimetypes}, 
-													{$maxsize}, null, null);\n";
+													{$mimetypes_file}, 
+													{$maxsize_file}, null, null);\n";
     }
 
     /**
@@ -312,37 +263,13 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcXoopsCaptcha
-     * @param $t
-     * @return string
-     */
-    public function getXcXoopsCaptcha($t = '')
-    {
-        return "{$t}\$xoopsCaptcha = \XoopsCaptcha::getInstance();\n";
-    }
-
-    /**
-     * @public function getXcXoopsImgListArray
-     * @param $return
-     * @param $var
-     * @param $t
-     *
-     * @return string
-     */
-    public function getXcXoopsImgListArray($return, $var, $t = '')
-    {
-        return "{$t}\${$return} = \XoopsLists::getImgListAsArray( {$var} );\n";
-    }
-
-    /**
      * @public function getXcGetConfig
-     * @param $moduleDirname
      * @param $name
      * @return string
      */
-    public function getXcGetConfig($moduleDirname, $name)
+    public function getXcGetConfig($name)
     {
-        return "\${$moduleDirname}->getConfig('{$name}')";
+        return "\$helper->getConfig('{$name}')";
     }
 
     /**
@@ -371,82 +298,19 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXoopsHandlerInstance
+     * @public function getXcHelperGetInstance
      * @param        $moduleDirname
      *
      * @param string $t
      * @return string
      */
-    public function getXoopsHandlerInstance($moduleDirname, $t = '')
+    public function getXcHelperGetInstance($moduleDirname, $t = '')
     {
         $ucfModuleDirname = ucfirst($moduleDirname);
         $ret              = "{$t}// Get instance of module\n";
-        $ret              .= "{$t}\${$moduleDirname} = {$ucfModuleDirname}Helper::getInstance();\n";
+        $ret              .= "{$t}\$helper = \XoopsModules\\{$ucfModuleDirname}\Helper::getInstance();\n";
 
         return $ret;
-    }
-
-    /**
-     * @public function getXoopsHandlerLine
-     * @param $moduleDirname
-     * @param $tableName
-     * @param $t
-     * @return string
-     */
-    public function getXoopsHandlerLine($moduleDirname, $tableName, $t = '')
-    {
-        return "{$t}\${$tableName}Handler = \${$moduleDirname}->getHandler('{$tableName}');\n";
-    }
-
-    /**
-     * @public function getXoopsClearHandler
-     * @param $left
-     * @param $anchor
-     * @param $var
-     * @param $t
-     *
-     * @return string
-     */
-    public function getXoopsClearHandler($left, $anchor, $var, $t = '')
-    {
-        return "{$t}\${$left}Handler = \${$anchor}->getHandler('{$var}');\n";
-    }
-
-    /**
-     * @public function getXoopsFormSelectExtraOptions
-     * @param string $varSelect
-     * @param string $caption
-     * @param string $var
-     * @param array  $options
-     * @param bool   $setExtra
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = [], $setExtra = true, $t = '')
-    {
-        $ret = "{$t}\${$varSelect} = new \XoopsFormSelect({$caption}, '{$var}', \${$var});\n";
-        if (false !== $setExtra) {
-            $ret .= "{$t}\${$varSelect}->setExtra('{$setExtra}');\n";
-        }
-        foreach ($options as $key => $value) {
-            $ret .= "{$t}\${$varSelect}->addOption('{$key}', {$value});\n";
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @public function getXcUnameFromId
-     * @param        $left
-     * @param        $value
-     * @param string $t
-     *
-     * @return string
-     */
-    public function getXcUnameFromId($left, $value, $t = '')
-    {
-        return "{$t}\${$left} = \XoopsUser::getUnameFromId({$value});\n";
     }
 
     /**
@@ -475,10 +339,10 @@ class CreateXoopsCode
      */
     public function getXcTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableNameTopic, $fieldNameParent, $fieldNameTopic, $t = '')
     {
-        $pTopic      = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret         = $pTopic->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
+        $pc          = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret         = $pc->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
         $fieldParent = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldNameParent, true, '');
-        $ret         .= $this->getXcGet($rpFieldName, $fieldParent, '', $tableNameTopic . 'Handler', false, $t);
+        $ret         .= $this->getXcHandlerGet($rpFieldName, $fieldParent, '', $tableNameTopic . 'Handler', false, $t);
         $ret         .= $this->getXcGetVar("\${$lpFieldName}['{$rpFieldName}']", "\${$rpFieldName}", $fieldNameTopic, false, $t);
 
         return $ret;
@@ -486,7 +350,6 @@ class CreateXoopsCode
 
     /**
      * @public function getXcParentTopicGetVar
-     * @param        $moduleDirname
      * @param        $lpFieldName
      * @param        $rpFieldName
      * @param        $tableName
@@ -496,13 +359,13 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcParentTopicGetVar($moduleDirname, $lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent, $t = '')
+    public function getXcParentTopicGetVar($lpFieldName, $rpFieldName, $tableName, $tableSoleNameTopic, $tableNameTopic, $fieldNameParent, $t = '')
     {
-        $pParentTopic = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $parentTopic  = $pParentTopic->getPhpCodeCommentLine('Get', $tableNameTopic . ' Handler', $t . "\t");
-        $parentTopic  .= $this->getXoopsHandlerLine($moduleDirname, $tableNameTopic, $t . "\t");
+        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $parentTopic  = $pc->getPhpCodeCommentLine('Get', $tableNameTopic . ' Handler', $t . "\t");
+        $parentTopic  .= $this->getXcHandlerLine($tableNameTopic, $t . "\t");
         $elseGroups   = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
-        $ret          = $pParentTopic->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
+        $ret          = $pc->getPhpCodeConditions("!isset(\${$tableNameTopic}Handler", '', '', $parentTopic, $elseGroups);
         $ret          .= $this->getXcGetVarFromID("\${$lpFieldName}['{$rpFieldName}']", $tableNameTopic, $tableSoleNameTopic, $tableName, $fieldNameParent, $t);
 
         return $ret;
@@ -520,17 +383,17 @@ class CreateXoopsCode
      */
     public function getXcGetVarFromID($left, $anchor, $var, $tableName, $fieldName, $t = '')
     {
-        $pVarFromID   = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret          = $pVarFromID->getPhpCodeCommentLine('Get Var', $fieldName, $t);
+        $pc           = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret          = $pc->getPhpCodeCommentLine('Get Var', $fieldName, $t);
         $getVarFromID = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
         $rightGet     = $this->getXcAnchorFunction($anchor . 'Handler', 'get' . $var . 'FromId', $getVarFromID);
-        $ret          .= $this->getXcEqualsOperator($left, $rightGet, null, false, $t);
+        $ret          .= $this->getXcEqualsOperator($left, $rightGet, null, $t);
 
         return $ret;
     }
 
     /**
-     * @public function getXcUploadImageGetVar
+     * @public function getXcGetVarUploadImage
      * @param        $lpFieldName
      * @param        $rpFieldName
      * @param        $tableName
@@ -538,31 +401,31 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
+    public function getXcGetVarUploadImage($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
-        $pUploadImage = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret          = $pUploadImage->getPhpCodeCommentLine('Get Var', $fieldName, $t);
-        $ret          .= $this->getXcGetVar($fieldName, "\${$tableName}All[\$i]", $fieldName, false, '');
-        $ret          .= $pUploadImage->getPhpCodeTernaryOperator("{$lpFieldName}['{$rpFieldName}']", "\${$fieldName}", "\${$fieldName}", "'blank.gif'", $t);
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $pc->getPhpCodeCommentLine('Get Var', $fieldName, $t);
+        $ret .= $this->getXcGetVar($fieldName, "\${$tableName}All[\$i]", $fieldName, false, '');
+        $ret .= $pc->getPhpCodeTernaryOperator("{$lpFieldName}['{$rpFieldName}']", "\${$fieldName}", "\${$fieldName}", "'blank.gif'", $t);
 
         return $ret;
     }
 
     /**
-     * @public function getXcUrlFileGetVar
+     * @public function getXcGetVarUrlFile
      * @param $lpFieldName
      * @param $rpFieldName
      * @param $tableName
      * @param $fieldName
      * @return string
      */
-    public function getXcUrlFileGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName)
+    public function getXcGetVarUrlFile($lpFieldName, $rpFieldName, $tableName, $fieldName)
     {
         return $this->getXcGetVarAll($lpFieldName, $rpFieldName, $tableName, $fieldName);
     }
 
     /**
-     * @public function getXcTextAreaGetVar
+     * @public function getXcGetVarTextArea
      * @param        $lpFieldName
      * @param        $rpFieldName
      * @param        $tableName
@@ -570,16 +433,16 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcTextAreaGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
+    public function getXcGetVarTextArea($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
-        $phpCodeTextArea = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $getVar          = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
+        $pc     = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $getVar = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldName, true, '');
 
-        return $t . $phpCodeTextArea->getPhpCodeStripTags("{$lpFieldName}['{$rpFieldName}']", $getVar, false, $t);
+        return $t . $pc->getPhpCodeStripTags("{$lpFieldName}['{$rpFieldName}']", $getVar, false, $t);
     }
 
     /**
-     * @public function getXcSelectUserGetVar
+     * @public function getXcGetVarSelectUser
      * @param        $lpFieldName
      * @param        $rpFieldName
      * @param        $tableName
@@ -587,13 +450,13 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcSelectUserGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
+    public function getXcGetVarSelectUser($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
         return "{$t}\${$lpFieldName}['{$rpFieldName}'] = \XoopsUser::getUnameFromId(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n";
     }
 
     /**
-     * @public function getXcTextDateSelectGetVar
+     * @public function getXcGetVarTextDateSelect
      * @param        $lpFieldName
      * @param        $rpFieldName
      * @param        $tableName
@@ -601,7 +464,7 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcTextDateSelectGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
+    public function getXcGetVarTextDateSelect($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
         return "{$t}\${$lpFieldName}['{$rpFieldName}'] = formatTimeStamp(\${$tableName}All[\$i]->getVar('{$fieldName}'), 's');\n";
     }
@@ -626,10 +489,10 @@ class CreateXoopsCode
      */
     public function getXcUserHeader($moduleDirname, $tableName)
     {
-        $phpCodeUserHeader = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret               = $phpCodeUserHeader->getPhpCodeIncludeDir('__DIR__', 'header');
-        $ret               .= $this->getXcXoopsOptionTemplateMain($moduleDirname, $tableName);
-        $ret               .= $phpCodeUserHeader->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $pc->getPhpCodeIncludeDir('__DIR__', 'header');
+        $ret .= $this->getXcXoopsOptionTemplateMain($moduleDirname, $tableName);
+        $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
 
         return $ret;
     }
@@ -641,13 +504,13 @@ class CreateXoopsCode
      */
     public function getXcPermissionsHeader()
     {
-        $phpCodePHeader = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret            = $phpCodePHeader->getPhpCodeCommentLine('Permission');
-        $ret            .= $phpCodePHeader->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret            .= $this->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", true);
-        $groups         = $this->getXcEqualsOperator('$groups', '$xoopsUser->getGroups()');
-        $elseGroups     = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
-        $ret            .= $phpCodePHeader->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
+        $pc         = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret        = $pc->getPhpCodeCommentLine('Permission');
+        $ret        .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
+        $ret        .= $this->getXcXoopsHandler('groupperm');
+        $groups     = $this->getXcEqualsOperator('$groups', '$xoopsUser->getGroups()');
+        $elseGroups = $this->getXcEqualsOperator('$groups', 'XOOPS_GROUP_ANONYMOUS');
+        $ret        .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', $type = '', $groups, $elseGroups);
 
         return $ret;
     }
@@ -720,7 +583,7 @@ class CreateXoopsCode
      */
     public function getXcUserSaveElements($moduleDirname, $tableName, $tableSoleName, $fields)
     {
-        $axCodeUserSave = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $axc            = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
         $ret            = '';
         $fieldMain      = '';
         $countUploader  = 0;
@@ -731,16 +594,17 @@ class CreateXoopsCode
                 $fieldMain = $fieldName;
             }
             if ((5 == $fieldElement) || (6 == $fieldElement)) {
-                $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                $ret .= $this->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName);
             } elseif (13 == $fieldElement) {
-                $ret .= $axCodeUserSave->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
+                $ret .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
                 $countUploader++;
             } elseif (14 == $fieldElement) {
-                $ret .= $axCodeUserSave->getXcUploadFileSetVar($moduleDirname, $tableName, $fieldName);
+                $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, '', '', $countUploader);
+                $countUploader++;
             } elseif (15 == $fieldElement) {
-                $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
+                $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName);
             } else {
-                $ret .= $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+                $ret .= $this->getXcSetVarObj($tableName, $fieldName, "\$_POST['{$fieldName}']");
             }
         }
 
@@ -753,129 +617,20 @@ class CreateXoopsCode
      * @param string $var1
      * @param string $var2
      * @param string $type
-     * @param bool   $metod
+     * @param bool   $method
      * @param string $t
      * @return string
      */
-    public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $metod = false, $t = '')
+    public function getXcXoopsRequest($left = '', $var1 = '', $var2 = '', $type = 'String', $method = false, $t = '')
     {
         $ret     = '';
         $intVars = ('' != $var2) ? "'{$var1}', {$var2}" : "'{$var1}'";
         if ('String' === $type) {
-            $ret .= "{$t}\${$left} = \Xmf\Request::getString('{$var1}', '{$var2}');\n";
+            $ret .= "{$t}\${$left} = Request::getString('{$var1}', '{$var2}');\n";
         } elseif ('Int' === $type) {
-            $ret .= "{$t}\${$left} = \Xmf\Request::getInt({$intVars});\n";
-        } elseif ('Int' === $type && false !== $metod) {
-            $ret .= "{$t}\${$left} = \Xmf\Request::getInt({$intVars}, '{$metod}');\n";
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @public function getXcTplAssign
-     *
-     * @param        $tplString
-     * @param        $phpRender
-     * @param bool   $leftIsString
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcTplAssign($tplString, $phpRender, $leftIsString = true, $t = '')
-    {
-        $assign = "{$t}\$GLOBALS['xoopsTpl']->assign(";
-        if (false === $leftIsString) {
-            $ret = $assign . "{$tplString}, {$phpRender});\n";
-        } else {
-            $ret = $assign . "'{$tplString}', {$phpRender});\n";
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @public function getXcXoopsTplAppend
-     *
-     * @param        $tplString
-     * @param        $phpRender
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcXoopsTplAppend($tplString, $phpRender, $t = '')
-    {
-        return "{$t}\$GLOBALS['xoopsTpl']->append('{$tplString}', {$phpRender});\n";
-    }
-
-    /**
-     * @public function getXcXoopsTplAppendByRef
-     *
-     * @param        $tplString
-     * @param        $phpRender
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcXoopsTplAppendByRef($tplString, $phpRender, $t = '')
-    {
-        return "{$t}\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', {$phpRender});\n";
-    }
-
-    /**
-     * @public function getXcPath
-     *
-     * @param        $directory
-     * @param        $filename
-     * @param bool   $isParam
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcPath($directory, $filename, $isParam = false, $t = '')
-    {
-        if (!$isParam) {
-            $ret = "{$t}\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php');\n";
-        } else {
-            $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php')";
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @public function getXcTplDisplay
-     *
-     * @param string $displayTpl
-     * @param string $t
-     * @param bool   $usedoublequotes
-     * @return string
-     */
-    public function getXcTplDisplay($displayTpl = '{$templateMain}', $t = '', $usedoublequotes = true)
-    {
-        if ($usedoublequotes) {
-            return "{$t}\$GLOBALS['xoopsTpl']->display(\"db:{$displayTpl}\");\n";
-        }
-
-        return "{$t}\$GLOBALS['xoopsTpl']->display('db:" . $displayTpl . "');\n";
-    }
-
-    /**
-     * @public function getXcGetInfo
-     *
-     * @param        $left
-     * @param        $string
-     * @param bool   $isParam
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcGetInfo($left, $string, $isParam = false, $t = '')
-    {
-        if (!$isParam) {
-            $ret = "{$t}\${$left} = \$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
-        } else {
-            $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}')";
+            $ret .= "{$t}\${$left} = Request::getInt({$intVars});\n";
+        } elseif ('Int' === $type && false !== $method) {
+            $ret .= "{$t}\${$left} = Request::getInt({$intVars}, '{$method}');\n";
         }
 
         return $ret;
@@ -930,27 +685,60 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcObjHandlerCreate
+     * @public function getXcAddRight
+     *
+     * @param        $anchor
+     * @param string $permString
+     * @param string $mid
+     * @param string $var
+     * @param bool $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcDeleteRight($anchor, $permString = '', $mid = '', $var = '', $isParam = false, $t = '')
+    {
+        if (!$isParam) {
+            $ret = "{$t}\${$anchor}->deleteByModule({$mid}, '{$permString}', {$var});\n";
+        } else {
+            $ret = "\${$anchor}->deleteByModule({$mid}, '{$permString}', {$var})";
+        }
+        return $ret;
+    }
+
+    /**
+     * @public function getXcHandlerLine
+     * @param $tableName
+     * @param string $t
+     * @return string
+     */
+    public function getXcHandlerLine($tableName, $t = '')
+    {
+        return "{$t}\${$tableName}Handler = \$helper->getHandler('{$tableName}');\n";
+    }
+
+    /**
+     * @public function getXcHandlerCreateObj
      *
      * @param        $tableName
      *
      * @param string $t
      * @return string
      */
-    public function getXcObjHandlerCreate($tableName, $t = '')
+    public function getXcHandlerCreateObj($tableName, $t = '')
     {
         return "{$t}\${$tableName}Obj = \${$tableName}Handler->create();\n";
     }
 
     /**
-     * @public function getXcObjHandlerCount
+     * @public function getXcHandlerCountObj
      *
      * @param        $tableName
      *
      * @param string $t
      * @return string
      */
-    public function getXcObjHandlerCount($tableName, $t = '')
+    public function getXcHandlerCountObj($tableName, $t = '')
     {
         $ucfTableName = ucfirst($tableName);
         $ret          = "{$t}\${$tableName}Count = \${$tableName}Handler->getCount{$ucfTableName}();\n";
@@ -967,7 +755,7 @@ class CreateXoopsCode
      *
      * @return string
      */
-    public function getXcClearHandlerCount($left, $anchor = '', $params = '', $t = '')
+    public function getXcHandlerCountClear($left, $anchor = '', $params = '', $t = '')
     {
         $ret = "{$t}\${$left} = \${$anchor}Handler->getCount({$params});\n";
 
@@ -975,7 +763,7 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcObjHandlerAll
+     * @public function getXcHandlerAllObj
      *
      * @param        $tableName
      * @param string $fieldMain
@@ -985,7 +773,7 @@ class CreateXoopsCode
      * @param string $t
      * @return string
      */
-    public function getXcObjHandlerAll($tableName, $fieldMain = '', $start = '0', $limit = '0', $t = '')
+    public function getXcHandlerAllObj($tableName, $fieldMain = '', $start = '0', $limit = '0', $t = '')
     {
         $ucfTableName = ucfirst($tableName);
         $startLimit   = ('0' != $limit) ? "{$start}, {$limit}" : '0';
@@ -996,18 +784,71 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcClearHandlerAll
+     * @public function getXcHandlerAllClear
      * @param        $left
      * @param string $anchor
      * @param string $params
      * @param string $t
      * @return string
      */
-    public function getXcClearHandlerAll($left, $anchor = '', $params = '', $t = '')
+    public function getXcHandlerAllClear($left, $anchor = '', $params = '', $t = '')
     {
         $ret = "{$t}\${$left} = \${$anchor}Handler->getAll({$params});\n";
 
         return $ret;
+    }
+
+    /**
+     * @public function getXcHandlerGet
+     *
+     * @param        $left
+     * @param        $var
+     * @param string $obj
+     * @param string $handler
+     * @param bool   $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcHandlerGet($left, $var, $obj = '', $handler = 'Handler', $isParam = false, $t = '')
+    {
+        if ($isParam) {
+            $ret = "\${$left}{$handler}->get(\${$var})";
+        } else {
+            $ret = "{$t}\${$left}{$obj} = \${$handler}->get(\${$var});\n";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcHandler
+     *
+     * @param $left
+     * @param $var
+     * @param $obj
+     * @param $handler
+     *
+     * @return string
+     */
+    public function getXcHandlerInsert($left, $var, $obj = '', $handler = 'Handler')
+    {
+        return "\${$left}{$handler}->insert(\${$var}{$obj})";
+
+    }
+
+    /**
+     * @public   function getXcHandlerDelete
+     *
+     * @param        $left
+     * @param        $var
+     * @param string $obj
+     * @param string $handler
+     * @return string
+     */
+    public function getXcHandlerDelete($left, $var, $obj = '', $handler = 'Handler')
+    {
+        return "\${$left}{$handler}->delete(\${$var}{$obj})";
     }
 
     /**
@@ -1045,7 +886,7 @@ class CreateXoopsCode
      */
     public function getXcSetVarsObjects($moduleDirname, $tableName, $tableSoleName, $fields)
     {
-        $axCode        = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $axc           = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
         $ret           = '';
         $fieldMain     = '';
         $countUploader = 0;
@@ -1059,29 +900,29 @@ class CreateXoopsCode
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName);
+                        $ret .= $this->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName);
                         break;
                     case 11:
-                        $ret .= $axCode->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, '', $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarImageList($tableName, $fieldName, '', $countUploader);
                         $countUploader++;
                         break;
                     case 12:
-                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 13:
-                        $ret .= $axCode->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
+                        $ret .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, '', $countUploader);
                         $countUploader++;
                         break;
                     case 14:
-                        $ret .= $axCode->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 15:
-                        $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName);
+                        $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName);
                         break;
                     default:
-                        $ret .= $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']");
+                        $ret .= $this->getXcSetVarObj($tableName, $fieldName, "\$_POST['{$fieldName}']");
                         break;
                 }
             }
@@ -1100,13 +941,13 @@ class CreateXoopsCode
      */
     public function getXcSecurity($tableName, $t = '')
     {
-        $phpCodeSecurity = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $securityError   = $this->getXcSecurityErrors();
-        $implode         = $phpCodeSecurity->getPhpCodeImplode(',', $securityError);
+        $pc              = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $securityError   = $this->getXcXoopsSecurityErrors();
+        $implode         = $pc->getPhpCodeImplode(',', $securityError);
         $content         = "{$t}\t" . $this->getXcRedirectHeader($tableName, '', 3, $implode, $t);
-        $securityCheck   = $this->getXcSecurityCheck();
+        $securityCheck   = $this->getXcXoopsSecurityCheck();
 
-        return $phpCodeSecurity->getPhpCodeConditions('!' . $securityCheck, '', '', $content, $t);
+        return $pc->getPhpCodeConditions('!' . $securityCheck, '', '', $content, $t);
     }
 
     /**
@@ -1118,11 +959,11 @@ class CreateXoopsCode
      */
     public function getXcInsertData($tableName, $language, $t = '')
     {
-        $phpCodeInsertData = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $content           = "{$t}\t" . $this->getXcRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
-        $handlerInsert     = $this->getXcHandler($tableName, $tableName, false, true, false, 'Obj');
+        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $content       = "{$t}\t" . $this->getXcRedirectHeader($tableName, '?op=list', 2, "{$language}FORM_OK");
+        $handlerInsert = $this->getXcHandlerInsert($tableName, $tableName, 'Obj');
 
-        return $phpCodeInsertData->getPhpCodeConditions($handlerInsert, '', '', $content, $t);
+        return $pc->getPhpCodeConditions($handlerInsert, '', '', $content, $t);
     }
 
     /**
@@ -1138,7 +979,6 @@ class CreateXoopsCode
      */
     public function getXcRedirectHeader($directory, $options, $numb, $var, $isString = true, $t = '')
     {
-        $ret = '';
         if (!$isString) {
             $ret = "{$t}redirect_header({$directory}, {$numb}, {$var});\n";
         } else {
@@ -1161,48 +1001,16 @@ class CreateXoopsCode
      */
     public function getXcXoopsConfirm($tableName, $language, $fieldId, $fieldMain, $options = 'delete', $t = '')
     {
-        $stuOptions      = mb_strtoupper($options);
-        $ccFieldId       = Tdmcreate\Files\CreateFile::getInstance()->getCamelCase($fieldId, false, true);
-        $phpXoopsConfirm = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $array           = "array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}')";
-        $server          = $phpXoopsConfirm->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
-        $getVar          = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
-        $sprintf         = $phpXoopsConfirm->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
-        $ret             = "{$t}xoops_confirm({$array}, {$server}, {$sprintf});\n";
+        $stuOptions = mb_strtoupper($options);
+        $ccFieldId  = Tdmcreate\Files\CreateFile::getInstance()->getCamelCase($fieldId, false, true);
+        $pc         = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $array      = "array('ok' => 1, '{$fieldId}' => \${$ccFieldId}, 'op' => '{$options}')";
+        $server     = $pc->getPhpCodeGlobalsVariables('REQUEST_URI', 'SERVER');
+        $getVar     = $this->getXcGetVar('', $tableName . 'Obj', $fieldMain, true, '');
+        $sprintf    = $pc->getPhpCodeSprintf($language . 'FORM_SURE_' . $stuOptions, $getVar);
+        $ret        = "{$t}xoops_confirm({$array}, {$server}, {$sprintf});\n";
 
         return $ret;
-    }
-
-    /**
-     * @public function getXcAddStylesheet
-     * @param string $style
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcAddStylesheet($style = 'style', $t = '')
-    {
-        return "{$t}\$GLOBALS['xoTheme']->addStylesheet( \${$style}, null );\n";
-    }
-
-    /**
-     * @public function getXcSecurityCheck
-     * @param $denial
-     * @return bool
-     */
-    public function getXcSecurityCheck($denial = '')
-    {
-        return "{$denial}\$GLOBALS['xoopsSecurity']->check()";
-    }
-
-    /**
-     * @public function getXcSecurityErrors
-     * @param null
-     * @return string
-     */
-    public function getXcSecurityErrors()
-    {
-        return "\$GLOBALS['xoopsSecurity']->getErrors()";
     }
 
     /**
@@ -1217,7 +1025,6 @@ class CreateXoopsCode
      */
     public function getXcHtmlErrors($tableName, $isParam = false, $obj = 'Obj', $t = '')
     {
-        $ret = '';
         if ($isParam) {
             $ret = "\${$tableName}{$obj}->getHtmlErrors()";
         } else {
@@ -1228,7 +1035,7 @@ class CreateXoopsCode
     }
 
     /**
-     * @public function getXcObjHandlerCount
+     * @public function getXcGetForm
      *
      * @param        $left
      * @param        $tableName
@@ -1242,86 +1049,6 @@ class CreateXoopsCode
         $ucfTableName = ucfirst($tableName);
 
         return "{$t}\${$left} = \${$tableName}{$obj}->getForm{$ucfTableName}();\n";
-    }
-
-    /**
-     * @public function getXcGet
-     *
-     * @param        $left
-     * @param        $var
-     * @param string $obj
-     * @param string $handler
-     * @param bool   $isParam
-     *
-     * @param string $t
-     * @return string
-     */
-    public function getXcGet($left, $var, $obj = '', $handler = 'Handler', $isParam = false, $t = '')
-    {
-        $ret = '';
-        if ($isParam) {
-            $ret = "\${$left}{$handler}->get(\${$var})";
-        } else {
-            $ret = "{$t}\${$left}{$obj} = \${$handler}->get(\${$var});\n";
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @public function getXcHandler
-     *
-     * @param $left
-     * @param $var
-     * @param $obj
-     * @param $handler
-     *
-     * @return string
-     */
-    public function getXcInsert($left, $var, $obj = '', $handler = 'Handler')
-    {
-        return "\${$left}{$handler}->insert(\${$var}{$obj})";
-    }
-
-    /**
-     * @public   function getXcDelete
-     *
-     * @param        $left
-     * @param        $var
-     * @param string $obj
-     * @param string $handler
-     * @return string
-     */
-    public function getXcDelete($left, $var, $obj = '', $handler = 'Handler')
-    {
-        return "\${$left}{$handler}->delete(\${$var}{$obj})";
-    }
-
-    /**
-     * @public function getXcHandler
-     *
-     * @param        $left
-     * @param        $var
-     *
-     * @param bool   $get
-     * @param bool   $insert
-     * @param bool   $delete
-     * @param string $obj
-     * @param string $t
-     * @return string
-     */
-    public function getXcHandler($left, $var, $get = false, $insert = false, $delete = false, $obj = '', $t = '')
-    {
-        $ret = '';
-        if ($get) {
-            $ret = "{$t}\${$left}Handler->get(\${$var});";
-        } elseif ($insert && ('' != $obj)) {
-            $ret = "{$t}\${$left}Handler->insert(\${$var}{$obj});";
-        } elseif ($delete && ('' != $obj)) {
-            $ret = "{$t}\${$left}Handler->delete(\${$var}{$obj});";
-        }
-
-        return $ret;
     }
 
     /**
@@ -1339,7 +1066,7 @@ class CreateXoopsCode
     {
         $ret      = Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentLine('Get Var', $fieldNameParent, $t);
         $paramGet = $this->getXcGetVar('', "\${$tableName}All[\$i]", $fieldNameParent, true, '');
-        $ret      .= $this->getXcGet($rpFieldName, $paramGet, '', $tableNameTopic . 'Handler', false, $t);
+        $ret      .= $this->getXcHandlerGet($rpFieldName, $paramGet, '', $tableNameTopic . 'Handler', false, $t);
         $ret      .= $this->getXcGetVar("\${$lpFieldName}['{$rpFieldName}']", "\${$rpFieldName}", $fieldNameTopic, false, $t);
 
         return $ret;
@@ -1356,11 +1083,11 @@ class CreateXoopsCode
      */
     public function getUploadImageGetVar($lpFieldName, $rpFieldName, $tableName, $fieldName, $t = '')
     {
-        $pImageGetVar = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $ret          = $pImageGetVar->getPhpCodeCommentLine('Get Var', $fieldName, $t);
-        $ret          .= $this->getXcGetVar($fieldName, "\${$tableName}All[\$i]", $fieldName, false, '');
-        $ret          .= $pImageGetVar->getPhpCodeTernaryOperator('uploadImage', "\${$fieldName}", "\${$fieldName}", "'blank.gif'", $t);
-        $ret          .= $this->getXcEqualsOperator("${$lpFieldName}['{$rpFieldName}']", '$uploadImage', null, false, $t);
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $pc->getPhpCodeCommentLine('Get Var', $fieldName, $t);
+        $ret .= $this->getXcGetVar($fieldName, "\${$tableName}All[\$i]", $fieldName, false, '');
+        $ret .= $pc->getPhpCodeTernaryOperator('uploadImage', "\${$fieldName}", "\${$fieldName}", "'blank.gif'", $t);
+        $ret .= $this->getXcEqualsOperator("${$lpFieldName}['{$rpFieldName}']", '$uploadImage', null, $t);
 
         return $ret;
     }
@@ -1409,18 +1136,17 @@ class CreateXoopsCode
      * @param        $moduleDirname
      * @param        $tableName
      * @param        $tableSoleName
-     * @param        $tableAutoincrement
      * @param        $fields
      *
      * @param string $t
      * @return string
      */
-    public function getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $tableAutoincrement, $fields, $t = '')
+    public function getXcSaveElements($moduleDirname, $tableName, $tableSoleName, $fields, $t = '')
     {
-        $axCodeSaveElements = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
-        $ret                = '';
-        $fieldMain          = '';
-        $countUploader      = 0;
+        $axc           = Tdmcreate\Files\Admin\AdminXoopsCode::getInstance();
+        $ret           = '';
+        $fieldMain     = '';
+        $countUploader = 0;
         foreach (array_keys($fields) as $f) {
 
             $fieldName    = $fields[$f]->getVar('field_name');
@@ -1433,33 +1159,40 @@ class CreateXoopsCode
                 switch ($fieldElement) {
                     case 5:
                     case 6:
-                        $ret .= $this->getXcCheckBoxOrRadioYNSetVar($tableName, $fieldName, $t);
+                        $ret .= $this->getXcSetVarCheckBoxOrRadioYN($tableName, $fieldName, $t);
                         break;
                     case 10:
-                        $ret .= $axCodeSaveElements->getAxcImageListSetVar($moduleDirname, $tableName, $fieldName, $t, $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarImageList($tableName, $fieldName, $t, $countUploader);
+                        $countUploader++;
+                        break;
+                    case 11:
+                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 12:
-                        $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, true, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 13:
-                        $ret .= $axCodeSaveElements->getAxcUploadImageSetVar($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
+                        $ret .= $axc->getAxcSetVarUploadImage($moduleDirname, $tableName, $fieldName, $fieldMain, $t, $countUploader);
                         $countUploader++;
                         break;
                     case 14:
-                        $ret .= $axCodeSaveElements->getAxcUploadFileSetVar($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
+                        $ret .= $axc->getAxcSetVarUploadFile($moduleDirname, $tableName, $fieldName, false, $t, $countUploader, $fieldMain);
                         $countUploader++;
                         break;
                     case 15:
-                        $ret .= $this->getXcTextDateSelectSetVar($tableName, $tableSoleName, $fieldName, $t);
+                        $ret .= $this->getXcSetVarTextDateSelect($tableName, $tableSoleName, $fieldName, $t);
+                        break;
+                    case 17:
+                        $ret .= $axc->getAxcSetVarPassword($tableName, $fieldName, $t);
+                        $countUploader++;
+                        break;
+                    case 21:
+                        $ret .= $this->getXcSetVarDateTime($tableName, $tableSoleName, $fieldName, $t);
                         break;
                     default:
-                        if (2 == $fieldType || 7 == $fieldType || 8 == $fieldType) {
-                            $ret .= $this->getXcSetVar($tableName, $fieldName, "isset(\$_POST['{$fieldName}']) ? \$_POST['{$fieldName}'] : 0", $t);
-                        } else {
-                            $ret .= $this->getXcSetVar($tableName, $fieldName, "\$_POST['{$fieldName}']", $t);
-                        }
+                        $ret .= $axc->getAxcSetVarMisc($tableName, $fieldName, $fieldType, $t);
                         break;
                 }
             }
@@ -1477,14 +1210,468 @@ class CreateXoopsCode
      */
     public function getXcPageNav($tableName, $t = '')
     {
-        $phpCodePageNav = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $classXCode     = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
-        $ret            = $phpCodePageNav->getPhpCodeCommentLine('Display Navigation', null, $t);
-        $condition      = $phpCodePageNav->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true, false, 'include', $t . "\t");
-        $condition      .= $classXCode->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', 'start', "'op=list&limit=' . \$limit", false, $t . "\t");
-        $condition      .= $this->getXcTplAssign('pagenav', '$pagenav->renderNav(4)', true, $t . "\t");
-        $ret            .= $phpCodePageNav->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
+        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $cxc       = Tdmcreate\Files\Classes\ClassXoopsCode::getInstance();
+        $ret       = $pc->getPhpCodeCommentLine('Display Navigation', null, $t);
+        $condition = $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/pagenav', true, false, 'include', $t . "\t");
+        $condition .= $cxc->getClassXoopsPageNav('pagenav', $tableName . 'Count', 'limit', 'start', 'start', "'op=list&limit=' . \$limit", false, $t . "\t");
+        $condition .= $this->getXcXoopsTplAssign('pagenav', '$pagenav->renderNav(4)', true, $t . "\t");
+        $ret       .= $pc->getPhpCodeConditions("\${$tableName}Count", ' > ', '$limit', $condition, false, $t);
 
         return $ret;
+    }
+
+    /* @public function getXcGetGlobal
+     * @param        $globals
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcGetGlobal($globals, $t = '')
+    {
+        $ret    = $t . "global ";
+        $detail = '';
+        foreach ($globals as $global) {
+            if ($detail !== '') {
+                $detail .= ', ';
+            }
+            $detail .= '$' . $global;
+        }
+       $ret .= $detail . ";\n";
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcGetCriteriaCompo
+     *
+     * @param        $var
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteriaCompo($var, $t = '')
+    {
+        return "{$t}\${$var} = new \CriteriaCompo();\n";
+    }
+
+    /**
+     * @public function getXcCriteria
+     *
+     * @param        $var
+     * @param        $param1
+     * @param string $param2
+     * @param string $param3
+     * @param bool   $isParam
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcCriteria($var, $param1, $param2 = '', $param3 = '', $isParam = false, $t = '')
+    {
+        $params = ('' != $param2) ? ', ' . $param2 : '';
+        $params .= ('' != $param3) ? ', ' . $param3 : '';
+
+        if (false === $isParam) {
+            $ret = "{$t}\${$var} = new \Criteria( {$param1}{$params} );\n";
+        } else {
+            $ret = "new \Criteria( {$param1}{$params} )";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcCriteriaAdd
+     *
+     * @param        $var
+     * @param        $param
+     * @param string $t
+     * @param string $n
+     * @param string $condition
+     * @return string
+     */
+    public function getXcCriteriaAdd($var, $param, $t = '', $n = "\n", $condition = '')
+    {
+        if ('' !== $condition) {
+            $condition = ", {$condition}";
+        }
+        return "{$t}\${$var}->add( {$param}{$condition} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetStart
+     *
+     * @param        $var
+     * @param        $start
+     * @param string $t
+     *
+     * @param string $n
+     * @return string
+     */
+    public function getXcCriteriaSetStart($var, $start, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setStart( {$start} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetLimit
+     *
+     * @param        $var
+     * @param        $limit
+     * @param string $t
+     *
+     * @param string $n
+     * @return string
+     */
+    public function getXcCriteriaSetLimit($var, $limit, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setLimit( {$limit} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetSort
+     *
+     * @param        $var
+     * @param        $sort
+     * @param string $t
+     *
+     * @param string $n
+     * @return string
+     */
+    public function getXcCriteriaSetSort($var, $sort, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setSort( {$sort} );{$n}";
+    }
+
+    /**
+     * @public function getXcCriteriaSetOrder
+     *
+     * @param        $var
+     * @param        $order
+     * @param string $t
+     *
+     * @param string $n
+     * @return string
+     */
+    public function getXcCriteriaSetOrder($var, $order, $t = '', $n = "\n")
+    {
+        return "{$t}\${$var}->setOrder( {$order} );{$n}";
+    }
+
+    /*************************************************************/
+    /** Xoops form components */
+    /*************************************************************/
+
+    /**
+     * @public function getXcXoopsFormGroupPerm
+     * @param $varLeft
+     * @param $formTitle
+     * @param $moduleId
+     * @param $permName
+     * @param $permDesc
+     * @param $filename
+     * @param $t
+     *
+     * @return string
+     */
+    public function getXcXoopsFormGroupPerm($varLeft = '', $formTitle = '', $moduleId = '', $permName = '', $permDesc = '', $filename = '', $t = '')
+    {
+        return "{$t}\${$varLeft} = new \XoopsGroupPermForm({$formTitle}, {$moduleId}, {$permName}, {$permDesc}, {$filename});\n";
+    }
+
+
+    /**
+     * @public function getXoopsFormSelectExtraOptions
+     * @param string $varSelect
+     * @param string $caption
+     * @param string $var
+     * @param array  $options
+     * @param bool   $setExtra
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXoopsFormSelectExtraOptions($varSelect = '', $caption = '', $var = '', $options = [], $setExtra = true, $t = '')
+    {
+        $ret = "{$t}\${$varSelect} = new \XoopsFormSelect({$caption}, '{$var}', \${$var});\n";
+        if (false !== $setExtra) {
+            $ret .= "{$t}\${$varSelect}->setExtra('{$setExtra}');\n";
+        }
+        foreach ($options as $key => $value) {
+            $ret .= "{$t}\${$varSelect}->addOption('{$key}', {$value});\n";
+        }
+
+        return $ret;
+    }
+
+
+    /*************************************************************/
+    /** other Xoops components */
+    /*************************************************************/
+
+
+    /**
+     * @public function getXcXoopsCPHeader
+     * @param null
+     * @return string
+     */
+    public function getXcXoopsCPHeader()
+    {
+        return "xoops_cp_header();\n";
+    }
+
+    /**
+     * @public function getXcXoopsCPFooter
+     * @param null
+     * @return string
+     */
+    public function getXcXoopsCPFooter()
+    {
+        return "xoops_cp_footer();\n";
+    }
+
+    /**
+     * @public function getXcXoopsLoad
+     *
+     * @param $var
+     * @param $t
+     * @return string
+     */
+    public function getXcXoopsLoad($var = '', $t = '')
+    {
+        return "{$t}xoops_load('{$var}');\n";
+    }
+
+    /**
+     * @public function getXcXoopsLoadLanguage
+     *
+     * @param $lang
+     * @param $t
+     * @param $domain
+     *
+     * @return string
+     */
+    public function getXcXoopsLoadLanguage($lang, $t = '', $domain = '')
+    {
+        if ('' === $domain) {
+            return "{$t}xoops_loadLanguage('{$lang}');\n";
+        }
+
+        return "{$t}xoops_loadLanguage('{$lang}', '{$domain}');\n";
+    }
+
+    /**
+     * @public function getXcXoopsCaptcha
+     * @param $t
+     * @return string
+     */
+    public function getXcXoopsCaptcha($t = '')
+    {
+        return "{$t}\$xoopsCaptcha = \XoopsCaptcha::getInstance();\n";
+    }
+
+    /**
+     * @public function getXcXoopsListImgListArray
+     * @param $return
+     * @param $var
+     * @param $t
+     *
+     * @return string
+     */
+    public function getXcXoopsListImgListArray($return, $var, $t = '')
+    {
+        return "{$t}\${$return} = \XoopsLists::getImgListAsArray( {$var} );\n";
+    }
+
+    /**
+     * @public function getXcXoopsListLangList
+     * @param $return
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcXoopsListLangList($return, $t = '')
+    {
+        return "{$t}\${$return} = \XoopsLists::getLangList();\n";
+    }
+
+    /**
+     * @public function getXcXoopsListCountryList
+     * @param $return
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcXoopsListCountryList($return, $t = '')
+    {
+        return "{$t}\${$return} = \XoopsLists::getCountryList();\n";
+    }
+
+    /**
+     * @public function getXcXoopsUserUnameFromId
+     * @param        $left
+     * @param        $value
+     * @param string $t
+     *
+     * @return string
+     */
+    public function getXcXoopsUserUnameFromId($left, $value, $t = '')
+    {
+        return "{$t}\${$left} = \XoopsUser::getUnameFromId({$value});\n";
+    }
+
+    /**
+     * @public function getXcXoopsTplAssign
+     *
+     * @param        $tplString
+     * @param        $phpRender
+     * @param bool   $leftIsString
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcXoopsTplAssign($tplString, $phpRender, $leftIsString = true, $t = '')
+    {
+        $assign = "{$t}\$GLOBALS['xoopsTpl']->assign(";
+        if (false === $leftIsString) {
+            $ret = $assign . "{$tplString}, {$phpRender});\n";
+        } else {
+            $ret = $assign . "'{$tplString}', {$phpRender});\n";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcXoopsTplAppend
+     *
+     * @param        $tplString
+     * @param        $phpRender
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcXoopsTplAppend($tplString, $phpRender, $t = '')
+    {
+        return "{$t}\$GLOBALS['xoopsTpl']->append('{$tplString}', {$phpRender});\n";
+    }
+
+    /**
+     * @public function getXcXoopsTplAppendByRef
+     *
+     * @param        $tplString
+     * @param        $phpRender
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcXoopsTplAppendByRef($tplString, $phpRender, $t = '')
+    {
+        return "{$t}\$GLOBALS['xoopsTpl']->appendByRef('{$tplString}', {$phpRender});\n";
+    }
+
+    /**
+     * @public function getXcXoopsTplDisplay
+     *
+     * @param string $displayTpl
+     * @param string $t
+     * @param bool   $usedoublequotes
+     * @return string
+     */
+    public function getXcXoopsTplDisplay($displayTpl = '{$templateMain}', $t = '', $usedoublequotes = true)
+    {
+        if ($usedoublequotes) {
+            return "{$t}\$GLOBALS['xoopsTpl']->display(\"db:{$displayTpl}\");\n";
+        }
+
+        return "{$t}\$GLOBALS['xoopsTpl']->display('db:" . $displayTpl . "');\n";
+    }
+
+    /**
+     * @public function getXcXoopsPath
+     *
+     * @param        $directory
+     * @param        $filename
+     * @param bool   $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcXoopsPath($directory, $filename, $isParam = false, $t = '')
+    {
+        if (!$isParam) {
+            $ret = "{$t}\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php');\n";
+        } else {
+            $ret = "\$GLOBALS['xoops']->path({$directory}.'/{$filename}.php')";
+        }
+
+        return $ret;
+    }
+
+    /**
+     * @public function getXcXoopsModuleGetInfo
+     *
+     * @param        $left
+     * @param        $string
+     * @param bool   $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcXoopsModuleGetInfo($left, $string, $isParam = false, $t = '')
+    {
+        if (!$isParam) {
+            $ret = "{$t}\${$left} = \$GLOBALS['xoopsModule']->getInfo('{$string}');\n";
+        } else {
+            $ret = "\$GLOBALS['xoopsModule']->getInfo('{$string}')";
+        }
+
+        return $ret;
+    }
+
+
+    /**
+     * @public function getXcXoThemeAddStylesheet
+     * @param string $style
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getXcXoThemeAddStylesheet($style = 'style', $t = '')
+    {
+        return "{$t}\$GLOBALS['xoTheme']->addStylesheet( \${$style}, null );\n";
+    }
+
+    /**
+     * @public function getXcXoopsSecurityCheck
+     * @param $denial
+     * @return bool
+     */
+    public function getXcXoopsSecurityCheck($denial = '')
+    {
+        return "{$denial}\$GLOBALS['xoopsSecurity']->check()";
+    }
+
+    /**
+     * @public function getXcXoopsSecurityErrors
+     * @param null
+     * @return string
+     */
+    public function getXcXoopsSecurityErrors()
+    {
+        return "\$GLOBALS['xoopsSecurity']->getErrors()";
+    }
+
+    /**
+     * @public function getXcXoopsHandler
+     * @param        $left
+     * @param string $t
+     * @param string $n
+     * @return string
+     */
+    public function getXcXoopsHandler($left, $t = '', $n = "\n")
+    {
+        return "{$t}\${$left}Handler = xoops_getHandler('{$left}');{$n}";
     }
 }

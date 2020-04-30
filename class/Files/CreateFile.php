@@ -465,13 +465,14 @@ class CreateFile extends CreateTableFields
     /**
      * @public function getHeaderFilesComments
      * @param string $module
-     * @param string $fileName
      * @param        $noPhpFile
      *
+     * @param string $namespace
      * @return string
      */
-    public function getHeaderFilesComments($module, $fileName, $noPhpFile = null)
+    public function getHeaderFilesComments($module, $noPhpFile = null, $namespace = '')
     {
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
         $name             = $module->getVar('mod_name');
         $dirname          = $module->getVar('mod_dirname');
         $version          = $module->getVar('mod_version');
@@ -485,14 +486,15 @@ class CreateFile extends CreateTableFields
         $subversion       = $module->getVar('mod_subversion');
         $date             = date('D Y-m-d H:i:s');
         if (null === $noPhpFile) {
-            $ret = "<?php\n";
-            $ret .= "/*\n";
+            $ret = "<?php";
         } elseif (is_string($noPhpFile)) {
             $ret = $noPhpFile;
-            $ret .= "\n/*\n";
         } else {
-            $ret .= "\n/*\n";
+            $ret = '';
         }
+        $ret .= "\n{$namespace}/*\n";
+
+
         $filename = TDMC_CLASS_PATH . '/files/docs/license.txt';
         $handle   = fopen($filename, 'rb');
         $data     = fread($handle, filesize($filename));
@@ -510,7 +512,7 @@ class CreateFile extends CreateTableFields
             '@author    '   => "    {$author} - Email:<{$authorMail}> - Website:<{$authorWebsiteUrl}>",
 //            '@version    '  => "   \$Id: {$version} {$fileName} {$subversion} {$date}Z {$credits} \$",
         ];
-        $ret       .= Tdmcreate\Files\CreatePhpCode::getInstance()->getPhpCodeCommentMultiLine($copyright);
+        $ret       .= $pc->getPhpCodeCommentMultiLine($copyright);
 
         return $ret;
     }

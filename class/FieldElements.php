@@ -41,6 +41,9 @@ class FieldElements extends \XoopsObject
         $this->initVar('fieldelement_tid', XOBJ_DTYPE_INT);
         $this->initVar('fieldelement_name', XOBJ_DTYPE_TXTBOX);
         $this->initVar('fieldelement_value', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('fieldelement_sort', XOBJ_DTYPE_INT);
+        $this->initVar('fieldelement_deftype', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('fieldelement_defvalue', XOBJ_DTYPE_INT);
     }
 
     /**
@@ -82,11 +85,14 @@ class FieldElements extends \XoopsObject
     {
         $ret = $this->getValues($keys, $format, $maxDepth);
         // Values
-        $ret['id']    = $this->getVar('fieldelement_id');
-        $ret['mid']   = $this->getVar('fieldelement_mid');
-        $ret['tid']   = $this->getVar('fieldelement_tid');
-        $ret['name']  = $this->getVar('fieldelement_name');
-        $ret['value'] = $this->getVar('fieldelement_value');
+        $ret['id']       = $this->getVar('fieldelement_id');
+        $ret['mid']      = $this->getVar('fieldelement_mid');
+        $ret['tid']      = $this->getVar('fieldelement_tid');
+        $ret['name']     = $this->getVar('fieldelement_name');
+        $ret['value']    = $this->getVar('fieldelement_value');
+        $ret['sort']     = $this->getVar('fieldelement_sort');
+        $ret['deftype']  = $this->getVar('fieldelement_deftype');
+        $ret['defvalue'] = $this->getVar('fieldelement_defvalue');
 
         return $ret;
     }

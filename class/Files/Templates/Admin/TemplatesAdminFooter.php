@@ -72,19 +72,20 @@ class TemplatesAdminFooter extends Files\CreateFile
      */
     public function render()
     {
-        $hc            = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc            = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc            = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleName    = $module->getVar('mod_name');
         $moduleDirname = $module->getVar('mod_dirname');
         $supportName   = $module->getVar('mod_support_name');
         $language      = $this->getLanguage($moduleDirname, 'AM');
-        $singleNoVar = $hc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
+        $singleNoVar = $sc->getSmartyNoSimbol('xoModuleIcons32 xoopsmicrobutton.gif');
         $img         = $hc->getHtmlTag('img', ['src' => $singleNoVar, 'alt' => 'XOOPS'], '', true, '','');
         $anchor      = $hc->getHtmlTag('a', ['href' => 'https://xoops.org/', 'title' => 'Visit XOOPS', 'target' => '_blank'], $img) ;
         $content     = $hc->getHtmlTag('div', ['class' => 'center'], "\n\t" . $anchor);
         $tree        = $hc->getHtmlTag('strong', [], $moduleName, false, '', '');
-        $tree        .= $hc->getSmartyConst($language, 'MAINTAINEDBY');
+        $tree        .= $sc->getSmartyConst($language, 'MAINTAINEDBY');
         $tree        .= $hc->getHtmlTag('a', ['href' => '<{$maintainedby}>', 'title' => 'Visit ' . $supportName, 'class' => 'tooltip', 'rel' => 'external'], $supportName);
         $content     .= $hc->getHtmlTag('div', ['class' => 'center smallsmall italic pad5'], "\n\t" . $tree);
 

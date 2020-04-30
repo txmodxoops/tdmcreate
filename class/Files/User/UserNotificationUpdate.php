@@ -32,13 +32,18 @@ use XoopsModules\Tdmcreate\Files;
 class UserNotificationUpdate extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $pc = null;
+	
+	/**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -77,9 +82,9 @@ class UserNotificationUpdate extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $content       = $this->getHeaderFilesComments($module, $filename);
-        $content       .= $this->phpcode->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
-        $content       .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/notification_update');
+        $content       = $this->getHeaderFilesComments($module);
+        $content       .= $this->pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
+        $content       .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'include/notification_update');
 
         $this->create($moduleDirname, '/', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
