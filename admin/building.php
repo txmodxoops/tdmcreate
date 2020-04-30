@@ -81,6 +81,14 @@ switch ($op) {
             $GLOBALS['xoopsTpl']->append('builds', $build);
         }
         unset($build);
+
+        // Get common files
+        $resCommon = $handler->setCommonFiles($moduleObj);
+        $build['list'] = _AM_TDMCREATE_BUILDING_COMMON;
+        $GLOBALS['xoopsTpl']->append('builds', $build);
+        unset($build);
+
+
         // Directory to saved all files
 		$building_directory = sprintf(_AM_TDMCREATE_BUILDING_DIRECTORY, $moduleDirname);
         

@@ -79,49 +79,48 @@ class UserHeader extends Files\CreateFile
     private function getUserHeader($moduleDirname)
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $ucfModuleDirname = ucfirst($moduleDirname);
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc               = UserXoopsCode::getInstance();
+        $uxc              = UserXoopsCode::getInstance();
         $ret              = $pc->getPhpCodeIncludeDir('dirname(dirname(__DIR__))', 'mainfile');
         $ret              .= $pc->getPhpCodeIncludeDir('__DIR__', 'include/common');
-        $ret              .= $xc->getXcEqualsOperator('$dirname', 'basename(__DIR__)');
+        $ret              .= $xc->getXcEqualsOperator('$moduleDirName', 'basename(__DIR__)');
         $language         = $this->getLanguage($moduleDirname, 'MA');
-        $ret              .= $uc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
+        $ret              .= $uxc->getUserBreadcrumbsHeaderFile($moduleDirname, $language);
 
         $table  = $this->getTable();
         $tables = $this->getTables();
         if (is_object($table) && '' != $table->getVar('table_name')) {
-            $ret .= $xc->getXoopsHandlerInstance($moduleDirname);
+            $ret .= $xc->getXcHelperGetInstance($moduleDirname);
         }
         if (is_array($tables)) {
             foreach (array_keys($tables) as $i) {
                 $tableName = $tables[$i]->getVar('table_name');
-                $ret       .= $xc->getXoopsHandlerLine($moduleDirname, $tableName);
+                $ret       .= $xc->getXcHandlerLine($tableName);
             }
         }
         $ret .= $pc->getPhpCodeCommentLine('Permission');
         $ret .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'class/xoopsform/grouppermform', true);
-        $ret .= $xc->getXcEqualsOperator('$gpermHandler', "xoops_getHandler('groupperm')", null, true);
+        $ret .= $xc->getXcXoopsHandler('groupperm');
 
-        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, false, "\t");
-        $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, false, "\t");
+        $condIf   = $xc->getXcEqualsOperator('$groups ', '$xoopsUser->getGroups()', null, "\t");
+        $condElse = $xc->getXcEqualsOperator('$groups ', 'XOOPS_GROUP_ANONYMOUS', null, "\t");
 
         $ret .= $pc->getPhpCodeConditions('is_object($xoopsUser)', '', '', $condIf, $condElse);
         $ret .= $pc->getPhpCodeCommentLine();
-        $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()', null, true);
+        $ret .= $xc->getXcEqualsOperator('$myts', 'MyTextSanitizer::getInstance()');
         $ret .= $pc->getPhpCodeCommentLine('Default Css Style');
         $ret .= $xc->getXcEqualsOperator('$style', "{$stuModuleDirname}_URL . '/assets/css/style.css'");
         $ret .= $pc->getPhpCodeConditions('!file_exists($style)', '', '', "\treturn false;\n");
         $ret .= $pc->getPhpCodeCommentLine('Smarty Default');
-        $ret .= $xc->getXcGetInfo('sysPathIcon16', 'sysicons16');
-        $ret .= $xc->getXcGetInfo('sysPathIcon32', 'sysicons32');
-        $ret .= $xc->getXcGetInfo('pathModuleAdmin', 'dirmoduleadmin');
-        $ret .= $xc->getXcGetInfo('modPathIcon16', 'modicons16');
-        $ret .= $xc->getXcGetInfo('modPathIcon32', 'modicons16');
+        $ret .= $xc->getXcXoopsModuleGetInfo('sysPathIcon16', 'sysicons16');
+        $ret .= $xc->getXcXoopsModuleGetInfo('sysPathIcon32', 'sysicons32');
+        $ret .= $xc->getXcXoopsModuleGetInfo('pathModuleAdmin', 'dirmoduleadmin');
+        $ret .= $xc->getXcXoopsModuleGetInfo('modPathIcon16', 'modicons16');
+        $ret .= $xc->getXcXoopsModuleGetInfo('modPathIcon32', 'modicons16');
         $ret .= $pc->getPhpCodeCommentLine('Load Languages');
-        $ret .= $xc->getXcLoadLanguage('main');
-        $ret .= $xc->getXcLoadLanguage('modinfo');
+        $ret .= $xc->getXcXoopsLoadLanguage('main');
+        $ret .= $xc->getXcXoopsLoadLanguage('modinfo');
 
         return $ret;
     }

@@ -92,7 +92,11 @@ class UserSearch extends Files\CreateFile
      */
     private function getUserSearchHeader($moduleDirname, $table, $fields)
     {
-        $ret = $this->getInclude();
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getInclude();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -104,14 +108,14 @@ class UserSearch extends Files\CreateFile
         }
         if (1 == $table->getVar('table_category')) {
             $ccFieldPid = $this->getCamelCase($fieldPid, false, true);
-            $ret        .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
+            $ret        .= $this->xoopscode->getXcXoopsRequest($ccFieldPid, (string)$fieldPid, '0', 'Int');
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
-        $ret       .= $this->xoopscode->getXoopsCodeXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
+        $ret       .= $this->xoopscode->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
         $ret       .= $this->usercode->getUserTplMain($moduleDirname);
         $ret       .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
-        $ret       .= $this->getCommentLine('Define Stylesheet');
-        $ret       .= $this->xoopscode->getXoopsCodeAddStylesheet();
+        $ret       .= $this->getDashComment('Define Stylesheet');
+        $ret       .= $this->xoopscode->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
@@ -146,16 +150,16 @@ EOT;
     {
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
-        $ret              = $this->getCommentLine('Breadcrumbs');
+        $ret              = $this->getDashComment('Breadcrumbs');
         $ret              .= $this->usercode->getUserBreadcrumbs((string)$stuTableName, $language);
-        $ret              .= $this->getCommentLine('Keywords');
+        $ret              .= $this->getDashComment('Keywords');
         $ret              .= $this->usercode->getUserMetaKeywords($moduleDirname);
         $ret              .= $this->phpcode->getPhpCodeUnset('keywords');
-        $ret              .= $this->getCommentLine('Description');
+        $ret              .= $this->getDashComment('Description');
         $ret              .= $this->usercode->getUserMetaDesc($moduleDirname, 'DESC', $language);
-        $ret              .= $this->xoopscode->getXoopsCodeTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $this->xoopscode->getXoopsCodeTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $this->xoopscode->getXoopsCodeTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $this->xoopscode->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $this->xoopscode->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $this->xoopscode->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getInclude('footer');
 
         return $ret;

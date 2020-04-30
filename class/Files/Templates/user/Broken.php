@@ -77,9 +77,9 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenFileHeader($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header');
+        return $sc->getSmartyIncludeFile($moduleDirname, 'header');
     }
 
     /**
@@ -92,14 +92,15 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenTableHead($tableMid, $tableId, $tableAutoincrement, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $th     = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
             $fieldName    = $fields[$f]->getVar('field_name');
             $stuFieldName = mb_strtoupper($fieldName);
             if ((1 == $tableAutoincrement) || (1 == $fields[$f]->getVar('field_user'))) {
-                $const = $hc->getSmartyConst($language, $stuFieldName);
+                $const = $sc->getSmartyConst($language, $stuFieldName);
                 $th    .= $hc->getHtmlTag('th', ['class' => 'center'], $const, '', "\t\t\t");
             }
         }
@@ -121,7 +122,8 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenBody($moduleDirname, $tableMid, $tableId, $tableName, $tableSoleName, $tableAutoincrement, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $ret    = '';
         $fields = $this->getTableFields($tableMid, $tableId);
         foreach (array_keys($fields) as $f) {
@@ -149,7 +151,7 @@ class Broken extends Files\CreateFile
             }
         }
         $row     = $hc->getHtmlTableRow($ret, '<{cycle values="odd, even"}>',"\t\t") ;
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $row, '', '', "\t\t");
+        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName, $row, '', '', "\t\t");
 
         return $hc->getHtmlTableTbody($foreach, '', "\t");
     }
@@ -162,9 +164,9 @@ class Broken extends Files\CreateFile
      */
     private function getTemplatesUserBrokenFileFooter($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'footer');
+        return $sc->getSmartyIncludeFile($moduleDirname, 'footer');
     }
 
     /**
@@ -173,7 +175,7 @@ class Broken extends Files\CreateFile
      */
     public function render()
     {
-        $hc                 = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc                 = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $module             = $this->getModule();
         $table              = $this->getTable();
         $filename           = $this->getFileName();

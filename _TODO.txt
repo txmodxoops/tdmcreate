@@ -1,5 +1,42 @@
+****************************************************************************************
+
+IMPORTANT:
+I moved files, where I do not know whether they are still needed into folder _archive
+
+****************************************************************************************
+
+
+
+TODOs:
+
+implement constants interface
+
+
+
+
+
 Notifications:
 there are too much notification, which are not needed/working
-TODO: 
 - reduce xoops_version.php to needed
-- adapt language/modinfo.php
+- adapt language/modinfo.php (make nice text of e.g.: Global newcategory notify caption)
+
+
+rate.php:
+this file currently is not rating
+
+
+search.php:
+UserSearch has to be adapted
+
+
+single.php:
+what should this file show?
+what should it be used for?
+
+
+visit.php:
+what should this file show?
+what should it be used for?
+
+
+

@@ -197,7 +197,7 @@ class Settings extends \XoopsObject
         $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . TDMC_UPLOAD_IMGMOD_URL . '/' . $modImage . "' name='image3' id='image3' alt='' /><br>"));
 
         $fileseltray = new \XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize')));
+        $fileseltray->addElement(new \XoopsFormFile(_AM_TDMCREATE_FORMUPLOAD, 'attachedfile', $helper->getConfig('maxsize_image')));
         $fileseltray->addElement(new \XoopsFormLabel(''));
         $imgtray->addElement($fileseltray);
         $form->addElement($imgtray);

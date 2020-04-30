@@ -32,9 +32,13 @@ use XoopsModules\Tdmcreate\Files;
 class AdminFooter extends Files\CreateFile
 {
     /**
-     * @var string
+     * @var mixed
      */
     private $xc = null;
+    /**
+     * @var mixed
+     */
+    private $pc = null;
 
     /**
      * @public function constructor
@@ -43,8 +47,8 @@ class AdminFooter extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xc      = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -83,11 +87,11 @@ class AdminFooter extends Files\CreateFile
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module, $filename);
-        $isset         = $this->phpcode->getPhpCodeIsset('templateMain');
-        $display       = "\t" . $this->xc->getXcTplAssign('maintainedby', '$' . $moduleDirname . "->getConfig('maintainedby')");
-        $display       .= "\t" . $this->phpcode->getPhpCodeRemoveCarriageReturn($this->xc->getXcTplDisplay(), '', "\r");
-        $content       .= $this->phpcode->getPhpCodeConditions($isset, '', '', $display, false, '') . PHP_EOL;
-        $content       .= $this->xc->getXcCPFooter();
+        $isset         = $this->pc->getPhpCodeIsset('templateMain');
+        $display       = "\t" . $this->xc->getXcXoopsTplAssign('maintainedby', "\$helper->getConfig('maintainedby')");
+        $display       .= "\t" . $this->pc->getPhpCodeRemoveCarriageReturn($this->xc->getXcXoopsTplDisplay(), '', "\r");
+        $content       .= $this->pc->getPhpCodeConditions($isset, '', '', $display, false, '') . PHP_EOL;
+        $content       .= $this->xc->getXcXoopsCPFooter();
 
         $this->create($moduleDirname, 'admin', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 

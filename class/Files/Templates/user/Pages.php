@@ -75,9 +75,9 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesHeader($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header', '','','',"\n\n");
+        return $sc->getSmartyIncludeFile($moduleDirname, 'header', '','','',"\n\n");
     }
 
     /**
@@ -90,11 +90,12 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc     = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc     = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc     = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $tbody  = $this->getTemplatesUserPagesTableThead($tableName, $language);
         $tbody  .= $this->getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language);
         $tbody  .= $this->getTemplatesUserPagesTableTfoot();
-        $single = $hc->getSmartySingleVar('table_type');
+        $single = $sc->getSmartySingleVar('table_type');
 
         return $hc->getHtmlTable($tbody, 'table table-' . $single, "\t");
     }
@@ -107,10 +108,11 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableThead($tableName, $language)
     {
-        $hc           = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc           = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc           = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $stuTableName = mb_strtoupper($tableName);
-        $single       = $hc->getSmartySingleVar('divideby');
-        $lang         = $hc->getSmartyConst($language, $stuTableName . '_TITLE');
+        $single       = $sc->getSmartySingleVar('divideby');
+        $lang         = $sc->getSmartyConst($language, $stuTableName . '_TITLE');
         $th           = $hc->getHtmlTableHead($lang, '', $single, "\t\t\t\t");
         $tr           = $hc->getHtmlTableRow($th, 'head', "\t\t\t");
 
@@ -127,14 +129,15 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableTbody($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $single  = $hc->getSmartySingleVar('panel_type');
-        $include = $hc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, "\t\t\t\t\t\t", "\n");
+        $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $single  = $sc->getSmartySingleVar('panel_type');
+        $include = $sc->getSmartyIncludeFileListForeach($moduleDirname, $tableName, $tableSoleName, "\t\t\t\t\t\t", "\n");
         $div     = $hc->getHtmlDiv($include, 'panel panel-' . $single, "\t\t\t\t\t", "\n");
         $cont    = $hc->getHtmlTableData($div, '', '', "\t\t\t\t", "\n", true);
         $html    = $hc->getHtmlEmpty('</tr><tr>', "\t\t\t\t\t", "\n");
-        $cont    .= $hc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t");
-        $foreach = $hc->getSmartyForeach($tableSoleName, $tableName, $cont,'','',"\t\t\t\t");
+        $cont    .= $sc->getSmartyConditions($tableSoleName . '.count', ' is div by ', '$divideby', $html, '', '', '',"\t\t\t\t");
+        $foreach = $sc->getSmartyForeach($tableSoleName, $tableName, $cont,'','',"\t\t\t\t");
         $tr      = $hc->getHtmlTableRow($foreach,'',"\t\t\t");
 
         return $hc->getHtmlTableTbody($tr,'',"\t\t");
@@ -147,7 +150,7 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesTableTfoot()
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
         $td = $hc->getHtmlTableData("&nbsp;", '', '', '', '');
         $tr = $hc->getHtmlTableRow($td, '', '', '');
 
@@ -164,11 +167,12 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPages($moduleDirname, $tableName, $tableSoleName, $language)
     {
-        $hc    = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc    = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc    = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $table = $this->getTemplatesUserPagesTable($moduleDirname, $tableName, $tableSoleName, $language);
         $div   = $hc->getHtmlDiv($table, 'table-responsive');
 
-        return $hc->getSmartyConditions($tableName, ' > ', '0', $div, false, true, true);
+        return $sc->getSmartyConditions($tableName . 'Count', ' > ', '0', $div, false, false, true);
     }
 
     /**
@@ -179,9 +183,10 @@ class Pages extends Files\CreateFile
      */
     private function getTemplatesUserPagesFooter($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc  = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $ret = $hc->getHtmlEmpty('', '', "\n");
-        $ret .= $hc->getSmartyIncludeFile($moduleDirname, 'footer');
+        $ret .= $sc->getSmartyIncludeFile($moduleDirname, 'footer');
 
         return $ret;
     }

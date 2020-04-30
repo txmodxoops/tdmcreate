@@ -58,13 +58,13 @@ class IncludeNotifications extends Files\CreateFile
     /**
      * @public function write
      * @param string $module
-     * @param mixed  $table
+     * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
-        $this->setTable($table);
+        $this->setTables($tables);
         $this->setFileName($filename);
     }
 
@@ -76,91 +76,71 @@ class IncludeNotifications extends Files\CreateFile
      */
     public function getNotificationsFunction($moduleDirname)
     {
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
-        $table            = $this->getTable();
-        $tableName        = $table->getVar('table_name');
-        $tableFieldname   = $table->getVar('table_fieldname');
-        $tableSoleName    = $table->getVar('table_solename');
-        $fields           = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        $fieldParent      = 'cid';
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fieldId = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_parent')) {
-                $fieldParent = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
+        $tables           = $this->getTables();
+        $t      = "\t";
+        $ret    = $pc->getPhpCodeCommentMultiLine(['comment' => 'callback functions','' => '', '@param  $category' => '', '@param  $item_id' => '', '@return' => 'array item|null']);
+        $func   = $xc->getXcGetGlobal(['xoopsDB'], $t);
+        $func   .= $pc->getPhpCodeBlankLine();
+        $contIf = $pc->getPhpCodeDefine($stuModuleDirname . '_URL',"XOOPS_URL . '/modules/{$moduleDirname}'", $t . "\t");
+        $func   .= $pc->getPhpCodeConditions("!defined('{$stuModuleDirname}_URL')", '','',$contIf, false, $t);
+        $func   .= $pc->getPhpCodeBlankLine();
+
+        $case[] = $xc->getXcEqualsOperator("\$item['name']", "''",'',$t . "\t\t");
+        $case[] = $xc->getXcEqualsOperator("\$item['url'] ", "''",'',$t . "\t\t");
+        $case[] = $this->getSimpleString('return $item;', $t . "\t\t");
+        $cases  = [
+            'global' => $case,
+        ];
+        $contentSwitch = $pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+        unset($case);
+
+        foreach (array_keys($tables) as $i) {
+            if (1 === (int)$tables[$i]->getVar('table_notifications')) {
+                $tableName   = $tables[$i]->getVar('table_name');
+                $fieldParent = false;
+                $fields      = $this->getTableFields($tables[$i]->getVar('table_mid'), $tables[$i]->getVar('table_id'));
+                foreach (array_keys($fields) as $f) {
+                    $fieldName = $fields[$f]->getVar('field_name');
+                    if ((0 == $f) && (1 == $tables[$i]->getVar('table_autoincrement'))) {
+                        $fieldId = $fieldName;
+                    }
+                    if (1 == $fields[$f]->getVar('field_parent')) {
+                        $fieldParent = $fieldName;
+                    }
+                    if (1 == $fields[$f]->getVar('field_main')) {
+                        $fieldMain = $fieldName;
+                    }
+                }
+                if (1 == $tables[$i]->getVar('table_single')) {
+                    $tableSingle = 'single';
+                } else {
+                    $tableSingle = $tableName;
+                }
+                $case[] = $xc->getXcEqualsOperator('$sql         ', "'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$item_id",'',$t . "\t\t");
+                $case[] = $xc->getXcEqualsOperator('$result      ', '$xoopsDB->query($sql)','',$t . "\t\t");
+                $case[] = $xc->getXcEqualsOperator('$result_array', '$xoopsDB->fetchArray($result)','',$t . "\t\t");
+                $case[] = $xc->getXcEqualsOperator("\$item['name']", "\$result_array['{$fieldMain}']",'',$t . "\t\t");
+                if ($fieldParent) {
+                    $case[] = $xc->getXcEqualsOperator("\$item['url'] ", "{$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id",'',$t . "\t\t");
+                } else {
+                    $case[] = $xc->getXcEqualsOperator("\$item['url'] ", "{$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id",'',$t . "\t\t");
+                }
+
+                $case[] = $this->getSimpleString('return $item;', $t . "\t\t");
+                $cases  = [
+                    $tableName => $case,
+                ];
+                $contentSwitch .= $pc->getPhpCodeCaseSwitch($cases, false, false, $t . "\t");
+                unset($case);
             }
         }
-        if (1 == $table->getVar('table_single')) {
-            $tableSingle = 'single';
-        } else {
-            $tableSingle = $tableName;
-        }
-        $ret = <<<EOT
-\n/**
- * comment callback functions
- *
- * @param \$category
- * @param \$item_id
- * @return array item|null
- */
-function {$moduleDirname}_notify_iteminfo(\$category, \$item_id)
-{
-    global \$xoopsModule, \$xoopsModuleConfig, \$xoopsDB;
-    //
-    if (empty(\$xoopsModule) || \$xoopsModule->getVar('dirname') != '{$moduleDirname}')
-    {
-        \$moduleHandler = xoops_getHandler('module');
-        \$module = \$moduleHandler->getByDirname('{$moduleDirname}');
-        \$configHandler = xoops_getHandler('config');
-        \$config =& \$configHandler->getConfigsByCat(0, \$module->getVar('mid'));
-    } else {
-        \$module = \$xoopsModule;
-        \$config = \$xoopsModuleConfig;
-    }
-    //
-    switch(\$category) {
-        case 'global':
-            \$item['name'] = '';
-            \$item['url'] = '';
-            return \$item;
-        break;
-        case 'category':
-            // Assume we have a valid category id
-            \$sql = 'SELECT {$fieldMain} FROM ' . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = '. \$item_id;
-            \$result = \$xoopsDB->query(\$sql); // TODO: error check
-            \$result_array = \$xoopsDB->fetchArray(\$result);
-            \$item['name'] = \$result_array['{$fieldMain}'];
-            \$item['url'] = {$stuModuleDirname}_URL . '/{$tableName}.php?{$fieldId}=' . \$item_id;
-            return \$item;
-        break;
-        case '{$tableSoleName}':
-            // Assume we have a valid link id
-            \$sql = 'SELECT {$fieldId}, {$fieldMain} FROM '.\$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} = ' . \$item_id;
-            \$result = \$xoopsDB->query(\$sql); // TODO: error check
-            \$result_array = \$xoopsDB->fetchArray(\$result);
-            \$item['name'] = \$result_array['{$fieldMain}'];\n
-EOT;
-        if ($fieldParent) {
-            $ret .= <<<EOT
-			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldParent}=' . \$result_array['{$fieldParent}'] . '&amp;{$fieldId}=' . \$item_id;\n
-EOT;
-        } else {
-            $ret .= <<<EOT
-			\$item['url'] = {$stuModuleDirname}_URL . '/{$tableSingle}.php?{$fieldId}=' . \$item_id;\n
-EOT;
-        }
-        $ret .= <<<'EOT'
-			return $item;
-        break;
-    }
-    return null;
-}
-EOT;
+
+        $func .= $pc->getPhpCodeSwitch('category', $contentSwitch, $t);
+        $func .= $this->getSimpleString('return null;', $t );
+        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}_notify_iteminfo", '$category, $item_id', $func);
 
         return $ret;
     }

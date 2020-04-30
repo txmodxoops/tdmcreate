@@ -79,8 +79,11 @@ class UserSingle extends Files\CreateFile
     {
         $xc  = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc  = UserXoopsCode::getInstance();
-        $ret = $this->getInclude();
+        $uxc = UserXoopsCode::getInstance();
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request'], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname], '', '');
+        $ret .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname, 'Constants']);
+        $ret .= $this->getInclude();
         foreach (array_keys($fields) as $f) {
             $fieldName = $fields[$f]->getVar('field_name');
             if (0 == $f) {
@@ -96,10 +99,10 @@ class UserSingle extends Files\CreateFile
         }
         $ccFieldId = $this->getCamelCase($fieldId, false, true);
         $ret       .= $xc->getXcXoopsRequest($ccFieldId, (string)$fieldId, '0', 'Int');
-        $ret       .= $uc->getUserTplMain($moduleDirname, 'single');
+        $ret       .= $uxc->getUserTplMain($moduleDirname, 'single');
         $ret       .= $pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'header', true);
         $ret       .= $pc->getPhpCodeCommentLine('Define Stylesheet');
-        $ret       .= $xc->getXcAddStylesheet();
+        $ret       .= $xc->getXcXoThemeAddStylesheet();
 
         return $ret;
     }
@@ -134,19 +137,19 @@ EOT;
     {
         $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
         $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $uc               = UserXoopsCode::getInstance();
+        $uxc              = UserXoopsCode::getInstance();
         $stuModuleDirname = mb_strtoupper($moduleDirname);
         $stuTableName     = mb_strtoupper($tableName);
         $ret              = $pc->getPhpCodeCommentLine('Breadcrumbs');
-        $ret              .= $uc->getUserBreadcrumbs($language, $stuTableName);
+        $ret              .= $uxc->getUserBreadcrumbs($language, $stuTableName);
         $ret              .= $pc->getPhpCodeCommentLine('Keywords');
-        $ret              .= $uc->getUserMetaKeywords($moduleDirname);
+        $ret              .= $uxc->getUserMetaKeywords($moduleDirname);
         $ret              .= $pc->getPhpCodeUnset('keywords');
         $ret              .= $pc->getPhpCodeCommentLine('Description');
-        $ret              .= $uc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
-        $ret              .= $xc->getXcTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
-        $ret              .= $xc->getXcTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
-        $ret              .= $xc->getXcTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
+        $ret              .= $uxc->getUserMetaDesc($moduleDirname, $language, $stuTableName);
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_mpageurl', "{$stuModuleDirname}_URL.'/index.php'");
+        $ret              .= $xc->getXcXoopsTplAssign('xoops_icons32_url', 'XOOPS_ICONS32_URL');
+        $ret              .= $xc->getXcXoopsTplAssign("{$moduleDirname}_upload_url", "{$stuModuleDirname}_UPLOAD_URL");
         $ret              .= $this->getInclude('footer');
 
         return $ret;

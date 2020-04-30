@@ -270,6 +270,7 @@ define('_AM_TDMCREATE_FIELD_KEY', 'Key');
 // Fields Parameters
 define('_AM_TDMCREATE_FIELD_PARAMETERS', 'Parameters');
 define('_AM_TDMCREATE_FIELD_ELEMENTS', 'Options Elements');
+define('_AM_TDMCREATE_FIELD_ELEMENT', 'Form Element');
 define('_AM_TDMCREATE_FIELD_ELEMENT_NAME', 'Form: Element');
 define('_AM_TDMCREATE_FIELD_ADMIN', 'Admin: In Files');
 define('_AM_TDMCREATE_FIELD_USER', 'User: In Files');
@@ -282,6 +283,9 @@ define('_AM_TDMCREATE_ADMIN_SUBMIT', 'Send');
 define('_AM_TDMCREATE_FIELD_THEAD', 'User: In Thead');
 define('_AM_TDMCREATE_FIELD_TBODY', 'User: In Tbody');
 define('_AM_TDMCREATE_FIELD_TFOOT', 'User: In Tfoot');
+define('_AM_TDMCREATE_FIELD_RECOMMENDED', 'It is recommended to create following fields:<br>
+- %s_date: for sorting items by date it is necessary to have a field, where date of creation/relevant date is stored<br>
+- %s_submitter: for sorting items by submitter it is necessary to have a field, where user of creation is stored<br><br>');
 // List in templates
 define('_AM_TDMCREATE_ID_LIST', 'Id');
 define('_AM_TDMCREATE_NAME_LIST', 'Name');
@@ -439,3 +443,28 @@ define('_AM_TDMCREATE_FILE_INFOLDER_LIST', 'In Folder');
 define('_AM_TDMCREATE_FORM_ACTION', 'Action');
 
 define('_AM_TDMCREATE_THEREARENT_SETTINGS', 'There are NO Settings! Please create Settings');
+// added Version 3.02
+define('_AM_TDMCREATE_BUILDING_COMMON', "Copied common files and created folder for test data");
+define('_AM_TDMCREATE_FIELD_ELE_TEXT', "Textbox");
+define('_AM_TDMCREATE_FIELD_ELE_TEXTAREA', "TextArea Field");
+define('_AM_TDMCREATE_FIELD_ELE_DHTMLTEXTAREA', "DhtmlTextArea Field");
+define('_AM_TDMCREATE_FIELD_ELE_CHECKBOX', "CheckBox");
+define('_AM_TDMCREATE_FIELD_ELE_RADIOYN', "Radio Yes/No");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTBOX', "Select Listbox");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTUSER', "Select User Field");
+define('_AM_TDMCREATE_FIELD_ELE_COLORPICKER', "Color Picker Field");
+define('_AM_TDMCREATE_FIELD_ELE_IMAGELIST', "Image List");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTFILE', "Select File Field");
+define('_AM_TDMCREATE_FIELD_ELE_URLFILE', "Url File Field");
+define('_AM_TDMCREATE_FIELD_ELE_UPLOADIMAGE', "Upload Image Field");
+define('_AM_TDMCREATE_FIELD_ELE_UPLOADFILE', "Upload File Field");
+define('_AM_TDMCREATE_FIELD_ELE_TEXTDATESELECT', "Date Select Field");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTSTATUS', "Select Status Field");
+define('_AM_TDMCREATE_FIELD_ELE_PASSWORD', "Password Field");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTCOUNTRY', "Select Country List");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTLANG', "Select Language List");
+define('_AM_TDMCREATE_FIELD_ELE_DATETIME', "Date/Time Select Field");
+define('_AM_TDMCREATE_FIELD_ELE_SELECTCOMBO', "Select Combobox");
+define('_AM_TDMCREATE_FIELD_ELE_RADIO', "Radio");
+define('_AM_TDMCREATE_FIELD_ELE_RADIO_1', "Radio Value 1");
+define('_AM_TDMCREATE_FIELD_ELE_RADIO_2', "Radio Value 2");

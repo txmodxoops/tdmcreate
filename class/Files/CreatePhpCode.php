@@ -52,10 +52,10 @@ class CreatePhpCode
      * @param string $t
      * @return string
      */
-    public function getPhpCodeCommentLine($comment = null, $var = null, $t = '')
+    public function getPhpCodeCommentLine($comment = null, $var = null, $t = '', $n = "\n")
     {
         $value = !empty($var) ? ' ' . $var : '';
-        $ret   = "{$t}// {$comment}{$value}\n";
+        $ret   = "{$t}// {$comment}{$value}{$n}";
 
         return $ret;
     }
@@ -88,11 +88,20 @@ class CreatePhpCode
      * @param $left
      * @param $right
      *
+     * @param string $t
+     * @param bool $leftstr
      * @return string
      */
-    public function getPhpCodeDefine($left, $right)
+    public function getPhpCodeDefine($left, $right, $t = '', $leftstr = true)
     {
-        return "define('{$left}', {$right});\n";
+        $ret = "{$t}define(";
+        if ($leftstr) {
+            $ret .= "'{$left}'";
+        } else {
+            $ret .= "{$left}";
+        }
+        $ret .= ", {$right});\n";
+        return $ret;
     }
 
     /**
@@ -270,6 +279,27 @@ class CreatePhpCode
     }
 
     /**
+     * @public function getPhpCodeInstance
+     * @param $name
+     * @param $content
+     * @param $extends
+     * @param $type
+     *
+     * @return string
+     */
+    public function getPhpCodeInterface($name = null, $content = null, $extends = null, $type = null)
+    {
+        $typ = (null != $type) ? "{$type} " : '';
+        $ext = (null != $extends) ? " extends {$extends}" : '';
+        $ret = "{$typ}interface {$name}{$ext}\n";
+        $ret .= '{';
+        $ret .= $content;
+        $ret .= "}\n";
+
+        return $ret;
+    }
+
+    /**
      * @public function getPhpCodeFunction
      * @param        $name
      * @param        $params
@@ -302,16 +332,21 @@ class CreatePhpCode
      *
      * @return string
      */
-    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '')
+    public function getPhpCodeConditions($condition = null, $operator = null, $type = null, $contentIf = null, $contentElse = false, $t = '', $conditionElse = '')
     {
         if (false === $contentElse) {
-            $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
+            $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
             $ret .= $contentIf;
             $ret .= "{$t}}\n";
         } else {
-            $ret = "{$t}if({$condition}{$operator}{$type}) {\n";
+            $ret = "{$t}if ({$condition}{$operator}{$type}) {\n";
             $ret .= $contentIf;
-            $ret .= "{$t}} else {\n";
+            if ('' !== $conditionElse) {
+                $ret .= "{$t}} elseif ({$conditionElse}) {\n";
+            } else {
+                $ret .= "{$t}} else {\n";
+            }
+
             $ret .= $contentElse;
             $ret .= "{$t}}\n";
         }
@@ -343,7 +378,7 @@ class CreatePhpCode
         }
 
         $ret = "{$t}foreach({$vars}) {\n";
-        $ret .= "{$t}{$content}";
+        $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -362,8 +397,8 @@ class CreatePhpCode
      */
     public function getPhpCodeFor($var = null, $content = null, $value = null, $initVal = null, $operator = null, $t = '')
     {
-        $ret = "{$t}for(\${$var} = {$initVal}; {$var} {$operator} \${$value}; \${$var}++) {\n";
-        $ret .= "{$t}{$content}";
+        $ret = "{$t}for(\${$var} = {$initVal}; \${$var} {$operator} \${$value}; \${$var}++) {\n";
+        $ret .= "{$content}";
         $ret .= "{$t}}\n";
 
         return $ret;
@@ -381,7 +416,7 @@ class CreatePhpCode
      */
     public function getPhpCodeWhile($var = null, $content = null, $value = null, $operator = null, $t = '')
     {
-        $ret = "{$t}while(\${$var} {$operator} {$value}) {\n";
+        $ret = "{$t}while (\${$var} {$operator} {$value}) {\n";
         $ret .= "{$t}{$content}";
         $ret .= "{$t}}\n";
 
@@ -399,10 +434,9 @@ class CreatePhpCode
      */
     public function getPhpCodeSwitch($op = null, $content = null, $t = '')
     {
-        //$ret = "{$t}switch(\${$op}) {\n"; test goffy
-        $ret = "switch(\${$op}) {\n";
+        $ret = "{$t}switch(\${$op}) {\n";
         $ret .= $content;
-        $ret .= "}\n";
+        $ret .= "{$t}}\n";
 
         return $ret;
     }
@@ -430,7 +464,7 @@ class CreatePhpCode
                 }
                 if (is_array($value)) {
                     foreach ($value as $content) {
-                        $ret .= "{$t}{$t}{$content}\n";
+                        $ret .= "{$content}";
                     }
                 }
                 $ret .= "{$t}break;\n";
@@ -562,9 +596,9 @@ class CreatePhpCode
         unset($retArray);
 
         if (!$isParam) {
-            $ret = "{$t}\${$var} = array({$arrayContent});\n";
+            $ret = "{$t}\${$var} = [{$arrayContent}];\n";
         } else {
-            $ret = "array({$array})";
+            $ret = "[{$array}]";
         }
 
         return $ret;
@@ -591,6 +625,22 @@ class CreatePhpCode
         }
 
         return $ret;
+    }
+
+    /**
+     * @public function getPhpCodeArrayType
+     * @param        $var
+     * @param        $type
+     * @param        $left
+     * @param        $right
+     * @param bool   $isParam
+     *
+     * @param string $t
+     * @return string
+     */
+    public function getPhpCodeArrayShift($var, $t = '')
+    {
+        return "{$t}array_shift({$var});\n";
     }
 
     /**
@@ -728,5 +778,87 @@ class CreatePhpCode
         $specialchars = "htmlspecialchars({$specialVar})";
 
         return $specialchars;
+    }
+
+    /**
+     * @public function getPhpCodeNamespace
+     * @param $dimensions
+     * @param string $t
+     * @param string $n
+     * @return string
+     */
+    public function getPhpCodeNamespace($dimensions, $t = '', $n = "\n\n")
+    {
+        $ret  = "\n{$t}namespace ";
+        foreach ($dimensions as $key => $dim) {
+            if ($key > 0) {
+                $ucfDim = ucfirst($dim);
+                $ret .= "\\{$ucfDim}";
+            } else {
+                $ret .= "{$dim}";
+            }
+        }
+        $ret .= ";" . $n;
+
+        return $ret;
+    }
+
+    /**
+     * @public function getPhpCodeUseNamespace
+     * @param $dimensions
+     * @param string $t
+     * @param string $n
+     * @return string
+     */
+    public function getPhpCodeUseNamespace($dimensions, $t = '', $n = "\n\n")
+    {
+        $ret  = "\n{$t}use ";
+        foreach ($dimensions as $key => $dim) {
+            if ($key > 0) {
+                $ucfDim = ucfirst($dim);
+                $ret .= "\\{$ucfDim}";
+            } else {
+                $ret .= "{$dim}";
+            }
+        }
+        $ret .= ";" . $n;
+
+        return $ret;
+    }
+    /**
+     * @public function getPhpCodeBlankLine
+     *
+     * @return string
+     */
+    public function getPhpCodeBlankLine()
+    {
+        return "\n";
+    }
+
+    /**
+     * @public function getPhpCodeConstant
+     *
+     * @param $const
+     * @param $value
+     * @param string $t
+     * @return string
+     */
+    public function getPhpCodeConstant($const, $value, $t = '', $type = 'const')
+    {
+        return  "{$t}{$type} {$const} = {$value};\n";
+    }
+
+    /**
+     * @public function getPhpCodeTriggerError
+     *
+     * @param $msg
+     * @param $type
+     * @param string $t
+     * @return string
+     */
+    public function getPhpCodeTriggerError($msg, $type, $t ='')
+    {
+        $ret = "{$t}trigger_error($msg, {$type});\n";
+        return $ret;
     }
 }

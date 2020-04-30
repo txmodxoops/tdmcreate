@@ -82,7 +82,8 @@ class PagesList extends Files\CreateFile
      */
     private function getTemplatesUserPagesListPanel($moduleDirname, $tableId, $tableMid, $tableName, $tableSoleName, $language)
     {
-        $hc      = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $hc      = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc      = Tdmcreate\Files\CreateSmartyCode::getInstance();
         $fields  = $this->getTableFields($tableMid, $tableId);
         $ret     = '';
         $retNumb = '';
@@ -95,7 +96,7 @@ class PagesList extends Files\CreateFile
                         case 2:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retNumb     = $hc->getHtmlHNumb($doubleVar, '3', 'panel-title', "\t");
                             break;
                     }
@@ -114,14 +115,14 @@ class PagesList extends Files\CreateFile
                         case 4:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $retElem     .= $hc->getHtmlSpan($doubleVar, 'col-sm-9 justify', "\t");
                             break;
                         case 10:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $hc->getSmartySingleVar('xoops_icons32_url');
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $sc->getSmartySingleVar('xoops_icons32_url');
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $hc->getHtmlImage($singleVar . '/' . $doubleVar, (string)$tableName);
                             $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3', "\t");
                             unset($img);
@@ -129,8 +130,8 @@ class PagesList extends Files\CreateFile
                         case 13:
                             $fieldName   = $fields[$f]->getVar('field_name');
                             $rpFieldName = $this->getRightString($fieldName);
-                            $singleVar   = $hc->getSmartySingleVar($moduleDirname . '_upload_url');
-                            $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                            $singleVar   = $sc->getSmartySingleVar($moduleDirname . '_upload_url');
+                            $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                             $img         = $hc->getHtmlImage($singleVar . "/images/{$tableName}/" . $doubleVar, (string)$tableName);
                             $retElem     .= $hc->getHtmlSpan($img, 'col-sm-3',"\t");
                             unset($img);
@@ -147,8 +148,8 @@ class PagesList extends Files\CreateFile
                     $fieldName   = $fields[$f]->getVar('field_name');
                     $rpFieldName = $this->getRightString($fieldName);
                     $langConst   = mb_strtoupper($tableSoleName) . '_' . mb_strtoupper($rpFieldName);
-                    $lang        = $hc->getSmartyConst($language, $langConst);
-                    $doubleVar   = $hc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
+                    $lang        = $sc->getSmartyConst($language, $langConst);
+                    $doubleVar   = $sc->getSmartyDoubleVar($tableSoleName, $rpFieldName);
                     $retFoot     .= $hc->getHtmlSpan($lang . ': ' . $doubleVar, 'block-pie justify',"\t");
                 }
             }

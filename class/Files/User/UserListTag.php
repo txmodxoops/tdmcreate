@@ -32,13 +32,18 @@ use XoopsModules\Tdmcreate\Files;
 class UserListTag extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $pc = null;
+	
+	/**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -75,7 +80,7 @@ class UserListTag extends Files\CreateFile
     public function getUserListTag()
     {
         $ret = $this->getInclude();
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/list.tag');
+        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/list.tag');
 
         return $ret;
     }

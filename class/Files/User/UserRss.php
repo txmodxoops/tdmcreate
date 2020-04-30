@@ -34,12 +34,12 @@ class UserRss extends Files\CreateFile
     /**
      * @var mixed
      */
-    private $usercode = null;
+    private $uxc = null;
 
     /**
      * @var string
      */
-    private $xoopscode = null;
+    private $xc = null;
 
     /**
      * @public function constructor
@@ -48,9 +48,9 @@ class UserRss extends Files\CreateFile
     public function __construct()
     {
         parent::__construct();
-        $this->xoopscode = Tdmcreate\Files\CreateXoopsCode::getInstance();
-        $this->phpcode   = Tdmcreate\Files\CreatePhpCode::getInstance();
-        $this->usercode  = UserXoopsCode::getInstance();
+        $this->xc = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $this->pc   = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->uxc  = UserXoopsCode::getInstance();
     }
 
     /**
@@ -90,6 +90,7 @@ class UserRss extends Files\CreateFile
      */
     public function getUserRss($moduleDirname, $language)
     {
+        $pc        = Tdmcreate\Files\CreatePhpCode::getInstance();
         $table     = $this->getTable();
         $tableName = $table->getVar('table_name');
         $fields    = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
@@ -97,14 +98,7 @@ class UserRss extends Files\CreateFile
             $fieldName     = $fields[$f]->getVar('field_name');
             $fieldMain[]   = $fields[$f]->getVar('field_main');
             $fieldParent[] = $fields[$f]->getVar('field_parent');
-            $rpFieldName   = $fieldName;
-            if (mb_strpos($fieldName, '_')) {
-                $str = mb_strpos($fieldName, '_');
-                if (false !== $str) {
-                    $rpFieldName = mb_substr($fieldName, $str + 1, mb_strlen($fieldName));
-                }
-            }
-            $lpFieldName = mb_substr($fieldName, 0, mb_strpos($fieldName, '_'));
+
             if (0 == $f) {
                 $fieldId = $fieldName;
             }
@@ -117,21 +111,23 @@ class UserRss extends Files\CreateFile
                 $fppf = 'cid';
             }
         }
-        $ret = $this->getInclude();
 
-        $ret = <<<EOT
+        $ret = $pc->getPhpCodeUseNamespace(['Xmf', 'Request']);
+        $ret .= $this->getInclude();
 
-\${$fppf} = {$moduleDirname}_CleanVars(\$_GET, '{$fppf}', 0);
+        $ret .= <<<EOT
+
+\${$fppf} = Request::getInt('{$fppf}', 0, 'GET');
 include_once XOOPS_ROOT_PATH.'/class/template.php';
 if (function_exists('mb_http_output')) {
     mb_http_output('pass');
 }
 //header ('Content-Type:text/xml; charset=UTF-8');
-\${$moduleDirname}->geConfig('utf8') = false;
+\$xoopsModuleConfig['utf8'] = false;
 
 \$tpl = new \XoopsTpl();
 \$tpl->xoops_setCaching(2); //1 = Cache global, 2 = Cache individual (for template)
-\$tpl->xoops_setCacheTime(\${$moduleDirname}->geConfig('timecacherss')*60); // Time of the cache on seconds
+\$tpl->xoops_setCacheTime(\$helper->getConfig('timecacherss')*60); // Time of the cache on seconds
 \$categories = {$moduleDirname}MyGetItemIds('{$moduleDirname}_view', '{$moduleDirname}');
 \$criteria = new \CriteriaCompo();
 
@@ -144,7 +140,7 @@ if (\${$fppf} != 0){
 } else {
     \$title = \$xoopsConfig['sitename'] . ' - ' . \$xoopsModule->getVar('name');
 }
-\$criteria->setLimit(\${$moduleDirname}->geConfig('perpagerss'));
+\$criteria->setLimit(\$helper->getConfig('perpagerss'));
 \$criteria->setSort('date');
 \$criteria->setOrder('DESC');
 \${$tableName}Arr = \${$tableName}Handler->getAll(\$criteria);

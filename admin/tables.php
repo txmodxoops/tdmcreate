@@ -148,7 +148,7 @@ switch ($op) {
         include_once XOOPS_ROOT_PATH . '/class/uploader.php';
         $uploaddir = is_dir(XOOPS_ICONS32_PATH) ? XOOPS_ICONS32_PATH : TDMC_UPLOAD_IMGTAB_PATH;
         $uploader  = new \XoopsMediaUploader(
-            $uploaddir, $helper->getConfig('mimetypes'), $helper->getConfig('maxsize'), null, null
+            $uploaddir, $helper->getConfig('mimetypes_image'), $helper->getConfig('maxsize_image'), null, null
         );
         if ($uploader->fetchMedia(\Xmf\Request::getString('xoops_upload_file', '', 'POST')[0])) {
             $uploader->fetchMedia(\Xmf\Request::getString('xoops_upload_file', '', 'POST')[0]);

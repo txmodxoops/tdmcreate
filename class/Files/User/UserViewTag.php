@@ -32,13 +32,18 @@ use XoopsModules\Tdmcreate\Files;
 class UserViewTag extends Files\CreateFile
 {
     /**
+     * @var string
+     */
+    private $pc = null;
+	
+	/**
      * @public function constructor
      * @param null
      */
     public function __construct()
     {
         parent::__construct();
-        $this->phpcode = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $this->pc = Tdmcreate\Files\CreatePhpCode::getInstance();
     }
 
     /**
@@ -75,7 +80,7 @@ class UserViewTag extends Files\CreateFile
     public function getUserViewTag()
     {
         $ret = $this->getInclude();
-        $ret .= $this->phpcode->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/view.tag');
+        $ret .= $this->pc->getPhpCodeIncludeDir('XOOPS_ROOT_PATH', 'modules/tag/view.tag');
 
         return $ret;
     }
@@ -90,7 +95,6 @@ class UserViewTag extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        $language      = $this->getLanguage($moduleDirname, 'MA');
         $content       = $this->getHeaderFilesComments($module, $filename);
         $content       .= $this->getUserViewTag();
 

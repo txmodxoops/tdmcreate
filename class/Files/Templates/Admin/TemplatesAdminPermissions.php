@@ -74,9 +74,9 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsHeader($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
 
-        return $hc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
+        return $sc->getSmartyIncludeFile($moduleDirname, 'header', true, '', '', "\n\n");
     }
 
     /**
@@ -86,8 +86,9 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissions()
     {
-        $hc   = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-        $form = $hc->getSmartySingleVar('form');
+        $hc   = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc   = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $form = $sc->getSmartySingleVar('form');
         $ret  = $hc->getHtmlTag('div', ['class' => 'spacer'], $form, '', '', "\n\n");
         return $ret;
     }
@@ -100,9 +101,8 @@ class TemplatesAdminPermissions extends Files\CreateFile
      */
     private function getTemplatesAdminPermissionsFooter($moduleDirname)
     {
-        $hc = Tdmcreate\Files\CreateHtmlSmartyCodes::getInstance();
-
-        return $hc->getSmartyIncludeFile($moduleDirname, 'footer', true);
+        $sc  = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        return $sc->getSmartyIncludeFile($moduleDirname, 'footer', true);
     }
 
     /**
@@ -115,7 +115,6 @@ class TemplatesAdminPermissions extends Files\CreateFile
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
-        //$language      = $this->getLanguage($moduleDirname, 'AM');
         $content       = $this->getTemplatesAdminPermissionsHeader($moduleDirname);
         $content       .= $this->getTemplatesAdminPermissions();
         $content       .= $this->getTemplatesAdminPermissionsFooter($moduleDirname);

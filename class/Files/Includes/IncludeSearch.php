@@ -59,14 +59,14 @@ class IncludeSearch extends Files\CreateFile
     /**
      * @public function write
      * @param string $module
-     * @param mixed  $table
+     * @param mixed  $tables
      * @param string $filename
      */
-    public function write($module, $table, $filename)
+    public function write($module, $tables, $filename)
     {
         $this->setModule($module);
         $this->setFileName($filename);
-        $this->setTable($table);
+        $this->setTables($tables);
     }
 
     /**
@@ -104,70 +104,104 @@ class IncludeSearch extends Files\CreateFile
      */
     public function getSearchFunction($moduleDirname)
     {
-        $table          = $this->getTable();
-        $tableName      = $table->getVar('table_name');
-        $tableFieldname = $table->getVar('table_fieldname');
-        $fieldId        = '';
-        $fieldSearch    = [];
-        $fields         = $this->getTableFields($table->getVar('table_mid'), $table->getVar('table_id'));
-        foreach (array_keys($fields) as $f) {
-            $fieldName = $fields[$f]->getVar('field_name');
-            if ((0 == $f) && (1 == $table->getVar('table_autoincrement'))) {
-                $fieldId = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_main')) {
-                $fieldMain = $fieldName;
-            }
-            if (1 == $fields[$f]->getVar('field_search')) {
-                $fieldSearch[] = $fieldName;
-            }
-        }
-        $img_search = 'blank.gif';
-        $ret        = <<<EOT
-\n
-/**
- * search callback functions
- * @param \$queryarray
- * @param \$andor
- * @param \$limit
- * @param \$offset
- * @param \$userid
- */
-function {$moduleDirname}_search(\$queryarray, \$andor, \$limit, \$offset, \$userid)
-{
-    global \$xoopsDB;
-    \$sql = "SELECT '{$fieldId}', '{$fieldMain}' FROM " . \$xoopsDB->prefix('{$moduleDirname}_{$tableName}') . ' WHERE {$fieldId} != 0';
-    if ( \$userid != 0 ) {
-        \$sql .= ' AND {$tableFieldname}_submitter='.(int)\$userid;
-    }
-    if ( is_array(\$queryarray) && \$count = count(\$queryarray) )
-    {
-        \$sql .= " AND (
-EOT;
-        $ret        .= $this->getSearchField($fieldSearch, 0) . '";';
-        $ret        .= <<<EOT
+        $pc               = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $xc               = Tdmcreate\Files\CreateXoopsCode::getInstance();
+        $ucfModuleDirname = ucfirst($moduleDirname);
+        $tables           = $this->getTables();
+        $t     = "\t";
+        $ret   = $pc->getPhpCodeCommentMultiLine(['search callback functions' => '', '' => '', '@param $queryarray' => '', '@param $andor' => '', '@param $limit' => '', '@param $offset' => '', '@param $userid' => '', '@return' => 'mixed $itemIds']);
+        $func  = $xc->getXcEqualsOperator('$ret', "[]", '', $t);
+        $func .= $xc->getXcGetInstance('helper', "\XoopsModules\\{$ucfModuleDirname}\Helper", $t);
 
-        for(\$i = 1; \$i < \$count; ++\$i)
-        {
-            \$sql .= " \$andor ";
-            \$sql .= "{$this->getSearchField($fieldSearch, '$i')}";
+        if (is_array($tables)) {
+            foreach (array_keys($tables) as $i) {
+                if(1 === (int) $tables[$i]->getVar('table_search')) {
+                    $tableId        = $tables[$i]->getVar('table_id');
+                    $tableMid       = $tables[$i]->getVar('table_mid');
+                    $tableName      = $tables[$i]->getVar('table_name');
+                    $tableFieldname = $tables[$i]->getVar('table_fieldname');
+                    $func   .= $pc->getPhpCodeCommentLine('search in table', $tableName, $t);
+                    $func   .= $pc->getPhpCodeCommentLine('search keywords', '', $t);
+                    $func   .= $xc->getXcEqualsOperator('$elementCount', '0', '', $t);
+                    $func   .= $xc->getXcHandlerLine($tableName, $t);
+                    $contIf = $xc->getXcEqualsOperator('$elementCount', 'count($queryarray)', '', $t . "\t");
+                    $func   .= $pc->getPhpCodeConditions('is_array($queryarray)', '', '', $contIf, false, $t);
+                    $contIf = $xc->getXcCriteriaCompo('crKeywords', $t . "\t");
+                    $for    = $xc->getXcCriteriaCompo('crKeyword', $t . "\t\t");
+
+                    $fields    = $this->getTableFields($tableMid, $tableId);
+                    $fieldId   = '';
+                    $fieldMain = '';
+                    $fieldDate = '';
+                    $countField = 0;
+                    foreach (array_keys($fields) as $f) {
+                        $fieldName = $fields[$f]->getVar('field_name');
+                        if (0 == $f) {
+                            $fieldId = $fieldName;
+                        }
+                        if (1 === (int)$fields[$f]->getVar('field_main')) {
+                            $fieldMain = $fieldName;
+                        }
+                        if (15 === (int)$fields[$f]->getVar('field_element') || 21 === (int)$fields[$f]->getVar('field_element')) {
+                            $fieldDate = $fieldName;
+                        }
+                        if (1 === (int)$fields[$f]->getVar('field_search')) {
+                            $crit = $xc->getXcCriteria('', "'{$fieldName}'", "'%' . \$queryarray[\$i] . '%'", "'LIKE'", true, $t . "\t");
+                            $for  .= $xc->getXcCriteriaAdd('crKeyword', $crit, $t . "\t\t", "\n", "'OR'");
+                            $countField++;
+                        }
+                    }
+                    if ($countField > 0) {
+                        $for .= $xc->getXcCriteriaAdd('crKeywords', '$crKeyword', $t . "\t\t", "\n", '$andor');
+                    }
+                    $for      .= $pc->getPhpCodeUnset('crKeyword', $t . "\t\t");
+                    $contIf   .= $pc->getPhpCodeFor( 'i', $for, 'elementCount', '0', ' < ', $t . "\t");
+                    $func     .= $pc->getPhpCodeConditions('$elementCount', ' > ', '0', $contIf, false, $t);
+                    $func     .= $pc->getPhpCodeCommentLine('search user(s)', '', $t);
+                    $contIf   = $xc->getXcEqualsOperator('$userid', "array_map('intval', \$userid)", '', $t . "\t");
+                    $contIf   .= $xc->getXcCriteriaCompo('crUser', $t . "\t");
+                    $crit     = $xc->getXcCriteria('', "'{$tableFieldname}_submitter'", "'(' . implode(',', \$userid) . ')'", "'IN'", true, $t . "\t");
+                    $contIf   .= $xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
+                    $contElse = $xc->getXcCriteriaCompo('crUser', $t . "\t");
+                    $crit     = $xc->getXcCriteria('', "'{$tableFieldname}_submitter'", '$userid', '', true, $t . "\t");
+                    $contElse .= $xc->getXcCriteriaAdd('crUser', $crit, $t . "\t", "\n", "'OR'");
+                    $func     .= $pc->getPhpCodeConditions('$userid && is_array($userid)', '', '', $contIf, $contElse, $t, 'is_numeric($userid) && $userid > 0');
+                    $func     .= $xc->getXcCriteriaCompo('crSearch', $t);
+                    $contIf   = $xc->getXcCriteriaAdd('crSearch', '$crKeywords', $t . "\t", "\n", "'AND'");
+                    $cond     = $pc->getPhpCodeIsset('crKeywords');
+                    $func     .= $pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
+                    $contIf   = $xc->getXcCriteriaAdd('crSearch', '$crUser', $t . "\t", "\n", "'AND'");
+                    $cond     = $pc->getPhpCodeIsset('crUser');
+                    $func     .= $pc->getPhpCodeConditions($cond, '', '', $contIf, false, $t);
+                    $func     .= $xc->getXcCriteriaSetStart( 'crSearch', '$offset', $t);
+                    $func     .= $xc->getXcCriteriaSetLimit( 'crSearch', '$limit', $t);
+                    if ('' !== $fieldDate) {
+                        $func .= $xc->getXcCriteriaSetSort( 'crSearch', "'{$fieldDate}'", $t);
+                    } else {
+                        $func .= $xc->getXcCriteriaSetSort( 'crSearch', "'{$fieldId}_date'", $t);
+                    }
+                    $func .= $xc->getXcCriteriaSetOrder( 'crSearch', "'DESC'", $t);
+                    $func .= $xc->getXcHandlerAllClear($tableName . 'All', $tableName, '$crSearch', $t);
+                    $contentForeach = $t . "\t\$ret[] = [\n";
+                    $contentForeach .= $t . "\t\t'image'  => 'assets/icons/16/{$tableName}.png',\n";
+                    $contentForeach .= $t . "\t\t'link'   => '{$tableName}.php?op=show&amp;{$fieldId}=' . \${$tableName}All[\$i]->getVar('{$fieldId}'),\n";
+                    $contentForeach .= $t . "\t\t'title'  => \${$tableName}All[\$i]->getVar('{$fieldMain}'),\n";
+                    if ('' !== $fieldDate) {
+                        $contentForeach .= $t . "\t\t'time'   => \${$tableName}All[\$i]->getVar('{$fieldDate}')\n";
+                    }
+                    $contentForeach .= $t . "\t];\n";
+                    $func .= $pc->getPhpCodeForeach("{$tableName}All", true, false, 'i', $contentForeach, "\t");
+                    $func .= $pc->getPhpCodeUnset('crKeywords', $t);
+                    $func .= $pc->getPhpCodeUnset('crKeyword', $t);
+                    $func .= $pc->getPhpCodeUnset('crUser', $t);
+                    $func .= $pc->getPhpCodeUnset('crSearch', $t);
+                }
+                $func .= $pc->getPhpCodeBlankLine();
+            }
         }
-        \$sql .= ')';
-    }
-    \$sql .= " ORDER BY '{$fieldId}' DESC";
-    \$result = \$xoopsDB->query(\$sql,\$limit,\$offset);
-    \$ret = array();
-    \$i = 0;
-    while(\$myrow = \$xoopsDB->fetchArray(\$result))
-    {
-        \$ret[\$i]['image'] = 'assets/icons/32/{$img_search}';
-        \$ret[\$i]['link'] = '{$tableName}.php?{$fieldId}='.\$myrow['{$fieldId}'];
-        \$ret[\$i]['title'] = \$myrow['{$fieldMain}'];
-        ++\$i;
-    }
-    unset(\$i);
-}
-EOT;
+        $func .= $this->getSimpleString('return $ret;', $t);
+        $func .= $pc->getPhpCodeBlankLine();
+        $ret  .= $pc->getPhpCodeFunction("{$moduleDirname}_search", '$queryarray, $andor, $limit, $offset, $userid', $func);
 
         return $ret;
     }
@@ -179,10 +213,12 @@ EOT;
      */
     public function render()
     {
+        $pc            = Tdmcreate\Files\CreatePhpCode::getInstance();
         $module        = $this->getModule();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $content       = $this->getHeaderFilesComments($module, $filename);
+        $content       .= $pc->getPhpCodeUseNamespace(['XoopsModules', $moduleDirname]);
         $content       .= $this->getSearchFunction($moduleDirname);
 
         $this->tdmcfile->create($moduleDirname, 'include', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);

@@ -62,13 +62,15 @@ class LanguageModinfo extends Files\CreateFile
      * @param $table
      * @param $filename
      *
-     * @return string
+     * @return null
      */
     public function write($module, $table, $filename)
     {
         $this->setModule($module);
         $this->setTable($table);
         $this->setFileName($filename);
+
+        return null;
     }
 
     /**
@@ -82,7 +84,11 @@ class LanguageModinfo extends Files\CreateFile
     private function getLanguageMain($language, $module)
     {
         $df  = LanguageDefines::getInstance();
-        $ret = $df->getAboveHeadDefines('Admin Main');
+        $pc  = Tdmcreate\Files\CreatePhpCode::getInstance();
+        $ret = $df->getBlankLine();
+        $ret .= $pc->getPhpCodeIncludeDir("'common.php'",'', true, true, 'include');
+        $ret .= $df->getBlankLine();
+        $ret .= $df->getAboveHeadDefines('Admin Main');
         $ret .= $df->getDefine($language, 'NAME', (string)$module->getVar('mod_name'));
         $ret .= $df->getDefine($language, 'DESC', (string)$module->getVar('mod_description'));
 
@@ -115,6 +121,8 @@ class LanguageModinfo extends Files\CreateFile
             ++$menu;
             $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Permissions');
         }
+        ++$menu;
+        $ret .= $df->getDefine($language, "ADMENU{$menu}", 'Feedback');
         $ret .= $df->getDefine($language, 'ABOUT', 'About');
         unset($menu, $tablePermissions);
 
@@ -148,18 +156,26 @@ class LanguageModinfo extends Files\CreateFile
     {
         $df          = LanguageDefines::getInstance();
         $ret         = $df->getAboveDefines('Submenu');
+        $ret         .= $df->getDefine($language, 'SMNAME1', 'Index page');
         $i           = 1;
         $tableSubmit = [];
+        $tableSearch = [];
         foreach (array_keys($tables) as $t) {
             $tableName     = $tables[$t]->getVar('table_name');
             $tableSubmit[] = $tables[$t]->getVar('table_submit');
+            $tableSearch[] = $tables[$t]->getVar('table_search');
+            $desc          = ucfirst(mb_strtolower($tableName));
             if (1 == $tables[$t]->getVar('table_submenu')) {
-                $ret .= $df->getDefine($language, "SMNAME{$i}", (string)$tableName);
+                $ret .= $df->getDefine($language, "SMNAME{$i}", $desc);
             }
             ++$i;
         }
         if (in_array(1, $tableSubmit)) {
             $ret .= $df->getDefine($language, "SMNAME{$i}", 'Submit');
+            ++$i;
+        }
+        if (in_array(1, $tableSearch)) {
+            $ret .= $df->getDefine($language, "SMNAME{$i}", 'Search');
         }
         unset($i, $tableSubmit);
 
@@ -254,6 +270,9 @@ class LanguageModinfo extends Files\CreateFile
                 if (13 == $fieldElement) {
                     $fieldImage = true;
                 }
+				if (14 == $fieldElement) {
+                    $fieldFile = true;
+                }
             }
             if (0 != $tables[$i]->getVar('table_tag')) {
                 $useTag = true;
@@ -268,11 +287,26 @@ class LanguageModinfo extends Files\CreateFile
             $ret .= $df->getDefine($language, "ADMIN_GROUPS", "Admin Groups");
             $ret .= $df->getDefine($language, "ADMIN_GROUPS_DESC", "Admin Groups to have permissions access");
         }*/
+
+        if ($fieldImage || $fieldFile) {
+            $ret .= $df->getDefine($language, 'SIZE_MB', 'MB');
+        }
         if ($fieldImage) {
-            $ret .= $df->getDefine($language, 'MAXSIZE', 'Max size');
-            $ret .= $df->getDefine($language, 'MAXSIZE_DESC', 'Set a number of max size uploads files in byte');
-            $ret .= $df->getDefine($language, 'MIMETYPES', 'Mime Types');
-            $ret .= $df->getDefine($language, 'MIMETYPES_DESC', 'Set the mime types selected');
+            $ret .= $df->getDefine($language, 'MAXSIZE_IMAGE', 'Max size image');
+            $ret .= $df->getDefine($language, 'MAXSIZE_IMAGE_DESC', 'Define the max size for uploading images');
+            $ret .= $df->getDefine($language, 'MIMETYPES_IMAGE', 'Mime types image');
+            $ret .= $df->getDefine($language, 'MIMETYPES_IMAGE_DESC', 'Define the allowed mime types for uploading images');
+            $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE', 'Max width image');
+            $ret .= $df->getDefine($language, 'MAXWIDTH_IMAGE_DESC', 'Set the max width which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+            $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE', 'Max height image');
+            $ret .= $df->getDefine($language, 'MAXHEIGHT_IMAGE_DESC', 'Set the max height which is allowed for uploading images (in pixel)<br>0 means that images keep original size<br>If original image is smaller the image will be not enlarged');
+			//MB define
+        }
+		if ($fieldFile) {
+            $ret .= $df->getDefine($language, 'MAXSIZE_FILE', 'Max size file');
+            $ret .= $df->getDefine($language, 'MAXSIZE_FILE_DESC', 'Define the max size for uploading files');
+            $ret .= $df->getDefine($language, 'MIMETYPES_FILE', 'Mime types file');
+            $ret .= $df->getDefine($language, 'MIMETYPES_FILE_DESC', 'Define the allowed mime types for uploading files');
         }
         if ($useTag) {
             $ret .= $df->getDefine($language, 'USE_TAG', 'Use TAG');
@@ -433,7 +467,6 @@ class LanguageModinfo extends Files\CreateFile
     public function render()
     {
         $module             = $this->getModule();
-        $table              = $this->getTable();
         $tables             = $this->getTableTables($module->getVar('mod_id'));
         $tableAdmin         = [];
         $tableUser          = [];

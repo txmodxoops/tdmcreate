@@ -105,20 +105,20 @@ class CreateSmartyCode
     }
 
     /**
-     * @public   function getSmartyComment
-     * @param string $smartyComment
+     * @public function getSmartyComment
+     * @param string $comment
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyComment($smartyComment = '', $t = '')
+    public function getSmartyComment($comment = '', $t = '', $n = "\n")
     {
-        return "{$t}<{* {$smartyComment} *}>";
+        return "{$t}<{* {$comment} *}>{$n}";
     }
 
     /**
      * @public function getSmartyNoSimbol
      * @param string $noSimbol
-     *
      * @param string $t
      * @return string
      */
@@ -131,7 +131,6 @@ class CreateSmartyCode
      * @public function getSmartyConst
      * @param string $language
      * @param mixed  $const
-     *
      * @param string $t
      * @return string
      */
@@ -143,48 +142,50 @@ class CreateSmartyCode
     /**
      * @public function getSmartySingleVar
      * @param string $var
-     *
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartySingleVar($var, $t = '')
+    public function getSmartySingleVar($var, $t = '', $n = "")
     {
-        return "{$t}<{\${$var}}>";
+        return "{$t}<{\${$var}}>{$n}";
     }
 
     /**
      * @public function getSmartyDoubleVar
      * @param string $leftVar
      * @param string $rightVar
-     *
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '')
+    public function getSmartyDoubleVar($leftVar, $rightVar, $t = '', $n = "")
     {
-        return "{$t}<{\${$leftVar}.{$rightVar}}>";
+        return "{$t}<{\${$leftVar}.{$rightVar}}>{$n}";
     }
 
     /**
      * @public function getSmartyIncludeFile
      * @param        $moduleDirname
      * @param string $fileName
-     * @param bool   $admin
+     * @param bool $admin
      *
-     * @param bool   $q
+     * @param bool $q
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false, $t = '')
+    public function getSmartyIncludeFile($moduleDirname, $fileName = 'header', $admin = false, $q = false, $t = '', $n = "\n")
     {
+        $ret = '';
         if (!$admin && !$q) {
-            $ret = "{$t}<{include file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{include file='db:{$moduleDirname}_{$fileName}.tpl'}>{$n}";
         } elseif ($admin && !$q) {
-            $ret = "{$t}<{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{include file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>{$n}";
         } elseif (!$admin && $q) {
-            $ret = "{$t}<{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{includeq file='db:{$moduleDirname}_{$fileName}.tpl'}>{$n}";
         } elseif ($admin && $q) {
-            $ret = "{$t}<{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>\n";
+            $ret = "{$t}<{includeq file='db:{$moduleDirname}_admin_{$fileName}.tpl'}>{$n}";
         }
 
         return $ret;
@@ -192,30 +193,29 @@ class CreateSmartyCode
 
     /**
      * @public function getSmartyIncludeFileListSection
-     * @param        $moduleDirname
-     * @param        $fileName
-     * @param        $tableFieldName
-     *
+     * @param $moduleDirname
+     * @param $fileName
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $tableFieldName, $t = '')
+    public function getSmartyIncludeFileListSection($moduleDirname, $fileName, $tableFieldName, $t = '', $n = '')
     {
-        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>\n";
+        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}[i]}>{$n}";
     }
 
     /**
      * @public function getSmartyIncludeFileListForeach
-     * @param        $moduleDirname
-     * @param        $fileName
-     * @param        $tableFieldName
-     *
+     * @param $moduleDirname
+     * @param $fileName
+     * @param $tableFieldName
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyIncludeFileListForeach($moduleDirname, $fileName, $tableFieldName, $t = '')
+    public function getSmartyIncludeFileListForeach($moduleDirname, $fileName, $tableFieldName, $t = '', $n = '')
     {
-        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}}>\n";
+        return "{$t}<{include file='db:{$moduleDirname}_{$fileName}_list.tpl' {$tableFieldName}=\${$tableFieldName}}>{$n}";
     }
 
     /**
@@ -224,38 +224,37 @@ class CreateSmartyCode
      * @param string $operator
      * @param string $type
      * @param string $contentIf
-     * @param mixed  $contentElse
-     * @param bool   $count
-     *
-     * @param bool   $noSimbol
+     * @param mixed $contentElse
+     * @param bool $count
+     * @param bool $noSimbol
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '')
+    public function getSmartyConditions($condition = '', $operator = '', $type = '', $contentIf = '', $contentElse = false, $count = false, $noSimbol = false, $t = '', $n = "\n")
     {
-        $ret = '';
         if (!$contentElse) {
             if (!$count) {
-                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$n}";
             } elseif (!$noSimbol) {
-                $ret = "{$t}<{if {$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$n}";
             } else {
-                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>\n";
+                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$n}";
             }
-            $ret .= "{$t}{$contentIf}";
-            $ret .= "{$t}<{/if}>\n";
+            $ret .= "{$contentIf}";
+            $ret .= "{$t}<{/if}>{$n}";
         } else {
             if (!$count) {
-                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if \${$condition}{$operator}{$type}}>{$n}";
             } elseif (!$noSimbol) {
-                $ret = "{$t}<{if {$condition}{$operator}{$type}}>\n";
+                $ret = "{$t}<{if {$condition}{$operator}{$type}}>{$n}";
             } else {
-                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>\n";
+                $ret = "{$t}<{if count(\${$condition}){$operator}{$type}}>{$n}";
             }
-            $ret .= "{$t}{$contentIf}";
-            $ret .= "{$t}<{else}>\n";
-            $ret .= "{$t}{$contentElse}";
-            $ret .= "{$t}<{/if}>\n";
+            $ret .= "{$contentIf}";
+            $ret .= "{$t}<{else}>{$n}";
+            $ret .= "{$contentElse}";
+            $ret .= "{$t}<{/if}>{$n}";
         }
 
         return $ret;
@@ -266,19 +265,19 @@ class CreateSmartyCode
      * @param string $item
      * @param string $from
      * @param string $content
-     *
      * @param string $name
      * @param string $key
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '', $t = '')
+    public function getSmartyForeach($item = 'item', $from = 'from', $content = 'content', $name = '', $key = '', $t = '', $n = "\n")
     {
         $name = '' != $name ? " name={$name}" : '';
         $key  = '' != $key ? " key={$key}" : '';
-        $ret  = "{$t}<{foreach item={$item} from=\${$from}{$key}{$name}}>\n";
-        $ret  .= "{$t}{$content}";
-        $ret  .= "{$t}<{/foreach}>\n";
+        $ret  = "{$t}<{foreach item={$item} from=\${$from}{$key}{$name}}>{$n}";
+        $ret  .= "{$content}";
+        $ret  .= "{$t}<{/foreach}>{$n}";
 
         return $ret;
     }
@@ -292,15 +291,16 @@ class CreateSmartyCode
      * @param string $loop
      * @param string $key
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '', $t = '')
+    public function getSmartyForeachQuery($item = 'item', $from = 'from', $content = 'content', $loop = 'loop', $key = '', $t = '', $n = "\n")
     {
         $loop = '' != $loop ? " loop={$loop}" : '';
         $key  = '' != $key ? " key={$key}" : '';
-        $ret  = "{$t}<{foreachq item={$item} from=\${$from}{$key}{$loop}}>\n";
-        $ret  .= "{$t}{$content}";
-        $ret  .= "{$t}<{/foreachq}>\n";
+        $ret  = "{$t}<{foreachq item={$item} from=\${$from}{$key}{$loop}}>{$n}";
+        $ret  .= "{$content}";
+        $ret  .= "{$t}<{/foreachq}>{$n}";
 
         return $ret;
     }
@@ -310,19 +310,19 @@ class CreateSmartyCode
      * @param string $name
      * @param string $loop
      * @param string $content
-     *
-     * @param int    $start
-     * @param int    $step
+     * @param int $start
+     * @param int $step
      * @param string $t
+     * @param string $n
      * @return string
      */
-    public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0, $t = '')
+    public function getSmartySection($name = 'name', $loop = 'loop', $content = 'content', $start = 0, $step = 0, $t = '', $n = "\n")
     {
         $start = 0 != $start ? " start={$start}" : '';
         $step  = 0 != $step ? " step={$step}" : '';
-        $ret   = "{$t}<{section name={$name} loop=\${$loop}{$start}{$step}}>\n";
-        $ret   .= "{$t}{$content}";
-        $ret   .= "{$t}<{/section}>\n";
+        $ret   = "{$t}<{section name={$name} loop=\${$loop}{$start}{$step}}>{$n}";
+        $ret   .= "{$content}";
+        $ret   .= "{$t}<{/section}>{$n}";
 
         return $ret;
     }

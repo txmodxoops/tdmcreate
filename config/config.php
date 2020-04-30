@@ -32,12 +32,17 @@ return (object)[
     ],
     'uploadFolders'  => [
         XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/repository',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/temp',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/modules',
+        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images/tables',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
 

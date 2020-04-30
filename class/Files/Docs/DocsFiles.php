@@ -194,21 +194,23 @@ EOT;
         $mod_credits            = $module->getVar('mod_credits');
         $mod_author_website_url = $module->getVar('mod_author_website_url');
         $mod_description        = $module->getVar('mod_description');
+        $mod_version            = $module->getVar('mod_version');
+        $content                = '';
         switch ($filename = $this->getFileName()) {
             case 'changelog':
-                $content = $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);
+                $content .= $this->getChangeLogFile($moduleDirname, $mod_version, $mod_author);
                 break;
             case 'credits':
-                $content = $this->getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description);
+                $content .= $this->getCreditsFile($mod_author, $mod_credits, $mod_author_website_url, $mod_description);
                 break;
             case 'install':
-                $content = $this->getInstallFile();
+                $content .= $this->getInstallFile();
                 break;
             case 'readme':
-                $content = $this->getReadmeFile();
+                $content .= $this->getReadmeFile();
                 break;
             case 'lang_diff':
-                $content = $this->getLangDiffFile($mod_version);
+                $content .= $this->getLangDiffFile($mod_version);
                 break;
         }
         $this->create($moduleDirname, 'docs', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
