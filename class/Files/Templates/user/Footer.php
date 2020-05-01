@@ -100,56 +100,44 @@ class Footer extends Files\CreateFile
      * @param null
      * @return bool|string
      */
+    private function getTemplateUserFooterContent($moduleDirname, $language)
+    {
+        $hc = Tdmcreate\Files\CreateHtmlCode::getInstance();
+        $sc = Tdmcreate\Files\CreateSmartyCode::getInstance();
+        $ret     = $hc->getHtmlDiv('<{$copyright}>', 'pull-left', '', "\n", false);
+        $ret     .= $hc->getHtmlEmpty("\n");
+        $contIf  = $hc->getHtmlDiv('<{$pagenav}>', 'pull-right', "\t", "\n", false);
+        $ret     .= $sc->getSmartyConditions('pagenav', ' != ', "''", $contIf);
+        $ret     .= $hc->getHtmlEmpty("<br>\n");
+        $contIf  = $hc->getHtmlDiv("<a href='<{\$admin}>'><{\$smarty.const.{$language}ADMIN}></a>", 'text-center bold', "\t", "\n", false);
+        $ret     .= $sc->getSmartyConditions('xoops_isadmin', ' != ', "''", $contIf);
+        $ret     .= $hc->getHtmlEmpty("\n");
+        $contIf  = $sc->getSmartyIncludeFile('system_comments','flat',false, false,"\t\t\t");
+        $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "thread"}>',"\t\t");
+        $contIf  .= $sc->getSmartyIncludeFile('system_comments','thread',false, false,"\t\t\t");
+        $contIf  .= $this->getSimpleString('<{elseif $comment_mode == "nest"}>',"\t\t");
+        $contIf  .= $sc->getSmartyIncludeFile('system_comments','nest',false, false,"\t\t\t");
+        $contDiv = $sc->getSmartyConditions('comment_mode', ' == ', '"flat"', $contIf, false, '','',"\t\t");
+        $contIf  = $hc->getHtmlDiv($contDiv, 'pad2 marg2', "\t", "\n", true);
+        $ret     .= $sc->getSmartyConditions('comment_mode', '', '', $contIf);
+
+        return $ret;
+    }
+
+
+    /**
+     * @public function render
+     * @param null
+     * @return bool|string
+     */
     public function render()
     {
         $module        = $this->getModule();
-        $table         = $this->getTable();
         $filename      = $this->getFileName();
         $moduleDirname = $module->getVar('mod_dirname');
         $language      = $this->getLanguage($moduleDirname, 'MA');
-        $content       = <<<EOT
-<{if \$bookmarks != 0}>
-    <{include file="db:system_bookmarks.tpl"}>
-<{/if}>
-\n<{if \$fbcomments != 0}>
-    <{include file="db:system_fbcomments.tpl"}>
-<{/if}>
-<div class="pull-left"><{\$copyright}></div>\n
-EOT;
-        if (is_object($table) && null != $table->getVar('table_name')) {
-            $content .= <<<EOT
-<{if \$pagenav != ''}>
-    <div class="pull-right"><{\$pagenav}></div>
-<{/if}>
-<br>\n
-EOT;
-        }
-        $content .= <<<EOT
-<{if \$xoops_isadmin}>
-   <div class="text-center bold"><a href="<{\$admin}>"><{\$smarty.const.{$language}ADMIN}></a></div><br>
-<{/if}>\n
-EOT;
-        if (is_object($table)) {
-            if (1 == $table->getVar('table_comments')) {
-                $content .= <<<EOT
-<div class="pad2 marg2">
-    <{if \$comment_mode == "flat"}>
-        <{include file="db:system_comments_flat.tpl"}>
-    <{elseif \$comment_mode == "thread"}>
-        <{include file="db:system_comments_thread.tpl"}>
-    <{elseif \$comment_mode == "nest"}>
-        <{include file="db:system_comments_nest.tpl"}>
-    <{/if}>
-</div>\n
-<br>\n
-EOT;
-            }
-            if (1 == $table->getVar('table_notifications')) {
-                $content .= <<<'EOT'
-<{include file='db:system_notification_select.tpl'}>
-EOT;
-            }
-        }
+        $content       = $this->getTemplateUserFooterContent($moduleDirname, $language);
+
         $this->create($moduleDirname, 'templates', $filename, $content, _AM_TDMCREATE_FILE_CREATED, _AM_TDMCREATE_FILE_NOTCREATED);
 
         return $this->renderFile();

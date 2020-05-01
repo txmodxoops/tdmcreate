@@ -103,7 +103,7 @@ class CreateHtmlCode
      * @param string $n
      * @return string
      */
-    public function getHtmlEmpty($empty = '', $t = '', $n = "")
+    public function getHtmlEmpty($empty = '', $t = '', $n = '')
     {
         return "{$t}{$empty}{$n}";
     }
